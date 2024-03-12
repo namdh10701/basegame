@@ -3,18 +3,20 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class RewardButton : Button
+namespace _Base.Monetization.Scripts.UI
 {
-    public UnityEvent _onRewarded = new UnityEvent();
-    public UnityEvent _onRewardFailed = new UnityEvent();
-    protected override void Awake()
+    public class RewardButton : Button
     {
-        base.Awake();
-        onClick.AddListener(() => OnClicked());
-    }
-    private void OnClicked()
-    {
-        /*AdsController.Instance.ShowReward(watched =>
+        public UnityEvent _onRewarded = new UnityEvent();
+        public UnityEvent _onRewardFailed = new UnityEvent();
+        protected override void Awake()
+        {
+            base.Awake();
+            onClick.AddListener(() => OnClicked());
+        }
+        private void OnClicked()
+        {
+            /*AdsController.Instance.ShowReward(watched =>
         {
             Debug.Log("Watchhed " + watched);
             if (watched)
@@ -26,22 +28,23 @@ public class RewardButton : Button
                 _onRewardFailed.Invoke();
             }
         });*/
-        StartCoroutine(TestCoroutine());
-    }
-
-    IEnumerator TestCoroutine()
-    {
-        yield return new WaitForSecondsRealtime(2);
-        bool Watched = Random.Range(0, 2) == 1;
-        if (Watched)
-        {
-            _onRewarded.Invoke();
-            Debug.Log("WATCHED");
+            StartCoroutine(TestCoroutine());
         }
-        else
+
+        IEnumerator TestCoroutine()
         {
-            _onRewardFailed.Invoke();
-            Debug.Log("NOT WATCHED");
+            yield return new WaitForSecondsRealtime(2);
+            bool Watched = Random.Range(0, 2) == 1;
+            if (Watched)
+            {
+                _onRewarded.Invoke();
+                Debug.Log("WATCHED");
+            }
+            else
+            {
+                _onRewardFailed.Invoke();
+                Debug.Log("NOT WATCHED");
+            }
         }
     }
 }

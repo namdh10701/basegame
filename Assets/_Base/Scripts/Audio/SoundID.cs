@@ -1,4 +1,4 @@
-namespace Game.Audio
+namespace _Base.Scripts.Audio
 {
     public enum SoundID
     {

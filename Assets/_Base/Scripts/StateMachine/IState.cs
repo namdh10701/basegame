@@ -1,6 +1,7 @@
 using System.Collections;
-using UnityEngine;
 
+namespace _Base.Scripts.StateMachine
+{
     /// <summary>
     /// An interface for the states of state machines
     /// </summary>
@@ -61,3 +62,4 @@ using UnityEngine;
         /// </summary>
         void DisableLinks();
     }
+}

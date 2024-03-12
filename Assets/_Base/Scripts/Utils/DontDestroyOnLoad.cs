@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace Core.Util
+namespace _Base.Scripts.Utils
 {
     public class DontDestroyOnLoad : MonoBehaviour
     {

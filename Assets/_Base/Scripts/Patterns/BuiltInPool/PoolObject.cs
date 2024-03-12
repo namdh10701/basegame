@@ -1,13 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class PoolObject : MonoBehaviour
+namespace _Base.Scripts.Patterns.BuiltInPool
 {
-    protected PoolManager poolManager;
-    public void SetPool(PoolManager poolManager)
+    public abstract class PoolObject : MonoBehaviour
     {
-        this.poolManager = poolManager;
+        protected PoolManager poolManager;
+        public void SetPool(PoolManager poolManager)
+        {
+            this.poolManager = poolManager;
+        }
+        public abstract void OnReset();
     }
-    public abstract void OnReset();
 }

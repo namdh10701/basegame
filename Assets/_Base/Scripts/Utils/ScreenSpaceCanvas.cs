@@ -1,23 +1,23 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class ScreenSpaceCanvas : MonoBehaviour
+namespace _Base.Scripts.Utils
 {
-    Canvas canvas;
-
-    private void Awake()
+    public class ScreenSpaceCanvas : MonoBehaviour
     {
-        canvas = GetComponent<Canvas>();
-        canvas.worldCamera = Camera.main;
-        SceneManager.activeSceneChanged += ChangedActiveScene;
-    }
+        Canvas canvas;
+
+        private void Awake()
+        {
+            canvas = GetComponent<Canvas>();
+            canvas.worldCamera = Camera.main;
+            SceneManager.activeSceneChanged += ChangedActiveScene;
+        }
 
 
-    private void ChangedActiveScene(Scene arg0, Scene arg1)
-    {
-        canvas.worldCamera = Camera.main;
+        private void ChangedActiveScene(Scene arg0, Scene arg1)
+        {
+            canvas.worldCamera = Camera.main;
+        }
     }
 }

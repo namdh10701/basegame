@@ -1,20 +1,29 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
+using _Base.Scripts.Utils;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+namespace _Base.Scripts
+{
     /// <summary>
     /// Encapsulates scene load and unload functionality respecting a NeverUnloadScene scene.
     /// NeverUnloadScene is a scene we never unload and instantiate all level-independent managers in it.
     /// </summary>
-    public class SceneController
+    public abstract class SceneController: MonoBehaviour
     {
         Scene m_LastScene;
-        readonly Scene m_NeverUnloadScene;
+        Scene m_NeverUnloadScene;
+
+        private void Awake()
+        {
+            SetNeverUnloadScene(GetDefaultNeverUnloadScene());
+        }
+
+        protected abstract Scene GetDefaultNeverUnloadScene();
 
         /// <param name="neverUnloadScene">The scene we instantiate all level-independent managers in it and never unloads.</param>
-        public SceneController(Scene neverUnloadScene)
+        public void SetNeverUnloadScene(Scene neverUnloadScene)
         {
             m_NeverUnloadScene = neverUnloadScene;
             m_LastScene = m_NeverUnloadScene;
@@ -62,18 +71,18 @@ using UnityEngine.SceneManagement;
             }
         }
 
-    public IEnumerator LoadUIScene()
-    {
-        var asyncLoad = SceneManager.LoadSceneAsync("UIScene", LoadSceneMode.Additive);
+        // public IEnumerator LoadUIScene()
+        // {
+        //     var asyncLoad = SceneManager.LoadSceneAsync("UIScene", LoadSceneMode.Additive);
+        //
+        //     while (!asyncLoad.isDone)
+        //     {
+        //         yield return null;
+        //     }
+        //     yield return null;
+        // }
 
-        while (!asyncLoad.isDone)
-        {
-            yield return null;
-        }
-        yield return null;
-    }
-
-    IEnumerator LoadSceneAdditive(string scenePath)
+        IEnumerator LoadSceneAdditive(string scenePath)
         {
             var asyncLoad = SceneManager.LoadSceneAsync(scenePath, LoadSceneMode.Additive);
             while (!asyncLoad.isDone)
@@ -84,7 +93,7 @@ using UnityEngine.SceneManagement;
             m_LastScene = SceneManager.GetSceneByName(scenePath);
             SceneManager.SetActiveScene(m_LastScene);
             yield return null;
-    }
+        }
 
         void LoadNewSceneAdditive(string sceneName)
         {
@@ -102,4 +111,5 @@ using UnityEngine.SceneManagement;
                 yield return UnloadScene(m_LastScene);
         }
     }
+}
 

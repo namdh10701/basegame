@@ -1,7 +1,7 @@
 using DG.Tweening;
 using UnityEngine;
 
-namespace Core.UI { 
+namespace _Base.Scripts.UI.Tween.Loops { 
 public class OpacityLoop : TweenLoop
 {
     [SerializeField] private float _startOpacity;

@@ -1,13 +1,13 @@
-using DG.Tweening;
-using UnityEngine;
-
-public enum ViewState
+namespace _Base.Scripts.UI.Viewx
 {
-    SHOWING, SHOW, HIDING, HIDE
-}
-public interface Command
-{
-    public void Execute();
-    public void Interupt();
-    public void OnCompleted();
+    public enum ViewState
+    {
+        Showing, Show, Hiding, Hide
+    }
+    public interface Command
+    {
+        public void Execute();
+        public void Interrupt();
+        public void OnCompleted();
+    }
 }

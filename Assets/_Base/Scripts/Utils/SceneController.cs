@@ -1,10 +1,8 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Core.Utils
+namespace _Base.Scripts.Utils
 {
     /// <summary>
     /// Encapsulates scene load and unload functionality respecting a NeverUnloadScene scene.

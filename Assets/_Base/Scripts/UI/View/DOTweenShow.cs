@@ -1,40 +1,44 @@
 ﻿using DG.Tweening;
 using UnityEngine;
-public class DOTweenShow : MonoBehaviour, Command
+
+namespace _Base.Scripts.UI.Viewx
 {
-    View view;
-    Tween showTween;
-    private void Awake()
+    public class DOTweenShow : MonoBehaviour, Command
     {
-        view = GetComponent<View>();
-        showTween = view.canvasGroup.DOFade(1, view.duration / 2).OnComplete(() =>
+        View view;
+        DG.Tweening.Tween showTween;
+        private void Awake()
         {
-            view.canvasGroup.blocksRaycasts = true;
-            this.OnCompleted();
-        }).OnPlay(() =>
+            view = GetComponent<View>();
+            showTween = DOTweenModuleUI.DOFade((CanvasGroup)view.canvasGroup, 1, view.duration / 2).OnComplete(() =>
+            {
+                view.canvasGroup.blocksRaycasts = true;
+                this.OnCompleted();
+            }).OnPlay(() =>
+            {
+                view.canvasGroup.alpha = 0;
+                view.root.anchoredPosition = Vector2.zero;
+            });
+            showTween.SetAutoKill(false);
+            showTween.Pause();
+        }
+        public void Execute()
         {
-            view.canvasGroup.alpha = 0;
-            view.root.anchoredPosition = Vector2.zero;
-        });
-        showTween.SetAutoKill(false);
-        showTween.Pause();
-    }
-    public void Execute()
-    {
-        view.onShowStart?.Invoke();
-        showTween.Restart();
-        view.ViewState = ViewState.SHOWING;
-    }
+            view.onShowStart?.Invoke();
+            showTween.Restart();
+            view.ViewState = ViewState.Showing;
+        }
 
-    public void Interupt()
-    {
+        public void Interrupt()
+        {
 
-        showTween.Pause();
-    }
+            showTween.Pause();
+        }
 
-    public void OnCompleted()
-    {
-        view.onShowEnd?.Invoke();
-        view.ViewState = ViewState.SHOW;
+        public void OnCompleted()
+        {
+            view.onShowEnd?.Invoke();
+            view.ViewState = ViewState.Show;
+        }
     }
 }

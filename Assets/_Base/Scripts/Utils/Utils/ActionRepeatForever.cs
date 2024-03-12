@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace StormStudio.Common.Utils
+namespace _Base.Scripts.Utils.Utils
 {
     public class ActionRepeatForever
     {

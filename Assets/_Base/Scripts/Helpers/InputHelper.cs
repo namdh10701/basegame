@@ -1,56 +1,59 @@
 ﻿
 using UnityEngine;
 
-public class InputHelper : MonoBehaviour
+namespace _Base.Scripts.Helpers
 {
-    public static InputHelper Instance;
-
-    TouchPhase _touchPhase = TouchPhase.Ended;
-
-    private void Awake()
+    public class InputHelper : MonoBehaviour
     {
-        Instance = this;
-    }
+        public static InputHelper Instance;
 
-    public TouchPhase GetTouchPhase()
-    {
+        TouchPhase _touchPhase = TouchPhase.Ended;
+
+        private void Awake()
+        {
+            Instance = this;
+        }
+
+        public TouchPhase GetTouchPhase()
+        {
 #if UNITY_EDITOR || UNITY_STANDALONE
-        return _touchPhase;
+            return _touchPhase;
 #else
         if(Input.touchCount > 0)
             return Input.GetTouch(0).phase;
         else
             return TouchPhase.Canceled;
 #endif
-    }
+        }
 
-    public Vector2 GetTouchPosition()
-    {
+        public Vector2 GetTouchPosition()
+        {
 #if UNITY_EDITOR || UNITY_STANDALONE
-        return Input.mousePosition;
+            return Input.mousePosition;
 #else
         return Input.GetTouch(0).position;
 #endif
-    }
+        }
 
 #if UNITY_EDITOR || UNITY_STANDALONE
-    void Update()
-    {
-        if (_touchPhase == TouchPhase.Ended)
+        void Update()
         {
-            if (Input.GetMouseButton(0))
-                _touchPhase = TouchPhase.Began;
+            if (_touchPhase == TouchPhase.Ended)
+            {
+                if (Input.GetMouseButton(0))
+                    _touchPhase = TouchPhase.Began;
+            }
+            else if (_touchPhase == TouchPhase.Began)
+            {
+                if (Input.GetMouseButton(0))
+                    _touchPhase = TouchPhase.Moved;
+            }
+            else if (_touchPhase == TouchPhase.Moved)
+            {
+                if (!Input.GetMouseButton(0))
+                    _touchPhase = TouchPhase.Ended;
+            }
         }
-        else if (_touchPhase == TouchPhase.Began)
-        {
-            if (Input.GetMouseButton(0))
-                _touchPhase = TouchPhase.Moved;
-        }
-        else if (_touchPhase == TouchPhase.Moved)
-        {
-            if (!Input.GetMouseButton(0))
-                _touchPhase = TouchPhase.Ended;
-        }
-    }
 #endif
+    }
 }

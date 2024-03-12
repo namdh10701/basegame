@@ -1,34 +1,37 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectPool<T> where T : Component
+namespace _Base.Scripts.Patterns.Pool
 {
-    T _sample;
-    List<T> _poolElements = new List<T>();
-
-    public ObjectPool(T element)
+    public class ObjectPool<T> where T : Component
     {
-        _sample = element;
-    }
+        T _sample;
+        List<T> _poolElements = new List<T>();
 
-    public T Get()
-    {
-        if (_poolElements.Count == 0)
+        public ObjectPool(T element)
         {
-            var newElement = Object.Instantiate(_sample, _sample.transform.parent);
-            newElement.gameObject.SetActive(true);
-            return newElement;
+            _sample = element;
         }
 
-        var element = _poolElements[0];
-        element.gameObject.SetActive(true);
-        _poolElements.RemoveAt(0);
-        return element;
-    }
+        public T Get()
+        {
+            if (_poolElements.Count == 0)
+            {
+                var newElement = Object.Instantiate(_sample, _sample.transform.parent);
+                newElement.gameObject.SetActive(true);
+                return newElement;
+            }
 
-    public void Store(T element)
-    {
-        element.gameObject.SetActive(false);
-        _poolElements.Add(element);
+            var element = _poolElements[0];
+            element.gameObject.SetActive(true);
+            _poolElements.RemoveAt(0);
+            return element;
+        }
+
+        public void Store(T element)
+        {
+            element.gameObject.SetActive(false);
+            _poolElements.Add(element);
+        }
     }
 }

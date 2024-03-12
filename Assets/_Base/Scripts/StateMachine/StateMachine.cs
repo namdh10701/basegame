@@ -1,10 +1,10 @@
-using Core.Utils;
 using System;
 using System.Collections;
-using System.Collections.Generic;
+using _Base.Scripts.Utils;
 using UnityEngine;
 
-
+namespace _Base.Scripts.StateMachine
+{
     /// <summary>
     /// A Generic state machine
     /// </summary>
@@ -141,4 +141,5 @@ using UnityEngine;
 
         public bool IsRunning => m_LoopCoroutine != null;
     }
+}
 

@@ -1,18 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraFxFilter : MonoBehaviour
+namespace _Base.Scripts.ImageEffects
 {
-    public Material material;
-    private void OnRenderImage(RenderTexture source, RenderTexture destination)
+    public class CameraFxFilter : MonoBehaviour
     {
-        if (material == null)
+        public Material material;
+        private void OnRenderImage(RenderTexture source, RenderTexture destination)
         {
-            Graphics.Blit(source, destination);
-            return;
+            if (material == null)
+            {
+                Graphics.Blit(source, destination);
+                return;
+            }
+            Graphics.Blit(source, destination, material);
         }
-        Graphics.Blit(source, destination, material);
-    }
 
+    }
 }

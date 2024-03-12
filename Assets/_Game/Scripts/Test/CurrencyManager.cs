@@ -1,20 +1,25 @@
-﻿
-public class CurrencyManager : ObservedSingleton<CurrencyManager>
+﻿using _Base.Scripts.Patterns.Observer;
+using _Base.Scripts.Utils;
+
+namespace _Game.Scripts.Test
 {
-    private int coin;
-    public LerpManager CoinTextLerpManager;
-    public LerpManager diamondTextLerpManager;
-    public int Coin
+    public class CurrencyManager : ObservedSingleton<CurrencyManager>
     {
-        get
+        private int coin;
+        public LerpManager CoinTextLerpManager;
+        public LerpManager diamondTextLerpManager;
+        public int Coin
         {
-            return coin;
-        }
-        set
-        {
-            coin = value;
-            Notify();
-            CoinTextLerpManager.OnValueChanged(coin);
+            get
+            {
+                return coin;
+            }
+            set
+            {
+                coin = value;
+                Notify();
+                CoinTextLerpManager.OnValueChanged(coin);
+            }
         }
     }
 }

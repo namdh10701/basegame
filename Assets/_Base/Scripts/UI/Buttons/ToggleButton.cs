@@ -1,9 +1,9 @@
-using UnityEngine;
 using DG.Tweening;
-using UnityEngine.UI;
+using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
-namespace Core.UI
+namespace _Base.Scripts.UI.Buttons
 {
     public class ToggleButton : MonoBehaviour
     {

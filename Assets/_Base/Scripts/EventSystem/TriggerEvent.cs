@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace HyperCasual.Core
+namespace _Base.Scripts.EventSystem
 {
     /// <summary>
     /// Raises an event on trigger collision
@@ -13,7 +11,7 @@ namespace HyperCasual.Core
         const string k_PlayerTag = "Player";
 
         [SerializeField]
-        BaseGameEvent m_Event;
+        BaseEvent m_Event;
 
         void OnTriggerEnter(Collider col)
         {

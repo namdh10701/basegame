@@ -1,9 +1,7 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace Core.Utils
+namespace _Base.Scripts.Utils
 {
     /// <summary>
     /// Contains UI helper methods

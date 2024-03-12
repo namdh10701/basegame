@@ -1,17 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using static Core.Env.Environment;
+using static _Base.Scripts.Enviroments.Environment;
 
-public class SpecifyEnvironment : MonoBehaviour
+namespace _Base.Scripts.Enviroments
 {
-    [SerializeField] Env env;
-    [SerializeField] bool enableDebugLog;
-
-    private void Awake()
+    public class SpecifyEnvironment : MonoBehaviour
     {
-        SetEnvironment(env);
-        Debug.unityLogger.logEnabled = enableDebugLog;
-    }
+        [SerializeField] Environment.Env env;
+        [SerializeField] bool enableDebugLog;
 
+        private void Awake()
+        {
+            SetEnvironment(env);
+            Debug.unityLogger.logEnabled = enableDebugLog;
+        }
+
+    }
 }

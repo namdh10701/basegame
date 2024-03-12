@@ -1,32 +1,33 @@
-using System.Collections;
-using System.Collections.Generic;
+using _Base.Scripts;
+using _Base.Scripts.SaveSystem;
+using _Game.Scripts.SaveSystem;
 using UnityEngine;
 
-public class GameManager : AbstractSingleton<GameManager>
+namespace _Game.Scripts.Managers
 {
-    public Database Database;
-    public SaveData SaveData;
-    protected override void Awake()
+    public class GameManager: BaseGameManager
     {
-        base.Awake();
-    }
-    public void LoadDatabase()
-    {
-        Database.Load();
-    }
-    public void LoadSave()
-    {
-        SaveData = SaveLoadManager.ReadSave(1);
-        if (SaveData == null)
-        {
-            SaveLoadManager.WriteDefaultSave(new SaveData(1, 0));
-            SaveData = SaveLoadManager.ReadSave(1);
-        }
+        public Database.Database Database;
+        public SaveData SaveData;
 
-        Debug.Log(SaveData.Coin);
-    }
-    public void SaveGame()
-    {
-        SaveLoadManager.WriteSave(SaveData);
+        public override void LoadDatabase()
+        {
+            Database?.Load();
+        }
+        public override void LoadSave()
+        {
+            SaveData = SaveLoadManager.ReadSave(1);
+            if (SaveData == null)
+            {
+                SaveLoadManager.WriteDefaultSave(new SaveData(1, 0));
+                SaveData = SaveLoadManager.ReadSave(1);
+            }
+
+            Debug.Log(SaveData.Coin);
+        }
+        public override void SaveGame()
+        {
+            SaveLoadManager.WriteSave(SaveData);
+        }
     }
 }

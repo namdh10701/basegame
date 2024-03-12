@@ -1,8 +1,8 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
+namespace _Base.Scripts.StateMachine
+{
     /// <summary>
     /// A generic empty state
     /// </summary>
@@ -22,3 +22,4 @@ using UnityEngine;
             m_OnExecute?.Invoke();
         }
     }
+}

@@ -1,4 +1,4 @@
-namespace Core.Env
+namespace _Base.Scripts.Enviroments
 {
     public static class Environment
     {

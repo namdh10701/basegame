@@ -1,8 +1,7 @@
-using System;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace UnityStandardAssets.ImageEffects
+namespace _Base.Scripts.ImageEffects
 {
     class Triangles
     {

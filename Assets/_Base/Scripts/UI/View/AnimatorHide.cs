@@ -1,29 +1,33 @@
 ﻿using UnityEngine;
-public class AnimatorHide : MonoBehaviour, Command
+
+namespace _Base.Scripts.UI.Viewx
 {
-    View view;
-    private void Awake()
+    public class AnimatorHide : MonoBehaviour, Command
     {
-        view = GetComponent<View>();
-    }
-    public void Execute()
-    {
-        view.animator.Play("Hide");
-        view.ViewState = ViewState.HIDING; 
-        view.onHideStart?.Invoke();
-    }
+        View view;
+        private void Awake()
+        {
+            view = GetComponent<View>();
+        }
+        public void Execute()
+        {
+            view.animator.Play("Hide");
+            view.ViewState = ViewState.Hiding; 
+            view.onHideStart?.Invoke();
+        }
 
-    public void Interupt()
-    {
-    }
+        public void Interrupt()
+        {
+        }
 
-    public void OnCompleted()
-    {
-        view.ViewState = ViewState.HIDE;
-    }
-    public void OnHideCompleted()
-    {
-        Debug.Log("AAAHIDE");
-        view.onHideEnd?.Invoke();
+        public void OnCompleted()
+        {
+            view.ViewState = ViewState.Hide;
+        }
+        public void OnHideCompleted()
+        {
+            Debug.Log("AAAHIDE");
+            view.onHideEnd?.Invoke();
+        }
     }
 }

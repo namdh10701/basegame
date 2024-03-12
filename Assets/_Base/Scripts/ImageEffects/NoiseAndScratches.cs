@@ -1,8 +1,7 @@
-using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace UnityStandardAssets.ImageEffects
+namespace _Base.Scripts.ImageEffects
 {
     [ExecuteInEditMode]
     [RequireComponent (typeof(Camera))]

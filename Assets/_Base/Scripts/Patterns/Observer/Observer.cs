@@ -1,15 +1,18 @@
-﻿using System;
-using UnityEngine;
-public abstract class Observer : MonoBehaviour
+﻿using UnityEngine;
+
+namespace _Base.Scripts.Patterns.Observer
 {
-    protected ObservedSubject observedSubject;
-    private void OnEnable()
+    public abstract class Observer : MonoBehaviour
     {
-        observedSubject?.Attach(this);
+        protected ObservedSubject observedSubject;
+        private void OnEnable()
+        {
+            observedSubject?.Attach(this);
+        }
+        private void OnDisable()
+        {
+            observedSubject?.Detach(this);
+        }
+        public abstract void OnNotified(ObservedSubject observedSubject);
     }
-    private void OnDisable()
-    {
-        observedSubject?.Detach(this);
-    }
-    public abstract void OnNotified(ObservedSubject observedSubject);
 }

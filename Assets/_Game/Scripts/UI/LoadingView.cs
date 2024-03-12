@@ -1,14 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
+using _Base.Scripts.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LoadingView : View
+namespace _Game.Scripts.UI
 {
-    [SerializeField] Image progressBar;
-
-    public void SetProgress(float amount)
+    public class LoadingView : View
     {
-        progressBar.fillAmount = amount;
+        [SerializeField] Image progressBar;
+
+        public void SetProgress(float amount)
+        {
+            progressBar.fillAmount = amount;
+        }
     }
 }

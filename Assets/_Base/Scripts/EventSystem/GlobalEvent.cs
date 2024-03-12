@@ -2,239 +2,242 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public delegate void GlobalCallback();
-public delegate void GlobalCallback<T>(T arg1);                          // 1 Argument
-public delegate void GlobalCallback<T, U>(T arg1, U arg2);               // 2 Arguments
-public delegate void GlobalCallback<T, U, V>(T arg1, U arg2, V arg3);    // 3 Arguments
-
-public static class GlobalEvent
+namespace _Base.Scripts.EventSystem
 {
-	private static Hashtable m_Callbacks = new Hashtable();
-	public static void Register(string name, GlobalCallback callback)
+	public delegate void GlobalCallback();
+	public delegate void GlobalCallback<T>(T arg1);                          // 1 Argument
+	public delegate void GlobalCallback<T, U>(T arg1, U arg2);               // 2 Arguments
+	public delegate void GlobalCallback<T, U, V>(T arg1, U arg2, V arg3);    // 3 Arguments
+
+	public static class GlobalEvent
 	{
-
-		if (string.IsNullOrEmpty(name))
-			throw new ArgumentNullException(@"name");
-
-		if (callback == null)
-			throw new ArgumentNullException("callback");
-
-		List<GlobalCallback> callbacks = (List<GlobalCallback>)m_Callbacks[name];
-		if (callbacks == null)
+		private static Hashtable m_Callbacks = new Hashtable();
+		public static void Register(string name, GlobalCallback callback)
 		{
-			callbacks = new List<GlobalCallback>();
-			m_Callbacks.Add(name, callbacks);
+
+			if (string.IsNullOrEmpty(name))
+				throw new ArgumentNullException(@"name");
+
+			if (callback == null)
+				throw new ArgumentNullException("callback");
+
+			List<GlobalCallback> callbacks = (List<GlobalCallback>)m_Callbacks[name];
+			if (callbacks == null)
+			{
+				callbacks = new List<GlobalCallback>();
+				m_Callbacks.Add(name, callbacks);
+			}
+			callbacks.Add(callback);
+
 		}
-		callbacks.Add(callback);
-
-	}
 
 
-	/// <summary>
-	/// Unregisters the event specified by name
-	/// </summary>
-	public static void Unregister(string name, GlobalCallback callback)
-	{
-
-		if (string.IsNullOrEmpty(name))
-			throw new ArgumentNullException(@"name");
-
-		if (callback == null)
-			throw new ArgumentNullException("callback");
-
-		List<GlobalCallback> callbacks = (List<GlobalCallback>)m_Callbacks[name];
-		if (callbacks != null)
-			callbacks.Remove(callback);
-
-	}
-
-	public static void Send(string name)
-	{
-
-		if (string.IsNullOrEmpty(name))
-			throw new ArgumentNullException(@"name");
-
-		List<GlobalCallback> callbacks = (List<GlobalCallback>)m_Callbacks[name];
-		if (callbacks != null)
-			foreach (GlobalCallback c in callbacks)
-				c();
-	}
-
-}
-
-public static class GlobalEvent<T>
-{
-
-	private static Hashtable m_Callbacks = new Hashtable();
-
-	public static void Register(string name, GlobalCallback<T> callback)
-	{
-
-		if (string.IsNullOrEmpty(name))
-			throw new ArgumentNullException(@"name");
-
-		if (callback == null)
-			throw new ArgumentNullException("callback");
-
-		List<GlobalCallback<T>> callbacks = (List<GlobalCallback<T>>)m_Callbacks[name];
-		if (callbacks == null)
+		/// <summary>
+		/// Unregisters the event specified by name
+		/// </summary>
+		public static void Unregister(string name, GlobalCallback callback)
 		{
-			callbacks = new List<GlobalCallback<T>>();
-			m_Callbacks.Add(name, callbacks);
+
+			if (string.IsNullOrEmpty(name))
+				throw new ArgumentNullException(@"name");
+
+			if (callback == null)
+				throw new ArgumentNullException("callback");
+
+			List<GlobalCallback> callbacks = (List<GlobalCallback>)m_Callbacks[name];
+			if (callbacks != null)
+				callbacks.Remove(callback);
+
 		}
-		callbacks.Add(callback);
 
-	}
-
-	public static void Unregister(string name, GlobalCallback<T> callback)
-	{
-		if (string.IsNullOrEmpty(name))
-			throw new ArgumentNullException(@"name");
-
-		if (callback == null)
-			throw new ArgumentNullException("callback");
-
-		List<GlobalCallback<T>> callbacks = (List<GlobalCallback<T>>)m_Callbacks[name];
-		if (callbacks != null)
-			callbacks.Remove(callback);
-
-	}
-
-	public static void Send(string name, T arg1)
-	{
-
-		if (string.IsNullOrEmpty(name))
-			throw new ArgumentNullException(@"name");
-
-		if (arg1 == null)
-			throw new ArgumentNullException("arg1");
-
-		List<GlobalCallback<T>> callbacks = (List<GlobalCallback<T>>)m_Callbacks[name];
-		if (callbacks != null)
-			foreach (GlobalCallback<T> c in callbacks)
-				c(arg1);
-
-	}
-
-}
-
-public static class GlobalEvent<T, U>
-{
-	private static Hashtable m_Callbacks = new Hashtable();
-
-	public static void Register(string name, GlobalCallback<T, U> callback)
-	{
-
-		if (string.IsNullOrEmpty(name))
-			throw new ArgumentNullException(@"name");
-
-		if (callback == null)
-			throw new ArgumentNullException("callback");
-
-		List<GlobalCallback<T, U>> callbacks = (List<GlobalCallback<T, U>>)m_Callbacks[name];
-		if (callbacks == null)
+		public static void Send(string name)
 		{
-			callbacks = new List<GlobalCallback<T, U>>();
-			m_Callbacks.Add(name, callbacks);
+
+			if (string.IsNullOrEmpty(name))
+				throw new ArgumentNullException(@"name");
+
+			List<GlobalCallback> callbacks = (List<GlobalCallback>)m_Callbacks[name];
+			if (callbacks != null)
+				foreach (GlobalCallback c in callbacks)
+					c();
 		}
-		callbacks.Add(callback);
 
 	}
 
-	public static void Unregister(string name, GlobalCallback<T, U> callback)
+	public static class GlobalEvent<T>
 	{
 
-		if (string.IsNullOrEmpty(name))
-			throw new ArgumentNullException(@"name");
+		private static Hashtable m_Callbacks = new Hashtable();
 
-		if (callback == null)
-			throw new ArgumentNullException("callback");
-
-		List<GlobalCallback<T, U>> callbacks = (List<GlobalCallback<T, U>>)m_Callbacks[name];
-		if (callbacks != null)
-			callbacks.Remove(callback);
-
-	}
-
-	public static void Send(string name, T arg1, U arg2)
-	{
-
-		if (string.IsNullOrEmpty(name))
-			throw new ArgumentNullException(@"name");
-
-		if (arg1 == null)
-			throw new ArgumentNullException("arg1");
-
-		if (arg2 == null)
-			throw new ArgumentNullException("arg2");
-
-		List<GlobalCallback<T, U>> callbacks = (List<GlobalCallback<T, U>>)m_Callbacks[name];
-		if (callbacks != null)
-			foreach (GlobalCallback<T, U> c in callbacks)
-				c(arg1, arg2);
-
-	}
-
-}
-
-public static class GlobalEvent<T, U, V>
-{
-	public static Hashtable m_Callbacks = new Hashtable();
-
-	public static void Register(string name, GlobalCallback<T, U, V> callback)
-	{
-
-		if (string.IsNullOrEmpty(name))
-			throw new ArgumentNullException(@"name");
-
-		if (callback == null)
-			throw new ArgumentNullException("callback");
-
-		List<GlobalCallback<T, U, V>> callbacks = (List<GlobalCallback<T, U, V>>)m_Callbacks[name];
-		if (callbacks == null)
+		public static void Register(string name, GlobalCallback<T> callback)
 		{
-			callbacks = new List<GlobalCallback<T, U, V>>();
-			m_Callbacks.Add(name, callbacks);
+
+			if (string.IsNullOrEmpty(name))
+				throw new ArgumentNullException(@"name");
+
+			if (callback == null)
+				throw new ArgumentNullException("callback");
+
+			List<GlobalCallback<T>> callbacks = (List<GlobalCallback<T>>)m_Callbacks[name];
+			if (callbacks == null)
+			{
+				callbacks = new List<GlobalCallback<T>>();
+				m_Callbacks.Add(name, callbacks);
+			}
+			callbacks.Add(callback);
+
 		}
-		callbacks.Add(callback);
+
+		public static void Unregister(string name, GlobalCallback<T> callback)
+		{
+			if (string.IsNullOrEmpty(name))
+				throw new ArgumentNullException(@"name");
+
+			if (callback == null)
+				throw new ArgumentNullException("callback");
+
+			List<GlobalCallback<T>> callbacks = (List<GlobalCallback<T>>)m_Callbacks[name];
+			if (callbacks != null)
+				callbacks.Remove(callback);
+
+		}
+
+		public static void Send(string name, T arg1)
+		{
+
+			if (string.IsNullOrEmpty(name))
+				throw new ArgumentNullException(@"name");
+
+			if (arg1 == null)
+				throw new ArgumentNullException("arg1");
+
+			List<GlobalCallback<T>> callbacks = (List<GlobalCallback<T>>)m_Callbacks[name];
+			if (callbacks != null)
+				foreach (GlobalCallback<T> c in callbacks)
+					c(arg1);
+
+		}
 
 	}
 
-	public static void Unregister(string name, GlobalCallback<T, U, V> callback)
+	public static class GlobalEvent<T, U>
 	{
+		private static Hashtable m_Callbacks = new Hashtable();
 
-		if (string.IsNullOrEmpty(name))
-			throw new ArgumentNullException(@"name");
+		public static void Register(string name, GlobalCallback<T, U> callback)
+		{
 
-		if (callback == null)
-			throw new ArgumentNullException("callback");
+			if (string.IsNullOrEmpty(name))
+				throw new ArgumentNullException(@"name");
 
-		List<GlobalCallback<T, U, V>> callbacks = (List<GlobalCallback<T, U, V>>)m_Callbacks[name];
-		if (callbacks != null)
-			callbacks.Remove(callback);
+			if (callback == null)
+				throw new ArgumentNullException("callback");
+
+			List<GlobalCallback<T, U>> callbacks = (List<GlobalCallback<T, U>>)m_Callbacks[name];
+			if (callbacks == null)
+			{
+				callbacks = new List<GlobalCallback<T, U>>();
+				m_Callbacks.Add(name, callbacks);
+			}
+			callbacks.Add(callback);
+
+		}
+
+		public static void Unregister(string name, GlobalCallback<T, U> callback)
+		{
+
+			if (string.IsNullOrEmpty(name))
+				throw new ArgumentNullException(@"name");
+
+			if (callback == null)
+				throw new ArgumentNullException("callback");
+
+			List<GlobalCallback<T, U>> callbacks = (List<GlobalCallback<T, U>>)m_Callbacks[name];
+			if (callbacks != null)
+				callbacks.Remove(callback);
+
+		}
+
+		public static void Send(string name, T arg1, U arg2)
+		{
+
+			if (string.IsNullOrEmpty(name))
+				throw new ArgumentNullException(@"name");
+
+			if (arg1 == null)
+				throw new ArgumentNullException("arg1");
+
+			if (arg2 == null)
+				throw new ArgumentNullException("arg2");
+
+			List<GlobalCallback<T, U>> callbacks = (List<GlobalCallback<T, U>>)m_Callbacks[name];
+			if (callbacks != null)
+				foreach (GlobalCallback<T, U> c in callbacks)
+					c(arg1, arg2);
+
+		}
 
 	}
 
-	public static void Send(string name, T arg1, U arg2, V arg3)
+	public static class GlobalEvent<T, U, V>
 	{
+		public static Hashtable m_Callbacks = new Hashtable();
 
-		if (string.IsNullOrEmpty(name))
-			throw new ArgumentNullException(@"name");
+		public static void Register(string name, GlobalCallback<T, U, V> callback)
+		{
 
-		if (arg1 == null)
-			throw new ArgumentNullException("arg1");
+			if (string.IsNullOrEmpty(name))
+				throw new ArgumentNullException(@"name");
 
-		if (arg2 == null)
-			throw new ArgumentNullException("arg2");
+			if (callback == null)
+				throw new ArgumentNullException("callback");
 
-		if (arg3 == null)
-			throw new ArgumentNullException("arg3");
+			List<GlobalCallback<T, U, V>> callbacks = (List<GlobalCallback<T, U, V>>)m_Callbacks[name];
+			if (callbacks == null)
+			{
+				callbacks = new List<GlobalCallback<T, U, V>>();
+				m_Callbacks.Add(name, callbacks);
+			}
+			callbacks.Add(callback);
 
-		List<GlobalCallback<T, U, V>> callbacks = (List<GlobalCallback<T, U, V>>)m_Callbacks[name];
-		if (callbacks != null)
-			foreach (GlobalCallback<T, U, V> c in callbacks)
-				c(arg1, arg2, arg3);
+		}
+
+		public static void Unregister(string name, GlobalCallback<T, U, V> callback)
+		{
+
+			if (string.IsNullOrEmpty(name))
+				throw new ArgumentNullException(@"name");
+
+			if (callback == null)
+				throw new ArgumentNullException("callback");
+
+			List<GlobalCallback<T, U, V>> callbacks = (List<GlobalCallback<T, U, V>>)m_Callbacks[name];
+			if (callbacks != null)
+				callbacks.Remove(callback);
+
+		}
+
+		public static void Send(string name, T arg1, U arg2, V arg3)
+		{
+
+			if (string.IsNullOrEmpty(name))
+				throw new ArgumentNullException(@"name");
+
+			if (arg1 == null)
+				throw new ArgumentNullException("arg1");
+
+			if (arg2 == null)
+				throw new ArgumentNullException("arg2");
+
+			if (arg3 == null)
+				throw new ArgumentNullException("arg3");
+
+			List<GlobalCallback<T, U, V>> callbacks = (List<GlobalCallback<T, U, V>>)m_Callbacks[name];
+			if (callbacks != null)
+				foreach (GlobalCallback<T, U, V> c in callbacks)
+					c(arg1, arg2, arg3);
+
+		}
 
 	}
-
 }

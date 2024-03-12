@@ -1,296 +1,301 @@
 using System;
-using System.Collections.Generic;
-using UnityEngine;
 using System.Collections;
-public class AudioConfig
+using System.Collections.Generic;
+using _Base.Scripts.Patterns.Pool;
+using _Base.Scripts.Utils;
+using UnityEngine;
+
+namespace _Base.Scripts.Audio
 {
-    public enum AudioType
+    public class AudioConfig
     {
-        SFX,
-        BGM
-    };
+        public enum AudioType
+        {
+            SFX,
+            BGM
+        };
 
-    public AudioType Type;
-    public AudioClip Clip;
-}
+        public AudioType Type;
+        public AudioClip Clip;
+    }
 
-public class AudioManager : AbstractSingleton<AudioManager>
-{
+    public class AudioManager : SingletonMonoBehaviour<AudioManager>
+    {
 #if UNITY_IOS
     [DllImport("__Internal")]
     private static extern void _playVibrate();
 #endif
-    [Header("Sound Configs")]
-    [SerializeField] protected AudioSource _sampleSoundSource;
+        [Header("Sound Configs")]
+        [SerializeField] protected AudioSource _sampleSoundSource;
 
-    [Header("Common - SFXs")]
-    [SerializeField] protected AudioClip _sfxTapButton;
+        [Header("Common - SFXs")]
+        [SerializeField] protected AudioClip _sfxTapButton;
 
-    [Header("Gameplay - SFXs")]
-    [SerializeField] protected AudioClip _sfxAddObject;
-    [SerializeField] protected AudioClip _sfxThrowObject;
-    [SerializeField] protected AudioClip _sfxLevelComplete;
-    [SerializeField] protected AudioClip[] _sfxCombos;
+        [Header("Gameplay - SFXs")]
+        [SerializeField] protected AudioClip _sfxAddObject;
+        [SerializeField] protected AudioClip _sfxThrowObject;
+        [SerializeField] protected AudioClip _sfxLevelComplete;
+        [SerializeField] protected AudioClip[] _sfxCombos;
 
-    [Header("BGMs")]
-    [SerializeField] protected AudioClip _bgmHome;
-    [SerializeField] protected AudioClip[] _bgmGameplay;
+        [Header("BGMs")]
+        [SerializeField] protected AudioClip _bgmHome;
+        [SerializeField] protected AudioClip[] _bgmGameplay;
 
-    const string KEY_SFX = "SFX";
-    const string KEY_BGM = "BGM";
-    const string KEY_VIBRATE = "VIBRATE";
+        const string KEY_SFX = "SFX";
+        const string KEY_BGM = "BGM";
+        const string KEY_VIBRATE = "VIBRATE";
 
-    bool _isSfxOn;
-    bool _isBgmOn;
-    bool _isVibrate;
+        bool _isSfxOn;
+        bool _isBgmOn;
+        bool _isVibrate;
 
-    private float _sfxVolume = 1.0f;
-    private float _bgmVolume = 1.0f;
+        private float _sfxVolume = 1.0f;
+        private float _bgmVolume = 1.0f;
 
-    ObjectPool<Transform> _poolSounds;
-    List<AudioSource> _activeSources = new List<AudioSource>();
+        ObjectPool<Transform> _poolSounds;
+        List<AudioSource> _activeSources = new List<AudioSource>();
 
-    List<AudioConfig> _soundConfigs = new List<AudioConfig>();
+        List<AudioConfig> _soundConfigs = new List<AudioConfig>();
 
-    public event Action<bool> OnEnableMusic;
+        public event Action<bool> OnEnableMusic;
 
 
-    public int CurrentBackground = 0;
+        public int CurrentBackground = 0;
 
-    protected override void Awake()
-    {
-        _poolSounds = new ObjectPool<Transform>(_sampleSoundSource.transform);
-    }
-
-    public void LoadSoundSettings()
-    {
-        IsSfxOn = PlayerPrefs.GetInt(KEY_SFX, 1) > 0 ? true : false;
-        IsBgmOn = PlayerPrefs.GetInt(KEY_BGM, 1) > 0 ? true : false;
-        IsVibrateOn = PlayerPrefs.GetInt(KEY_VIBRATE, 1) > 0 ? true : false;
-    }
-
-    public void ToggleSfx()
-    {
-        IsSfxOn = !_isSfxOn;
-    }
-
-    public void ToggleBGM()
-    {
-        IsBgmOn = !_isBgmOn;
-    }
-
-    public void ToggleVibrate()
-    {
-        IsVibrateOn = !_isVibrate;
-    }
-
-    public bool IsSfxOn
-    {
-        get
+        protected override void Awake()
         {
-            return _isSfxOn;
+            _poolSounds = new ObjectPool<Transform>(_sampleSoundSource.transform);
         }
 
-        set
+        public void LoadSoundSettings()
         {
-            if (value != _isSfxOn)
+            IsSfxOn = PlayerPrefs.GetInt(KEY_SFX, 1) > 0 ? true : false;
+            IsBgmOn = PlayerPrefs.GetInt(KEY_BGM, 1) > 0 ? true : false;
+            IsVibrateOn = PlayerPrefs.GetInt(KEY_VIBRATE, 1) > 0 ? true : false;
+        }
+
+        public void ToggleSfx()
+        {
+            IsSfxOn = !_isSfxOn;
+        }
+
+        public void ToggleBGM()
+        {
+            IsBgmOn = !_isBgmOn;
+        }
+
+        public void ToggleVibrate()
+        {
+            IsVibrateOn = !_isVibrate;
+        }
+
+        public bool IsSfxOn
+        {
+            get
             {
-                _isSfxOn = value;
-                PlayerPrefs.SetInt(KEY_SFX, _isSfxOn ? 1 : 0);
-                PlayerPrefs.Save();
+                return _isSfxOn;
             }
+
+            set
+            {
+                if (value != _isSfxOn)
+                {
+                    _isSfxOn = value;
+                    PlayerPrefs.SetInt(KEY_SFX, _isSfxOn ? 1 : 0);
+                    PlayerPrefs.Save();
+                }
 
 #if USE_ANDROID_NATIVE_AUDIO && !UNITY_EDITOR
             AndroidNativeAudio.Off = !_isSfxOn;
 #else
-            SetVolumeSFXs(_isSfxOn ? 1f : 0f);
+                SetVolumeSFXs(_isSfxOn ? 1f : 0f);
 #endif
-        }
-    }
-
-    public bool IsBgmOn
-    {
-        get
-        {
-            return _isBgmOn;
-        }
-
-        set
-        {
-            if (value != _isBgmOn)
-            {
-                _isBgmOn = value;
-                PlayerPrefs.SetInt(KEY_BGM, _isBgmOn ? 1 : 0);
-                PlayerPrefs.Save();
             }
+        }
+
+        public bool IsBgmOn
+        {
+            get
+            {
+                return _isBgmOn;
+            }
+
+            set
+            {
+                if (value != _isBgmOn)
+                {
+                    _isBgmOn = value;
+                    PlayerPrefs.SetInt(KEY_BGM, _isBgmOn ? 1 : 0);
+                    PlayerPrefs.Save();
+                }
 
 #if USE_ANDROID_NATIVE_AUDIO && !UNITY_EDITOR
             AndroidNativeAudio.Off = !_isBgmOn;
 #else
-            SetVolumeBGMs(_isBgmOn ? 1f : 0f);
+                SetVolumeBGMs(_isBgmOn ? 1f : 0f);
 #endif
-            OnEnableMusic?.Invoke(_isBgmOn);
+                OnEnableMusic?.Invoke(_isBgmOn);
 
-            if (!value)
-                StopBGMs();
+                if (!value)
+                    StopBGMs();
 
-            //GoogleMobileAds.Api.MobileAds.SetApplicationVolume(_isSfxOn ? 1f : 0f);
-        }
-    }
-
-    public bool IsVibrateOn
-    {
-        get
-        {
-            return _isVibrate;
-        }
-
-        set
-        {
-            if (value != _isVibrate)
-            {
-                _isVibrate = value;
-                PlayerPrefs.SetInt(KEY_VIBRATE, _isVibrate ? 1 : 0);
-                PlayerPrefs.Save();
+                //GoogleMobileAds.Api.MobileAds.SetApplicationVolume(_isSfxOn ? 1f : 0f);
             }
-            //Taptic.tapticOn = _isVibrate;
         }
-    }
 
-    void SetVolumeBGMs(float volume)
-    {
-        _bgmVolume = volume;
-        foreach (var source in _activeSources)
-            if (source.loop)
-                source.volume = _bgmVolume;
-    }
-
-    void SetVolumeSFXs(float volume)
-    {
-        _sfxVolume = volume;
-        foreach (var source in _activeSources)
-            if (!source.loop)
-                source.volume = _sfxVolume;
-    }
-
-    void PlaySound(AudioConfig soundConfig)
-    {
-        if (soundConfig.Type == AudioConfig.AudioType.BGM && isPlayingSameBGM(soundConfig))
-            return;
-
-        var audioSource = _poolSounds.Get();
-        audioSource.parent = _sampleSoundSource.transform.parent;
-        var audioCom = audioSource.GetComponent<AudioSource>();
-        StartCoroutine(PlaySound(audioCom, soundConfig));
-    }
-
-    IEnumerator PlaySound(AudioSource source, AudioConfig config)
-    {
-        _soundConfigs.Add(config);
-        source.clip = config.Clip;
-        source.loop = config.Type == AudioConfig.AudioType.BGM;
-        source.volume = (config.Type == AudioConfig.AudioType.SFX) ? _sfxVolume : _bgmVolume;
-
-        if (config.Type == AudioConfig.AudioType.BGM)
+        public bool IsVibrateOn
         {
-            yield return FadeBGMsVolumes(0);
-            StopBGMs();
+            get
+            {
+                return _isVibrate;
+            }
+
+            set
+            {
+                if (value != _isVibrate)
+                {
+                    _isVibrate = value;
+                    PlayerPrefs.SetInt(KEY_VIBRATE, _isVibrate ? 1 : 0);
+                    PlayerPrefs.Save();
+                }
+                //Taptic.tapticOn = _isVibrate;
+            }
         }
-        _activeSources.Add(source);
-        source.Play();
-        if (config.Type == AudioConfig.AudioType.BGM)
+
+        void SetVolumeBGMs(float volume)
         {
-            yield return FadeBGMsVolumes(_bgmVolume);
+            _bgmVolume = volume;
+            foreach (var source in _activeSources)
+                if (source.loop)
+                    source.volume = _bgmVolume;
         }
-        yield return new WaitForSeconds(0.1f);
-        while (source.isPlaying)
-            yield return null;
 
-        source.Stop();
-        _soundConfigs.Remove(config);
-        _activeSources.Remove(source);
-        _poolSounds.Store(source.transform);
-    }
-
-
-    IEnumerator FadeBGMsVolumes(float targetVolume)
-    {
-        float startVolume = _bgmVolume;
-        float timer = 0f;
-        float fadeDuration = 0.25f;
-        while (timer < fadeDuration)
+        void SetVolumeSFXs(float volume)
         {
-            timer += Time.deltaTime;
+            _sfxVolume = volume;
+            foreach (var source in _activeSources)
+                if (!source.loop)
+                    source.volume = _sfxVolume;
+        }
+
+        void PlaySound(AudioConfig soundConfig)
+        {
+            if (soundConfig.Type == AudioConfig.AudioType.BGM && isPlayingSameBGM(soundConfig))
+                return;
+
+            var audioSource = _poolSounds.Get();
+            audioSource.parent = _sampleSoundSource.transform.parent;
+            var audioCom = audioSource.GetComponent<AudioSource>();
+            StartCoroutine(PlaySound(audioCom, soundConfig));
+        }
+
+        IEnumerator PlaySound(AudioSource source, AudioConfig config)
+        {
+            _soundConfigs.Add(config);
+            source.clip = config.Clip;
+            source.loop = config.Type == AudioConfig.AudioType.BGM;
+            source.volume = (config.Type == AudioConfig.AudioType.SFX) ? _sfxVolume : _bgmVolume;
+
+            if (config.Type == AudioConfig.AudioType.BGM)
+            {
+                yield return FadeBGMsVolumes(0);
+                StopBGMs();
+            }
+            _activeSources.Add(source);
+            source.Play();
+            if (config.Type == AudioConfig.AudioType.BGM)
+            {
+                yield return FadeBGMsVolumes(_bgmVolume);
+            }
+            yield return new WaitForSeconds(0.1f);
+            while (source.isPlaying)
+                yield return null;
+
+            source.Stop();
+            _soundConfigs.Remove(config);
+            _activeSources.Remove(source);
+            _poolSounds.Store(source.transform);
+        }
+
+
+        IEnumerator FadeBGMsVolumes(float targetVolume)
+        {
+            float startVolume = _bgmVolume;
+            float timer = 0f;
+            float fadeDuration = 0.25f;
+            while (timer < fadeDuration)
+            {
+                timer += Time.deltaTime;
+                foreach (var item in _activeSources)
+                {
+                    if (item.loop && item.isPlaying)
+                    {
+                        item.volume = Mathf.Lerp(startVolume, 0f, timer / fadeDuration);
+                    }
+                }
+                yield return null;
+            }
+        }
+
+        private bool isPlayingSameBGM(AudioConfig newConfig)
+        {
+            foreach (var source in _activeSources)
+            {
+                if (source.loop && source.isPlaying)
+                {
+                    return source.clip == newConfig.Clip;
+                }
+            }
+            return false;
+        }
+
+        public void StopBGMs()
+        {
             foreach (var item in _activeSources)
             {
                 if (item.loop && item.isPlaying)
                 {
-                    item.volume = Mathf.Lerp(startVolume, 0f, timer / fadeDuration);
+                    item.Stop();
                 }
             }
-            yield return null;
         }
-    }
 
-    private bool isPlayingSameBGM(AudioConfig newConfig)
-    {
-        foreach (var source in _activeSources)
+        public void PauseBGMs()
         {
-            if (source.loop && source.isPlaying)
+            foreach (var item in _activeSources)
             {
-                return source.clip == newConfig.Clip;
+                if (item.loop)
+                {
+                    item.volume = 0.0f;
+                }
             }
         }
-        return false;
-    }
 
-    public void StopBGMs()
-    {
-        foreach (var item in _activeSources)
+        public void ResumeBGMs()
         {
-            if (item.loop && item.isPlaying)
+            foreach (var item in _activeSources)
             {
-                item.Stop();
+                if (item.loop)
+                {
+                    item.volume = 1.0f;
+                }
             }
         }
-    }
 
-    public void PauseBGMs()
-    {
-        foreach (var item in _activeSources)
+        public void StopSFXs()
         {
-            if (item.loop)
+            foreach (var item in _activeSources)
             {
-                item.volume = 0.0f;
+                if (!item.loop && item.isPlaying)
+                {
+                    item.Stop();
+                }
             }
         }
-    }
 
-    public void ResumeBGMs()
-    {
-        foreach (var item in _activeSources)
+        public void PlayVibrate()
         {
-            if (item.loop)
-            {
-                item.volume = 1.0f;
-            }
-        }
-    }
-
-    public void StopSFXs()
-    {
-        foreach (var item in _activeSources)
-        {
-            if (!item.loop && item.isPlaying)
-            {
-                item.Stop();
-            }
-        }
-    }
-
-    public void PlayVibrate()
-    {
-        if (!IsVibrateOn) return;
+            if (!IsVibrateOn) return;
 
 #if UNITY_IOS && !UNITY_EDITOR
         _playVibrate();
@@ -309,96 +314,97 @@ public class AudioManager : AbstractSingleton<AudioManager>
             vibrator.Call("vibrate", vibrationEffect);
         }
 #else
-        Debug.Log("Play Vibrate");
-        Handheld.Vibrate();
+            Debug.Log("Play Vibrate");
+            Handheld.Vibrate();
 #endif
-    }
+        }
 
-    void TestVibration()
-    {
-        Handheld.Vibrate();
-    }
-
-    public void PlaySfxTapButton()
-    {
-        PlaySound(new AudioConfig()
+        void TestVibration()
         {
-            Clip = _sfxTapButton,
-            Type = AudioConfig.AudioType.SFX
-        });
-    }
+            Handheld.Vibrate();
+        }
 
-    /// <summary>
-    /// GAMEPLAY
-    /// </summary>
-
-    public void PlaySfxAddedObject()
-    {
-        PlaySound(new AudioConfig()
+        public void PlaySfxTapButton()
         {
-            Clip = _sfxAddObject,
-            Type = AudioConfig.AudioType.SFX
-        });
-    }
+            PlaySound(new AudioConfig()
+            {
+                Clip = _sfxTapButton,
+                Type = AudioConfig.AudioType.SFX
+            });
+        }
 
-    public void PlaySfxThrowObject()
-    {
-        PlaySound(new AudioConfig()
+        /// <summary>
+        /// GAMEPLAY
+        /// </summary>
+
+        public void PlaySfxAddedObject()
         {
-            Clip = _sfxThrowObject,
-            Type = AudioConfig.AudioType.SFX
-        });
-    }
+            PlaySound(new AudioConfig()
+            {
+                Clip = _sfxAddObject,
+                Type = AudioConfig.AudioType.SFX
+            });
+        }
 
-    public void PlaySfxCombo(int index)
-    {
-        if (index < 0)
-            index = 0;
-        else if (index >= _sfxCombos.Length)
-            index = _sfxCombos.Length - 1;
-
-        PlaySound(new AudioConfig()
+        public void PlaySfxThrowObject()
         {
-            Clip = _sfxCombos[index],
-            Type = AudioConfig.AudioType.SFX
-        });
-    }
+            PlaySound(new AudioConfig()
+            {
+                Clip = _sfxThrowObject,
+                Type = AudioConfig.AudioType.SFX
+            });
+        }
 
-    public void PlaySfxLevelComplete()
-    {
-        PlaySound(new AudioConfig()
+        public void PlaySfxCombo(int index)
         {
-            Clip = _sfxLevelComplete,
-            Type = AudioConfig.AudioType.SFX
-        });
-    }
+            if (index < 0)
+                index = 0;
+            else if (index >= _sfxCombos.Length)
+                index = _sfxCombos.Length - 1;
 
-    /// <summary>
-    /// BGM
-    /// </summary>
-    public void PlayBgmHome()
-    {
-        // if (!IsBgmOn) return;
-        // playSound(new AudioConfig()
-        // {
-        //     Clip = _bgmHome,
-        //     Type = AudioConfig.AudioType.BGM
-        // });
-    }
+            PlaySound(new AudioConfig()
+            {
+                Clip = _sfxCombos[index],
+                Type = AudioConfig.AudioType.SFX
+            });
+        }
 
-    public void RandomeBGMGameplay()
-    {
-        // CurrentBackground = Random.Range(0, _bgmGameplay.Length);
-    }
+        public void PlaySfxLevelComplete()
+        {
+            PlaySound(new AudioConfig()
+            {
+                Clip = _sfxLevelComplete,
+                Type = AudioConfig.AudioType.SFX
+            });
+        }
 
-    public void PlayBgmGameplay()
-    {
-        // if (!IsBgmOn) return;
+        /// <summary>
+        /// BGM
+        /// </summary>
+        public void PlayBgmHome()
+        {
+            // if (!IsBgmOn) return;
+            // playSound(new AudioConfig()
+            // {
+            //     Clip = _bgmHome,
+            //     Type = AudioConfig.AudioType.BGM
+            // });
+        }
 
-        // playSound(new AudioConfig()
-        // {
-        //     Clip = _bgmGameplay[CurrentBackground],
-        //     Type = AudioConfig.AudioType.BGM
-        // });
+        public void RandomeBGMGameplay()
+        {
+            // CurrentBackground = Random.Range(0, _bgmGameplay.Length);
+        }
+
+        public void PlayBgmGameplay()
+        {
+            // if (!IsBgmOn) return;
+
+            // playSound(new AudioConfig()
+            // {
+            //     Clip = _bgmGameplay[CurrentBackground],
+            //     Type = AudioConfig.AudioType.BGM
+            // });
+        }
     }
 }

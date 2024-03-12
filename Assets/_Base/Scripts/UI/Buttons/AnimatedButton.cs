@@ -1,17 +1,16 @@
 using DG.Tweening;
-using System.Collections;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
+namespace _Base.Scripts.UI.Buttons
+{
     [RequireComponent(typeof(BaseButton))]
     public class AnimatedButton : UIBehaviour, IPointerDownHandler, IPointerUpHandler
     {
         private BaseButton _baseButton;
         [SerializeField] private Transform _transform;
-        Tween downTween;
-        Tween upTween;
+        DG.Tweening.Tween downTween;
+        DG.Tweening.Tween upTween;
         bool isClickedDown = false;
 
         protected override void Awake()
@@ -47,4 +46,5 @@ using UnityEngine.UI;
             base.OnDestroy();
         }
     }
+}
 

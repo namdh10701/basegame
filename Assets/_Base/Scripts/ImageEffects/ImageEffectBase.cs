@@ -1,7 +1,6 @@
-using System;
 using UnityEngine;
 
-namespace UnityStandardAssets.ImageEffects
+namespace _Base.Scripts.ImageEffects
 {
     [RequireComponent(typeof (Camera))]
     [AddComponentMenu("")]

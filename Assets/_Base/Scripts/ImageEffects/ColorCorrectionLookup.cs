@@ -1,7 +1,6 @@
-using System;
 using UnityEngine;
 
-namespace UnityStandardAssets.ImageEffects
+namespace _Base.Scripts.ImageEffects
 {
     [ExecuteInEditMode]
     [AddComponentMenu ("Image Effects/Color Adjustments/Color Correction (3D Lookup Texture)")]

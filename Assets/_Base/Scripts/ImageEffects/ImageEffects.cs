@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace UnityStandardAssets.ImageEffects
+namespace _Base.Scripts.ImageEffects
 {
     /// A Utility class for performing various image based rendering tasks.
     [AddComponentMenu("")]

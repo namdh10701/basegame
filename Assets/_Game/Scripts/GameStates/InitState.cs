@@ -1,34 +1,28 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
+using _Base.Scripts;
+using _Base.Scripts.Bootstrap;
+using _Base.Scripts.StateMachine;
+using _Game.Scripts.Bootstrap;
+using _Game.Scripts.Managers;
 using UnityEngine;
 
-/// <summary>
-/// Delays the state-machine for the set amount
-/// </summary>
-public class InitState : AbstractState
+namespace _Game.Scripts.GameStates
 {
-    private GameObject[] preloadedAssets;
-    private SceneController sceneController;
-
-
-    public InitState(GameObject[] preloadedAssets, SceneController sceneController)
+    /// <summary>
+    /// Delays the state-machine for the set amount
+    /// </summary>
+    public class InitState : AbstractState
     {
-        this.sceneController = sceneController;
-        this.preloadedAssets = preloadedAssets;
-    }
+        public override string Name => nameof(InitState);
 
-    public override string Name => nameof(DelayState);
-
-    public override IEnumerator Execute()
-    {
-        foreach (GameObject preloadedAsset in preloadedAssets)
+        public override IEnumerator Execute()
         {
-            Object.Instantiate(preloadedAsset, SequenceManager.Instance.transform);
+            Game.Instance.AssetLoader.Load();
+            Game.Instance.GameManager.LoadDatabase();
+            Game.Instance.GameManager.LoadSave();
+            yield return Game.Instance.SceneController.LoadScene("UIScene");
         }
-        GameManager.Instance.LoadDatabase();
-        GameManager.Instance.LoadSave();
-        yield return sceneController.LoadUIScene();
+
+
     }
-
-
 }

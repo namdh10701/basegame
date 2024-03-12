@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using _Base.Scripts;
+using _Base.Scripts.StateMachine;
 
+namespace _Game.Scripts.GameStates
+{
     /// <summary>
     /// This state loads a scene 
     /// </summary>
@@ -31,3 +33,4 @@ using UnityEngine;
             m_OnLoadCompleted?.Invoke();
         }
     }
+}

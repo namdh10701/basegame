@@ -1,8 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class MainMenuController : MonoBehaviour
+namespace _Game.Scripts
 {
+    public class MainMenuController : MonoBehaviour
+    {
 
+    }
 }

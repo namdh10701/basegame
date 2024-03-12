@@ -1,35 +1,36 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// Overrides unity event methods to determine if the game is paused or lost focus by external(OS) sources
-/// and triggers an event.
-/// </summary>
-public class AppPauseDetector
+namespace _Base.Scripts.EventSystem
 {
-    [SerializeField]
-    BaseGameEvent m_PauseEvent;
-
     /// <summary>
-    /// Returns the current pause state of the application
+    /// Overrides unity event methods to determine if the game is paused or lost focus by external(OS) sources
+    /// and triggers an event.
     /// </summary>
-    public bool IsPaused { get; private set; }
-
-    void OnApplicationFocus(bool hasFocus)
+    public class AppPauseDetector
     {
-        IsPaused = !hasFocus;
+        [SerializeField]
+        BaseEvent m_PauseEvent;
 
-        if (IsPaused)
-            m_PauseEvent.Raise();
-    }
+        /// <summary>
+        /// Returns the current pause state of the application
+        /// </summary>
+        public bool IsPaused { get; private set; }
 
-    void OnApplicationPause(bool pauseStatus)
-    {
-        IsPaused = pauseStatus;
+        void OnApplicationFocus(bool hasFocus)
+        {
+            IsPaused = !hasFocus;
 
-        if (IsPaused)
-            m_PauseEvent.Raise();
+            if (IsPaused)
+                m_PauseEvent.Raise();
+        }
+
+        void OnApplicationPause(bool pauseStatus)
+        {
+            IsPaused = pauseStatus;
+
+            if (IsPaused)
+                m_PauseEvent.Raise();
+        }
     }
 }
    

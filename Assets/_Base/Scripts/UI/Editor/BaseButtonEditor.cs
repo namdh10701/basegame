@@ -1,31 +1,33 @@
-
-using Core.UI;
+using _Base.Scripts.UI.Buttons;
 using UnityEditor;
 using UnityEditor.UI;
 
-[CustomEditor(typeof(BaseButton))]
-[CanEditMultipleObjects]
-public class BaseButtonEditor : ButtonEditor
+namespace _Base.Scripts.UI.Editor
 {
-    SerializedProperty _isSpamable;
-    SerializedProperty _allowOnlyTap;
-
-    protected override void OnEnable()
+    [CustomEditor(typeof(BaseButton))]
+    [CanEditMultipleObjects]
+    public class BaseButtonEditor : ButtonEditor
     {
-        base.OnEnable();
-        _isSpamable = serializedObject.FindProperty("_isSpamable");
-        _allowOnlyTap = serializedObject.FindProperty("_allowOnlyTap");
+        SerializedProperty _isSpamable;
+        SerializedProperty _allowOnlyTap;
+
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+            _isSpamable = serializedObject.FindProperty("_isSpamable");
+            _allowOnlyTap = serializedObject.FindProperty("_allowOnlyTap");
         
 
-    }
+        }
 
-    public override void OnInspectorGUI()
-    {
-        serializedObject.Update();
-        EditorGUILayout.PropertyField(_isSpamable);
-        EditorGUILayout.PropertyField(_allowOnlyTap);
-        serializedObject.ApplyModifiedProperties();
-        base.OnInspectorGUI();
+        public override void OnInspectorGUI()
+        {
+            serializedObject.Update();
+            EditorGUILayout.PropertyField(_isSpamable);
+            EditorGUILayout.PropertyField(_allowOnlyTap);
+            serializedObject.ApplyModifiedProperties();
+            base.OnInspectorGUI();
+        }
     }
 }
 

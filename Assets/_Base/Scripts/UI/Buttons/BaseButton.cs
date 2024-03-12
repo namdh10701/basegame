@@ -1,9 +1,10 @@
-using System;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+namespace _Base.Scripts.UI.Buttons
+{
     public class BaseButton : Button, IPointerMoveHandler
     {
         [SerializeField] private bool _isSpamable = false;
@@ -78,10 +79,11 @@ using UnityEngine.UI;
         {
             if (IsInteracable && IsClickedDown)
             {
-                if (Vector2.Distance(PointerDownPos, eventData.position) > EventSystem.current.pixelDragThreshold)
+                if (Vector2.Distance(PointerDownPos, eventData.position) > UnityEngine.EventSystems.EventSystem.current.pixelDragThreshold)
                 {
                     IsDragging = true;
                 }
             }
         }
     }
+}

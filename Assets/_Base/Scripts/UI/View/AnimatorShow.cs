@@ -1,29 +1,33 @@
 ﻿using UnityEngine;
-public class AnimatorShow : MonoBehaviour, Command
+
+namespace _Base.Scripts.UI.Viewx
 {
-    View view;
-    private void Awake()
+    public class AnimatorShow : MonoBehaviour, Command
     {
-        view = GetComponent<View>();
-    }
-    public void Execute()
-    {
-        view.animator.Play("Show");
-        view.ViewState = ViewState.SHOWING;
-        view.onShowStart?.Invoke();
-    }
+        View view;
+        private void Awake()
+        {
+            view = GetComponent<View>();
+        }
+        public void Execute()
+        {
+            view.animator.Play("Show");
+            view.ViewState = ViewState.Showing;
+            view.onShowStart?.Invoke();
+        }
 
-    public void Interupt()
-    {
-    }
+        public void Interrupt()
+        {
+        }
 
-    public void OnCompleted()
-    {
-        view.ViewState = ViewState.SHOW;
-    }
-    public void OnShowCompleted()
-    {
-        Debug.Log("AAAShow");
-        view.onShowEnd?.Invoke();
+        public void OnCompleted()
+        {
+            view.ViewState = ViewState.Show;
+        }
+        public void OnShowCompleted()
+        {
+            Debug.Log("AAAShow");
+            view.onShowEnd?.Invoke();
+        }
     }
 }

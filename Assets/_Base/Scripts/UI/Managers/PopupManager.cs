@@ -1,45 +1,48 @@
-﻿using UnityEngine;
-using Core.UI;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using _Base.Scripts.Utils;
+using UnityEngine;
 
-public class PopupManager : AbstractSingleton<PopupManager>
+namespace _Base.Scripts.UI.Managers
 {
-    List<Popup> popups;
-    Popup currentPopup;
-    Popup prevPopup;
-    readonly Stack<Popup> activePopupLayers = new();
-    protected override void Awake()
+    public class PopupManager : SingletonMonoBehaviour<PopupManager>
     {
-        base.Awake();
-        popups = FindObjectsByType<Popup>(FindObjectsInactive.Include,FindObjectsSortMode.None).ToList();
-        foreach(Popup popup in popups)
+        List<Popup> popups;
+        Popup currentPopup;
+        Popup prevPopup;
+        readonly Stack<Popup> activePopupLayers = new();
+        protected override void Awake()
         {
-            popup.HideImmediately();
-        }
-    }
-    public void HidePopup(Popup popup)
-    {
-        popup.Hide();
-    }
-
-    public void ShowPopup<T>()
-    {
-        foreach (var view in popups)
-        {
-            if (view is T)
+            base.Awake();
+            popups = FindObjectsByType<Popup>(FindObjectsInactive.Include,FindObjectsSortMode.None).ToList();
+            foreach(Popup popup in popups)
             {
-                ShowPopup(view);
-                break;
+                popup.HideImmediately();
             }
         }
-    }
-    public void ShowPopup(Popup popup)
-    {
-        prevPopup = currentPopup;
-        currentPopup = popup;
-        popup.Show();
-        activePopupLayers.Push(popup);
-    }
+        public void HidePopup(Popup popup)
+        {
+            popup.Hide();
+        }
 
+        public void ShowPopup<T>()
+        {
+            foreach (var view in popups)
+            {
+                if (view is T)
+                {
+                    ShowPopup(view);
+                    break;
+                }
+            }
+        }
+        public void ShowPopup(Popup popup)
+        {
+            prevPopup = currentPopup;
+            currentPopup = popup;
+            popup.Show();
+            activePopupLayers.Push(popup);
+        }
+
+    }
 }

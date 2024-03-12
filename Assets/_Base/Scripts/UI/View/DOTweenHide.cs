@@ -1,41 +1,45 @@
-﻿using UnityEngine;
-using DG.Tweening;
-public class DOTweenHide : MonoBehaviour, Command
+﻿using DG.Tweening;
+using UnityEngine;
+
+namespace _Base.Scripts.UI.Viewx
 {
-    View view;
-    Tween hideTween;
-    private void Awake()
+    public class DOTweenHide : MonoBehaviour, Command
     {
-        view = GetComponent<View>();
-
-        hideTween = view.canvasGroup.DOFade(0, view.duration / 2).OnPlay(() =>
+        View view;
+        DG.Tweening.Tween hideTween;
+        private void Awake()
         {
-            view.canvasGroup.blocksRaycasts = false;
-            view.canvasGroup.alpha = 1;
-        }).OnComplete(() =>
+            view = GetComponent<View>();
+
+            hideTween = DOTweenModuleUI.DOFade((CanvasGroup)view.canvasGroup, 0, view.duration / 2).OnPlay(() =>
+            {
+                view.canvasGroup.blocksRaycasts = false;
+                view.canvasGroup.alpha = 1;
+            }).OnComplete(() =>
+            {
+                view.root.anchoredPosition = view.originalPos;
+                view.canvasGroup.alpha = 1;
+                this.OnCompleted();
+            });
+            hideTween.SetAutoKill(false);
+            hideTween.Pause();
+        }
+        public void Execute()
         {
-            view.root.anchoredPosition = view.originalPos;
-            view.canvasGroup.alpha = 1;
-            this.OnCompleted();
-        });
-        hideTween.SetAutoKill(false);
-        hideTween.Pause();
-    }
-    public void Execute()
-    {
-        hideTween.Restart();
-        view.onHideStart?.Invoke();
-        view.ViewState = ViewState.HIDING;
-    }
+            hideTween.Restart();
+            view.onHideStart?.Invoke();
+            view.ViewState = ViewState.Hiding;
+        }
 
-    public void Interupt()
-    {
-        hideTween.Pause();
-    }
+        public void Interrupt()
+        {
+            hideTween.Pause();
+        }
 
-    public void OnCompleted()
-    {
-        view.onHideEnd?.Invoke();
-        view.ViewState = ViewState.HIDE;
+        public void OnCompleted()
+        {
+            view.onHideEnd?.Invoke();
+            view.ViewState = ViewState.Hide;
+        }
     }
 }

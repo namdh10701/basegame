@@ -1,67 +1,72 @@
-﻿using Core.Env;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
+using _Base.Scripts;
+using _Base.Scripts.Enviroments;
+using _Base.Scripts.StateMachine;
+using _Base.Scripts.UI.Managers;
+using _Game.Scripts.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-/// <summary>
-/// Delays the state-machine for the set amount
-/// </summary>
-public class LoadingState : AbstractState
+namespace _Game.Scripts.GameStates
 {
-    public override string Name => nameof(LoadingState);
-
-    LoadingView loadingView;
-    SceneController sceneController;
-
-    public override void Enter()
+    /// <summary>
+    /// Delays the state-machine for the set amount
+    /// </summary>
+    public class LoadingState : AbstractState
     {
-        base.Enter();
-        loadingView = ViewManager.Instance.GetView<LoadingView>();
-        ViewManager.Instance.Show(loadingView);
-    }
+        public override string Name => nameof(LoadingState);
 
-    public override IEnumerator Execute()
-    {
-        if (Environment.ENV == Environment.Env.DEV)
+        LoadingView loadingView;
+        SceneController sceneController;
+
+        public override void Enter()
         {
-            yield break;
+            base.Enter();
+            loadingView = ViewManager.Instance.GetView<LoadingView>();
+            ViewManager.Instance.Show(loadingView);
         }
-        /*var op = SceneManager.UnloadSceneAsync(1);
+
+        public override IEnumerator Execute()
+        {
+            if (Environment.ENV == Environment.Env.DEV)
+            {
+                yield break;
+            }
+            /*var op = SceneManager.UnloadSceneAsync(1);
         op.allowSceneActivation = false;*/
-        Scene mainMenuScene = SceneManager.GetSceneByBuildIndex(2);
-        AsyncOperation asyncOperation;
-        asyncOperation = SceneManager.LoadSceneAsync(2, LoadSceneMode.Additive);
-        asyncOperation.allowSceneActivation = false;
-        /*        PurchaseState removeAdsPurchaseState = IAPManager.Instance.RemoveAdsPurchaseState;
+            Scene mainMenuScene = SceneManager.GetSceneByBuildIndex(2);
+            AsyncOperation asyncOperation;
+            asyncOperation = SceneManager.LoadSceneAsync(2, LoadSceneMode.Additive);
+            asyncOperation.allowSceneActivation = false;
+            /*        PurchaseState removeAdsPurchaseState = IAPManager.Instance.RemoveAdsPurchaseState;
         */
 
-        float loadingProgress = 0;
-        float timeout = 2f;
-        float startTime = Time.time;
-        bool openAdShowed = false;
-        float minAdditionalTimeout = 1.5f;
-        float elapsedTime2 = 0;
-        float newSpeed = 1 / minAdditionalTimeout;
-        bool isHasInternet = Application.internetReachability != NetworkReachability.NotReachable;
-        loadingView.SetProgress(0);
-        while (!asyncOperation.allowSceneActivation)
-        {
-
-            float elapsedTime = Time.time - startTime;
-            if ((asyncOperation.progress >= 0.9f && elapsedTime >= timeout && !openAdShowed)
-                || (asyncOperation.progress >= 0.9f && openAdShowed && elapsedTime2 >= minAdditionalTimeout)
-                || ((asyncOperation.progress >= 0.9f && (!isHasInternet) && elapsedTime > minAdditionalTimeout)))
+            float loadingProgress = 0;
+            float timeout = 2f;
+            float startTime = Time.time;
+            bool openAdShowed = false;
+            float minAdditionalTimeout = 1.5f;
+            float elapsedTime2 = 0;
+            float newSpeed = 1 / minAdditionalTimeout;
+            bool isHasInternet = Application.internetReachability != NetworkReachability.NotReachable;
+            loadingView.SetProgress(0);
+            while (!asyncOperation.allowSceneActivation)
             {
 
-                asyncOperation.allowSceneActivation = true;
-                yield return null;
-                break;
-            }
+                float elapsedTime = Time.time - startTime;
+                if ((asyncOperation.progress >= 0.9f && elapsedTime >= timeout && !openAdShowed)
+                    || (asyncOperation.progress >= 0.9f && openAdShowed && elapsedTime2 >= minAdditionalTimeout)
+                    || ((asyncOperation.progress >= 0.9f && (!isHasInternet) && elapsedTime > minAdditionalTimeout)))
+                {
 
-            if (!openAdShowed)
-            {
-                /*if (!AdsHandler.IsRemovedAdsLocalState)
+                    asyncOperation.allowSceneActivation = true;
+                    yield return null;
+                    break;
+                }
+
+                if (!openAdShowed)
+                {
+                    /*if (!AdsHandler.IsRemovedAdsLocalState)
                 {
                     if (AdsController.Instance.IsOpenAdReady)
                     {
@@ -74,43 +79,44 @@ public class LoadingState : AbstractState
                 {
                     openAdShowed = true;
                 }*/
-            }
+                }
 
-            if (openAdShowed)
-            {
-                newSpeed = (1 - loadingProgress) / minAdditionalTimeout;
-                elapsedTime2 += Time.deltaTime;
-                loadingProgress += newSpeed * Time.deltaTime;
-                loadingView.SetProgress(loadingProgress);
-            }
-            else
-            {
-                if (!isHasInternet)
+                if (openAdShowed)
                 {
+                    newSpeed = (1 - loadingProgress) / minAdditionalTimeout;
+                    elapsedTime2 += Time.deltaTime;
                     loadingProgress += newSpeed * Time.deltaTime;
                     loadingView.SetProgress(loadingProgress);
                 }
                 else
                 {
-                    if (elapsedTime < timeout)
+                    if (!isHasInternet)
                     {
-                        loadingProgress = Mathf.Clamp01(elapsedTime / timeout);
+                        loadingProgress += newSpeed * Time.deltaTime;
+                        loadingView.SetProgress(loadingProgress);
                     }
                     else
                     {
-                        loadingProgress = Mathf.Clamp01(asyncOperation.progress / 0.9f + (elapsedTime - timeout) / timeout);
+                        if (elapsedTime < timeout)
+                        {
+                            loadingProgress = Mathf.Clamp01(elapsedTime / timeout);
+                        }
+                        else
+                        {
+                            loadingProgress = Mathf.Clamp01(asyncOperation.progress / 0.9f + (elapsedTime - timeout) / timeout);
+                        }
+                        loadingView.SetProgress(loadingProgress);
                     }
-                    loadingView.SetProgress(loadingProgress);
                 }
+                yield return null;
             }
-            yield return null;
+            yield break;
         }
-        yield break;
-    }
-    public override void Exit()
-    {
-        SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(2));
-        base.Exit();
+        public override void Exit()
+        {
+            SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(2));
+            base.Exit();
 
+        }
     }
 }

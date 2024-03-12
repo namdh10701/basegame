@@ -1,118 +1,124 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using _Base.Scripts.Utils;
+using _Base.Scripts.UI;
 using UnityEngine;
-/// <summary>
-/// A singleton that manages display state and access to UI Views 
-/// </summary>
-public class ViewManager : AbstractSingleton<ViewManager>
+
+namespace _Base.Scripts.UI.Managers
 {
-    List<View> views;
-    View currentView;
-    readonly Stack<View> m_History = new();
-
-    protected override void Awake()
+    /// <summary>
+    /// A singleton that manages display state and access to UI Views 
+    /// </summary>
+    public class ViewManager : SingletonMonoBehaviour<ViewManager>
     {
-        base.Awake();
-        views = FindObjectsByType<View>(FindObjectsInactive.Include, FindObjectsSortMode.None).ToList();
-        Init();
-    }
+        List<View> views;
+        View currentView;
+        readonly Stack<View> m_History = new();
 
-    void Init()
-    {
-        foreach (var view in views)
-            view.Deactive();
-        m_History.Clear();
-
-    }
-    public T GetView<T>() where T : View
-    {
-        foreach (var view in views)
+        protected override void Awake()
         {
-            if (view is T tView)
-            {
-                return tView;
-            }
+            base.Awake();
+            views = FindObjectsByType<View>(FindObjectsInactive.Include, FindObjectsSortMode.None).ToList();
+            Init();
         }
-        return null;
-    }
-    public void Show<T>(bool keepInHistory = true) where T : View
-    {
-        foreach (var view in views)
+
+        void Init()
         {
-            if (view is T)
-            {
-                Show(view, keepInHistory);
-                break;
-            }
+            foreach (var view in views)
+                view.Deactive();
+            m_History.Clear();
+
         }
-    }
-    public void Show<T>(Transition transition, bool keepInHistory = true) where T : View
-    {
-        foreach (var view in views)
+        public T GetView<T>() where T : View
         {
-            if (view is T)
+            foreach (var view in views)
             {
-                switch (transition)
+                if (view is T tView)
                 {
-                    case Transition.None:
+                    return tView;
+                }
+            }
+            return null;
+        }
+        public void Show<T>(bool keepInHistory = true) where T : View
+        {
+            foreach (var view in views)
+            {
+                if (view is T)
+                {
+                    Show(view, keepInHistory);
+                    break;
+                }
+            }
+        }
+        public void Show<T>(Transition transition, bool keepInHistory = true) where T : View
+        {
+            foreach (var view in views)
+            {
+                if (view is T)
+                {
+                    switch (transition)
+                    {
+                        case Transition.None:
                         {
                             Show(view, keepInHistory);
                         }
-                        break;
-                    case Transition.CrossFade:
+                            break;
+                        case Transition.CrossFade:
                         {
                             ViewTransitionManager.Instance.TransitCrossFade(() => Show(view, keepInHistory));
                         }
-                        break;
+                            break;
+                    }
+                    break;
                 }
-                break;
             }
         }
-    }
-    public void Show(View view, bool keepInHistory)
-    {
-        if (currentView != null)
+        public void Show(View view, bool keepInHistory)
         {
-            if (keepInHistory)
+            if (currentView != null)
             {
-                m_History.Push(currentView);
+                if (keepInHistory)
+                {
+                    m_History.Push(currentView);
+                }
+                Hide(currentView, () => view.Show());
+                currentView = view;
             }
-            Hide(currentView, () => view.Show());
-            currentView = view;
+            else
+            {
+                view.Show();
+                currentView = view;
+            }
         }
-        else
+
+        public void Hide(View view, Action onHideCompleted)
         {
-            view.Show();
-            currentView = view;
+            view.Hide(onHideCompleted);
         }
-    }
 
-    public void Hide(View view, Action onHideCompleted)
-    {
-        view.Hide(onHideCompleted);
-    }
-
-    public void Show(View view, Transition transition = Transition.None, bool keepInHistory = true)
-    {
-        switch (transition)
+        public void Show(View view, Transition transition = Transition.None, bool keepInHistory = true)
         {
-            case Transition.None:
-                Show(view, keepInHistory);
-                break;
-            case Transition.CrossFade:
+            switch (transition)
+            {
+                case Transition.None:
+                    Show(view, keepInHistory);
+                    break;
+                case Transition.CrossFade:
                 {
                     ViewTransitionManager.Instance.TransitCrossFade(() => Show(view, keepInHistory));
                 }
-                break;
+                    break;
+            }
         }
-    }
 
-    public void GoBack()
-    {
-        if (m_History.Count != 0)
+        public void GoBack()
         {
-            Show(m_History.Pop(), false);
+            if (m_History.Count != 0)
+            {
+                Show(m_History.Pop(), false);
+            }
         }
     }
 }

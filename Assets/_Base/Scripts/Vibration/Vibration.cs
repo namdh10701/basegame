@@ -1,6 +1,7 @@
 using UnityEngine;
 
-
+namespace _Base.Scripts.Vibration
+{
     public static class Vibration
     {
         private static bool _isRunVibration = true;
@@ -40,7 +41,7 @@ using UnityEngine;
 
         public static void Vibrate(long[] pattern, int repeat)
         {
-           if (!_isRunVibration || !IsAndroid())
+            if (!_isRunVibration || !IsAndroid())
                 return;
 
             if (IsAndroid())
@@ -70,3 +71,4 @@ using UnityEngine;
             _isRunVibration = isEnable;
         }
     }
+}

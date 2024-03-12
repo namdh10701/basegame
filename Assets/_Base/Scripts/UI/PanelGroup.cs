@@ -1,31 +1,34 @@
 using UnityEngine;
 
-public class PanelGroup : MonoBehaviour
+namespace _Base.Scripts.UI
 {
-    [SerializeField] private GameObject[] _panels;
-    public int panelIndex;
-    private void Awake()
+    public class PanelGroup : MonoBehaviour
     {
-        ShowCurrentPanel();
-    }
-
-    public void ShowCurrentPanel()
-    {
-        for (int i = 0; i < _panels.Length; i++)
+        [SerializeField] private GameObject[] _panels;
+        public int panelIndex;
+        private void Awake()
         {
-            if (i == panelIndex)
+            ShowCurrentPanel();
+        }
+
+        public void ShowCurrentPanel()
+        {
+            for (int i = 0; i < _panels.Length; i++)
             {
-                _panels[i].SetActive(true);
-            }
-            else
-            {
-                _panels[i].SetActive(false);
+                if (i == panelIndex)
+                {
+                    _panels[i].SetActive(true);
+                }
+                else
+                {
+                    _panels[i].SetActive(false);
+                }
             }
         }
-    }
-    public void SetPageIndex(int index)
-    {
-        panelIndex = index;
-        ShowCurrentPanel();
+        public void SetPageIndex(int index)
+        {
+            panelIndex = index;
+            ShowCurrentPanel();
+        }
     }
 }

@@ -1,36 +1,39 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class ObservedSubject : MonoBehaviour
+namespace _Base.Scripts.Patterns.Observer
 {
-    private List<Observer> observers = new List<Observer>();
-    void Notify(Observer observer)
+    public abstract class ObservedSubject : MonoBehaviour
     {
-        observer.OnNotified(this);
-    }
-
-    public virtual void Attach(Observer observer)
-    {
-        if (!observers.Contains(observer))
+        private List<Observer> observers = new List<Observer>();
+        void Notify(Observer observer)
         {
-            observers.Add(observer);
+            observer.OnNotified(this);
         }
-        Notify(observer);
-    }
 
-    public virtual void Detach(Observer observer)
-    {
-        if (observers.Contains(observer))
+        public virtual void Attach(Observer observer)
         {
-            observers.Remove(observer);
-        }
-    }
-
-    protected virtual void Notify()
-    {
-        foreach (Observer observer in observers.ToArray())
-        {
+            if (!observers.Contains(observer))
+            {
+                observers.Add(observer);
+            }
             Notify(observer);
+        }
+
+        public virtual void Detach(Observer observer)
+        {
+            if (observers.Contains(observer))
+            {
+                observers.Remove(observer);
+            }
+        }
+
+        protected virtual void Notify()
+        {
+            foreach (Observer observer in observers.ToArray())
+            {
+                Notify(observer);
+            }
         }
     }
 }

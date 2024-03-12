@@ -1,8 +1,8 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
+namespace _Base.Scripts.StateMachine
+{
     /// <summary>
     /// An abstract class that provides common functionalities for the states of state machines
     /// </summary>
@@ -81,3 +81,4 @@ using UnityEngine;
             }
         }
     }
+}

@@ -1,9 +1,8 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Core.Utils
+namespace _Base.Scripts.Utils
 {
     /// <summary>
     /// Encapsulates utility Coroutine methods.

@@ -1,35 +1,39 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
+using _Base.Scripts.Patterns.Observer;
 using UnityEngine;
-public class LerpManager : ObservedSingleton<LerpManager>
+
+namespace _Base.Scripts.Utils
 {
-    [HideInInspector] public float CurrentValue;
-    public float LerpDuration;
-    private Coroutine lerpCoroutine;
-
-    public void OnValueChanged(int newValue)
+    public class LerpManager : ObservedSingleton<LerpManager>
     {
-        if (lerpCoroutine != null)
+        [HideInInspector] public float CurrentValue;
+        public float LerpDuration;
+        private Coroutine lerpCoroutine;
+
+        public void OnValueChanged(int newValue)
         {
-            StopCoroutine(lerpCoroutine);
+            if (lerpCoroutine != null)
+            {
+                StopCoroutine(lerpCoroutine);
+            }
+
+            lerpCoroutine = StartCoroutine(LerpCoroutine(newValue));
         }
 
-        lerpCoroutine = StartCoroutine(LerpCoroutine(newValue));
-    }
-
-    IEnumerator LerpCoroutine(int newValue)
-    {
-        float elapsedTime = 0f;
-        float startValue = CurrentValue;
-        while (elapsedTime < LerpDuration)
+        IEnumerator LerpCoroutine(int newValue)
         {
-            CurrentValue = (int)Mathf.Lerp(startValue, newValue, elapsedTime / LerpDuration);
-            elapsedTime += Time.unscaledDeltaTime;
+            float elapsedTime = 0f;
+            float startValue = CurrentValue;
+            while (elapsedTime < LerpDuration)
+            {
+                CurrentValue = (int)Mathf.Lerp(startValue, newValue, elapsedTime / LerpDuration);
+                elapsedTime += Time.unscaledDeltaTime;
+                Notify();
+                yield return null;
+            }
+            CurrentValue = newValue;
             Notify();
-            yield return null;
+            lerpCoroutine = null;
         }
-        CurrentValue = newValue;
-        Notify();
-        lerpCoroutine = null;
     }
 }

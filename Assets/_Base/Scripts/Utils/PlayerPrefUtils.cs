@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace Core.Utils
+namespace _Base.Scripts.Utils
 {
     /// <summary>
     /// Encapsulates utility classes that helps with reading/writing JSON data on PlayerPrefs

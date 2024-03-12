@@ -1,5 +1,7 @@
-using UnityEngine;
+using _Base.Scripts.EventSystem;
 
+namespace _Base.Scripts.StateMachine
+{
     /// <summary>
     /// A link that listens for a specific event and becomes open for transition if the event is raised.
     /// If the current state is linked to next step by this link type,
@@ -8,14 +10,14 @@ using UnityEngine;
     public class EventLink : ILink, IGameEventListener
     {
         IState m_NextState;
-        BaseGameEvent m_GameEvent;
+        BaseEvent _mEvent;
         bool m_EventRaised;
         
-        /// <param name="gameEvent">the event this link listens to</param>
+        /// <param name="event">the event this link listens to</param>
         /// <param name="nextState">the next state</param>
-        public EventLink(BaseGameEvent gameEvent, IState nextState)
+        public EventLink(BaseEvent @event, IState nextState)
         {
-            m_GameEvent = gameEvent;
+            _mEvent = @event;
             m_NextState = nextState;
         }
 
@@ -40,13 +42,14 @@ using UnityEngine;
 
         public void Enable()
         {
-            m_GameEvent.AddListener(this);
+            _mEvent.AddListener(this);
             m_EventRaised = false;
         }
         
         public void Disable()
         {
-            m_GameEvent.RemoveListener(this);
+            _mEvent.RemoveListener(this);
             m_EventRaised = false;
         }
     }
+}

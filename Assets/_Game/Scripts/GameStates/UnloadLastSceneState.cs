@@ -1,8 +1,8 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using _Base.Scripts;
+using _Base.Scripts.StateMachine;
 
-namespace HyperCasual.Core
+namespace _Game.Scripts.GameStates
 {
     /// <summary>
     /// Unloads a currently loaded scene
