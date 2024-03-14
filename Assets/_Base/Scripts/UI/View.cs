@@ -27,8 +27,8 @@ namespace _Base.Scripts.UI
 
         public float duration = 0;
         bool initialized;
-        Command showCommand;
-        Command hideCommand;
+        ICommand showCommand;
+        ICommand hideCommand;
 
         private void Awake()
         {

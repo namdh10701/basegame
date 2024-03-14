@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace _Base.Scripts.UI.Viewx
 {
-    public class DOTweenHide : MonoBehaviour, Command
+    public class DOTweenHide : MonoBehaviour, ICommand
     {
         View view;
         DG.Tweening.Tween hideTween;
