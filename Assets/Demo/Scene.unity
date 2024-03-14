@@ -1057,6 +1057,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ship: {fileID: 563848622}
+  _pointClickDetector: {fileID: 1798900911}
 --- !u!4 &1137159854
 Transform:
   m_ObjectHideFlags: 0
@@ -1360,6 +1361,7 @@ GameObject:
   - component: {fileID: 1798900907}
   - component: {fileID: 1798900906}
   - component: {fileID: 1798900909}
+  - component: {fileID: 1798900911}
   - component: {fileID: 1798900910}
   m_Layer: 0
   m_Name: Main Camera
@@ -1473,6 +1475,19 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   m_MaxRayIntersections: 0
+--- !u!114 &1798900911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1798900905}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d685ec22fbaf09a4db93b5c5dfb5531c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainCamera: {fileID: 1798900907}
 --- !u!1 &1843496708
 GameObject:
   m_ObjectHideFlags: 0
@@ -1509,7 +1524,7 @@ MonoBehaviour:
   m_SubmitButton: Submit
   m_CancelButton: Cancel
   m_InputActionsPerSecond: 10
-  m_RepeatDelay: 0.1
+  m_RepeatDelay: 0.5
   m_ForceModuleActive: 0
 --- !u!114 &1843496710
 MonoBehaviour:
