@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace _Base.Scripts.UI.Viewx
 {
-    public class DOTweenShow : MonoBehaviour, Command
+    public class DOTweenShow : MonoBehaviour, ICommand
     {
         View view;
         DG.Tweening.Tween showTween;

@@ -4,7 +4,7 @@ namespace _Base.Scripts.UI.Viewx
     {
         Showing, Show, Hiding, Hide
     }
-    public interface Command
+    public interface ICommand
     {
         public void Execute();
         public void Interrupt();
