@@ -1,6 +1,7 @@
 using _Base.Scripts;
 using _Base.Scripts.Bootstrap;
 using _Base.Scripts.EventSystem;
+using _Base.Scripts.Shared;
 using _Base.Scripts.StateMachine;
 using _Base.Scripts.UI.Managers;
 using _Game.Scripts.GameStates;
@@ -15,46 +16,48 @@ namespace _Game.Scripts.Managers
         readonly StateMachine gameStateMachine = new();
 
         IState initState;
-        IState loadingState;
-        IState mainMenuState;
-        IState levelSelectState;
-    
-        SceneController sceneController;
-
-
+        IState gameplayState;
         public override void Initialize()
         {
-            // sceneController = new SceneController(SceneManager.GetActiveScene());
-
             initState = new InitState();
-            loadingState = new LoadingState();
-            mainMenuState = new State(OnMainMenuStateEntered);
-            levelSelectState = new State(OnLevelSelectStateEntered);
-
-            initState.AddLink(new Link(loadingState));
-            loadingState.AddLink(new Link(levelSelectState));
-            mainMenuState.AddLink(new EventLink(LinkEvents.Click_LevelSelect, levelSelectState));
-            levelSelectState.AddLink(new EventLink(LinkEvents.Click_MainMenu, mainMenuState));
+            gameplayState = new State(OnGameplayStateEntered);
+            
+            initState.AddLink(new Link(gameplayState));
+            CreateGameplayStates();
 
             gameStateMachine.Run(initState);
 
-        }
-        void OnMainMenuStateEntered()
-        {
-            ViewManager.Instance.Show<MainMenuView>(Transition.CrossFade);
+
+
+
         }
 
-        void OnLevelSelectStateEntered()
+        void CreateGameplayStates()
         {
-            ViewManager.Instance.Show<LevelSelectionView>(Transition.None);
+            var setupShipState = new State(OnSetupShipStateEntered);
+            var playState = new State(OnPlayStateEntered);
+            var endplayState = new State(OnEndPlayStateEntered);
+
+            gameplayState.AddLink(new Link(setupShipState));
+            setupShipState.AddLink(new EventLink(LinkEvents.Setup_Ship_Completed, playState));
+            playState.AddLink(new EventLink(LinkEvents.Play_End, endplayState));
         }
 
-        public class Listener : IGameEventListener<int, int, int>
+        void OnGameplayStateEntered()
         {
-            public void OnEventRaised(int eventData1, int eventData2, int eventData3)
-            {
-                Debug.Log(eventData1);
-            }
+            ViewManager.Instance.Show<ShipSetupView>();
+        }
+        void OnSetupShipStateEntered()
+        {
+
+        }
+        void OnPlayStateEntered()
+        {
+
+        }
+        void OnEndPlayStateEntered()
+        {
+
         }
     }
 }

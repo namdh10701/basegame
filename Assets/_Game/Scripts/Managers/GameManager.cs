@@ -22,8 +22,6 @@ namespace _Game.Scripts.Managers
                 SaveLoadManager.WriteDefaultSave(new SaveData(1, 0));
                 SaveData = SaveLoadManager.ReadSave(1);
             }
-
-            Debug.Log(SaveData.Coin);
         }
         public override void SaveGame()
         {

@@ -14,7 +14,10 @@ public class FollowTarget : MonoBehaviour
     //[SerializeField] float offsetYThreshold;
 
     Vector3 position = new Vector3();
-
+    private void Start()
+    {
+        position = target.position;
+    }
     private void Update()
     {
         Vector3 pos = transform.position;

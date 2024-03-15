@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using _Base.Scripts.Utils;
 using UnityEngine;
@@ -10,10 +10,12 @@ namespace _Base.Scripts
     /// Encapsulates scene load and unload functionality respecting a NeverUnloadScene scene.
     /// NeverUnloadScene is a scene we never unload and instantiate all level-independent managers in it.
     /// </summary>
-    public abstract class SceneController: MonoBehaviour
+    public abstract class SceneController : MonoBehaviour
     {
         Scene m_LastScene;
+        Scene m_LastUIScene;
         Scene m_NeverUnloadScene;
+
 
         private void Awake()
         {
@@ -64,32 +66,12 @@ namespace _Base.Scripts
             if (!m_LastScene.IsValid())
                 yield break;
 
-            var asyncUnload = SceneManager.UnloadSceneAsync(scene);
-            while (!asyncUnload.isDone)
-            {
-                yield return null;
-            }
+            yield return SceneManager.UnloadSceneAsync(scene);
         }
-
-        // public IEnumerator LoadUIScene()
-        // {
-        //     var asyncLoad = SceneManager.LoadSceneAsync("UIScene", LoadSceneMode.Additive);
-        //
-        //     while (!asyncLoad.isDone)
-        //     {
-        //         yield return null;
-        //     }
-        //     yield return null;
-        // }
 
         IEnumerator LoadSceneAdditive(string scenePath)
         {
-            var asyncLoad = SceneManager.LoadSceneAsync(scenePath, LoadSceneMode.Additive);
-            while (!asyncLoad.isDone)
-            {
-                yield return null;
-            }
-
+            yield return SceneManager.LoadSceneAsync(scenePath, LoadSceneMode.Additive);
             m_LastScene = SceneManager.GetSceneByName(scenePath);
             SceneManager.SetActiveScene(m_LastScene);
             yield return null;
@@ -109,6 +91,47 @@ namespace _Base.Scripts
         {
             if (m_LastScene != m_NeverUnloadScene)
                 yield return UnloadScene(m_LastScene);
+        }
+
+        public IEnumerator UnloadUIScene(Scene scene)
+        {
+            if (!m_LastUIScene.IsValid())
+                yield break;
+
+            var asyncUnload = SceneManager.UnloadSceneAsync(scene);
+            while (!asyncUnload.isDone)
+            {
+                yield return null;
+            }
+        }
+
+
+        // Nam: dùng LoadScene ở trên thì nó unload cái scene gameplay mất
+        // Active scene là scene gameplay nên không set active scene ui
+        public IEnumerator LoadUIScene(string scene)
+        {
+            if (string.IsNullOrEmpty(scene))
+                throw new ArgumentException($"{nameof(scene)} is invalid!");
+
+            yield return UnloadLastUIScene();
+
+            yield return LoadUISceneAddictive(scene);
+        }
+
+        public IEnumerator UnloadLastUIScene()
+        {
+            //if (m_LastUIScene != m_NeverUnloadUIScene)
+            yield return UnloadUIScene(m_LastUIScene);
+        }
+        IEnumerator LoadUISceneAddictive(string scenePath)
+        {
+            var asyncLoad = SceneManager.LoadSceneAsync(scenePath, LoadSceneMode.Additive);
+            while (!asyncLoad.isDone)
+            {
+                yield return null;
+            }
+            m_LastUIScene = SceneManager.GetSceneByName(scenePath);
+            yield return null;
         }
     }
 }

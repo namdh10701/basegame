@@ -36,13 +36,14 @@ public class TerrainManager : SingletonMonoBehaviour<TerrainManager>
 
     public void SpawnAheadTerrain()
     {
+        Debug.Log("Spawn");
         if (CurrentTerrain.NextTerrain is not null)
         {
             return;
         }
         int nextTypeId = CurrentTerrain.AvailableNextTerrainTypeIds[Random.Range(0, CurrentTerrain.AvailableNextTerrainTypeIds.Length)];
         SectionTerrain nextTerrain = GetRandomTerrainOfTypeId(nextTypeId);
-        CurrentTerrain.NextTerrain = Instantiate(nextTerrain, CurrentTerrain.SnapPos.position, Quaternion.identity);
+        CurrentTerrain.NextTerrain = Instantiate(nextTerrain, CurrentTerrain.SnapPos.position, Quaternion.identity, transform);
     }
 
     SectionTerrain GetRandomTerrainOfTypeId(int typeId)
