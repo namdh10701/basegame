@@ -2,7 +2,7 @@
 
 namespace _Base.Scripts.UI.Viewx
 {
-    public class AnimatorShow : MonoBehaviour, Command
+    public class AnimatorShow : MonoBehaviour, ICommand
     {
         View view;
         private void Awake()
