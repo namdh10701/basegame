@@ -23,9 +23,22 @@ public class PointClickDetector : MonoBehaviour, IPointClickDetector
             if (Physics.Raycast(ray, out hit))
             {
                 GameObject hitObject = hit.collider.gameObject;
-                if (hitObject != null)
+                // if (hitObject.tag == Helper.TAG_GUN_EMPLACEMENT)
+                // {
+                //     GameController.Instance.ShowWeaponsMenu(hitObject);
+                // }
+                // else if (hitObject.tag == Helper.TAG_WEAPON_ITEM)
+                // {
+                //     GameController.Instance.OnSelectedWeaponItem(hitObject);
+                // }
+                switch (hitObject.tag)
                 {
-                    OnClickCallback?.Invoke(hitObject);
+                    case Helper.TAG_GUN_EMPLACEMENT:
+                        GameController.Instance.ShowWeaponsMenu(hitObject);
+                        break;
+                    case Helper.TAG_WEAPON_ITEM:
+                        GameController.Instance.OnSelectedWeaponItem(hitObject);
+                        break;
                 }
             }
         }
