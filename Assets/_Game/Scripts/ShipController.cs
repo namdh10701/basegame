@@ -7,17 +7,40 @@ public class ShipController : MonoBehaviour
     [SerializeField] List<Transform> _posGunEmplacements;
     [SerializeField] GunEmplacement _prefabGunEmplacement;
 
-    List<GunEmplacement> _gunEmplacement = new List<GunEmplacement>();
+    public List<GunEmplacement> GunEmplacements = new List<GunEmplacement>();
 
     public void Setup()
     {
-        foreach (var pos in _posGunEmplacements)
+        for (int i = 0; i < _posGunEmplacements.Count; i++)
         {
-            var temp = Instantiate(_prefabGunEmplacement, pos);
+            var temp = Instantiate(_prefabGunEmplacement, _posGunEmplacements[i]);
             temp.gameObject.transform.localPosition = new Vector3(0, 0, 0);
             temp.gameObject.transform.localScale = new Vector3(0.15f, 0.15f, 0);
             temp.gameObject.transform.localEulerAngles = new Vector3(0, 0, 0);
-            _gunEmplacement.Add(temp);
+            temp.Setup(i);
+            GunEmplacements.Add(temp);
+        }
+    }
+
+    public void SetWeaponDataToEmplacement(int gunEmplacementId, WeaponData weaponData)
+    {
+        foreach (var gunEmplacement in GunEmplacements)
+        {
+            if (gunEmplacement.Id == gunEmplacementId)
+            {
+                gunEmplacement.SetWeaponData(weaponData);
+            }
+        }
+    }
+
+    public void RemoveCanon(int gunEmplacementId)
+    {
+        foreach (var gunEmplacement in GunEmplacements)
+        {
+            if (gunEmplacement.Id == gunEmplacementId)
+            {
+                gunEmplacement.RemoveCanon();
+            }
         }
     }
 }

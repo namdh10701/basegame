@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Canon : MonoBehaviour
 {
-    public string gunName;
+    public string Id;
     public float Attack;
     public float AttackSpeed;
     public float Accuracy;

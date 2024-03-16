@@ -7,12 +7,22 @@ public class WeaponItem : MonoBehaviour
 {
     private Color _color;
     [SerializeField] private SpriteRenderer _spriteRenderer;
+    public WeaponData WeaponData;
+    public GameObject Parent;
 
-    public void Setup(Color color)
+    public void Setup(WeaponData data, GameObject parent)
     {
-        _color = color;
-        var old = color;
-        old.a = 1;
-        _spriteRenderer.color = old;
+        WeaponData = data;
+        Parent = parent;
+        _spriteRenderer.sprite = data.Sprite;
+        _spriteRenderer.color = data.Color;
+        var color = _spriteRenderer.color;
+        color.a = 1;
+        _spriteRenderer.color = color;
+    }
+
+    public WeaponItem GetDataWeaponItem()
+    {
+        return this;
     }
 }

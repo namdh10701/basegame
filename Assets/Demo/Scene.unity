@@ -952,11 +952,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 948892842}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &775931927 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3414123069113908975, guid: 13780ef7bc3cfe847b400ca323c746c6, type: 3}
-  m_PrefabInstance: {fileID: 3796538291123021252}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &948892841
 GameObject:
   m_ObjectHideFlags: 0
@@ -1059,6 +1054,9 @@ MonoBehaviour:
   _ship: {fileID: 563848622}
   _prefabWeaponsMenu: {fileID: 3070923148706433237, guid: 84cc2d10ea18b684d9f9b4f844b862aa, type: 3}
   _config: {fileID: 11400000, guid: bc88818dd9906de4bbd6b2e8f8c36dba, type: 2}
+  canons:
+  - {fileID: 5186947966180354735, guid: 0527bfce591da9542a05a5199ce22201, type: 3}
+  - {fileID: 5186947966180354735, guid: 48dd6e7ef6737204aa8f559120255d6e, type: 3}
 --- !u!4 &1137159854
 Transform:
   m_ObjectHideFlags: 0
@@ -1151,6 +1149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotateSpeed: 10
+  _transform: {fileID: 0}
   IsLookingAtTarget: 0
 --- !u!1 &1404226077
 GameObject:
@@ -1605,11 +1604,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecc8d0c7171d1d24f97f855be1a1b4a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 775931927}
-  Piercing: 0
-  Speed: 10
-  Accuracy: 0
-  AOE: 0
 --- !u!114 &1850363274
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1622,10 +1616,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46330f8e23c97fa4ea290d09a80ed88d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackBehaviour: {fileID: 1850363273}
+  Id: 
+  Attack: 0
+  AttackSpeed: 0
+  Accuracy: 0
+  CritChange: 0
+  CritDamage: 0
   rotateBrain: {fileID: 1312671079}
   sightBrain: {fileID: 1909464648}
   cooldownBrain: {fileID: 1850363275}
+  gunShoot: {fileID: 0}
 --- !u!114 &1850363275
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1638,7 +1638,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d78dc9b68f563214f88a54add6efc51b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldownTime: 1
   goToRestTime: 0.5
   warmUpTime: 1
   IsResting: 0
