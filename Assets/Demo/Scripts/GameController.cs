@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using _Base.Scripts.Utils;
@@ -8,8 +9,10 @@ public class GameController : SingletonMonoBehaviour<GameController>
 {
     [SerializeField] ShipController _ship;
     [SerializeField] WeaponsMenu _prefabWeaponsMenu;
+    [SerializeField] private WeaponsConfig _config;
 
     WeaponsMenu _weaponsMenu;
+
     void Awake()
     {
         Initializa();
@@ -25,7 +28,7 @@ public class GameController : SingletonMonoBehaviour<GameController>
         _weaponsMenu = Instantiate(_prefabWeaponsMenu, go.transform);
         _weaponsMenu.transform.localPosition = new Vector3(0, 0, 0);
         _weaponsMenu.transform.DOScale(new Vector3(2.0f, 2.0f, 0f), 0.2f);
-        _weaponsMenu.SetUp();
+        _weaponsMenu.SetUp(_config);
     }
 
     public void OnSelectedWeaponItem(GameObject go)

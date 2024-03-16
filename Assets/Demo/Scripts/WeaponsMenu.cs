@@ -9,12 +9,13 @@ public class WeaponsMenu : MonoBehaviour
 
     List<WeaponItem> weaponItems = new List<WeaponItem>();
 
-    public void SetUp()
+    public void SetUp(WeaponsConfig weaponsConfig)
     {
-        foreach (var pos in _posWeapons)
+        for (int i = 0; i < _posWeapons.Count; i++)
         {
-            var weaponItem = Instantiate(_prefabWeaponItem, pos);
+            var weaponItem = Instantiate(_prefabWeaponItem, _posWeapons[i]);
             weaponItem.transform.localPosition = new Vector3(0, 0, 0);
+            weaponItem.Setup(weaponsConfig.WeaponsData[i].Color);
             weaponItems.Add(weaponItem);
         }
     }
