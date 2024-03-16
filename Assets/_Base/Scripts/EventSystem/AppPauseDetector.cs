@@ -9,7 +9,7 @@ namespace _Base.Scripts.EventSystem
     public class AppPauseDetector
     {
         [SerializeField]
-        BaseEvent m_PauseEvent;
+        GameEvent m_PauseEvent;
 
         /// <summary>
         /// Returns the current pause state of the application

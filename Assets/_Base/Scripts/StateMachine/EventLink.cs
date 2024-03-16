@@ -10,12 +10,12 @@ namespace _Base.Scripts.StateMachine
     public class EventLink : ILink, IGameEventListener
     {
         IState m_NextState;
-        BaseEvent _mEvent;
+        GameEvent _mEvent;
         bool m_EventRaised;
         
         /// <param name="event">the event this link listens to</param>
         /// <param name="nextState">the next state</param>
-        public EventLink(BaseEvent @event, IState nextState)
+        public EventLink(GameEvent @event, IState nextState)
         {
             _mEvent = @event;
             m_NextState = nextState;
