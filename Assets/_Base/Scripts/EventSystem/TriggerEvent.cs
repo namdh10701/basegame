@@ -11,7 +11,7 @@ namespace _Base.Scripts.EventSystem
         const string k_PlayerTag = "Player";
 
         [SerializeField]
-        BaseEvent m_Event;
+        GameEvent m_Event;
 
         void OnTriggerEnter(Collider col)
         {

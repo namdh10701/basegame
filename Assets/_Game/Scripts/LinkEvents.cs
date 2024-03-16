@@ -1,12 +1,10 @@
-﻿using _Base.Scripts.EventSystem;
+﻿    using _Base.Scripts.EventSystem;
 
-namespace _Game.Scripts
-{
-    public static class LinkEvents
+    namespace _Game.Scripts
     {
-        public static BaseEvent Click_LevelSelect = new();
-        public static BaseEvent Click_MainMenu = new BaseEvent();
-        public static BaseEvent Setup_Ship_Completed = new();
-        public static BaseEvent Play_End = new();
+        public static class LinkEvents
+        {
+            public static GameEvent Click_LevelSelect = new();
+            public static GameEvent Click_MainMenu = new GameEvent();
+        }
     }
-}
