@@ -17,7 +17,7 @@ namespace _Base.Scripts.RPG
     }
 
     [Serializable]
-    public abstract class Attribute: IAttribute
+    public abstract class Attribute: MonoBehaviour, IAttribute
     {
         public virtual event EventHandler<AttributeEventArgs> OnChanged;
         public abstract void NotifyChanged();
