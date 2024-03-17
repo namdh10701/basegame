@@ -172,16 +172,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46330f8e23c97fa4ea290d09a80ed88d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Id: 2
-  Attack: 50
-  AttackSpeed: 1.5
-  Accuracy: 10
-  CritChange: 0.1
-  CritDamage: 1.25
+  CanonData: {fileID: 11400000, guid: 58888921514e29c43b3d1b608941815f, type: 2}
+  gunShoot: {fileID: 3931898209929228830}
   rotateBrain: {fileID: 3425294717568336648}
   sightBrain: {fileID: 7880970999956464919}
   cooldownBrain: {fileID: 7340672094518937702}
-  gunShoot: {fileID: 3931898209929228830}
 --- !u!114 &3931898209929228830
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194,7 +189,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47a1dc8b1aba5f44f8d47f0a532deced, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gun: {fileID: 5186947966180354735}
+  canon: {fileID: 0}
   projectilePrefab: {fileID: -6220202766340727326, guid: 13780ef7bc3cfe847b400ca323c746c6, type: 3}
   shootPos: {fileID: 1040383324233185355}
   visual: {fileID: 5268575554329022757}
