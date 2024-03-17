@@ -1,42 +1,23 @@
 using MBT;
 using UnityEngine;
 using UnityEngine.Events;
-public class Enemy : MonoBehaviour
-{
+public abstract class Enemy : MonoBehaviour
+{   
     public EnemyData EnemyData;
-    [SerializeField] Blackboard blackboard;
-    Transform target;
-    public bool IsPlayerInRange;
+    [SerializeField] protected Blackboard blackboard;
+    protected Transform target;
     public CooldownBrain Cooldown;
+    public Rigidbody2D body;
+    public BoxCollider2D collider;
+    public bool IsPlayerInRange;
     public bool IsAbleToAttack => !Cooldown.IsInCooldown && IsPlayerInRange;
-    private void Start()
+    protected virtual void Start()
     {
         Cooldown.SetCooldownTime(1 / EnemyData.AttackSpeed);
-
         target = GameObject.Find("Ship").transform;
-        if (blackboard != null)
-        {
-            //blackboard.GetVariable<Vector3Variable>("targetPos").Value = target.transform.position;
-            blackboard.GetVariable<TransformVariable>("target").Value = target;
-        }
     }
 
-
-    public void DoAttack()
+    public virtual void DoAttack()
     {
-        Debug.Log("Attack");
-        Cooldown.StartCooldown();
-    }
-
-
-    private void Update()
-    {
-        if(IsAbleToAttack){
-            DoAttack();
-        }
-       /* if (blackboard != null)
-            blackboard.GetVariable<Vector3Variable>("targetPos").Value = target.transform.position;
-*/
-
     }
 }

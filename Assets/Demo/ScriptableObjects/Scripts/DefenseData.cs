@@ -1,8 +1,7 @@
 
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Scriptable Objects/Defense Data")]
-public class DefenseData : ScriptableObject
+public class DefenseData : MonoBehaviour
 {
     public float Hp;
     public float BlockChance;

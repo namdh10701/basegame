@@ -2,27 +2,29 @@ using _Base.Scripts.Shared;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class EnemyAttackTrigger : MonoBehaviour
+namespace Demo
 {
-    Enemy enemy;
-    private void Awake()
+    public class EnemyAttackTrigger : MonoBehaviour
     {
-        enemy = GetComponentInParent<Enemy>();
-    }
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.layer == GlobalData.PlayerLayer)
+        Enemy enemy;
+        private void Awake()
         {
-            enemy.IsPlayerInRange = true;
+            enemy = GetComponentInParent<Enemy>();
         }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.gameObject.layer == GlobalData.PlayerLayer)
+        private void OnTriggerEnter2D(Collider2D collision)
         {
-            enemy.IsPlayerInRange = false;
+            if (collision.gameObject.layer == GlobalData.PlayerLayer)
+            {
+                enemy.IsPlayerInRange = true;
+            }
+        }
+
+        private void OnTriggerExit2D(Collider2D collision)
+        {
+            if (collision.gameObject.layer == GlobalData.PlayerLayer)
+            {
+                enemy.IsPlayerInRange = false;
+            }
         }
     }
 }
