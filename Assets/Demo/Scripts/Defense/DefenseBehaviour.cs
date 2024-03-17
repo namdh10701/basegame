@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 public class DefenseBehaviour : MonoBehaviour
 {
-    public float Hp;
-    public float BlockFactor;
+    public DefenseData DefenseData;
 
     string bulletLayerName = "PlayerProjectile";
     private int bulletLayer;

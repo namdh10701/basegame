@@ -51,7 +51,7 @@ public class GameController : SingletonMonoBehaviour<GameController>
         {
             var gunEmplacement = item.Parent.gameObject.GetComponent<GunEmplacement>();
 
-            if (canon.Id == item.WeaponData.Id)
+            if (canon.CanonData.Id == item.WeaponData.Id)
             {
                 gunEmplacement.AddCanon(Instantiate(canon, item.Parent.transform));
                 gunEmplacement.SetWeaponData(item.WeaponData);

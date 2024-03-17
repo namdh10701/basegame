@@ -36,7 +36,6 @@ public class TerrainManager : SingletonMonoBehaviour<TerrainManager>
 
     public void SpawnAheadTerrain()
     {
-        Debug.Log("Spawn");
         if (CurrentTerrain.NextTerrain is not null)
         {
             return;
