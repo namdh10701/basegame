@@ -772,54 +772,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &712369135 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6807210746243395549, guid: 042d1c4627d330a4ab26a08aa59f91e5, type: 3}
-  m_PrefabInstance: {fileID: 4811277178830762813}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &712369140 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1662374215301249243, guid: 042d1c4627d330a4ab26a08aa59f91e5, type: 3}
-  m_PrefabInstance: {fileID: 4811277178830762813}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 712369135}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c78c7da6b00e1b46bad07949050f82f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &712369150
-MonoBehaviour:
-  m_ObjectHideFlags: 2
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 712369135}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58fe7bc6a9b18e148b82820c7c1c0a90, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  title: Wait
-  rect:
-    serializedVersion: 2
-    x: 320
-    y: 540
-    width: 160
-    height: 45
-  parent: {fileID: 712369140}
-  children: []
-  behaviourTree: {fileID: 0}
-  runtimePriority: 0
-  breakpoint: 0
-  time:
-    useConstant: 1
-    mode: 0
-    blackboard: {fileID: 0}
-    key: 
-    constantValue: 0.25
-  randomDeviation: 0
-  continueOnRestart: 0
 --- !u!1 &1105559219
 GameObject:
   m_ObjectHideFlags: 0
@@ -1611,41 +1563,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1420150233648597969, guid: 042d1c4627d330a4ab26a08aa59f91e5, type: 3}
-      propertyPath: rect.x
-      value: 400
-      objectReference: {fileID: 0}
-    - target: {fileID: 1420150233648597969, guid: 042d1c4627d330a4ab26a08aa59f91e5, type: 3}
-      propertyPath: rect.y
-      value: 380
-      objectReference: {fileID: 0}
-    - target: {fileID: 1662374215301249243, guid: 042d1c4627d330a4ab26a08aa59f91e5, type: 3}
-      propertyPath: children.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1662374215301249243, guid: 042d1c4627d330a4ab26a08aa59f91e5, type: 3}
-      propertyPath: children.Array.data[2]
-      value: 
-      objectReference: {fileID: 712369150}
     - target: {fileID: 3090839071180565094, guid: 042d1c4627d330a4ab26a08aa59f91e5, type: 3}
       propertyPath: m_Name
       value: Squid
       objectReference: {fileID: 0}
-    - target: {fileID: 8767085808273628528, guid: 042d1c4627d330a4ab26a08aa59f91e5, type: 3}
-      propertyPath: rect.x
-      value: 260
-      objectReference: {fileID: 0}
-    - target: {fileID: 8767085808273628528, guid: 042d1c4627d330a4ab26a08aa59f91e5, type: 3}
-      propertyPath: rect.y
-      value: 220
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6807210746243395549, guid: 042d1c4627d330a4ab26a08aa59f91e5, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 712369150}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 042d1c4627d330a4ab26a08aa59f91e5, type: 3}
 --- !u!1001 &8914726095542870083
 PrefabInstance:

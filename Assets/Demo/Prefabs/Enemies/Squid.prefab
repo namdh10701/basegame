@@ -259,6 +259,7 @@ GameObject:
   - component: {fileID: 1420150233648597969}
   - component: {fileID: 2136181696380203861}
   - component: {fileID: 2719153967341222708}
+  - component: {fileID: 1942582542373419874}
   m_Layer: 6
   m_Name: BehaviourTree
   m_TagString: Untagged
@@ -328,8 +329,8 @@ MonoBehaviour:
   title: Root
   rect:
     serializedVersion: 2
-    x: 230.5
-    y: 265.5
+    x: 260
+    y: 220
     width: 160
     height: 45
   parent: {fileID: 0}
@@ -549,6 +550,7 @@ MonoBehaviour:
   children:
   - {fileID: 2122337419998691168}
   - {fileID: 5340240063048556288}
+  - {fileID: 1942582542373419874}
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
@@ -568,8 +570,8 @@ MonoBehaviour:
   title: Random fly Target
   rect:
     serializedVersion: 2
-    x: 440
-    y: 400
+    x: 400
+    y: 380
     width: 160
     height: 45
   parent: {fileID: 2136181696380203861}
@@ -613,9 +615,41 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6807210746243395549}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e5f392bbea2fa2499665ed8b604ff86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   monoBehaviourTree: {fileID: 6217111526071113678}
+--- !u!114 &1942582542373419874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6807210746243395549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58fe7bc6a9b18e148b82820c7c1c0a90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: Wait
+  rect:
+    serializedVersion: 2
+    x: 320
+    y: 540
+    width: 160
+    height: 45
+  parent: {fileID: 1662374215301249243}
+  children: []
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+  time:
+    useConstant: 1
+    mode: 0
+    blackboard: {fileID: 0}
+    key: 
+    constantValue: 0.25
+  randomDeviation: 0
+  continueOnRestart: 0

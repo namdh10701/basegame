@@ -11,6 +11,8 @@ public class GameController : SingletonMonoBehaviour<GameController>
     [SerializeField] WeaponsMenu _prefabWeaponsMenu;
     [SerializeField] WeaponsMennuConfig _config;
     [SerializeField] List<Canon> canons;
+    [SerializeField] EnemyController _enemyController;
+    
 
     WeaponsMenu _weaponsMenu;
 

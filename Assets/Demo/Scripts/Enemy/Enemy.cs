@@ -25,11 +25,15 @@ public class Enemy : MonoBehaviour
     public void DoAttack()
     {
         Debug.Log("Attack");
+        Cooldown.StartCooldown();
     }
 
 
     private void Update()
     {
+        if(IsAbleToAttack){
+            DoAttack();
+        }
        /* if (blackboard != null)
             blackboard.GetVariable<Vector3Variable>("targetPos").Value = target.transform.position;
 */

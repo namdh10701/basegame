@@ -9,6 +9,6 @@ namespace _Base.Scripts.Shared
         public const string FinalDemo = "FinalDemo";
 
         public static LayerMask PlayerLayer = LayerMask.NameToLayer("Player");
-        public static LayerMask EnemyLayer = LayerMask.NameToLayer("Player");
+        public static LayerMask EnemyLayer = LayerMask.NameToLayer("Enemy");
     }
 }

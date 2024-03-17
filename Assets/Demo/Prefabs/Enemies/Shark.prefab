@@ -200,7 +200,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 342630754168995921}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e5f392bbea2fa2499665ed8b604ff86, type: 3}
   m_Name: 
@@ -566,6 +566,7 @@ GameObject:
   m_Component:
   - component: {fileID: 321945561910299064}
   - component: {fileID: 5634390960428477660}
+  - component: {fileID: 6941655683643884553}
   m_Layer: 6
   m_Name: AttackTrigger
   m_TagString: Untagged
@@ -633,6 +634,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.4078965, y: 1.4004109}
   m_EdgeRadius: 0
+--- !u!114 &6941655683643884553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6737025801553877681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cbdf587d8f37cc41a5a504c01d3f9e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8208768877597926754
 GameObject:
   m_ObjectHideFlags: 0
@@ -760,7 +773,6 @@ MonoBehaviour:
   blackboard: {fileID: 4184659847740049812}
   IsPlayerInRange: 0
   Cooldown: {fileID: 6428779899295460237}
-  IsAbleToAttack: 0
 --- !u!114 &5453048535039718444
 MonoBehaviour:
   m_ObjectHideFlags: 0
