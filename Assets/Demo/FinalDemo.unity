@@ -399,8 +399,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f1d832db8cdf43459bccd1a3badb712, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _posSpawnEnemy: []
-  _prefabEnemy: []
+  _posSpawnEnemy:
+  - {fileID: 1302464072}
+  - {fileID: 1518770053}
+  - {fileID: 1155818611}
+  - {fileID: 1035821394}
+  - {fileID: 1618934203}
+  - {fileID: 17035246}
+  - {fileID: 1437962935}
+  - {fileID: 373914351}
+  _prefabEnemies: []
 --- !u!4 &504357503
 Transform:
   m_ObjectHideFlags: 0
@@ -1120,7 +1128,7 @@ MonoBehaviour:
   canons:
   - {fileID: 5186947966180354735, guid: 0527bfce591da9542a05a5199ce22201, type: 3}
   - {fileID: 5186947966180354735, guid: 48dd6e7ef6737204aa8f559120255d6e, type: 3}
-  _enemyController: {fileID: 0}
+  _enemyController: {fileID: 504357502}
 --- !u!4 &1137159854
 Transform:
   m_ObjectHideFlags: 0
