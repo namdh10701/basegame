@@ -22,7 +22,7 @@ namespace _Game.Scripts.GameStates
             Game.Instance.AssetLoader.Load();
             Game.Instance.GameManager.LoadDatabase();
             Game.Instance.GameManager.LoadSave();
-            yield return Game.Instance.SceneController.LoadScene(GlobalData.GameScene);
+            yield return Game.Instance.SceneController.LoadScene(GlobalData.FinalDemo);
             yield return Game.Instance.SceneController.LoadUIScene(GlobalData.GameUIScene);
             yield return null;
         }

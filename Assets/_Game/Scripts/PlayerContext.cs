@@ -1,4 +1,4 @@
-using _Game.Scripts.Attributes;
+/*using _Game.Scripts.Attributes;
 using Slash.Unity.DataBind.Core.Data;
 
 namespace _Game.Scripts
@@ -37,4 +37,4 @@ namespace _Game.Scripts
 
         #endregion
     }
-}
+}*/
