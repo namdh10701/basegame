@@ -11,6 +11,8 @@ public class GameController : SingletonMonoBehaviour<GameController>
     [SerializeField] WeaponsMenu _prefabWeaponsMenu;
     [SerializeField] WeaponsMennuConfig _config;
     [SerializeField] List<Canon> canons;
+    [SerializeField] EnemyController _enemyController;
+
 
     WeaponsMenu _weaponsMenu;
 
@@ -27,21 +29,26 @@ public class GameController : SingletonMonoBehaviour<GameController>
     public void ShowWeaponsMenu(GameObject go)
     {
         _ship.RemoveCanon(go.GetComponent<GunEmplacement>().Id);
+        if (_weaponsMenu != null)
+        {
+            Destroy(_weaponsMenu.gameObject);
+        }
         _weaponsMenu = Instantiate(_prefabWeaponsMenu, go.transform);
         _weaponsMenu.transform.localPosition = new Vector3(0, 0, 0);
         _weaponsMenu.transform.DOScale(new Vector3(2.0f, 2.0f, 0f), 0.2f);
         _weaponsMenu.SetUp(_config, go);
+
+
     }
 
     public void OnSelectedWeaponItem(GameObject go)
     {
         var weaponItem = go.gameObject.GetComponent<WeaponItem>();
-        SpawnCanon(weaponItem.GetDataWeaponItem());
-
 
         _weaponsMenu.transform.DOScale(new Vector3(1.0f, 1.0f, 0f), 0.2f).OnComplete(() =>
         {
             Destroy(_weaponsMenu.gameObject);
+            SpawnCanon(weaponItem.GetDataWeaponItem());
         });
     }
 
@@ -51,9 +58,15 @@ public class GameController : SingletonMonoBehaviour<GameController>
         {
             var gunEmplacement = item.Parent.gameObject.GetComponent<GunEmplacement>();
 
-            if (canon.Id == item.WeaponData.Id)
+            if (canon.CanonData.Id == item.WeaponData.Id)
             {
-                gunEmplacement.AddCanon(Instantiate(canon, item.Parent.transform));
+
+                var temp = Instantiate(canon, item.Parent.transform);
+                if (gunEmplacement.Id > 2)
+                {
+                    temp.transform.localEulerAngles = new Vector3(180, 0, 0);
+                }
+                gunEmplacement.AddCanon(temp);
                 gunEmplacement.SetWeaponData(item.WeaponData);
 
             }

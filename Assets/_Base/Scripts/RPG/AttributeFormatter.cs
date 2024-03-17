@@ -1,4 +1,4 @@
-using System;
+/*using System;
 using Slash.Unity.DataBind.Core.Presentation;
 using Slash.Unity.DataBind.Foundation.Providers.Formatters;
 using UnityEngine;
@@ -58,4 +58,4 @@ namespace _Base.Scripts.RPG
 
         #endregion
     }
-}
+}*/

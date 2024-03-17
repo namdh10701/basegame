@@ -65,7 +65,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.35919935}
+  m_Offset: {x: 0, y: 1.4104533}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -76,7 +76,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 3, y: 1.2816013}
+  m_Size: {x: 6.4, y: 3.2033134}
   m_EdgeRadius: 0
 --- !u!114 &7880970999956464919
 MonoBehaviour:
@@ -90,8 +90,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b69939167f9cbed4faaa4ae04faddf1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  strategy: 3
-  targetLayerName: Enemy
+  strategy: 0
 --- !u!1 &2681104346879080153
 GameObject:
   m_ObjectHideFlags: 0
@@ -151,9 +150,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3244865858354349599}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.23999977, y: 0.08, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5268575554329022757}
@@ -172,16 +171,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46330f8e23c97fa4ea290d09a80ed88d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Id: 1
-  Attack: 100
-  AttackSpeed: 1
-  Accuracy: 5
-  CritChange: 0.2
-  CritDamage: 1.5
+  CanonData: {fileID: 11400000, guid: 108990e87c83de345876961a8abbeb55, type: 2}
+  gunShoot: {fileID: 3931898209929228830}
   rotateBrain: {fileID: 3425294717568336648}
   sightBrain: {fileID: 7880970999956464919}
   cooldownBrain: {fileID: 7340672094518937702}
-  gunShoot: {fileID: 3931898209929228830}
 --- !u!114 &3931898209929228830
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194,8 +188,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47a1dc8b1aba5f44f8d47f0a532deced, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gun: {fileID: 5186947966180354735}
-  projectilePrefab: {fileID: -6220202766340727326, guid: 13780ef7bc3cfe847b400ca323c746c6, type: 3}
+  projectilePrefab: {fileID: -6220202766340727326, guid: f8fe8918a042f754f9dcb525d14cb8d5, type: 3}
   shootPos: {fileID: 1040383324233185355}
   visual: {fileID: 5268575554329022757}
 --- !u!114 &7340672094518937702
@@ -254,8 +247,8 @@ Transform:
   m_GameObject: {fileID: 5329130911055170721}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.195, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 3, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5268575554329022757}

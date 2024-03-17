@@ -1,9 +1,12 @@
 ﻿using UnityEngine;
 public class SpawnEnemyEvent : MonoBehaviour, ITriggerEnterEvent
 {
-    [SerializeField] GameObject enemyPrefab;
+    [SerializeField] EnemySpawnData[] enemySpawnDatas;
     public void Execute()
     {
-        Instantiate(enemyPrefab, Camera.main.transform.position, Quaternion.identity);
+        foreach(EnemySpawnData enemySpawnData in enemySpawnDatas)
+        {
+            EnemySpawner.Instance.SpawnEnemy(enemySpawnData);
+        }
     }
 }

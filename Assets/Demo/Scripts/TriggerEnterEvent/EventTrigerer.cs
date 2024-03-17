@@ -8,9 +8,10 @@ public class EventTrigerer : MonoBehaviour
     {
         if (collision.CompareTag("Command"))
         {
-            if (collision.TryGetComponent(out ITriggerEnterEvent command))
+            ITriggerEnterEvent[] events = collision.GetComponents<ITriggerEnterEvent>();
+            foreach (ITriggerEnterEvent IEvent in events)
             {
-                command.Execute();
+                IEvent.Execute();
             }
         }
     }

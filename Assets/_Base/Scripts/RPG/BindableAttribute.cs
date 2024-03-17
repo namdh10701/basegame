@@ -1,4 +1,4 @@
-using System;
+/*using System;
 using Slash.Unity.DataBind.Core.Data;
 using UnityEngine;
 
@@ -15,4 +15,4 @@ namespace _Base.Scripts.RPG
             set => _valueProperty.Value = value;
         }
     }
-}
+}*/
