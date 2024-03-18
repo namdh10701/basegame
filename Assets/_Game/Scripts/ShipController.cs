@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 
 public class ShipController : MonoBehaviour
@@ -15,10 +16,10 @@ public class ShipController : MonoBehaviour
     List<BulletsEmplacement> _bulletEmplacements = new List<BulletsEmplacement>();
     BulletItem _bulletItem;
 
-    public void Setup()
+    public void Setup(BulletsConfig bulletsConfig)
     {
         SpawnGunEmplacement();
-        SpawnBulletsEmplacement();
+        SpawnBulletsEmplacement(bulletsConfig);
     }
 
     private void SpawnGunEmplacement()
@@ -34,7 +35,7 @@ public class ShipController : MonoBehaviour
         }
     }
 
-    private void SpawnBulletsEmplacement()
+    private void SpawnBulletsEmplacement(BulletsConfig bulletsConfig)
     {
         for (int i = 0; i < _posBulletsEmplacements.Count; i++)
         {
@@ -42,7 +43,7 @@ public class ShipController : MonoBehaviour
             temp.gameObject.transform.localPosition = new Vector3(0, 0, 0);
             temp.gameObject.transform.localScale = new Vector3(0.15f, 0.15f, 0);
             temp.gameObject.transform.localEulerAngles = new Vector3(0, 0, 0);
-            temp.Setup(i);
+            temp.Setup(bulletsConfig.BulletsData[i]);
             _bulletEmplacements.Add(temp);
         }
     }
@@ -71,11 +72,13 @@ public class ShipController : MonoBehaviour
 
     public GameObject SpawnBulletItem(GameObject parent)
     {
+        var bulletsEmplacement = parent.GetComponent<BulletsEmplacement>();
         if (_bulletItem != null)
         {
             Destroy(_bulletItem.gameObject);
         }
         _bulletItem = Instantiate(_prefabBulletItem, parent.transform);
+        _bulletItem.Setup(bulletsEmplacement.BulletData);
         _bulletItem.transform.localScale = new Vector3(0.1f, 0.1f, 0);
         return _bulletItem.gameObject;
     }
@@ -84,9 +87,20 @@ public class ShipController : MonoBehaviour
     {
         foreach (var item in _bulletEmplacements)
         {
-            if (item.ID == id)
+            if (item.BulletData.Id == id)
             {
                 item.EnableItem(enable);
+            }
+        }
+    }
+
+    public void ReloadBullet(int idGun)
+    {
+        foreach (var item in _gunEmplacements)
+        {
+            if (item.Canon.CanonData.Id == idGun)
+            {
+                //Reload Bullet Gun
             }
         }
     }

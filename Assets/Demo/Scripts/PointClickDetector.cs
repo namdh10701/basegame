@@ -48,7 +48,7 @@ public class PointClickDetector : MonoBehaviour, IPointClickDetector
             selectedObject.transform.position = pos;
         }
 
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0) && hitObject.gameObject.tag == Helper.TAG_BULLET)
         {
             isDragging = false;
             GameController.Instance.EnableBulletItem(hitObject, true);
@@ -58,6 +58,13 @@ public class PointClickDetector : MonoBehaviour, IPointClickDetector
             if (Physics.Raycast(ray, out hit))
             {
                 Debug.Log("GetMouseButtonUp" + hit.collider.gameObject.tag);
+                var canon = hit.collider.gameObject.GetComponent<GunEmplacement>().GetComponentInChildren<Canon>();
+                if (canon != null)
+                {
+                    GameController.Instance.ReloadBullet(canon.CanonData.Id);
+                    Debug.Log("canon" + canon.CanonData.Id);
+                }
+
             }
         }
 

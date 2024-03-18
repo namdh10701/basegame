@@ -5,10 +5,11 @@ using UnityEngine;
 public class BulletsEmplacement : MonoBehaviour
 {
     [SerializeField] SpriteRenderer _bullet;
-    public int ID;
-    public void Setup(int id)
+    public BulletData BulletData;
+    public void Setup(BulletData bulletData)
     {
-        ID = id;
+        BulletData = bulletData;
+        _bullet.sprite = bulletData.Sprite;
     }
 
     public void EnableItem(bool enable)

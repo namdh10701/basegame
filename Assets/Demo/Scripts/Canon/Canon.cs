@@ -50,8 +50,7 @@ public class Canon : MonoBehaviour
         }
     }
     private void Update()
-    {  
-        Debug.Log(Time.deltaTime + "NOR");
+    {
 
         UpdateState();
         sightBrain.FindTarget();
