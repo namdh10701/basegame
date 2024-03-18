@@ -29,6 +29,7 @@ public class GunEmplacement : MonoBehaviour
     {
         if (Canon != null)
             Destroy(Canon.gameObject);
+        Canon = null;
     }
 
 

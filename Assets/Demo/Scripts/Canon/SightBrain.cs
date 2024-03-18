@@ -69,14 +69,16 @@ public class SightBrain : MonoBehaviour
             case LockingTargetStrategy.ClosetPersit:
                 break;*/
             case LockingTargetStrategy.ClosetFlex:
-                currentTarget = GetClosetTarget();
+                if (currentTarget == null)
+                    currentTarget = GetClosetTarget();
                 break;
-           /* case LockingTargetStrategy.HighestHp:
-                break;
-            case LockingTargetStrategy.HighestDmg:
-                break;*/
+            /* case LockingTargetStrategy.HighestHp:
+                 break;
+             case LockingTargetStrategy.HighestDmg:
+                 break;*/
             case LockingTargetStrategy.LowestHp:
-                currentTarget = GetLowestHpTarget();
+                if (currentTarget == null)
+                    currentTarget = GetLowestHpTarget();
                 break;
 
         }

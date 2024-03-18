@@ -94,13 +94,16 @@ public class ShipController : MonoBehaviour
         }
     }
 
-    public void ReloadBullet(int idGun)
+    public void ReloadBullet(Canon canon)
     {
         foreach (var item in _gunEmplacements)
         {
-            if (item.Canon.CanonData.Id == idGun)
+            if (item.Canon != null)
             {
-                //Reload Bullet Gun
+                if (item.Canon == canon)
+                {
+                    item.Canon.Reload();
+                }
             }
         }
     }

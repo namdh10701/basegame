@@ -61,7 +61,7 @@ public class PointClickDetector : MonoBehaviour, IPointClickDetector
                 var canon = hit.collider.gameObject.GetComponent<GunEmplacement>().GetComponentInChildren<Canon>();
                 if (canon != null)
                 {
-                    GameController.Instance.ReloadBullet(canon.CanonData.Id);
+                    GameController.Instance.ReloadBullet(canon);
                     Debug.Log("canon" + canon.CanonData.Id);
                 }
 

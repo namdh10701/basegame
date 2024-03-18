@@ -66,7 +66,9 @@ public class GameController : SingletonMonoBehaviour<GameController>
                 var temp = Instantiate(canon, item.Parent.transform);
                 if (gunEmplacement.Id > 2)
                 {
-                    temp.transform.localEulerAngles = new Vector3(180, 0, 0);
+                    //temp.transform.localEulerAngles = new Vector3(0, 0, 0);
+                    temp.GetComponent<Canon>().Visual.transform.localEulerAngles = new Vector3(0, 0, 180);
+                    temp.GetComponent<Canon>().AttackTrigger.transform.localEulerAngles = new Vector3(0, 0, 180);
                 }
                 gunEmplacement.AddCanon(temp);
                 gunEmplacement.SetWeaponData(item.WeaponData);
@@ -85,9 +87,9 @@ public class GameController : SingletonMonoBehaviour<GameController>
         _ship.EnableBulletItem(go.GetComponent<BulletsEmplacement>().BulletData.Id, enable);
     }
 
-    public void ReloadBullet(int idGun)
+    public void ReloadBullet(Canon canon)
     {
-        _ship.ReloadBullet(idGun);
+        _ship.ReloadBullet(canon);
     }
 
     public IEnumerator SpawnEnemies()

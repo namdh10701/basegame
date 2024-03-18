@@ -20,5 +20,7 @@ namespace Demo
             hitFx.transform.position = targetPos;
             hitFx.Play();
         }
+
+ 
     }
 }
