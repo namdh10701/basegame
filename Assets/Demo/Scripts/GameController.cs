@@ -74,6 +74,16 @@ public class GameController : SingletonMonoBehaviour<GameController>
         }
     }
 
+    public GameObject SpawnBulletItem(GameObject parent)
+    {
+        return _ship.SpawnBulletItem(parent);
+    }
+
+    public void EnableBulletItem(GameObject go, bool enable)
+    {
+        _ship.EnableBulletItem(go.GetComponent<BulletsEmplacement>().ID, enable);
+    }
+
     public IEnumerator SpawnEnemies()
     {
         yield return new WaitForSeconds(10.0f);
