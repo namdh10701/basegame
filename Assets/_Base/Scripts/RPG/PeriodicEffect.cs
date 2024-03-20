@@ -14,7 +14,7 @@ namespace _Base.Scripts.RPG
         [field:SerializeField]
         public float RemainingTime { get; private set; }
 
-        private void Awake()
+        private void Start()
         {
             DoStart();
             RemainingTime = Duration;

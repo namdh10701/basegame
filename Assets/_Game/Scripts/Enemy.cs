@@ -9,8 +9,8 @@
         {
             private void Awake()
             {
-                Attributes.Add(new HealthPoint());
-                Attributes.Add(new ManaPoint());
+                // Attributes.Add(new HealthPoint());
+                // Attributes.Add(new ManaPoint());
             }
 
             public HealthPoint HealthPoint { get; set; }

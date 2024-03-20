@@ -13,7 +13,7 @@ namespace _Game.Scripts.Effects
 
         private void Awake()
         {
-            _hp = GetComponent<Entity>()?.GetAttribute<HealthPoint>();
+            _hp = GetComponentInParent<Entity>()?.GetAttribute<HealthPoint>();
         }
 
         public override void Apply()

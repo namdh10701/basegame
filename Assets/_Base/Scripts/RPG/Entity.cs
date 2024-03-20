@@ -25,6 +25,13 @@ namespace _Base.Scripts.RPG
             if (attributeHolder != null)
             {
                 Attributes = attributeHolder.GetComponents<Attribute>().ToList();
+                foreach (var attribute in Attributes)
+                {
+                    attribute.OnChanged += (sender, args) =>
+                    {
+                        
+                    };
+                }
             }
         }
     }

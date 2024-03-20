@@ -5,7 +5,7 @@ namespace _Base.Scripts.RPG
 {
     public abstract class OneShotEffect: Effect
     {
-        private void Awake()
+        private void Start()
         {
             DoStart();
             Apply();
