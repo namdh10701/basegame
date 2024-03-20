@@ -10,21 +10,29 @@ namespace MBTExample
     public class RandomFlyingNode : Leaf
     {
         public Rigidbody2D body;
-        public float time;
-        float elapsedTime;
+        float targetVelocity = 6f;
+        public float elapsedTime;
+        float moveTime;
+        public Vector2Reference targetPosition = new Vector2Reference(VarRefMode.DisableConstant);
+        float distance;
+        Vector2 startPos;
         public override void OnEnter()
         {
             base.OnEnter();
+            startPos = body.position;
             elapsedTime = 0;
-
+            distance = Vector2.Distance((Vector2)body.transform.position, targetPosition.Value);
+            moveTime = distance / targetVelocity;
+            targetVelocity = 6f;
         }
 
         public override NodeResult Execute()
         {
-            if (elapsedTime < time)
+            elapsedTime += Time.deltaTime;
+            Vector3 pos = Vector2.Lerp(startPos, targetPosition.Value, elapsedTime / moveTime);
+            body.MovePosition(pos);
+            if (elapsedTime <= moveTime)
             {
-                elapsedTime += Time.deltaTime;
-                body.velocity = new Vector2(Random.Range(-5, 5), Random.Range(-5, 5));
                 return NodeResult.running;
             }
             else
@@ -35,7 +43,7 @@ namespace MBTExample
         public override void OnExit()
         {
             base.OnExit();
-            body.velocity = Vector2.zero;
+            body.MovePosition(targetPosition.Value);
         }
     }
 

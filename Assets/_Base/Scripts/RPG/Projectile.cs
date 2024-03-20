@@ -11,13 +11,13 @@ namespace _Base.Scripts.RPG
         
         private void Start()
         {
-            body.velocity = transform.up * moveSpeed.Value / 25;
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
-            // body.AddForce();
-            body.velocity = transform.up * moveSpeed.Value / 25;
+            // body.velocity = transform.up * moveSpeed.Value / 25;
+            // body.AddForce(transform.up * moveSpeed.Value / 25);
+            body.MovePosition(transform.up * moveSpeed.Value / 25);
         }
 
         private void OnBecameInvisible()

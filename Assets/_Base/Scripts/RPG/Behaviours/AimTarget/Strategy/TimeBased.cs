@@ -7,7 +7,7 @@ namespace _Base.Scripts.RPG.Behaviours.AimTarget.Strategy
     public class TimeBased: AimTargetStrategy
     {
         [field: SerializeField] 
-        public float AimingTime { get; set; } = 3f;
+        public float AimingTime { get; set; } = 1f;
 
         private float _totalAimingTime = 0;
         

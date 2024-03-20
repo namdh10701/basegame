@@ -24,6 +24,7 @@ public class GameController : SingletonMonoBehaviour<GameController>
     private void Initializa()
     {
         _ship.Setup();
+        StartCoroutine(SpawnEnemies());
     }
 
     public void ShowWeaponsMenu(GameObject go)
@@ -71,5 +72,16 @@ public class GameController : SingletonMonoBehaviour<GameController>
 
             }
         }
+    }
+
+    public IEnumerator SpawnEnemies()
+    {
+        yield return new WaitForSeconds(10.0f);
+    }
+
+    public void Spawn()
+    {
+        _enemyController.SpawnEnemy();
+
     }
 }

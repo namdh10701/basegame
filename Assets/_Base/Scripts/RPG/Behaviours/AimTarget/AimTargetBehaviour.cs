@@ -23,7 +23,10 @@ namespace _Base.Scripts.RPG.Behaviours.AimTarget
             if (FollowTargetBehaviour.IsCaughtUp)
             {
                 IsReadyToFire = Strategy.Aim(FollowTargetBehaviour);
-                LockedPosition = FollowTargetBehaviour.FindTargetBehaviour.MostTarget!.transform.position;
+                if (FollowTargetBehaviour.FindTargetBehaviour.MostTarget != null)
+                {
+                    LockedPosition = FollowTargetBehaviour.FindTargetBehaviour.MostTarget.transform.position;
+                }
             }
             else
             {

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+
 public class DefenseBehaviour : MonoBehaviour
 {
     public DefenseData DefenseData;
@@ -18,4 +19,6 @@ public class DefenseBehaviour : MonoBehaviour
             projectile.OnHit();
         }
     }
+
+
 }

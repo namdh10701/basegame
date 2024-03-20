@@ -16,15 +16,19 @@ namespace _Base.Scripts.RPG.Behaviours.ShootTarget
             Quaternion shootDirection = CalculateShootDirection();
             // ShootProjectile(shootDirection);
             
-            var projectile = Instantiate(projectilePrefab, shootPosition.position, shootDirection, null);
+            // var projectile = Instantiate(projectilePrefab, shootPosition.position, shootDirection, null);
+            var projectile = Instantiate(projectilePrefab);
+            projectile.transform.position = shootPosition.position;
+            projectile.transform.LookAt(aimTargetBehaviour.LockedPosition);
         }
         
         private Quaternion CalculateShootDirection()
         {
-            var aimDirection = aimTargetBehaviour.LockedPosition - shootPosition.position;
-            // var aimDirection = Quaternion.LookRotation(Vector3.forward, targetDirection);
-            aimDirection.z += Random.Range(-shootAccuracy.Value, shootAccuracy.Value);
-            Quaternion shootDirection = Quaternion.Euler(aimDirection);
+            // var aimDirection = aimTargetBehaviour.LockedPosition - shootPosition.position;
+            var aimDirection = Quaternion.LookRotation(aimTargetBehaviour.LockedPosition, shootPosition.position);
+            // aimDirection.z += Random.Range(-shootAccuracy.Value, shootAccuracy.Value);
+            // Quaternion shootDirection = Quaternion.Euler(aimDirection);
+            Quaternion shootDirection = aimDirection;
             return shootDirection;
         }
     }

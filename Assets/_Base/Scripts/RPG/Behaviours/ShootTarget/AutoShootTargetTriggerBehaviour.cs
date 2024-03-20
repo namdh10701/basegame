@@ -5,7 +5,8 @@ namespace _Base.Scripts.RPG.Behaviours.ShootTarget
 
         private void Awake()
         {
-            Pull();
+            InvokeRepeating("Pull", 0f, 1f);
+            // Pull();
         }
     }
 }

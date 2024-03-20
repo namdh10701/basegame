@@ -15,7 +15,6 @@ public class CooldownBrain : MonoBehaviour
     bool cancelRest;
     public void StartCooldown()
     {
-        Debug.Log("Start Cooldown");
         if (cooldownCoroutine != null)
         {
             StopCoroutine(cooldownCoroutine);
@@ -28,7 +27,6 @@ public class CooldownBrain : MonoBehaviour
     {
         yield return new WaitForSeconds(cooldownTime);
         cooldownCoroutine = null;
-        Debug.Log("Complete Cooldown");
         yield return new WaitForSeconds(goToRestTime);
         Invoke("GoToRest", goToRestTime);
     }
