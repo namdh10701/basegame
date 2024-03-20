@@ -314,14 +314,14 @@ namespace _Base.Scripts.Audio
             vibrator.Call("vibrate", vibrationEffect);
         }
 #else
-            Debug.Log("Play Vibrate");
-            Handheld.Vibrate();
+           /* Debug.Log("Play Vibrate");
+            Handheld.Vibrate();*/
 #endif
         }
 
         void TestVibration()
         {
-            Handheld.Vibrate();
+            //Handheld.Vibrate();
         }
 
         public void PlaySfxTapButton()

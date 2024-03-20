@@ -4,6 +4,9 @@ using System.Linq;
 using _Base.Scripts.Utils;
 using _Base.Scripts.UI;
 using UnityEngine;
+using _Base.Scripts.Shared;
+using System.Collections;
+using UnityEngine.SceneManagement;
 
 namespace _Base.Scripts.UI.Managers
 {
@@ -120,5 +123,19 @@ namespace _Base.Scripts.UI.Managers
                 Show(m_History.Pop(), false);
             }
         }
+        //DEMO CODE
+        internal void ResetScene()
+        {
+            StartCoroutine(ResetSceneCoroutine());
+        }
+        IEnumerator ResetSceneCoroutine()
+        {
+            Scene lastScene = SceneManager.GetActiveScene();
+            yield return SceneManager.LoadSceneAsync(GlobalData.FinalDemo);
+            yield return SceneManager.UnloadSceneAsync(lastScene);
+            SceneManager.SetActiveScene(SceneManager.GetSceneByName(GlobalData.FinalDemo));
+            // yield return SceneManager.UnloadSceneAsync(GlobalData.FinalDemo);
+        }
+        //
     }
 }

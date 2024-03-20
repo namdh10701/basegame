@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Scriptable Objects/Cannon Data")]
 public class CanonData : ScriptableObject
 {
-    public string Id;
+    public int Id;
     public string GunName;
     public float Attack;
     public float AttackSpeed;

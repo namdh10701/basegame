@@ -12,7 +12,7 @@ public class WeaponsMennuConfig : ScriptableObject
 [Serializable]
 public class WeaponData
 {
-    public string Id;
+    public int Id;
     public Sprite Sprite;
     public Color Color;
 }

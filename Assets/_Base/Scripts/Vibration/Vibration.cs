@@ -1,9 +1,11 @@
-using UnityEngine;
+/*using UnityEngine;
 
 namespace _Base.Scripts.Vibration
 {
     public static class Vibration
     {
+#if PLATFORM_STANDALONE_WIN
+
         private static bool _isRunVibration = true;
 
 #if UNITY_ANDROID && !UNITY_EDITOR
@@ -72,3 +74,4 @@ namespace _Base.Scripts.Vibration
         }
     }
 }
+*/
