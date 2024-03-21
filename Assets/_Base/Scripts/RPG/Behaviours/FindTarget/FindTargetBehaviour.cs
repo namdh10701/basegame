@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using _Base.Scripts.RPG.Entities;
 using JetBrains.Annotations;
 using UnityEngine;
 
@@ -19,9 +20,7 @@ namespace _Base.Scripts.RPG.Behaviours.FindTarget
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            var target = Strategy.GetTarget(collision.gameObject);
-
-            if (target == null)
+            if (!Strategy.TryGetTargetEntity(collision.gameObject, out var target))
             {
                 return;
             }
@@ -31,9 +30,7 @@ namespace _Base.Scripts.RPG.Behaviours.FindTarget
 
         private void OnTriggerExit2D(Collider2D collision)
         {
-            var target = Strategy.GetTarget(collision.gameObject);
-
-            if (target == null)
+            if (!Strategy.TryGetTargetEntity(collision.gameObject, out var target))
             {
                 return;
             }

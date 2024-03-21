@@ -1,6 +1,8 @@
     using System;
     using _Base.Scripts.EventSystem;
     using _Base.Scripts.RPG;
+    using _Base.Scripts.RPG.Entities;
+    using _Base.Scripts.RPGCommon.Entities;
     using _Game.Scripts.Attributes;
 
     namespace _Game.Scripts

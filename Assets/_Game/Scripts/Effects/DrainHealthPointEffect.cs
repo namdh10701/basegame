@@ -1,4 +1,6 @@
 using _Base.Scripts.RPG;
+using _Base.Scripts.RPG.Effects;
+using _Base.Scripts.RPG.Entities;
 using _Game.Scripts.Attributes;
 using JetBrains.Annotations;
 using UnityEngine;

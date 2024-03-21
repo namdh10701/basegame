@@ -15,9 +15,9 @@ namespace _Game.Scripts.Entities
 
         private void Update()
         {
-            _spriteRenderer.color = _aimTargetBehaviour.IsReadyToFire ? Color.red : Color.white;
+            _spriteRenderer.color = _aimTargetBehaviour.IsReadyToAttack ? Color.red : Color.white;
 
-            if (_aimTargetBehaviour.IsReadyToFire)
+            if (_aimTargetBehaviour.IsReadyToAttack)
             {
                 _crosshair.position = _aimTargetBehaviour.LockedPosition;
                 _crosshair.gameObject.SetActive(true);

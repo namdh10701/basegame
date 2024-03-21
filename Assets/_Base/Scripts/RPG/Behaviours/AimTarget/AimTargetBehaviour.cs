@@ -13,7 +13,7 @@ namespace _Base.Scripts.RPG.Behaviours.AimTarget
         public FollowTargetBehaviour FollowTargetBehaviour { get; set; }
         
         [field:SerializeField]
-        public bool IsReadyToFire { get; private set; }
+        public bool IsReadyToAttack { get; private set; }
         
         [field:SerializeField]
         public Vector3 LockedPosition { get; private set; }
@@ -22,7 +22,7 @@ namespace _Base.Scripts.RPG.Behaviours.AimTarget
         {
             if (FollowTargetBehaviour.IsCaughtUp)
             {
-                IsReadyToFire = Strategy.Aim(FollowTargetBehaviour);
+                IsReadyToAttack = Strategy.Aim(FollowTargetBehaviour);
                 if (FollowTargetBehaviour.FindTargetBehaviour.MostTarget != null)
                 {
                     LockedPosition = FollowTargetBehaviour.FindTargetBehaviour.MostTarget.transform.position;
@@ -31,7 +31,7 @@ namespace _Base.Scripts.RPG.Behaviours.AimTarget
             else
             {
                 Strategy.Reset();
-                IsReadyToFire = false;
+                IsReadyToAttack = false;
                 LockedPosition = Vector3.zero;
             }
         }
