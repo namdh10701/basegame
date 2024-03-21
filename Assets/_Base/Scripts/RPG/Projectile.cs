@@ -1,23 +1,29 @@
-using System;
 using _Base.Scripts.RPG.Attributes;
+using _Base.Scripts.RPG.Behaviours.CheckCollidableTarget;
 using UnityEngine;
 
 namespace _Base.Scripts.RPG
 {
     public abstract class Projectile: MonoBehaviour
     {
-        [SerializeField] Rigidbody2D body;
-        public MoveSpeed moveSpeed;
+        public Rigidbody2D body;
         
-        private void Start()
+        public MoveSpeed moveSpeed;
+
+        public CollidedTargetChecker collidedTargetChecker;
+        
+        private void Awake()
         {
+            body.velocity = transform.up * moveSpeed.Value;
         }
 
-        private void FixedUpdate()
+        private void OnTriggerEnter2D(Collider2D collision)
         {
-            // body.velocity = transform.up * moveSpeed.Value / 25;
-            // body.AddForce(transform.up * moveSpeed.Value / 25);
-            body.MovePosition(transform.up * moveSpeed.Value / 25);
+            if (!collidedTargetChecker.Check(collision))
+            {
+                return;
+            }
+            OnHit();
         }
 
         private void OnBecameInvisible()
@@ -25,7 +31,7 @@ namespace _Base.Scripts.RPG
             Destroy(gameObject);
         }
 
-        public void OnHit()
+        protected void OnHit()
         {
             Destroy(gameObject);
         }
