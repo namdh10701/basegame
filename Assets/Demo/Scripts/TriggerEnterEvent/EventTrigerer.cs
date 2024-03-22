@@ -1,17 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class EventTrigerer : MonoBehaviour
+namespace Demo.Scripts.TriggerEnterEvent
 {
-    private void OnTriggerEnter2D(Collider2D collision)
+    public class EventTrigerer : MonoBehaviour
     {
-        if (collision.CompareTag("Command"))
+        private void OnTriggerEnter2D(Collider2D collision)
         {
-            ITriggerEnterEvent[] events = collision.GetComponents<ITriggerEnterEvent>();
-            foreach (ITriggerEnterEvent IEvent in events)
+            if (collision.CompareTag("Command"))
             {
-                IEvent.Execute();
+                ITriggerEnterEvent[] events = collision.GetComponents<ITriggerEnterEvent>();
+                foreach (ITriggerEnterEvent IEvent in events)
+                {
+                    IEvent.Execute();
+                }
             }
         }
     }

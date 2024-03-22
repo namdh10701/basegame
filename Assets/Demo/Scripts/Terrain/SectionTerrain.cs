@@ -1,8 +1,12 @@
 ﻿using UnityEngine;
-public class SectionTerrain : MonoBehaviour
+
+namespace Demo.Scripts.Terrain
 {
-    public int TerrainTypeId;
-    public int[] AvailableNextTerrainTypeIds;
-    public Transform SnapPos;
-    [HideInInspector] public SectionTerrain NextTerrain = null;
+    public class SectionTerrain : MonoBehaviour
+    {
+        public int TerrainTypeId;
+        public int[] AvailableNextTerrainTypeIds;
+        public Transform SnapPos;
+        [HideInInspector] public SectionTerrain NextTerrain = null;
+    }
 }

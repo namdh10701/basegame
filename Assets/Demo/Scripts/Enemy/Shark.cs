@@ -1,6 +1,7 @@
 using MBT;
 using UnityEngine;
-namespace Demo
+
+namespace Demo.Scripts.Enemy
 {
     public class Shark : Enemy
     {

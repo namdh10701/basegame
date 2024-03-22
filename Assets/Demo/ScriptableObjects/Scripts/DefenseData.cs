@@ -1,8 +1,11 @@
 
 using UnityEngine;
 
-public class DefenseData : MonoBehaviour
+namespace Demo.ScriptableObjects.Scripts
 {
-    public float Hp;
-    public float BlockChance;
+    public class DefenseData : MonoBehaviour
+    {
+        public float Hp;
+        public float BlockChance;
+    }
 }

@@ -1,13 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-public enum EnemyLayer
+
+namespace Demo.Scripts.TriggerEnterEvent.Commands
 {
-    MoveAlongShip,
-    Free
-}
-public class EnemySpawnData : MonoBehaviour
-{
-    public int EnemyId;
-    public EnemyLayer Layer;
+    public enum EnemyLayer
+    {
+        MoveAlongShip,
+        Free
+    }
+    public class EnemySpawnData : MonoBehaviour
+    {
+        public int EnemyId;
+        public EnemyLayer Layer;
+    }
 }

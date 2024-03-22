@@ -1,7 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
+using Demo.Scripts.Canon;
 using UnityEngine;
-namespace Demo
+
+namespace Demo.Scripts.Enemy
 {
     public class Squid : Enemy
     {

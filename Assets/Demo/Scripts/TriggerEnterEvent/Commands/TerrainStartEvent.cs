@@ -1,12 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
+using Demo.Scripts.Terrain;
 using UnityEngine;
 
-public class TerrainStartEvent : MonoBehaviour, ITriggerEnterEvent
+namespace Demo.Scripts.TriggerEnterEvent.Commands
 {
-    [SerializeField] SectionTerrain terrainSection;
-    public void Execute()
+    public class TerrainStartEvent : MonoBehaviour, ITriggerEnterEvent
     {
-        TerrainManager.Instance.OnEnterTerrain(terrainSection);
+        [SerializeField] SectionTerrain terrainSection;
+        public void Execute()
+        {
+            TerrainManager.Instance.OnEnterTerrain(terrainSection);
+        }
     }
 }

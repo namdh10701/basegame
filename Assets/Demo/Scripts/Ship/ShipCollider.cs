@@ -1,18 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class ShipCollider : MonoBehaviour
+namespace Demo.Scripts.Ship
 {
-    public float Hp;
-    public float BlockChance;
-    private void OnTriggerEnter2D(Collider2D collision)
+    public class ShipCollider : MonoBehaviour
     {
-        if (collision.CompareTag("EnemyProjectile"))
+        public float Hp;
+        public float BlockChance;
+        private void OnTriggerEnter2D(Collider2D collision)
         {
-            Destroy(collision.gameObject);
-            Hp -= 15;
+            if (collision.CompareTag("EnemyProjectile"))
+            {
+                Destroy(collision.gameObject);
+                Hp -= 15;
+            }
         }
-    }
 
+    }
 }

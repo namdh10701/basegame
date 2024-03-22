@@ -1,19 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
+using Demo.Scripts.Data;
 using UnityEngine;
 
-public class BulletsEmplacement : MonoBehaviour
+namespace Demo.Scripts
 {
-    [SerializeField] SpriteRenderer _bullet;
-    public BulletData BulletData;
-    public void Setup(BulletData bulletData)
+    public class BulletsEmplacement : MonoBehaviour
     {
-        BulletData = bulletData;
-        _bullet.sprite = bulletData.Sprite;
-    }
+        [SerializeField] SpriteRenderer _bullet;
+        public BulletData BulletData;
+        public void Setup(BulletData bulletData)
+        {
+            BulletData = bulletData;
+            _bullet.sprite = bulletData.Sprite;
+        }
 
-    public void EnableItem(bool enable)
-    {
-        _bullet.gameObject.SetActive(enable);
+        public void EnableItem(bool enable)
+        {
+            _bullet.gameObject.SetActive(enable);
+        }
     }
 }

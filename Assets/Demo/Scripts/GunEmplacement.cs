@@ -1,37 +1,38 @@
-using System.Collections;
-using System.Collections.Generic;
+using Demo.Scripts.Data;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
-public class GunEmplacement : MonoBehaviour
+namespace Demo.Scripts
 {
-    [SerializeField] SpriteRenderer _spriteRenderer;
-    public int Id;
-    public WeaponData _weaponData;
-    public Canon Canon;
-
-    public void Setup(int id)
+    public class GunEmplacement : MonoBehaviour
     {
-        Id = id;
+        [SerializeField] SpriteRenderer _spriteRenderer;
+        public int Id;
+        public WeaponData _weaponData;
+        public Canon.Canon Canon;
+
+        public void Setup(int id)
+        {
+            Id = id;
+        }
+
+        public void SetWeaponData(WeaponData weaponData)
+        {
+            _weaponData = weaponData;
+        }
+
+        public void AddCanon(Canon.Canon canon)
+        {
+            Canon = canon;
+        }
+
+        public void RemoveCanon()
+        {
+            if (Canon != null)
+                Destroy(Canon.gameObject);
+            Canon = null;
+        }
+
+
+
     }
-
-    public void SetWeaponData(WeaponData weaponData)
-    {
-        _weaponData = weaponData;
-    }
-
-    public void AddCanon(Canon canon)
-    {
-        Canon = canon;
-    }
-
-    public void RemoveCanon()
-    {
-        if (Canon != null)
-            Destroy(Canon.gameObject);
-        Canon = null;
-    }
-
-
-
 }

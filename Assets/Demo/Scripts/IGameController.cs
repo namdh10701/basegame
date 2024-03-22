@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public interface IGameController
+namespace Demo.Scripts
 {
+    public interface IGameController
+    {
 
+    }
 }

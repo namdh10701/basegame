@@ -1,7 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-namespace Demo
+
+namespace Demo.Scripts.Canon
 {
     public class CannonBulletManager : MonoBehaviour
     {

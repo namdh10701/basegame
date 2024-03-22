@@ -39,7 +39,7 @@ namespace _Base.Scripts.RPG.Behaviours.FindTarget
 
         void Update()
         {
-            MostTarget = Strategy.FindTheMostTarget(this);
+            MostTarget = Strategy.FindTheMostTarget(Targets);
         }
 
     }

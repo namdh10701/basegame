@@ -1,72 +1,72 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class PointClickDetector : MonoBehaviour, IPointClickDetector
+namespace Demo.Scripts
 {
-    [SerializeField] Camera mainCamera;
-    public System.Action<GameObject> OnClickCallback;
-    private GameObject selectedObject;
-    GameObject hitObject;
-    private bool isDragging = false;
-
-    void Awake()
+    public class PointClickDetector : MonoBehaviour, IPointClickDetector
     {
-        mainCamera = Camera.main;
-    }
+        [SerializeField] UnityEngine.Camera mainCamera;
+        public System.Action<GameObject> OnClickCallback;
+        private GameObject selectedObject;
+        GameObject hitObject;
+        private bool isDragging = false;
 
-    void Update()
-    {
-        if (Input.GetMouseButtonDown(0))
+        void Awake()
         {
-            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
+            mainCamera = UnityEngine.Camera.main;
+        }
 
-            if (Physics.Raycast(ray, out hit))
+        void Update()
+        {
+            if (Input.GetMouseButtonDown(0))
             {
-                hitObject = hit.collider.gameObject;
-                switch (hitObject.tag)
+                Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+
+                if (Physics.Raycast(ray, out hit))
                 {
-                    case Helper.TAG_GUN_EMPLACEMENT:
-                        GameController.Instance.ShowWeaponsMenu(hitObject);
-                        break;
-                    case Helper.TAG_WEAPON_ITEM:
-                        GameController.Instance.OnSelectedWeaponItem(hitObject);
-                        break;
-                    case Helper.TAG_BULLET:
-                        GameController.Instance.EnableBulletItem(hitObject, false);
-                        selectedObject = GameController.Instance.SpawnBulletItem(hitObject);
-                        isDragging = (selectedObject != null) ? true : false;
-                        break;
+                    hitObject = hit.collider.gameObject;
+                    switch (hitObject.tag)
+                    {
+                        case Helper.TAG_GUN_EMPLACEMENT:
+                            GameController.Instance.ShowWeaponsMenu(hitObject);
+                            break;
+                        case Helper.TAG_WEAPON_ITEM:
+                            GameController.Instance.OnSelectedWeaponItem(hitObject);
+                            break;
+                        case Helper.TAG_BULLET:
+                            GameController.Instance.EnableBulletItem(hitObject, false);
+                            selectedObject = GameController.Instance.SpawnBulletItem(hitObject);
+                            isDragging = (selectedObject != null) ? true : false;
+                            break;
+                    }
                 }
             }
-        }
-        if (isDragging)
-        {
-            Vector3 pos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10));
-            selectedObject.transform.position = pos;
-        }
-
-        if (Input.GetMouseButtonUp(0) && hitObject.gameObject.tag == Helper.TAG_BULLET)
-        {
-            isDragging = false;
-            GameController.Instance.EnableBulletItem(hitObject, true);
-            Destroy(selectedObject.gameObject);
-            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit))
+            if (isDragging)
             {
-                Debug.Log("GetMouseButtonUp" + hit.collider.gameObject.tag);
-                var canon = hit.collider.gameObject.GetComponent<GunEmplacement>().GetComponentInChildren<Canon>();
-                if (canon != null)
-                {
-                    GameController.Instance.ReloadBullet(canon);
-                    Debug.Log("canon" + canon.CanonData.Id);
-                }
-
+                Vector3 pos = UnityEngine.Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10));
+                selectedObject.transform.position = pos;
             }
-        }
 
+            if (Input.GetMouseButtonUp(0) && hitObject.gameObject.tag == Helper.TAG_BULLET)
+            {
+                isDragging = false;
+                GameController.Instance.EnableBulletItem(hitObject, true);
+                Destroy(selectedObject.gameObject);
+                Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit))
+                {
+                    Debug.Log("GetMouseButtonUp" + hit.collider.gameObject.tag);
+                    var canon = hit.collider.gameObject.GetComponent<GunEmplacement>().GetComponentInChildren<Canon.Canon>();
+                    if (canon != null)
+                    {
+                        GameController.Instance.ReloadBullet(canon);
+                        Debug.Log("canon" + canon.CanonData.Id);
+                    }
+
+                }
+            }
+
+        }
     }
 }

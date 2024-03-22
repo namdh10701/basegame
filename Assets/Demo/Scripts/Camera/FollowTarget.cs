@@ -1,29 +1,29 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class FollowTarget : MonoBehaviour
+namespace Demo.Scripts.Camera
 {
-    public enum FollowType
+    public class FollowTarget : MonoBehaviour
     {
-        Horizontal, Vertical, Both
-    }
-    [SerializeField] Transform target;
-    [SerializeField] float offsetXThreshold;
-    [SerializeField] FollowType followType;
-    //[SerializeField] float offsetYThreshold;
-
-    Vector3 position = new Vector3();
-    private void Start()
-    {
-        position = target.position;
-    }
-    private void Update()
-    {
-        Vector3 pos = transform.position;
-        switch (followType)
+        public enum FollowType
         {
-            case FollowType.Horizontal:
+            Horizontal, Vertical, Both
+        }
+        [SerializeField] Transform target;
+        [SerializeField] float offsetXThreshold;
+        [SerializeField] FollowType followType;
+        //[SerializeField] float offsetYThreshold;
+
+        Vector3 position = new Vector3();
+        private void Start()
+        {
+            position = target.position;
+        }
+        private void Update()
+        {
+            Vector3 pos = transform.position;
+            switch (followType)
+            {
+                case FollowType.Horizontal:
                 {
                     position.y = target.position.y;
                     float offsetX = target.position.x - transform.position.x;
@@ -33,15 +33,16 @@ public class FollowTarget : MonoBehaviour
                         position.x = target.position.x;
                     }
                 }
-                break;
+                    break;
+            }
         }
+
+        private void LateUpdate()
+        {
+            position.z = -10;
+            transform.position = position;
+        }
+
+
     }
-
-    private void LateUpdate()
-    {
-        position.z = -10;
-        transform.position = position;
-    }
-
-
 }

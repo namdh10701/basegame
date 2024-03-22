@@ -1,7 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public interface IPointClickDetector
+namespace Demo.Scripts
 {
+    public interface IPointClickDetector
+    {
+    }
 }

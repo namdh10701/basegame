@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using Demo.Scripts;
+using Demo.Scripts.Canon;
+using Demo.Scripts.Data;
 using UnityEngine;
 
 public class ShipController : MonoBehaviour

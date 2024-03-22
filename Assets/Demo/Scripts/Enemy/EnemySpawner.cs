@@ -1,6 +1,10 @@
-using _Base.Scripts.Utils;
 using System.Collections.Generic;
+using _Base.Scripts.Utils;
+using Demo.Scripts.TriggerEnterEvent.Commands;
 using UnityEngine;
+
+namespace Demo.Scripts.Enemy
+{
     public class EnemySpawner : SingletonMonoBehaviour<EnemySpawner>
     {
         [SerializeField] Enemy[] enemyPrefabs;
@@ -26,3 +30,4 @@ using UnityEngine;
             Instantiate(enemiesDictionary[enemySpawnData.EnemyId], enemySpawnData.transform.position, Quaternion.identity, enemySpawnData.Layer == EnemyLayer.MoveAlongShip ? moveAlongShipRoot : freeRoot);
         }
     }
+}

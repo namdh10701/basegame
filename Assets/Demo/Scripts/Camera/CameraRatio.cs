@@ -1,42 +1,43 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraRatio : MonoBehaviour
+namespace Demo.Scripts.Camera
 {
-    public SpriteRenderer backgroundSprite;
-
-    void Start()
+    public class CameraRatio : MonoBehaviour
     {
-        if (backgroundSprite != null)
+        public SpriteRenderer backgroundSprite;
+
+        void Start()
         {
-            AdjustCameraToSprite();
+            if (backgroundSprite != null)
+            {
+                AdjustCameraToSprite();
+            }
+            else
+            {
+                Debug.LogError("Background sprite is not assigned!");
+            }
         }
-        else
+
+        void AdjustCameraToSprite()
         {
-            Debug.LogError("Background sprite is not assigned!");
-        }
-    }
+            UnityEngine.Camera mainCamera = UnityEngine.Camera.main;
 
-    void AdjustCameraToSprite()
-    {
-        Camera mainCamera = Camera.main;
+            float spriteWidth = backgroundSprite.bounds.size.x;
+            float spriteHeight = backgroundSprite.bounds.size.y;
 
-        float spriteWidth = backgroundSprite.bounds.size.x;
-        float spriteHeight = backgroundSprite.bounds.size.y;
+            float screenRatio = (float)Screen.width / Screen.height;
+            float targetRatio = spriteWidth / spriteHeight;
 
-        float screenRatio = (float)Screen.width / Screen.height;
-        float targetRatio = spriteWidth / spriteHeight;
-
-        if (screenRatio >= targetRatio)
-        {
-            // Fit height
-            mainCamera.orthographicSize = spriteHeight / 2;
-        }
-        else
-        {
-            // Fit width
-            mainCamera.orthographicSize = spriteWidth / 2 / mainCamera.aspect;
+            if (screenRatio >= targetRatio)
+            {
+                // Fit height
+                mainCamera.orthographicSize = spriteHeight / 2;
+            }
+            else
+            {
+                // Fit width
+                mainCamera.orthographicSize = spriteWidth / 2 / mainCamera.aspect;
+            }
         }
     }
 }

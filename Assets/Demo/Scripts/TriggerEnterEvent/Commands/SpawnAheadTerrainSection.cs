@@ -1,8 +1,13 @@
-﻿using UnityEngine;
-public class SpawnAheadTerrainSection : MonoBehaviour, ITriggerEnterEvent
+﻿using Demo.Scripts.Terrain;
+using UnityEngine;
+
+namespace Demo.Scripts.TriggerEnterEvent.Commands
 {
-    public void Execute()
+    public class SpawnAheadTerrainSection : MonoBehaviour, ITriggerEnterEvent
     {
-        TerrainManager.Instance.SpawnAheadTerrain();
+        public void Execute()
+        {
+            TerrainManager.Instance.SpawnAheadTerrain();
+        }
     }
 }

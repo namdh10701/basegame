@@ -1,8 +1,7 @@
 using _Base.Scripts.Shared;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-namespace Demo
+
+namespace Demo.Scripts.Enemy
 {
     public class EnemyAttackTrigger : MonoBehaviour
     {

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using _Base.Scripts.RPG.Behaviours.FindTarget;
 using _Base.Scripts.RPG.Entities;
 using _Base.Scripts.RPGCommon.Entities;
@@ -17,12 +18,12 @@ namespace _Base.Scripts.RPGCommon.Behaviours.FindTargetStrategies
         }
 
         [CanBeNull]
-        public override Entity FindTheMostTarget(FindTargetBehaviour findTargetBehaviour)
+        public override Entity FindTheMostTarget(List<Entity> foundTargets)
         {
             Entity lowestHpTarget = null;
             var lowestHp = Mathf.Infinity;
 
-            foreach (var entity in findTargetBehaviour.Targets)
+            foreach (var entity in foundTargets)
             {
                 var livingEntity = (ILivingEntity)entity;
                 float hp = livingEntity.HealthPoint.Value;

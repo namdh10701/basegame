@@ -1,20 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class AutoMoveRight : MonoBehaviour
+namespace Demo.Scripts
 {
-    Rigidbody2D body;
-    [SerializeField] float speed;
-    // Start is called before the first frame update
-    void Start()
+    public class AutoMoveRight : MonoBehaviour
     {
-        body = GetComponent<Rigidbody2D>();
-    }
+        Rigidbody2D body;
+        [SerializeField] float speed;
+        // Start is called before the first frame update
+        void Start()
+        {
+            body = GetComponent<Rigidbody2D>();
+        }
 
-    // Update is called once per frame
-    void Update()
-    {
-        body.velocity = new Vector2(speed, 0);
+        // Update is called once per frame
+        void Update()
+        {
+            body.velocity = new Vector2(speed, 0);
+        }
     }
 }

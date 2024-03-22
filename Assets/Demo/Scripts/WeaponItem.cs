@@ -1,28 +1,29 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
+using Demo.Scripts.Data;
 using UnityEngine;
 
-public class WeaponItem : MonoBehaviour
+namespace Demo.Scripts
 {
-    private Color _color;
-    [SerializeField] private SpriteRenderer _spriteRenderer;
-    public WeaponData WeaponData;
-    public GameObject Parent;
-
-    public void Setup(WeaponData data, GameObject parent)
+    public class WeaponItem : MonoBehaviour
     {
-        WeaponData = data;
-        Parent = parent;
-        _spriteRenderer.sprite = data.Sprite;
-        _spriteRenderer.color = data.Color;
-        var color = _spriteRenderer.color;
-        color.a = 1;
-        _spriteRenderer.color = color;
-    }
+        private Color _color;
+        [SerializeField] private SpriteRenderer _spriteRenderer;
+        public WeaponData WeaponData;
+        public GameObject Parent;
 
-    public WeaponItem GetDataWeaponItem()
-    {
-        return this;
+        public void Setup(WeaponData data, GameObject parent)
+        {
+            WeaponData = data;
+            Parent = parent;
+            _spriteRenderer.sprite = data.Sprite;
+            _spriteRenderer.color = data.Color;
+            var color = _spriteRenderer.color;
+            color.a = 1;
+            _spriteRenderer.color = color;
+        }
+
+        public WeaponItem GetDataWeaponItem()
+        {
+            return this;
+        }
     }
 }

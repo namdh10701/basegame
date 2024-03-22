@@ -1,119 +1,120 @@
-﻿using Demo;
+﻿using Demo.ScriptableObjects.Scripts;
 using DG.Tweening;
-using System;
-using System.Collections;
 using UnityEngine;
 
-public class Canon : MonoBehaviour
+namespace Demo.Scripts.Canon
 {
-    [SerializeField] public CanonData CanonData;
-    [SerializeField] private CanonShoot gunShoot;
-    [SerializeField] private RotateBrain rotateBrain;
-    [SerializeField] private SightBrain sightBrain;
-    [SerializeField] private CooldownBrain cooldownBrain;
-    [SerializeField] public Transform Visual;
-    [SerializeField] SpriteRenderer mainvisual;
-    [SerializeField] public Transform AttackTrigger;
-    Sequence outOfBulletSequence;
-    Color orgColor;
-    private void Start()
+    public class Canon : MonoBehaviour
     {
-        orgColor = mainvisual.color;
-        outOfBulletSequence = DOTween.Sequence();
-        outOfBulletSequence.Append(mainvisual.DOFade(.65f, .3f));
-        outOfBulletSequence.Append(mainvisual.DOFade(1f, .3f));
-        outOfBulletSequence.SetAutoKill(false);
-        outOfBulletSequence.SetLoops(-1);
-        outOfBulletSequence.Pause();
-        cooldownBrain.SetCooldownTime(1 / CanonData.AttackSpeed);
-    }
-    public enum State
-    {
-        Idle, Rotating, Attacking
-    }
-
-    private State currentState = State.Idle;
-
-    void UpdateState()
-    {
-        switch (currentState)
+        [SerializeField] public CanonData CanonData;
+        [SerializeField] private CanonShoot gunShoot;
+        [SerializeField] private RotateBrain rotateBrain;
+        [SerializeField] private SightBrain sightBrain;
+        [SerializeField] private CooldownBrain cooldownBrain;
+        [SerializeField] public Transform Visual;
+        [SerializeField] SpriteRenderer mainvisual;
+        [SerializeField] public Transform AttackTrigger;
+        Sequence outOfBulletSequence;
+        Color orgColor;
+        private void Start()
         {
-            case State.Idle:
-                if (sightBrain.CurrentTarget != null)
-                {
-                    currentState = State.Rotating;
-                }
-                break;
-            case State.Rotating:
-                if (rotateBrain.IsLookingAtTarget)
-                {
-                    currentState = State.Attacking;
-                }
-                if (sightBrain.CurrentTarget == null)
-                {
-                    currentState = State.Idle;
-                }
-                break;
-            case State.Attacking:
-                if (sightBrain.CurrentTarget == null)
-                {
-                    currentState = State.Idle;
-                }
-                break;
+            orgColor = mainvisual.color;
+            outOfBulletSequence = DOTween.Sequence();
+            outOfBulletSequence.Append(mainvisual.DOFade(.65f, .3f));
+            outOfBulletSequence.Append(mainvisual.DOFade(1f, .3f));
+            outOfBulletSequence.SetAutoKill(false);
+            outOfBulletSequence.SetLoops(-1);
+            outOfBulletSequence.Pause();
+            cooldownBrain.SetCooldownTime(1 / CanonData.AttackSpeed);
         }
-    }
-    private void Update()
-    {
-
-        UpdateState();
-        sightBrain.FindTarget();
-        switch (currentState)
+        public enum State
         {
-            case State.Idle:
-                rotateBrain.ResetRotate();
-                break;
-            case State.Rotating:
-                rotateBrain.Rotate(sightBrain.CurrentTarget.transform);
-
-                if (cooldownBrain.IsResting)
-                {
-                    cooldownBrain.WarmUp();
-                }
-                break;
-            case State.Attacking:
-                rotateBrain.Rotate(sightBrain.CurrentTarget.transform);
-
-                if (cooldownBrain.IsResting)
-                {
-                    cooldownBrain.WarmUp();
-                }
-
-                if (!cooldownBrain.IsInCooldown && !cooldownBrain.IsResting)
-                {
-                    if (cbm.CurrentBullet > 0)
-                    {
-                        cbm.OnShoot();
-                        gunShoot.Shoot(sightBrain.CurrentTarget.transform);
-                        cooldownBrain.StartCooldown();
-                    }
-                    else
-                    {
-                        if (!outOfBulletSequence.IsPlaying())
-                            outOfBulletSequence.Play();
-                    }
-                }
-                break;
+            Idle, Rotating, Attacking
         }
 
-    }
+        private State currentState = State.Idle;
 
-    public void Reload()
-    {
-        outOfBulletSequence.Pause();
-        mainvisual.color = orgColor;
-        cbm.OnReload();
-    }
+        void UpdateState()
+        {
+            switch (currentState)
+            {
+                case State.Idle:
+                    if (sightBrain.CurrentTarget != null)
+                    {
+                        currentState = State.Rotating;
+                    }
+                    break;
+                case State.Rotating:
+                    if (rotateBrain.IsLookingAtTarget)
+                    {
+                        currentState = State.Attacking;
+                    }
+                    if (sightBrain.CurrentTarget == null)
+                    {
+                        currentState = State.Idle;
+                    }
+                    break;
+                case State.Attacking:
+                    if (sightBrain.CurrentTarget == null)
+                    {
+                        currentState = State.Idle;
+                    }
+                    break;
+            }
+        }
+        private void Update()
+        {
 
-    [SerializeField] CannonBulletManager cbm;
-    // nếu cooldown xong đợi 0.5s mà không gọi cooldown tiếp thì đi vào trạng thái rest, lần sau sẽ cần đợi warm up trước khi bắn phát đầu
+            UpdateState();
+            sightBrain.FindTarget();
+            switch (currentState)
+            {
+                case State.Idle:
+                    rotateBrain.ResetRotate();
+                    break;
+                case State.Rotating:
+                    rotateBrain.Rotate(sightBrain.CurrentTarget.transform);
+
+                    if (cooldownBrain.IsResting)
+                    {
+                        cooldownBrain.WarmUp();
+                    }
+                    break;
+                case State.Attacking:
+                    rotateBrain.Rotate(sightBrain.CurrentTarget.transform);
+
+                    if (cooldownBrain.IsResting)
+                    {
+                        cooldownBrain.WarmUp();
+                    }
+
+                    if (!cooldownBrain.IsInCooldown && !cooldownBrain.IsResting)
+                    {
+                        if (cbm.CurrentBullet > 0)
+                        {
+                            cbm.OnShoot();
+                            gunShoot.Shoot(sightBrain.CurrentTarget.transform);
+                            cooldownBrain.StartCooldown();
+                        }
+                        else
+                        {
+                            if (!outOfBulletSequence.IsPlaying())
+                                outOfBulletSequence.Play();
+                        }
+                    }
+                    break;
+            }
+
+        }
+
+        public void Reload()
+        {
+            outOfBulletSequence.Pause();
+            mainvisual.color = orgColor;
+            cbm.OnReload();
+        }
+
+        [SerializeField] CannonBulletManager cbm;
+        // nếu cooldown xong đợi 0.5s mà không gọi cooldown tiếp thì đi vào trạng thái rest, lần sau sẽ cần đợi warm up trước khi bắn phát đầu
+    }
 }

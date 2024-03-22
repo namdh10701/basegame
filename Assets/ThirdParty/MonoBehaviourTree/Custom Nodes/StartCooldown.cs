@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Demo.Scripts.Enemy;
 using UnityEngine;
 
 namespace MBT

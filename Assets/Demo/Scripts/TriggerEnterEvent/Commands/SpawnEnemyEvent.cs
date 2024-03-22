@@ -1,12 +1,17 @@
-﻿using UnityEngine;
-public class SpawnEnemyEvent : MonoBehaviour, ITriggerEnterEvent
+﻿using Demo.Scripts.Enemy;
+using UnityEngine;
+
+namespace Demo.Scripts.TriggerEnterEvent.Commands
 {
-    [SerializeField] EnemySpawnData[] enemySpawnDatas;
-    public void Execute()
+    public class SpawnEnemyEvent : MonoBehaviour, ITriggerEnterEvent
     {
-        foreach(EnemySpawnData enemySpawnData in enemySpawnDatas)
+        [SerializeField] EnemySpawnData[] enemySpawnDatas;
+        public void Execute()
         {
-            EnemySpawner.Instance.SpawnEnemy(enemySpawnData);
+            foreach(EnemySpawnData enemySpawnData in enemySpawnDatas)
+            {
+                EnemySpawner.Instance.SpawnEnemy(enemySpawnData);
+            }
         }
     }
 }

@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public interface ITriggerEnterEvent
+namespace Demo.Scripts.TriggerEnterEvent
 {
-    public void Execute();
+    public interface ITriggerEnterEvent
+    {
+        public void Execute();
+    }
 }

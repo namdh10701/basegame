@@ -1,24 +1,29 @@
-﻿using UnityEngine;
+﻿using Demo.ScriptableObjects.Scripts;
+using Demo.Scripts.Canon;
+using UnityEngine;
 
-public class DefenseBehaviour : MonoBehaviour
+namespace Demo.Scripts.Defense
 {
-    public DefenseData DefenseData;
-
-    string bulletLayerName = "PlayerProjectile";
-    private int bulletLayer;
-
-    private void Start()
+    public class DefenseBehaviour : MonoBehaviour
     {
-        bulletLayer = LayerMask.NameToLayer(bulletLayerName);
-    }
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.layer == bulletLayer)
+        public DefenseData DefenseData;
+
+        string bulletLayerName = "PlayerProjectile";
+        private int bulletLayer;
+
+        private void Start()
         {
-            Projectile projectile = collision.GetComponent<Projectile>();
-            projectile.OnHit();
+            bulletLayer = LayerMask.NameToLayer(bulletLayerName);
         }
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (collision.gameObject.layer == bulletLayer)
+            {
+                Projectile projectile = collision.GetComponent<Projectile>();
+                projectile.OnHit();
+            }
+        }
+
+
     }
-
-
 }
