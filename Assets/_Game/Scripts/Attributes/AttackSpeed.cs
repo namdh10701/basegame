@@ -3,7 +3,7 @@ using _Base.Scripts.RPG.Attributes;
 
 namespace _Game.Scripts.Attributes
 {
-    public class AttackSpeed: Attribute<int>
+    public class AttackSpeed: IntAttribute
     {
         
     }

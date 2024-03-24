@@ -1,6 +1,9 @@
 using _Base.Scripts.RPG.Attributes;
 using _Base.Scripts.RPG.Behaviours.FindTarget;
+using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.RPG.Entities;
+using _Base.Scripts.Utils.Extensions;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace _Base.Scripts.RPGCommon.Entities
@@ -13,7 +16,7 @@ namespace _Base.Scripts.RPGCommon.Entities
 
         public FindTargetStrategy findTargetStrategy;
         
-        private void Awake()
+        private void Start()
         {
             body.velocity = transform.up * moveSpeed.Value;
         }
@@ -24,7 +27,7 @@ namespace _Base.Scripts.RPGCommon.Entities
             {
                 return;
             }
-            OnHit();
+            OnHit(found);
         }
 
         private void OnBecameInvisible()
@@ -32,8 +35,12 @@ namespace _Base.Scripts.RPGCommon.Entities
             Destroy(gameObject);
         }
 
-        protected void OnHit()
+        protected void OnHit(Entity entity)
         {
+            foreach (var effect in CarryingEffects)
+            {
+                entity.effectHolder.gameObject.AddComponent((Effect)effect);//.Process();
+            }
             Destroy(gameObject);
         }
     }

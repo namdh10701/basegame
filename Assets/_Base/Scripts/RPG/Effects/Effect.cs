@@ -11,6 +11,11 @@ namespace _Base.Scripts.RPG.Effects
         [field:SerializeField]
         public bool IsOutbound { get; set; }
 
+        private void Awake()
+        {
+            gameObject.SetActive(false);
+        }
+
         private void OnDestroy()
         {
             Debug.Log($"[{GetType().Name}] Destroyed");
@@ -19,22 +24,24 @@ namespace _Base.Scripts.RPG.Effects
         public event EventHandler<EffectEventArgs> OnStart;
         public event EventHandler<EffectEventArgs> OnEnd;
         public abstract void Apply();
-        public void OnBeforeApply()
+        public abstract void Process();
+
+        public virtual void OnBeforeApply()
         {
             NotifyStarted();
         }
 
-        public void OnAfterApply()
+        public virtual void OnAfterApply()
         {
             NotifyEnded();
         }
 
-        public void NotifyStarted()
+        public virtual void NotifyStarted()
         {
             OnStart?.Invoke(this, new EffectEventArgs());
         }
         
-        public void NotifyEnded()
+        public virtual void NotifyEnded()
         {
             OnEnd?.Invoke(this, new EffectEventArgs());
         }

@@ -7,6 +7,8 @@ namespace _Base.Scripts.RPG.Effects
         event EventHandler<EffectEventArgs> OnStart;
         event EventHandler<EffectEventArgs> OnEnd;
 
+        void Process();
+
         void OnBeforeApply();
         void Apply();
         void OnAfterApply();

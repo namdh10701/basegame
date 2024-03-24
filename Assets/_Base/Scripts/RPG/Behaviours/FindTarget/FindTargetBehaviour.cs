@@ -6,9 +6,12 @@ using UnityEngine;
 namespace _Base.Scripts.RPG.Behaviours.FindTarget
 {
     [AddComponentMenu("RPG/Brain/[Brain] FindTargetBehaviour")]
-    [RequireComponent(typeof(CircleCollider2D))]
+    [RequireComponent(typeof(Collider2D))]
     public class FindTargetBehaviour : MonoBehaviour
     {
+        // [field:SerializeField]
+        // public Collider2D Collider2D { get; set; }
+            
         [field:SerializeField]
         public FindTargetStrategy Strategy { get; set; }
         

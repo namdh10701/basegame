@@ -3,7 +3,7 @@ using _Base.Scripts.RPG.Attributes;
 
 namespace _Game.Scripts.Attributes
 {
-    public class HealthPoint: Attribute<int>
+    public class HealthPoint: IntAttribute
     {
         
     }

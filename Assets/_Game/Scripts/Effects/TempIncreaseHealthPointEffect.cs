@@ -1,18 +1,20 @@
 using _Base.Scripts.RPG;
+using _Base.Scripts.RPG.Attributes;
 using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.RPG.Entities;
 using _Game.Scripts.Attributes;
-using JetBrains.Annotations;
 using UnityEngine;
 
 namespace _Game.Scripts.Effects
 {
-    public class DrainHealthPointEffect: PeriodicEffect
+    public class TempIncreaseHealthPointEffect: TimeoutEffect
     {
         [field:SerializeField]
         public int Amount { get; set; }
-        
-        [CanBeNull] private HealthPoint _hp;
+
+        private HealthPoint _hp;
+        private AttributeModifier<int> _value;
+
 
         private void Awake()
         {
@@ -25,7 +27,13 @@ namespace _Game.Scripts.Effects
             {
                 return;
             }
-            _hp.BaseValue -= Amount;
+            _value = new AttributeModifier<int>(Amount);
+            _hp.Modifiers.Add(_value);
+        }
+
+        public override void OnAfterApply()
+        {
+            _hp.Modifiers.Remove(_value);
         }
     }
 }

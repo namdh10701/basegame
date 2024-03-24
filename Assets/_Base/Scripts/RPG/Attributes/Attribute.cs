@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace _Base.Scripts.RPG.Attributes
@@ -27,9 +28,17 @@ namespace _Base.Scripts.RPG.Attributes
     [Serializable]
     public abstract class Attribute<T>: Attribute
     {
+        
+        [field: SerializeField] 
+        public virtual T BaseValue { get; set; }
+
+        [field: SerializeField]
+        public virtual T Value => GetFinalValue(BaseValue, Modifiers);
 
         [field: SerializeField] 
-        public virtual T Value { get; set; }
+        public virtual List<AttributeModifier<T>> Modifiers { get; set; } = new ();
+
+        protected abstract T GetFinalValue(T baseValue, List<AttributeModifier<T>> modifiers);
         
         public override event EventHandler<AttributeEventArgs> OnChanged;
         

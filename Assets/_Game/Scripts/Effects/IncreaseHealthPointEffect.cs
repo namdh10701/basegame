@@ -24,7 +24,7 @@ namespace _Game.Scripts.Effects
             {
                 return;
             }
-            _hp.Value += Amount;
+            _hp.BaseValue += Amount;
         }
     }
 }

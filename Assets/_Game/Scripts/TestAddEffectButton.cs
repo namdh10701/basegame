@@ -31,5 +31,12 @@
                 eff.Duration = 10;
                 eff.Interval = 1;
             }
+            
+            public void AddTempHealth()
+            {
+                var eff = cannon.effectHolder.AddComponent<TempIncreaseHealthPointEffect>();
+                eff.Amount = 500;
+                eff.Duration = 5;
+            }
         }
     }
