@@ -21,6 +21,7 @@ public class ShipController : MonoBehaviour
 
     public void Setup(BulletsConfig bulletsConfig)
     {
+        Application.targetFrameRate = 60;
         SpawnGunEmplacement();
         SpawnBulletsEmplacement(bulletsConfig);
     }

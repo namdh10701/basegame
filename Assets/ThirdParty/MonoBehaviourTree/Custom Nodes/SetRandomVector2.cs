@@ -23,13 +23,10 @@ namespace MBTExample
         public override NodeResult Execute()
         {
             // Random values per component inside bounds\
-            while (ShipBounds.Contains(blackboardVariable.Value))
-            {
-                blackboardVariable.Value = new Vector2(
+            blackboardVariable.Value = new Vector2(
                     Random.Range(bounds.min.x, bounds.max.x),
                     Random.Range(bounds.min.y, bounds.max.y)
                 );
-            }
             return NodeResult.success;
         }
     }
