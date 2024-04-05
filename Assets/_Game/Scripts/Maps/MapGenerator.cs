@@ -1,229 +1,354 @@
-using _Base.Scripts.Utils.Extensions;
-using Fusion;
-using JetBrains.Annotations;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-using UnityEngine.Rendering;
 
-public class MapGenerator : MonoBehaviour
+namespace Map
 {
-    [SerializeField] MapConfig mapConfig;
-    [SerializeField] Node nodePrefab;
-    [SerializeField] GameObject linePrefab;
-    [SerializeField] Transform mapRoot;
-    public Node[,] Map;
-    List<Node>[] Floors;
-    private void Awake()
+    public static class MapGenerator
     {
-        Map = new Node[mapConfig.Grid.x, mapConfig.Grid.y];
-        Floors = new List<Node>[mapConfig.Grid.y];
-        for (int i = 0; i < Floors.Length; i++)
+        private static MapConfig config;
+
+        private static readonly List<NodeType> RandomNodes = new List<NodeType>
+        {NodeType.Armory, NodeType.Shop, NodeType.Relic, NodeType.MinorEnemy, NodeType.RestSite};
+
+        private static List<float> layerDistances;
+        private static List<List<Point>> paths;
+        // ALL nodes by layer:
+        private static readonly List<List<Node>> nodes = new List<List<Node>>();
+
+        public static Map GetMap(MapConfig conf)
         {
-            Floors[i] = new List<Node>();
-        }
-
-        Generate();
-    }
-    public void Generate()
-    {
-        GenerateNodesGrid();
-        ConnectNodes();
-        RemoveCrossedConnection();
-        RandomizeNodesPosition();
-
-        GeneratePaths();
-
-        AssignNodesType();
-        AddBossNode();
-    }
-
-    void GenerateNodesGrid()
-    {
-        for (int y = 0; y < mapConfig.Grid.y; y++)
-        {
-            for (int x = 0; x < mapConfig.Grid.x; x++)
+            if (conf == null)
             {
-                Node node = Instantiate(nodePrefab, new Vector2((x - mapConfig.Grid.x / 2) * mapConfig.DimensionSize.x + mapRoot.position.x, y * mapConfig.DimensionSize.y + mapRoot.position.y), Quaternion.identity, mapRoot);
-                Map[x, y] = node;
-                node.Position = new Vector2Int(x, y);
+                Debug.LogWarning("Config was null in MapGenerator.Generate()");
+                return null;
             }
-        }
-        // Select first node
-        // reselect for more 6 time 
-    }
 
-    void ConnectNodes()
-    {
-        if (mapConfig.StartNodeNumber > mapConfig.Grid.x)
-        {
-            Debug.LogError("X");
-        }
-        List<int> availableFirstFloorIndex = new List<int>();
-        List<int> availableFirstFloorIndexCopy = new List<int>();
-        for (int i = 0; i < mapConfig.Grid.x; i++)
-        {
-            availableFirstFloorIndex.Add(i);
-            availableFirstFloorIndexCopy.Add(i);
-        }
+            config = conf;
+            nodes.Clear();
 
-        int startNodeNumber = mapConfig.StartNodeNumber;
-        int tryTimes = Mathf.Max(startNodeNumber, 6);
-        Debug.Log("S" + startNodeNumber + " TT" + tryTimes);
-        for (int i = 0; i < tryTimes; i++)
+            GenerateLayerDistances();
+
+            for (var i = 0; i < config.numOfLayer; i++)
+                PlaceLayer(i);
+
+            GeneratePaths();
+
+            RandomizeNodePositions();
+
+            SetUpConnections();
+
+            RemoveCrossConnections();
+
+            AssignLocation();
+
+
+            // select all the nodes with connections:
+            var nodesList = nodes.SelectMany(n => n).Where(n => n.incoming.Count > 0 || n.outgoing.Count > 0).ToList();
+
+            // pick a random name of the boss level for this map:
+            var bossNodeName = config.nodeBlueprints.Where(b => b.nodeType == NodeType.Boss).ToList().Random().name;
+            return new Map(conf.name, bossNodeName, nodesList, new List<Point>());
+        }
+        static void AssignLocation()
         {
-            int nodeIndex;
-            if (i < startNodeNumber - 1)
+            Odds odds = config.Odds;
+            Dictionary<NodeType, double> probabilities = new Dictionary<NodeType, double>();
+            foreach (OddsItem item in odds.OddItems)
             {
-                nodeIndex = availableFirstFloorIndex.GetRandom();
-                availableFirstFloorIndex.Remove(nodeIndex);
+                probabilities.Add(item.NodeType, item.Probability);
             }
-            else
+            var picker = new ProbabilityPicker<NodeType>(probabilities);
+
+
+            for (int i = 0; i < nodes.Count; i++)
             {
-                nodeIndex = availableFirstFloorIndexCopy.GetRandom();
-            }
-            Node node = Map[nodeIndex, 0];
-            Debug.Log(nodeIndex + " FIRST NODE");
-            Floors[0].Add(node);
-            for (int j = 1; j < Map.GetLength(1); j++)
-            {
-                int nextIndexLower = Mathf.Max(nodeIndex - 1, 0);
-                int nextIndexUpper = Mathf.Min(nodeIndex + 2, Map.GetLength(0));
-                Debug.Log(nextIndexLower + " AA " + nextIndexUpper);
-
-                nodeIndex = Random.Range(nextIndexLower, nextIndexUpper);
-                Debug.Log(j + " " + nodeIndex);
-                Node nextNode = Map[nodeIndex, j];
-                node.OutGoing.Add(nextNode);
-                nextNode.InComing.Add(node);
-                Floors[j].Add(nextNode);
-                node = nextNode;
-            }
-        }
-    }
-
-    void AssignNodesType()
-    {
-
-    }
-
-    void RandomizeNodesPosition()
-    {
-
-    }
-    void RemoveCrossedConnection()
-    {
-        for (int i = 0; i < Floors.Length; i++)
-        {
-            for (int j = 0; j < Floors[i].Count; j++)
-            {
-                Node node = Floors[i][j];
-             /*   
-                if()
-
-                Node topRightNode = GetTopRightNode(node);
-                Node topLeftNode = GetTopLeftNode(node);
-
-                if (topRightNode != null && topRightNode.IsActive)
+                for (int j = 0; j < nodes[i].Count; j++)
                 {
-                    if (node.HasConnection(topRightNode))
+                    NodeType nodeType;
+                    MapLayer overridedLayer = config.GetOverrideLayer(i);
+                    if (overridedLayer != null)
                     {
-                        CheckAndRemoveCrossRightNode(node);
+                        //Co the doi thanh override odds luon
+                        nodeType = overridedLayer.nodeType;
                     }
-                }*/
-                /*if (topLeftNode != null && topLeftNode.IsActive)
-                {
-                    if (node.HasConnection(topLeftNode))
+                    else
                     {
-                        CheckAndRemoveCrossLeftNode(node);
+                        nodeType = picker.Choose();
                     }
+                    Node node = nodes[i][j];
+                    node.nodeType = nodeType;
+                    var blueprintName = config.nodeBlueprints.Where(b => b.nodeType == nodeType).ToList().Random().name;
 
-                }*/
+                    node.AssignLocation(nodeType, blueprintName);
+                }
             }
+
+
         }
-    }
 
-    void CheckAndRemoveCrossRightNode(Node node)
-    {
-        //Node rightNode = 
-    }
-    void CheckAndRemoveCrossLeftNode(Node node)
-    {
 
-    }
-
-    public Node GetRightNode(Node node)
-    {
-        if (node.Position.x == Map.GetLength(1) - 1)
+        private static void GenerateLayerDistances()
         {
-            return null;
-        }
-        return Map[node.Position.x + 1, node.Position.y];
-    }
-
-    public Node GetLeftNode(Node node)
-    {
-        if (node.Position.x == Map.GetLength(1) - 1)
-        {
-            return null;
-        }
-        return Map[node.Position.x + 1, node.Position.y];
-    }
-
-    public Node GetTopRightNode(Node node)
-    {
-        if (node.Position.x == Map.GetLength(1) - 1
-            || node.Position.y == Map.GetLength(0) - 1)
-        {
-            return null;
-        }
-        return Map[node.Position.x + 1, node.Position.y+1];
-    }
-
-    public Node GetTopLeftNode(Node node)
-    {
-        if (node.Position.x == 0
-            || node.Position.y == Map.GetLength(0) - 1)
-        {
-            return null;
-        }
-        return Map[node.Position.x + 1, node.Position.y+1];
-    }
-
-
-    void GeneratePaths()
-    {
-        for (int i = 0; i < Map.GetLength(0); i++)
-        {
-            for (int j = 0; j < Map.GetLength(1) - 1; j++)
+            layerDistances = new List<float>();
+            for (int i = 0; i < config.numOfLayer; i++)
             {
-                Node node = Map[i, j];
-                if (node.OutGoing.Count > 0)
+                MapLayer overrided = config.GetOverrideLayer(i);
+                if (overrided != null)
+                    layerDistances.Add(overrided.distanceFromPreviousLayer.GetValue());
+                else
+                    layerDistances.Add(config.distanceFromPreviousLayer.GetValue());
+            }
+
+        }
+
+        private static float GetDistanceToLayer(int layerIndex)
+        {
+            if (layerIndex < 0 || layerIndex > layerDistances.Count) return 0f;
+
+            return layerDistances.Take(layerIndex + 1).Sum();
+        }
+
+        private static void PlaceLayer(int layerIndex)
+        {
+            var layer = config.GetOverrideLayer(layerIndex);
+            var nodesOnThisLayer = new List<Node>();
+
+            // offset of this layer to make all the nodes centered:
+
+            for (var i = 0; i < config.GridWidth; i++)
+            {
+                if (layer != null)
                 {
-                    node.IsActive = true;
-                    foreach (Node outGoingNode in node.OutGoing)
+
+                    var offset = layer.nodesApartDistance * (i - config.GridWidth / 2f + (config.GridWidth % 2 == 0 ? .5f : 0));
+
+                    var node = new Node(new Point(i, layerIndex))
                     {
-                        GameObject line = Instantiate(linePrefab, mapRoot);
-                        line.transform.position = (node.transform.position + outGoingNode.transform.position) / 2;
-                        line.transform.up = (outGoingNode.transform.position - node.transform.position).normalized;
-                    }
+                        position = new Vector2(offset, GetDistanceToLayer(layerIndex))
+                    };
+                    nodesOnThisLayer.Add(node);
                 }
                 else
                 {
-                    node.IsActive = false;
-                    node.gameObject.SetActive(false);
+                    var offset = config.nodesApartDistance * (i - config.GridWidth / 2f + (config.GridWidth % 2 == 0 ? .5f : 0));
+
+                    var node = new Node(new Point(i, layerIndex))
+                    {
+                        position = new Vector2(offset, GetDistanceToLayer(layerIndex))
+                    };
+                    nodesOnThisLayer.Add(node);
                 }
             }
-            Node finalNode = Map[i, Map.GetLength(1) - 1];
-            if (finalNode.InComing.Count == 0)
+
+            nodes.Add(nodesOnThisLayer);
+        }
+
+        private static void RandomizeNodePositions()
+        {
+            for (var index = 0; index < nodes.Count; index++)
             {
-                finalNode.IsActive = false;
-                finalNode.gameObject.SetActive(false);
+                var list = nodes[index];
+                var overridedLayer = config.GetOverrideLayer(index);
+
+                var distToNextLayer = index + 1 >= layerDistances.Count
+                    ? 0f
+                    : layerDistances[index + 1];
+                var distToPreviousLayer = layerDistances[index];
+
+                foreach (var node in list)
+                {
+                    if (overridedLayer != null)
+                    {
+                        var xRnd = Random.Range(-1f, 1f);
+                        var yRnd = Random.Range(-1f, 1f);
+
+                        var x = xRnd * overridedLayer.nodesApartDistance / 2f;
+                        var y = yRnd < 0 ? distToPreviousLayer * yRnd / 2f : distToNextLayer * yRnd / 2f;
+
+                        node.position += new Vector2(x, y) * overridedLayer.randomizePosition;
+                    }
+                    else
+                    {
+                        var xRnd = Random.Range(-1f, 1f);
+                        var yRnd = Random.Range(-1f, 1f);
+
+                        var x = xRnd * config.nodesApartDistance / 2f;
+                        var y = yRnd < 0 ? distToPreviousLayer * yRnd / 2f : distToNextLayer * yRnd / 2f;
+
+                        node.position += new Vector2(x, y) * config.randomizePosition;
+                    }
+
+                }
             }
         }
-    }
 
-    void AddBossNode()
-    {
+        private static void SetUpConnections()
+        {
+            foreach (var path in paths)
+            {
+                for (var i = 0; i < path.Count - 1; ++i)
+                {
+                    var node = GetNode(path[i]);
+                    var nextNode = GetNode(path[i + 1]);
+                    node.AddOutgoing(nextNode.point);
+                    nextNode.AddIncoming(node.point);
+                }
+            }
+        }
 
+        private static void RemoveCrossConnections()
+        {
+            for (var i = 0; i < config.GridWidth - 1; ++i)
+                for (var j = 0; j < config.numOfLayer; ++j)
+                {
+                    var node = GetNode(new Point(i, j));
+                    if (node == null || node.HasNoConnections()) continue;
+                    var right = GetNode(new Point(i + 1, j));
+                    if (right == null || right.HasNoConnections()) continue;
+                    var top = GetNode(new Point(i, j + 1));
+                    if (top == null || top.HasNoConnections()) continue;
+                    var topRight = GetNode(new Point(i + 1, j + 1));
+                    if (topRight == null || topRight.HasNoConnections()) continue;
+
+                    // Debug.Log("Inspecting node for connections: " + node.point);
+                    if (!node.outgoing.Any(element => element.Equals(topRight.point))) continue;
+                    if (!right.outgoing.Any(element => element.Equals(top.point))) continue;
+
+                    // Debug.Log("Found a cross node: " + node.point);
+
+                    // we managed to find a cross node:
+                    // 1) add direct connections:
+                    node.AddOutgoing(top.point);
+                    top.AddIncoming(node.point);
+
+                    right.AddOutgoing(topRight.point);
+                    topRight.AddIncoming(right.point);
+
+                    var rnd = Random.Range(0f, 1f);
+                    if (rnd < 0.2f)
+                    {
+                        // remove both cross connections:
+                        // a) 
+                        node.RemoveOutgoing(topRight.point);
+                        topRight.RemoveIncoming(node.point);
+                        // b) 
+                        right.RemoveOutgoing(top.point);
+                        top.RemoveIncoming(right.point);
+                    }
+                    else if (rnd < 0.6f)
+                    {
+                        // a) 
+                        node.RemoveOutgoing(topRight.point);
+                        topRight.RemoveIncoming(node.point);
+                    }
+                    else
+                    {
+                        // b) 
+                        right.RemoveOutgoing(top.point);
+                        top.RemoveIncoming(right.point);
+                    }
+                }
+        }
+
+        private static Node GetNode(Point p)
+        {
+            if (p.y >= nodes.Count) return null;
+            if (p.x >= nodes[p.y].Count) return null;
+
+            return nodes[p.y][p.x];
+        }
+
+        private static Point GetFinalNode()
+        {
+            var y = config.numOfLayer - 1;
+            if (config.GridWidth % 2 == 1)
+                return new Point(config.GridWidth / 2, y);
+
+            return Random.Range(0, 2) == 0
+                ? new Point(config.GridWidth / 2, y)
+                : new Point(config.GridWidth / 2 - 1, y);
+        }
+
+        private static void GeneratePaths()
+        {
+            var finalNode = GetFinalNode();
+            paths = new List<List<Point>>();
+            var numOfStartingNodes = config.numOfStartingNodes.GetValue();
+            var numOfPreBossNodes = config.numOfPreBossNodes.GetValue();
+
+            var candidateXs = new List<int>();
+            for (var i = 0; i < config.GridWidth; i++)
+                candidateXs.Add(i);
+
+            candidateXs.Shuffle();
+            var startingXs = candidateXs.Take(numOfStartingNodes);
+            var startingPoints = (from x in startingXs select new Point(x, 0)).ToList();
+
+            candidateXs.Shuffle();
+            var preBossXs = candidateXs.Take(numOfPreBossNodes);
+            var preBossPoints = (from x in preBossXs select new Point(x, finalNode.y - 1)).ToList();
+
+            int numOfPaths = Mathf.Max(numOfStartingNodes, numOfPreBossNodes) + Mathf.Max(0, config.extraPaths);
+            for (int i = 0; i < numOfPaths; ++i)
+            {
+                Point startNode = startingPoints[i % numOfStartingNodes];
+                Point endNode = preBossPoints[i % numOfPreBossNodes];
+                var path = Path(startNode, endNode);
+                path.Add(finalNode);
+                paths.Add(path);
+            }
+        }
+
+        // Generates a random path bottom up.
+        private static List<Point> Path(Point fromPoint, Point toPoint)
+        {
+            int toRow = toPoint.y;
+            int toCol = toPoint.x;
+
+            int lastNodeCol = fromPoint.x;
+
+            var path = new List<Point> { fromPoint };
+            var candidateCols = new List<int>();
+            for (int row = 1; row < toRow; ++row)
+            {
+                candidateCols.Clear();
+
+                int verticalDistance = toRow - row;
+                int horizontalDistance;
+
+                int forwardCol = lastNodeCol;
+                horizontalDistance = Mathf.Abs(toCol - forwardCol);
+                if (horizontalDistance <= verticalDistance)
+                    candidateCols.Add(lastNodeCol);
+
+                int leftCol = lastNodeCol - 1;
+                horizontalDistance = Mathf.Abs(toCol - leftCol);
+                if (leftCol >= 0 && horizontalDistance <= verticalDistance)
+                    candidateCols.Add(leftCol);
+
+                int rightCol = lastNodeCol + 1;
+                horizontalDistance = Mathf.Abs(toCol - rightCol);
+                if (rightCol < config.GridWidth && horizontalDistance <= verticalDistance)
+                    candidateCols.Add(rightCol);
+
+                int RandomCandidateIndex = Random.Range(0, candidateCols.Count);
+                int candidateCol = candidateCols[RandomCandidateIndex];
+                var nextPoint = new Point(candidateCol, row);
+
+                path.Add(nextPoint);
+
+                lastNodeCol = candidateCol;
+            }
+
+            path.Add(toPoint);
+
+            return path;
+        }
+
+        private static NodeType GetRandomNode()
+        {
+            return RandomNodes[Random.Range(0, RandomNodes.Count)];
+        }
     }
 }

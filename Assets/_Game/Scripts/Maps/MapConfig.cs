@@ -1,32 +1,53 @@
-using System;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Scriptable Objects/Map Config")]
-public class MapConfig : ScriptableObject
+namespace Map
 {
-    public Odds Odds;
-    public FloorConfig[] AbsoluteFloor;
-    public FloorConfig[] AppearAfter;
-    public Vector2Int Grid;
-    public Vector2 DimensionSize;
-    public int StartNodeNumber;
-}
+    [CreateAssetMenu]
+    public class MapConfig : ScriptableObject
+    {
+        public List<NodeBlueprint> nodeBlueprints;
+        public int GridWidth => Mathf.Max(numOfPreBossNodes.max, numOfStartingNodes.max);
 
+    
+        public IntMinMax numOfPreBossNodes;
+       
+        public IntMinMax numOfStartingNodes;
 
+        public int numOfLayer;
+        [Tooltip("Increase this number to generate more paths")]
+        public int extraPaths;
+         public FloatMinMax distanceFromPreviousLayer;
+        public float nodesApartDistance;
+        [Range(0, 1)] public float randomizePosition;
 
-[Serializable]
-public struct FloorConfig
-{
-    public NodeType NodeType;
-    public int FloorNumber;
-}
-[Serializable]
-public struct Odds
-{
-    [Range(0, 1)] public float NormalEnemy;
-    [Range(0, 1)] public float EliteEnemy;
-    [Range(0, 1)] public float Relic;
-    [Range(0, 1)] public float RestSite;
-    [Range(0, 1)] public float Shop;
-    [Range(0, 1)] public float Amory;
+        public Odds Odds;
+
+        public MapLayer[] overridedLayers;
+
+        public MapLayer GetOverrideLayer(int layerNum)
+        {
+            foreach (MapLayer mapLayer in overridedLayers)
+            {
+                if (mapLayer.LayerNumber == layerNum)
+                {
+                    return mapLayer;
+                }
+            }
+            return null;
+        }
+    }
+
+    [System.Serializable]
+    public struct Odds
+    {
+        public OddsItem[] OddItems;
+    }
+
+    [System.Serializable]
+    public struct OddsItem
+    {
+        public NodeType NodeType;
+        [Range(0, 1)] public float Probability;
+    }
 }
