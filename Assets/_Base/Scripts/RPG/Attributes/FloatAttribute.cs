@@ -13,5 +13,15 @@ namespace _Base.Scripts.RPG.Attributes
         {
             return modifiers.Sum(v => v.Value) + baseValue;
         }
+
+        public override void NotifyChanged()
+        {
+            
+        }
+
+        public override object GetValue()
+        {
+            return null;
+        }
     }
 }

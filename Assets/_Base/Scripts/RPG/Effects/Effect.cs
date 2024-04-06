@@ -5,11 +5,11 @@ namespace _Base.Scripts.RPG.Effects
 {
     public abstract class Effect: MonoBehaviour, IEffect
     {
-        [field:SerializeField]
-        public bool IsInbound { get; set; }
-        
-        [field:SerializeField]
-        public bool IsOutbound { get; set; }
+        // [field:SerializeField]
+        // public bool IsInbound { get; set; }
+        //
+        // [field:SerializeField]
+        // public bool IsOutbound { get; set; }
 
         private void Awake()
         {

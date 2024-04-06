@@ -17,9 +17,9 @@ namespace _Base.Scripts.RPG.Behaviours.FindTarget
         
         [field:SerializeField]
         public List<Entity> Targets { get; private set; } = new ();
-        
-        [field:SerializeField]
-        [CanBeNull] public Entity MostTarget { get; private set; }
+
+        [field: SerializeField] 
+        public List<Entity> MostTargets { get; private set; } = new();
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
@@ -42,7 +42,7 @@ namespace _Base.Scripts.RPG.Behaviours.FindTarget
 
         void Update()
         {
-            MostTarget = Strategy.FindTheMostTarget(Targets);
+            MostTargets = Strategy.FindTheMostTargets(Targets);
         }
 
     }

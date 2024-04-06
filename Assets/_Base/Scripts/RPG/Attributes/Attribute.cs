@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +7,23 @@ namespace _Base.Scripts.RPG.Attributes
 {
     public interface IAttribute
     {
+        public object Value { get; set; }
+        
+        public object MinValue { get; set; }
+        
+        public object MaxValue { get; set; }
+        event EventHandler<AttributeEventArgs> OnChanged;
+
+        void NotifyChanged();
+    }
+    
+    public interface IAttribute<T>
+    {
+        public T Value { get; set; }
+        
+        public T MinValue { get; set; }
+        
+        public T MaxValue { get; set; }
         event EventHandler<AttributeEventArgs> OnChanged;
 
         void NotifyChanged();
@@ -18,8 +36,16 @@ namespace _Base.Scripts.RPG.Attributes
     }
 
     [Serializable]
-    public abstract class Attribute: MonoBehaviour, IAttribute
+    public abstract class Attribute: IAttribute
     {
+        [field: SerializeField] 
+        public virtual object Value { get; set; }
+        
+        [field: SerializeField] 
+        public virtual object MinValue { get; set; }
+        
+        [field: SerializeField] 
+        public virtual object MaxValue { get; set; }
         public virtual event EventHandler<AttributeEventArgs> OnChanged;
         public abstract void NotifyChanged();
         public abstract object GetValue();
@@ -30,26 +56,46 @@ namespace _Base.Scripts.RPG.Attributes
     {
         
         [field: SerializeField] 
-        public virtual T BaseValue { get; set; }
+        public new virtual T Value { get; set; }
+        
+        [field: SerializeField] 
+        public new virtual T MinValue { get; set; }
+        
+        [field: SerializeField] 
+        public new virtual T MaxValue { get; set; }
 
         [field: SerializeField]
-        public virtual T Value => GetFinalValue(BaseValue, Modifiers);
+        public virtual T CalculatedValue => GetFinalValue(Value, Modifiers);
 
         [field: SerializeField] 
         public virtual List<AttributeModifier<T>> Modifiers { get; set; } = new ();
 
         protected abstract T GetFinalValue(T baseValue, List<AttributeModifier<T>> modifiers);
         
-        public override event EventHandler<AttributeEventArgs> OnChanged;
-        
-        public override void NotifyChanged()
+        // public override event EventHandler<AttributeEventArgs> OnChanged;
+        //
+        // public override void NotifyChanged()
+        // {
+        //     IList;
+        //     IList<int>;
+        //     List<int>;
+        //     OnChanged?.Invoke(this, new AttributeEventArgs());
+        // }
+
+        // public override object GetValue()
+        // {
+        //     return CalculatedValue;
+        // }
+
+        protected Attribute()
         {
-            OnChanged?.Invoke(this, new AttributeEventArgs());
         }
 
-        public override object GetValue()
+        protected Attribute(T value, T minValue, T maxValue)
         {
-            return Value;
+            Value = value;
+            MinValue = minValue;
+            MaxValue = maxValue;
         }
     }
 }

@@ -1,3 +1,4 @@
+using System.Linq;
 using _Base.Scripts.RPG.Behaviours.FollowTarget;
 using UnityEngine;
 
@@ -23,9 +24,9 @@ namespace _Base.Scripts.RPG.Behaviours.AimTarget
             if (FollowTargetBehaviour.IsCaughtUp)
             {
                 IsReadyToAttack = Strategy.Aim(FollowTargetBehaviour);
-                if (FollowTargetBehaviour.FindTargetBehaviour.MostTarget != null)
+                if (FollowTargetBehaviour.FindTargetBehaviour.MostTargets.Count > 0)
                 {
-                    LockedPosition = FollowTargetBehaviour.FindTargetBehaviour.MostTarget.transform.position;
+                    LockedPosition = FollowTargetBehaviour.FindTargetBehaviour.MostTargets.First().transform.position;
                 }
             }
             else

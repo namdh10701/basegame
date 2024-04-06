@@ -159,7 +159,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Strategy>k__BackingField: {fileID: 47669649}
   <Targets>k__BackingField: []
-  <MostTarget>k__BackingField: {fileID: 0}
+  <MostTargets>k__BackingField: []
 --- !u!60 &47669646
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -454,7 +454,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   aimTargetBehaviour: {fileID: 1940667770}
-  attackAccuracy: {fileID: 1321938073}
+  attackAccuracy:
+    BaseValue: 0
+    MinValue: 0
+    MaxValue: 0
+    statModifiers: []
   shootPosition: {fileID: 1197774613}
   projectilePrefab: {fileID: 9038214777133773486, guid: 5ca95de0050294232be82d462f376a92, type: 3}
 --- !u!114 &151119019
@@ -470,7 +474,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shootTargetBehaviour: {fileID: 151119018}
-  fireRate: {fileID: 1321938074}
 --- !u!1 &167173418
 GameObject:
   m_ObjectHideFlags: 0
@@ -1537,9 +1540,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attributeHolder: {fileID: 0}
-  effectHolder: {fileID: 0}
   carryingEffectHolder: {fileID: 0}
-  <Attributes>k__BackingField: []
+  EffectHandler: {fileID: 0}
+  _stats:
+    <MaxHealthPoint>k__BackingField:
+      BaseValue: 0
+      MinValue: 0
+      MaxValue: 0
+      statModifiers: []
+    <AttackDamage>k__BackingField:
+      BaseValue: 0
+      MinValue: 0
+      MaxValue: 0
+      statModifiers: []
+    <CriticalChance>k__BackingField:
+      BaseValue: 0
+      MinValue: 0
+      MaxValue: 0
+      statModifiers: []
+    <CriticalDamage>k__BackingField:
+      BaseValue: 0
+      MinValue: 0
+      MaxValue: 0
+      statModifiers: []
+    <AttackRange>k__BackingField:
+      BaseValue: 0
+      MinValue: 0
+      MaxValue: 0
+      statModifiers: []
+    _healthPoint: 0
 --- !u!1 &785776132
 GameObject:
   m_ObjectHideFlags: 0
@@ -1763,8 +1792,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da6df885ebfe4a628847be63a12989f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthPoint: {fileID: 1321938075}
-  capacity: 500
+  entity: {fileID: 930705609}
   background: {fileID: 1057929713}
   fill: {fileID: 853021275}
 --- !u!1 &833850582
@@ -1920,6 +1948,7 @@ GameObject:
   - component: {fileID: 930705609}
   - component: {fileID: 930705610}
   - component: {fileID: 930705611}
+  - component: {fileID: 930705612}
   m_Layer: 0
   m_Name: Cannon
   m_TagString: Untagged
@@ -1975,10 +2004,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attributeHolder: {fileID: 1321938072}
-  effectHolder: {fileID: 1298217182}
   carryingEffectHolder: {fileID: 117829177}
-  <Attributes>k__BackingField:
-  - {fileID: 0}
+  EffectHandler: {fileID: 1298217183}
+  _stats:
+    <MaxHealthPoint>k__BackingField:
+      BaseValue: 500
+      MinValue: 500
+      MaxValue: 0
+      statModifiers: []
+    <AttackDamage>k__BackingField:
+      BaseValue: 0
+      MinValue: 0
+      MaxValue: 0
+      statModifiers: []
+    <CriticalChance>k__BackingField:
+      BaseValue: 0
+      MinValue: 0
+      MaxValue: 0
+      statModifiers: []
+    <CriticalDamage>k__BackingField:
+      BaseValue: 0
+      MinValue: 0
+      MaxValue: 0
+      statModifiers: []
+    <AttackRange>k__BackingField:
+      BaseValue: 0
+      MinValue: 0
+      MaxValue: 0
+      statModifiers: []
+    _healthPoint: 400
 --- !u!61 &930705610
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2051,6 +2105,46 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
+--- !u!114 &930705612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 930705599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d7b55c7ecdb49a4a89fa5e6f9022861, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startWhenEnabled: 1
+  asynchronousLoad: 0
+  pauseWhenDisabled: 0
+  restartWhenComplete: 0
+  logTaskChanges: 0
+  group: 0
+  resetValuesOnRestart: 0
+  externalBehavior: {fileID: 0}
+  mBehaviorSource:
+    behaviorName: Behavior
+    behaviorDescription: 
+    mTaskData:
+      types: []
+      parentIndex: 
+      startIndex: 
+      variableStartIndex: 
+      JSONSerialization: 
+      fieldSerializationData:
+        typeName: []
+        fieldNameHash: 
+        startIndex: 
+        dataPosition: 
+        unityObjects: []
+        byteData: 
+        byteDataArray: 
+      Version: 
+  gizmoViewMode: 2
+  showBehaviorDesignerGizmo: 1
 --- !u!1 &1057929712
 GameObject:
   m_ObjectHideFlags: 0
@@ -2735,7 +2829,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Strategy>k__BackingField: {fileID: 1143388705}
   <Targets>k__BackingField: []
-  <MostTarget>k__BackingField: {fileID: 0}
+  <MostTargets>k__BackingField: []
 --- !u!114 &1143388705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3004,6 +3098,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1298217182}
+  - component: {fileID: 1298217183}
   m_Layer: 0
   m_Name: Effects
   m_TagString: Untagged
@@ -3026,6 +3121,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 930705600}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1298217183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1298217181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01bfda76cc6a4e3080de930ff8b94a3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  entity: {fileID: 930705609}
 --- !u!1 &1321756808
 GameObject:
   m_ObjectHideFlags: 0
@@ -3206,8 +3314,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1584f2fe228e444ca01091659acffaa5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <BaseValue>k__BackingField: 0
-  <Modifiers>k__BackingField: []
 --- !u!114 &1321938074
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3220,8 +3326,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 511f41dc487247f3887872cb320c724e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <BaseValue>k__BackingField: 0
-  <Modifiers>k__BackingField: []
 --- !u!114 &1321938075
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3234,8 +3338,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80cdde9c76504eceafa82dbcd1dc69e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <BaseValue>k__BackingField: 100
-  <Modifiers>k__BackingField: []
 --- !u!1 &1353038383
 GameObject:
   m_ObjectHideFlags: 0
@@ -3931,8 +4033,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da6df885ebfe4a628847be63a12989f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthPoint: {fileID: 1497417687}
-  capacity: 500
+  entity: {fileID: 1996853481}
   background: {fileID: 2145254859}
   fill: {fileID: 1599944752}
 --- !u!1 &1497417685
@@ -3966,8 +4067,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 511f41dc487247f3887872cb320c724e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <BaseValue>k__BackingField: 0
-  <Modifiers>k__BackingField: []
 --- !u!114 &1497417687
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3980,8 +4079,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80cdde9c76504eceafa82dbcd1dc69e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <BaseValue>k__BackingField: 100
-  <Modifiers>k__BackingField: []
 --- !u!114 &1497417688
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3994,8 +4091,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1584f2fe228e444ca01091659acffaa5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <BaseValue>k__BackingField: 0
-  <Modifiers>k__BackingField: []
 --- !u!4 &1497417689
 Transform:
   m_ObjectHideFlags: 0
@@ -4719,7 +4814,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shootTargetBehaviour: {fileID: 1769321737}
-  fireRate: {fileID: 1497417686}
 --- !u!114 &1769321737
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4733,7 +4827,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   aimTargetBehaviour: {fileID: 1062469233}
-  attackAccuracy: {fileID: 1497417688}
+  attackAccuracy:
+    BaseValue: 0
+    MinValue: 0
+    MaxValue: 0
+    statModifiers: []
   shootPosition: {fileID: 1187918290}
   projectilePrefab: {fileID: 2418962551486319295, guid: a84f77abc4b714411943669b4610656a, type: 3}
 --- !u!1 &1785222605
@@ -5111,9 +5209,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attributeHolder: {fileID: 1497417689}
-  effectHolder: {fileID: 835117893}
   carryingEffectHolder: {fileID: 1353038384}
-  <Attributes>k__BackingField: []
+  EffectHandler: {fileID: 0}
+  _stats:
+    <MaxHealthPoint>k__BackingField:
+      BaseValue: 0
+      MinValue: 0
+      MaxValue: 0
+      statModifiers: []
+    <AttackDamage>k__BackingField:
+      BaseValue: 0
+      MinValue: 0
+      MaxValue: 0
+      statModifiers: []
+    <CriticalChance>k__BackingField:
+      BaseValue: 0
+      MinValue: 0
+      MaxValue: 0
+      statModifiers: []
+    <CriticalDamage>k__BackingField:
+      BaseValue: 0
+      MinValue: 0
+      MaxValue: 0
+      statModifiers: []
+    <AttackRange>k__BackingField:
+      BaseValue: 0
+      MinValue: 0
+      MaxValue: 0
+      statModifiers: []
+    _healthPoint: 0
 --- !u!1 &2023355289
 GameObject:
   m_ObjectHideFlags: 0
@@ -5212,9 +5336,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attributeHolder: {fileID: 0}
-  effectHolder: {fileID: 0}
   carryingEffectHolder: {fileID: 0}
-  <Attributes>k__BackingField: []
+  EffectHandler: {fileID: 0}
 --- !u!1 &2145254858
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,29 +12,29 @@ namespace _Base.Scripts.RPGCommon.Behaviours.FindTargetStrategies
     {
         public override bool TryGetTargetEntity(GameObject go, out Entity entity)
         {
-            go.TryGetComponent<ILivingEntity>(out var found);
+            go.TryGetComponent<IAlive>(out var found);
             entity = found as Entity;
             return entity != null;
         }
 
         [CanBeNull]
-        public override Entity FindTheMostTarget(List<Entity> foundTargets)
+        public override List<Entity> FindTheMostTargets(List<Entity> foundTargets)
         {
             Entity lowestHpTarget = null;
             var lowestHp = Mathf.Infinity;
 
             foreach (var entity in foundTargets)
             {
-                var livingEntity = (ILivingEntity)entity;
-                float hp = livingEntity.HealthPoint.Value;
-                if (hp < lowestHp)
-                {
-                    lowestHp = hp;
-                    lowestHpTarget = entity;
-                }
+                var livingEntity = (IAlive)entity;
+                // float hp = livingEntity.HealthPoint.CalculatedValue;
+                // if (hp < lowestHp)
+                // {
+                //     lowestHp = hp;
+                //     lowestHpTarget = entity;
+                // }
             }
 
-            return lowestHpTarget;
+            return new List<Entity> { lowestHpTarget };
         }
     }
 }

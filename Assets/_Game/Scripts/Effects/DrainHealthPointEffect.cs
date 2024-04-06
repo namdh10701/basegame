@@ -16,7 +16,7 @@ namespace _Game.Scripts.Effects
 
         private void Awake()
         {
-            _hp = GetComponentInParent<Entity>()?.GetAttribute<HealthPoint>();
+            // _hp = GetComponentInParent<Entity>()?.GetAttribute<HealthPoint>();
         }
 
         public override void Apply()
@@ -25,7 +25,7 @@ namespace _Game.Scripts.Effects
             {
                 return;
             }
-            _hp.BaseValue -= Amount;
+            _hp.Value -= Amount;
         }
     }
 }

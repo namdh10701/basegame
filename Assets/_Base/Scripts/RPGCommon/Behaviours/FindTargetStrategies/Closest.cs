@@ -31,7 +31,7 @@ namespace _Base.Scripts.RPGCommon.Behaviours.FindTargetStrategies
         }
 
         [CanBeNull]
-        public override Entity FindTheMostTarget(List<Entity> foundTargets)
+        public override List<Entity> FindTheMostTargets(List<Entity> foundTargets)
         {
             Entity closestTarget = null;
             var closestDistance = Mathf.Infinity;
@@ -48,7 +48,7 @@ namespace _Base.Scripts.RPGCommon.Behaviours.FindTargetStrategies
                 }
             }
 
-            return closestTarget;
+            return new List<Entity> { closestTarget };
         }
     }
 }

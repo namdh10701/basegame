@@ -2,6 +2,7 @@ using _Base.Scripts.RPG.Attributes;
 using _Base.Scripts.RPG.Behaviours.FindTarget;
 using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.RPG.Entities;
+using _Base.Scripts.RPG.Stats;
 using _Base.Scripts.Utils.Extensions;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -12,7 +13,7 @@ namespace _Base.Scripts.RPGCommon.Entities
     {
         public Rigidbody2D body;
         
-        public MoveSpeed moveSpeed;
+        public Stat moveSpeed;
 
         public FindTargetStrategy findTargetStrategy;
         
@@ -39,7 +40,13 @@ namespace _Base.Scripts.RPGCommon.Entities
         {
             foreach (var effect in CarryingEffects)
             {
-                entity.effectHolder.gameObject.AddComponent((Effect)effect);//.Process();
+                if (entity.Stats is not IAlive)
+                {
+                    continue;
+                }
+                
+                
+                // entity.effectHolder.gameObject.AddComponent((Effect)effect);//.Process();
             }
             Destroy(gameObject);
         }

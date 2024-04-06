@@ -1,3 +1,4 @@
+using System.Linq;
 using _Base.Scripts.RPG.Behaviours.FindTarget;
 using _Base.Scripts.RPG.Behaviours.FollowTarget;
 using UnityEngine;
@@ -21,12 +22,12 @@ namespace _Base.Scripts.RPGCommon.Behaviours.FollowTargetStragegies
         
         public override bool Follow(FindTargetBehaviour findTargetBehaviour)
         {
-            if (!findTargetBehaviour.MostTarget)
+            if (findTargetBehaviour.MostTargets.Count == 0)
             {
                 return false;
             }
             
-            var targetTransform = findTargetBehaviour.MostTarget.transform;
+            var targetTransform = findTargetBehaviour.MostTargets.First().transform;
             _targetTransform = targetTransform;
             Direction = targetTransform.position - RotateTarget.position;
             Rotation = Quaternion.LookRotation(Vector3.forward, Direction);
