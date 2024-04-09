@@ -66,12 +66,12 @@ namespace Demo.Scripts
                 {
 
                     var temp = Instantiate(canon, item.Parent.transform);
-                    if (gunEmplacement.Id > 2)
+                    /*if (gunEmplacement.Id > 2)
                     {
                         //temp.transform.localEulerAngles = new Vector3(0, 0, 0);
                         temp.GetComponent<Canon.Canon>().Visual.transform.localEulerAngles = new Vector3(0, 0, 180);
                         temp.GetComponent<Canon.Canon>().AttackTrigger.transform.localEulerAngles = new Vector3(0, 0, 180);
-                    }
+                    }*/
                     gunEmplacement.AddCanon(temp);
                     gunEmplacement.SetWeaponData(item.WeaponData);
 

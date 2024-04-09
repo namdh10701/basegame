@@ -32,7 +32,9 @@ namespace _Base.Scripts.RPG.Entities
         // [field: SerializeReference] public List<Attribute> Attributes { get; set; } = new ();
 
         // public List<IEffect> Effects => effectHolder.GetComponents<IEffect>().ToList();
-        public List<IEffect> CarryingEffects => carryingEffectHolder.GetComponents<IEffect>().ToList();
+        public List<IEffect> OutgoingEffects => carryingEffectHolder.GetComponents<IEffect>().ToList();
+        
+        public List<IEffect> IncomingEffects => carryingEffectHolder.GetComponents<IEffect>().ToList();
         
         // public TAttribute GetAttribute<TAttribute>() where TAttribute : IAttribute
         // {
@@ -59,6 +61,11 @@ namespace _Base.Scripts.RPG.Entities
         // }
         
         public TEffect AddCarryingEffect<TEffect>() where TEffect: Effect
+        {
+            return carryingEffectHolder.gameObject.AddComponent<TEffect>();
+        }
+        
+        public TEffect AddEffectedEffect<TEffect>() where TEffect: Effect
         {
             return carryingEffectHolder.gameObject.AddComponent<TEffect>();
         }

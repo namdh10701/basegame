@@ -28,7 +28,7 @@ namespace _Base.Scripts.RPGCommon.Entities
             {
                 return;
             }
-            OnHit(found);
+            OnCollisionEnter(found);
         }
 
         private void OnBecameInvisible()
@@ -36,16 +36,17 @@ namespace _Base.Scripts.RPGCommon.Entities
             Destroy(gameObject);
         }
 
-        protected void OnHit(Entity entity)
+        protected void OnCollisionEnter(Entity entity)
         {
-            foreach (var effect in CarryingEffects)
+            foreach (var effect in OutgoingEffects)
             {
                 if (entity.Stats is not IAlive)
                 {
                     continue;
                 }
-                
-                
+
+                entity.AddCarryingEffect<>()
+                effect.Process();
                 // entity.effectHolder.gameObject.AddComponent((Effect)effect);//.Process();
             }
             Destroy(gameObject);

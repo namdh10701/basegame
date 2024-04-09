@@ -14,8 +14,9 @@ namespace Demo.Scripts
         {
             foreach (var item in _posSpawnEnemy)
             {
-                var index = Random.Range(0, _prefabEnemies.Count);
-                var enemy = Instantiate(_prefabEnemies[index], item);
+                var enemy = Instantiate(_prefabEnemies[0], item);
+                var enemy1 = Instantiate(_prefabEnemies[1], item);
+                enemy1.gameObject.transform.localPosition = Vector3.zero;
                 enemy.gameObject.transform.localPosition = new Vector3(0, 0, 0);
                 _enemies.Add(enemy);
             }
