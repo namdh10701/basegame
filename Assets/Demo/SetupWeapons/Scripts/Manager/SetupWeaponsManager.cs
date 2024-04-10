@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -11,9 +12,6 @@ public class SetupWeaponsManager : MonoBehaviour
 
     [SerializeField] List<Transform> PositionGrids = new List<Transform>();
     List<List<Cell>> _gridsInfor = new List<List<Cell>>();
-    private bool _isDragging = false;
-    GameObject _hitObject;
-    GameObject _dragObject;
 
     public void Start()
     {
@@ -48,11 +46,6 @@ public class SetupWeaponsManager : MonoBehaviour
                     go.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
                     var cell = go.GetComponent<Cell>();
                     var size = cell.GetBounds();
-
-                    var offsetX = i * (size.x + 0.02f);
-                    var offsetY = j * (size.y + 0.02f);
-
-                    Debug.Log("Vector2: " + offsetX + "," + offsetY);
                     cell.Setup(new Vector2(i * size.x / 2, j * size.y / 2));
 
                     go.transform.localPosition = new Vector2(i * size.x / 2, j * size.y / 2);
@@ -66,34 +59,73 @@ public class SetupWeaponsManager : MonoBehaviour
 
     }
 
+
+
+
+
+
+
+    private bool _isDragActive = false;
+    private Vector2 _screenPosition;
+    private Vector3 _worldPosition;
+
+
+    private GameObject _gameObjectSlected;
     public void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (_isDragActive)
         {
-            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-
-            if (Physics.Raycast(ray, out hit))
+            if ((Input.GetMouseButtonDown(0) || (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Ended)))
             {
-                _hitObject = hit.collider.gameObject;
-                // _hitObject.gameObject.SetActive(false);
-                // _dragObject = new GameObject();
-                // _isDragging = (_dragObject != null) ? true : false;
-                _isDragging = true;
+                Drop();
+                return;
 
             }
         }
-        if (_isDragging)
+        if (Input.GetMouseButton(0))
         {
-            Vector3 pos = UnityEngine.Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10));
-            _hitObject.transform.position = pos;
+            var mousePosition = Input.mousePosition;
+            _screenPosition = new Vector2(mousePosition.x, mousePosition.y);
+        }
+        else if (Input.touchCount > 0)
+        {
+            _screenPosition = Input.GetTouch(0).position;
+        }
+        else
+            return;
+
+        _worldPosition = Camera.main.ScreenToWorldPoint(_screenPosition);
+        if (_isDragActive)
+        {
+            Drag();
+        }
+        else
+        {
+            RaycastHit2D hit = Physics2D.Raycast(_worldPosition, Vector2.zero);
+            if (hit.collider != null)
+            {
+                _gameObjectSlected = hit.collider.gameObject;
+                Debug.Log("_gameObjectSlected: " + _gameObjectSlected.name);
+                InitDrag();
+            }
         }
 
-        if (Input.GetMouseButtonUp(0))
-        {
-            _isDragging = false;
-            _hitObject.gameObject.SetActive(true);
-
-        }
     }
+    private void InitDrag()
+    {
+        _isDragActive = true;
+    }
+
+    private void Drag()
+    {
+        _gameObjectSlected.transform.position = new Vector2(_worldPosition.x, _worldPosition.y);
+    }
+
+    private void Drop()
+    {
+        _isDragActive = false;
+
+    }
+
+
 }

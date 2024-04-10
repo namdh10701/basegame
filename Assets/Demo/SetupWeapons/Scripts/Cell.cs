@@ -19,21 +19,22 @@ public class Cell : MonoBehaviour
         return new Vector2(_spriteRenderer.sprite.bounds.size.x, _spriteRenderer.sprite.bounds.size.y);
     }
 
-    private void OnTriggerEnter(Collider other)
+    void OnTriggerEnter2D(Collider2D collider2D)
     {
-        if (other.gameObject.tag != "DragObject")
+        if (collider2D.gameObject.tag != "DragObject")
             return;
 
-        Debug.LogWarning("OnTriggerEnter" + other.gameObject.name);
+        Debug.LogWarning("OnTriggerEnter" + collider2D.gameObject.name);
         var col = Color.red;
         col.a = _oldFade;
         _spriteRenderer.color = col;
     }
-    private void OnTriggerExit(Collider other)
+    
+    private void OnTriggerExit2D(Collider2D collider2D)
     {
-        if (other.gameObject.tag != "DragObject")
+        if (collider2D.gameObject.tag != "DragObject")
             return;
-        Debug.LogWarning("OnTriggerExit" + other.gameObject.name);
+        Debug.LogWarning("OnTriggerExit" + collider2D.gameObject.name);
         var col = _oldColor;
         col.a = _oldFade;
         _spriteRenderer.color = col;
