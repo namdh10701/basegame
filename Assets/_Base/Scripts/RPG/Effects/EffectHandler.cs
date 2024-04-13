@@ -20,7 +20,7 @@ namespace _Base.Scripts.RPG.Effects
             effect.Apply(entity);
             if (effect.IsDone)
             {
-                // effects.Remove(effect);
+                effects.Remove(effect);
             }
         }
     }
