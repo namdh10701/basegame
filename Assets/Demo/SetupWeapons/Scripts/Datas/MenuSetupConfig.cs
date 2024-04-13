@@ -16,6 +16,7 @@ public class MenuSetupConfig : ScriptableObject
 public class ItemMenuData
 {
     public int id;
+    public Vector2 SizeItem;
     public ItemType itemType;
 
 }

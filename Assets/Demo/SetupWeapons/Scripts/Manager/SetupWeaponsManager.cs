@@ -1,14 +1,26 @@
 using System.Collections.Generic;
+using _Base.Scripts.Utils;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class SetupWeaponsManager : MonoBehaviour
+public class SetupWeaponsManager : SingletonMonoBehaviour<SetupWeaponsManager>
 {
     [Header("Config Data")]
     [SerializeField] ShipConfig _shipConfig;
 
+    [Header("Prefab DragItem")]
+    [SerializeField] DragItem _prefabDragItem;
+
+    [Header("MENU MANAGER")]
+    [SerializeField] MenuManager _menuManager;
+
     [SerializeField] List<Transform> PositionGrids = new List<Transform>();
-    
+
+
+
     List<List<Cell>> _gridsInfor = new List<List<Cell>>();
+    DragItem _dragItem;
+    private DragItemUI _dragItemUI;
 
     public void Start()
     {
@@ -54,6 +66,24 @@ public class SetupWeaponsManager : MonoBehaviour
 
         }
 
+    }
+
+    public void CreateDragItem(ItemMenuData itemMenuData)
+    {
+        var mousePosition = Input.mousePosition;
+        var screenPosition = new Vector3(mousePosition.x, mousePosition.y);
+        var worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
+
+        _menuManager.EnableScrollRect(false);
+        _dragItemUI = _menuManager.CreateDragItemUI(itemMenuData, screenPosition);
+
+        if (_dragItem == null)
+        {
+            _dragItem = Instantiate(_prefabDragItem, this.transform);
+
+        }
+        _dragItem.Setup(itemMenuData);
+        _dragItem.transform.position = worldPosition;
     }
 
 

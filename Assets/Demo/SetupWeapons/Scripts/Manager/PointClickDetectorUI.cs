@@ -9,20 +9,16 @@ public class PointClickDetectorUI : MonoBehaviour, IPointerDownHandler, IPointer
     bool isDown;
     private float timeThreshold = 1.0f;
     private float elapsedTime = 0f;
+
+    private GameObject _itemSelected;
     public void OnPointerDown(PointerEventData eventData)
     {
+        if (eventData.pointerEnter.tag != "ItemMenuSetup")
+            return;
+
         isDown = true;
-        var go = eventData.pointerEnter;
-        Debug.Log("OnPointerEnter" + go.name);
+        _itemSelected = eventData.pointerEnter;
 
-
-    }
-
-    private GameObject OnPointerEnter(PointerEventData eventData)
-    {
-        var go = eventData.pointerClick.gameObject;
-        Debug.Log("OnPointerEnter" + go.name);
-        return go;
     }
 
     public void OnPointerUp(PointerEventData eventData)
@@ -39,6 +35,8 @@ public class PointClickDetectorUI : MonoBehaviour, IPointerDownHandler, IPointer
             if (elapsedTime >= timeThreshold)
             {
                 Debug.Log("Create model drag");
+                var itemData = _itemSelected.GetComponent<ItemMenu>();
+                SetupWeaponsManager.Instance.CreateDragItem(itemData.GetItemMenuData());
                 isDown = false;
                 elapsedTime = 0f;
             }

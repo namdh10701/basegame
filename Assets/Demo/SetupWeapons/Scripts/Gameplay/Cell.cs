@@ -22,7 +22,7 @@ public class Cell : MonoBehaviour
     void OnTriggerEnter2D(Collider2D collider2D)
     {
         if (collider2D.gameObject.tag != "DragObject")
-            return;
+            return; 
 
         Debug.LogWarning("OnTriggerEnter" + collider2D.gameObject.name);
         var col = Color.red;

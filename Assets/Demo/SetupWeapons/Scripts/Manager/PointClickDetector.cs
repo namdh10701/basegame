@@ -10,7 +10,7 @@ public class PointClickDetector : MonoBehaviour
     {
         if (_isDragActive)
         {
-            if ((Input.GetMouseButtonDown(0) || (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Ended)))
+            if (Input.GetMouseButtonUp(0) || (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Ended))
             {
                 Drop();
                 return;
@@ -37,9 +37,10 @@ public class PointClickDetector : MonoBehaviour
         else
         {
             RaycastHit2D hit = Physics2D.Raycast(_worldPosition, Vector2.zero);
-            if (hit.collider != null)
+            if (hit.collider != null && hit.collider.gameObject.tag == "DragObject")
             {
                 _gameObjectSlected = hit.collider.gameObject;
+
                 Debug.Log("_gameObjectSlected: " + _gameObjectSlected.name);
                 InitDrag();
             }
@@ -58,6 +59,7 @@ public class PointClickDetector : MonoBehaviour
 
     private void Drop()
     {
+        // Destroy(_gameObjectSlected);
         _isDragActive = false;
 
     }

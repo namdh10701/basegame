@@ -1,21 +1,29 @@
 
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour
 {
     [Header("Config Data")]
     [SerializeField] MenuSetupConfig _shipConfig;
+
+    [Header("Prefab DragItemUI")]
+    [SerializeField] DragItemUI _prefabDragItemUI;
     [SerializeField] ItemMenu _prefabItemMenu;
     [SerializeField] Transform _content;
+    [SerializeField] ScrollRect _scrollRect;
+    [SerializeField] Canvas _canvas;
 
     List<ItemMenu> _itemMenus = new List<ItemMenu>();
 
     private TabType _curentTab = TabType.Gun;
-
+    private DragItemUI _dragItemUI;
     void Awake()
     {
         Initialize();
+
     }
 
     public void SwitchTab(int tabType)
@@ -68,4 +76,21 @@ public class MenuManager : MonoBehaviour
         _itemMenus.Clear();
     }
 
+    public void EnableScrollRect(bool enable)
+    {
+        _scrollRect.enabled = enable;
+    }
+
+    public DragItemUI CreateDragItemUI(ItemMenuData itemMenuData, Vector3 position)
+    {
+        if (_dragItemUI == null)
+        {
+            _dragItemUI = Instantiate(_prefabDragItemUI, this.transform);
+            _dragItemUI.transform.position = position;
+
+        }
+        _dragItemUI.Setup(itemMenuData, _canvas);
+        return _dragItemUI;
+
+    }
 }

@@ -11,5 +11,9 @@ public class ItemMenu : MonoBehaviour
     {
         _itemMenuData = itemMenuData;
     }
+    public ItemMenuData GetItemMenuData()
+    {
+        return _itemMenuData;
+    }
 
 }
