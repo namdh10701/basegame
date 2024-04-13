@@ -87,6 +87,7 @@ namespace _Base.Scripts.RPG.Effects
         protected abstract void OnTick(Entity entity);
     }
 
+    [Serializable]
     public class DecreaseHealthEffect: OneShotEffectX
     {
         public float Amount { get; set; }

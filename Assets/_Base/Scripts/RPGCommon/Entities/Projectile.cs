@@ -58,7 +58,7 @@ namespace _Base.Scripts.RPGCommon.Entities
         protected override void OnEntityCollisionEnter(Entity entity)
         {
             base.OnEntityCollisionEnter(entity);
-            Destroy(this);
+            Destroy(gameObject);
         }
 
         protected override void Awake()

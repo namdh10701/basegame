@@ -1,13 +1,7 @@
 using System;
 using System.Collections.Generic;
-using _Base.Scripts.RPG.Attributes;
-using _Base.Scripts.RPG.Behaviours.FindTarget;
 using _Base.Scripts.RPG.Entities;
-using _Base.Scripts.RPG.Stats;
-using _Base.Scripts.RPGCommon.Entities;
-using _Game.Scripts.Entities;
 using UnityEngine;
-using Task = System.Threading.Tasks.Task;
 
 namespace _Base.Scripts.RPG.Effects
 {
@@ -18,8 +12,7 @@ namespace _Base.Scripts.RPG.Effects
         [SerializeField]
         private Entity entity;
 
-        [SerializeField]
-        private List<EffectX> effects = new List<EffectX>();
+        public List<EffectX> effects = new List<EffectX>();
 
         public void Apply(EffectX effect)
         {
@@ -27,7 +20,7 @@ namespace _Base.Scripts.RPG.Effects
             effect.Apply(entity);
             if (effect.IsDone)
             {
-                effects.Remove(effect);
+                // effects.Remove(effect);
             }
         }
     }

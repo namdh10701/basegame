@@ -25,7 +25,8 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
             // var dec = new GameObject().AddComponent<DecreaseHealthPointEffect>();
             // dec.Amount = 100;
             // projectile.AddCarryingEffect<DecreaseHealthPointEffect>().Amount = 100;
-            projectile.OutgoingEffects.Add(new DecreaseHealthEffect(100));
+            // projectile.OutgoingEffects.Add(new DecreaseHealthEffect(100));
+            projectile.OutgoingEffects.Add(new DrainHealthEffect(50, 1, 3));
         }
         
         private Quaternion CalculateShootDirection()
