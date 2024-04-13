@@ -1,6 +1,9 @@
     using System;
     using _Base.Scripts.EventSystem;
     using _Base.Scripts.RPG;
+    using _Base.Scripts.RPG.Effects;
+    using _Base.Scripts.RPG.Entities;
+    using _Base.Scripts.RPGCommon.Entities;
     using _Game.Scripts.Attributes;
     using _Game.Scripts.Effects;
     using _Game.Scripts.Entities;
@@ -14,22 +17,35 @@
             public Cannon cannon;
             public void DecreaseHealth()
             {
-                var eff = cannon.effectHolder.AddComponent<DecreaseHealthPointEffect>();
-                eff.Amount = 10;
+                // var alive = cannon.GetComponent<Cannon>().Stats as IAlive;
+                // if (alive != null) alive.HealthPoint -= 10;
+                
+                var cann = cannon.GetComponent<Cannon>();
+                cann.EffectHandler.Apply(new DecreaseHealthEffect(10));
             }
             
             public void IncreaseHealth()
             {
-                var eff = cannon.effectHolder.AddComponent<IncreaseHealthPointEffect>();
-                eff.Amount = 10;
+                // var alive = cannon.GetComponent<Cannon>().Stats as IAlive;
+                // if (alive != null) alive.HealthPoint += 10;
+                //
+                var cann = cannon.GetComponent<Cannon>();
+                cann.EffectHandler.Apply(new IncreaseHealthEffect(10));
             }
             
             public void DrainHealth()
             {
-                var eff = cannon.effectHolder.AddComponent<DrainHealthPointEffect>();
-                eff.Amount = 10;
-                eff.Duration = 10;
-                eff.Interval = 1;
+                var cann = cannon.GetComponent<Cannon>();
+                cann.EffectHandler.Apply(new DrainHealthEffect(10, 1, 10));
+                
+                // cann.eff
+            }
+            
+            public void AddTempHealth()
+            {
+                // var eff = cannon.effectHolder.AddComponent<TempIncreaseHealthPointEffect>();
+                // eff.Amount = 500;
+                // eff.Duration = 5;
             }
         }
     }

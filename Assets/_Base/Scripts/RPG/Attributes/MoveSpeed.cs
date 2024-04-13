@@ -1,6 +1,6 @@
 namespace _Base.Scripts.RPG.Attributes
 {
-    public class MoveSpeed: Attribute<float>
+    public class MoveSpeed: IntAttribute
     {
         
     }

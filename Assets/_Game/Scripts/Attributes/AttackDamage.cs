@@ -3,7 +3,7 @@ using _Base.Scripts.RPG.Attributes;
 
 namespace _Game.Scripts.Attributes
 {
-    public class AttackDamage: Attribute<int>
+    public class AttackDamage: IntAttribute
     {
         
     }

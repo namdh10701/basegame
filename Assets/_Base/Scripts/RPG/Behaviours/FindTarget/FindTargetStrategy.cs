@@ -9,7 +9,7 @@ namespace _Base.Scripts.RPG.Behaviours.FindTarget
     public abstract class FindTargetStrategy: MonoBehaviour
     {
         // public abstract bool IsTarget(GameObject gameObject);
-        public abstract Entity FindTheMostTarget(List<Entity> foundTargets);
+        public abstract List<Entity> FindTheMostTargets(List<Entity> foundTargets);
 
         // public abstract Entity GetTarget(GameObject collisionGameObject);
         public abstract bool TryGetTargetEntity(GameObject go, out Entity entity);

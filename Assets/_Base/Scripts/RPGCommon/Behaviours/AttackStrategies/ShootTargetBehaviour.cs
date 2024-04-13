@@ -1,12 +1,15 @@
 using _Base.Scripts.RPG.Attributes;
 using _Base.Scripts.RPG.Behaviours.AttackTarget;
+using _Base.Scripts.RPG.Effects;
+using _Base.Scripts.RPG.Stats;
+using _Game.Scripts.Effects;
 using UnityEngine;
 
 namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
 {
     public class ShootTargetBehaviour: AttackTargetBehaviour
     {
-        public AttackAccuracy attackAccuracy;
+        public Stat attackAccuracy;
         public Transform shootPosition;
         public Entities.Projectile projectilePrefab;
         // public CollidedTargetChecker collidedTargetChecker;
@@ -16,8 +19,13 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
             Quaternion shootDirection = CalculateShootDirection();
             
             var projectile = Instantiate(projectilePrefab, shootPosition.position, shootDirection, null);
-            projectile.moveSpeed.Value = 100;
+            projectile.moveSpeed.BaseValue = 100;
             projectile.findTargetStrategy = aimTargetBehaviour.FollowTargetBehaviour.FindTargetBehaviour.Strategy;
+            
+            // var dec = new GameObject().AddComponent<DecreaseHealthPointEffect>();
+            // dec.Amount = 100;
+            // projectile.AddCarryingEffect<DecreaseHealthPointEffect>().Amount = 100;
+            projectile.OutgoingEffects.Add(new DecreaseHealthEffect(100));
         }
         
         private Quaternion CalculateShootDirection()

@@ -1,40 +1,123 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using _Base.Scripts.RPG.Attributes;
 using _Base.Scripts.RPG.Effects;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Attribute = _Base.Scripts.RPG.Attributes.Attribute;
 
 namespace _Base.Scripts.RPG.Entities
 {
-    [DisallowMultipleComponent]
-    public abstract class Entity: MonoBehaviour, IEntity
+    [Serializable]
+    public class AttributeDictionary : SerializableDictionary<Type, string> {}
+    
+    [Serializable]
+    public class StringColorDictionary : SerializableDictionary<string, Color>
     {
-        public Transform attributeHolder;
-        public Transform effectHolder;
-        [field: SerializeReference] public List<Attribute> Attributes { get; set; } = new ();
+        public StringColorDictionary(IDictionary<string, Color> dict) : base(dict) {}
+    }
+    
+    [DisallowMultipleComponent]
+    public abstract class Entity: MonoBehaviour//, IEntity
+    {
+        // public Transform attributeHolder;
+        // public Transform effectHolder;
+        // public Transform carryingEffectHolder;
+
+        public EffectHandler EffectHandler;
+        public EntityCollisionDetector EntityCollisionDetector;
         
-        public TAttribute GetAttribute<TAttribute>() where TAttribute : IAttribute
+        public abstract Attributes.Stats Stats { get; }
+        
+        // [field: SerializeReference] public List<Attribute> Attributes { get; set; } = new ();
+
+        // public List<IEffect> Effects => effectHolder.GetComponents<IEffect>().ToList();
+        public List<EffectX> OutgoingEffects = new List<EffectX>();
+
+        public void SetCollisionObjectChecker(Func<Entity, bool> checker)
         {
-            return (TAttribute)(object)Attributes.Find(v => v.GetType() == typeof(TAttribute));
+            if (EntityCollisionDetector != null)
+            {
+                EntityCollisionDetector.CollisionObjectChecker = checker;
+            }
+        }
+        
+        // public List<IEffect> IncomingEffects => carryingEffectHolder.GetComponents<IEffect>().ToList();
+        
+        // public TAttribute GetAttribute<TAttribute>() where TAttribute : IAttribute
+        // {
+        //     return (TAttribute)(object)Attributes.Find(v => v.GetType() == typeof(TAttribute));
+        // }
+        
+        // public void SetAttribute<TAttribute>(TAttribute attribute) where TAttribute : Attribute
+        // {
+        //     var targetAttr = Attributes.Find(v => v.GetType() == typeof(TAttribute));
+        //     if (targetAttr == null)
+        //     {
+        //         targetAttr = attribute;
+        //     }
+        //
+        //     targetAttr.Value = attribute.Value;
+        //     targetAttr.MaxValue = attribute.MaxValue;
+        //     targetAttr.MinValue = attribute.MinValue;
+        //     // attributeHolder.gameObject.AddComponent(attribute);
+        // }
+        
+        // public TEffect AddEffect<TEffect>() where TEffect: Effect
+        // {
+        //     return effectHolder.gameObject.AddComponent<TEffect>();
+        // }
+        
+        // public void AddCarryingEffect(IEffect effect)
+        // {
+        //     // IncomingEffects.Add(effect);
+        //     return carryingEffectHolder.gameObject.AddComponent<TEffect>();
+        // }
+        
+        // public TEffect AddEffectedEffect<TEffect>() where TEffect: Effect
+        // {
+        //     return carryingEffectHolder.gameObject.AddComponent<TEffect>();
+        // }
+
+        protected virtual void Awake()
+        {
+            // if (attributeHolder != null)
+            // {
+            //     foreach (var attribute in Attributes)
+            //     {
+            //         attribute.OnChanged += (sender, args) =>
+            //         {
+            //             
+            //         };
+            //     }
+            // }
+
+            if (EntityCollisionDetector != null)
+            {
+                EntityCollisionDetector.OnEntityCollisionEnter += OnEntityCollisionEnter;
+            }
         }
 
-        [field: SerializeReference]
-        public List<IEffect> Effects => effectHolder.GetComponents<IEffect>().ToList();
-
-        private void Awake()
+        private void OnDestroy()
         {
-            if (attributeHolder != null)
+            if (EntityCollisionDetector != null)
             {
-                Attributes = attributeHolder.GetComponents<Attribute>().ToList();
-                foreach (var attribute in Attributes)
-                {
-                    attribute.OnChanged += (sender, args) =>
-                    {
-                        
-                    };
-                }
+                EntityCollisionDetector.OnEntityCollisionEnter -= OnEntityCollisionEnter;
             }
+        }
+        
+        protected virtual void OnEntityCollisionEnter(Entity entity)
+        {
+            foreach (var effect in OutgoingEffects)
+            {
+                if (!effect.CanEffect(entity))
+                {
+                    continue;
+                }
+                entity.EffectHandler.Apply(effect);
+            }
+            // Destroy(gameObject);
         }
     }
 }

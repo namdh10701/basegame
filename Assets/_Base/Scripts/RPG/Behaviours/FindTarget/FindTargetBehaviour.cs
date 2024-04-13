@@ -1,26 +1,52 @@
+using System;
 using System.Collections.Generic;
 using _Base.Scripts.RPG.Entities;
 using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace _Base.Scripts.RPG.Behaviours.FindTarget
 {
     [AddComponentMenu("RPG/Brain/[Brain] FindTargetBehaviour")]
-    [RequireComponent(typeof(CircleCollider2D))]
+    // [RequireComponent(typeof(Collider2D))]
     public class FindTargetBehaviour : MonoBehaviour
     {
+        // [field:SerializeField]
+        // public Collider2D Collider2D { get; set; }
+            
         [field:SerializeField]
         public FindTargetStrategy Strategy { get; set; }
         
         [field:SerializeField]
         public List<Entity> Targets { get; private set; } = new ();
-        
-        [field:SerializeField]
-        [CanBeNull] public Entity MostTarget { get; private set; }
 
-        private void OnTriggerEnter2D(Collider2D collision)
+        [field: SerializeField] 
+        public List<Entity> MostTargets { get; private set; } = new();
+
+        public ObjectCollisionDetector ObjectCollisionDetector;
+
+        private void Awake()
         {
-            if (!Strategy.TryGetTargetEntity(collision.gameObject, out var target))
+            ObjectCollisionDetector.OnObjectCollisionEnter += OnObjectCollisionEnter;
+            ObjectCollisionDetector.OnObjectCollisionExit += OnObjectCollisionExit;
+        }
+
+        private void OnDestroy()
+        {
+            ObjectCollisionDetector.OnObjectCollisionEnter -= OnObjectCollisionEnter;
+            ObjectCollisionDetector.OnObjectCollisionExit -= OnObjectCollisionExit;
+        }
+
+        private void OnObjectCollisionEnter(GameObject obj)
+        {
+            var entity = obj.GetComponent<EntityProvider>();
+
+            if (entity == null)
+            {
+                return;
+            }
+            
+            if (!Strategy.TryGetTargetEntity(entity.Entity.gameObject, out var target))
             {
                 return;
             }
@@ -28,18 +54,44 @@ namespace _Base.Scripts.RPG.Behaviours.FindTarget
             Targets.Add(target);
         }
 
-        private void OnTriggerExit2D(Collider2D collision)
+        private void OnObjectCollisionExit(GameObject obj)
         {
-            if (!Strategy.TryGetTargetEntity(collision.gameObject, out var target))
+            var entity = obj.GetComponent<EntityProvider>();
+
+            if (entity == null)
+            {
+                return;
+            }
+            
+            if (!Strategy.TryGetTargetEntity(entity.Entity.gameObject, out var target))
             {
                 return;
             }
             Targets.Remove(target);
         }
 
+        // private void OnTriggerEnter2D(Collider2D collision)
+        // {
+        //     if (!Strategy.TryGetTargetEntity(collision.gameObject, out var target))
+        //     {
+        //         return;
+        //     }
+        //
+        //     Targets.Add(target);
+        // }
+
+        // private void OnTriggerExit2D(Collider2D collision)
+        // {
+        //     if (!Strategy.TryGetTargetEntity(collision.gameObject, out var target))
+        //     {
+        //         return;
+        //     }
+        //     Targets.Remove(target);
+        // }
+
         void Update()
         {
-            MostTarget = Strategy.FindTheMostTarget(Targets);
+            MostTargets = Strategy.FindTheMostTargets(Targets);
         }
 
     }

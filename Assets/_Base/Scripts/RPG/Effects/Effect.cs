@@ -1,15 +1,21 @@
 using System;
+using _Base.Scripts.RPG.Entities;
 using UnityEngine;
 
 namespace _Base.Scripts.RPG.Effects
 {
     public abstract class Effect: MonoBehaviour, IEffect
     {
-        [field:SerializeField]
-        public bool IsInbound { get; set; }
-        
-        [field:SerializeField]
-        public bool IsOutbound { get; set; }
+        // [field:SerializeField]
+        // public bool IsInbound { get; set; }
+        //
+        // [field:SerializeField]
+        // public bool IsOutbound { get; set; }
+
+        private void Awake()
+        {
+            gameObject.SetActive(false);
+        }
 
         private void OnDestroy()
         {
@@ -19,22 +25,30 @@ namespace _Base.Scripts.RPG.Effects
         public event EventHandler<EffectEventArgs> OnStart;
         public event EventHandler<EffectEventArgs> OnEnd;
         public abstract void Apply();
-        public void OnBeforeApply()
+        public void ApplyTo(Entity entity)
+        {
+            // entity.carryingEffectHolder.gameObject.AddComponent<>()
+            // entity.EffectHandler.Apply();
+        }
+
+        public abstract void Process();
+
+        public virtual void OnBeforeApply()
         {
             NotifyStarted();
         }
 
-        public void OnAfterApply()
+        public virtual void OnAfterApply()
         {
             NotifyEnded();
         }
 
-        public void NotifyStarted()
+        public virtual void NotifyStarted()
         {
             OnStart?.Invoke(this, new EffectEventArgs());
         }
         
-        public void NotifyEnded()
+        public virtual void NotifyEnded()
         {
             OnEnd?.Invoke(this, new EffectEventArgs());
         }

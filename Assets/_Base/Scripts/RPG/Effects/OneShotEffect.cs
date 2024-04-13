@@ -5,7 +5,7 @@ namespace _Base.Scripts.RPG.Effects
     /// </summary>
     public abstract class OneShotEffect: Effect
     {
-        private void Start()
+        public override void Process()
         {
             OnBeforeApply();
             Apply();
