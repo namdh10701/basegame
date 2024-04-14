@@ -12,9 +12,9 @@ namespace _Base.Scripts.RPG.Effects
         [SerializeField]
         private Entity entity;
 
-        public List<EffectX> effects = new List<EffectX>();
+        public List<Effect> effects = new List<Effect>();
 
-        public void Apply(EffectX effect)
+        public void Apply(Effect effect)
         {
             effects.Add(effect);
             effect.Apply(entity);

@@ -33,7 +33,7 @@ namespace _Base.Scripts.RPG.Entities
         // [field: SerializeReference] public List<Attribute> Attributes { get; set; } = new ();
 
         // public List<IEffect> Effects => effectHolder.GetComponents<IEffect>().ToList();
-        public List<EffectX> OutgoingEffects = new List<EffectX>();
+        public List<Effect> OutgoingEffects = new List<Effect>();
 
         public void SetCollisionObjectChecker(Func<Entity, bool> checker)
         {

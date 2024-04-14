@@ -1,56 +1,77 @@
 using System;
 using _Base.Scripts.RPG.Entities;
 using UnityEngine;
+using Task = System.Threading.Tasks.Task;
 
 namespace _Base.Scripts.RPG.Effects
 {
-    public abstract class Effect: MonoBehaviour, IEffect
+    [Serializable]
+    public abstract class Effect
     {
-        // [field:SerializeField]
-        // public bool IsInbound { get; set; }
-        //
-        // [field:SerializeField]
-        // public bool IsOutbound { get; set; }
+        public abstract void Apply(Entity entity);
 
-        private void Awake()
-        {
-            gameObject.SetActive(false);
-        }
-
-        private void OnDestroy()
-        {
-            Debug.Log($"[{GetType().Name}] Destroyed");
-        }
-
-        public event EventHandler<EffectEventArgs> OnStart;
-        public event EventHandler<EffectEventArgs> OnEnd;
-        public abstract void Apply();
-        public void ApplyTo(Entity entity)
-        {
-            // entity.carryingEffectHolder.gameObject.AddComponent<>()
-            // entity.EffectHandler.Apply();
-        }
-
-        public abstract void Process();
-
-        public virtual void OnBeforeApply()
-        {
-            NotifyStarted();
-        }
-
-        public virtual void OnAfterApply()
-        {
-            NotifyEnded();
-        }
-
-        public virtual void NotifyStarted()
-        {
-            OnStart?.Invoke(this, new EffectEventArgs());
-        }
+        public bool IsDone { get; protected set; }
         
-        public virtual void NotifyEnded()
+
+        protected virtual void OnStart(Entity entity) {}
+        protected virtual void OnEnd(Entity entity) {}
+
+        public virtual bool CanEffect(Entity entity) => true;
+    }
+
+    public abstract class OneShotEffect: Effect
+    {
+        public override void Apply(Entity entity)
         {
-            OnEnd?.Invoke(this, new EffectEventArgs());
+            OnStart(entity);
+            OnApply(entity);
+            OnEnd(entity);
+            IsDone = true;
         }
+
+        protected abstract void OnApply(Entity entity);
+    }
+
+    public abstract class TimeoutEffect: Effect
+    {
+        protected TimeoutEffect(int duration)
+        {
+            Duration = duration;
+        }
+
+        public int Duration { get; set; }
+        
+        public override async void Apply(Entity entity)
+        {
+            OnStart(entity);
+            await Task.Delay(Duration);
+            OnEnd(entity);
+            IsDone = true;
+        }
+    }
+
+    public abstract class PeriodicEffect: TimeoutEffect
+    {
+        protected PeriodicEffect(int interval, int duration): base(duration)
+        {
+            Interval = interval;
+        }
+
+        public int Interval { get; set; }
+        
+        public override async void Apply(Entity entity)
+        {
+            var startTime = Time.time;
+            OnStart(entity);
+            do
+            {
+                OnTick(entity);
+                await Task.Delay(Interval * 1000);
+            } while (Time.time - startTime < Duration);
+            OnEnd(entity);
+            IsDone = true;
+        }
+
+        protected abstract void OnTick(Entity entity);
     }
 }

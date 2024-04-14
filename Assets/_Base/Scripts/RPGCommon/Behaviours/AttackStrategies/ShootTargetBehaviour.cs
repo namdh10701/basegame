@@ -1,8 +1,6 @@
-using _Base.Scripts.RPG.Attributes;
 using _Base.Scripts.RPG.Behaviours.AttackTarget;
 using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.RPG.Stats;
-using _Game.Scripts.Effects;
 using UnityEngine;
 
 namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies

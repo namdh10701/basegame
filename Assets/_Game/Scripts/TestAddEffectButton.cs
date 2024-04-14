@@ -1,14 +1,6 @@
-    using System;
-    using _Base.Scripts.EventSystem;
-    using _Base.Scripts.RPG;
-    using _Base.Scripts.RPG.Effects;
-    using _Base.Scripts.RPG.Entities;
-    using _Base.Scripts.RPGCommon.Entities;
-    using _Game.Scripts.Attributes;
-    using _Game.Scripts.Effects;
-    using _Game.Scripts.Entities;
-    using Unity.VisualScripting;
-    using UnityEngine;
+using _Base.Scripts.RPG.Effects;
+using _Game.Scripts.Entities;
+using UnityEngine;
 
     namespace _Game.Scripts
     {
