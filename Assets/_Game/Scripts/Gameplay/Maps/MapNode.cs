@@ -9,6 +9,7 @@ namespace Map
     public enum NodeStates
     {
         Locked,
+        Played,
         Visited,
         Attainable
     }
@@ -52,9 +53,9 @@ namespace Map
             if (circleImage != null)
             {
                 circleImage.color = MapView.Instance.visitedColor;
-                circleImage.gameObject.SetActive(false);    
+                circleImage.gameObject.SetActive(false);
             }
-            
+
             SetState(NodeStates.Locked);
         }
 
@@ -62,10 +63,12 @@ namespace Map
         {
             if (visitedCircle != null) visitedCircle.gameObject.SetActive(false);
             if (circleImage != null) circleImage.gameObject.SetActive(false);
-            
+
             switch (state)
             {
                 case NodeStates.Locked:
+
+                    visitedCircleImage.fillAmount = 0;
                     if (sr != null)
                     {
                         sr.DOKill();
@@ -80,18 +83,20 @@ namespace Map
 
                     break;
                 case NodeStates.Visited:
+
+                    visitedCircleImage.fillAmount = 1;
                     if (sr != null)
                     {
                         sr.DOKill();
                         sr.color = MapView.Instance.visitedColor;
                     }
-                    
+
                     if (image != null)
                     {
                         image.DOKill();
                         image.color = MapView.Instance.visitedColor;
                     }
-                    
+
                     if (visitedCircle != null) visitedCircle.gameObject.SetActive(true);
                     if (circleImage != null) circleImage.gameObject.SetActive(true);
                     break;
@@ -103,14 +108,14 @@ namespace Map
                         sr.DOKill();
                         sr.DOColor(MapView.Instance.visitedColor, 0.5f).SetLoops(-1, LoopType.Yoyo);
                     }
-                    
+
                     if (image != null)
                     {
                         image.color = MapView.Instance.lockedColor;
                         image.DOKill();
                         image.DOColor(MapView.Instance.visitedColor, 0.5f).SetLoops(-1, LoopType.Yoyo);
                     }
-                    
+
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(state), state, null);
@@ -165,7 +170,7 @@ namespace Map
         {
             if (visitedCircleImage == null)
                 return;
-
+            Debug.Log("Play Anim");
             const float fillDuration = 0.3f;
             visitedCircleImage.fillAmount = 0;
 

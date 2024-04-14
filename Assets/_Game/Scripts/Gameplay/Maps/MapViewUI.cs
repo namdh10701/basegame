@@ -115,7 +115,6 @@ namespace Map
             mapNode.SetUp(node, blueprint);
             mapNode.transform.localPosition = GetNodePosition(node);
 
-            Debug.Log(node.position);
             return mapNode;
         }
 

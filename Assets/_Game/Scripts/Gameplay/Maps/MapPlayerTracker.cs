@@ -40,16 +40,65 @@ namespace Map
                 var currentPoint = mapManager.CurrentMap.path[mapManager.CurrentMap.path.Count - 1];
                 var currentNode = mapManager.CurrentMap.GetNode(currentPoint);
 
-                if (currentNode != null && currentNode.outgoing.Any(point => point.Equals(mapNode.Node.point)))
-                    SendPlayerToNode(mapNode);
+                if (mapManager.CurrentMap.path.Count == 1)
+                {
+                    if (mapManager.CurrentMap.IsLastNodePassed)
+                    {
+                        if (currentNode != null && currentNode.outgoing.Any(point => point.Equals(mapNode.Node.point)))
+                            SendPlayerToNode(mapNode);
+                        else
+                            PlayWarningThatNodeCannotBeAccessed();
+                    }
+                    else
+                    if (!mapManager.CurrentMap.IsLastNodeLocked)
+                    {
+                        if (mapNode.Node.point.y == 0)
+                            SendPlayerToNode(mapNode);
+                        else
+                            PlayWarningThatNodeCannotBeAccessed();
+                    }
+                }
                 else
-                    PlayWarningThatNodeCannotBeAccessed();
+                {
+                    var previousPoint = mapManager.CurrentMap.path[mapManager.CurrentMap.path.Count - 2];
+                    var previousNode = mapManager.CurrentMap.GetNode(previousPoint);
+
+                    if (mapManager.CurrentMap.IsLastNodePassed)
+                    {
+                        if (currentNode != null && currentNode.outgoing.Any(point => point.Equals(mapNode.Node.point)))
+                            SendPlayerToNode(mapNode);
+                        else
+                            PlayWarningThatNodeCannotBeAccessed();
+                    }
+                    else
+                    if (!mapManager.CurrentMap.IsLastNodeLocked)
+                    {
+                        if (previousNode != null && previousNode.outgoing.Any(point => point.Equals(mapNode.Node.point)))
+                            SendPlayerToNode(mapNode);
+                        else
+                            PlayWarningThatNodeCannotBeAccessed();
+                    }
+
+                }
             }
         }
 
         private void SendPlayerToNode(MapNode mapNode)
         {
             Locked = lockAfterSelecting;
+            if (mapManager.CurrentMap.path.Count > 0)
+            {
+                var currentPoint = mapManager.CurrentMap.path[mapManager.CurrentMap.path.Count - 1];
+                var currentNode = mapManager.CurrentMap.GetNode(currentPoint);
+
+                if (mapNode.Node.point.y == currentNode.point.y)
+                {
+                    mapManager.CurrentMap.path.Remove(currentNode.point);
+                }
+            }
+
+            mapManager.CurrentMap.IsLastNodeLocked = false;
+            mapManager.CurrentMap.IsLastNodePassed = false;
             mapManager.CurrentMap.path.Add(mapNode.Node.point);
             mapManager.SaveMap();
             view.SetAttainableNodes();
@@ -90,6 +139,25 @@ namespace Map
         private void PlayWarningThatNodeCannotBeAccessed()
         {
             Debug.Log("Selected node cannot be accessed");
+        }
+
+        public void OnGameStart()
+        {
+            mapManager.CurrentMap.IsLastNodeLocked = true;
+            mapManager.SaveMap();
+
+            view.SetAttainableNodes();
+            view.SetLineColors();
+        }
+
+        public void OnGamePassed()
+        {
+            mapManager.CurrentMap.IsLastNodeLocked = false;
+            mapManager.CurrentMap.IsLastNodePassed = true;
+            mapManager.SaveMap();
+            view.SetAttainableNodes();
+            view.SetLineColors();
+
         }
     }
 }

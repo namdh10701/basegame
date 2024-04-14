@@ -1,19 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
-using Demo.Scripts.Enemy;
+using _Game.Scripts;
 using UnityEngine;
 
 namespace MBT
 {
     [AddComponentMenu("")]
-    [MBTNode(name = "Conditions/IsAbleToAttack")]
-    public class IsAbleToAttack : Condition
+    [MBTNode(name = "Conditions/ CustomCondition")]
+    public class CustomCondition : Condition
     {
-        public Enemy enemy;
+        public ICondition condition;
 
         public override bool Check()
         {
-            return enemy.IsAbleToAttack;
+            return condition.IsMet();
         }
 
     }
