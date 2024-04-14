@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MBT;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -166,24 +167,93 @@ namespace Map
             }
             else
             {
+                if (mapManager.CurrentMap.path.Count == 1)
+                {
+
+
+                    foreach (var point in mapManager.CurrentMap.path)
+                    {
+                        var mapNode = GetNode(point);
+                        if (mapNode != null)
+                            mapNode.SetState(NodeStates.Visited);
+                    }
+
+                    if (mapManager.CurrentMap.IsLastNodePassed)
+                    {
+                        var currentPoint = mapManager.CurrentMap.path[mapManager.CurrentMap.path.Count - 1];
+                        var currentNode = mapManager.CurrentMap.GetNode(currentPoint);
+
+                        // set all the nodes that we can travel to as attainable:
+                        foreach (var point in currentNode.outgoing)
+                        {
+                            var mapNode = GetNode(point);
+                            if (mapNode != null)
+                                mapNode.SetState(NodeStates.Attainable);
+                        }
+                    }
+                    else
+                    {
+                        var currentPoint = mapManager.CurrentMap.path[mapManager.CurrentMap.path.Count - 1];
+                        var currentNode = mapManager.CurrentMap.GetNode(currentPoint);
+                        if (!mapManager.CurrentMap.IsLastNodeLocked)
+                        {
+                            foreach (var node in MapNodes.Where(n => n.Node.point.y == 0 && n != GetNode(currentPoint)))
+                                node.SetState(NodeStates.Attainable);
+                        }
+                        else
+                        {
+                            foreach (var node in MapNodes.Where(n => (n.Node.point.y == 0 && n != GetNode(currentPoint))))
+                                node.SetState(NodeStates.Locked);
+                        }
+                        GetNode(currentPoint).SetState(NodeStates.Visited);
+                    }
+                }
+                else
+                {
+                    var currentPoint = mapManager.CurrentMap.path[mapManager.CurrentMap.path.Count - 1];
+                    var currentNode = mapManager.CurrentMap.GetNode(currentPoint);
+
+                    var previousPoint = mapManager.CurrentMap.path[mapManager.CurrentMap.path.Count - 2];
+                    var previousNode = mapManager.CurrentMap.GetNode(previousPoint);
+
+
+                    foreach (var point in mapManager.CurrentMap.path)
+                    {
+                        var mapNode = GetNode(point);
+                        if (mapNode != null)
+                            mapNode.SetState(NodeStates.Visited);
+                    }
+
+                    if (mapManager.CurrentMap.IsLastNodePassed)
+                    {
+                        // set all the nodes that we can travel to as attainable:
+                        foreach (var point in currentNode.outgoing)
+                        {
+                            var mapNode = GetNode(point);
+                            if (mapNode != null)
+                                mapNode.SetState(NodeStates.Attainable);
+                        }
+                    }
+                    else
+                    {
+                        if (!mapManager.CurrentMap.IsLastNodeLocked)
+                        {
+                            foreach (var node in MapNodes.Where(n => previousNode.outgoing.Contains(n.Node.point)))
+                                node.SetState(NodeStates.Attainable);
+                        }
+                        else
+                        {
+                            foreach (var node in MapNodes.Where(n => previousNode.outgoing.Contains(n.Node.point) && n.Node.point != mapManager.CurrentMap.path[mapManager.CurrentMap.path.Count - 1]))
+                                node.SetState(NodeStates.Locked);
+                        }
+
+                    }
+
+                    GetNode(currentPoint).SetState(NodeStates.Visited);
+                }
                 // we have already started moving on this map, first highlight the path as visited:
-                foreach (var point in mapManager.CurrentMap.path)
-                {
-                    var mapNode = GetNode(point);
-                    if (mapNode != null)
-                        mapNode.SetState(NodeStates.Visited);
-                }
 
-                var currentPoint = mapManager.CurrentMap.path[mapManager.CurrentMap.path.Count - 1];
-                var currentNode = mapManager.CurrentMap.GetNode(currentPoint);
 
-                // set all the nodes that we can travel to as attainable:
-                foreach (var point in currentNode.outgoing)
-                {
-                    var mapNode = GetNode(point);
-                    if (mapNode != null)
-                        mapNode.SetState(NodeStates.Attainable);
-                }
             }
         }
 
