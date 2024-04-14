@@ -26,21 +26,21 @@ MonoBehaviour:
     min: 4
     max: 4
   numOfStartingNodes:
-    min: 2
+    min: 4
     max: 4
-  numOfLayer: 10
+  numOfLayer: 5
   extraPaths: 0
   distanceFromPreviousLayer:
     min: 5
     max: 6
   nodesApartDistance: 4.2
-  randomizePosition: 0.616
+  randomizePosition: 0.405
   Odds:
     OddItems:
     - NodeType: 0
-      Probability: 0.4
-    - NodeType: 1
       Probability: 0.15
+    - NodeType: 1
+      Probability: 0.4
     - NodeType: 3
       Probability: 0.15
     - NodeType: 6
@@ -54,21 +54,21 @@ MonoBehaviour:
       min: 0
       max: 0
     nodesApartDistance: 4
-    randomizePosition: 0.5
+    randomizePosition: 0.41
     randomizeNodes: 0
-  - nodeType: 3
-    LayerNumber: 2
+  - nodeType: 2
+    LayerNumber: 3
     distanceFromPreviousLayer:
       min: 4
       max: 6
     nodesApartDistance: 4
-    randomizePosition: 0.476
+    randomizePosition: 0.446
     randomizeNodes: 0
   - nodeType: 5
-    LayerNumber: 9
+    LayerNumber: 4
     distanceFromPreviousLayer:
       min: 7
       max: 7
     nodesApartDistance: 1
-    randomizePosition: 0.584
+    randomizePosition: 0.434
     randomizeNodes: 0
