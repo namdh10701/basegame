@@ -7,8 +7,12 @@ using UnityEngine;
 
 namespace _Base.Scripts.UI.Managers
 {
-    public class PopupManager : SingletonMonoBehaviour<PopupManager>
+    public class PopupManager : MonoBehaviour
     {
+        private static PopupManager instance;
+        public static PopupManager Instance => instance;
+
+
         Dictionary<Type, string> prefabPaths = new Dictionary<Type, string>
     {
         { typeof(SettingPopup), "Prefabs/UI/SettingPopup" },
@@ -18,9 +22,11 @@ namespace _Base.Scripts.UI.Managers
         Popup currentPopup;
         Popup prevPopup;
         readonly Stack<Popup> activePopupLayers = new();
-        protected override void Awake()
+
+        [SerializeField] Transform popupRoot;
+        private void Awake()
         {
-            base.Awake();
+            instance = this;
             popups = FindObjectsByType<Popup>(FindObjectsInactive.Include, FindObjectsSortMode.None).ToList();
             foreach (Popup popup in popups)
             {
@@ -69,7 +75,7 @@ namespace _Base.Scripts.UI.Managers
             string prefabPath;
             prefabPath = prefabPaths[typeof(T)];
             T popupPrefab = Resources.Load<T>(prefabPath);
-            T popup = Instantiate(popupPrefab, transform);
+            T popup = Instantiate(popupPrefab, popupRoot);
             popups.Add(popup);
             return popup;
         }
