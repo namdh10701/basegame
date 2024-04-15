@@ -41,7 +41,6 @@ public class DragItemUI : MonoBehaviour
     {
         _icon.enabled = true;
 
-        Debug.Log("DragHandler");
         Vector2 position;
         RectTransformUtility.ScreenPointToLocalPointInRectangle((RectTransform)_canvas.transform, posMouse, _canvas.worldCamera, out position);
         transform.position = _canvas.transform.TransformPoint(position);

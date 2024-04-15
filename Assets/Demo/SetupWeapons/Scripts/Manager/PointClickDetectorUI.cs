@@ -24,7 +24,6 @@ public class PointClickDetectorUI : MonoBehaviour, IPointerDownHandler, IPointer
     public void OnPointerUp(PointerEventData eventData)
     {
         isDown = false;
-        Debug.Log("OnPointerUp" + isDown);
     }
 
     void Update()
@@ -34,7 +33,6 @@ public class PointClickDetectorUI : MonoBehaviour, IPointerDownHandler, IPointer
             elapsedTime += Time.deltaTime;
             if (elapsedTime >= timeThreshold)
             {
-                Debug.Log("Create model drag");
                 var itemData = _itemSelected.GetComponent<ItemMenu>();
                 SetupWeaponsManager.Instance.CreateDragItem(itemData.GetItemMenuData());
                 isDown = false;

@@ -16,7 +16,9 @@ public class MenuSetupConfig : ScriptableObject
 public class ItemMenuData
 {
     public int id;
-    public Vector2 SizeItem;
+    public int numbCell;
+    public Sprite sprite;
+    public Vector2 sizeCollision;
     public ItemType itemType;
 
 }
@@ -26,7 +28,8 @@ public enum ItemType
     Gun,
     Bullet,
     Character,
-    SkinShip
+    SkinShip,
+    None
 }
 
 public enum TabType

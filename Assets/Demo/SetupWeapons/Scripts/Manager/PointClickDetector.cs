@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 
 public class PointClickDetector : MonoBehaviour
@@ -10,7 +11,7 @@ public class PointClickDetector : MonoBehaviour
     {
         if (_isDragActive)
         {
-            if (Input.GetMouseButtonUp(0) || (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Ended))
+            if (Input.GetMouseButtonUp(0))
             {
                 Drop();
                 return;
@@ -41,7 +42,6 @@ public class PointClickDetector : MonoBehaviour
             {
                 _gameObjectSlected = hit.collider.gameObject;
 
-                Debug.Log("_gameObjectSlected: " + _gameObjectSlected.name);
                 InitDrag();
             }
         }
@@ -59,8 +59,16 @@ public class PointClickDetector : MonoBehaviour
 
     private void Drop()
     {
-        // Destroy(_gameObjectSlected);
+        Debug.Log("Drop" + _gameObjectSlected.name);
+        if (_gameObjectSlected == null)
+            return;
+
+        var dragItem = _gameObjectSlected.GetComponent<DragItem>();
+        dragItem.GetCellSelect(dragItem.ItemMenuData);
+        Destroy(_gameObjectSlected);
         _isDragActive = false;
+
+
 
     }
 }

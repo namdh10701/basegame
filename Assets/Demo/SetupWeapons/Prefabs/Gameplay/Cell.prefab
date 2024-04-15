@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7841411908161950903}
   m_Layer: 0
   m_Name: Cell
-  m_TagString: Untagged
+  m_TagString: Cell
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -99,8 +99,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spriteRenderer: {fileID: 4054580444505575535}
+  Position: {x: 0, y: 0}
   _oldColor: {r: 0, g: 0, b: 0, a: 0}
   _oldFade: 0
+  itemType: 0
+  HasItem: 0
 --- !u!61 &7841411908161950903
 BoxCollider2D:
   m_ObjectHideFlags: 0
