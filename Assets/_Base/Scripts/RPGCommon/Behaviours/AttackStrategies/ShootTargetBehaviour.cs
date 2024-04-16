@@ -27,7 +27,7 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
             projectile.OutgoingEffects.Add(new DrainHealthEffect(50, 1, 3));
         }
         
-        private Quaternion CalculateShootDirection()
+        protected virtual Quaternion CalculateShootDirection()
         {
             var targetPosition = aimTargetBehaviour.LockedPosition;
             targetPosition.x += Random.Range(-attackAccuracy.Value, attackAccuracy.Value);

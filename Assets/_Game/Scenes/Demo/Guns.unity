@@ -852,6 +852,7 @@ GameObject:
   - component: {fileID: 151119017}
   - component: {fileID: 151119018}
   - component: {fileID: 151119019}
+  - component: {fileID: 151119020}
   m_Layer: 0
   m_Name: ShootTarget
   m_TagString: Untagged
@@ -881,7 +882,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 151119016}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 08aa99dcaf344649ad9887d70678f32c, type: 3}
   m_Name: 
@@ -904,8 +905,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 232f290366c948189fd300f85a540994, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shootTargetBehaviour: {fileID: 151119018}
+  shootTargetBehaviour: {fileID: 151119020}
   fireRate: {fileID: 0}
+--- !u!114 &151119020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 151119016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ed444165b5b43b0801413ed5c0a1352, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aimTargetBehaviour: {fileID: 1940667770}
+  attackAccuracy:
+    BaseValue: 0
+    statModifiers: []
+  shootPosition: {fileID: 1197774613}
+  projectilePrefab: {fileID: 9038214777133773486, guid: 5ca95de0050294232be82d462f376a92, type: 3}
 --- !u!1 &157049670
 GameObject:
   m_ObjectHideFlags: 0

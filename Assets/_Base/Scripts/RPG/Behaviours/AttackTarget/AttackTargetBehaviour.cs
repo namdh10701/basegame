@@ -1,3 +1,4 @@
+using System;
 using _Base.Scripts.RPG.Behaviours.AimTarget;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -27,5 +28,7 @@ namespace _Base.Scripts.RPG.Behaviours.AttackTarget
         }
 
         protected abstract void DoAttack();
+
+        private void Start() {}
     }
 }
