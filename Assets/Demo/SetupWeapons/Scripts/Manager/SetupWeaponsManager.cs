@@ -49,6 +49,7 @@ public class SetupWeaponsManager : SingletonMonoBehaviour<SetupWeaponsManager>
 
     private void CreateGrids()
     {
+        var idCell = 0;
         foreach (var grid in _shipConfig.grids)
         {
             var listCell = new List<Cell>();
@@ -60,10 +61,10 @@ public class SetupWeaponsManager : SingletonMonoBehaviour<SetupWeaponsManager>
                     go.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
                     var cell = go.GetComponent<Cell>();
                     var size = cell.GetBounds();
-                    cell.Setup(new Vector2(i * size.x / 2, j * size.y / 2));
-
+                    cell.Setup(new Vector2(i * size.x / 2, j * size.y / 2), idCell);
                     go.transform.localPosition = new Vector2(i * size.x / 2, j * size.y / 2);
                     listCell.Add(cell);
+                    idCell++;
                 }
             }
             _gridsInfor.Add(grid.id, listCell);
@@ -103,7 +104,7 @@ public class SetupWeaponsManager : SingletonMonoBehaviour<SetupWeaponsManager>
             {
                 foreach (var cellInGrid in cellsInGrid)
                 {
-                    if (cellInGrid.GetPositionCell() == selectedCell.GetPositionCell())
+                    if (cellInGrid.Id == selectedCell.Id)
                     {
                         totalX += cellInGrid.GetPositionCell().x;
                         totalY += cellInGrid.GetPositionCell().y;
@@ -139,12 +140,13 @@ public class SetupWeaponsManager : SingletonMonoBehaviour<SetupWeaponsManager>
             {
                 foreach (var cellInGrid in cellsInGrid)
                 {
-                    if (cellInGrid.GetPositionCell() == selectedCell.GetPositionCell())
+                    if (cellInGrid.Id == selectedCell.Id)
                     {
                         totalX += cellInGrid.GetPositionCell().x;
                         totalY += cellInGrid.GetPositionCell().y;
                         cellInGrid.SetItemType(selectedCell.GetItemType());
-                        cellInGrid.EnableCell(true);
+                        cellInGrid.CheckCellsEmty(false);
+                        cellInGrid.EnableCell(false);
                     }
                 }
             }
@@ -172,14 +174,14 @@ public class SetupWeaponsManager : SingletonMonoBehaviour<SetupWeaponsManager>
     {
         foreach (var grid in _shipConfig.grids)
         {
-            if (weaponItem.OldGridID == grid.id)
+            if (weaponItem.PreviousGridID == grid.id)
             {
                 foreach (var item in _weaponItems)
                 {
                     if (item == weaponItem)
                     {
                         item.transform.parent = grid.transform;
-                        item.transform.localPosition = weaponItem.OldPosition;
+                        item.transform.localPosition = weaponItem.PreviousPosition;
                     }
                 }
             }

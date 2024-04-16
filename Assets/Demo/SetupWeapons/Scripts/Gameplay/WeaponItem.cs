@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class WeaponItem : MonoBehaviour
@@ -10,15 +11,16 @@ public class WeaponItem : MonoBehaviour
     private List<Cell> _cells = new List<Cell>();
     private string _gridID;
 
-    public string OldGridID;
-    public Vector2 OldPosition;
+    public string PreviousGridID;
+    public Vector2 PreviousPosition;
+    private bool _isDesTroy;
 
     public void Setup(ItemMenuData itemMenuData, string oldGridID, Vector2 oldPosition)
     {
         _itemMenuData = itemMenuData;
         _spriteRenderer.sprite = itemMenuData.sprite;
-        OldGridID = oldGridID;
-        OldPosition = oldPosition;
+        PreviousGridID = oldGridID;
+        PreviousPosition = oldPosition;
         _collider = this.GetComponent<BoxCollider2D>();
         SetSizeItemDrag(itemMenuData.sizeCollision);
     }
@@ -34,29 +36,53 @@ public class WeaponItem : MonoBehaviour
         if (collider2D.gameObject.tag == "Cell")
         {
             var cell = collider2D.gameObject.GetComponent<Cell>();
+            if (cell == null || !cell.IsCellEmty())
+                return;
+
+            cell.CheckCellsEmty(false);
             cell.SetItemType(_itemMenuData.itemType);
-
-            var grid = collider2D.gameObject.GetComponentInParent<Grid>();
+            var grid = cell.GetComponentInParent<Grid>();
             _gridID = grid.ID;
+            cell.EnableCell(false);
+            _cells.Add(cell);
+            Debug.Log("OnTriggerEnter2D:" + _cells.Count);
 
-            if (!_cells.Contains(cell))
-            {
-                _cells.Add(cell);
-            }
+        }
+        else if (collider2D.gameObject.tag == "OutSize")
+        {
+            _isDesTroy = true;
         }
     }
+
 
     void OnTriggerExit2D(Collider2D collider2D)
     {
         if (collider2D.gameObject.tag == "Cell")
         {
             var cell = collider2D.gameObject.GetComponent<Cell>();
-            if (_cells.Contains(cell))
-            {
-                cell.SetItemType(ItemType.None);
-                _cells.Remove(cell);
-            }
+            var cellsToRemove = new List<Cell>();
 
+            foreach (var item in _cells)
+            {
+                if (item.Id == cell.Id)
+                {
+                    cell.CheckCellsEmty(true);
+                    cell.SetItemType(ItemType.None);
+                    cell.EnableCell(true);
+                    cellsToRemove.Add(item);
+                }
+            }
+            foreach (var item in cellsToRemove)
+            {
+                _cells.Remove(cell);
+
+            }
+            Debug.Log("OnTriggerExit2D:" + _cells.Count);
+
+        }
+        else if (collider2D.gameObject.tag == "OutSize")
+        {
+            _isDesTroy = false;
         }
     }
 
@@ -64,11 +90,14 @@ public class WeaponItem : MonoBehaviour
     {
         return _itemMenuData;
     }
-    
+
     public void GetCellSelectFromWeaponItem(ItemMenuData itemMenuData)
     {
-
-        if (itemMenuData.numbCell == _cells.Count && CheckCellsEmty())
+        if (_isDesTroy)
+        {
+            Destroy(this.gameObject);
+        }
+        else if (itemMenuData.numbCell == _cells.Count)
         {
             foreach (var item in _cells)
             {
@@ -82,19 +111,6 @@ public class WeaponItem : MonoBehaviour
             SetupWeaponsManager.Instance.ReturnWeaponItemToPreviousPosition(this);
         }
 
-    }
-
-    public bool CheckCellsEmty()
-    {
-        foreach (var item in _cells)
-        {
-            if (!item.IsCellEmty())
-            {
-                return false;
-            }
-
-        }
-        return true;
     }
 
 }
