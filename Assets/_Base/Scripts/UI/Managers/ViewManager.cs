@@ -13,15 +13,17 @@ namespace _Base.Scripts.UI.Managers
     /// <summary>
     /// A singleton that manages display state and access to UI Views 
     /// </summary>
-    public class ViewManager : SingletonMonoBehaviour<ViewManager>
+    public class ViewManager : MonoBehaviour
     {
+        private static ViewManager instance;
+        public static ViewManager Instance => instance;
         List<View> views;
         View currentView;
         readonly Stack<View> m_History = new();
 
-        protected override void Awake()
+        private void Awake()
         {
-            base.Awake();
+            instance = this;
             views = FindObjectsByType<View>(FindObjectsInactive.Include, FindObjectsSortMode.None).ToList();
             Init();
         }
@@ -29,7 +31,10 @@ namespace _Base.Scripts.UI.Managers
         void Init()
         {
             foreach (var view in views)
+            {
+                view.CheckInitialize();
                 view.Deactive();
+            }
             m_History.Clear();
 
         }
@@ -64,14 +69,14 @@ namespace _Base.Scripts.UI.Managers
                     switch (transition)
                     {
                         case Transition.None:
-                        {
-                            Show(view, keepInHistory);
-                        }
+                            {
+                                Show(view, keepInHistory);
+                            }
                             break;
                         case Transition.CrossFade:
-                        {
-                            ViewTransitionManager.Instance.TransitCrossFade(() => Show(view, keepInHistory));
-                        }
+                            {
+                                ViewTransitionManager.Instance.TransitCrossFade(() => Show(view, keepInHistory));
+                            }
                             break;
                     }
                     break;
@@ -86,7 +91,8 @@ namespace _Base.Scripts.UI.Managers
                 {
                     m_History.Push(currentView);
                 }
-                Hide(currentView, () => view.Show());
+                Hide(currentView, null);
+                view.Show();
                 currentView = view;
             }
             else
@@ -109,9 +115,9 @@ namespace _Base.Scripts.UI.Managers
                     Show(view, keepInHistory);
                     break;
                 case Transition.CrossFade:
-                {
-                    ViewTransitionManager.Instance.TransitCrossFade(() => Show(view, keepInHistory));
-                }
+                    {
+                        ViewTransitionManager.Instance.TransitCrossFade(() => Show(view, keepInHistory));
+                    }
                     break;
             }
         }
@@ -123,19 +129,5 @@ namespace _Base.Scripts.UI.Managers
                 Show(m_History.Pop(), false);
             }
         }
-        //DEMO CODE
-        internal void ResetScene()
-        {
-            StartCoroutine(ResetSceneCoroutine());
-        }
-        IEnumerator ResetSceneCoroutine()
-        {
-            Scene lastScene = SceneManager.GetActiveScene();
-            yield return SceneManager.LoadSceneAsync(GlobalData.FinalDemo);
-            yield return SceneManager.UnloadSceneAsync(lastScene);
-            SceneManager.SetActiveScene(SceneManager.GetSceneByName(GlobalData.FinalDemo));
-            // yield return SceneManager.UnloadSceneAsync(GlobalData.FinalDemo);
-        }
-        //
     }
 }

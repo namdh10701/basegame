@@ -131,7 +131,10 @@ namespace _Base.Scripts.StateMachine
                             m_PlayLock = false;
                         }
                         CurrentState.DisableLinks();
+
                         SetCurrentState(nextState);
+
+                        Debug.Log($"Enter " + nextState);
                         CurrentState.EnableLinks();
                     }
                 }

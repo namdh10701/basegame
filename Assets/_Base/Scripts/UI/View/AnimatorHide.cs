@@ -5,14 +5,15 @@ namespace _Base.Scripts.UI.Viewx
     public class AnimatorHide : MonoBehaviour, ICommand
     {
         View view;
+        bool initialized;
         private void Awake()
         {
-            view = GetComponent<View>();
+            Initialize();
         }
         public void Execute()
         {
             view.animator.Play("Hide");
-            view.ViewState = ViewState.Hiding; 
+            view.ViewState = ViewState.Hiding;
             view.onHideStart?.Invoke();
         }
 
@@ -28,6 +29,15 @@ namespace _Base.Scripts.UI.Viewx
         {
             Debug.Log("AAAHIDE");
             view.onHideEnd?.Invoke();
+        }
+
+        public void Initialize()
+        {
+            if (initialized)
+                return;
+            initialized = true;
+            view = GetComponent<View>();
+
         }
     }
 }

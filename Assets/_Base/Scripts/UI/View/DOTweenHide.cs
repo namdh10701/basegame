@@ -7,18 +7,29 @@ namespace _Base.Scripts.UI.Viewx
     {
         View view;
         DG.Tweening.Tween hideTween;
+        bool initialized;
         private void Awake()
+        {
+            Initialize();
+        }
+        public void Initialize()
+        {
+            if (!initialized)
+            {
+                initialized = true;
+                Init();
+            }
+        }
+        public void Init()
         {
             view = GetComponent<View>();
 
             hideTween = DOTweenModuleUI.DOFade((CanvasGroup)view.canvasGroup, 0, view.duration / 2).OnPlay(() =>
             {
                 view.canvasGroup.blocksRaycasts = false;
-                view.canvasGroup.alpha = 1;
             }).OnComplete(() =>
             {
                 view.root.anchoredPosition = view.originalPos;
-                view.canvasGroup.alpha = 1;
                 this.OnCompleted();
             });
             hideTween.SetAutoKill(false);
@@ -26,6 +37,7 @@ namespace _Base.Scripts.UI.Viewx
         }
         public void Execute()
         {
+            view.canvasGroup.alpha = 1;
             hideTween.Restart();
             view.onHideStart?.Invoke();
             view.ViewState = ViewState.Hiding;
@@ -40,6 +52,13 @@ namespace _Base.Scripts.UI.Viewx
         {
             view.onHideEnd?.Invoke();
             view.ViewState = ViewState.Hide;
+        }
+
+        private void OnDestroy()
+        {
+            Debug.Log("ONDESTROY");
+            if (hideTween != null)
+                hideTween.Kill();
         }
     }
 }

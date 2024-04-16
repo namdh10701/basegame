@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Linq;
+using _Base.Scripts.UI;
+using _Base.Scripts.UI.Managers;
 using DG.Tweening;
 using UnityEngine;
 
@@ -134,6 +136,10 @@ namespace Map
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+
+            LevelInfoPopup levelInfoPopup = PopupManager.Instance.GetPopup<LevelInfoPopup>();
+            levelInfoPopup.SetData(mapNode);
+            PopupManager.Instance.ShowPopup(levelInfoPopup);
         }
 
         private void PlayWarningThatNodeCannotBeAccessed()
