@@ -33,7 +33,7 @@ public class PointClickDetectorUI : MonoBehaviour, IPointerDownHandler, IPointer
             elapsedTime += Time.deltaTime;
             if (elapsedTime >= timeThreshold)
             {
-                var itemData = _itemSelected.GetComponent<ItemMenu>();
+                var itemData = _itemSelected.GetComponentInParent<ItemMenu>();
                 SetupWeaponsManager.Instance.CreateDragItem(itemData.GetItemMenuData());
                 isDown = false;
                 elapsedTime = 0f;

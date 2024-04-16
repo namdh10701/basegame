@@ -9,5 +9,7 @@ namespace _Base.Scripts.UI.Viewx
         public void Execute();
         public void Interrupt();
         public void OnCompleted();
+
+        public void Initialize();
     }
 }

@@ -166,6 +166,19 @@ namespace Map
             }
         }
 
+        private void OnDestroy()
+        {
+            if (sr != null)
+            {
+                sr.transform.DOKill();
+                sr.DOKill();
+            }
+            if (image != null)
+            {
+                image.DOKill();
+                image.transform.DOKill();
+            }
+        }
         public void ShowSwirlAnimation()
         {
             if (visitedCircleImage == null)

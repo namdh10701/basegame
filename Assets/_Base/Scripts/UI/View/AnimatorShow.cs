@@ -5,9 +5,11 @@ namespace _Base.Scripts.UI.Viewx
     public class AnimatorShow : MonoBehaviour, ICommand
     {
         View view;
+        bool initialized;
         private void Awake()
         {
-            view = GetComponent<View>();
+            Initialize();
+
         }
         public void Execute()
         {
@@ -28,6 +30,14 @@ namespace _Base.Scripts.UI.Viewx
         {
             Debug.Log("AAAShow");
             view.onShowEnd?.Invoke();
+        }
+
+        public void Initialize()
+        {
+            if (initialized)
+                return;
+            initialized = true;
+            view = GetComponent<View>();
         }
     }
 }

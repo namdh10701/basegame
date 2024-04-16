@@ -38,7 +38,7 @@ public class PointClickDetector : MonoBehaviour
         else
         {
             RaycastHit2D hit = Physics2D.Raycast(_worldPosition, Vector2.zero);
-            if (hit.collider != null && hit.collider.gameObject.tag == "DragObject")
+            if (hit.collider != null && (hit.collider.gameObject.tag == "DragObject" || hit.collider.gameObject.tag == "WeaponItem"))
             {
                 _gameObjectSlected = hit.collider.gameObject;
 
@@ -59,16 +59,23 @@ public class PointClickDetector : MonoBehaviour
 
     private void Drop()
     {
-        Debug.Log("Drop" + _gameObjectSlected.name);
         if (_gameObjectSlected == null)
             return;
+        if (_gameObjectSlected.gameObject.tag == "DragObject")
+        {
+            var dragItem = _gameObjectSlected.GetComponent<DragItem>();
+            dragItem.GetCellSelectFromDragItem(dragItem.GetItemMenuData());
+            Destroy(_gameObjectSlected);
 
-        var dragItem = _gameObjectSlected.GetComponent<DragItem>();
-        dragItem.GetCellSelect(dragItem.ItemMenuData);
-        Destroy(_gameObjectSlected);
+        }
+        else if (_gameObjectSlected.gameObject.tag == "WeaponItem")
+        {
+            var weaponItem = _gameObjectSlected.GetComponent<WeaponItem>();
+            weaponItem.GetCellSelectFromWeaponItem(weaponItem.GetItemMenuData());
+
+        }
+
         _isDragActive = false;
-
-
 
     }
 }

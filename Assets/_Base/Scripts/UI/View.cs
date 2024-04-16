@@ -1,5 +1,6 @@
 using System;
 using _Base.Scripts.UI.Viewx;
+using strange.extensions.mediation.impl;
 using UnityEngine;
 
 namespace _Base.Scripts.UI
@@ -34,7 +35,7 @@ namespace _Base.Scripts.UI
         {
             CheckInitialize();
         }
-        void CheckInitialize()
+        public void CheckInitialize()
         {
             if (!initialized)
             {
@@ -63,6 +64,8 @@ namespace _Base.Scripts.UI
                 showCommand = gameObject.AddComponent<AnimatorShow>();
                 hideCommand = gameObject.AddComponent<AnimatorHide>();
             }
+            showCommand.Initialize();
+            hideCommand.Initialize();
         }
 
         public virtual void Show(Action onShowEnd = null)
@@ -75,6 +78,7 @@ namespace _Base.Scripts.UI
             {
                 hideCommand.Interrupt();
             }
+
             this.onShowEnd = onShowEnd;
             showCommand.Execute();
         }
