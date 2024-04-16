@@ -10,6 +10,8 @@ public class ItemMenu : MonoBehaviour
     public void Setup(ItemMenuData itemMenuData)
     {
         _itemMenuData = itemMenuData;
+        _icon.sprite = itemMenuData.sprite;
+        _icon.SetNativeSize();
     }
     public ItemMenuData GetItemMenuData()
     {

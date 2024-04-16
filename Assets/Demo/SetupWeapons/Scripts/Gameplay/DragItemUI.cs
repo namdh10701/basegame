@@ -11,6 +11,8 @@ public class DragItemUI : MonoBehaviour
     private bool _isDragging;
     public void Setup(ItemMenuData itemMenuData, Canvas canvas)
     {
+        _icon.sprite = itemMenuData.sprite;
+        _icon.SetNativeSize();
         _itemMenuData = itemMenuData;
         _canvas = canvas;
         _isDragging = true;

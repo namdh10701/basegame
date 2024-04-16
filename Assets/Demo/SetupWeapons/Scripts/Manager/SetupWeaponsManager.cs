@@ -90,8 +90,11 @@ public class SetupWeaponsManager : SingletonMonoBehaviour<SetupWeaponsManager>
         _dragItem.transform.position = worldPosition;
     }
 
-    public void SetDataToCells(string gridId, List<Cell> cellSelected)
+    public void SetDataToCells(string gridId, List<Cell> cellSelected, ItemMenuData itemMenuData)
     {
+        float totalX = 0f;
+        float totalY = 0f;
+
         if (_gridsInfor.ContainsKey(gridId))
         {
             var cellsInGrid = _gridsInfor[gridId];
@@ -100,10 +103,83 @@ public class SetupWeaponsManager : SingletonMonoBehaviour<SetupWeaponsManager>
             {
                 foreach (var cellInGrid in cellsInGrid)
                 {
-                    if (cellInGrid.Position == selectedCell.Position)
+                    if (cellInGrid.GetPositionCell() == selectedCell.GetPositionCell())
                     {
-                        cellInGrid.itemType = selectedCell.itemType;
-                        cellInGrid._spriteRenderer.enabled = false;
+                        totalX += cellInGrid.GetPositionCell().x;
+                        totalY += cellInGrid.GetPositionCell().y;
+                        cellInGrid.SetItemType(selectedCell.GetItemType());
+                        cellInGrid.EnableCell(false);
+                    }
+                }
+            }
+        }
+
+        var center = new Vector2(totalX / cellSelected.Count, totalY / cellSelected.Count);
+        foreach (var grid in _shipConfig.grids)
+        {
+            if (gridId == grid.id)
+            {
+                var itemWeapon = Instantiate(_prefabWeaponItem, grid.transform);
+                itemWeapon.transform.localPosition = center;
+                itemWeapon.Setup(itemMenuData, gridId, center);
+                _weaponItems.Add(itemWeapon);
+            }
+        }
+    }
+
+    public void OnChangeDataByMoveWeaponItem(string gridId, List<Cell> cellSelected, WeaponItem weaponItem)
+    {
+        float totalX = 0f;
+        float totalY = 0f;
+        if (_gridsInfor.ContainsKey(gridId))
+        {
+            var cellsInGrid = _gridsInfor[gridId];
+
+            foreach (var selectedCell in cellSelected)
+            {
+                foreach (var cellInGrid in cellsInGrid)
+                {
+                    if (cellInGrid.GetPositionCell() == selectedCell.GetPositionCell())
+                    {
+                        totalX += cellInGrid.GetPositionCell().x;
+                        totalY += cellInGrid.GetPositionCell().y;
+                        cellInGrid.SetItemType(selectedCell.GetItemType());
+                        cellInGrid.EnableCell(true);
+                    }
+                }
+            }
+        }
+
+        var center = new Vector2(totalX / cellSelected.Count, totalY / cellSelected.Count);
+        foreach (var grid in _shipConfig.grids)
+        {
+            if (gridId == grid.id)
+            {
+                foreach (var item in _weaponItems)
+                {
+                    if (item == weaponItem)
+                    {
+                        item.transform.parent = grid.transform;
+                        item.transform.localPosition = center;
+                    }
+                }
+            }
+        }
+
+    }
+
+    public void ReturnWeaponItemToPreviousPosition(WeaponItem weaponItem)
+    {
+        foreach (var grid in _shipConfig.grids)
+        {
+            if (weaponItem.OldGridID == grid.id)
+            {
+                foreach (var item in _weaponItems)
+                {
+                    if (item == weaponItem)
+                    {
+                        item.transform.parent = grid.transform;
+                        item.transform.localPosition = weaponItem.OldPosition;
                     }
                 }
             }
