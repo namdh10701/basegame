@@ -56,7 +56,6 @@ namespace _Base.Scripts.UI.Viewx
 
         private void OnDestroy()
         {
-            Debug.Log("ONDESTROY");
             if (hideTween != null)
                 hideTween.Kill();
         }

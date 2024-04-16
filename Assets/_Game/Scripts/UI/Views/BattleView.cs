@@ -4,6 +4,6 @@ namespace _Game.Scripts.UI
 {
     public class BattleView : View
     {
-
+       
     }
 }

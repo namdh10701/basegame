@@ -1,18 +1,18 @@
+﻿using _Base.Scripts.RPG.Attributes;
+using _Base.Scripts.RPG.Entities;
+using _Game.Scripts.Attributes;
+using _Game.Scripts.Gameplay.Ship;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Ship : MonoBehaviour
+namespace _Game.Scripts.Gameplay.Ship
 {
-    // Start is called before the first frame update
-    void Start()
+    public class Ship : MonoBehaviour
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        [SerializeField] ShipMana ShipMana;
+        private void Start()
+        {
+        }
     }
 }
