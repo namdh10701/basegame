@@ -1,7 +1,9 @@
+using _Base.Scripts.EventSystem;
 using _Base.Scripts.RPG.Attributes;
 using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.RPG.Entities;
 using _Game.Scripts.Entities;
+using _Game.Scripts.GameContext;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,11 +16,14 @@ namespace _Game.Scripts.Gameplay.Ship
         [SerializeField] float maxMp;
         [SerializeField] float currentMp;
         [SerializeField] float generateRate;
-        PlayerContext PlayerContext;
+        PlayerContext playerContext;
         private void Start()
         {
-
-            PlayerContext = new PlayerContext();
+            playerContext = GlobalContext.PlayerContext;
+            IsAutoGenerate = true;
+            maxMp = playerContext.MaxMana;
+            currentMp = 0;
+            generateRate = 5;
         }
         public float GenerateRate
         {
@@ -51,7 +56,7 @@ namespace _Game.Scripts.Gameplay.Ship
             if (IsAutoGenerate)
             {
                 CurrentMP += GenerateRate * Time.deltaTime;
-                PlayerContext.ManaPoint = (int)CurrentMP;
+                playerContext.ManaPoint = (int)CurrentMP;
             }
         }
     }

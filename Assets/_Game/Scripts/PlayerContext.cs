@@ -27,14 +27,29 @@ namespace _Game.Scripts
         /// ManaPoint
         /// </summary>
 
-        public int ManaPoint
+        public float ManaPoint
         {
             get => manaPointProperty.Value;
             set => manaPointProperty.Value = value;
         }
 
-        private readonly Property<int> manaPointProperty = new();
+        private readonly Property<float> manaPointProperty = new(0);
 
         #endregion
+
+        #region Binding Prop: Mana/MaxMana
+
+        /// <summary>
+        /// ManaPoint
+        /// </summary>
+        public float MaxMana
+        {
+            get => maxMana.Value;
+            set => maxMana.Value = value;
+        }
+
+        private readonly Property<float> maxMana = new(0);
+        #endregion
+
     }
 }
