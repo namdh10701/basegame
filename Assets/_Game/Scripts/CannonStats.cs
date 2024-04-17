@@ -7,7 +7,7 @@ using UnityEngine;
 namespace _Game.Scripts
 {
     [Serializable]
-    public class CannonStats : Stats, IAlive, IFighter
+    public class CannonStats : Stats, IAlive, IFighterStats
     {
 
 
@@ -25,8 +25,10 @@ namespace _Game.Scripts
 
         [field: SerializeField]
         public Stat AttackRange { get; set; } = new();
-        
-        public IFighter.AttackTypes AttackType { get; set; } = IFighter.AttackTypes.UNIT;
+
+        public Stat AttackAccuracy { get; set; } = new();
+
+        public IFighterStats.AttackTypes AttackType { get; set; } = IFighterStats.AttackTypes.UNIT;
 
         [SerializeField]
         private float _healthPoint;

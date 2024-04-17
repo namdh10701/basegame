@@ -9,6 +9,14 @@ using UnityEngine;
 
 namespace _Base.Scripts.RPGCommon.Entities
 {
+    public class ProjectileCollisionHandler: DefaultCollisionHandler
+    {
+        public override void Process(Entity mainEntity, Entity collidedEntity)
+        {
+            base.Process(mainEntity, collidedEntity);
+            Object.Destroy(mainEntity.gameObject);
+        }
+    }
     public abstract class Projectile: Entity
     {
         public Rigidbody2D body;
@@ -16,6 +24,11 @@ namespace _Base.Scripts.RPGCommon.Entities
         public Stat moveSpeed;
 
         public FindTargetStrategy findTargetStrategy;
+
+        protected Projectile()
+        {
+            CollisionHandler = new ProjectileCollisionHandler();
+        }
         
         private void Start()
         {
@@ -53,13 +66,6 @@ namespace _Base.Scripts.RPGCommon.Entities
         //     }
         //     Destroy(gameObject);
         // }
-
-
-        protected override void OnEntityCollisionEnter(Entity entity)
-        {
-            base.OnEntityCollisionEnter(entity);
-            Destroy(gameObject);
-        }
 
         protected override void Awake()
         {

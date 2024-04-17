@@ -27,6 +27,7 @@ namespace _Base.Scripts.RPG.Entities
 
         public EffectHandler EffectHandler;
         public EntityCollisionDetector EntityCollisionDetector;
+        public ICollisionHandler CollisionHandler = new DefaultCollisionHandler();
         
         public abstract _Game.Scripts.Stats Stats { get; }
         
@@ -106,18 +107,10 @@ namespace _Base.Scripts.RPG.Entities
                 EntityCollisionDetector.OnEntityCollisionEnter -= OnEntityCollisionEnter;
             }
         }
-        
-        protected virtual void OnEntityCollisionEnter(Entity entity)
+
+        private void OnEntityCollisionEnter(Entity entity)
         {
-            foreach (var effect in OutgoingEffects)
-            {
-                if (!effect.CanEffect(entity))
-                {
-                    continue;
-                }
-                entity.EffectHandler.Apply(effect);
-            }
-            // Destroy(gameObject);
+            CollisionHandler.Process(this, entity);
         }
     }
 }

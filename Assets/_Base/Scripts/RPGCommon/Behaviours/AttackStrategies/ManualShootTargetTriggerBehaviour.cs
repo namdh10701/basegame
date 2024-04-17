@@ -4,7 +4,7 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
     {
         public override void Pull()
         {
-            shootTargetBehaviour.Attack();
+            AttackTargetBehaviour.Attack();
         }
 
         public override void Release()
