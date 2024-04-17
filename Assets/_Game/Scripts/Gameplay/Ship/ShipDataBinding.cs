@@ -12,12 +12,13 @@ namespace _Game.Scripts.Gameplay.Ship
 
         protected void Awake()
         {
-            ship.Stats.ManaPoint.OnValueChanged += (stat) =>
+            var stats = ship.Stats as ShipStats;
+            stats.ManaPoint.OnValueChanged += (stat) =>
             {
                 GlobalContext.PlayerContext.ManaPoint = stat;
             };
             
-            ship.Stats.HealthPoint.OnValueChanged += (stat) =>
+            stats.HealthPoint.OnValueChanged += (stat) =>
             {
                 GlobalContext.PlayerContext.HealthPoint = stat;
             };
