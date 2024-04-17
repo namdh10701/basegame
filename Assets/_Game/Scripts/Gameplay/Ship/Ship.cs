@@ -1,19 +1,27 @@
-﻿using _Base.Scripts.RPG.Attributes;
-using _Base.Scripts.RPG.Entities;
-using _Base.Scripts.Utils;
-using _Game.Scripts.Attributes;
-using _Game.Scripts.Gameplay.Ship;
-using System.Collections;
-using System.Collections.Generic;
+﻿using _Base.Scripts.Utils;
 using UnityEngine;
 
 namespace _Game.Scripts.Gameplay.Ship
 {
     public class Ship : SingletonMonoBehaviour<Ship>
     {
-        public ShipMana ShipMana;
+        // public ShipMana ShipMana;
+        public ShipStats Stats = new();
         private void Start()
         {
+        }
+
+        private void Update()
+        {
+            if (!Stats.ManaPoint.IsFull)
+            {
+                Stats.ManaPoint.Value += (Stats.ManaRegenerationRate.Value * Time.deltaTime);
+            }
+
+            if (!Stats.HealthPoint.IsFull)
+            {
+                Stats.HealthPoint.Value += (Stats.HealthRegenerationRate.Value * Time.deltaTime);
+            }
         }
     }
 }

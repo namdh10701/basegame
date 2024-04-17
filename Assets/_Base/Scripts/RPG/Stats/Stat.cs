@@ -8,6 +8,7 @@ namespace _Base.Scripts.RPG.Stats
 	[Serializable]
 	public class Stat
 	{
+		public event Action<Stat> OnValueChanged;
 		public float BaseValue;
 		public float? MinValue;
 		public float? MaxValue;
@@ -20,12 +21,15 @@ namespace _Base.Scripts.RPG.Stats
 		protected float _value;
 		public virtual float Value {
 			get {
-				if(isDirty || lastBaseValue != BaseValue || lastMinValue != MinValue || lastMaxValue != MaxValue) {
+				if(isDirty || lastBaseValue != BaseValue || lastMinValue != MinValue || lastMaxValue != MaxValue)
+				{
 					lastBaseValue = BaseValue;
 					lastMinValue = MinValue;
 					lastMaxValue = MaxValue;
 					_value = CalculateFinalValue();
 					isDirty = false;
+					
+					OnValueChanged?.Invoke(this);
 				}
 				return _value;
 			}
@@ -41,7 +45,7 @@ namespace _Base.Scripts.RPG.Stats
 			StatModifiers = statModifiers.AsReadOnly();
 		}
 
-		public Stat(float baseValue, float minValue, float maxValue) : this()
+		public Stat(float baseValue, float? minValue = null, float? maxValue = null) : this()
 		{
 			BaseValue = baseValue;
 			MinValue = minValue;

@@ -14,7 +14,7 @@ namespace _Game.Scripts.UI
     {
         protected override void UpdateTargetValue(Image target, float value)
         {
-            target.fillAmount = value / GlobalContext.PlayerContext.MaxMana;
+            target.fillAmount = value / GlobalContext.PlayerContext.MaxManaPoint;
         }
     }
 }

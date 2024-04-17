@@ -1,17 +1,11 @@
-using System;
+﻿using System;
+using _Base.Scripts.RPG.Attributes;
 using _Base.Scripts.RPG.Stats;
 using _Base.Scripts.RPGCommon.Entities;
 using UnityEngine;
 
-namespace _Base.Scripts.RPG.Attributes
+namespace _Game.Scripts
 {
-
-    [Serializable]
-    public abstract class Stats
-    {
-        
-    }
-
     [Serializable]
     public class CannonStats : Stats, IAlive, IFighter
     {

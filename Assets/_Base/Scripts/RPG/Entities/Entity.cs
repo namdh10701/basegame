@@ -28,7 +28,7 @@ namespace _Base.Scripts.RPG.Entities
         public EffectHandler EffectHandler;
         public EntityCollisionDetector EntityCollisionDetector;
         
-        public abstract Attributes.Stats Stats { get; }
+        public abstract _Game.Scripts.Stats Stats { get; }
         
         // [field: SerializeReference] public List<Attribute> Attributes { get; set; } = new ();
 

@@ -24,7 +24,7 @@ namespace _Game.Scripts.GameStates
             base.Exit();
             //chọn tàu, crew, các thứ xong thì tính toán lại máu, mana thuyền set vào context
             PlayerContext playerContext = new PlayerContext();
-            playerContext.MaxMana = 100;
+            playerContext.MaxManaPoint = 100;
             /* playerContext.ManaPoint = 40;
              playerContext.HealthPoint = 1000;*/
             GlobalContext.PlayerContext = playerContext;

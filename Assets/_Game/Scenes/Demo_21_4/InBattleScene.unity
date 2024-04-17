@@ -318,6 +318,7 @@ GameObject:
   m_Component:
   - component: {fileID: 534648468}
   - component: {fileID: 534648467}
+  - component: {fileID: 534648470}
   - component: {fileID: 534648469}
   m_Layer: 0
   m_Name: Ship
@@ -338,7 +339,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 368025709d8d477488e54dd5c9c78d15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShipMana: {fileID: 534648469}
+  Stats:
+    <HealthPoint>k__BackingField:
+      _value: 0
+      _minValue: 0
+      _maxValue: 100
+    <ManaPoint>k__BackingField:
+      _value: 0
+      _minValue: 0
+      _maxValue: 150
+    <ManaRegenerationRate>k__BackingField:
+      BaseValue: 5
+      statModifiers: []
+    <HealthRegenerationRate>k__BackingField:
+      BaseValue: 1
+      statModifiers: []
 --- !u!4 &534648468
 Transform:
   m_ObjectHideFlags: 0
@@ -362,7 +377,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 534648466}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 23024ba6da3b73543a4cb0104f30e091, type: 3}
   m_Name: 
@@ -371,6 +386,19 @@ MonoBehaviour:
   maxMp: 100
   currentMp: 0
   generateRate: 10
+--- !u!114 &534648470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 534648466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bc5271c5b8b435d9314501d09dc8725, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ship: {fileID: 534648467}
 --- !u!1 &951817285
 GameObject:
   m_ObjectHideFlags: 0

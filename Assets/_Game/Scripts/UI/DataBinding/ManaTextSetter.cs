@@ -14,7 +14,7 @@ namespace _Game.Scripts.UI
     {
         protected override void UpdateTargetValue(TextMeshProUGUI target, float value)
         {
-            target.text = $"{value}/{GlobalContext.PlayerContext.MaxMana}";
+            target.text = $"{value}/{GlobalContext.PlayerContext.MaxManaPoint}";
         }
     }
 }

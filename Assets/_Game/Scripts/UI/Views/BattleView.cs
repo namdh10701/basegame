@@ -11,6 +11,7 @@ namespace _Game.Scripts.UI
     public class BattleView : View
     {
         public ContextHolder ContextHolder;
+        public Button decreaseHpBtn;
         public Button decreaseManaBtn;
         public TextMeshProUGUI text;
         private void Awake()
@@ -20,23 +21,31 @@ namespace _Game.Scripts.UI
 
         private void OnEnable()
         {
-            decreaseManaBtn.onClick.AddListener(OnDecreaseManaClick);
+            decreaseHpBtn.onClick.AddListener(() =>
+            {
+                Ship.Instance.Stats.HealthPoint.Value -= 25;
+            });
+            decreaseManaBtn.onClick.AddListener(() =>
+            {
+                Ship.Instance.Stats.ManaPoint.Value -= 25;
+            });
         }
         private void OnDisable()
         {
+            decreaseHpBtn.onClick.RemoveAllListeners();
             decreaseManaBtn.onClick.RemoveAllListeners();
         }
 
-        void OnDecreaseManaClick()
-        {
-            if (!Ship.Instance.ShipMana.ConsumeMana(25))
-            {
-                text.gameObject.SetActive(true);
-            }
-            else
-            {
-                text.gameObject.SetActive(false);
-            }
-        }
+        // void OnDecreaseManaClick()
+        // {
+        //     if (!Ship.Instance.ShipMana.ConsumeMana(25))
+        //     {
+        //         text.gameObject.SetActive(true);
+        //     }
+        //     else
+        //     {
+        //         text.gameObject.SetActive(false);
+        //     }
+        // }
     }
 }

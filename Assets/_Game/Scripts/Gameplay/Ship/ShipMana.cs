@@ -21,7 +21,7 @@ namespace _Game.Scripts.Gameplay.Ship
         {
             playerContext = GlobalContext.PlayerContext;
             IsAutoGenerate = true;
-            maxMp = playerContext.MaxMana;
+            maxMp = playerContext.MaxManaPoint;
             currentMp = 0;
             generateRate = 5;
         }
@@ -56,7 +56,7 @@ namespace _Game.Scripts.Gameplay.Ship
             if (IsAutoGenerate)
             {
                 CurrentMP += GenerateRate * Time.deltaTime;
-                playerContext.ManaPoint = (int)CurrentMP;
+                // playerContext.ManaPoint = (int)CurrentMP;
             }
         }
     }
