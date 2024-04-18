@@ -51,7 +51,6 @@ public class SetupWeaponsManager : SingletonMonoBehaviour<SetupWeaponsManager>
     public void Initialize()
     {
         GetPositionGrids();
-
     }
 
     private void GetPositionGrids()
@@ -157,7 +156,7 @@ public class SetupWeaponsManager : SingletonMonoBehaviour<SetupWeaponsManager>
                 {
                     if (_curentSkin == ship.typeShip)
                     {
-                        var existingWeapon = ship.weaponItemDatas.FirstOrDefault(w => w.itemMenuData.id == itemMenuData.id);
+                        var existingWeapon = ship.weaponItemDatas.FirstOrDefault(w => w.itemMenuData.id == itemMenuData.id && w.itemMenuData.itemType == itemMenuData.itemType);
                         // if (ship.weaponItemDatas.Count <= 0 || )
                         if (existingWeapon == null)
                         {
@@ -166,7 +165,7 @@ public class SetupWeaponsManager : SingletonMonoBehaviour<SetupWeaponsManager>
                             weaponItemData.previousGridID = gridId;
                             weaponItemData.itemMenuData = itemMenuData;
                             ship.weaponItemDatas.Add(weaponItemData);
-                            itemWeapon.Setup(weaponItemData, gridId, center);
+                            itemWeapon.Setup(weaponItemData);
                             _menuManager.EnableDragItem(weaponItemData.itemMenuData, false);
 
                         }
@@ -238,14 +237,14 @@ public class SetupWeaponsManager : SingletonMonoBehaviour<SetupWeaponsManager>
     {
         foreach (var grid in _curentShip.grids)
         {
-            if (weaponItem.PreviousGridID == grid.id)
+            if (weaponItem.GetWeaponItemData().previousGridID == grid.id)
             {
                 foreach (var item in _weaponItems)
                 {
                     if (item == weaponItem)
                     {
                         item.transform.parent = grid.transform;
-                        item.transform.localPosition = weaponItem.PreviousPosition;
+                        item.transform.localPosition = weaponItem.GetWeaponItemData().previousPosition;
                     }
                 }
             }

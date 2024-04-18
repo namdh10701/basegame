@@ -10,17 +10,12 @@ public class WeaponItem : MonoBehaviour
     private WeaponItemData _weaponItemData;
     private List<Cell> _cells = new List<Cell>();
     private string _gridID;
-
-    public string PreviousGridID;
-    public Vector2 PreviousPosition;
     private bool _isDesTroy;
 
-    public void Setup(WeaponItemData weaponItemData, string oldGridID, Vector2 oldPosition)
+    public void Setup(WeaponItemData weaponItemData)
     {
         _weaponItemData = weaponItemData;
         _spriteRenderer.sprite = weaponItemData.itemMenuData.sprite;
-        _weaponItemData.previousGridID = oldGridID;
-        _weaponItemData.previousPosition = oldPosition;
         _collider = this.GetComponent<BoxCollider2D>();
         SetSizeItemDrag(weaponItemData.itemMenuData.sizeCollision);
     }

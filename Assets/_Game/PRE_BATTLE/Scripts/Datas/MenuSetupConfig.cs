@@ -41,4 +41,14 @@ public enum TabType
     SkinShip
 }
 
+[Serializable]
+public class ItemMenuSkinShip
+{
+    public int id;
+    public Sprite sprite;
+    public ItemType itemType;
+
+
+}
+
 

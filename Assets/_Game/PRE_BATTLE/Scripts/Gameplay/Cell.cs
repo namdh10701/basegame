@@ -27,15 +27,6 @@ public class Cell : MonoBehaviour
         return new Vector2(_spriteRenderer.sprite.bounds.size.x, _spriteRenderer.sprite.bounds.size.y);
     }
 
-    void OnTriggerEnter2D(Collider2D collider2D)
-    {
-
-    }
-
-    private void OnTriggerExit2D(Collider2D collider2D)
-    {
-    }
-
     public void SetItemType(ItemType itemType)
     {
         _itemType = itemType;
