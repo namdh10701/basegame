@@ -1,8 +1,10 @@
 using _Base.Scripts.RPG.Entities;
+using UnityEngine;
 
 namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
 {
-    public class ShootTargetStrategyNormal_BouncingShot: ShootTargetStrategy_Normal
+    [AddComponentMenu("[Attack Strategy] BouncingShot")]
+    public class BouncingShot: NormalShot
     {
         
         public float lookupRange = 100f;
@@ -20,10 +22,10 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
         
         class BouncingShotCollisionHandler: DefaultCollisionHandler
         {
-            public ShootTargetStrategyNormal_BouncingShot strategy;
+            public BouncingShot strategy;
             public int bounceCount;
 
-            public BouncingShotCollisionHandler(ShootTargetStrategyNormal_BouncingShot strategy)
+            public BouncingShotCollisionHandler(BouncingShot strategy)
             {
                 this.strategy = strategy;
             }

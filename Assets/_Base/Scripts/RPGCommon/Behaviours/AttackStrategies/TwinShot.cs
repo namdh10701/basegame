@@ -3,7 +3,8 @@ using UnityEngine;
 
 namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
 {
-    public class ShootTargetStrategyNormal_TwinShot: ShootTargetStrategy_Normal
+    [AddComponentMenu("[Attack Strategy] TwinShot")]
+    public class TwinShot: NormalShot
     {
         public float gap = 100f;
         public int amount = 3;

@@ -11,7 +11,8 @@ using Random = UnityEngine.Random;
 
 namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
 {
-    public class ShootTargetStrategy_Normal: AttackStrategy
+    [AddComponentMenu("[Attack Strategy] NormalShot")]
+    public class NormalShot: AttackStrategy
     {
         protected Transform shootPosition; 
         private Entity projectilePrefab;

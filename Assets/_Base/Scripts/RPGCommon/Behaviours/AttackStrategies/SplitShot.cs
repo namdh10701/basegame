@@ -1,9 +1,11 @@
 using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.Utils.Extensions;
+using UnityEngine;
 
 namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
 {
-    public class ShootTargetStrategyNormal_SplitShot: ShootTargetStrategy_Normal
+    [AddComponentMenu("[Attack Strategy] SplitShot")]
+    public class SplitShot: NormalShot
     {
         public float angle = 15f;
         public int amount = 3;

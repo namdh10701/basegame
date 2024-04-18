@@ -12,15 +12,15 @@ namespace _Game.Scripts.Entities
         public RectTransform background;
         public RectTransform fill;
 
-        private IAlive _alive;
+        private IAliveStats _aliveStats;
         private void Awake()
         {
-            _alive = entity.Stats as IAlive;
+            _aliveStats = entity.Stats as IAliveStats;
         }
 
         private void Update()
         {
-            var percentage = _alive.HealthPoint / _alive.MaxHealthPoint.Value;
+            var percentage = _aliveStats.HealthPoint / _aliveStats.MaxHealthPoint.Value;
             var fillSize = background.sizeDelta.x * percentage;
             fill.sizeDelta = new Vector2(fillSize, fill.sizeDelta.y);
         }

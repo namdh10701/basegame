@@ -7,7 +7,7 @@ using UnityEngine;
 namespace _Game.Scripts
 {
     [Serializable]
-    public class CannonStats : Stats, IAlive, IFighterStats
+    public class CannonStats : Stats, IAliveStats, IFighterStats
     {
 
 
@@ -32,7 +32,7 @@ namespace _Game.Scripts
 
         [SerializeField]
         private float _healthPoint;
-        float IAlive.HealthPoint
+        float IAliveStats.HealthPoint
         {
             get => _healthPoint;
             set => _healthPoint = value;

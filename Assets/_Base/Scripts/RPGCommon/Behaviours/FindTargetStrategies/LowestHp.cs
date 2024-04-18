@@ -12,7 +12,7 @@ namespace _Base.Scripts.RPGCommon.Behaviours.FindTargetStrategies
     {
         public override bool TryGetTargetEntity(GameObject go, out Entity entity)
         {
-            go.TryGetComponent<IAlive>(out var found);
+            go.TryGetComponent<IAliveStats>(out var found);
             entity = found as Entity;
             return entity != null;
         }
@@ -25,7 +25,7 @@ namespace _Base.Scripts.RPGCommon.Behaviours.FindTargetStrategies
 
             foreach (var entity in foundTargets)
             {
-                var livingEntity = (IAlive)entity;
+                var livingEntity = (IAliveStats)entity;
                 // float hp = livingEntity.HealthPoint.CalculatedValue;
                 // if (hp < lowestHp)
                 // {

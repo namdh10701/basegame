@@ -21,7 +21,7 @@ namespace _Game.Scripts.Gameplay.Ship
         {
             playerContext = GlobalContext.PlayerContext;
             IsAutoGenerate = true;
-            maxMp = playerContext.MaxManaPoint;
+            maxMp = playerContext.ManaPoint.MaxValue;
             currentMp = 0;
             generateRate = 5;
         }

@@ -12,7 +12,7 @@ namespace _Base.Scripts.RPG.Effects
         protected override void OnStart(Entity entity)
         {
             base.OnStart(entity);
-            if (entity.Stats is not IAlive alive)
+            if (entity.Stats is not IAliveStats alive)
             {
                 return;
             }
@@ -24,7 +24,7 @@ namespace _Base.Scripts.RPG.Effects
         protected override void OnEnd(Entity entity)
         {
             base.OnStart(entity);
-            if (entity.Stats is not IAlive alive)
+            if (entity.Stats is not IAliveStats alive)
             {
                 return;
             }
