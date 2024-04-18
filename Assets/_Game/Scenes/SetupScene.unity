@@ -516,10 +516,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f63ba8766dafe740a1fbf195dc64de7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Slots:
-  - {fileID: 383272257}
-  - {fileID: 224684134}
-  - {fileID: 674852288}
 --- !u!1 &224684132
 GameObject:
   m_ObjectHideFlags: 0
@@ -566,7 +562,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 411bcc6d82d9cd243926f860ff280510, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BigSlot: {fileID: 584939174}
 --- !u!212 &224684135
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -898,7 +893,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 411bcc6d82d9cd243926f860ff280510, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BigSlot: {fileID: 584939174}
 --- !u!212 &383272258
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1013,7 +1007,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 411bcc6d82d9cd243926f860ff280510, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BigSlot: {fileID: 657032817}
 --- !u!212 &406896749
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1112,9 +1105,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1bf34de81f358a42beb5da71c5c56d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Slots:
-  - {fileID: 383272257}
-  - {fileID: 224684134}
 --- !u!1 &586367794
 GameObject:
   m_ObjectHideFlags: 0
@@ -1177,7 +1167,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.13672824}
+  m_Offset: {x: 0, y: -0.25442505}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -1188,7 +1178,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1.2734561}
+  m_Size: {x: 1, y: 1.5088496}
   m_EdgeRadius: 0
 --- !u!4 &586367797
 Transform:
@@ -1251,9 +1241,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1bf34de81f358a42beb5da71c5c56d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Slots:
-  - {fileID: 886471733}
-  - {fileID: 406896748}
 --- !u!1 &674852286
 GameObject:
   m_ObjectHideFlags: 0
@@ -1300,7 +1287,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 411bcc6d82d9cd243926f860ff280510, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BigSlot: {fileID: 0}
 --- !u!212 &674852289
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1383,7 +1369,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 411bcc6d82d9cd243926f860ff280510, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BigSlot: {fileID: 657032817}
 --- !u!212 &886471734
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1497,7 +1482,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f63ba8766dafe740a1fbf195dc64de7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Slots: []
 --- !u!1 &1039503060
 GameObject:
   m_ObjectHideFlags: 0
@@ -1620,7 +1604,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f63ba8766dafe740a1fbf195dc64de7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Slots: []
 --- !u!1 &1119704443
 GameObject:
   m_ObjectHideFlags: 0
@@ -2028,7 +2011,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 368025709d8d477488e54dd5c9c78d15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Setup: {fileID: 0}
+  EffectHandler: {fileID: 0}
+  EntityCollisionDetector: {fileID: 0}
+  stats:
+    <HealthPoint>k__BackingField:
+      _value: 0
+      _minValue: 0
+      _maxValue: 100
+    <ManaPoint>k__BackingField:
+      _value: 0
+      _minValue: 0
+      _maxValue: 150
+    <ManaRegenerationRate>k__BackingField:
+      BaseValue: 5
+      statModifiers: []
+    <HealthRegenerationRate>k__BackingField:
+      BaseValue: 1
+      statModifiers: []
 --- !u!212 &1483909966
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2078,7 +2077,7 @@ SpriteRenderer:
   m_Size: {x: 1.07, y: 1.26}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1483909967
@@ -2128,65 +2127,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1980244420}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1700227126
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1700227127}
-  - component: {fileID: 1700227128}
-  - component: {fileID: 1700227129}
-  m_Layer: 0
-  m_Name: Attributes
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1700227127
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1700227126}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1980244420}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1700227128
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1700227126}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80cdde9c76504eceafa82dbcd1dc69e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <Value>k__BackingField: 0
---- !u!114 &1700227129
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1700227126}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c603de69497d4a7c840e94f400566f87, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <Value>k__BackingField: 0
 --- !u!1 &1703886044
 GameObject:
   m_ObjectHideFlags: 0
@@ -2260,12 +2200,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 9e217e15b75ccf9409f21f79e3cf7a3e, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
+  m_Color: {r: 0.9433962, g: 0.493948, b: 0.493948, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1.0588236, y: 1.0588236}
+  m_Size: {x: 0.51, y: 0.51}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -2338,7 +2278,7 @@ SpriteRenderer:
   m_Size: {x: 1.07, y: 1.26}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1756838822
@@ -2369,7 +2309,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 368025709d8d477488e54dd5c9c78d15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Setup: {fileID: 0}
+  EffectHandler: {fileID: 0}
+  EntityCollisionDetector: {fileID: 0}
+  stats:
+    <HealthPoint>k__BackingField:
+      _value: 0
+      _minValue: 0
+      _maxValue: 100
+    <ManaPoint>k__BackingField:
+      _value: 0
+      _minValue: 0
+      _maxValue: 150
+    <ManaRegenerationRate>k__BackingField:
+      BaseValue: 5
+      statModifiers: []
+    <HealthRegenerationRate>k__BackingField:
+      BaseValue: 1
+      statModifiers: []
 --- !u!1 &1978638008
 GameObject:
   m_ObjectHideFlags: 0
@@ -2486,10 +2442,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65fe218f28e74b0a9eb8c5923933fa47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attributeHolder: {fileID: 1700227127}
-  effectHolder: {fileID: 1535398597}
-  <Attributes>k__BackingField: []
-  AttackCondition: {fileID: 0}
+  EffectHandler: {fileID: 0}
+  EntityCollisionDetector: {fileID: 0}
+  stats:
+    <MaxHealthPoint>k__BackingField:
+      BaseValue: 0
+      statModifiers: []
+    <AttackDamage>k__BackingField:
+      BaseValue: 0
+      statModifiers: []
+    <CriticalChance>k__BackingField:
+      BaseValue: 0
+      statModifiers: []
+    <CriticalDamage>k__BackingField:
+      BaseValue: 0
+      statModifiers: []
+    <AttackRange>k__BackingField:
+      BaseValue: 0
+      statModifiers: []
+    _healthPoint: 0
 --- !u!4 &1980244420
 Transform:
   m_ObjectHideFlags: 0
@@ -2504,7 +2475,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1703886045}
-  - {fileID: 1700227127}
   - {fileID: 1535398597}
   - {fileID: 1039503061}
   - {fileID: 586367797}
@@ -2662,7 +2632,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 411bcc6d82d9cd243926f860ff280510, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BigSlot: {fileID: 0}
 --- !u!1 &2033420585
 GameObject:
   m_ObjectHideFlags: 0
@@ -2777,7 +2746,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 368025709d8d477488e54dd5c9c78d15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Setup: {fileID: 0}
+  EffectHandler: {fileID: 0}
+  EntityCollisionDetector: {fileID: 0}
+  stats:
+    <HealthPoint>k__BackingField:
+      _value: 0
+      _minValue: 0
+      _maxValue: 100
+    <ManaPoint>k__BackingField:
+      _value: 0
+      _minValue: 0
+      _maxValue: 150
+    <ManaRegenerationRate>k__BackingField:
+      BaseValue: 5
+      statModifiers: []
+    <HealthRegenerationRate>k__BackingField:
+      BaseValue: 1
+      statModifiers: []
 --- !u!212 &2103212996
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2827,7 +2812,7 @@ SpriteRenderer:
   m_Size: {x: 1.07, y: 1.26}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &2103212997

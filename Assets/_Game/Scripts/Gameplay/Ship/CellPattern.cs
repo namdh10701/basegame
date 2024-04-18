@@ -4,9 +4,8 @@ using UnityEngine;
 
 namespace _Game.Scripts.Gameplay
 {
-    public class BattleManager : MonoBehaviour
+    public enum CellPattern
     {
-       
+        X, Plus, HorizontalLine, VerticalLine, FilledSquare, Single
     }
-
 }

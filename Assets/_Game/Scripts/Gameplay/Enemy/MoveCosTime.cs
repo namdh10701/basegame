@@ -9,8 +9,7 @@ public class MoveCosTime : MonoBehaviour
     [SerializeField] private float frequency;
     [SerializeField] private float amplitude;
     [SerializeField] private float modifier;
-    [SerializeField] Vector2 Direction;
-    private float elapsedTime;
+    [SerializeField] public Vector2 Direction;
     [SerializeField] bool isActive;
     public void Active()
     {
@@ -25,8 +24,7 @@ public class MoveCosTime : MonoBehaviour
     {
         if (isActive)
         {
-            elapsedTime += Time.deltaTime;
-            body.velocity = Mathf.Clamp((Mathf.Cos(elapsedTime * frequency) * amplitude + modifier), 0, 10000) * Direction;
+            body.velocity = Mathf.Clamp((Mathf.Cos(Time.time * frequency) * amplitude + modifier), 0, 10000) * Direction;
         }
     }
 

@@ -10,9 +10,10 @@ public class Cell : MonoBehaviour
     private ItemType _itemType;
     private bool _isEmty = true;
     public int Id;
-
+    public int X;
+    public int Y;
     public bool HasItem;
-
+    public Grid Grid;
     public void Setup(Vector2 position, int id)
     {
         _itemType = ItemType.None;

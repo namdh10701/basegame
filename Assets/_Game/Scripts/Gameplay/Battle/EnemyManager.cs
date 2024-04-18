@@ -1,19 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 
-public class EnemyManager : MonoBehaviour
+namespace _Game.Scripts.Gameplay
 {
-    [SerializeField] Bounds bounds;
-    [SerializeField] BoxCollider2D spawnArea;
-    void Start()
+    public class EnemyManager : MonoBehaviour
     {
+        [SerializeField] EntityManager entityManager;
+        [SerializeField] EnemySpawnArea spawnArea;
+        [SerializeField] Enemy melleEnemy;
+        [SerializeField] Enemy rangedEnemy;
+        bool IsActive;
 
-    }
+        public void SpawnMelle()
+        {
+            entityManager.SpawnEntity(melleEnemy, spawnArea.SamplePoint(), Quaternion.identity, null);
+        }
 
-    // Update is called once per frame
-    void Update()
-    {
-
+        public void SpawnRanged()
+        {
+            entityManager.SpawnEntity(rangedEnemy, spawnArea.SamplePoint(), Quaternion.identity, null);
+        }
     }
 }

@@ -14,6 +14,7 @@ namespace _Game.Scripts.Gameplay.Ship
         [SerializeField]
         private ShipStats stats = new();
         public override Stats Stats => stats;
+        public ShipGrid ShipGrid;
 
         [Header("Config Data")]
         [SerializeField] DataShips _dataShips;
@@ -78,8 +79,11 @@ namespace _Game.Scripts.Gameplay.Ship
         private void CreateGrids(ShipConfig shipConfig)
         {
             var idCell = 0;
+            int index = 0;
             foreach (var grid in shipConfig.grids)
             {
+                Grid g = PositionGrids[index].GetComponent<Grid>();
+                Cell[,] cells = new Cell[grid.rows, grid.cols];
                 var listCell = new List<Cell>();
                 var cellTransform = grid.transform; // Store grid's transform reference
 
@@ -101,12 +105,21 @@ namespace _Game.Scripts.Gameplay.Ship
                         var posY = j * halfSizeY;
 
                         cell.Setup(new Vector2(posX, posY), idCell);
+                        cell.X = i;
+                        cell.Y = j;
+                        cell.name = $"Cell ({i}, {j})";
+                        cell.Grid = g;
                         go.transform.localPosition = new Vector2(posX, posY);
                         listCell.Add(cell);
                         idCell++;
+                        cells[i, j] = cell;
+
                     }
                 }
+                g.Cells = cells;
+                ShipGrid?.AddGrid(g);
                 _gridsInfor.Add(grid.id, listCell);
+                index++;
             }
         }
 
