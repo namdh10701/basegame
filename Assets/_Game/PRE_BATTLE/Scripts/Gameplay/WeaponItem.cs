@@ -31,17 +31,23 @@ public class WeaponItem : MonoBehaviour
         if (collider2D.gameObject.tag == "Cell")
         {
             var cell = collider2D.gameObject.GetComponent<Cell>();
-            if (cell == null || !cell.IsCellEmty())
+            if (cell == null)
                 return;
 
+            if (!cell.IsCellEmty())
+                return;
+
+            // Store item type in a local variable for readability and efficiency
+            var itemType = _weaponItemData.itemMenuData.itemType;
+
+            // Set cell properties and add to _cells list
             cell.CheckCellsEmty(false);
-            cell.SetItemType(_weaponItemData.itemMenuData.itemType);
-            var grid = cell.GetComponentInParent<Grid>();
-            _gridID = grid.ID;
+            cell.SetItemType(itemType);
             cell.EnableCell(false);
             _cells.Add(cell);
-            Debug.Log("OnTriggerEnter2D:" + _cells.Count);
+            _gridID = cell.GetComponentInParent<Grid>().ID;
 
+            Debug.Log("OnTriggerEnter2D: " + _cells.Count); // Consider removing in production build
         }
         else if (collider2D.gameObject.tag == "OutSize")
         {
@@ -50,36 +56,31 @@ public class WeaponItem : MonoBehaviour
     }
 
 
+
     void OnTriggerExit2D(Collider2D collider2D)
     {
         if (collider2D.gameObject.tag == "Cell")
         {
             var cell = collider2D.gameObject.GetComponent<Cell>();
-            var cellsToRemove = new List<Cell>();
 
-            foreach (var item in _cells)
+            // Remove cells from _cells list and update cell properties
+            foreach (var item in _cells.ToList()) // Convert to List to avoid modifying while iterating
             {
                 if (item.Id == cell.Id)
                 {
                     cell.CheckCellsEmty(true);
                     cell.SetItemType(ItemType.None);
                     cell.EnableCell(true);
-                    cellsToRemove.Add(item);
+                    _cells.Remove(item); // Remove the correct item from the list
                 }
             }
-            foreach (var item in cellsToRemove)
-            {
-                _cells.Remove(cell);
-
-            }
-            Debug.Log("OnTriggerExit2D:" + _cells.Count);
-
         }
         else if (collider2D.gameObject.tag == "OutSize")
         {
             _isDesTroy = false;
         }
     }
+
 
     public ItemMenuData GetItemMenuData()
     {
@@ -99,19 +100,18 @@ public class WeaponItem : MonoBehaviour
             SetupWeaponsManager.Instance.RemoveDataWeaponItem(itemMenuData);
             Destroy(this.gameObject);
         }
-        else if (itemMenuData.numbCell == _cells.Count)
-        {
-            foreach (var item in _cells)
-            {
-                item.SetItemType(itemMenuData.itemType);
-
-            }
-            SetupWeaponsManager.Instance.OnChangeDataByMoveWeaponItem(_gridID, _cells, this);
-        }
-        else
+        else if (itemMenuData.numbCell != _cells.Count)
         {
             SetupWeaponsManager.Instance.ReturnWeaponItemToPreviousPosition(this);
+            return;
         }
+
+        foreach (var item in _cells)
+        {
+            item.SetItemType(itemMenuData.itemType);
+
+        }
+        SetupWeaponsManager.Instance.OnChangeDataByMoveWeaponItem(_gridID, _cells, this);
 
     }
 

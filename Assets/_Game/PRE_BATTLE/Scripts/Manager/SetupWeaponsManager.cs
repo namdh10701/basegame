@@ -80,71 +80,85 @@ public class SetupWeaponsManager : SingletonMonoBehaviour<SetupWeaponsManager>
         foreach (var grid in shipConfig.grids)
         {
             var listCell = new List<Cell>();
+            var cellTransform = grid.transform; // Store grid's transform reference
+
             for (int i = 0; i < grid.rows; i++)
             {
                 for (int j = 0; j < grid.cols; j++)
                 {
-                    var go = Instantiate(shipConfig.cell, grid.transform);
+                    var go = Instantiate(shipConfig.cell, cellTransform);
                     go.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
                     var cell = go.GetComponent<Cell>();
                     var size = cell.GetBounds();
-                    cell.Setup(new Vector2(i * size.x / 2, j * size.y / 2), idCell);
-                    go.transform.localPosition = new Vector2(i * size.x / 2, j * size.y / 2);
+
+                    // Calculate size.x / 2 and size.y / 2 once
+                    var halfSizeX = size.x / 2;
+                    var halfSizeY = size.y / 2;
+
+                    // Calculate position once
+                    var posX = i * halfSizeX;
+                    var posY = j * halfSizeY;
+
+                    cell.Setup(new Vector2(posX, posY), idCell);
+                    go.transform.localPosition = new Vector2(posX, posY);
                     listCell.Add(cell);
                     idCell++;
                 }
             }
             _gridsInfor.Add(grid.id, listCell);
         }
-
     }
+
 
     public void CreateDragItem(ItemMenuData itemMenuData)
     {
-        var mousePosition = Input.mousePosition;
-        var screenPosition = new Vector3(mousePosition.x, mousePosition.y);
-        var worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
+        // Convert mouse position to world position
+        var worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        worldPosition.z = 0; // Ensure z-position is appropriate for 2D space
 
+        // Disable scroll rect to prevent scrolling while dragging
         _menuManager.EnableScrollRect(false);
-        _dragItemUI = _menuManager.CreateDragItemUI(itemMenuData, screenPosition);
 
+        // Create drag item UI and set its position
+        _dragItemUI = _menuManager.CreateDragItemUI(itemMenuData, Input.mousePosition);
 
+        // Instantiate drag item if it doesn't exist
         if (_dragItem == null)
         {
             _dragItem = Instantiate(_prefabDragItem, this.transform);
-
         }
+
+        // Setup drag item and set its position
         _dragItem.Setup(itemMenuData);
         _dragItem.transform.position = worldPosition;
     }
 
+
     public void SetDataToCells(string gridId, List<Cell> cellSelected, ItemMenuData itemMenuData)
     {
-        float totalX = 0f;
-        float totalY = 0f;
-
-        if (_gridsInfor.ContainsKey(gridId))
+        if (!_gridsInfor.TryGetValue(gridId, out var cellsInGrid))
         {
-            var cellsInGrid = _gridsInfor[gridId];
+            Debug.LogWarning($"Grid {gridId} not found in grids information.");
+            return;
+        }
 
-            foreach (var selectedCell in cellSelected)
+        // Calculate the total position of selected cells
+        Vector2 totalPosition = Vector2.zero;
+        foreach (var selectedCell in cellSelected)
+        {
+            var cellInGrid = cellsInGrid.FirstOrDefault(cell => cell.Id == selectedCell.Id);
+            if (cellInGrid != null)
             {
-                foreach (var cellInGrid in cellsInGrid)
-                {
-                    if (cellInGrid.Id == selectedCell.Id)
-                    {
-                        totalX += cellInGrid.GetPositionCell().x;
-                        totalY += cellInGrid.GetPositionCell().y;
-                        cellInGrid.SetItemType(selectedCell.GetItemType());
-                        cellInGrid.EnableCell(false);
-                    }
-                }
+                totalPosition += cellInGrid.GetPositionCell();
+                cellInGrid.SetItemType(selectedCell.GetItemType());
+                cellInGrid.EnableCell(false);
             }
         }
-        _menuManager.EnableScrollRect(true);
 
+        // Calculate the center position
+        Vector2 center = totalPosition / cellSelected.Count;
 
-        var center = new Vector2(totalX / cellSelected.Count, totalY / cellSelected.Count);
+        // Instantiate weapon item
         foreach (var grid in _curentShip.grids)
         {
             if (gridId == grid.id)
@@ -152,124 +166,105 @@ public class SetupWeaponsManager : SingletonMonoBehaviour<SetupWeaponsManager>
                 var itemWeapon = Instantiate(_prefabWeaponItem, grid.transform);
                 itemWeapon.transform.localPosition = center;
                 _weaponItems.Add(itemWeapon);
-                foreach (var ship in _dataShips.ships)
-                {
-                    if (_curentSkin == ship.typeShip)
-                    {
-                        var existingWeapon = ship.weaponItemDatas.FirstOrDefault(w => w.itemMenuData.id == itemMenuData.id && w.itemMenuData.itemType == itemMenuData.itemType);
-                        // if (ship.weaponItemDatas.Count <= 0 || )
-                        if (existingWeapon == null)
-                        {
-                            WeaponItemData weaponItemData = new WeaponItemData();
-                            weaponItemData.previousPosition = center;
-                            weaponItemData.previousGridID = gridId;
-                            weaponItemData.itemMenuData = itemMenuData;
-                            ship.weaponItemDatas.Add(weaponItemData);
-                            itemWeapon.Setup(weaponItemData);
-                            _menuManager.EnableDragItem(weaponItemData.itemMenuData, false);
 
-                        }
+                // Add weapon item data to ship if not exists
+                foreach (var ship in _dataShips.ships.Where(ship => _curentSkin == ship.typeShip))
+                {
+                    var existingWeapon = ship.weaponItemDatas.FirstOrDefault(w => w.itemMenuData.id == itemMenuData.id && w.itemMenuData.itemType == itemMenuData.itemType);
+                    if (existingWeapon == null)
+                    {
+                        var weaponItemData = new WeaponItemData
+                        {
+                            previousPosition = center,
+                            previousGridID = gridId,
+                            itemMenuData = itemMenuData
+                        };
+                        ship.weaponItemDatas.Add(weaponItemData);
+                        itemWeapon.Setup(weaponItemData);
+                        _menuManager.EnableDragItem(weaponItemData.itemMenuData, false);
                     }
                 }
             }
         }
+
+        _menuManager.EnableScrollRect(true);
     }
+
 
     public void OnChangeDataByMoveWeaponItem(string gridId, List<Cell> cellSelected, WeaponItem weaponItem)
     {
-        float totalX = 0f;
-        float totalY = 0f;
-        if (_gridsInfor.ContainsKey(gridId))
+        if (!_gridsInfor.TryGetValue(gridId, out var cellsInGrid))
         {
-            var cellsInGrid = _gridsInfor[gridId];
+            Debug.LogWarning($"Grid {gridId} not found in grids information.");
+            return;
+        }
 
-            foreach (var selectedCell in cellSelected)
+        // Calculate the total position of selected cells
+        Vector2 totalPosition = Vector2.zero;
+        foreach (var selectedCell in cellSelected)
+        {
+            var cellInGrid = cellsInGrid.FirstOrDefault(cell => cell.Id == selectedCell.Id);
+            if (cellInGrid != null)
             {
-                foreach (var cellInGrid in cellsInGrid)
-                {
-                    if (cellInGrid.Id == selectedCell.Id)
-                    {
-                        totalX += cellInGrid.GetPositionCell().x;
-                        totalY += cellInGrid.GetPositionCell().y;
-                        cellInGrid.SetItemType(selectedCell.GetItemType());
-                        cellInGrid.CheckCellsEmty(false);
-                        cellInGrid.EnableCell(false);
-                    }
-                }
+                totalPosition += cellInGrid.GetPositionCell();
+                cellInGrid.SetItemType(selectedCell.GetItemType());
+                cellInGrid.CheckCellsEmty(false);
+                cellInGrid.EnableCell(false);
             }
         }
 
-        var center = new Vector2(totalX / cellSelected.Count, totalY / cellSelected.Count);
+        // Calculate the center position
+        Vector2 center = totalPosition / cellSelected.Count;
 
+        // Update weapon item data
+        foreach (var ship in _dataShips.ships)
+        {
+            var weaponItemData = ship.weaponItemDatas.FirstOrDefault(w => w == weaponItem.GetWeaponItemData());
+            if (weaponItemData != null)
+            {
+                weaponItemData.itemMenuData = weaponItem.GetItemMenuData();
+                weaponItemData.previousPosition = center;
+                weaponItemData.previousGridID = gridId;
+            }
+        }
 
-
+        // Move weapon item to the new grid
         foreach (var grid in _curentShip.grids)
         {
             if (gridId == grid.id)
             {
-                foreach (var ship in _dataShips.ships)
-                {
-                    foreach (var weaponItemData in ship.weaponItemDatas)
-                    {
-                        if (weaponItemData == weaponItem.GetWeaponItemData())
-                        {
-                            weaponItemData.itemMenuData = weaponItem.GetItemMenuData();
-                            weaponItemData.previousPosition = center;
-                            weaponItemData.previousGridID = gridId;
-                        }
-                    }
-                }
-
-                foreach (var item in _weaponItems)
-                {
-                    if (item == weaponItem)
-                    {
-                        item.transform.parent = grid.transform;
-                        item.transform.localPosition = center;
-                    }
-                }
+                weaponItem.transform.parent = grid.transform;
+                weaponItem.transform.localPosition = center;
+                break;
             }
         }
-
     }
 
     public void ReturnWeaponItemToPreviousPosition(WeaponItem weaponItem)
     {
+        var previousGridID = weaponItem.GetWeaponItemData().previousGridID;
+        var previousPosition = weaponItem.GetWeaponItemData().previousPosition;
+
         foreach (var grid in _curentShip.grids)
         {
-            if (weaponItem.GetWeaponItemData().previousGridID == grid.id)
+            if (grid.id == previousGridID)
             {
-                foreach (var item in _weaponItems)
-                {
-                    if (item == weaponItem)
-                    {
-                        item.transform.parent = grid.transform;
-                        item.transform.localPosition = weaponItem.GetWeaponItemData().previousPosition;
-                    }
-                }
+                weaponItem.transform.parent = grid.transform;
+                weaponItem.transform.localPosition = previousPosition;
+                break;
             }
         }
     }
 
+
     public void RemoveDataWeaponItem(ItemMenuData itemMenuData)
     {
-        List<WeaponItemData> weaponItemDataList = new List<WeaponItemData>();
         foreach (var ship in _dataShips.ships)
         {
-            foreach (var weaponItemData in ship.weaponItemDatas)
-            {
-                if (weaponItemData.itemMenuData == itemMenuData)
-                {
-                    weaponItemDataList.Add(weaponItemData);
-                }
-            }
-            foreach (var weaponItemData in weaponItemDataList)
-            {
-                ship.weaponItemDatas.Remove(weaponItemData);
-            }
-
+            ship.weaponItemDatas.RemoveAll(weaponItemData => weaponItemData.itemMenuData == itemMenuData);
         }
 
         _menuManager.EnableDragItem(itemMenuData, true);
     }
+
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using _Base.Scripts.RPG.Entities;
 using _Base.Scripts.Utils;
 using UnityEngine;
@@ -70,51 +71,78 @@ namespace _Game.Scripts.Gameplay.Ship
 
         }
 
+        /// <summary>
+        /// Create grids
+        /// </summary>
+        /// <param name="shipConfig"></param>
         private void CreateGrids(ShipConfig shipConfig)
         {
             var idCell = 0;
             foreach (var grid in shipConfig.grids)
             {
                 var listCell = new List<Cell>();
+                var cellTransform = grid.transform; // Store grid's transform reference
+
                 for (int i = 0; i < grid.rows; i++)
                 {
                     for (int j = 0; j < grid.cols; j++)
                     {
-                        var go = Instantiate(shipConfig.cell, grid.transform);
+                        var go = Instantiate(shipConfig.cell, cellTransform);
                         go.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
                         var cell = go.GetComponent<Cell>();
                         var size = cell.GetBounds();
-                        cell.Setup(new Vector2(i * size.x / 2, j * size.y / 2), idCell);
-                        go.transform.localPosition = new Vector2(i * size.x / 2, j * size.y / 2);
+
+                        // Calculate size.x / 2 and size.y / 2 once
+                        var halfSizeX = size.x / 2;
+                        var halfSizeY = size.y / 2;
+
+                        // Calculate position once
+                        var posX = i * halfSizeX;
+                        var posY = j * halfSizeY;
+
+                        cell.Setup(new Vector2(posX, posY), idCell);
+                        go.transform.localPosition = new Vector2(posX, posY);
                         listCell.Add(cell);
                         idCell++;
                     }
                 }
                 _gridsInfor.Add(grid.id, listCell);
             }
-
         }
 
+        /// <summary>
+        /// Load weapon items form data
+        /// </summary>
         public void LoadWeaponItems()
         {
             foreach (var grid in _curentShip.grids)
             {
-                foreach (var ship in _dataShips.ships)
+                // Filter out only relevant ships that have weapon items on the current grid
+                var relevantShips = _dataShips.ships.Where(ship =>
+                    ship.weaponItemDatas.Any(weaponItemData => weaponItemData.previousGridID == grid.id));
+
+                foreach (var ship in relevantShips)
                 {
                     foreach (var weaponItemData in ship.weaponItemDatas)
                     {
                         if (weaponItemData.previousGridID == grid.id)
                         {
-                            var itemWeapon = Instantiate(_prefabWeaponItem, grid.transform);
-                            itemWeapon.transform.localPosition = weaponItemData.previousPosition;
-                            itemWeapon.Setup(weaponItemData);
-                            _weaponItems.Add(itemWeapon);
+                            // Check if the weapon item is already instantiated
+                            bool isInstantiated = _weaponItems.Any(item => item.GetWeaponItemData() == weaponItemData);
+                            if (!isInstantiated)
+                            {
+                                var itemWeapon = Instantiate(_prefabWeaponItem, grid.transform);
+                                itemWeapon.transform.localPosition = weaponItemData.previousPosition;
+                                itemWeapon.Setup(weaponItemData);
+                                _weaponItems.Add(itemWeapon);
+                            }
                         }
                     }
                 }
-
             }
         }
+
+
 
     }
 }
