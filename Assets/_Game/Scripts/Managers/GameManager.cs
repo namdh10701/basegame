@@ -1,15 +1,15 @@
 using _Base.Scripts;
 using _Base.Scripts.SaveSystem;
 using _Game.Scripts.SaveSystem;
+using Map;
 using UnityEngine;
 
 namespace _Game.Scripts.Managers
 {
-    public class GameManager: BaseGameManager
+    public class GameManager : BaseGameManager
     {
         public Database.Database Database;
         public SaveData SaveData;
-
         public override void LoadDatabase()
         {
             Database?.Load();

@@ -6,6 +6,7 @@ using _Base.Scripts.StateMachine;
 using _Base.Scripts.UI.Managers;
 using _Game.Scripts.GameStates;
 using _Game.Scripts.UI;
+using Fusion;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -33,24 +34,26 @@ namespace _Game.Scripts.Managers
         IState transit_HomeToPrebattle;
         IState transit_PreBattleToHome;
         IState transit_PreBattleToBattle;
-        IState transit_BattleToHome;
+        IState transit_BattleToPreBattle;
         //Scene State
         IState initState;
         IState homeState;
         IState preBattleState;
         IState battleState;
+        IState endBattleState;
         public override void Initialize()
         {
             initState = new InitState();
             homeState = new HomeState();
             preBattleState = new PreBattleState();
             battleState = new BattleState();
+            endBattleState = new EndBattleState();
 
             transit_SpashToHome = new TransitState(homeScene, null, Transition.CrossFade, gameSceneController);
             transit_HomeToPrebattle = new TransitState(preBattleScene, null, Transition.CrossFade, gameSceneController);
             transit_PreBattleToBattle = new TransitState(battleScene, battleUIScene, Transition.CrossFade, gameSceneController);
             transit_PreBattleToHome = new TransitState(homeScene, null, Transition.CrossFade, gameSceneController);
-
+            transit_BattleToPreBattle = new TransitState(preBattleScene, null, Transition.CrossFade, gameSceneController);
 
             initState.AddLink(new Link(transit_SpashToHome));
             transit_SpashToHome.AddLink(new Link(homeState));
@@ -60,6 +63,11 @@ namespace _Game.Scripts.Managers
             preBattleState.AddLink(new EventLink(LinkEvents.Click_Play, transit_PreBattleToBattle));
             transit_PreBattleToHome.AddLink(new Link(homeState));
             transit_PreBattleToBattle.AddLink(new Link(battleState));
+
+            battleState.AddLink(new EventLink(LinkEvents.End_Battle, endBattleState));
+            endBattleState.AddLink(new EventLink(LinkEvents.Click_PreBattle, transit_BattleToPreBattle));
+            transit_BattleToPreBattle.AddLink(new Link(preBattleState));
+
             gameStateMachine.Run(initState);
 
         }

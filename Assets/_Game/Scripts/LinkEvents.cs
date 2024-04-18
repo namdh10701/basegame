@@ -14,5 +14,8 @@ namespace _Game.Scripts
         public static GameEvent Click_Back = new();
         public static GameEvent Click_Play = new();
         public static GameEvent Click_PreBattle = new();
+
+        //Battle Scene
+        public static GameEvent End_Battle = new();
     }
 }

@@ -120,7 +120,9 @@ namespace _Base.Scripts
 
         public IEnumerator UnloadLastUIScene()
         {
-            //if (m_LastUIScene != m_NeverUnloadUIScene)
+            //if (m_LastUIScene != m_NeverUnloadUIScene
+            //
+            Debug.Log(m_LastUIScene.name + " UNLOADING");
             yield return UnloadUIScene(m_LastUIScene);
         }
         IEnumerator LoadUISceneAddictive(string scenePath)
@@ -130,7 +132,8 @@ namespace _Base.Scripts
             {
                 yield return null;
             }
-            m_LastUIScene = SceneManager.GetSceneByName(scenePath);
+            m_LastUIScene = SceneManager.GetSceneByPath(scenePath);
+            Debug.Log(m_LastUIScene.name + " NEW UISCENE");
             yield return null;
         }
     }

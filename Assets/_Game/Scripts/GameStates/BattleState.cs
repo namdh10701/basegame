@@ -1,5 +1,6 @@
 using _Base.Scripts.StateMachine;
 using _Base.Scripts.UI.Managers;
+using _Game.Scripts.Managers;
 using _Game.Scripts.UI;
 using System.Collections;
 using UnityEngine;
@@ -19,6 +20,13 @@ namespace _Game.Scripts.GameStates
         public override IEnumerator Execute()
         {
             yield break;
+        }
+
+        public override void Exit()
+        {
+            base.Exit();
+
+            GameManager.Instance.MapManager.OnGamePassed();
         }
     }
 }

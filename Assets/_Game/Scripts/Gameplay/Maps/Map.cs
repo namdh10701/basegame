@@ -11,6 +11,8 @@ namespace Map
         public string configName; // similar to the act name in Slay the Spire
         public bool IsLastNodeLocked;
         public bool IsLastNodePassed;
+        public bool IsMapFinished;
+        public int BossNodeLayer;
         public Map(string configName, string bossNodeName, List<Node> nodes, List<Point> path)
         {
             this.configName = configName;

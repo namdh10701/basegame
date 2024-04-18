@@ -1,4 +1,7 @@
-﻿using System.Linq;
+﻿using _Base.Scripts.EventSystem;
+using _Base.Scripts.Shared;
+using _Game.Scripts.Managers;
+using System.Linq;
 using UnityEngine;
 
 namespace Map
@@ -6,7 +9,6 @@ namespace Map
     public class MapManager : MonoBehaviour
     {
         public MapConfig config;
-        public MapView view;
 
         public Map CurrentMap { get; private set; }
 
@@ -17,7 +19,7 @@ namespace Map
                 var mapJson = PlayerPrefs.GetString("Map");
                 var map = JsonUtility.FromJson<Map>(mapJson);
                 // using this instead of .Contains()
-                if (map.path.Any(p => p.Equals(map.GetBossNode().point)))
+                if (map.path.Any(p => p.Equals(map.GetBossNode().point)) && map.IsLastNodePassed)
                 {
                     // payer has already reached the boss, generate a new map
                     GenerateNewMap();
@@ -25,8 +27,6 @@ namespace Map
                 else
                 {
                     CurrentMap = map;
-                    // player has not reached the boss yet, load the current map
-                    view.ShowMap(map);
                 }
             }
             else
@@ -39,8 +39,7 @@ namespace Map
         {
             var map = MapGenerator.GetMap(config);
             CurrentMap = map;
-            Debug.Log(map.ToJson());
-            view.ShowMap(map);
+            GlobalEvent.Send(GlobalData.MAP_CHANGED);
         }
 
         public void SaveMap()
@@ -54,6 +53,21 @@ namespace Map
 
         private void OnApplicationQuit()
         {
+            SaveMap();
+        }
+        public void OnGamePassed()
+        {
+            CurrentMap.IsLastNodeLocked = false;
+            CurrentMap.IsLastNodePassed = true;
+            if (CurrentMap.path.Count == CurrentMap.BossNodeLayer)
+            {
+                GenerateNewMap();
+            }
+            SaveMap();
+        }
+        public void OnGameStart()
+        {
+            CurrentMap.IsLastNodeLocked = true;
             SaveMap();
         }
     }
