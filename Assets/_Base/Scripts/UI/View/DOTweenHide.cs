@@ -30,6 +30,7 @@ namespace _Base.Scripts.UI.Viewx
             }).OnComplete(() =>
             {
                 view.root.anchoredPosition = view.originalPos;
+                gameObject.SetActive(false);
                 this.OnCompleted();
             });
             hideTween.SetAutoKill(false);

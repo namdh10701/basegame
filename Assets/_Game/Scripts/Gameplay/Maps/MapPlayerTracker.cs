@@ -2,6 +2,7 @@
 using System.Linq;
 using _Base.Scripts.UI;
 using _Base.Scripts.UI.Managers;
+using _Game.Scripts.Managers;
 using DG.Tweening;
 using UnityEngine;
 
@@ -21,6 +22,7 @@ namespace Map
         private void Awake()
         {
             Instance = this;
+            mapManager = GameManager.Instance.MapManager;
         }
 
         public void SelectNode(MapNode mapNode)
@@ -59,6 +61,15 @@ namespace Map
                         else
                             PlayWarningThatNodeCannotBeAccessed();
                     }
+                    else if(!mapManager.CurrentMap.IsLastNodePassed)
+                    {
+                        if (mapNode.Node == currentNode)
+                        {
+                            LevelInfoPopup levelInfoPopup = PopupManager.Instance.GetPopup<LevelInfoPopup>();
+                            levelInfoPopup.SetData(mapNode);
+                            PopupManager.Instance.ShowPopup(levelInfoPopup);
+                        }
+                    }
                 }
                 else
                 {
@@ -79,6 +90,15 @@ namespace Map
                             SendPlayerToNode(mapNode);
                         else
                             PlayWarningThatNodeCannotBeAccessed();
+                    }
+                    else
+                    {
+                        if (mapNode.Node == currentNode)
+                        {
+                            LevelInfoPopup levelInfoPopup = PopupManager.Instance.GetPopup<LevelInfoPopup>();
+                            levelInfoPopup.SetData(mapNode);
+                            PopupManager.Instance.ShowPopup(levelInfoPopup);
+                        }
                     }
 
                 }

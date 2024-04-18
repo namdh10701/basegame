@@ -13,7 +13,7 @@ namespace _Game.Scripts.UI
         public ContextHolder ContextHolder;
         public Button decreaseHpBtn;
         public Button decreaseManaBtn;
-        public TextMeshProUGUI text;
+        public Button endBattleBtn;
         private void Awake()
         {
             ContextHolder.Context = GlobalContext.PlayerContext;
@@ -29,23 +29,20 @@ namespace _Game.Scripts.UI
             {
                 ((ShipStats)Ship.Instance.Stats).ManaPoint.Value -= 25;
             });
+            endBattleBtn.onClick.AddListener(OnEndBattleClick);
         }
+
+        void OnEndBattleClick()
+        {
+            LinkEvents.End_Battle.Raise();
+        }
+
         private void OnDisable()
         {
             decreaseHpBtn.onClick.RemoveAllListeners();
             decreaseManaBtn.onClick.RemoveAllListeners();
+            endBattleBtn.onClick.RemoveAllListeners();
         }
 
-        // void OnDecreaseManaClick()
-        // {
-        //     if (!Ship.Instance.ShipMana.ConsumeMana(25))
-        //     {
-        //         text.gameObject.SetActive(true);
-        //     }
-        //     else
-        //     {
-        //         text.gameObject.SetActive(false);
-        //     }
-        // }
     }
 }

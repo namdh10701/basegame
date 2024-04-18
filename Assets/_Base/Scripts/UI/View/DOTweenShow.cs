@@ -30,6 +30,7 @@ namespace _Base.Scripts.UI.Viewx
                 this.OnCompleted();
             }).OnPlay(() =>
             {
+                gameObject.SetActive(true);
                 view.root.anchoredPosition = Vector2.zero;
             });
             showTween.SetAutoKill(false);

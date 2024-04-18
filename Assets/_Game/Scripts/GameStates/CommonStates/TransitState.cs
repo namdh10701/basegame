@@ -37,8 +37,11 @@ namespace _Game.Scripts.GameStates
 
             if (toUIScene != null)
             {
-                Debug.Log(toUIScene);
                 yield return sceneController.LoadUIScene(toUIScene.m_ScenePath);
+            }
+            else
+            {
+                yield return sceneController.UnloadLastUIScene();
             }
             SceneManager.SetActiveScene(SceneManager.GetSceneByPath(toScene.m_ScenePath));
             yield return null;

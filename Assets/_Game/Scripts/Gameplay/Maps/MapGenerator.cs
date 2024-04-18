@@ -49,7 +49,10 @@ namespace Map
 
             // pick a random name of the boss level for this map:
             var bossNodeName = config.nodeBlueprints.Where(b => b.nodeType == NodeType.Boss).ToList().Random().name;
-            return new Map(conf.name, bossNodeName, nodesList, new List<Point>());
+            Map map = new Map(conf.name, bossNodeName, nodesList, new List<Point>());
+            map.BossNodeLayer = conf.numOfLayer;
+            return map;
+
         }
         static void AssignLocation()
         {

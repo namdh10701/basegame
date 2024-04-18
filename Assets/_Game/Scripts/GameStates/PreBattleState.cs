@@ -1,6 +1,7 @@
 ﻿using _Base.Scripts.StateMachine;
 using _Base.Scripts.UI.Managers;
 using _Game.Scripts.GameContext;
+using _Game.Scripts.Managers;
 using _Game.Scripts.UI;
 using System.Collections;
 using UnityEngine;
@@ -13,7 +14,15 @@ namespace _Game.Scripts.GameStates
         {
             base.Enter();
             Debug.Log("ENTER PRE BATTLE");
-            ViewManager.Instance.Show<PreBattleView>();
+            if (GameManager.Instance.MapManager.CurrentMap.path.Count > 0)
+            {
+                ViewManager.Instance.Show<MapView>();
+            }
+            else
+            {
+                ViewManager.Instance.Show<PreBattleView>();
+            }
+
         }
         public override IEnumerator Execute()
         {
@@ -29,6 +38,7 @@ namespace _Game.Scripts.GameStates
              playerContext.HealthPoint = 1000;*/
             GlobalContext.PlayerContext = playerContext;
             //
+            GameManager.Instance.MapManager.OnGameStart();
         }
     }
 }
