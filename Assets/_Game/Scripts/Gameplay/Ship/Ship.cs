@@ -146,6 +146,7 @@ namespace _Game.Scripts.Gameplay.Ship
                             {
                                 var itemWeapon = Instantiate(_prefabWeaponItem, grid.transform);
                                 itemWeapon.transform.localPosition = weaponItemData.previousPosition;
+                                itemWeapon.transform.gameObject.tag = weaponItemData.itemMenuData.itemType.ToString();
                                 itemWeapon.Setup(weaponItemData);
                                 _weaponItems.Add(itemWeapon);
                             }

@@ -363,6 +363,51 @@ MonoBehaviour:
     m_Extent: {x: 3.5, y: 1.7, z: 0}
   color: {r: 0, g: 0.92376757, b: 1, a: 1}
   offset: {x: 0, y: 0}
+--- !u!1 &361872514
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 361872516}
+  - component: {fileID: 361872515}
+  m_Layer: 0
+  m_Name: PoinClickDetector
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &361872515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 361872514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d685ec22fbaf09a4db93b5c5dfb5531c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _camera: {fileID: 65562030}
+--- !u!4 &361872516
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 361872514}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.0731037, y: -4.04117, z: 1.0090898}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &534648466
 GameObject:
   m_ObjectHideFlags: 0
@@ -410,6 +455,7 @@ MonoBehaviour:
     <HealthRegenerationRate>k__BackingField:
       BaseValue: 1
       statModifiers: []
+  ShipGrid: {fileID: 0}
   _dataShips: {fileID: 11400000, guid: 0a6811c17555c3747bfffd7ecc1737b5, type: 2}
   PositionGrids:
   - {fileID: 1748276672}
@@ -714,10 +760,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35adf9631cb3c2a41b2839eede7311e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bounds:
-    m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0, y: 0, z: 0}
+  entityManager: {fileID: 0}
   spawnArea: {fileID: 0}
+  melleEnemy: {fileID: 0}
+  rangedEnemy: {fileID: 0}
 --- !u!4 &1488472926
 Transform:
   m_ObjectHideFlags: 0
@@ -877,3 +923,4 @@ SceneRoots:
   - {fileID: 534648468}
   - {fileID: 1346892705}
   - {fileID: 1488472926}
+  - {fileID: 361872516}

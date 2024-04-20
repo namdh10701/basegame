@@ -15,14 +15,12 @@ public class SetupWeaponsManager : SingletonMonoBehaviour<SetupWeaponsManager>
     [SerializeField] WeaponItem _prefabWeaponItem;
 
     [Header("MENU MANAGER")]
-    [SerializeField] MenuManager _menuManager;
+    [SerializeField] MenuPreBattle _menuManager;
 
     [SerializeField] List<Transform> PositionGrids = new List<Transform>();
 
     public List<WeaponItem> _weaponItems = new List<WeaponItem>();
     private Dictionary<string, List<Cell>> _gridsInfor = new Dictionary<string, List<Cell>>();
-    private DragItem _dragItem;
-    private DragItemUI _dragItemUI;
 
     public TypeShip _curentSkin = TypeShip.Normal;
     public ShipConfig _curentShip;
@@ -108,31 +106,6 @@ public class SetupWeaponsManager : SingletonMonoBehaviour<SetupWeaponsManager>
             _gridsInfor.Add(grid.id, listCell);
         }
     }
-
-
-    public void CreateDragItem(ItemMenuData itemMenuData)
-    {
-        // Convert mouse position to world position
-        var worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        worldPosition.z = 0; // Ensure z-position is appropriate for 2D space
-
-        // Disable scroll rect to prevent scrolling while dragging
-        _menuManager.EnableScrollRect(false);
-
-        // Create drag item UI and set its position
-        _dragItemUI = _menuManager.CreateDragItemUI(itemMenuData, Input.mousePosition);
-
-        // Instantiate drag item if it doesn't exist
-        if (_dragItem == null)
-        {
-            _dragItem = Instantiate(_prefabDragItem, this.transform);
-        }
-
-        // Setup drag item and set its position
-        _dragItem.Setup(itemMenuData);
-        _dragItem.transform.position = worldPosition;
-    }
-
 
     public void SetDataToCells(string gridId, List<Cell> cellSelected, ItemMenuData itemMenuData)
     {

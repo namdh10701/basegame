@@ -5,6 +5,7 @@ public class ItemMenu : MonoBehaviour
 {
     [SerializeField] Image _backGroup;
     [SerializeField] Image _icon;
+    [SerializeField] PointClickDetectorUI _pointClickDetectorUI;
     private ItemMenuData _itemMenuData;
     private Color _oldColor;
 
@@ -13,12 +14,13 @@ public class ItemMenu : MonoBehaviour
         _itemMenuData = itemMenuData;
         _icon.sprite = itemMenuData.sprite;
         _oldColor = _backGroup.color;
-        
+
         if (itemMenuData.isSelected)
             _backGroup.color = Color.grey;
 
 
         _icon.SetNativeSize();
+        _pointClickDetectorUI.GetComponentMemuManager();
     }
     public ItemMenuData GetItemMenuData()
     {

@@ -5,7 +5,14 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class MenuManager : MonoBehaviour
+public abstract class MenuManager : MonoBehaviour
+{
+    public Camera Camera;
+    public abstract void EnableScrollRect(bool enable);
+    public abstract void CreateDragItemUI(ItemMenuData itemMenuData, Vector3 position);
+}
+
+public class MenuPreBattle : MenuManager
 {
     [Header("Config Data")]
     [SerializeField] MenuSetupConfig _shipConfig;
@@ -78,9 +85,8 @@ public class MenuManager : MonoBehaviour
             foreach (var item in itemList)
             {
                 var temp = Instantiate(_prefabItemMenu, _content);
-                var ItemMenu = temp.GetComponent<ItemMenu>();
-                _itemMenus.Add(ItemMenu);
-                ItemMenu.Setup(item);
+                temp.Setup(item);
+                _itemMenus.Add(temp);
             }
         }
     }
@@ -94,12 +100,12 @@ public class MenuManager : MonoBehaviour
         _itemMenus.Clear();
     }
 
-    public void EnableScrollRect(bool enable)
+    public override void EnableScrollRect(bool enable)
     {
         _scrollRect.enabled = enable;
     }
 
-    public DragItemUI CreateDragItemUI(ItemMenuData itemMenuData, Vector3 position)
+    public override void CreateDragItemUI(ItemMenuData itemMenuData, Vector3 position)
     {
         if (_dragItemUI == null)
         {
@@ -108,7 +114,6 @@ public class MenuManager : MonoBehaviour
 
         }
         _dragItemUI.Setup(itemMenuData, _canvas);
-        return _dragItemUI;
 
     }
 
@@ -122,4 +127,5 @@ public class MenuManager : MonoBehaviour
             }
         }
     }
+
 }

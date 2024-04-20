@@ -1,12 +1,16 @@
-using UnityEditor;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PointClickDetector : MonoBehaviour
 {
+    [SerializeField] Camera _camera;
     private bool _isDragActive = false;
     private Vector2 _screenPosition;
     private Vector3 _worldPosition;
     private GameObject _gameObjectSlected;
+
+
     public void Update()
     {
         if (_isDragActive)
@@ -30,7 +34,7 @@ public class PointClickDetector : MonoBehaviour
         else
             return;
 
-        _worldPosition = Camera.main.ScreenToWorldPoint(_screenPosition);
+        _worldPosition = _camera.ScreenToWorldPoint(_screenPosition);
         if (_isDragActive)
         {
             Drag();
@@ -38,10 +42,12 @@ public class PointClickDetector : MonoBehaviour
         else
         {
             RaycastHit2D hit = Physics2D.Raycast(_worldPosition, Vector2.zero);
-            if (hit.collider != null && (hit.collider.gameObject.tag == "DragObject" || hit.collider.gameObject.tag == "WeaponItem"))
+            HashSet<string> tagsToCheck = new HashSet<string> { "DragObject", "WeaponItem", "Gun" };
+
+            // Check if the hit.collider is not null and its tag is in the HashSet
+            if (hit.collider != null && tagsToCheck.Contains(hit.collider.gameObject.tag))
             {
                 _gameObjectSlected = hit.collider.gameObject;
-
                 InitDrag();
             }
         }
@@ -54,6 +60,10 @@ public class PointClickDetector : MonoBehaviour
 
     private void Drag()
     {
+        if (_gameObjectSlected.tag == "Gun")
+        {
+            return;
+        }
         _gameObjectSlected.transform.position = new Vector2(_worldPosition.x, _worldPosition.y);
     }
 
@@ -61,22 +71,43 @@ public class PointClickDetector : MonoBehaviour
     {
         if (_gameObjectSlected == null)
             return;
-        if (_gameObjectSlected.gameObject.tag == "DragObject")
-        {
-            var dragItem = _gameObjectSlected.GetComponent<DragItem>();
-            dragItem.GetCellSelectFromDragItem(dragItem.GetItemMenuData());
-            Destroy(_gameObjectSlected);
 
-        }
-        else if (_gameObjectSlected.gameObject.tag == "WeaponItem")
+        // Define a dictionary to map tags to actions
+        Dictionary<string, Action> tagActions = new Dictionary<string, Action>
         {
-            var weaponItem = _gameObjectSlected.GetComponent<WeaponItem>();
-            weaponItem.GetCellSelectFromWeaponItem(weaponItem.GetItemMenuData());
+            { "DragObject", HandleDragObject },
+            { "WeaponItem", HandleWeaponItem },
+            { "Gun", HandleGun }
+        };
 
+        // Check if the tag exists in the dictionary and invoke the corresponding action
+        if (tagActions.TryGetValue(_gameObjectSlected.gameObject.tag, out var action))
+        {
+            action.Invoke();
         }
 
         _isDragActive = false;
-
     }
+
+    // Define methods to handle each tag
+    void HandleDragObject()
+    {
+        var dragItem = _gameObjectSlected.GetComponent<DragItem>();
+        dragItem.GetCellSelectFromDragItem(dragItem.GetItemMenuData());
+        Destroy(_gameObjectSlected);
+    }
+
+    void HandleWeaponItem()
+    {
+        var weaponItem = _gameObjectSlected.GetComponent<WeaponItem>();
+        weaponItem.GetCellSelectFromWeaponItem(weaponItem.GetItemMenuData());
+    }
+
+    void HandleGun()
+    {
+        Debug.Log("Tap Gun item");
+    }
+
+
 }
 
