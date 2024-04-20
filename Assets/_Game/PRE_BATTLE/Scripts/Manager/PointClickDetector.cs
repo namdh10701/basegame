@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using _Game.Scripts.Gameplay.Ship;
 using UnityEngine;
 
 public class PointClickDetector : MonoBehaviour
@@ -42,7 +43,7 @@ public class PointClickDetector : MonoBehaviour
         else
         {
             RaycastHit2D hit = Physics2D.Raycast(_worldPosition, Vector2.zero);
-            HashSet<string> tagsToCheck = new HashSet<string> { "DragObject", "WeaponItem", "Gun" };
+            HashSet<string> tagsToCheck = new HashSet<string> { "DragObject", "WeaponItem", "Gun", "BulletsMenu" };
 
             // Check if the hit.collider is not null and its tag is in the HashSet
             if (hit.collider != null && tagsToCheck.Contains(hit.collider.gameObject.tag))
@@ -60,7 +61,8 @@ public class PointClickDetector : MonoBehaviour
 
     private void Drag()
     {
-        if (_gameObjectSlected.tag == "Gun")
+        HashSet<string> tagsToCheck = new HashSet<string> { "Gun", "BulletsMenu" };
+        if (tagsToCheck.Contains(_gameObjectSlected.tag))
         {
             return;
         }
@@ -77,7 +79,8 @@ public class PointClickDetector : MonoBehaviour
         {
             { "DragObject", HandleDragObject },
             { "WeaponItem", HandleWeaponItem },
-            { "Gun", HandleGun }
+            { "Gun", HandleGun },
+            { "BulletsMenu", HandleBulletsMenu },
         };
 
         // Check if the tag exists in the dictionary and invoke the corresponding action
@@ -87,6 +90,13 @@ public class PointClickDetector : MonoBehaviour
         }
 
         _isDragActive = false;
+    }
+
+    private void HandleBulletsMenu()
+    {
+        var bulletItem = _gameObjectSlected.GetComponent<BulletItem>();
+        Debug.Log("HandleBulletsMenu: " + bulletItem.GetId());
+        Ship.Instance.DetroyBulletsMenu();
     }
 
     // Define methods to handle each tag
@@ -105,7 +115,7 @@ public class PointClickDetector : MonoBehaviour
 
     void HandleGun()
     {
-        Debug.Log("Tap Gun item");
+        Ship.Instance.CreateBulletsMenu();
     }
 
 

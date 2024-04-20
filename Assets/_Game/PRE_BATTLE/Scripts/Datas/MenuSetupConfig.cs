@@ -28,7 +28,7 @@ public enum ItemType
 {
     Gun,
     Bullet,
-    Character,
+    Sailor,
     SkinShip,
     None
 }
@@ -37,7 +37,7 @@ public enum TabType
 {
     Gun,
     Bullet,
-    Character,
+    Sailor,
     SkinShip
 }
 
@@ -47,7 +47,6 @@ public class ItemMenuSkinShip
     public int id;
     public Sprite sprite;
     public ItemType itemType;
-
 
 }
 

@@ -46,8 +46,6 @@ public class WeaponItem : MonoBehaviour
             cell.EnableCell(false);
             _cells.Add(cell);
             _gridID = cell.GetComponentInParent<Grid>().ID;
-
-            Debug.Log("OnTriggerEnter2D: " + _cells.Count); // Consider removing in production build
         }
         else if (collider2D.gameObject.tag == "OutSize")
         {

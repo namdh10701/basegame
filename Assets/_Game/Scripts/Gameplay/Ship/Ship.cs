@@ -20,12 +20,15 @@ namespace _Game.Scripts.Gameplay.Ship
         [SerializeField] DataShips _dataShips;
         [SerializeField] List<Transform> PositionGrids = new List<Transform>();
         [SerializeField] WeaponItem _prefabWeaponItem;
+        [SerializeField] BulletsMenu _prefabBulletsMenu;
+        [SerializeField] GameObject _outSizes;
 
         private Dictionary<string, List<Cell>> _gridsInfor = new Dictionary<string, List<Cell>>();
-        public List<WeaponItem> _weaponItems = new List<WeaponItem>();
-
-        public TypeShip _curentSkin = TypeShip.Normal;
-        public ShipConfig _curentShip;
+        private List<WeaponItem> _weaponItems = new List<WeaponItem>();
+        private List<WeaponItemData> _bulletItemData = new List<WeaponItemData>();
+        BulletsMenu _bulletsMenu;
+        private TypeShip _curentSkin = TypeShip.Normal;
+        private ShipConfig _curentShip;
         protected override void Awake()
         {
             base.Awake();
@@ -69,7 +72,7 @@ namespace _Game.Scripts.Gameplay.Ship
                 }
 
             }
-
+            _outSizes.gameObject.SetActive(false);
         }
 
         /// <summary>
@@ -149,11 +152,31 @@ namespace _Game.Scripts.Gameplay.Ship
                                 itemWeapon.transform.gameObject.tag = weaponItemData.itemMenuData.itemType.ToString();
                                 itemWeapon.Setup(weaponItemData);
                                 _weaponItems.Add(itemWeapon);
+
+                                //Get bullets item data
+                                if (weaponItemData.itemMenuData.itemType == ItemType.Bullet)
+                                {
+                                    _bulletItemData.Add(weaponItemData);
+                                }
                             }
                         }
                     }
                 }
             }
+        }
+
+        public void CreateBulletsMenu()
+        {
+            if (_bulletsMenu == null)
+            {
+                _bulletsMenu = Instantiate(_prefabBulletsMenu, this.transform);
+                _bulletsMenu.Setup(_bulletItemData);
+            }
+        }
+
+        public void DetroyBulletsMenu()
+        {
+            Destroy(_bulletsMenu.gameObject);
         }
 
 

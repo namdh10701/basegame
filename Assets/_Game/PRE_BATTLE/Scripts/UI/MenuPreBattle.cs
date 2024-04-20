@@ -72,7 +72,7 @@ public class MenuPreBattle : MenuManager
             case TabType.Bullet:
                 itemList = _shipConfig.itemBulletDatas;
                 break;
-            case TabType.Character:
+            case TabType.Sailor:
                 itemList = _shipConfig.itemCharaterDatas;
                 break;
             case TabType.SkinShip:
