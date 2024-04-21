@@ -18,8 +18,6 @@ public class SetupWeaponsManager : SingletonMonoBehaviour<SetupWeaponsManager>
     [SerializeField] MenuPreBattle _menuManager;
 
     [SerializeField] List<Transform> PositionGrids = new List<Transform>();
-
-    public List<WeaponItem> _weaponItems = new List<WeaponItem>();
     private Dictionary<string, List<Cell>> _gridsInfor = new Dictionary<string, List<Cell>>();
 
     public TypeShip _curentSkin = TypeShip.Normal;
@@ -27,6 +25,8 @@ public class SetupWeaponsManager : SingletonMonoBehaviour<SetupWeaponsManager>
 
     public void Start()
     {
+        ResetData();
+        
         Initialize();
         Application.quitting += QuitGame;
     }
@@ -146,7 +146,6 @@ public class SetupWeaponsManager : SingletonMonoBehaviour<SetupWeaponsManager>
             {
                 var itemWeapon = Instantiate(_prefabWeaponItem, grid.transform);
                 itemWeapon.transform.localPosition = center;
-                _weaponItems.Add(itemWeapon);
 
                 // Add weapon item data to ship if not exists
                 foreach (var ship in _dataShips.ships.Where(ship => _curentSkin == ship.typeShip))

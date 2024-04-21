@@ -125,6 +125,7 @@ public class PointClickDetector : MonoBehaviour
     }
 
     string gunGOName;
+    
     void HandleGun()
     {
         gunGOName = _gameObjectSlected.name;
