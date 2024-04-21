@@ -1,9 +1,11 @@
+using _Base.Scripts.RPG.Entities;
+using _Game.Scripts;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class WeaponItem : MonoBehaviour
+public class WeaponItem : Entity
 {
     [SerializeField] SpriteRenderer _spriteRenderer;
     private BoxCollider2D _collider;
@@ -11,6 +13,8 @@ public class WeaponItem : MonoBehaviour
     private List<Cell> _cells = new List<Cell>();
     private string _gridID;
     private bool _isDesTroy;
+
+    public override Stats Stats => throw new System.NotImplementedException();
 
     public void Setup(WeaponItemData weaponItemData)
     {

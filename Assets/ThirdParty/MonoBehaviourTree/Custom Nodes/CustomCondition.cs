@@ -9,7 +9,7 @@ namespace MBT
     [MBTNode(name = "Conditions/ CustomCondition")]
     public class CustomCondition : Condition
     {
-        public ICondition condition;
+        [SerializeReference] MyCustomCondition condition;
 
         public override bool Check()
         {

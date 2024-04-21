@@ -33,10 +33,6 @@ public static class GridHelper
                 ret.Add(centerCell);
                 break;
         }
-        foreach (Cell cell in ret)
-        {
-            cell.GetComponent<SpriteRenderer>().color = Color.white;
-        }
         return ret;
     }
 
@@ -93,6 +89,11 @@ public static class GridHelper
                 cells.Add(grid.Cells[centerCell.X - i, centerCell.Y]);
         }
 
+        Debug.Log("GET +" + cells.Count)
+            ;
+        foreach (Cell cell in cells)
+        {
+        }
         return cells;
     }
 

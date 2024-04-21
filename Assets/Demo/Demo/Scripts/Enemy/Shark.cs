@@ -1,4 +1,6 @@
+using _Base.Scripts.RPG.Effects;
 using MBT;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Demo.Scripts.Enemy
@@ -6,22 +8,47 @@ namespace Demo.Scripts.Enemy
     public class Shark : Enemy
     {
         [SerializeField] HitFx hitFx;
-        [SerializeField] Vector2 targetPos;
+        [SerializeField] private float frequency;
+        [SerializeField] private float amplitude;
+        [SerializeField] private float modifier;
+
+        
         protected override void Start()
         {
             base.Start();
-            Collider2D col = target.GetComponent<Collider2D>();
-            targetPos = col.ClosestPoint(transform.position);
-            blackboard.GetVariable<Vector3Variable>("targetPos").Value = targetPos;
-            blackboard.GetVariable<TransformVariable>("target").Value = target;
         }
+
+        protected override void Update()
+        {
+
+            if (!IsPlayerInRange)
+            {
+                body.velocity = Mathf.Clamp((Mathf.Cos(Time.time * frequency) * amplitude + modifier), 0, 10000) * Vector2.down;
+            }
+            else
+            {
+                body.velocity = Vector2.zero;
+            }
+
+            base.Update();
+
+
+        }
+
+        public override void DoTarget()
+        {
+            targetCells.Clear();
+            targetCells = gridPicker.PickCells(transform, PickType.ClosetCell, cellPattern, 2, out centerCell);
+            gridAttackHandler.PlayTargetingFx(targetCells);
+        }
+
         public override void DoAttack()
         {
             base.DoAttack();
-            hitFx.transform.position = targetPos;
-            hitFx.Play();
+            gridAttackHandler.ProcessAttack(targetCells, new DecreaseHealthEffect(5));
+            Cooldown.StartCooldown();
         }
 
- 
+
     }
 }

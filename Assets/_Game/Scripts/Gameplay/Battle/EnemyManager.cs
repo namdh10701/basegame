@@ -7,8 +7,8 @@ namespace _Game.Scripts.Gameplay
     {
         [SerializeField] EntityManager entityManager;
         [SerializeField] EnemySpawnArea spawnArea;
-        [SerializeField] Enemy melleEnemy;
-        [SerializeField] Enemy rangedEnemy;
+        [SerializeField] Demo.Scripts.Enemy.Enemy melleEnemy;
+        [SerializeField] Demo.Scripts.Enemy.Enemy rangedEnemy;
         bool IsActive;
 
         public void SpawnMelle()
