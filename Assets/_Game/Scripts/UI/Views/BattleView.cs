@@ -23,11 +23,11 @@ namespace _Game.Scripts.UI
         {
             decreaseHpBtn.onClick.AddListener(() =>
             {
-                ((ShipStats)Ship.Instance.Stats).HealthPoint.Value -= 25;
+                ((ShipStats)Ship.Instance.Stats).HealthPoint.StatValue.BaseValue -= 25;
             });
             decreaseManaBtn.onClick.AddListener(() =>
             {
-                ((ShipStats)Ship.Instance.Stats).ManaPoint.Value -= 25;
+                ((ShipStats)Ship.Instance.Stats).ManaPoint.StatValue.BaseValue -= 25;
             });
             endBattleBtn.onClick.AddListener(OnEndBattleClick);
         }

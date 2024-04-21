@@ -16,7 +16,7 @@ namespace _Base.Scripts.RPG.Effects
                 return;
             }
             
-            alive.MaxHealthPoint.AddModifier(StatModifier.Flat(Amount));
+            alive.HealthPoint.StatValue.AddModifier(StatModifier.Flat(Amount));
         }
     }
 }

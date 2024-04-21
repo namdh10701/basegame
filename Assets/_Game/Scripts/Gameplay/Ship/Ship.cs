@@ -45,17 +45,21 @@ namespace _Game.Scripts.Gameplay.Ship
         {
             if (!stats.ManaPoint.IsFull)
             {
-                stats.ManaPoint.Value += (stats.ManaRegenerationRate.Value * Time.deltaTime);
+                stats.ManaPoint.StatValue.BaseValue += (stats.ManaRegenerationRate.Value * Time.deltaTime);
             }
 
             if (!stats.HealthPoint.IsFull)
             {
-                stats.HealthPoint.Value += (stats.HealthRegenerationRate.Value * Time.deltaTime);
+                stats.HealthPoint.StatValue.BaseValue += (stats.HealthRegenerationRate.Value * Time.deltaTime);
             }
         }
 
         private void GetPositionGrids()
         {
+            if (_dataShips == null)
+            {
+                return;
+            }
             foreach (var ship in _dataShips.ships)
             {
                 ship.typeShip = _curentSkin;
@@ -131,6 +135,10 @@ namespace _Game.Scripts.Gameplay.Ship
         /// </summary>
         public void LoadWeaponItems()
         {
+            if (_curentShip == null)
+            {
+                return;
+            }
             foreach (var grid in _curentShip.grids)
             {
                 // Filter out only relevant ships that have weapon items on the current grid

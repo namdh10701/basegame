@@ -6,8 +6,8 @@ namespace _Base.Scripts.RPGCommon.Entities
 {
     public interface IAliveStats
     {
-        float HealthPoint { get; set; }
+        RangedStat HealthPoint { get; set; }
         
-        Stat MaxHealthPoint { get; set; }
+        // Stat MaxHealthPoint { get; set; }
     }
 }

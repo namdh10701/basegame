@@ -1,16 +1,38 @@
+using System;
 using System.Collections.Generic;
 using _Base.Scripts.RPG.Behaviours.AimTarget;
 using _Base.Scripts.RPG.Behaviours.AttackTarget;
 using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.RPG.Entities;
+using _Base.Scripts.RPG.Stats;
 using _Base.Scripts.RPGCommon.Behaviours.AttackStrategies;
 using _Base.Scripts.RPGCommon.Entities;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace _Game.Scripts.Entities
 {
     public class Cannon: Entity, IShooter
     {
+        
+        [ContextMenu("TestMyMethod")]
+        void TestMyMethod()
+        {
+            RangedStat stat = new RangedStat(10, 0, 100);
+            
+            
+            Assert.AreEqual(10, stat.Value);
+            stat.StatValue.AddModifier(StatModifier.Flat(10));
+            
+            Debug.Log("stat ok 1");
+            // Assert.AreEqual(20, stat.Value);
+            //
+            stat.StatValue.AddModifier(StatModifier.Flat(100));
+            // Assert.AreEqual(100, stat.Value);
+            
+            Debug.Log("stat ok " + stat.StatValue.Value);
+
+        }
         [SerializeField]
         private CannonStats _stats = new CannonStats();
 

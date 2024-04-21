@@ -9,35 +9,50 @@ namespace _Base.Scripts.RPG.Stats
 	public class Stat
 	{
 		public event Action<Stat> OnValueChanged;
-		public float BaseValue;
-		public float? MinValue;
-		public float? MaxValue;
 
-		protected bool isDirty = true;
+		public float BaseValue
+		{
+			get => _baseValue;
+			set
+			{
+				_baseValue = value;
+				UpdateValue();
+			}
+		}
+
 		protected float lastBaseValue;
-		protected float? lastMinValue;
-		protected float? lastMaxValue;
 
 		protected float _value;
-		public virtual float Value {
-			get {
-				if(isDirty || lastBaseValue != BaseValue || lastMinValue != MinValue || lastMaxValue != MaxValue)
+		public virtual float Value
+		{
+			get
+			{
+				// for debug only
+				if (Application.isEditor)
 				{
-					lastBaseValue = BaseValue;
-					lastMinValue = MinValue;
-					lastMaxValue = MaxValue;
-					_value = CalculateFinalValue();
-					isDirty = false;
-					
-					OnValueChanged?.Invoke(this);
+					UpdateValue();
 				}
+
 				return _value;
+			}
+		}
+
+		private void UpdateValue()
+		{
+			lastBaseValue = BaseValue;
+			var lastValue = _value;
+			_value = CalculateFinalValue();
+			if (lastValue != _value)
+			{
+				OnValueChanged?.Invoke(this);
 			}
 		}
 
 		[SerializeField]
 		private List<StatModifier> statModifiers;
 		public readonly ReadOnlyCollection<StatModifier> StatModifiers;
+		[SerializeField]
+		private float _baseValue;
 
 		public Stat()
 		{
@@ -45,24 +60,22 @@ namespace _Base.Scripts.RPG.Stats
 			StatModifiers = statModifiers.AsReadOnly();
 		}
 
-		public Stat(float baseValue, float? minValue = null, float? maxValue = null) : this()
+		public Stat(float baseValue) : this()
 		{
 			BaseValue = baseValue;
-			MinValue = minValue;
-			MaxValue = maxValue;
 		}
 
 		public virtual void AddModifier(StatModifier mod)
 		{
-			isDirty = true;
 			statModifiers.Add(mod);
+			UpdateValue();
 		}
 
 		public virtual bool RemoveModifier(StatModifier mod)
 		{
 			if (statModifiers.Remove(mod))
 			{
-				isDirty = true;
+				UpdateValue();
 				return true;
 			}
 			return false;
@@ -74,7 +87,7 @@ namespace _Base.Scripts.RPG.Stats
 
 			if (numRemovals > 0)
 			{
-				isDirty = true;
+				UpdateValue();
 				return true;
 			}
 			return false;
@@ -122,16 +135,6 @@ namespace _Base.Scripts.RPG.Stats
 
 			// Workaround for float calculation errors, like displaying 12.00001 instead of 12
 			var result = (float)Math.Round(finalValue, 4);
-
-			if (MaxValue.HasValue)
-			{
-				result = Mathf.Min(result, MaxValue.Value);
-			}
-
-			if (MinValue.HasValue)
-			{
-				result = Mathf.Max(result, MinValue.Value);
-			}
 			return result;
 		}
 	}

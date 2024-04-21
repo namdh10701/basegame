@@ -59,6 +59,10 @@ public class MenuPreBattle : MenuManager
 
     private void Initialize()
     {
+        if (_prefabItemMenu == null)
+        {
+            return;
+        }
         if (_itemMenus.Count > 0)
         {
             RemoveItemMenus();

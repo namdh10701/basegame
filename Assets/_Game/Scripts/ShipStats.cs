@@ -10,15 +10,15 @@ namespace _Game.Scripts
     public class ShipStats : Stats//, IAlive
     {
         [field: SerializeField]
-        public RangedValue HealthPoint { get; set; } = new(0, 0, 100);
+        public RangedStat HealthPoint { get; set; } = new(0, 0, 100);
         
         [field: SerializeField]
-        public RangedValue ManaPoint { get; set; } = new(0, 0, 150);
+        public RangedStat ManaPoint { get; set; } = new(0, 0, 150);
         
         [field: SerializeField]
-        public Stat ManaRegenerationRate { get; set; } = new(5, 0, 10);
+        public RangedStat ManaRegenerationRate { get; set; } = new(5, 0, 10);
         
         [field: SerializeField]
-        public Stat HealthRegenerationRate { get; set; } = new(1, 0, 10);
+        public RangedStat HealthRegenerationRate { get; set; } = new(1, 0, 10);
     }
 }

@@ -17,8 +17,8 @@ namespace _Base.Scripts.RPG.Effects
                 return;
             }
             
-            alive.MaxHealthPoint.AddModifier(StatModifier.Flat(Amount));
-            alive.HealthPoint += Amount;
+            alive.HealthPoint.StatValue.AddModifier(StatModifier.Flat(Amount));
+            // alive.HealthPoint += Amount;
         }
         
         protected override void OnEnd(Entity entity)
@@ -29,7 +29,7 @@ namespace _Base.Scripts.RPG.Effects
                 return;
             }
 
-            alive.MaxHealthPoint.RemoveAllModifiersFromSource(this);
+            alive.HealthPoint.StatValue.RemoveAllModifiersFromSource(this);
         }
 
         public AddTempMaxHealthEffect(int duration) : base(duration)

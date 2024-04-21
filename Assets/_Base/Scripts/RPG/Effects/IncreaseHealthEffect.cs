@@ -19,7 +19,7 @@ namespace _Base.Scripts.RPG.Effects
                 return;
             }
 
-            alive.HealthPoint += Amount;
+            alive.HealthPoint.StatValue.BaseValue += Amount;
         }
 
     }

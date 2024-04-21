@@ -9,10 +9,8 @@ namespace _Game.Scripts
     [Serializable]
     public class CannonStats : Stats, IAliveStats, IFighterStats
     {
-
-
         [field: SerializeField]
-        public Stat MaxHealthPoint { get; set; } = new();
+        public RangedStat HealthPoint { get; set; } = new();
 
         [field: SerializeField]
         public Stat AttackDamage {get;set;} = new();
@@ -30,12 +28,12 @@ namespace _Game.Scripts
 
         public IFighterStats.AttackTypes AttackType { get; set; } = IFighterStats.AttackTypes.UNIT;
 
-        [SerializeField]
-        private float _healthPoint;
-        float IAliveStats.HealthPoint
-        {
-            get => _healthPoint;
-            set => _healthPoint = value;
-        }
+        // [SerializeField]
+        // private float _healthPoint;
+        // float IAliveStats.HealthPoint
+        // {
+        //     get => _healthPoint;
+        //     set => _healthPoint = value;
+        // }
     }
 }

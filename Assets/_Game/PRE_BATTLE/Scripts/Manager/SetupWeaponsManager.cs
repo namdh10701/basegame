@@ -39,6 +39,10 @@ public class SetupWeaponsManager : SingletonMonoBehaviour<SetupWeaponsManager>
 
     public void ResetData()
     {
+        if (_dataShips == null)
+        {
+            return;
+        }
         foreach (var ship in _dataShips.ships)
         {
             ship.weaponItemDatas.Clear();
@@ -53,6 +57,10 @@ public class SetupWeaponsManager : SingletonMonoBehaviour<SetupWeaponsManager>
 
     private void GetPositionGrids()
     {
+        if (_dataShips == null)
+        {
+            return;
+        }
         foreach (var ship in _dataShips.ships)
         {
             ship.typeShip = _curentSkin;

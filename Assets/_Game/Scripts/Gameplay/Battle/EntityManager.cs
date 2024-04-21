@@ -1,8 +1,8 @@
 using _Base.Scripts.EventSystem;
 using _Base.Scripts.RPG.Entities;
 using _Base.Scripts.RPGCommon.Entities;
-using BehaviorDesigner.Runtime.Tasks.Unity.UnityParticleSystem;
 using System.Collections.Generic;
+using _Base.Scripts.RPG.Stats;
 using UnityEngine;
 
 namespace _Game.Scripts.Gameplay
@@ -17,17 +17,17 @@ namespace _Game.Scripts.Gameplay
             {
                 aliveEntities.Add(spawnedEntity);
 
-                alive.MaxHealthPoint.OnValueChanged += (newStat) => MaxHealthPoint_OnValueChanged(newStat, spawnedEntity);
+                alive.HealthPoint.OnValueChanged += (newStat) => MaxHealthPoint_OnValueChanged(newStat, spawnedEntity);
             }
             return spawnedEntity;
 
         }
 
-        private void MaxHealthPoint_OnValueChanged(_Base.Scripts.RPG.Stats.Stat newStat, Entity alive)
+        private void MaxHealthPoint_OnValueChanged(RangedStat newStat, Entity alive)
         {
-            if (newStat.Value <= newStat.MinValue)
+            if (newStat.Value <= 0)
             {
-                aliveEntities.Remove((Entity)alive);
+                aliveEntities.Remove(alive);
                 GlobalEvent<Entity>.Send("EntityDied", alive);
             }
         }
