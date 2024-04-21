@@ -270,12 +270,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f6f166e2a3bcf04a80ac2ea6574f52a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  EffectHandler: {fileID: 0}
+  EntityCollisionDetector: {fileID: 0}
   EnemyData: {fileID: 11400000, guid: 66ac9232bd9fc1347a20e605af5ccae4, type: 2}
-  blackboard: {fileID: 4355442449010659904}
   Cooldown: {fileID: 7131271643751585108}
   body: {fileID: 4172629748140318248}
   collider: {fileID: 277004743292931178}
   IsPlayerInRange: 1
+  cellPattern: 3
+  stats:
+    <HealthPoint>k__BackingField:
+      _value:
+        statModifiers: []
+        _baseValue: 0
+      _minValue:
+        statModifiers: []
+        _baseValue: 0
+      _maxValue:
+        statModifiers: []
+        _baseValue: 0
+    <AttackDamage>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <CriticalChance>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <CriticalDamage>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <AttackRange>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
   bulletPrefab: {fileID: -6220202766340727326, guid: f722035fd41671549b05606807c4556c, type: 3}
   shootPos: {fileID: 8031951303275119419}
 --- !u!114 &631387182535019821
@@ -428,7 +453,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3870249162616837445
 Transform:
   m_ObjectHideFlags: 0
@@ -527,7 +552,7 @@ MonoBehaviour:
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
-  enemy: {fileID: 5550398582184963660}
+  condition: {fileID: 0}
 --- !u!114 &2122337419998691168
 MonoBehaviour:
   m_ObjectHideFlags: 0

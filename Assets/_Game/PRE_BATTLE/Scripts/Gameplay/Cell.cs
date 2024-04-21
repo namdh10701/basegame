@@ -1,3 +1,6 @@
+using _Base.Scripts.RPG.Entities;
+using _Game.Scripts;
+using _Game.Scripts.Entities;
 using Demo.Scripts.Data;
 using UnityEngine;
 
@@ -14,6 +17,8 @@ public class Cell : MonoBehaviour
     public int Y;
     public bool HasItem;
     public Grid Grid;
+    // TODO
+    public Cannon Placement;
     public void Setup(Vector2 position, int id)
     {
         _itemType = ItemType.None;

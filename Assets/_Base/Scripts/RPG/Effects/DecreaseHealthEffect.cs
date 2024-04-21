@@ -6,11 +6,11 @@ using UnityEngine;
 namespace _Base.Scripts.RPG.Effects
 {
     [Serializable]
-    public class DecreaseHealthEffect: OneShotEffect
+    public class DecreaseHealthEffect : OneShotEffect
     {
         [field:SerializeField]
         public float Amount { get; set; }
-        
+
         public DecreaseHealthEffect(float amount)
         {
             Amount = amount;

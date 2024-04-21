@@ -1,4 +1,9 @@
+using _Base.Scripts.RPG.Effects;
+using _Base.Scripts.RPG.Entities;
 using _Base.Scripts.Utils.Extensions;
+using _Game.Scripts;
+using _Game.Scripts.Entities;
+using _Game.Scripts.Gameplay.Ship;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +14,7 @@ public enum PickType
 }
 public class GridPicker : MonoBehaviour
 {
+    public Ship ship;
     public ShipGrid ShipGrid;
     public CellPattern CellPattern;
     public PickType PickType;
@@ -16,26 +22,26 @@ public class GridPicker : MonoBehaviour
 
     public void PickCell()
     {
-        List<Cell> cells = PickCells();
-        foreach (Cell cell in cells)
-        {
-            cell.GetComponent<SpriteRenderer>().color = Color.white;
-        }
+        Cell centerCell;
+        List<Cell> cells = PickCells(null, PickType, CellPattern, Size, out centerCell);
     }
-    public List<Cell> PickCells()
+
+    public List<Cell> PickCells(Transform enemy, PickType pickType, CellPattern pattern, int size, out Cell centerCell)
     {
         List<Cell> cells = null;
-        switch (PickType)
+        centerCell = null;
+        switch (pickType)
         {
             case PickType.RandomCell:
-                Cell centerCell = ShipGrid.AllCells.GetRandom();
-                cells = GridHelper.GetCellPattern(centerCell.Grid, CellPattern, centerCell, Size);
+                centerCell = ShipGrid.AllCells.GetRandom();
+                cells = GridHelper.GetCellPattern(centerCell.Grid, pattern, centerCell, size);
                 break;
             case PickType.ClosetCell:
-                Cell centerCell1 = GridHelper.GetClosetCellToPoint(ShipGrid.AllCells, transform.position);
-                cells = GridHelper.GetCellPattern(centerCell1.Grid, CellPattern, centerCell1, Size);
+                centerCell = GridHelper.GetClosetCellToPoint(ShipGrid.AllCells, enemy.position);
+                cells = GridHelper.GetCellPattern(centerCell.Grid, pattern, centerCell, size);
                 break;
         }
         return cells;
     }
+
 }

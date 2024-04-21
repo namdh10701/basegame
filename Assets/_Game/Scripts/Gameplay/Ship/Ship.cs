@@ -75,7 +75,6 @@ namespace _Game.Scripts.Gameplay.Ship
                 }
 
             }
-            _outSizes.gameObject.SetActive(false);
         }
 
         /// <summary>
@@ -113,7 +112,7 @@ namespace _Game.Scripts.Gameplay.Ship
                         cell.Setup(new Vector2(posX, posY), idCell);
                         cell.X = i;
                         cell.Y = j;
-                        cell.name = $"Cell ({i}, {j})";
+                        cell.name = $"Cell ({i}, {j}) {g.ID}";
                         cell.Grid = g;
                         go.transform.localPosition = new Vector2(posX, posY);
                         listCell.Add(cell);
@@ -166,6 +165,7 @@ namespace _Game.Scripts.Gameplay.Ship
                                     _bulletItemData.Add(weaponItemData);
                                 }
                             }
+
                         }
                     }
                 }
