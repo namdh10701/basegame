@@ -1,11 +1,10 @@
+using System.Collections;
+using System.Collections.Generic;
 using _Base.Scripts.RPG.Entities;
 using _Game.Scripts;
 using Demo.ScriptableObjects.Scripts;
 using Demo.Scripts.Canon;
 using Demo.Scripts.Defense;
-using MBT;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Demo.Scripts.Enemy
@@ -20,8 +19,8 @@ namespace Demo.Scripts.Enemy
         public bool IsPlayerInRange;
         DefenseBehaviour defenseBehaviour;
         public CellPattern cellPattern;
-        public CannonStats stats = new();
-        public override _Game.Scripts.Stats Stats => stats;
+        public EnemyStats stats;
+        public override Stats Stats => stats;
 
 
         protected List<Cell> targetCells = new List<Cell>();
@@ -63,7 +62,6 @@ namespace Demo.Scripts.Enemy
             yield return new WaitForSeconds(1.5f);
             DoAttack();
             attackCoroutine = null;
-            yield break;
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
