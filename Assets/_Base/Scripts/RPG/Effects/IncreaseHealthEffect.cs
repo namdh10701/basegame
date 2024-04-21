@@ -1,10 +1,12 @@
 using _Base.Scripts.RPG.Entities;
 using _Base.Scripts.RPGCommon.Entities;
+using UnityEngine;
 
 namespace _Base.Scripts.RPG.Effects
 {
     public class IncreaseHealthEffect: OneShotEffect
     {
+        [field:SerializeField]
         public float Amount { get; set; }
         
         public IncreaseHealthEffect(float amount)

@@ -34,7 +34,7 @@ namespace _Game.Scripts.Entities
 
         }
         [SerializeField]
-        private CannonStats _stats = new CannonStats();
+        private CannonStats _stats;
 
         public override Stats Stats => _stats;
         public IFighterStats FighterStats
@@ -47,16 +47,18 @@ namespace _Game.Scripts.Entities
         [field:SerializeReference]
         public AttackStrategy AttackStrategy { get; set; }// = new ShootTargetStrategyNormal_SplitShot();
 
+        [field:SerializeField]
         public List<Effect> BulletEffects { get; set; } = new ();
 
         // public ShootTargetTriggerBehaviour ShootTargetTriggerBehaviour;
         // public AimTargetBehaviour aimTargetBehaviour;
 
-        // protected override void Awake()
-        // {
-        //     base.Awake();
-        //     InvokeRepeating("AutoAttack", 0f, 1f);
-        // }
+        private void Start()
+        {
+            var eff = gameObject.AddComponent<DecreaseHealthEffect>();
+            eff.Amount = _stats.AttackDamage.Value;
+            BulletEffects.Add(eff);
+        }
         //
         // protected void AutoAttack()
         // {

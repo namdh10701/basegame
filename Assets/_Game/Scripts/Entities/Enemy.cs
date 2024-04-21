@@ -9,7 +9,7 @@ namespace _Game.Scripts
     public class Enemy : Entity
     {
         [SerializeField]
-        private CannonStats stats = new();
+        private EnemyStats stats;
         public override Stats Stats => stats;
 
         public HealthPoint HealthPoint { get; set; }

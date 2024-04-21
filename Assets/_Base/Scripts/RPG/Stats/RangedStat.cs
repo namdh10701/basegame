@@ -63,11 +63,11 @@ namespace _Base.Scripts.RPG.Stats
 			_minValue.OnValueChanged += OnAnyValueChanged;
 			_maxValue.OnValueChanged += OnAnyValueChanged;
 			_value.OnValueChanged += OnAnyValueChanged;
+			UpdateValue();
 		}
 
 		private void OnAnyValueChanged(Stat stat)
 		{
-			Debug.Log("Ranged dirty");
 			UpdateValue();
 		}
 

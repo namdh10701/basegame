@@ -20,6 +20,10 @@ namespace _Game.Scripts.Entities
 
         private void Update()
         {
+            if (_aliveStats == null)
+            {
+                return;
+            }
             var percentage = _aliveStats.HealthPoint.PercentageValue;
             var fillSize = background.sizeDelta.x * percentage;
             fill.sizeDelta = new Vector2(fillSize, fill.sizeDelta.y);

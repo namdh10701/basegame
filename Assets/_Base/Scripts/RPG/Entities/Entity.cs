@@ -110,6 +110,10 @@ namespace _Base.Scripts.RPG.Entities
 
         private void OnEntityCollisionEnter(Entity entity)
         {
+            if (CollisionHandler == null)
+            {
+                return;
+            }
             CollisionHandler.Process(this, entity);
         }
     }

@@ -6,7 +6,7 @@ using Task = System.Threading.Tasks.Task;
 namespace _Base.Scripts.RPG.Effects
 {
     [Serializable]
-    public abstract class Effect
+    public abstract class Effect: MonoBehaviour
     {
         public abstract void Apply(Entity entity);
 
@@ -39,6 +39,7 @@ namespace _Base.Scripts.RPG.Effects
             Duration = duration;
         }
 
+        [field:SerializeField]
         public int Duration { get; set; }
         
         public override async void Apply(Entity entity)
@@ -57,6 +58,7 @@ namespace _Base.Scripts.RPG.Effects
             Interval = interval;
         }
 
+        [field:SerializeField]
         public int Interval { get; set; }
         
         public override async void Apply(Entity entity)

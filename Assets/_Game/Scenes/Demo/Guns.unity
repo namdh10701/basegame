@@ -5712,24 +5712,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EffectHandler: {fileID: 1298217183}
   EntityCollisionDetector: {fileID: 1553921983}
-  _stats:
-    <MaxHealthPoint>k__BackingField:
-      BaseValue: 500
-      statModifiers: []
-    <AttackDamage>k__BackingField:
-      BaseValue: 0
-      statModifiers: []
-    <CriticalChance>k__BackingField:
-      BaseValue: 0
-      statModifiers: []
-    <CriticalDamage>k__BackingField:
-      BaseValue: 0
-      statModifiers: []
-    <AttackRange>k__BackingField:
-      BaseValue: 0
-      statModifiers: []
-    _healthPoint: 400
+  OutgoingEffects: []
+  _stats: {fileID: 11400000, guid: 14077db5de1824e3abe122b6685a11ce, type: 2}
   <AttackStrategy>k__BackingField: {fileID: 930705610}
+  <BulletEffects>k__BackingField: []
 --- !u!114 &930705610
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7943,6 +7929,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   entity: {fileID: 930705609}
+  effects: []
 --- !u!1 &1301014054
 GameObject:
   m_ObjectHideFlags: 0
@@ -8830,23 +8817,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EffectHandler: {fileID: 1718073234}
   EntityCollisionDetector: {fileID: 1628245001}
-  stats:
-    <MaxHealthPoint>k__BackingField:
-      BaseValue: 0
-      statModifiers: []
-    <AttackDamage>k__BackingField:
-      BaseValue: 0
-      statModifiers: []
-    <CriticalChance>k__BackingField:
-      BaseValue: 0
-      statModifiers: []
-    <CriticalDamage>k__BackingField:
-      BaseValue: 0
-      statModifiers: []
-    <AttackRange>k__BackingField:
-      BaseValue: 0
-      statModifiers: []
-    _healthPoint: 500
+  OutgoingEffects: []
+  stats: {fileID: 11400000, guid: 7b641c5f7ad3c493c9f6f71cb400fdee, type: 2}
 --- !u!114 &1434138506
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11455,6 +11427,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   entity: {fileID: 1434138503}
+  effects: []
 --- !u!1 &1731630672
 GameObject:
   m_ObjectHideFlags: 0

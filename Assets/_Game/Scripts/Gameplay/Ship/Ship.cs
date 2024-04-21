@@ -11,8 +11,7 @@ namespace _Game.Scripts.Gameplay.Ship
     {
         public static Ship Instance;
         // public ShipMana ShipMana;
-        [SerializeField]
-        private ShipStats stats = new();
+        [SerializeField] ShipStats stats;
         public override Stats Stats => stats;
         public ShipGrid ShipGrid;
 
