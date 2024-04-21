@@ -7,7 +7,7 @@ using UnityEngine;
 namespace _Game.Scripts
 {
     [Serializable]
-    public class ShipStats : Stats//, IAlive
+    public class ShipStats : Stats, IAliveStats
     {
         [field: SerializeField]
         public RangedStat HealthPoint { get; set; } = new(0, 0, 100);
