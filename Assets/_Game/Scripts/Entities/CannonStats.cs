@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace _Game.Scripts
 {
-    [CreateAssetMenu(fileName = "CannonStats", menuName = "Scriptable Objects/Cannon Stats", order = 1)]
+    // [CreateAssetMenu(fileName = "CannonStats", menuName = "Scriptable Objects/Cannon Stats", order = 1)]
     [Serializable]
     public class CannonStats : Stats, IAliveStats, IFighterStats
     {
@@ -14,7 +14,7 @@ namespace _Game.Scripts
         public RangedStat HealthPoint { get; set; } = new(500, 0, 800);
 
         [field: SerializeField]
-        public Stat AttackDamage {get;set;} = new();
+        public Stat AttackDamage {get;set;} = new("AttackDamage");
         
         [field: SerializeField]
         public Stat CriticalChance {get;set;} = new();

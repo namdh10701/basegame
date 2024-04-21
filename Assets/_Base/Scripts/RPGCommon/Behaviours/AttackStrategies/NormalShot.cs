@@ -66,7 +66,7 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
 
             // projectile.OutgoingEffects.Add(new DecreaseHealthEffect(fighterStats.AttackDamage.Value));
 
-            
+            // shooter.FighterStats.AttackDamage.Value
             shooter.BulletEffects.ForEach(v => projectile.OutgoingEffects.Add(v));
 
             return projectile;

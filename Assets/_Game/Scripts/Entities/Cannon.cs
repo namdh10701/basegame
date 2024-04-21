@@ -15,6 +15,35 @@ namespace _Game.Scripts.Entities
     public class Cannon: Entity, IShooter
     {
         
+        // [SerializeField]
+        // private int _score;
+        //
+        // public int Score
+        // {
+        //     get => _score;
+        //     set
+        //     {
+        //         _score = value;
+        //         Debug.Log("aaaaaaaaaaaaaaaaaaaaaa");
+        //     }
+        // }
+        
+        [ContextMenu("Apply stats changed")]
+        void ApplyStatsChanged()
+        {
+            // _stats.AttackDamage.TriggerValueChanged();
+            foreach (var propertyInfo in _stats.GetType().GetProperties())
+            {
+                propertyInfo.PropertyType.GetMethod("TriggerValueChanged").Invoke(propertyInfo, new object[]{});
+            }
+        }
+        
+        [ContextMenu("Save stats")]
+        void SaveStats()
+        {
+            _statsTemplate.Data = _stats;
+        }
+        
         [ContextMenu("TestMyMethod")]
         void TestMyMethod()
         {
@@ -33,8 +62,12 @@ namespace _Game.Scripts.Entities
             Debug.Log("stat ok " + stat.StatValue.Value);
 
         }
+        
         [SerializeField]
         private CannonStats _stats;
+        
+        [SerializeField]
+        private CannonStatsTemplate _statsTemplate;
 
         public override Stats Stats => _stats;
         public IFighterStats FighterStats
@@ -55,9 +88,15 @@ namespace _Game.Scripts.Entities
 
         private void Start()
         {
-            var eff = gameObject.AddComponent<DecreaseHealthEffect>();
-            eff.Amount = _stats.AttackDamage.Value;
-            BulletEffects.Add(eff);
+            // _stats = Instantiate(_statsTemplate).Data;
+            // var eff = gameObject.AddComponent<DecreaseHealthEffect>();
+            // eff.Amount = _stats.AttackDamage.Value;
+            // BulletEffects.Add(eff);
+            //
+            // _stats.AttackDamage.OnValueChanged += stat =>
+            // {
+            //     eff.Amount = stat.Value;
+            // };
         }
         //
         // protected void AutoAttack()

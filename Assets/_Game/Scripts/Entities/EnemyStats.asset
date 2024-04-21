@@ -9,28 +9,29 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 178123340eee437c939f462951c1325c, type: 3}
+  m_Script: {fileID: 11500000, guid: 55060d0a82f245d380196e46ae9fb5b3, type: 3}
   m_Name: EnemyStats
   m_EditorClassIdentifier: 
-  <HealthPoint>k__BackingField:
-    _value:
-      statModifiers: []
-      _baseValue: 500
-    _minValue:
+  <Data>k__BackingField:
+    <HealthPoint>k__BackingField:
+      _value:
+        statModifiers: []
+        _baseValue: 500
+      _minValue:
+        statModifiers: []
+        _baseValue: 0
+      _maxValue:
+        statModifiers: []
+        _baseValue: 800
+    <AttackDamage>k__BackingField:
       statModifiers: []
       _baseValue: 0
-    _maxValue:
+    <CriticalChance>k__BackingField:
       statModifiers: []
-      _baseValue: 800
-  <AttackDamage>k__BackingField:
-    statModifiers: []
-    _baseValue: 20
-  <CriticalChance>k__BackingField:
-    statModifiers: []
-    _baseValue: 0
-  <CriticalDamage>k__BackingField:
-    statModifiers: []
-    _baseValue: 0
-  <AttackRange>k__BackingField:
-    statModifiers: []
-    _baseValue: 0
+      _baseValue: 0
+    <CriticalDamage>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <AttackRange>k__BackingField:
+      statModifiers: []
+      _baseValue: 0

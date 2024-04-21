@@ -9,28 +9,29 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f56ac407423545e29308a9c6803f3287, type: 3}
+  m_Script: {fileID: 11500000, guid: 06f82cd9ad8e4ba591a0b2052cca3f59, type: 3}
   m_Name: CannonStats
   m_EditorClassIdentifier: 
-  <HealthPoint>k__BackingField:
-    _value:
+  <Data>k__BackingField:
+    <HealthPoint>k__BackingField:
+      _value:
+        statModifiers: []
+        _baseValue: 800
+      _minValue:
+        statModifiers: []
+        _baseValue: 0
+      _maxValue:
+        statModifiers: []
+        _baseValue: 800
+    <AttackDamage>k__BackingField:
       statModifiers: []
-      _baseValue: 500
-    _minValue:
+      _baseValue: 10
+    <CriticalChance>k__BackingField:
       statModifiers: []
       _baseValue: 0
-    _maxValue:
+    <CriticalDamage>k__BackingField:
       statModifiers: []
-      _baseValue: 800
-  <AttackDamage>k__BackingField:
-    statModifiers: []
-    _baseValue: 50
-  <CriticalChance>k__BackingField:
-    statModifiers: []
-    _baseValue: 0
-  <CriticalDamage>k__BackingField:
-    statModifiers: []
-    _baseValue: 0
-  <AttackRange>k__BackingField:
-    statModifiers: []
-    _baseValue: 0
+      _baseValue: 0
+    <AttackRange>k__BackingField:
+      statModifiers: []
+      _baseValue: 0

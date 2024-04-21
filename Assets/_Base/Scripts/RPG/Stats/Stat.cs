@@ -2,13 +2,24 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace _Base.Scripts.RPG.Stats
 {
+	// [System.Serializable]
+	// public class SimpleEvent : UnityEvent { };
+	//
 	[Serializable]
 	public class Stat
 	{
+		// [SerializeField]
+		// public SimpleEvent SimpleEvent;
 		public event Action<Stat> OnValueChanged;
+
+		public void TriggerValueChanged()
+		{
+			OnValueChanged?.Invoke(this);
+		}
 
 		public float BaseValue
 		{
@@ -54,13 +65,16 @@ namespace _Base.Scripts.RPG.Stats
 		[SerializeField]
 		private float _baseValue;
 
-		public Stat()
+		private readonly string name;
+
+		public Stat(string name = "")
 		{
+			this.name = name;
 			statModifiers = new List<StatModifier>();
 			StatModifiers = statModifiers.AsReadOnly();
 		}
 
-		public Stat(float baseValue) : this()
+		public Stat(float baseValue, string name = "") : this(name)
 		{
 			BaseValue = baseValue;
 		}
