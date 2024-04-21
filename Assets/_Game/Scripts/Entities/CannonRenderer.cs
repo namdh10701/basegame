@@ -15,7 +15,7 @@ namespace _Game.Scripts.Entities
 
         private void Update()
         {
-            _spriteRenderer.color = _aimTargetBehaviour.IsReadyToAttack ? Color.red : Color.white;
+            //_spriteRenderer.color = _aimTargetBehaviour.IsReadyToAttack ? Color.red : Color.white;
 
             if (_aimTargetBehaviour.IsReadyToAttack)
             {

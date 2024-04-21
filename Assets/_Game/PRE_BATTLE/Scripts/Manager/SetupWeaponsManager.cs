@@ -216,6 +216,7 @@ public class SetupWeaponsManager : SingletonMonoBehaviour<SetupWeaponsManager>
             {
                 weaponItem.transform.parent = grid.transform;
                 weaponItem.transform.localPosition = center;
+                
                 break;
             }
         }

@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
+using _Base.Scripts.EventSystem;
+using _Game.Scripts;
 using _Game.Scripts.Gameplay.Ship;
+using Slash.Unity.DataBind.Core.Utils;
 using UnityEngine;
 
 public class PointClickDetector : MonoBehaviour
@@ -42,6 +45,7 @@ public class PointClickDetector : MonoBehaviour
         }
         else
         {
+
             RaycastHit2D hit = Physics2D.Raycast(_worldPosition, Vector2.zero);
             HashSet<string> tagsToCheck = new HashSet<string> { "DragObject", "WeaponItem", "Gun", "BulletsMenu" };
 
@@ -96,6 +100,13 @@ public class PointClickDetector : MonoBehaviour
     {
         var bulletItem = _gameObjectSlected.GetComponent<BulletItem>();
         Debug.Log("HandleBulletsMenu: " + bulletItem.GetId());
+        ShipStats stats = (ShipStats)Ship.Instance.Stats;
+        if (stats.ManaPoint.Value > 30)
+        {
+            stats.ManaPoint.SetValue(stats.ManaPoint.Value - 30);
+            GlobalEvent<string, int>.Send("RELOAD", gunGOName, bulletItem.GetId());
+        }
+        Debug.Log(gunGOName + " NAME 1");
         Ship.Instance.DetroyBulletsMenu();
     }
 
@@ -113,8 +124,11 @@ public class PointClickDetector : MonoBehaviour
         weaponItem.GetCellSelectFromWeaponItem(weaponItem.GetItemMenuData());
     }
 
+    string gunGOName;
     void HandleGun()
     {
+        gunGOName = _gameObjectSlected.name;
+        Debug.Log(gunGOName + " NAME");
         Ship.Instance.CreateBulletsMenu();
     }
 

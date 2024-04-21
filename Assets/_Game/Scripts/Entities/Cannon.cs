@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using _Base.Scripts.EventSystem;
 using _Base.Scripts.RPG.Behaviours.AimTarget;
 using _Base.Scripts.RPG.Behaviours.AttackTarget;
 using _Base.Scripts.RPG.Effects;
@@ -7,14 +8,16 @@ using _Base.Scripts.RPG.Entities;
 using _Base.Scripts.RPG.Stats;
 using _Base.Scripts.RPGCommon.Behaviours.AttackStrategies;
 using _Base.Scripts.RPGCommon.Entities;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.VFX;
 
 namespace _Game.Scripts.Entities
 {
-    public class Cannon: Entity, IShooter
+    public class Cannon : Entity, IShooter
     {
-        
+
         // [SerializeField]
         // private int _score;
         //
@@ -27,45 +30,45 @@ namespace _Game.Scripts.Entities
         //         Debug.Log("aaaaaaaaaaaaaaaaaaaaaa");
         //     }
         // }
-        
+
         [ContextMenu("Apply stats changed")]
         void ApplyStatsChanged()
         {
             // _stats.AttackDamage.TriggerValueChanged();
             foreach (var propertyInfo in _stats.GetType().GetProperties())
             {
-                propertyInfo.PropertyType.GetMethod("TriggerValueChanged").Invoke(propertyInfo, new object[]{});
+                propertyInfo.PropertyType.GetMethod("TriggerValueChanged").Invoke(propertyInfo, new object[] { });
             }
         }
-        
+
         [ContextMenu("Save stats")]
         void SaveStats()
         {
             _statsTemplate.Data = _stats;
         }
-        
+
         [ContextMenu("TestMyMethod")]
         void TestMyMethod()
         {
             RangedStat stat = new RangedStat(10, 0, 100);
-            
-            
+
+
             Assert.AreEqual(10, stat.Value);
             stat.StatValue.AddModifier(StatModifier.Flat(10));
-            
+
             Debug.Log("stat ok 1");
             // Assert.AreEqual(20, stat.Value);
             //
             stat.StatValue.AddModifier(StatModifier.Flat(100));
             // Assert.AreEqual(100, stat.Value);
-            
+
             Debug.Log("stat ok " + stat.StatValue.Value);
 
         }
-        
+
         [SerializeField]
         private CannonStats _stats;
-        
+
         [SerializeField]
         private CannonStatsTemplate _statsTemplate;
 
@@ -77,17 +80,19 @@ namespace _Game.Scripts.Entities
         }
 
         // public IAttackStrategy AttackStrategy { get; set; } = new ShootTargetStrategy_Normal();
-        [field:SerializeReference]
+        [field: SerializeReference]
         public AttackStrategy AttackStrategy { get; set; }// = new ShootTargetStrategyNormal_SplitShot();
 
-        [field:SerializeField]
-        public List<Effect> BulletEffects { get; set; } = new ();
+        [field: SerializeField]
+        public List<Effect> BulletEffects { get; set; } = new();
 
         // public ShootTargetTriggerBehaviour ShootTargetTriggerBehaviour;
         // public AimTargetBehaviour aimTargetBehaviour;
 
         private void Start()
         {
+            orgColor = render.color;
+            GlobalEvent<string, int>.Register("RELOAD", OnReload);
             // _stats = Instantiate(_statsTemplate).Data;
             // var eff = gameObject.AddComponent<DecreaseHealthEffect>();
             // eff.Amount = _stats.AttackDamage.Value;
@@ -108,5 +113,34 @@ namespace _Game.Scripts.Entities
         //     
         //     AttackStrategy.SetData(this, shootPosition, projectilePrefab, aimTargetBehaviour.FollowTargetBehaviour.FindTargetBehaviour.Strategy, aimTargetBehaviour.LockedPosition);
         // }
+
+        [SerializeField] CannonProjectile[] cpPrefabs;
+        [SerializeField] SpriteRenderer render;
+        [SerializeField] AttackTargetBehaviour atb;
+        Sequence fx;
+        Color orgColor;
+        public void OnEmptyAmmo()
+        {
+            fx = DOTween.Sequence();
+            render.color = Color.black;
+            fx.SetLoops(-1);
+
+        }
+
+        private void OnDestroy()
+        {
+            GlobalEvent<string, int>.Unregister("RELOAD", OnReload);
+        }
+        public void OnReload(string goName, int id)
+        {
+            fx.Kill();
+            if (goName == gameObject.name)
+            {
+                render.color = orgColor;
+                _stats.Ammo.SetValue(_stats.Ammo.MaxValue);
+                atb.projectilePrefab = cpPrefabs[id - 1];
+            }
+        }
+
     }
 }

@@ -2,6 +2,7 @@
 using System.Linq;
 using _Base.Scripts.RPG.Entities;
 using _Base.Scripts.Utils;
+using _Game.Scripts.Entities;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -28,6 +29,8 @@ namespace _Game.Scripts.Gameplay.Ship
         BulletsMenu _bulletsMenu;
         private TypeShip _curentSkin = TypeShip.Normal;
         private ShipConfig _curentShip;
+
+        public Cannon[] prefabs;
         protected override void Awake()
         {
             base.Awake();
@@ -153,17 +156,40 @@ namespace _Game.Scripts.Gameplay.Ship
                             bool isInstantiated = _weaponItems.Any(item => item.GetWeaponItemData() == weaponItemData);
                             if (!isInstantiated)
                             {
-                                var itemWeapon = Instantiate(_prefabWeaponItem, grid.transform);
-                                itemWeapon.transform.localPosition = weaponItemData.previousPosition;
-                                itemWeapon.transform.gameObject.tag = weaponItemData.itemMenuData.itemType.ToString();
-                                itemWeapon.Setup(weaponItemData);
-                                _weaponItems.Add(itemWeapon);
+                                Debug.Log(weaponItemData.itemMenuData.id);
 
-                                //Get bullets item data
-                                if (weaponItemData.itemMenuData.itemType == ItemType.Bullet)
+                                Vector3 pos = (Vector3)weaponItemData.previousPosition + new Vector3(0, 0, -1f);
+
+
+
+
+
+
+
+                                //_weaponItems.Add(itemWeapon);
+
+                                if (weaponItemData.itemMenuData.itemType != ItemType.Gun)
                                 {
-                                    _bulletItemData.Add(weaponItemData);
+
+                                    var itemWeapon1 = Instantiate(_prefabWeaponItem, grid.transform);
+                                    itemWeapon1.transform.localPosition = pos;
+                                    itemWeapon1.transform.gameObject.tag = weaponItemData.itemMenuData.itemType.ToString();
+                                    itemWeapon1.Setup(weaponItemData);
+                                    _weaponItems.Add(itemWeapon1);
+                                    //Get bullets item data
+                                    if (weaponItemData.itemMenuData.itemType == ItemType.Bullet)
+                                    {
+                                        itemWeapon1.Setup(weaponItemData);
+                                        _bulletItemData.Add(weaponItemData);
+                                    }
                                 }
+                                else
+                                {
+                                    var itemWeapon = Instantiate(prefabs[weaponItemData.itemMenuData.id - 1], grid.transform);
+                                    itemWeapon.transform.localPosition = pos;
+                                    itemWeapon.transform.gameObject.tag = weaponItemData.itemMenuData.itemType.ToString();
+                                }
+
                             }
 
                         }
@@ -177,6 +203,7 @@ namespace _Game.Scripts.Gameplay.Ship
             if (_bulletsMenu == null)
             {
                 _bulletsMenu = Instantiate(_prefabBulletsMenu, this.transform);
+                _bulletsMenu.transform.position = new Vector3(0, 0, -3);
                 _bulletsMenu.Setup(_bulletItemData);
             }
         }

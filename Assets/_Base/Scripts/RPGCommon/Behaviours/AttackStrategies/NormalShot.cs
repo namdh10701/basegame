@@ -58,7 +58,6 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
             // projectile.OutgoingEffects.Add(new DecreaseHealthEffect(100));
             // projectile.OutgoingEffects.Add(new DrainHealthEffect(50, 1, 3));
             
-            projectile.moveSpeed.BaseValue = 100;
 
 
             // var fighterStats = fighter.FighterStats;

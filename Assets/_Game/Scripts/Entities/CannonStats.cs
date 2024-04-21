@@ -29,6 +29,10 @@ namespace _Game.Scripts
 
         public IFighterStats.AttackTypes AttackType { get; set; } = IFighterStats.AttackTypes.UNIT;
 
+
+        [field: SerializeField]
+        public RangedStat Ammo { get; set; } = new(10, 0, 10);
+
         // [SerializeField]
         // private float _healthPoint;
         // float IAliveStats.HealthPoint
