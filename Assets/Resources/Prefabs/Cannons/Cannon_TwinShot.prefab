@@ -316,8 +316,9 @@ GameObject:
   - component: {fileID: 4759703321050827762}
   - component: {fileID: 4194977101597096630}
   - component: {fileID: 94858937819000496}
-  - component: {fileID: 812214315627496486}
   - component: {fileID: -4030769766096300962}
+  - component: {fileID: 1590007371590969411}
+  - component: {fileID: 812214315627496486}
   m_Layer: 0
   m_Name: Cannon_TwinShot
   m_TagString: Untagged
@@ -399,24 +400,10 @@ MonoBehaviour:
       statModifiers: []
       _baseValue: 0
   _statsTemplate: {fileID: 11400000, guid: 14077db5de1824e3abe122b6685a11ce, type: 2}
-  _cannonReloader: {fileID: 0}
+  _cannonReloader: {fileID: 1590007371590969411}
   <AttackStrategy>k__BackingField: {fileID: 812214315627496486}
   <AttackTargetBehaviour>k__BackingField: {fileID: 0}
   <BulletEffects>k__BackingField: []
---- !u!114 &812214315627496486
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2506795332634619781}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e23c8fe6d9b949a891dab7810ee2c545, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gap: 50
-  amount: 2
 --- !u!114 &-4030769766096300962
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -431,6 +418,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cannon: {fileID: 94858937819000496}
   cannonRenderer: {fileID: 4194977101597096630}
+--- !u!114 &1590007371590969411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2506795332634619781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3eb7e7d4929d1d5479dfc7d18a289804, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cannon: {fileID: 94858937819000496}
+  AttackTargetBehaviour: {fileID: 8192189898026933683}
+--- !u!114 &812214315627496486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2506795332634619781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e23c8fe6d9b949a891dab7810ee2c545, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gap: 50
+  amount: 2
 --- !u!1 &2738015328258581795
 GameObject:
   m_ObjectHideFlags: 0

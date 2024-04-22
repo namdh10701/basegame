@@ -318,6 +318,7 @@ GameObject:
   - component: {fileID: 5667120264804020780}
   - component: {fileID: 94858937819000496}
   - component: {fileID: 8787947234298913926}
+  - component: {fileID: 7017139140184525039}
   m_Layer: 0
   m_Name: Cannon_NormalShot
   m_TagString: Untagged
@@ -413,7 +414,7 @@ MonoBehaviour:
       statModifiers: []
       _baseValue: 0
   _statsTemplate: {fileID: 11400000, guid: 14077db5de1824e3abe122b6685a11ce, type: 2}
-  _cannonReloader: {fileID: 0}
+  _cannonReloader: {fileID: 7017139140184525039}
   <AttackStrategy>k__BackingField: {fileID: 8787947234298913926}
   <AttackTargetBehaviour>k__BackingField: {fileID: 0}
   <BulletEffects>k__BackingField: []
@@ -429,6 +430,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08aa99dcaf344649ad9887d70678f32c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7017139140184525039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2506795332634619781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3eb7e7d4929d1d5479dfc7d18a289804, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cannon: {fileID: 94858937819000496}
+  AttackTargetBehaviour: {fileID: 8192189898026933683}
 --- !u!1 &2738015328258581795
 GameObject:
   m_ObjectHideFlags: 0

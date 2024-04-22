@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using _Game.Scripts.Entities;
+using _Game.Scripts.GameContext;
 using _Game.Scripts.Gameplay;
 using _Game.Scripts.Gameplay.Ship;
 using _Game.Scripts.Input;
@@ -104,10 +105,13 @@ public class PointClickDetector : MonoBehaviour
 
     private void HandleBulletsMenu()
     {
-        var bulletItem = _gameObjectSlected.GetComponent<BulletItem>();
-        var bulletPrefab = Resources.Load<_Base.Scripts.RPGCommon.Entities.Projectile>("Prefabs/Projectiles/" + bulletDic[bulletItem._id]);
-        selectedCannon.Reloader.Reload(bulletPrefab);
-
+        if (GlobalContext.PlayerContext.ManaPoint.Value > 30)
+        {
+            GlobalContext.PlayerContext.ManaPoint.Value -= 30;
+            var bulletItem = _gameObjectSlected.GetComponent<BulletItem>();
+            var bulletPrefab = Resources.Load<_Base.Scripts.RPGCommon.Entities.Projectile>("Prefabs/Projectiles/" + bulletDic[bulletItem._id]);
+            selectedCannon.Reloader.Reload(bulletPrefab);
+        }
         if (_bulletsMenu != null)
         {
             Destroy(_bulletsMenu.gameObject);
