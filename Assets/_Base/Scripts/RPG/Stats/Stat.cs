@@ -63,7 +63,7 @@ namespace _Base.Scripts.RPG.Stats
 		private List<StatModifier> statModifiers;
 		public readonly ReadOnlyCollection<StatModifier> StatModifiers;
 		[SerializeField]
-		private float _baseValue;
+		private float _baseValue = 2;
 
 		private readonly string name;
 
