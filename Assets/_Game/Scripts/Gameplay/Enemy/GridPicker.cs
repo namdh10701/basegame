@@ -3,6 +3,7 @@ using _Base.Scripts.RPG.Entities;
 using _Base.Scripts.Utils.Extensions;
 using _Game.Scripts;
 using _Game.Scripts.Entities;
+using _Game.Scripts.Gameplay;
 using _Game.Scripts.Gameplay.Ship;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,18 +15,7 @@ public enum PickType
 }
 public class GridPicker : MonoBehaviour
 {
-    public Ship ship;
-    public ShipGrid ShipGrid;
-    public CellPattern CellPattern;
-    public PickType PickType;
-    public int Size;
-
-    public void PickCell()
-    {
-        Cell centerCell;
-        List<Cell> cells = PickCells(null, PickType, CellPattern, Size, out centerCell);
-    }
-
+    public ShipSetup ShipGrid;
     public List<Cell> PickCells(Transform enemy, PickType pickType, CellPattern pattern, int size, out Cell centerCell)
     {
         List<Cell> cells = null;

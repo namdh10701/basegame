@@ -18,7 +18,7 @@ public class Cell : MonoBehaviour
     public bool HasItem;
     public Grid Grid;
     // TODO
-    public Cannon Placement;
+    public GridItem GridItem;
     public void Setup(Vector2 position, int id)
     {
         _itemType = ItemType.None;

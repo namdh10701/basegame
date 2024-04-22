@@ -1,6 +1,10 @@
 using System;
 using System.Collections.Generic;
+using _Game.Scripts.Entities;
+using _Game.Scripts.Gameplay;
 using _Game.Scripts.Gameplay.Ship;
+using _Game.Scripts.Input;
+using Demo.Scripts.Canon;
 using UnityEngine;
 
 public class PointClickDetector : MonoBehaviour
@@ -92,14 +96,24 @@ public class PointClickDetector : MonoBehaviour
         _isDragActive = false;
     }
 
+    public readonly static Dictionary<int, string> bulletDic = new Dictionary<int, string>()
+    {
+        {1,"CannonProjectile"},
+        {2,"CannonProjectile1"}
+    };
+
     private void HandleBulletsMenu()
     {
         var bulletItem = _gameObjectSlected.GetComponent<BulletItem>();
-        Debug.Log("HandleBulletsMenu: " + bulletItem.GetId());
-        Ship.Instance.DetroyBulletsMenu();
+        var bulletPrefab = Resources.Load<_Base.Scripts.RPGCommon.Entities.Projectile>("Prefabs/Projectiles/" + bulletDic[bulletItem._id]);
+        selectedCannon.Reloader.Reload(bulletPrefab);
+
+        if (_bulletsMenu != null)
+        {
+            Destroy(_bulletsMenu.gameObject);
+        }
     }
 
-    // Define methods to handle each tag
     void HandleDragObject()
     {
         var dragItem = _gameObjectSlected.GetComponent<DragItem>();
@@ -115,9 +129,23 @@ public class PointClickDetector : MonoBehaviour
 
     void HandleGun()
     {
-        Ship.Instance.CreateBulletsMenu();
+        selectedCannon = _gameObjectSlected.GetComponent<ItemClickDetector>().Item.GetComponent<Cannon>();
+        CreateBulletsMenu();
     }
 
+    BulletsMenu _bulletsMenu;
+    [SerializeField] WeaponItem _prefabWeaponItem;
+    [SerializeField] BulletsMenu _prefabBulletsMenu;
+    public ShipSetup ShipSetup;
+    Cannon selectedCannon;
+    public void CreateBulletsMenu()
+    {
+        if (_bulletsMenu == null)
+        {
+            _bulletsMenu = Instantiate(_prefabBulletsMenu, this.transform);
+            _bulletsMenu.Setup(ShipSetup._bulletItemData);
+        }
+    }
 
 }
 

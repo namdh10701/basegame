@@ -3,6 +3,7 @@ using _Game.Scripts.Entities;
 using _Game.Scripts.Gameplay.Ship;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GridAttackHandler : MonoBehaviour
@@ -17,15 +18,15 @@ public class GridAttackHandler : MonoBehaviour
 
     public void ProcessAttack(List<Cell> cells, Effect effect)
     {
-        List<Cannon> placements = new List<Cannon>();
+        List<GridItem> placements = new List<GridItem>();
         List<Cell> emptyCells = new List<Cell>();
         foreach (Cell cell in cells.ToArray())
         {
-            if (cell.Placement != null)
+            if (cell.GridItem != null)
             {
-                if (!placements.Contains(cell.Placement))
+                if (!placements.Contains(cell.GridItem))
                 {
-                    placements.Add(cell.Placement);
+                    placements.Add(cell.GridItem);
                 }
             }
             else
@@ -47,14 +48,14 @@ public class GridAttackHandler : MonoBehaviour
         }
     }
 
-    public void ApplyEffect(List<Cannon> placements, Effect effect)
+    public void ApplyEffect(List<GridItem> placements, Effect effect)
     {
-        foreach (Cannon placement in placements)
+        foreach (GridItem placement in placements)
         {
             placement.EffectHandler.Apply(effect);
         }
     }
-    public void ApplyEffect(Cannon placement, Effect effect)
+    public void ApplyEffect(GridItem placement, Effect effect)
     {
         placement.EffectHandler.Apply(effect);
     }

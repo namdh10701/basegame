@@ -1,4 +1,5 @@
 
+using _Base.Scripts.Utils;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -57,12 +58,8 @@ namespace Map
         static void AssignLocation()
         {
             Odds odds = config.Odds;
-            Dictionary<NodeType, double> probabilities = new Dictionary<NodeType, double>();
-            foreach (OddsItem item in odds.OddItems)
-            {
-                probabilities.Add(item.NodeType, item.Probability);
-            }
-            var picker = new ProbabilityPicker<NodeType>(probabilities);
+            ProbabilityPicker<NodeType> picker = null;
+
 
 
             for (int i = 0; i < nodes.Count; i++)
@@ -71,19 +68,18 @@ namespace Map
                 {
                     NodeType nodeType;
                     MapLayer overridedLayer = config.GetOverrideLayer(i);
-                    if (overridedLayer != null)
-                    {
-                        //Co the doi thanh override odds luon
-                        nodeType = overridedLayer.nodeType;
-                    }
-                    else
-                    {
-                        nodeType = picker.Choose();
-                    }
-                    Node node = nodes[i][j];
-                    node.nodeType = nodeType;
-                    var blueprintName = config.nodeBlueprints.Where(b => b.nodeType == nodeType).ToList().Random().name;
 
+                    if (overridedLayer != null)
+                        picker = new ProbabilityPicker<NodeType>(overridedLayer.odds.ToDictionary());
+                    else
+                        picker = new ProbabilityPicker<NodeType>(odds.ToDictionary());
+
+
+                    Node node = nodes[i][j];
+                    nodeType = picker.Choose();
+                    node.nodeType = nodeType;
+
+                    var blueprintName = config.nodeBlueprints.Where(b => b.nodeType == nodeType).ToList().Random().name;
                     node.AssignLocation(nodeType, blueprintName);
                 }
             }
