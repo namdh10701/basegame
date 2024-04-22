@@ -61,6 +61,7 @@ public class SetupWeaponsManager : SingletonMonoBehaviour<SetupWeaponsManager>
         {
             return;
         }
+
         foreach (var ship in _dataShips.ships)
         {
             ship.typeShip = _curentSkin;
