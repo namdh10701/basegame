@@ -13,7 +13,6 @@ public class ItemMenu : MonoBehaviour
     {
         _itemMenuData = itemMenuData;
         _icon.sprite = itemMenuData.sprite;
-        _icon.color = itemMenuData.color;
         _oldColor = _backGroup.color;
 
         if (itemMenuData.isSelected)

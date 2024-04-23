@@ -66,7 +66,7 @@ public class MenuBattleManager : MenuManager
         }
     }
 
-    public override DragItemUI CreateDragItemUI(ItemMenuData itemMenuData, Vector3 position)
+    public override void CreateDragItemUI(ItemMenuData itemMenuData, Vector3 position)
     {
         if (_dragItemUI == null)
         {
@@ -75,6 +75,5 @@ public class MenuBattleManager : MenuManager
 
         }
         _dragItemUI.Setup(itemMenuData, _canvas);
-        return _dragItemUI;
     }
 }

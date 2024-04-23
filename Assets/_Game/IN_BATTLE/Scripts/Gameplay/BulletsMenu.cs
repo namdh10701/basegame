@@ -14,7 +14,6 @@ public class BulletsMenu : MonoBehaviour
     {
         _menu = new GameObject("Menu");
         _menu.transform.SetParent(this.transform);
-        _menu.transform.transform.localPosition = Vector3.zero;
         _weaponItemDatas = weaponItemDatas;
         distance = spriteRenderer.bounds.size.x;
         CreateMenu();
@@ -27,7 +26,6 @@ public class BulletsMenu : MonoBehaviour
             GameObject menu = new GameObject("BulletItem");
             menu.transform.parent = _menu.transform;
             menu.transform.localRotation = Quaternion.Euler(0f, 0f, i * 360 / _weaponItemDatas.Count);
-            menu.transform.localPosition = Vector3.zero;
             _menuItem.Add(menu);
         }
         CreateItemMenu();
@@ -40,7 +38,7 @@ public class BulletsMenu : MonoBehaviour
             itemMenu.tag = "BulletsMenu";
             var spr = itemMenu.AddComponent<SpriteRenderer>();
             spr.sprite = _weaponItemDatas[i].itemMenuData.sprite;
-            spr.color = _weaponItemDatas[i].itemMenuData.color;
+
             string sortingLayerName = "Default";
             int sortingLayerID = SortingLayer.NameToID(sortingLayerName);
             spr.sortingLayerID = sortingLayerID;

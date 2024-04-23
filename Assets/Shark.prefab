@@ -252,9 +252,6 @@ GameObject:
   - component: {fileID: 6486165056680356754}
   - component: {fileID: 3744798450482863417}
   - component: {fileID: 6184099847727452248}
-  - component: {fileID: 7056588802272947888}
-  - component: {fileID: 2566612520755350418}
-  - component: {fileID: 6908978849018269241}
   m_Layer: 6
   m_Name: Shark
   m_TagString: Untagged
@@ -392,38 +389,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd07d80b7a5468d409fcc0da118aa9cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EffectHandler: {fileID: 6908978849018269241}
-  EntityCollisionDetector: {fileID: 0}
-  OutgoingEffects: []
   EnemyData: {fileID: 11400000, guid: 07318d02e95a8fa4bb9e6df157d76621, type: 2}
   Cooldown: {fileID: 8743443457113012447}
   body: {fileID: 5040141651273341520}
   collider: {fileID: 1710597546118013158}
   IsPlayerInRange: 0
   cellPattern: 0
-  stats:
-    <HealthPoint>k__BackingField:
-      _value:
-        statModifiers: []
-        _baseValue: 30
-      _minValue:
-        statModifiers: []
-        _baseValue: 0
-      _maxValue:
-        statModifiers: []
-        _baseValue: 30
-    <AttackDamage>k__BackingField:
-      statModifiers: []
-      _baseValue: 0
-    <CriticalChance>k__BackingField:
-      statModifiers: []
-      _baseValue: 0
-    <CriticalDamage>k__BackingField:
-      statModifiers: []
-      _baseValue: 0
-    <AttackRange>k__BackingField:
-      statModifiers: []
-      _baseValue: 0
   hitFx: {fileID: 0}
   frequency: 2
   amplitude: 0.7
@@ -455,45 +426,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 6486165056680356754}
---- !u!114 &7056588802272947888
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6811569986267702731}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 69b63fcec66342af9cc00f0e6ea683e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Entity: {fileID: 6486165056680356754}
---- !u!114 &2566612520755350418
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6811569986267702731}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e10284dfa44940ee863f817c760bce5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &6908978849018269241
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6811569986267702731}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01bfda76cc6a4e3080de930ff8b94a3e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  entity: {fileID: 6486165056680356754}
-  effects: []
 --- !u!1 &7268903771341384503
 GameObject:
   m_ObjectHideFlags: 0

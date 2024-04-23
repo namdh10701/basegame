@@ -27,7 +27,7 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
             {
                 var projectile = SpawnProjectile(centerDirection);
                 projectile.transform.Translate(projectile.transform.right * (-mostLeftX + gap * idx), Space.World);
-                //projectile.moveSpeed.BaseValue = 100;
+                projectile.moveSpeed.BaseValue = 100;
             }
         }
     }

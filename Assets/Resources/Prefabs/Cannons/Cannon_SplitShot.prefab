@@ -227,7 +227,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 356e2ce489dd4ce19ce06ac89d676064, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <AimingTime>k__BackingField: 0.25
+  <AimingTime>k__BackingField: 1
 --- !u!1 &2293571533489143515
 GameObject:
   m_ObjectHideFlags: 0
@@ -319,10 +319,9 @@ GameObject:
   - component: {fileID: -717564830529616064}
   - component: {fileID: 1570808234364923535}
   - component: {fileID: 7000612455268449874}
-  - component: {fileID: 507650897097588924}
   m_Layer: 0
   m_Name: Cannon_SplitShot
-  m_TagString: Gun
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -337,8 +336,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -280, y: -589, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
-  m_ConstrainProportionsScale: 1
+  m_LocalScale: {x: 153.64046, y: 153.64046, z: 153.64046}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 319121703950278571}
   - {fileID: 542151175845535387}
@@ -400,22 +399,11 @@ MonoBehaviour:
     <AttackRange>k__BackingField:
       statModifiers: []
       _baseValue: 0
-    <Ammo>k__BackingField:
-      _value:
-        statModifiers: []
-        _baseValue: 10
-      _minValue:
-        statModifiers: []
-        _baseValue: 0
-      _maxValue:
-        statModifiers: []
-        _baseValue: 10
   _statsTemplate: {fileID: 11400000, guid: 14077db5de1824e3abe122b6685a11ce, type: 2}
   _cannonReloader: {fileID: 1570808234364923535}
   <AttackStrategy>k__BackingField: {fileID: 7000612455268449874}
   <AttackTargetBehaviour>k__BackingField: {fileID: 0}
   <BulletEffects>k__BackingField: []
-<<<<<<< HEAD:Assets/Resources/Prefabs/Cannons/Cannon_SplitShot.prefab
 --- !u!114 &-717564830529616064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -444,13 +432,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cannon: {fileID: 94858937819000496}
   AttackTargetBehaviour: {fileID: 8192189898026933683}
-=======
-  cpPrefabs:
-  - {fileID: 9038214777133773486, guid: 5ca95de0050294232be82d462f376a92, type: 3}
-  - {fileID: 9038214777133773486, guid: 7440835376d59ef46873414b9972b44a, type: 3}
-  render: {fileID: 172921155745622773}
-  atb: {fileID: 8192189898026933683}
->>>>>>> demo-21-4:Assets/_Game/Scripts/Entities/Cannon_SplitShot.prefab
 --- !u!114 &7000612455268449874
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -465,51 +446,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   angle: 15
   amount: 3
---- !u!61 &507650897097588924
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2506795332634619781}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
 --- !u!1 &2738015328258581795
 GameObject:
   m_ObjectHideFlags: 0
@@ -893,8 +829,8 @@ GameObject:
   - component: {fileID: 2008907440976116900}
   - component: {fileID: 2899980248066865633}
   m_Layer: 0
-  m_Name: Body2
-  m_TagString: Gun
+  m_Name: Body
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -974,7 +910,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3874035022952548574}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -1500,8 +1436,8 @@ Transform:
   m_GameObject: {fileID: 6325944138744424202}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 13.007, z: 5}
-  m_LocalScale: {x: 32.012028, y: 32.012028, z: 32.012028}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 6, y: 6, z: 6}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 8427063930449867751}
@@ -1623,9 +1559,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetTypeNames:
   - _Game.Scripts.Enemy
-  - Demo.Scripts.Enemy.Enemy
-  - Demo.Scripts.Enemy.Shark
-  - Demo.Scripts.Enemy.Squid
   closestTo: {fileID: 575761695595097317}
 --- !u!114 &3998683235849372507
 MonoBehaviour:
@@ -1814,7 +1747,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 319121703950278571}
-  - component: {fileID: 4575713666412980776}
   m_Layer: 0
   m_Name: Visuals
   m_TagString: Untagged
@@ -1841,18 +1773,6 @@ Transform:
   - {fileID: 6818280165625436178}
   m_Father: {fileID: 4759703321050827762}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!210 &4575713666412980776
-SortingGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6948252391721351863}
-  m_Enabled: 1
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 100
-  m_SortAtRoot: 0
 --- !u!1 &7274938654000572627
 GameObject:
   m_ObjectHideFlags: 0

@@ -21,7 +21,6 @@ public class ItemMenuData
     public Vector2 sizeCollision;
     public ItemType itemType;
     public bool isSelected;
-    public Color color = Color.white;
 
 }
 
@@ -47,7 +46,6 @@ public class ItemMenuSkinShip
 {
     public int id;
     public Sprite sprite;
-    public Color color;
     public ItemType itemType;
 
 }

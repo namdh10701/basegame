@@ -6,11 +6,10 @@ public class PointClickDetectorUI : MonoBehaviour, IPointerDownHandler, IPointer
     [SerializeField] MenuManager _menuManager;
     [SerializeField] DragItem _prefabDragItem;
 
-    bool _isDown;
+    bool isDown;
     private float timeThreshold = 0.5f;
     private float elapsedTime = 0f;
     private DragItem _dragItem;
-    DragItemUI _dragItemUI;
 
     public void GetComponentMemuManager()
     {
@@ -24,19 +23,19 @@ public class PointClickDetectorUI : MonoBehaviour, IPointerDownHandler, IPointer
         if (eventData.pointerEnter != null && eventData.pointerEnter.tag != "ItemMenuSetup")
             return;
 
-        _isDown = true;
-
+        isDown = true;
         _itemSelected = eventData.pointerEnter;
+
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        _isDown = false;
+        isDown = false;
     }
 
     void Update()
     {
-        if (_isDown)
+        if (isDown)
         {
             elapsedTime += Time.deltaTime;
             if (elapsedTime >= timeThreshold)
@@ -47,49 +46,32 @@ public class PointClickDetectorUI : MonoBehaviour, IPointerDownHandler, IPointer
                     CreateDragItem(itemData.GetItemMenuData());
 
                 }
-                _isDown = false;
+                isDown = false;
                 elapsedTime = 0f;
             }
-        }
-        if (_dragItem != null)
-        {
-            DragItem();
-        }
-
-        if (Input.GetMouseButtonUp(0))
-        {
-            if (_dragItem == null)
-                return;
-            _dragItem.GetCellSelectFromDragItem(_dragItem.GetItemMenuData());
-            Destroy(_dragItem.gameObject);
         }
     }
 
     public void CreateDragItem(ItemMenuData itemMenuData)
     {
-        var mousePosition = Input.mousePosition;
-        var worldPosition = _menuManager.Camera.ScreenToWorldPoint(mousePosition);
+        var worldPosition = _menuManager.Camera.ScreenToWorldPoint(Input.mousePosition);
         worldPosition.z = 0; // Ensure z-position is appropriate for 2D space
 
         // Disable scroll rect to prevent scrolling while dragging
         _menuManager.EnableScrollRect(false);
 
         // Create drag item UI and set its position
-        _dragItemUI = _menuManager.CreateDragItemUI(itemMenuData, worldPosition);
+        _menuManager.CreateDragItemUI(itemMenuData, Input.mousePosition);
 
         // Instantiate drag item if it doesn't exist
         if (_dragItem == null)
         {
-            _dragItem = Instantiate(_prefabDragItem);
-            _dragItem.Setup(itemMenuData);
-
+            _dragItem = Instantiate(_prefabDragItem, this.transform);
         }
-    }
 
-    public void DragItem()
-    {
-        var pos = _menuManager.Camera.ScreenToWorldPoint(_dragItemUI.transform.position);
-        _dragItem.transform.position = pos;
+        // Setup drag item and set its position
+        _dragItem.Setup(itemMenuData);
+        _dragItem.transform.position = worldPosition;
     }
 
 

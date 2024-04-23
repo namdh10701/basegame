@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class WeaponItem : Entity
 {
-    [SerializeField] public SpriteRenderer _spriteRenderer;
+    [SerializeField] SpriteRenderer _spriteRenderer;
     private BoxCollider2D _collider;
     private WeaponItemData _weaponItemData;
     private List<Cell> _cells = new List<Cell>();
@@ -20,7 +20,6 @@ public class WeaponItem : Entity
     {
         _weaponItemData = weaponItemData;
         _spriteRenderer.sprite = weaponItemData.itemMenuData.sprite;
-        _spriteRenderer.color = weaponItemData.itemMenuData.color;
         _collider = this.GetComponent<BoxCollider2D>();
         SetSizeItemDrag(weaponItemData.itemMenuData.sizeCollision);
     }

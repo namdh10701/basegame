@@ -133,9 +133,6 @@ GameObject:
   - component: {fileID: 5550398582184963660}
   - component: {fileID: 631387182535019821}
   - component: {fileID: 4043922473477673976}
-  - component: {fileID: 6578183706097729854}
-  - component: {fileID: 530470595495779554}
-  - component: {fileID: 6416008948850763016}
   m_Layer: 6
   m_Name: Squid
   m_TagString: Untagged
@@ -273,9 +270,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f6f166e2a3bcf04a80ac2ea6574f52a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EffectHandler: {fileID: 6416008948850763016}
+  EffectHandler: {fileID: 0}
   EntityCollisionDetector: {fileID: 0}
-  OutgoingEffects: []
   EnemyData: {fileID: 11400000, guid: 66ac9232bd9fc1347a20e605af5ccae4, type: 2}
   Cooldown: {fileID: 7131271643751585108}
   body: {fileID: 4172629748140318248}
@@ -286,13 +282,13 @@ MonoBehaviour:
     <HealthPoint>k__BackingField:
       _value:
         statModifiers: []
-        _baseValue: 30
+        _baseValue: 0
       _minValue:
         statModifiers: []
         _baseValue: 0
       _maxValue:
         statModifiers: []
-        _baseValue: 30
+        _baseValue: 0
     <AttackDamage>k__BackingField:
       statModifiers: []
       _baseValue: 0
@@ -342,45 +338,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &6578183706097729854
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3090839071180565094}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 69b63fcec66342af9cc00f0e6ea683e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Entity: {fileID: 5550398582184963660}
---- !u!114 &530470595495779554
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3090839071180565094}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e10284dfa44940ee863f817c760bce5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &6416008948850763016
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3090839071180565094}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01bfda76cc6a4e3080de930ff8b94a3e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  entity: {fileID: 5550398582184963660}
-  effects: []
 --- !u!1 &5959835992113488055
 GameObject:
   m_ObjectHideFlags: 0
