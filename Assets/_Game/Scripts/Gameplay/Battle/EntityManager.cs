@@ -29,6 +29,8 @@ namespace _Game.Scripts.Gameplay
             {
                 aliveEntities.Remove(alive);
                 GlobalEvent<Entity>.Send("EntityDied", alive);
+
+                Destroy(alive.gameObject);
             }
         }
 

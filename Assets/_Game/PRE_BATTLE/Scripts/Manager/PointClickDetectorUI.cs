@@ -6,10 +6,11 @@ public class PointClickDetectorUI : MonoBehaviour, IPointerDownHandler, IPointer
     [SerializeField] MenuManager _menuManager;
     [SerializeField] DragItem _prefabDragItem;
 
-    bool isDown;
+    bool _isDown;
     private float timeThreshold = 0.5f;
     private float elapsedTime = 0f;
     private DragItem _dragItem;
+    DragItemUI _dragItemUI;
 
     public void GetComponentMemuManager()
     {
@@ -23,19 +24,19 @@ public class PointClickDetectorUI : MonoBehaviour, IPointerDownHandler, IPointer
         if (eventData.pointerEnter != null && eventData.pointerEnter.tag != "ItemMenuSetup")
             return;
 
-        isDown = true;
-        _itemSelected = eventData.pointerEnter;
+        _isDown = true;
 
+        _itemSelected = eventData.pointerEnter;
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        isDown = false;
+        _isDown = false;
     }
 
     void Update()
     {
-        if (isDown)
+        if (_isDown)
         {
             elapsedTime += Time.deltaTime;
             if (elapsedTime >= timeThreshold)
@@ -46,32 +47,49 @@ public class PointClickDetectorUI : MonoBehaviour, IPointerDownHandler, IPointer
                     CreateDragItem(itemData.GetItemMenuData());
 
                 }
-                isDown = false;
+                _isDown = false;
                 elapsedTime = 0f;
             }
+        }
+        if (_dragItem != null)
+        {
+            DragItem();
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            if (_dragItem == null)
+                return;
+            _dragItem.GetCellSelectFromDragItem(_dragItem.GetItemMenuData());
+            Destroy(_dragItem.gameObject);
         }
     }
 
     public void CreateDragItem(ItemMenuData itemMenuData)
     {
-        var worldPosition = _menuManager.Camera.ScreenToWorldPoint(Input.mousePosition);
+        var mousePosition = Input.mousePosition;
+        var worldPosition = _menuManager.Camera.ScreenToWorldPoint(mousePosition);
         worldPosition.z = 0; // Ensure z-position is appropriate for 2D space
 
         // Disable scroll rect to prevent scrolling while dragging
         _menuManager.EnableScrollRect(false);
 
         // Create drag item UI and set its position
-        _menuManager.CreateDragItemUI(itemMenuData, Input.mousePosition);
+        _dragItemUI = _menuManager.CreateDragItemUI(itemMenuData, worldPosition);
 
         // Instantiate drag item if it doesn't exist
         if (_dragItem == null)
         {
-            _dragItem = Instantiate(_prefabDragItem, this.transform);
-        }
+            _dragItem = Instantiate(_prefabDragItem);
+            _dragItem.Setup(itemMenuData);
 
-        // Setup drag item and set its position
-        _dragItem.Setup(itemMenuData);
-        _dragItem.transform.position = worldPosition;
+        }
+    }
+
+    public void DragItem()
+    {
+        var pos = _menuManager.Camera.ScreenToWorldPoint(_dragItemUI.transform.position);
+        _dragItem.transform.position = pos;
     }
 
 

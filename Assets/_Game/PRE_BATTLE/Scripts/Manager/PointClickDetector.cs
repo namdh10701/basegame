@@ -6,6 +6,10 @@ using _Game.Scripts.Gameplay;
 using _Game.Scripts.Gameplay.Ship;
 using _Game.Scripts.Input;
 using Demo.Scripts.Canon;
+using _Base.Scripts.EventSystem;
+using _Game.Scripts;
+using _Game.Scripts.Gameplay.Ship;
+using Slash.Unity.DataBind.Core.Utils;
 using UnityEngine;
 
 public class PointClickDetector : MonoBehaviour
@@ -40,13 +44,14 @@ public class PointClickDetector : MonoBehaviour
         else
             return;
 
-        _worldPosition = _camera.ScreenToWorldPoint(_screenPosition);
+        _worldPosition = new Vector2(_camera.ScreenToWorldPoint(_screenPosition).x, _camera.ScreenToWorldPoint(_screenPosition).y);
         if (_isDragActive)
         {
             Drag();
         }
         else
         {
+
             RaycastHit2D hit = Physics2D.Raycast(_worldPosition, Vector2.zero);
             HashSet<string> tagsToCheck = new HashSet<string> { "DragObject", "WeaponItem", "Gun", "BulletsMenu" };
 
@@ -116,6 +121,16 @@ public class PointClickDetector : MonoBehaviour
         {
             Destroy(_bulletsMenu.gameObject);
         }
+        var bulletItem = _gameObjectSlected.GetComponent<BulletItem>();
+        Debug.Log("HandleBulletsMenu: " + bulletItem.GetId());
+        ShipStats stats = (ShipStats)Ship.Instance.Stats;
+        if (stats.ManaPoint.Value > 30)
+        {
+            stats.ManaPoint.SetValue(stats.ManaPoint.Value - 30);
+            GlobalEvent<string, int>.Send("RELOAD", gunGOName, bulletItem.GetId());
+        }
+        Debug.Log(gunGOName + " NAME 1");
+        Ship.Instance.DetroyBulletsMenu();
     }
 
     void HandleDragObject()
@@ -131,10 +146,15 @@ public class PointClickDetector : MonoBehaviour
         weaponItem.GetCellSelectFromWeaponItem(weaponItem.GetItemMenuData());
     }
 
+    string gunGOName;
+
     void HandleGun()
     {
         selectedCannon = _gameObjectSlected.GetComponent<ItemClickDetector>().Item.GetComponent<Cannon>();
         CreateBulletsMenu();
+        gunGOName = _gameObjectSlected.name;
+        Debug.Log(gunGOName + " NAME");
+        Ship.Instance.CreateBulletsMenu();
     }
 
     BulletsMenu _bulletsMenu;

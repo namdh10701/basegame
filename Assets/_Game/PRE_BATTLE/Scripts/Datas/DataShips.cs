@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "DataShips", menuName = "Scriptable Objects/Data Ships", order = 1)]
-
 public class DataShips : ScriptableObject
 {
     public List<ShipConfig> ships;
@@ -17,7 +16,6 @@ public class ShipConfig
     public Cell cell;
     public List<GridData> grids;
     public List<WeaponItemData> weaponItemDatas = new List<WeaponItemData>();
-
 }
 
 
@@ -43,5 +41,5 @@ public enum TypeShip
     None,
     Normal,
     Skin1,
-    Skin2
+    Skin2 HEAD
 }

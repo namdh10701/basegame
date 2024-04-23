@@ -29,7 +29,7 @@ public class DragItemUI : MonoBehaviour
         if (!_isDragging)
             return;
         var mousePosition = Input.mousePosition;
-        var screenPosition = new Vector2(mousePosition.x, mousePosition.y);
+        var screenPosition = mousePosition;
         DragHandler(screenPosition);
     }
 
@@ -42,9 +42,9 @@ public class DragItemUI : MonoBehaviour
     public void DragHandler(Vector2 posMouse)
     {
         _icon.enabled = true;
-
+        var pos = new Vector2(posMouse.x, posMouse.y + 100);
         Vector2 position;
-        RectTransformUtility.ScreenPointToLocalPointInRectangle((RectTransform)_canvas.transform, posMouse, _canvas.worldCamera, out position);
+        RectTransformUtility.ScreenPointToLocalPointInRectangle((RectTransform)_canvas.transform, pos, _canvas.worldCamera, out position);
         transform.position = _canvas.transform.TransformPoint(position);
     }
 }
