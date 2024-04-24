@@ -11,7 +11,6 @@ namespace _Base.Scripts.RPG.Behaviours.AttackTarget
         void SetData(Entity shooter, Transform shootPosition, Entity projectilePrefab, FindTargetStrategy findTargetStrategy, Vector3 targetPosition);
         void DoAttack();
     }
-
     [Serializable]
     public abstract class AttackStrategy : MonoBehaviour, IAttackStrategy
     {

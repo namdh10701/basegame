@@ -49,7 +49,7 @@ public class WeaponItem : Entity
             cell.SetItemType(itemType);
             cell.EnableCell(false);
             _cells.Add(cell);
-            _gridID = cell.GetComponentInParent<Grid>().ID;
+            _gridID = cell.GetComponentInParent<_Game.Scripts.Grid>().ID;
         }
         else if (collider2D.gameObject.tag == "OutSize")
         {

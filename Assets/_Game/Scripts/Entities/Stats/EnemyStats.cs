@@ -27,6 +27,9 @@ namespace _Game.Scripts
 
         public Stat AttackAccuracy { get; set; } = new();
 
+        [field: SerializeField]
+        public Stat ActionSequenceInterval { get; set; } = new();
+
         public IFighterStats.AttackTypes AttackType { get; set; } = IFighterStats.AttackTypes.UNIT;
 
         // [SerializeField]

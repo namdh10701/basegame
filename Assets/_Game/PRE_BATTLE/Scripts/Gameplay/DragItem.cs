@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using _Game.Scripts;
 using ExitGames.Client.Photon.StructWrapping;
 using UnityEngine;
 
@@ -32,7 +33,7 @@ public class DragItem : MonoBehaviour
             var cell = collider2D.gameObject.GetComponent<Cell>();
             cell.SetItemType(_itemMenuData.itemType);
 
-            var grid = collider2D.gameObject.GetComponentInParent<Grid>();
+            var grid = collider2D.gameObject.GetComponentInParent<_Game.Scripts.Grid>();
             _gridID = grid.ID;
 
             if (!_cells.Any(c => c.Id == cell.Id))

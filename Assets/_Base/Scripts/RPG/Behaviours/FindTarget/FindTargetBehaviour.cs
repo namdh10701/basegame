@@ -70,25 +70,6 @@ namespace _Base.Scripts.RPG.Behaviours.FindTarget
             Targets.Remove(target);
         }
 
-        // private void OnTriggerEnter2D(Collider2D collision)
-        // {
-        //     if (!Strategy.TryGetTargetEntity(collision.gameObject, out var target))
-        //     {
-        //         return;
-        //     }
-        //
-        //     Targets.Add(target);
-        // }
-
-        // private void OnTriggerExit2D(Collider2D collision)
-        // {
-        //     if (!Strategy.TryGetTargetEntity(collision.gameObject, out var target))
-        //     {
-        //         return;
-        //     }
-        //     Targets.Remove(target);
-        // }
-
         void Update()
         {
             MostTargets = Strategy.FindTheMostTargets(Targets);

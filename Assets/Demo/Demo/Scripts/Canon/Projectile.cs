@@ -1,4 +1,5 @@
 using _Base.Scripts.RPG.Effects;
+using _Game.Scripts;
 using Demo.ScriptableObjects.Scripts;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,7 +17,7 @@ namespace Demo.Scripts.Canon
         private void Start()
         {
             gridAttackHandler = FindAnyObjectByType<GridAttackHandler>();
-            body.velocity = transform.up * AmmoData.Speed / 25;
+            body.velocity = transform.up * 3;
         }
 
         private void Update()

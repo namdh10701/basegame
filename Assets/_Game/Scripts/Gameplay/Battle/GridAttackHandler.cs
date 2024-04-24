@@ -6,75 +6,78 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class GridAttackHandler : MonoBehaviour
+namespace _Game.Scripts
 {
-    public Fx fxPrefab;
-    public Fx fxATKPrefab;
-    public Ship ship;
-    public void ProcessTargeting(List<Cell> cells)
+    public class GridAttackHandler : MonoBehaviour
     {
-        PlayTargetingFx(cells);
-    }
-
-    public void ProcessAttack(List<Cell> cells, Effect effect)
-    {
-        List<GridItem> placements = new List<GridItem>();
-        List<Cell> emptyCells = new List<Cell>();
-        foreach (Cell cell in cells.ToArray())
+        public Fx fxPrefab;
+        public Fx fxATKPrefab;
+        public Ship ship;
+        public void ProcessTargeting(List<Cell> cells)
         {
-            if (cell.GridItem != null)
+            PlayTargetingFx(cells);
+        }
+
+        public void ProcessAttack(List<Cell> cells, Effect effect)
+        {
+            List<GridItem> placements = new List<GridItem>();
+            List<Cell> emptyCells = new List<Cell>();
+            foreach (Cell cell in cells.ToArray())
             {
-                if (!placements.Contains(cell.GridItem))
+                if (cell.GridItem != null)
                 {
-                    placements.Add(cell.GridItem);
+                    if (!placements.Contains(cell.GridItem))
+                    {
+                        placements.Add(cell.GridItem);
+                    }
+                }
+                else
+                {
+                    emptyCells.Add(cell);
                 }
             }
-            else
+
+            ApplyEffect(placements, effect);
+            ApplyEffectEmptyCells(emptyCells, effect);
+            PlayFx(emptyCells);
+        }
+
+        public void ApplyEffectEmptyCells(List<Cell> cells, Effect effect)
+        {
+            foreach (Cell cell in cells)
             {
-                emptyCells.Add(cell);
+                ship.EffectHandler.Apply(effect);
             }
         }
 
-        ApplyEffect(placements, effect);
-        ApplyEffectEmptyCells(emptyCells, effect);
-        PlayFx(emptyCells);
-    }
-
-    public void ApplyEffectEmptyCells(List<Cell> cells, Effect effect)
-    {
-        foreach (Cell cell in cells)
+        public void ApplyEffect(List<GridItem> placements, Effect effect)
         {
-            ship.EffectHandler.Apply(effect);
+            foreach (GridItem placement in placements)
+            {
+                placement.EffectHandler.Apply(effect);
+            }
         }
-    }
-
-    public void ApplyEffect(List<GridItem> placements, Effect effect)
-    {
-        foreach (GridItem placement in placements)
+        public void ApplyEffect(GridItem placement, Effect effect)
         {
             placement.EffectHandler.Apply(effect);
         }
-    }
-    public void ApplyEffect(GridItem placement, Effect effect)
-    {
-        placement.EffectHandler.Apply(effect);
-    }
 
-    public void PlayFx(List<Cell> cells)
-    {
-        foreach (Cell cell in cells)
+        public void PlayFx(List<Cell> cells)
         {
-            Fx go = Instantiate(fxATKPrefab, null);
-            go.transform.position = cell.transform.position;
+            foreach (Cell cell in cells)
+            {
+                Fx go = Instantiate(fxATKPrefab, null);
+                go.transform.position = cell.transform.position;
+            }
         }
-    }
 
-    public void PlayTargetingFx(List<Cell> cells)
-    {
-        foreach (Cell cell in cells)
+        public void PlayTargetingFx(List<Cell> cells)
         {
-            Fx go = Instantiate(fxPrefab, null);
-            go.transform.position = cell.transform.position;
+            foreach (Cell cell in cells)
+            {
+                Fx go = Instantiate(fxPrefab, null);
+                go.transform.position = cell.transform.position;
+            }
         }
     }
 }

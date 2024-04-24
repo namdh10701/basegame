@@ -2,6 +2,9 @@ using System;
 using _Base.Scripts.RPG.Attributes;
 using _Base.Scripts.RPG.Behaviours.AttackTarget;
 using _Base.Scripts.RPG.Stats;
+using _Base.Scripts.RPGCommon.Entities;
+using _Game.Scripts;
+using _Game.Scripts.Entities;
 using UnityEngine;
 
 namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
@@ -19,7 +22,7 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
 
         private void Start()
         {
-
+            Ammo = ((CannonStats)((AttackTargetBehaviour.entity as Cannon).Stats)).Ammo;
         }
     }
 }

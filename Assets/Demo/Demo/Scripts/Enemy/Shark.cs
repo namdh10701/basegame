@@ -38,7 +38,7 @@ namespace Demo.Scripts.Enemy
         public override void DoTarget()
         {
             targetCells.Clear();
-            targetCells = gridPicker.PickCells(transform, PickType.ClosetCell, cellPattern, 2, out centerCell);
+            targetCells = gridPicker.PickCells(transform, CellPickType.ClosetCell, cellPattern, 2, out centerCell);
             gridAttackHandler.PlayTargetingFx(targetCells);
         }
 

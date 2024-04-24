@@ -10,7 +10,6 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
                     return;
                 Ammo.StatValue.BaseValue--;
             }
-
             AttackTargetBehaviour.Attack();
         }
 

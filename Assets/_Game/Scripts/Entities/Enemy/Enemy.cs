@@ -5,18 +5,26 @@ using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.RPG.Entities;
 using _Base.Scripts.RPGCommon.Entities;
 using _Game.Scripts.Attributes;
+using _Game.Scripts.Battle;
+using _Game.Scripts.Gameplay.Ship;
+using MBT;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 namespace _Game.Scripts
 {
-    public class Enemy : Entity, IShooter
+    public abstract class Enemy : Entity, IShooter
     {
         [SerializeField]
-        private EnemyStats _stats;
+        protected EnemyStats _stats;
 
         [SerializeField]
         private EnemyStatsTemplate _statsTemplate;
+
+        [SerializeField]
+        protected Blackboard _blackboard;
+
+
         public override Stats Stats => _stats;
 
         public HealthPoint HealthPoint { get; set; }
@@ -24,17 +32,18 @@ namespace _Game.Scripts
         public AttackStrategy AttackStrategy { get; set; }
         public List<Effect> BulletEffects { get; set; }
 
-        private void Start()
+        [SerializeField] EnemyAttackBehaviour EnemyAttackBehaviour;
+
+        protected virtual void Start()
         {
-            // _stats = Instantiate(_statsTemplate).Data;
-            // var eff = gameObject.AddComponent<DecreaseHealthEffect>();
-            // eff.Amount = _stats.AttackDamage.Value;
-            // BulletEffects.Add(eff);
-            //
-            // _stats.AttackDamage.OnValueChanged += stat =>
-            // {
-            //     eff.Amount = stat.Value;
-            // };
+            Ship ship = FindAnyObjectByType<Ship>();
+            _blackboard.GetVariable<ShipVariable>("Ship").Value = ship;
+            _blackboard.GetVariable<FloatVariable>("ActionSequenceInterval").Value = _stats.ActionSequenceInterval.Value;
+        }
+
+        public void DoAttack()
+        {
+            EnemyAttackBehaviour.DoAttack();
         }
     }
 }

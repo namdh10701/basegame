@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using _Base.Scripts.RPG.Stats;
 using UnityEngine;
 
-namespace _Game.Scripts.Gameplay
+namespace _Game.Scripts.Battle
 {
     public class EntityManager : MonoBehaviour
     {

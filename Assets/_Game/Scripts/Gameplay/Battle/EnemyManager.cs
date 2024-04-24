@@ -1,12 +1,13 @@
 
+using _Game.Scripts.Battle;
 using UnityEngine;
 
-namespace _Game.Scripts.Gameplay
+namespace _Game.Scripts.Battle
 {
     public class EnemyManager : MonoBehaviour
     {
         [SerializeField] EntityManager entityManager;
-        [SerializeField] EnemySpawnArea spawnArea;
+        [SerializeField] Area spawnArea;
         [SerializeField] Demo.Scripts.Enemy.Enemy melleEnemy;
         [SerializeField] Demo.Scripts.Enemy.Enemy rangedEnemy;
         bool IsActive;

@@ -1,3 +1,4 @@
+using _Game.Scripts.Battle;
 using Demo.Scripts.Canon;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,11 +12,11 @@ namespace Demo.Scripts.Enemy
         [SerializeField] Transform shootPos;
         bool isMoved = false;
         Coroutine moveCoroutine;
-        EnemySpawnArea moveArea;
+        Area moveArea;
         protected override void Start()
         {
             base.Start();
-            moveArea = GameObject.FindGameObjectWithTag("MoveArea").GetComponent<EnemySpawnArea>();
+            moveArea = GameObject.FindGameObjectWithTag("MoveArea").GetComponent<Area>();
         }
         public override bool IsAbleToAttack
         {
@@ -69,7 +70,7 @@ namespace Demo.Scripts.Enemy
 
         public override void DoTarget()
         {
-            targetCells = gridPicker.PickCells(transform, PickType.RandomCell, cellPattern, 2, out centerCell);
+            targetCells = gridPicker.PickCells(transform, CellPickType.RandomCell, cellPattern, 2, out centerCell);
             gridAttackHandler.PlayTargetingFx(targetCells);
         }
     }
