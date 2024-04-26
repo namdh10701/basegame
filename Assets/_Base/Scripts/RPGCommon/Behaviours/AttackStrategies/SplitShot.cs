@@ -1,4 +1,3 @@
-using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.Utils.Extensions;
 using UnityEngine;
 

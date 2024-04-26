@@ -1,9 +1,7 @@
 using System;
 using _Base.Scripts.RPG.Behaviours.AttackTarget;
 using _Base.Scripts.RPG.Behaviours.FindTarget;
-using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.RPG.Entities;
-using _Base.Scripts.RPG.Stats;
 using _Base.Scripts.RPGCommon.Entities;
 using UnityEngine;
 using Object = UnityEngine.Object;

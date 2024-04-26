@@ -1,6 +1,4 @@
-using System;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class DragItemUI : MonoBehaviour
@@ -9,7 +7,7 @@ public class DragItemUI : MonoBehaviour
     private ItemMenuData _itemMenuData;
     private Canvas _canvas;
     private bool _isDragging;
-    public void Setup(ItemMenuData itemMenuData, Canvas canvas)
+     public void Setup(ItemMenuData itemMenuData, Canvas canvas)
     {
         _icon.sprite = itemMenuData.sprite;
         // _icon.SetNativeSize();
@@ -33,7 +31,7 @@ public class DragItemUI : MonoBehaviour
         DragHandler(screenPosition);
     }
 
-    private void Drop()
+    private void Drop() 
     {
         _isDragging = false;
         _icon.enabled = false;
