@@ -11,7 +11,6 @@ public class MenuSetupConfig : ScriptableObject
     public List<ItemMenuData> itemSkinShipDatas = new List<ItemMenuData>();
 }
 
-
 [Serializable]
 public class ItemMenuData
 {
