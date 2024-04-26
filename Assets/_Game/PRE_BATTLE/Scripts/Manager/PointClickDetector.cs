@@ -40,7 +40,7 @@ public class PointClickDetector : MonoBehaviour
         else
             return;
 
-        _worldPosition = _camera.ScreenToWorldPoint(_screenPosition);
+        _worldPosition = new Vector2(_camera.ScreenToWorldPoint(_screenPosition).x, _camera.ScreenToWorldPoint(_screenPosition).y);
         if (_isDragActive)
         {
             Drag();

@@ -9,7 +9,7 @@ public abstract class MenuManager : MonoBehaviour
 {
     public Camera Camera;
     public abstract void EnableScrollRect(bool enable);
-    public abstract void CreateDragItemUI(ItemMenuData itemMenuData, Vector3 position);
+    public abstract DragItemUI CreateDragItemUI(ItemMenuData itemMenuData, Vector3 position);
 }
 
 public class MenuPreBattle : MenuManager
@@ -32,7 +32,6 @@ public class MenuPreBattle : MenuManager
     {
         ResetData();
         Initialize();
-        // Application.quitting += QuitGame;
         _scrollRect.verticalNormalizedPosition = 1;
     }
 
@@ -110,7 +109,7 @@ public class MenuPreBattle : MenuManager
         _scrollRect.enabled = enable;
     }
 
-    public override void CreateDragItemUI(ItemMenuData itemMenuData, Vector3 position)
+    public override DragItemUI CreateDragItemUI(ItemMenuData itemMenuData, Vector3 position)
     {
         if (_dragItemUI == null)
         {
@@ -119,7 +118,7 @@ public class MenuPreBattle : MenuManager
 
         }
         _dragItemUI.Setup(itemMenuData, _canvas);
-
+        return _dragItemUI;
     }
 
     public void EnableDragItem(ItemMenuData itemMenuData, bool enable)
