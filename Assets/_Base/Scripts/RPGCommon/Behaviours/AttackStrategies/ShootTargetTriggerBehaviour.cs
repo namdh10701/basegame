@@ -15,14 +15,14 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
 
         public FireRate fireRate;
 
-        public RangedStat Ammo;
+        public Cannon Cannon;
 
         public abstract void Pull();
         public abstract void Release();
 
         private void Start()
         {
-            Ammo = ((CannonStats)((AttackTargetBehaviour.entity as Cannon).Stats)).Ammo;
+            
         }
     }
 }

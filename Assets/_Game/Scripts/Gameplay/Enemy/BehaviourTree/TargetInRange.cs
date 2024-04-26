@@ -33,10 +33,8 @@ namespace _Game.Scripts.Battle
         {
             Debug.Log(obj.name);
 
-            Debug.Log(shipReference.Value.gameObject);
             if (obj == shipReference.Value.gameObject)
             {
-                Debug.Log("HERE");
                 isMet = true;
             }
         }

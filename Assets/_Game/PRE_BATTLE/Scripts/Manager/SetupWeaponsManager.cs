@@ -96,6 +96,7 @@ namespace _Game.Scripts
                     for (int j = 0; j < grid.cols; j++)
                     {
                         var go = Instantiate(shipConfig.cell, cellTransform);
+                       
                         go.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
                         var cell = go.GetComponent<Cell>();
                         var size = cell.GetBounds();

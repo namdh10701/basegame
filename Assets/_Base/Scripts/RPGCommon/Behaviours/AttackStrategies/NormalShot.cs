@@ -41,6 +41,7 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
         protected virtual Projectile SpawnProjectile(Quaternion shootDirection)
         {
             var projectileEntity = Object.Instantiate(projectilePrefab, shootPosition.position, shootDirection, null);
+            Debug.Log(projectileEntity.transform.position);
             var projectile = projectileEntity.GetComponent<Projectile>();
 
             if (projectile == null)
@@ -56,7 +57,7 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
             // projectile.OutgoingEffects.Add(new DecreaseHealthEffect(100));
             // projectile.OutgoingEffects.Add(new DrainHealthEffect(50, 1, 3));
             
-            projectile.moveSpeed.BaseValue = 100;
+            //projectile.moveSpeed.BaseValue = 100;
 
 
             // var fighterStats = fighter.FighterStats;

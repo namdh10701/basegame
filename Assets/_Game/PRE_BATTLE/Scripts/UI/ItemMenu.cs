@@ -18,7 +18,7 @@ public class ItemMenu : MonoBehaviour
         if (itemMenuData.isSelected)
             _backGroup.color = Color.grey;
 
-
+        _icon.color = itemMenuData.color;
         _icon.SetNativeSize();
         _pointClickDetectorUI.GetComponentMemuManager();
     }

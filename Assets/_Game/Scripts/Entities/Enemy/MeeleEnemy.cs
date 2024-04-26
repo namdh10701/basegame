@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace _Game.Scripts
 {
-    public class MeeleEnemy : Enemy
+    public class MelleEnemy : Enemy
     {
 
     }

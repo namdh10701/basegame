@@ -9,6 +9,7 @@ namespace _Game.Scripts.Gameplay
 {
     public class ShipSetup : MonoBehaviour
     {
+        public GameObject[] prefabs;
         public List<Grid> Grids = new List<Grid>();
         public List<Cell> AllCells
         {
@@ -142,18 +143,29 @@ namespace _Game.Scripts.Gameplay
                             bool isInstantiated = _weaponItems.Any(item => item.GetWeaponItemData() == weaponItemData);
                             if (!isInstantiated)
                             {
-                                var itemWeapon = Instantiate(_prefabWeaponItem, grid.transform);
-                                itemWeapon.transform.localPosition = weaponItemData.previousPosition;
-                                itemWeapon.transform.gameObject.tag = weaponItemData.itemMenuData.itemType.ToString();
-                                itemWeapon.Setup(weaponItemData);
-                                _weaponItems.Add(itemWeapon);
-                                //Get bullets item data
-                                if (weaponItemData.itemMenuData.itemType == ItemType.Bullet)
+                                Vector3 pos = (Vector3)weaponItemData.previousPosition + new Vector3(0, 0, -1f);
+                                //_weaponItems.Add(itemWeapon);
+                                if (weaponItemData.itemMenuData.itemType != ItemType.Gun)
                                 {
-                                    _bulletItemData.Add(weaponItemData);
+                                    var itemWeapon1 = Instantiate(_prefabWeaponItem, grid.transform);
+                                    itemWeapon1.transform.localPosition = pos;
+                                    itemWeapon1.transform.gameObject.tag = weaponItemData.itemMenuData.itemType.ToString();
+                                    itemWeapon1.Setup(weaponItemData);
+                                    _weaponItems.Add(itemWeapon1);
+                                    //Get bullets item data
+                                    if (weaponItemData.itemMenuData.itemType == ItemType.Bullet)
+                                    {
+                                        itemWeapon1.Setup(weaponItemData);
+                                        _bulletItemData.Add(weaponItemData);
+                                    }
+                                }
+                                else
+                                {
+                                    var itemWeapon = Instantiate(prefabs[weaponItemData.itemMenuData.id - 1], grid.transform);
+                                    itemWeapon.transform.localPosition = pos;
+                                    itemWeapon.transform.gameObject.tag = weaponItemData.itemMenuData.itemType.ToString();
                                 }
 
-                                SpawnItems(weaponItemData);
                             }
 
                         }
@@ -161,6 +173,7 @@ namespace _Game.Scripts.Gameplay
                 }
             }
         }
+
         string GridItemshipPlacementPrefabsDirectory = "Prefabs/Cannons/Cannon_NormalShot";
         void SpawnItems(WeaponItemData weaponItemData)
         {

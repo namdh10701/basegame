@@ -5,22 +5,23 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class WeaponItem : Entity
+public class WeaponItem : MonoBehaviour
 {
-    [SerializeField] SpriteRenderer _spriteRenderer;
+    [SerializeField] public SpriteRenderer _spriteRenderer;
     private BoxCollider2D _collider;
     private WeaponItemData _weaponItemData;
     private List<Cell> _cells = new List<Cell>();
     private string _gridID;
     private bool _isDesTroy;
 
-    public override Stats Stats => throw new System.NotImplementedException();
 
     public void Setup(WeaponItemData weaponItemData)
     {
         _weaponItemData = weaponItemData;
         _spriteRenderer.sprite = weaponItemData.itemMenuData.sprite;
         _collider = this.GetComponent<BoxCollider2D>();
+        _spriteRenderer.color = weaponItemData.itemMenuData.color;
+        Debug.Log(_spriteRenderer.color);
         SetSizeItemDrag(weaponItemData.itemMenuData.sizeCollision);
     }
 

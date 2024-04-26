@@ -1,8 +1,10 @@
 using System;
 using _Base.Scripts.RPG.Behaviours.AimTarget;
 using _Base.Scripts.RPG.Entities;
+using _Base.Scripts.RPG.Stats;
 using _Base.Scripts.RPGCommon.Behaviours.AttackStrategies;
 using _Base.Scripts.RPGCommon.Entities;
+using _Game.Scripts;
 using _Game.Scripts.Entities;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -35,6 +37,14 @@ namespace _Base.Scripts.RPG.Behaviours.AttackTarget
                 return;
             }
 
+            if (entity != null)
+            {
+                RangedStat Ammo = ((CannonStats)entity.Stats).Ammo;
+
+                if (Ammo.Value <= Ammo.MinValue)
+                    return;
+                Ammo.StatValue.BaseValue--;
+            }
             // DoAttack();
 
             attackStrategy.SetData(entity, shootPosition, projectilePrefab, aimTargetBehaviour.FollowTargetBehaviour.FindTargetBehaviour.Strategy, aimTargetBehaviour.LockedPosition);

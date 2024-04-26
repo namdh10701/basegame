@@ -25,7 +25,7 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
                 var shootDirection = mostLeftDirection.Rotate(idx * angle);
                 var projectile = SpawnProjectile(shootDirection);
                 // var projectile = Instantiate(projectilePrefab, shootPosition.position, shootDirection, null);
-                projectile.moveSpeed.BaseValue = 100;
+                // projectile.moveSpeed.BaseValue = 100;
             }
         }
     }

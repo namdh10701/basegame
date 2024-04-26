@@ -17,6 +17,7 @@ public class ItemMenuData
     public int id;
     public int numbCell;
     public Sprite sprite;
+    public Color color;
     public Vector2 sizeCollision;
     public ItemType itemType;
     public bool isSelected;

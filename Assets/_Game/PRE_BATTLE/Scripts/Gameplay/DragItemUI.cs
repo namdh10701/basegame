@@ -11,6 +11,7 @@ public class DragItemUI : MonoBehaviour
     {
         _icon.sprite = itemMenuData.sprite;
         // _icon.SetNativeSize();
+        _icon.color = itemMenuData.color;
         _itemMenuData = itemMenuData;
         _canvas = canvas;
         _isDragging = true;
