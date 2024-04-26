@@ -23,13 +23,7 @@ public class MenuBattleManager : MenuManager
     void Awake()
     {
         Initialize();
-        Application.quitting += QuitGame;
         _scrollRect.verticalNormalizedPosition = 1;
-    }
-
-    private void QuitGame()
-    {
-        // ResetData();
     }
 
     private void Initialize()

@@ -27,10 +27,11 @@ namespace _Game.Scripts
         public TypeShip _curentSkin = TypeShip.Normal;
         public ShipConfig _curentShip;
 
-        public void Start()
+        public void Awake()
         {
+            ResetData();
             Initialize();
-            Application.quitting += QuitGame;
+            // Application.quitting += QuitGame;
         }
 
         private void QuitGame()

@@ -30,8 +30,9 @@ public class MenuPreBattle : MenuManager
     private DragItemUI _dragItemUI;
     void Awake()
     {
+        ResetData();
         Initialize();
-        Application.quitting += QuitGame;
+        // Application.quitting += QuitGame;
         _scrollRect.verticalNormalizedPosition = 1;
     }
 
