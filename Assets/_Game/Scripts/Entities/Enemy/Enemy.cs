@@ -37,6 +37,8 @@ namespace _Game.Scripts
         protected virtual void Start()
         {
             Ship ship = FindAnyObjectByType<Ship>();
+            if (_blackboard == null)
+                return;
             _blackboard.GetVariable<ShipVariable>("Ship").Value = ship;
             _blackboard.GetVariable<FloatVariable>("ActionSequenceInterval").Value = _stats.ActionSequenceInterval.Value;
         }
