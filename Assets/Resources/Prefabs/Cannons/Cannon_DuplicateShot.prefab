@@ -318,9 +318,10 @@ GameObject:
   - component: {fileID: 94858937819000496}
   - component: {fileID: -717564830529616064}
   - component: {fileID: 1570808234364923535}
-  - component: {fileID: 7000612455268449874}
+  - component: {fileID: -7205997211370206759}
+  - component: {fileID: 5421440126603764151}
   m_Layer: 0
-  m_Name: Cannon_DoubleShot
+  m_Name: Cannon_DuplicateShot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -336,7 +337,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -280, y: -589, z: 0}
-  m_LocalScale: {x: 153.64046, y: 153.64046, z: 153.64046}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 319121703950278571}
@@ -399,9 +400,19 @@ MonoBehaviour:
     <AttackRange>k__BackingField:
       statModifiers: []
       _baseValue: 0
+    <Ammo>k__BackingField:
+      _value:
+        statModifiers: []
+        _baseValue: 10
+      _minValue:
+        statModifiers: []
+        _baseValue: 0
+      _maxValue:
+        statModifiers: []
+        _baseValue: 10
   _statsTemplate: {fileID: 11400000, guid: 14077db5de1824e3abe122b6685a11ce, type: 2}
   _cannonReloader: {fileID: 1570808234364923535}
-  <AttackStrategy>k__BackingField: {fileID: 7000612455268449874}
+  <AttackStrategy>k__BackingField: {fileID: -7205997211370206759}
   <AttackTargetBehaviour>k__BackingField: {fileID: 0}
   <BulletEffects>k__BackingField: []
 --- !u!114 &-717564830529616064
@@ -432,7 +443,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cannon: {fileID: 94858937819000496}
   AttackTargetBehaviour: {fileID: 8192189898026933683}
---- !u!114 &7000612455268449874
+--- !u!114 &-7205997211370206759
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -441,11 +452,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 2506795332634619781}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ed444165b5b43b0801413ed5c0a1352, type: 3}
+  m_Script: {fileID: 11500000, guid: 4d59bfa6dd7c2164d8f5506415d17d93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   angle: 15
   amount: 3
+--- !u!210 &5421440126603764151
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2506795332634619781}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 100
+  m_SortAtRoot: 0
 --- !u!1 &2738015328258581795
 GameObject:
   m_ObjectHideFlags: 0
@@ -1303,16 +1326,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AttackTargetBehaviour: {fileID: 8192189898026933683}
   fireRate: {fileID: 0}
-  Ammo:
-    _value:
-      statModifiers: []
-      _baseValue: 0
-    _minValue:
-      statModifiers: []
-      _baseValue: 0
-    _maxValue:
-      statModifiers: []
-      _baseValue: 0
+  Cannon: {fileID: 0}
 --- !u!114 &8192189898026933683
 MonoBehaviour:
   m_ObjectHideFlags: 0

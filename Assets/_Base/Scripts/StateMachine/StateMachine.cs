@@ -134,7 +134,6 @@ namespace _Base.Scripts.StateMachine
 
                         SetCurrentState(nextState);
 
-                        Debug.Log($"Enter " + nextState);
                         CurrentState.EnableLinks();
                     }
                 }

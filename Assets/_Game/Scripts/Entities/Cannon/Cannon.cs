@@ -27,6 +27,7 @@ namespace _Game.Scripts.Entities
             }
         }
 
+
         [ContextMenu("Save stats")]
         void SaveStats()
         {

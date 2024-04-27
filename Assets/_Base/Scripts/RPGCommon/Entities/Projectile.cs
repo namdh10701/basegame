@@ -1,10 +1,6 @@
-using _Base.Scripts.RPG.Attributes;
 using _Base.Scripts.RPG.Behaviours.FindTarget;
-using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.RPG.Entities;
 using _Base.Scripts.RPG.Stats;
-using _Base.Scripts.Utils.Extensions;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace _Base.Scripts.RPGCommon.Entities

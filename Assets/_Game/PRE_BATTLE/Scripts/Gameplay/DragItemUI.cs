@@ -40,7 +40,6 @@ public class DragItemUI : MonoBehaviour
 
     public void DragHandler(Vector2 posMouse)
     {
-        Debug.Log("dsfdsf");
         _icon.enabled = true;
         var pos = new Vector2(posMouse.x, posMouse.y + 100);
         Vector2 position;
