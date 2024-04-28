@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
+using _Game.Scripts;
 using _Game.Scripts.Entities;
 using _Game.Scripts.GameContext;
-using _Game.Scripts.Gameplay;
-using _Game.Scripts.Gameplay.Ship;
 using _Game.Scripts.Input;
 using Demo.Scripts.Canon;
 using UnityEngine;
@@ -121,7 +120,7 @@ public class PointClickDetector : MonoBehaviour
     void HandleDragObject()
     {
         var dragItem = _gameObjectSlected.GetComponent<DragItem>();
-        dragItem.GetCellSelectFromDragItem(dragItem.GetItemMenuData());
+        //dragItem.GetCellSelectFromDragItem(dragItem.GetItemMenuData());
         Destroy(_gameObjectSlected);
     }
 
@@ -147,7 +146,7 @@ public class PointClickDetector : MonoBehaviour
         if (_bulletsMenu == null)
         {
             _bulletsMenu = Instantiate(_prefabBulletsMenu, this.transform);
-            _bulletsMenu.Setup(ShipSetup._bulletItemData);
+            //_bulletsMenu.Setup(ShipSetup._bulletItemData);
         }
     }
 

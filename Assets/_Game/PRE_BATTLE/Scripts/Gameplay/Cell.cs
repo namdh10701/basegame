@@ -3,10 +3,9 @@ using _Game.Scripts;
 using _Game.Scripts.Entities;
 using Demo.Scripts.Data;
 using UnityEngine;
-
-namespace _Game.Scripts
-{
-    public class Cell : MonoBehaviour
+using Grid = _Game.Scripts.Grid;
+[System.Serializable]
+public class Cell : MonoBehaviour
     {
         [SerializeField] private SpriteRenderer _spriteRenderer;
         private Vector2 _position;
@@ -92,4 +91,3 @@ namespace _Game.Scripts
 
 
     }
-}

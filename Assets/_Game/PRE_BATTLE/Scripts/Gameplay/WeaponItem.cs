@@ -50,7 +50,7 @@ public class WeaponItem : MonoBehaviour
             cell.SetItemType(itemType);
             cell.EnableCell(false);
             _cells.Add(cell);
-            _gridID = cell.GetComponentInParent<_Game.Scripts.Grid>().ID;
+            _gridID = cell.GetComponentInParent<_Game.Scripts.Grid>().Id.ToString();
         }
         else if (collider2D.gameObject.tag == "OutSize")
         {

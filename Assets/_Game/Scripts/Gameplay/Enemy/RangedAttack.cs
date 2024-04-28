@@ -8,13 +8,14 @@ namespace _Game.Scripts.Battle
     public class RangedAttack : EnemyAttackBehaviour
     {
         [SerializeField] Transform shootPos;
-        [SerializeField] Demo.Scripts.Canon.Projectile projectilePrefab;
+        [SerializeField] Demo.Scripts.Projectile projectilePrefab;
         public override void DoAttack()
         {
-            Demo.Scripts.Canon.Projectile projectile = Instantiate(projectilePrefab);
+            SelectCells();
+            Demo.Scripts.Projectile projectile = Instantiate(projectilePrefab);
             projectile.transform.position = shootPos.position;
             projectile.transform.up = (centerCell.transform.position - shootPos.position).normalized;
-            
+
         }
     }
 }

@@ -1,9 +1,6 @@
 using _Base.Scripts.RPG.Effects;
 using _Game.Scripts.Entities;
-using _Game.Scripts.Gameplay.Ship;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace _Game.Scripts
@@ -12,7 +9,7 @@ namespace _Game.Scripts
     {
         public Fx fxPrefab;
         public Fx fxATKPrefab;
-        public Ship ship;
+        public _Game.Scripts.Gameplay.Ship.Ship ship;
         public void ProcessTargeting(List<Cell> cells)
         {
             PlayTargetingFx(cells);
