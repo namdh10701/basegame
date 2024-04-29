@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class MenuBattleManager : MenuManager
 {
-    [Header("Config Data")]
+    /*[Header("Config Data")]
     [SerializeField] DataShips _shipConfig;
 
     [Header("Prefab DragItemUI")]
@@ -36,7 +36,7 @@ public class MenuBattleManager : MenuManager
                 {
                     case ItemType.Bullet:
                         var item = Instantiate(_prefabItemMenu, _content);
-                        item.Setup(weaponItemData.itemMenuData);
+                        //item.Setup(weaponItemData.itemMenuData);
                         _itemMenus.Add(item);
                         break;
                 }
@@ -58,9 +58,9 @@ public class MenuBattleManager : MenuManager
                 item.EnableItemMenu(enable);
             }
         }
-    }
+    }*/
 
-    public override DragItemUI CreateDragItemUI(ItemMenuData itemMenuData, Vector3 position)
+   /* public override DragItemUI CreateDragItemUI(ItemMenuData itemMenuData, Vector3 position)
     {
         if (_dragItemUI == null)
         {
@@ -70,5 +70,5 @@ public class MenuBattleManager : MenuManager
         }
         _dragItemUI.Setup(itemMenuData, _canvas);
         return _dragItemUI;
-    }
+    }*/
 }

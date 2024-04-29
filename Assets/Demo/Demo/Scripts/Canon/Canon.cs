@@ -6,8 +6,6 @@ namespace Demo.Scripts.Canon
 {
     public class Canon : MonoBehaviour
     {
-        [SerializeField] public CanonData CanonData;
-        [SerializeField] private CanonShoot gunShoot;
         [SerializeField] private RotateBrain rotateBrain;
         [SerializeField] private SightBrain sightBrain;
         [SerializeField] private CooldownBrain cooldownBrain;
@@ -25,7 +23,6 @@ namespace Demo.Scripts.Canon
             outOfBulletSequence.SetAutoKill(false);
             outOfBulletSequence.SetLoops(-1);
             outOfBulletSequence.Pause();
-            cooldownBrain.SetCooldownTime(1 / CanonData.AttackSpeed);
         }
         public enum State
         {
@@ -93,7 +90,6 @@ namespace Demo.Scripts.Canon
                         if (cbm.CurrentBullet > 0)
                         {
                             cbm.OnShoot();
-                            gunShoot.Shoot(sightBrain.CurrentTarget.transform);
                             cooldownBrain.StartCooldown();
                         }
                         else

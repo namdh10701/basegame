@@ -4,13 +4,13 @@ using Demo.ScriptableObjects.Scripts;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Demo.Scripts.Canon
+namespace Demo.Scripts
 {
     public class Projectile : MonoBehaviour
     {
         [SerializeField] Rigidbody2D body;
         [SerializeField] public AmmoData AmmoData;
-        [SerializeField] public List<Cell> targetCells;
+        [SerializeField] public List<_Game.Scripts.Cell> targetCells;
         [SerializeField] public Cell centerCell;
         bool isDestroyed;
         [SerializeField] GridAttackHandler gridAttackHandler;
@@ -24,12 +24,12 @@ namespace Demo.Scripts.Canon
         {
             if (!isDestroyed)
             {
-                if (centerCell.GetComponent<BoxCollider2D>().bounds.Contains(transform.position))
+               /* if (centerCell.GetComponent<BoxCollider2D>().bounds.Contains(transform.position))
                 {
                     gridAttackHandler.ProcessAttack(targetCells, new DecreaseHealthEffect(1));
                     isDestroyed = true;
                     Destroy(gameObject);
-                }
+                }*/
 
             }
         }
