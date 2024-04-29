@@ -2672,7 +2672,6 @@ MonoBehaviour:
   _statsTemplate: {fileID: 0}
   _blackboard: {fileID: 0}
   EnemyAttackBehaviour: {fileID: 0}
-  RangedAttack: {fileID: 0}
 --- !u!114 &369272116
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4032,6 +4031,7 @@ MonoBehaviour:
   entity: {fileID: 0}
   shootPosition: {fileID: 312633634}
   projectilePrefab: {fileID: 9038214777133773486, guid: 5ca95de0050294232be82d462f376a92, type: 3}
+  spineAnimation: {fileID: 0}
 --- !u!114 &580552932
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5088,6 +5088,7 @@ MonoBehaviour:
   entity: {fileID: 0}
   shootPosition: {fileID: 491665530}
   projectilePrefab: {fileID: 9038214777133773486, guid: 5ca95de0050294232be82d462f376a92, type: 3}
+  spineAnimation: {fileID: 0}
 --- !u!114 &663036056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6452,17 +6453,6 @@ Transform:
   - {fileID: 1401326171}
   m_Father: {fileID: 1450818416}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &857773880 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7351886557276893208, guid: 6670290e9fb52194e9c796642faa1904, type: 3}
-  m_PrefabInstance: {fileID: 1481747740}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b296f66e694a42d2af2ee4a01ec0a872, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &868184281
 GameObject:
   m_ObjectHideFlags: 0
@@ -7843,7 +7833,6 @@ MonoBehaviour:
   _statsTemplate: {fileID: 0}
   _blackboard: {fileID: 0}
   EnemyAttackBehaviour: {fileID: 0}
-  RangedAttack: {fileID: 0}
 --- !u!114 &1146554272
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9919,6 +9908,7 @@ MonoBehaviour:
   entity: {fileID: 0}
   shootPosition: {fileID: 975122659}
   projectilePrefab: {fileID: 9038214777133773486, guid: 5ca95de0050294232be82d462f376a92, type: 3}
+  spineAnimation: {fileID: 0}
 --- !u!114 &1401326173
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10043,7 +10033,6 @@ MonoBehaviour:
   _statsTemplate: {fileID: 0}
   _blackboard: {fileID: 0}
   EnemyAttackBehaviour: {fileID: 0}
-  RangedAttack: {fileID: 0}
 --- !u!1 &1442607973
 GameObject:
   m_ObjectHideFlags: 0
@@ -10312,7 +10301,6 @@ MonoBehaviour:
   _statsTemplate: {fileID: 0}
   _blackboard: {fileID: 0}
   EnemyAttackBehaviour: {fileID: 0}
-  RangedAttack: {fileID: 0}
 --- !u!114 &1450818418
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10625,14 +10613,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 94858937819000496, guid: 6670290e9fb52194e9c796642faa1904, type: 3}
-      propertyPath: <AttackStrategy>k__BackingField
-      value: 
-      objectReference: {fileID: 857773880}
-    - target: {fileID: 575761695595097317, guid: 6670290e9fb52194e9c796642faa1904, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2506795332634619781, guid: 6670290e9fb52194e9c796642faa1904, type: 3}
       propertyPath: m_Name
       value: Cannon_BouncingShot
@@ -11694,6 +11674,7 @@ MonoBehaviour:
   entity: {fileID: 0}
   shootPosition: {fileID: 698863054}
   projectilePrefab: {fileID: 9038214777133773486, guid: 5ca95de0050294232be82d462f376a92, type: 3}
+  spineAnimation: {fileID: 0}
 --- !u!114 &1619572782
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16413,6 +16394,7 @@ MonoBehaviour:
   entity: {fileID: 9193296739441679677}
   shootPosition: {fileID: 7228328046656059462}
   projectilePrefab: {fileID: 9038214777133773486, guid: 5ca95de0050294232be82d462f376a92, type: 3}
+  spineAnimation: {fileID: 0}
 --- !u!224 &3581347377379300037
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17756,6 +17738,9 @@ MonoBehaviour:
   EffectHandler: {fileID: 6781585972579222134}
   EntityCollisionDetector: {fileID: 6039019038822092119}
   OutgoingEffects: []
+  cells: []
+  Def: {fileID: 0}
+  behaviour: {fileID: 0}
   _stats:
     <HealthPoint>k__BackingField:
       _value:

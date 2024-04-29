@@ -41,15 +41,14 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
         protected virtual Projectile SpawnProjectile(Quaternion shootDirection, Transform ShootPosition = null)
         {
             var projectileEntity = Object.Instantiate(projectilePrefab, ShootPosition.position, shootDirection, null);
+           
             var projectile = projectileEntity.GetComponent<Projectile>();
-
+       
             if (projectile == null)
             {
                 throw new Exception("Can not find projectile component in prefab");
             }
-
             projectile.findTargetStrategy = findTargetStrategy;
-
             // var dec = new GameObject().AddComponent<DecreaseHealthPointEffect>();
             // dec.Amount = 100;
             // projectile.AddCarryingEffect<DecreaseHealthPointEffect>().Amount = 100;

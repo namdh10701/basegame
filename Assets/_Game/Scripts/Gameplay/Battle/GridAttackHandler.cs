@@ -7,8 +7,8 @@ namespace _Game.Scripts
 {
     public class GridAttackHandler : MonoBehaviour
     {
-        public Fx fxPrefab;
-        public Fx fxATKPrefab;
+        /*public Fx fxPrefab;
+        public Fx fxATKPrefab;*/
         public _Game.Scripts.Gameplay.Ship.Ship ship;
         public void ProcessTargeting(List<Cell> cells)
         {
@@ -63,8 +63,8 @@ namespace _Game.Scripts
         {
             foreach (Cell cell in cells)
             {
-                Fx go = Instantiate(fxATKPrefab, null);
-                go.transform.position = cell.transform.position;
+                //Fx go = Instantiate(fxATKPrefab, null);
+                //go.transform.position = cell.transform.position;
             }
         }
 
@@ -72,8 +72,8 @@ namespace _Game.Scripts
         {
             foreach (Cell cell in cells)
             {
-                Fx go = Instantiate(fxPrefab, null);
-                go.transform.position = cell.transform.position;
+                //Fx go = Instantiate(fxPrefab, null);
+                //go.transform.position = cell.transform.position;
             }
         }
     }

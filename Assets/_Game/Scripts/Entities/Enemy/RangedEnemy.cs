@@ -9,8 +9,13 @@ namespace _Game.Scripts
         protected override void Start()
         {
             base.Start();
-            Area moveArea = GameObject.Find("MoveArea").GetComponent<Area>();
-            _blackboard.GetVariable<AreaVariable>("MoveArea").Value = moveArea;
+            GameObject moveArea = GameObject.Find("MoveArea");
+            if (moveArea != null)
+            {
+                Area area = moveArea.GetComponent<Area>();
+                _blackboard.GetVariable<AreaVariable>("MoveArea").Value = area;
+
+            }
         }
     }
 }

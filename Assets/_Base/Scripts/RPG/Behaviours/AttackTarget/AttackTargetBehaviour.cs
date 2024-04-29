@@ -50,6 +50,7 @@ namespace _Base.Scripts.RPG.Behaviours.AttackTarget
             // DoAttack();
             //spineAnimation.PlayAnim("Attack", false);
             attackStrategy.SetData(entity, shootPosition, projectilePrefab, aimTargetBehaviour.FollowTargetBehaviour.FindTargetBehaviour.Strategy, aimTargetBehaviour.LockedPosition);
+            Debug.Log(aimTargetBehaviour.FollowTargetBehaviour.FindTargetBehaviour.Strategy);
             attackStrategy.DoAttack();
         }
 

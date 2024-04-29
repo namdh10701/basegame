@@ -27,10 +27,6 @@ namespace _Base.Scripts.RPGCommon.Behaviours.FindTargetStrategies
         {
             go.TryGetComponent<Entity>(out var found);
             entity = found;
-            // Debug.Log("TryGetTargetEntity: " + entity.name);
-
-
-
             return found != null && targetTypeNames.Contains(found.GetType().FullName);
         }
 

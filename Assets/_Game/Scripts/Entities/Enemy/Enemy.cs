@@ -37,6 +37,10 @@ namespace _Game.Scripts
         protected virtual void Start()
         {
             Ship ship = FindAnyObjectByType<Ship>();
+            if (ship == null)
+            {
+                return;
+            }
             if (_blackboard == null)
                 return;
             _blackboard.GetVariable<ShipVariable>("Ship").Value = ship;

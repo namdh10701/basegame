@@ -1,5 +1,4 @@
 using _Base.Scripts.Database;
-using Demo.Scripts;
 using UnityEngine;
 
 namespace _Game.Scripts.Database

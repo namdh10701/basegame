@@ -11,9 +11,6 @@ namespace _Game.Scripts
         [SerializeField] Image _icon;
         [SerializeField] PointClickDetectorUI pointClickDetectorUI;
 
-        private ItemMenuData _itemMenuData;
-        private Color _oldColor;
-
         public GridItemReference GridItemReference;
         public Action<GridItemReference> onPointerDown;
         public Action<GridItemReference> onPointerUp;
@@ -38,22 +35,7 @@ namespace _Game.Scripts
                 Enable();
             }
         }
-        public ItemMenuData GetItemMenuData()
-        {
-            return _itemMenuData;
-        }
 
-        public void EnableItemMenu(bool enable)
-        {
-            if (!enable)
-                _backGroup.color = Color.grey;
-            else
-                _backGroup.color = _oldColor;
-
-
-            this.gameObject.GetComponent<PointClickDetectorUI>().enabled = enable;
-            _itemMenuData.isSelected = !enable;
-        }
         public void Disable()
         {
             _backGroup.color = Color.grey;
