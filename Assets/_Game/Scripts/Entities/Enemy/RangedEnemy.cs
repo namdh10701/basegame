@@ -1,9 +1,4 @@
-using _Base.Scripts.RPG.Behaviours.AttackTarget;
 using _Game.Scripts.Battle;
-using _Game.Scripts.Gameplay.Ship;
-using MBT;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace _Game.Scripts

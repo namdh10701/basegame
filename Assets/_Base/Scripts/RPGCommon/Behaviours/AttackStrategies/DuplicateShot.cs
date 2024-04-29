@@ -9,33 +9,41 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
     {
         public float angle = 15f;
         public int amount = 3;
+        Entity oldMainEntity;
+        Entity oldcollidedEntity;
 
-        public System.Action OnCollisionEnter;
+        public System.Action<Entity, Entity> OnCollisionEnter;
 
         public override void DoAttack()
         {
             var shootDirection = CalculateShootDirection();
-            var projectile = SpawnProjectile(shootDirection);
+            var projectile = SpawnProjectile(shootDirection, shootPosition);
 
             projectile.CollisionHandler = new DuplicateShotCollisionHandler(this);
+            OnCollisionEnter += (mainEntity, collidedEntity) => SpawnDuplicateShot(mainEntity, collidedEntity);
 
+        }
 
-            // var centerDirection = CalculateShootDirection();
+        public void SpawnDuplicateShot(Entity mainEntity, Entity collidedEntity)
+        {
+            oldMainEntity = mainEntity;
+            oldcollidedEntity = collidedEntity;
+            var centerDirection = CalculateShootDirection();
 
-            // var mostLeftAngle = amount / 2 * angle;
-            // if (amount % 2 == 0)
-            // {
-            //     mostLeftAngle -= angle / 2;
-            // }
-            // var mostLeftDirection = centerDirection.Rotate(-mostLeftAngle);
+            var mostLeftAngle = amount / 2 * angle;
+            if (amount % 2 == 0)
+            {
+                mostLeftAngle -= angle / 2;
+            }
+            var mostLeftDirection = centerDirection.Rotate(-mostLeftAngle);
 
-            // for (var idx = 0; idx < amount; idx++)
-            // {
-            //     var shootDirection = mostLeftDirection.Rotate(idx * angle);
-            //     var projectile = SpawnProjectile(shootDirection);
-            //     // var projectile = Instantiate(projectilePrefab, shootPosition.position, shootDirection, null);
-            //     projectile.moveSpeed.BaseValue = 100;
-            // }
+            for (var idx = 0; idx < amount; idx++)
+            {
+                var shootDirection = mostLeftDirection.Rotate(idx * angle);
+                var projectile = SpawnProjectile(shootDirection, collidedEntity.transform);
+                projectile.transform.localPosition = collidedEntity.transform.position;
+                projectile.CollisionHandler = new AfterDuplicateShotCollisionHandler(this);
+            }
         }
 
         class DuplicateShotCollisionHandler : DefaultCollisionHandler
@@ -50,10 +58,28 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
             public override void Process(Entity mainEntity, Entity collidedEntity)
             {
                 base.Process(mainEntity, collidedEntity);
-                Strategy.OnCollisionEnter?.Invoke();
+                Strategy.OnCollisionEnter?.Invoke(mainEntity, collidedEntity);
+                Object.Destroy(mainEntity.gameObject);
 
-                Debug.Log("[DuplicateShotCollisionHandler]" + mainEntity.gameObject.name);
-                Debug.Log("[DuplicateShotCollisionHandler]" + collidedEntity.gameObject.name);
+            }
+
+        }
+
+        class AfterDuplicateShotCollisionHandler : DefaultCollisionHandler
+        {
+            public DuplicateShot Strategy;
+
+            public AfterDuplicateShotCollisionHandler(DuplicateShot strategy)
+            {
+                Strategy = strategy;
+            }
+
+            public override void Process(Entity mainEntity, Entity collidedEntity)
+            {
+                if (Strategy.oldcollidedEntity == collidedEntity) return;
+                base.Process(mainEntity, collidedEntity);
+                Object.Destroy(mainEntity.gameObject);
+
 
             }
 

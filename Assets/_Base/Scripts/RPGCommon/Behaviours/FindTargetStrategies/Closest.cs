@@ -11,11 +11,11 @@ using UnityEngine.Serialization;
 namespace _Base.Scripts.RPGCommon.Behaviours.FindTargetStrategies
 {
     [AddComponentMenu("RPG/FindTargetStrategy/[FindTargetStrategy] Closest")]
-    public class Closest: FindTargetStrategy
+    public class Closest : FindTargetStrategy
     {
         [MonoScript(typeof(Entity))]
         public List<string> targetTypeNames;
-        
+
         public Transform closestTo;
 
         private void Awake()
@@ -27,6 +27,10 @@ namespace _Base.Scripts.RPGCommon.Behaviours.FindTargetStrategies
         {
             go.TryGetComponent<Entity>(out var found);
             entity = found;
+            // Debug.Log("TryGetTargetEntity: " + entity.name);
+
+
+
             return found != null && targetTypeNames.Contains(found.GetType().FullName);
         }
 

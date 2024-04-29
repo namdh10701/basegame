@@ -22,7 +22,6 @@ namespace _Base.Scripts.RPG.Entities
                 }
                 collidedEntity.EffectHandler.Apply(effect);
             }
-            // Destroy(gameObject);
         }
     }
 }
