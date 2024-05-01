@@ -6,6 +6,7 @@ Shader "Spine/Skeleton" {
 		[HideInInspector] _StencilRef("Stencil Reference", Float) = 1.0
 		[HideInInspector][Enum(UnityEngine.Rendering.CompareFunction)] _StencilComp("Stencil Comparison", Float) = 8 // Set to Always as default
 
+
 		// Outline properties are drawn via custom editor.
 		[HideInInspector] _OutlineWidth("Outline Width", Range(0,8)) = 3.0
 		[HideInInspector] _OutlineColor("Outline Color", Color) = (1,1,0,1)
@@ -42,7 +43,7 @@ Shader "Spine/Skeleton" {
 			#include "UnityCG.cginc"
 			#include "CGIncludes/Spine-Common.cginc"
 			sampler2D _MainTex;
-
+			float _Alpha;
 			struct VertexInput {
 				float4 vertex : POSITION;
 				float2 uv : TEXCOORD0;
@@ -69,7 +70,6 @@ Shader "Spine/Skeleton" {
 				#if defined(_STRAIGHT_ALPHA_INPUT)
 				texColor.rgb *= texColor.a;
 				#endif
-
 				return (texColor * i.vertexColor);
 			}
 			ENDCG

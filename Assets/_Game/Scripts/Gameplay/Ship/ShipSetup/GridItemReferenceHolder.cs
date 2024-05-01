@@ -27,6 +27,20 @@ namespace _Game.Scripts
             return null;
         }
 
+        public GridItem GetItemByDef(GridItemDef gridItemDef)
+        {
+            switch (gridItemDef.Type)
+            {
+                case GridItemType.Cannon:
+                    return LookForItemId(gridItemDef.Id, CannonReferences);
+                case GridItemType.Bullet:
+                    return LookForItemId(gridItemDef.Id, BulletReferences);
+                case GridItemType.Crew:
+                    return LookForItemId(gridItemDef.Id, CrewReferences);
+            }
+            return null;
+        }
+
         GridItem LookForItemId(string id, GridItemReference[] references)
         {
             foreach (var item in references)
@@ -38,5 +52,7 @@ namespace _Game.Scripts
             }
             return null;
         }
+
+
     }
 }

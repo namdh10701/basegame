@@ -1,5 +1,7 @@
 using _Base.Scripts.RPG.Behaviours.AimTarget;
 using DG.Tweening;
+using Spine;
+using Spine.Unity;
 using UnityEngine;
 
 namespace _Game.Scripts.Entities
@@ -9,11 +11,16 @@ namespace _Game.Scripts.Entities
         [SerializeField]
         private AimTargetBehaviour _aimTargetBehaviour;
 
-        [SerializeField]
-        private SpriteRenderer _spriteRenderer;
+        [SerializeField] SkeletonAnimation _skeletonAnimation;
+        [SerializeField] Skeleton skeleton;
 
         [SerializeField] private Transform _crosshair;
-        Sequence blinkSequence;
+        DG.Tweening.Sequence blinkSequence;
+
+        private void Start()
+        {
+            skeleton = _skeletonAnimation.skeleton;
+        }
         private void Update()
         {
             //_spriteRenderer.color = _aimTargetBehaviour.IsReadyToAttack ? Color.red : Color.white;
@@ -32,17 +39,28 @@ namespace _Game.Scripts.Entities
 
         public void Blink()
         {
+            Debug.Log(skeleton.GetColor());
             if (blinkSequence != null)
                 return;
             blinkSequence = DOTween.Sequence();
-            blinkSequence.Append(_spriteRenderer.DOFade(.5f, 0.25f));
+            blinkSequence.Append(DOTween.ToAlpha(() => skeleton.GetColor(), x =>
+            {
+                skeleton.SetColor(x);
+
+            }, 0.2f, 0.25f));
+            blinkSequence.Append(DOTween.ToAlpha(() => skeleton.GetColor(), x =>
+            {
+                skeleton.SetColor(x);
+            }, 1, 0.25f));
+            blinkSequence.SetLoops(-1);
+
         }
         public void StopBlink()
         {
             if (blinkSequence == null)
                 return;
             blinkSequence.Kill();
-            _spriteRenderer.color = Color.white;
+            skeleton.SetColor(Color.white);
         }
     }
 }

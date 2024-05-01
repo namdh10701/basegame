@@ -10,12 +10,6 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public abstract class MenuManager : MonoBehaviour
-{
-    public Camera Camera;
-    //public abstract void EnableScrollRect(bool enable);
-    //public abstract DragItemUI CreateDragItemUI(ItemMenuData itemMenuData, Vector3 position);
-}
 
 public class MenuPreBattle : MonoBehaviour
 {
@@ -32,94 +26,45 @@ public class MenuPreBattle : MonoBehaviour
     List<ItemMenu> _itemMenus = new List<ItemMenu>();
 
     private GridItemType _curentTab = GridItemType.Cannon;
-    private GridItem draggingItem;
-
-    List<GridItemReferenceWrapper> cannonReferences = new List<GridItemReferenceWrapper>();
-    List<GridItemReferenceWrapper> bulletReferences = new List<GridItemReferenceWrapper>();
-    List<GridItemReferenceWrapper> crewReferences = new List<GridItemReferenceWrapper>();
+    List<GridItemDef> selectedItems = new List<GridItemDef>();
+    List<GridItemDef> inavailableItems = new List<GridItemDef>();
     void Awake()
     {
-        foreach (GridItemReference gir in GridItemReferenceHolder.CannonReferences)
-        {
-            cannonReferences.Add(new GridItemReferenceWrapper(gir));
-        }
-        foreach (GridItemReference gir in GridItemReferenceHolder.BulletReferences)
-        {
-            bulletReferences.Add(new GridItemReferenceWrapper(gir));
-        }
-        foreach (GridItemReference gir in GridItemReferenceHolder.CrewReferences)
-        {
-            crewReferences.Add(new GridItemReferenceWrapper(gir));
-        }
         DragController.OnGridItemPlaced += OnGridItemPlaced;
         DragController.OnGridItemUp += OnGridItemUp;
+        foreach (GridItemData gridItemData in ShipSetup.GridItemDatas)
+        {
+            selectedItems.Add(gridItemData.Def);
+        }
         Initialize();
     }
 
-    private void OnGridItemPlaced(GridItemReference reference)
+    private void OnGridItemPlaced(GridItemDef reference)
     {
-        for (int i = 0; i < cannonReferences.Count; i++)
-        {
-            if (cannonReferences[i].gridItemReference.Equals(reference))
-            {
-                Debug.Log("POPOPOP");
-                cannonReferences[i].gridItemReference.Selected = true;
-            }
-        }
-        for (int i = 0; i < bulletReferences.Count; i++)
-        {
-            if (bulletReferences[i].gridItemReference.Equals(reference))
-            {
-                bulletReferences[i].gridItemReference.Selected = true;
-            }
-        }
-        for (int i = 0; i < crewReferences.Count; i++)
-        {
-            if (crewReferences[i].gridItemReference.Equals(reference))
-            {
-                crewReferences[i].gridItemReference.Selected = true;
-            }
-        }
         foreach (ItemMenu itemMenu in _itemMenus)
         {
-            if (itemMenu.GridItemReference.Equals(reference))
+            if (itemMenu.GridItemDef.Equals(reference))
             {
-                itemMenu.GridItemReference.Selected = true;
                 itemMenu.Disable();
             }
         }
+        if (!selectedItems.Contains(reference))
+        {
+            selectedItems.Add(reference);
+        }
     }
-    private void OnGridItemUp(GridItemReference reference)
+    private void OnGridItemUp(GridItemDef reference)
     {
-        for (int i = 0; i < cannonReferences.Count; i++)
-        {
-            if (cannonReferences[i].gridItemReference.Equals(reference))
-            {
-                Debug.Log("OPOPOP");
-                cannonReferences[i].gridItemReference.Selected = false;
-            }
-        }
-        for (int i = 0; i < bulletReferences.Count; i++)
-        {
-            if (bulletReferences[i].gridItemReference.Equals(reference))
-            {
-                bulletReferences[i].gridItemReference.Selected = false;
-            }
-        }
-        for (int i = 0; i < crewReferences.Count; i++)
-        {
-            if (crewReferences[i].gridItemReference.Equals(reference))
-            {
-                crewReferences[i].gridItemReference.Selected = false;
-            }
-        }
         foreach (ItemMenu itemMenu in _itemMenus)
         {
-            if (itemMenu.GridItemReference.Equals(reference))
+            if (itemMenu.GridItemDef.Equals(reference))
             {
-                itemMenu.GridItemReference.Selected = false;
                 itemMenu.Enable();
             }
+        }
+        if (selectedItems.Contains(reference))
+        {
+            selectedItems.Remove(reference);
         }
     }
     private void OnEnable()
@@ -143,17 +88,17 @@ public class MenuPreBattle : MonoBehaviour
         {
             RemoveItemMenus();
         }
-        List<GridItemReferenceWrapper> itemList = null;
+        GridItemReference[] itemList = null;
         switch (_curentTab)
         {
             case GridItemType.Cannon:
-                itemList = cannonReferences;
+                itemList = GridItemReferenceHolder.CannonReferences;
                 break;
             case GridItemType.Bullet:
-                itemList = bulletReferences;
+                itemList = GridItemReferenceHolder.BulletReferences;
                 break;
             case GridItemType.Crew:
-                itemList = crewReferences;
+                itemList = GridItemReferenceHolder.BulletReferences;
                 break;
         }
 
@@ -162,7 +107,7 @@ public class MenuPreBattle : MonoBehaviour
             foreach (var item in itemList)
             {
                 var temp = Instantiate(_prefabItemMenu, _content);
-                temp.Setup(item.gridItemReference, DragController.OnPointerDown, DragController.OnPointerUp, item.gridItemReference.Selected);
+                temp.Setup(item, DragController.OnPointerDown, DragController.OnPointerUp, selectedItems.Contains(item.Prefab.Def));
 
                 _itemMenus.Add(temp);
             }

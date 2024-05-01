@@ -118,7 +118,7 @@ public class PointClickDetector : MonoBehaviour
 
     void HandleDragObject()
     {
-        var dragItem = _gameObjectSlected.GetComponent<DragItem>();
+        //var dragItem = _gameObjectSlected.GetComponent<DragItem>();
         //dragItem.GetCellSelectFromDragItem(dragItem.GetItemMenuData());
         Destroy(_gameObjectSlected);
     }

@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using Spine;
 using Spine.Unity;
-public class SpineAnimation : MonoBehaviour
+using System;
+public class SpineAnimationHandler : MonoBehaviour
 {
     public SkeletonAnimation skeletonAnimation;
 
-    public void PlayAnim(string name, bool isLoop)
-    {
-        skeletonAnimation.AnimationState.SetAnimation(0, name, false);
-    }
+    [SpineAnimation] public string spineShoot;
 
+    public void PlayShootAnim(bool isLoop)
+    {
+        skeletonAnimation.AnimationState.SetAnimation(0, spineShoot, isLoop);
+    }
 }

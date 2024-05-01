@@ -425,7 +425,6 @@ GameObject:
   - component: {fileID: 1933465007915484115}
   - component: {fileID: -8815877663146824399}
   - component: {fileID: 6275412137365976721}
-  - component: {fileID: 3092495319053790519}
   m_Layer: 0
   m_Name: Bullet2
   m_TagString: Untagged
@@ -498,6 +497,7 @@ MonoBehaviour:
   cells: []
   Def: {fileID: 11400000, guid: e43dfc0a777e0e44fa91c9f369670ee3, type: 2}
   behaviour: {fileID: 6849732585692131936}
+  Projectile: {fileID: 0}
 --- !u!210 &6275412137365976721
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -510,22 +510,3 @@ SortingGroup:
   m_SortingLayer: 0
   m_SortingOrder: 150
   m_SortAtRoot: 0
---- !u!114 &3092495319053790519
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7099963840742418997}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6eada5f350c7d0c4aab461990a83b2c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spriteRenderer: {fileID: 292029460558565649}
-  GridItem: {fileID: 0}
-  GridItemReference:
-    Image: {fileID: 0}
-    Prefab: {fileID: 0}
-    Selected: 0
-  cells: []

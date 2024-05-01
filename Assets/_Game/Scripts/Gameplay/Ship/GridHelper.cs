@@ -296,8 +296,6 @@ namespace _Game.Scripts
             {
                 for (int j = 0; j < itemShape.GetLength(1); j++)
                 {
-
-                    Debug.Log(itemShape[i, j] + $" A {i} {j}");
                     if (itemShape[i, j] == 1)
                     {
                         int coveredRow = cell.Y + i;

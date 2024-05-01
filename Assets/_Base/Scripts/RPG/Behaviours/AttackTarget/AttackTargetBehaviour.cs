@@ -7,6 +7,7 @@ using _Base.Scripts.RPGCommon.Entities;
 using _Game.Scripts;
 using _Game.Scripts.Entities;
 using Spine.Unity;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -24,13 +25,20 @@ namespace _Base.Scripts.RPG.Behaviours.AttackTarget
         public Entity entity;
         public Transform shootPosition;
         public Entity projectilePrefab;
-        public SpineAnimation spineAnimation;
-
+        public SpineAnimationHandler animationHandler;
         private void Awake()
         {
             Assert.IsNotNull(aimTargetBehaviour);
             attackStrategy = (entity as IFighter).AttackStrategy;
         }
+
+
+        public void DoAttack()
+        {
+            attackStrategy.SetData(entity, shootPosition, projectilePrefab, aimTargetBehaviour.FollowTargetBehaviour.FindTargetBehaviour.Strategy, aimTargetBehaviour.LockedPosition);
+            attackStrategy.DoAttack();
+        }
+
 
         public void Attack()
         {
@@ -47,15 +55,8 @@ namespace _Base.Scripts.RPG.Behaviours.AttackTarget
                     return;
                 Ammo.StatValue.BaseValue--;
             }
-            // DoAttack();
-            //spineAnimation.PlayAnim("Attack", false);
-            attackStrategy.SetData(entity, shootPosition, projectilePrefab, aimTargetBehaviour.FollowTargetBehaviour.FindTargetBehaviour.Strategy, aimTargetBehaviour.LockedPosition);
-            Debug.Log(aimTargetBehaviour.FollowTargetBehaviour.FindTargetBehaviour.Strategy);
-            attackStrategy.DoAttack();
+            animationHandler.PlayShootAnim(false);
         }
 
-        // protected abstract void DoAttack();
-
-        private void Start() { }
     }
 }

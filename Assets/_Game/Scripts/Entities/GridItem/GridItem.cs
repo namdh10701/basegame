@@ -43,6 +43,11 @@ namespace _Game.Scripts.Entities
     };
 
         public List<Cell> cells;
+        public GridItemDef Def;
+        GridItemStats gridItemStats;
+        public int[,] Shape;
+        public Transform behaviour;
+        public override Stats Stats => gridItemStats;
         protected override void Awake()
         {
             base.Awake();
@@ -51,10 +56,6 @@ namespace _Game.Scripts.Entities
                 Shape = ShapeDic[Def.ShapeId];
             }
         }
-        public GridItemDef Def;
-        GridItemStats gridItemStats;
-        public int[,] Shape;
-        public Transform behaviour;
-        public override Stats Stats => gridItemStats;
+
     }
 }

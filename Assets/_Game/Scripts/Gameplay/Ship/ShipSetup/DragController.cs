@@ -13,23 +13,24 @@ namespace _Game.Scripts
     public class DragController : MonoBehaviour
     {
         [SerializeField] Camera _camera;
-        GridItem item;
-        DragItem dragObject;
-        Cell selectCell;
-        int[,] dragObjectShape;
+        [SerializeField] GridItemReferenceHolder gridItemReferenceHolder;
+        public Action<GridItemDef> OnGridItemPlaced;
+        public Action<GridItemDef> OnGridItemUp;
+
         public LayerMask layerMask;
         public LayerMask dragGameObjectMask;
-        GridItemReference itemRef;
 
 
-        bool IsAceppted;
-        Vector3 finalPos;
         List<Cell> cells = new List<Cell>();
 
-        public Action<GridItemReference> OnGridItemPlaced;
-        public Action<GridItemReference> OnGridItemUp;
-
         public ShipSetup ShipSetup;
+        GridItem dragObject;
+        Cell selectCell;
+        GridItemDef selectItemDef;
+        bool IsAceppted;
+        Vector3 finalPos;
+        Vector3 anchorOffset;
+
         private void Update()
         {
             if (UnityEngine.Input.GetMouseButtonDown(0))
@@ -40,11 +41,8 @@ namespace _Game.Scripts
                 {
                     if (hit.collider.TryGetComponent(out ItemClickDetector icd))
                     {
-                        dragObject = icd.Item.GetComponent<DragItem>();
-                        item = dragObject.GetComponent<GridItem>();
-                        itemRef = dragObject.GridItemReference;
-                        item.behaviour.gameObject.SetActive(false);
-                        dragObjectShape = dragObject.GetComponent<GridItem>().Shape;
+                        dragObject = icd.Item.GetComponent<GridItem>();
+                        dragObject.behaviour.gameObject.SetActive(false);
                         List<Cell> cells = dragObject.GetComponent<GridItem>().cells;
                         foreach (Cell cell in cells)
                         {
@@ -56,7 +54,7 @@ namespace _Game.Scripts
             if (UnityEngine.Input.GetMouseButtonUp(0))
             {
                 if (dragObject != null)
-                    OnPointerUp(itemRef);
+                    OnPointerUp(selectItemDef);
             }
 
             if (dragObject != null)
@@ -76,14 +74,15 @@ namespace _Game.Scripts
                                 ResetHighlightCell();
                                 selectCell.CellRenderer.ToggleHighlight(HighlightType.Normal);
                                 selectCell = cell;
-                                if (dragObjectShape != null)
+                                if (dragObject.Shape != null)
                                 {
-                                    cells = GridHelper.GetCoveredCellsIfPutShapeAtCell(item.Shape, selectCell);
-                                    Vector3 position = GridHelper.GetAveragePosition(cells);
-                                    dragObject.transform.position = position;
-                                    finalPos = position;
-                                    if (GridHelper.IsCellsCoveredShape(cells, item.Shape))
+                                    cells = GridHelper.GetCoveredCellsIfPutShapeAtCell(dragObject.Shape, selectCell);
+                                    if (GridHelper.IsCellsCoveredShape(cells, dragObject.Shape))
                                     {
+                                        Vector3 position = GridHelper.GetAveragePosition(cells);
+                                        dragObject.transform.position = position;
+                                        finalPos = position;
+
                                         if (IsCellsEmpty(cells))
                                         {
                                             IsAceppted = true;
@@ -117,12 +116,57 @@ namespace _Game.Scripts
                                         IsAceppted = false;
                                     }
                                 }
-
                             }
                         }
                         else
                         {
                             selectCell = cell;
+                            ResetHighlightCell();
+                            selectCell.CellRenderer.ToggleHighlight(HighlightType.Normal);
+                            selectCell = cell;
+                            if (dragObject.Shape != null)
+                            {
+                                cells = GridHelper.GetCoveredCellsIfPutShapeAtCell(dragObject.Shape, selectCell);
+                                if (GridHelper.IsCellsCoveredShape(cells, dragObject.Shape))
+                                {
+                                    Vector3 position = GridHelper.GetAveragePosition(cells);
+                                    dragObject.transform.position = position;
+                                    finalPos = position;
+
+                                    if (IsCellsEmpty(cells))
+                                    {
+                                        IsAceppted = true;
+                                        ToggleHighlight(cells, HighlightType.Accepted);
+                                    }
+                                    else
+                                    {
+                                        IsAceppted = false;
+                                        ToggleHighlight(cells, HighlightType.Denied);
+                                    }
+                                }
+                                else
+                                {
+                                    IsAceppted = false;
+                                    ToggleHighlight(cells, HighlightType.Denied);
+                                }
+                            }
+                            else
+                            {
+                                Vector3 position = selectCell.transform.position;
+                                dragObject.transform.position = position;
+                                finalPos = position;
+                                if (selectCell.GridItem == null)
+                                {
+                                    selectCell.CellRenderer.ToggleHighlight(HighlightType.Accepted);
+                                    IsAceppted = true;
+                                }
+                                else
+                                {
+                                    selectCell.CellRenderer.ToggleHighlight(HighlightType.Denied);
+                                    IsAceppted = false;
+                                }
+                            }
+
                         }
                     }
                     else
@@ -132,11 +176,16 @@ namespace _Game.Scripts
                 }
                 else
                 {
+                    ResetHighlightCell();
                     IsAceppted = false;
-                    mousePosition.z = 0;
-                    dragObject.transform.position = mousePosition;
                 }
 
+                if (!IsAceppted)
+                {
+                    mousePosition.z = 0;
+                    Vector3 dragPos = mousePosition - anchorOffset;
+                    dragObject.transform.position = dragPos;
+                }
             }
         }
         bool IsCellsEmpty(List<Cell> cells)
@@ -167,19 +216,17 @@ namespace _Game.Scripts
                 cell.CellRenderer.ToggleHighlight(HighlightType.Normal);
             }
         }
-        public void OnPointerDown(GridItemReference itemRef)
+        public void OnPointerDown(GridItemDef itemRef)
         {
-            this.itemRef = itemRef;
-            dragObject = Instantiate(itemRef.Prefab.GetComponent<DragItem>());
-            dragObject.GridItemReference = itemRef;
-            item = dragObject.GetComponent<GridItem>();
-            item.behaviour.gameObject.SetActive(false);
-            dragObjectShape = dragObject.GetComponent<GridItem>().Shape;
+            this.selectItemDef = itemRef;
+            dragObject = Instantiate(gridItemReferenceHolder.GetItemByDef(itemRef));
+            dragObject.behaviour.gameObject.SetActive(false);
+            anchorOffset = dragObject.transform.Find("Anchor").localPosition;
         }
 
-        public void OnPointerUp(GridItemReference itemRef)
+        public void OnPointerUp(GridItemDef itemRef)
         {
-            if (dragObjectShape == null && selectCell != null)
+            if (dragObject.Shape == null && selectCell != null)
             {
                 selectCell.CellRenderer.ToggleHighlight(HighlightType.Normal);
             }
@@ -191,7 +238,7 @@ namespace _Game.Scripts
             }
             else
             {
-                OnGridItemUp.Invoke(this.itemRef);
+                OnGridItemUp.Invoke(itemRef);
             }
 
             ResetHighlightCell();
@@ -207,10 +254,10 @@ namespace _Game.Scripts
 
             dragObject.transform.position = selectCell.transform.position;
 
-            if (dragObject != null && dragObjectShape != null)
+            if (dragObject != null && dragObject.Shape != null)
             {
-                int rows = dragObjectShape.GetLength(0);
-                int cols = dragObjectShape.GetLength(1);
+                int rows = dragObject.Shape.GetLength(0);
+                int cols = dragObject.Shape.GetLength(1);
                 int startX = selectCell.Y;
                 int startY = selectCell.X;
                 if (startX + rows <= grid.Row && startY + cols <= grid.Col)
@@ -233,11 +280,12 @@ namespace _Game.Scripts
 
         void SpawnGridItem(Vector3 position)
         {
-            GameObject gameObject = Instantiate(dragObject.gameObject);
+            GameObject gameObject = Instantiate(dragObject.gameObject, selectCell.Grid.GridItemRoot);
+            float scale = Vector3.one.x / gameObject.transform.parent.lossyScale.x;
+            gameObject.transform.localScale = new Vector3(scale, scale, scale);
             gameObject.transform.position = position;
-            gameObject.transform.parent = selectCell.Grid.GridItemRoot;
             gameObject.GetComponent<GridItem>().cells = cells;
-            if (dragObjectShape == null)
+            if (dragObject.Shape == null)
             {
                 selectCell.GridItem = gameObject.GetComponent<GridItem>();
             }
@@ -252,7 +300,7 @@ namespace _Game.Scripts
             gridItemData.GridId = selectCell.Grid.Id;
             gridItemData.position = gameObject.transform.localPosition;
             gridItemData.Def = gameObject.GetComponent<GridItem>().Def;
-            OnGridItemPlaced.Invoke(itemRef);
+            OnGridItemPlaced.Invoke(selectItemDef);
             ShipSetup.AddNewGridItem(gridItemData);
         }
     }

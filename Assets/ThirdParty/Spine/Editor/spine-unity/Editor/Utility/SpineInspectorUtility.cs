@@ -48,7 +48,7 @@ namespace Spine.Unity.Editor {
 		}
 
 		static GUIContent tempContent;
-		internal static GUIContent TempContent (string text, Texture2D image = null, string tooltip = null) {
+		public static GUIContent TempContent (string text, Texture2D image = null, string tooltip = null) {
 			if (tempContent == null) tempContent = new GUIContent();
 			tempContent.text = text;
 			tempContent.image = image;

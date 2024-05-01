@@ -11,21 +11,26 @@ namespace _Game.Scripts
         [SerializeField] Image _icon;
         [SerializeField] PointClickDetectorUI pointClickDetectorUI;
 
-        public GridItemReference GridItemReference;
-        public Action<GridItemReference> onPointerDown;
-        public Action<GridItemReference> onPointerUp;
+        public Action<GridItemDef> onPointerDown;
+        public Action<GridItemDef> onPointerUp;
+
+        public GridItemDef GridItemDef;
         private void Awake()
         {
-            pointClickDetectorUI.onPointerDown = OnPointerDown;
-            pointClickDetectorUI.onPointerUp = OnPointerUp;
+            pointClickDetectorUI.onPointerDown += OnPointerDown;
+            pointClickDetectorUI.onPointerUp += OnPointerUp;
         }
-        public void Setup(GridItemReference gridItemReference, Action<GridItemReference> onPointerDown, Action<GridItemReference> onPointerUp, bool isDisabled)
+        private void OnDestroy()
         {
-            this.GridItemReference = gridItemReference;
+            pointClickDetectorUI.onPointerDown -= OnPointerDown;
+            pointClickDetectorUI.onPointerUp -= OnPointerUp;
+        }
+        public void Setup(GridItemReference gridItemReference, Action<GridItemDef> onPointerDown, Action<GridItemDef> onPointerUp, bool isDisabled)
+        {
+            this.GridItemDef = gridItemReference.Prefab.Def;
             _icon.sprite = gridItemReference.Image;
             this.onPointerDown = onPointerDown;
             this.onPointerUp = onPointerUp;
-
             if (isDisabled)
             {
                 Disable();
@@ -34,6 +39,7 @@ namespace _Game.Scripts
             {
                 Enable();
             }
+
         }
 
         public void Disable()
@@ -49,12 +55,12 @@ namespace _Game.Scripts
 
         public void OnPointerDown()
         {
-            onPointerDown.Invoke(GridItemReference);
+            onPointerDown.Invoke(GridItemDef);
         }
 
         public void OnPointerUp()
         {
-            onPointerUp.Invoke(GridItemReference);
+            onPointerUp.Invoke(GridItemDef);
         }
     }
 }

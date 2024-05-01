@@ -30,9 +30,6 @@ namespace _Base.Scripts.RPGCommon.Entities
         private void Start()
         {
             body.velocity = transform.up * moveSpeed.Value;
-            Debug.Log("Start "+ findTargetStrategy);
-
-            
         }
 
         // private void OnTriggerEnter2D(Collider2D collision)
@@ -70,7 +67,6 @@ namespace _Base.Scripts.RPGCommon.Entities
         protected override void Awake()
         {
             base.Awake();
-            Debug.Log("Awake"); 
             SetCollisionObjectChecker(entity => findTargetStrategy.TryGetTargetEntity(entity.gameObject, out var tmp));
         }
         
