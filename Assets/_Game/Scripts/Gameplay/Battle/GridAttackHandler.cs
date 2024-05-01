@@ -1,18 +1,15 @@
 using _Base.Scripts.RPG.Effects;
 using _Game.Scripts.Entities;
-using _Game.Scripts.Gameplay.Ship;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace _Game.Scripts
 {
     public class GridAttackHandler : MonoBehaviour
     {
-        public Fx fxPrefab;
-        public Fx fxATKPrefab;
-        public Ship ship;
+        /*public Fx fxPrefab;
+        public Fx fxATKPrefab;*/
+        public _Game.Scripts.Gameplay.Ship.Ship ship;
         public void ProcessTargeting(List<Cell> cells)
         {
             PlayTargetingFx(cells);
@@ -66,8 +63,8 @@ namespace _Game.Scripts
         {
             foreach (Cell cell in cells)
             {
-                Fx go = Instantiate(fxATKPrefab, null);
-                go.transform.position = cell.transform.position;
+                //Fx go = Instantiate(fxATKPrefab, null);
+                //go.transform.position = cell.transform.position;
             }
         }
 
@@ -75,8 +72,8 @@ namespace _Game.Scripts
         {
             foreach (Cell cell in cells)
             {
-                Fx go = Instantiate(fxPrefab, null);
-                go.transform.position = cell.transform.position;
+                //Fx go = Instantiate(fxPrefab, null);
+                //go.transform.position = cell.transform.position;
             }
         }
     }

@@ -22,7 +22,8 @@ namespace Map
         private void Awake()
         {
             Instance = this;
-            mapManager = GameManager.Instance.MapManager;
+            if (GameManager.Instance != null)
+                mapManager = GameManager.Instance.MapManager;
         }
 
         public void SelectNode(MapNode mapNode)
@@ -61,7 +62,7 @@ namespace Map
                         else
                             PlayWarningThatNodeCannotBeAccessed();
                     }
-                    else if(!mapManager.CurrentMap.IsLastNodePassed)
+                    else if (!mapManager.CurrentMap.IsLastNodePassed)
                     {
                         if (mapNode.Node == currentNode)
                         {

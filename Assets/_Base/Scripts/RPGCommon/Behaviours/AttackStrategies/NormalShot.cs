@@ -10,9 +10,9 @@ using Random = UnityEngine.Random;
 namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
 {
     [AddComponentMenu("[Attack Strategy] NormalShot")]
-    public class NormalShot: AttackStrategy
+    public class NormalShot : AttackStrategy
     {
-        protected Transform shootPosition; 
+        protected Transform shootPosition;
         private Entity projectilePrefab;
         private Vector3 TargetPosition;
         private FindTargetStrategy findTargetStrategy;
@@ -23,7 +23,7 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
             {
                 throw new Exception("IShooter not found");
             }
-            
+
             this.shooter = fighter;
             this.shootPosition = shootPosition;
             this.projectilePrefab = projectilePrefab;
@@ -34,29 +34,27 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
         public override void DoAttack()
         {
             var shootDirection = CalculateShootDirection();
-            var projectile = SpawnProjectile(shootDirection);
-            
+            var projectile = SpawnProjectile(shootDirection, shootPosition);
+
         }
 
-        protected virtual Projectile SpawnProjectile(Quaternion shootDirection)
+        protected virtual Projectile SpawnProjectile(Quaternion shootDirection, Transform ShootPosition = null)
         {
-            var projectileEntity = Object.Instantiate(projectilePrefab, shootPosition.position, shootDirection, null);
-            Debug.Log(projectileEntity.transform.position);
+            var projectileEntity = Object.Instantiate(projectilePrefab, ShootPosition.position, shootDirection, null);
+           
             var projectile = projectileEntity.GetComponent<Projectile>();
-
+       
             if (projectile == null)
             {
                 throw new Exception("Can not find projectile component in prefab");
             }
-            
             projectile.findTargetStrategy = findTargetStrategy;
-            
             // var dec = new GameObject().AddComponent<DecreaseHealthPointEffect>();
             // dec.Amount = 100;
             // projectile.AddCarryingEffect<DecreaseHealthPointEffect>().Amount = 100;
             // projectile.OutgoingEffects.Add(new DecreaseHealthEffect(100));
             // projectile.OutgoingEffects.Add(new DrainHealthEffect(50, 1, 3));
-            
+
             //projectile.moveSpeed.BaseValue = 100;
 
 
@@ -70,7 +68,7 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
 
             return projectile;
         }
-        
+
         protected virtual Quaternion CalculateShootDirection()
         {
             var attackAccuracy = shooter.FighterStats.AttackAccuracy;

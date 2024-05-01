@@ -14,8 +14,10 @@ namespace _Game.Scripts.Gameplay.Ship
         {
             base.Awake();
             Instance = this;
-            ShipSetup.GetPositionGrids();
-            ShipSetup.LoadWeaponItems();
+        }
+        private void Start()
+        {
+            ShipSetup.LoadShipItems();
         }
 
         private void Update()

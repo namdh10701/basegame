@@ -6,12 +6,13 @@ using _Base.Scripts.RPGCommon.Behaviours.AttackStrategies;
 using _Base.Scripts.RPGCommon.Entities;
 using _Game.Scripts;
 using _Game.Scripts.Entities;
+using Spine.Unity;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 namespace _Base.Scripts.RPG.Behaviours.AttackTarget
 {
-    public class AttackTargetBehaviour: MonoBehaviour
+    public class AttackTargetBehaviour : MonoBehaviour
     {
         // public AttackAccuracy attackAccuracy;
         // public Transform attackTargetPosition;
@@ -23,6 +24,7 @@ namespace _Base.Scripts.RPG.Behaviours.AttackTarget
         public Entity entity;
         public Transform shootPosition;
         public Entity projectilePrefab;
+        public SpineAnimation spineAnimation;
 
         private void Awake()
         {
@@ -46,13 +48,14 @@ namespace _Base.Scripts.RPG.Behaviours.AttackTarget
                 Ammo.StatValue.BaseValue--;
             }
             // DoAttack();
-
+            //spineAnimation.PlayAnim("Attack", false);
             attackStrategy.SetData(entity, shootPosition, projectilePrefab, aimTargetBehaviour.FollowTargetBehaviour.FindTargetBehaviour.Strategy, aimTargetBehaviour.LockedPosition);
+            Debug.Log(aimTargetBehaviour.FollowTargetBehaviour.FindTargetBehaviour.Strategy);
             attackStrategy.DoAttack();
         }
 
         // protected abstract void DoAttack();
 
-        private void Start() {}
+        private void Start() { }
     }
 }

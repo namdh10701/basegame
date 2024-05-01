@@ -13,7 +13,6 @@ namespace _Game.Scripts.GameStates
         public override void Enter()
         {
             base.Enter();
-            Debug.Log("ENTER PRE BATTLE");
             if (GameManager.Instance.MapManager.CurrentMap.path.Count > 0)
             {
                 ViewManager.Instance.Show<MapView>();

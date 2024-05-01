@@ -122,7 +122,6 @@ namespace _Base.Scripts
         {
             //if (m_LastUIScene != m_NeverUnloadUIScene
             //
-            Debug.Log(m_LastUIScene.name + " UNLOADING");
             yield return UnloadUIScene(m_LastUIScene);
         }
         IEnumerator LoadUISceneAddictive(string scenePath)

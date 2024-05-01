@@ -1,15 +1,12 @@
-using _Base.Scripts.RPG.Attributes;
 using _Base.Scripts.RPG.Behaviours.FindTarget;
-using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.RPG.Entities;
 using _Base.Scripts.RPG.Stats;
-using _Base.Scripts.Utils.Extensions;
 using Unity.VisualScripting;
 using UnityEngine;
 
 namespace _Base.Scripts.RPGCommon.Entities
 {
-    public class ProjectileCollisionHandler: DefaultCollisionHandler
+    public class ProjectileCollisionHandler : DefaultCollisionHandler
     {
         public override void Process(Entity mainEntity, Entity collidedEntity)
         {
@@ -17,10 +14,10 @@ namespace _Base.Scripts.RPGCommon.Entities
             Object.Destroy(mainEntity.gameObject);
         }
     }
-    public abstract class Projectile: Entity
+    public abstract class Projectile : Entity
     {
         public Rigidbody2D body;
-        
+
         public Stat moveSpeed;
 
         public FindTargetStrategy findTargetStrategy;
@@ -29,10 +26,13 @@ namespace _Base.Scripts.RPGCommon.Entities
         {
             CollisionHandler = new ProjectileCollisionHandler();
         }
-        
+
         private void Start()
         {
             body.velocity = transform.up * moveSpeed.Value;
+            Debug.Log("Start "+ findTargetStrategy);
+
+            
         }
 
         // private void OnTriggerEnter2D(Collider2D collision)
@@ -70,7 +70,9 @@ namespace _Base.Scripts.RPGCommon.Entities
         protected override void Awake()
         {
             base.Awake();
+            Debug.Log("Awake"); 
             SetCollisionObjectChecker(entity => findTargetStrategy.TryGetTargetEntity(entity.gameObject, out var tmp));
         }
+        
     }
 }

@@ -13,14 +13,14 @@ namespace _Base.Scripts.RPG.Behaviours.FindTarget
     {
         // [field:SerializeField]
         // public Collider2D Collider2D { get; set; }
-            
-        [field:SerializeField]
-        public FindTargetStrategy Strategy { get; set; }
-        
-        [field:SerializeField]
-        public List<Entity> Targets { get; private set; } = new ();
 
-        [field: SerializeField] 
+        [field: SerializeField]
+        public FindTargetStrategy Strategy { get; set; }
+
+        [field: SerializeField]
+        public List<Entity> Targets { get; private set; } = new();
+
+        [field: SerializeField]
         public List<Entity> MostTargets { get; private set; } = new();
 
         public ObjectCollisionDetector ObjectCollisionDetector;
@@ -45,7 +45,7 @@ namespace _Base.Scripts.RPG.Behaviours.FindTarget
             {
                 return;
             }
-            
+
             if (!Strategy.TryGetTargetEntity(entity.Entity.gameObject, out var target))
             {
                 return;
@@ -62,7 +62,6 @@ namespace _Base.Scripts.RPG.Behaviours.FindTarget
             {
                 return;
             }
-            
             if (!Strategy.TryGetTargetEntity(entity.Entity.gameObject, out var target))
             {
                 return;

@@ -29,8 +29,10 @@ namespace Map
 
         private void Start()
         {
-
-            mapManager = GameManager.Instance.MapManager;
+            if (GameManager.Instance != null)
+            {
+                mapManager = GameManager.Instance.MapManager;
+            }
             ShowMap(mapManager.CurrentMap);
         }
 

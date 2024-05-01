@@ -1,8 +1,4 @@
 using _Base.Scripts.RPG.Behaviours.AttackTarget;
-using _Base.Scripts.RPG.Entities;
-using Demo.Scripts.Canon;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 namespace _Game.Scripts.Entities.CannonComponent
 {

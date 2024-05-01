@@ -12,7 +12,7 @@ namespace _Game.Scripts.Battle
         [SerializeField] protected List<Cell> targetCells;
         [SerializeField] protected Cell centerCell;
 
-        GridPicker gridPicker;
+        [SerializeField] GridPicker gridPicker;
 
         private void Awake()
         {
@@ -20,7 +20,8 @@ namespace _Game.Scripts.Battle
         }
         public void SelectCells()
         {
-            gridPicker.PickCells(transform, AttackPatternProfile, out Cell centerCell);
+            targetCells = gridPicker.PickCells(transform, AttackPatternProfile, out Cell centerCell);
+            this.centerCell = centerCell;
         }
 
         public abstract void DoAttack();

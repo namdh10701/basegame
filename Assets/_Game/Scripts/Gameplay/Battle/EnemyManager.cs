@@ -1,5 +1,6 @@
 
 using _Game.Scripts.Battle;
+using _Game.Scripts.Entities;
 using UnityEngine;
 
 namespace _Game.Scripts.Battle
@@ -8,8 +9,8 @@ namespace _Game.Scripts.Battle
     {
         [SerializeField] EntityManager entityManager;
         [SerializeField] Area spawnArea;
-        [SerializeField] Demo.Scripts.Enemy.Enemy melleEnemy;
-        [SerializeField] Demo.Scripts.Enemy.Enemy rangedEnemy;
+        [SerializeField] Enemy melleEnemy;
+        [SerializeField] Enemy rangedEnemy;
         bool IsActive;
 
         public void SpawnMelle()
