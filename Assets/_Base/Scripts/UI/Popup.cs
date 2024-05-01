@@ -9,6 +9,7 @@ namespace _Base.Scripts.UI
     public class Popup : MonoBehaviour
     {
         protected CanvasGroup _canvasGroup;
+        public bool IsDestroyOnHide;
         [SerializeField] protected Transform _contents;
         [SerializeField] protected Button closeButton;
         [SerializeField] protected Transform background;

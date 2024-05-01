@@ -14,10 +14,11 @@ namespace _Base.Scripts.UI.Managers
 
 
         Dictionary<Type, string> prefabPaths = new Dictionary<Type, string>
-    {
-        { typeof(SettingPopup), "Prefabs/UI/SettingPopup" },
-        { typeof(Popup), "Prefabs/UI/Popup" }
-    };
+        {
+            { typeof(SettingPopup), "Prefabs/UI/SettingPopup" },
+            { typeof(Popup), "Prefabs/UI/Popup" }
+        };
+
         List<Popup> popups;
         Popup currentPopup;
         Popup prevPopup;

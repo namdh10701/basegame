@@ -16,6 +16,8 @@ namespace _Base.Scripts.UI
     public abstract class View : MonoBehaviour
     {
         [SerializeField] ViewType viewType = ViewType.DOTween;
+        public bool IsDestroyOnHide;
+
         [HideInInspector] public Action onShowStart;
         [HideInInspector] public Action onShowEnd;
         [HideInInspector] public Action onHideStart;
@@ -25,6 +27,7 @@ namespace _Base.Scripts.UI
         [HideInInspector] public Vector2 originalPos;
         [HideInInspector] public CanvasGroup canvasGroup;
         [HideInInspector] public Animator animator;
+
 
         public float duration = 0;
         bool initialized;

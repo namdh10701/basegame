@@ -7,6 +7,7 @@ using UnityEngine;
 using _Base.Scripts.Shared;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using _Game.Scripts.UI;
 
 namespace _Base.Scripts.UI.Managers
 {
@@ -15,6 +16,12 @@ namespace _Base.Scripts.UI.Managers
     /// </summary>
     public class ViewManager : MonoBehaviour
     {
+        Dictionary<Type, string> prefabPaths = new Dictionary<Type, string>
+        {
+            { typeof(View), "Prefabs/UI/SettingPopup" },
+            { typeof(View), "Prefabs/UI/Popup" }
+        };
+
         private static ViewManager instance;
         public static ViewManager Instance => instance;
         List<View> views;
@@ -47,7 +54,7 @@ namespace _Base.Scripts.UI.Managers
                     return tView;
                 }
             }
-            return null;
+            return CreateView<T>();
         }
         public void Show<T>(bool keepInHistory = true) where T : View
         {
@@ -56,7 +63,7 @@ namespace _Base.Scripts.UI.Managers
                 if (view is T)
                 {
                     Show(view, keepInHistory);
-                    break;
+                    return;
                 }
             }
         }
@@ -79,10 +86,21 @@ namespace _Base.Scripts.UI.Managers
                             }
                             break;
                     }
-                    break;
+                    return;
                 }
             }
+            T createdView = CreateView<T>();
+            Show(createdView, transition, keepInHistory);
         }
+
+        T CreateView<T>() where T : View
+        {
+            T viewPrefab = Resources.Load<T>(prefabPaths[typeof(T)]);
+            T view = Instantiate(viewPrefab, transform);
+            views.Add(view);
+            return view;
+        }
+
         public void Show(View view, bool keepInHistory)
         {
             if (currentView != null)
