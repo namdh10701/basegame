@@ -9,9 +9,8 @@ using _Game.Scripts.Battle;
 using _Game.Scripts.Gameplay.Ship;
 using MBT;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace _Game.Scripts
+namespace _Game.Scripts.Entities
 {
     public abstract class Enemy : Entity, IShooter
     {
