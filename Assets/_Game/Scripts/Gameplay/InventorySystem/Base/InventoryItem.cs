@@ -1,4 +1,5 @@
-﻿using _Base.Scripts.SaveSystem;
+﻿using _Base.Scripts.Database;
+using _Base.Scripts.SaveSystem;
 using System.IO;
 using UnityEngine;
 
@@ -12,6 +13,17 @@ namespace _Game.Scripts.InventorySystem
     {
         public InventoryId Id;
         public string Name;
+        public InventoryItem()
+        {
+            Id = new InventoryId();
+            Name = "";
+        }
+        public InventoryItem(InventoryId id, string name)
+        {
+            Id = id;
+            Name = name;
+        }
+
         public virtual void Read(BinaryReader br)
         {
             Id.Read(br);
@@ -27,6 +39,17 @@ namespace _Game.Scripts.InventorySystem
     {
         public int Id;
         public InventoryType InventoryType;
+
+        public InventoryId()
+        {
+
+        }
+        public InventoryId(int id, InventoryType inventoryType)
+        {
+            Id = id;
+            InventoryType = inventoryType;
+        }
+
         public void Read(BinaryReader br)
         {
             Id = br.ReadInt32();

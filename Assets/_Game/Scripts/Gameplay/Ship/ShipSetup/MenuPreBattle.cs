@@ -55,6 +55,7 @@ public class MenuPreBattle : MonoBehaviour
     }
     private void OnGridItemUp(GridItemDef reference)
     {
+
         foreach (ItemMenu itemMenu in _itemMenus)
         {
             if (itemMenu.GridItemDef.Equals(reference))

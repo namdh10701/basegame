@@ -1,10 +1,6 @@
 using _Base.Scripts.UI;
 using _Game.Scripts.SkillSystem;
-using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
-using YamlDotNet.Serialization;
-using YamlDotNet.Serialization.NamingConventions;
 
 namespace _Game.Scripts.UI
 {

@@ -1,4 +1,5 @@
 using _Base.Scripts.Database;
+using _Base.Scripts.UI.Managers;
 using _Game.Scripts.InventorySystem;
 using BehaviorDesigner.Runtime.Tasks.Unity.UnityInput;
 using UnityEngine;
@@ -10,14 +11,32 @@ namespace _Game.Scripts.UI
     {
         [SerializeField] private GearType allowGearType;
         [SerializeField] private Image GearImage;
-        private Gear gearDefinition;
+        [SerializeField] private Button btn;
+        private Gear gear;
 
         public GearType AllowGearType => allowGearType;
-        public void SetData(Gear gearDefinition)
+        public void SetData(Gear gear)
         {
-            this.gearDefinition = gearDefinition;
-            Sprite image = ResourceLoader.LoadGearImage(gearDefinition.Id.Id, gearDefinition.GearType);
+            this.gear = gear;
+            Sprite image = ResourceLoader.LoadGearImage(gear);
             GearImage.sprite = image;
+        }
+
+        private void OnEnable()
+        {
+            btn.onClick.AddListener(OnClick);
+        }
+
+        private void OnDisable()
+        {
+            btn.onClick.RemoveListener(OnClick);
+        }
+
+        void OnClick()
+        {
+            GearInfoPopup gearInfoPopup = PopupManager.Instance.GetPopup<GearInfoPopup>();
+            gearInfoPopup.SetData(gear);
+            PopupManager.Instance.ShowPopup(gearInfoPopup);
         }
     }
 }

@@ -17,13 +17,13 @@ namespace _Game.Scripts.InventorySystem
         }
         public void Upgrade(IUpgradeable mainItem, IUpgradeable[] consumeItems)
         {
-            InventoryCollection<InventoryItem> ownedItems = SaveSystem.GameSave.OwnedInventoryItems;
+            /*InventoryCollection<Gear> ownedGer = SaveSystem.GameSave.OwnedInventoryItems;
             mainItem.Rarity++;
             foreach (IUpgradeable upgradeable in consumeItems)
             {
                 ownedItems.Items.Remove(upgradeable as InventoryItem);
             }
-            SaveSystem.SaveGame();
+            SaveSystem.SaveGame();*/
         }
     }
 }

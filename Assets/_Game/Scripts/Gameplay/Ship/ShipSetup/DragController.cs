@@ -42,6 +42,7 @@ namespace _Game.Scripts
                     if (hit.collider.TryGetComponent(out ItemClickDetector icd))
                     {
                         dragObject = icd.Item.GetComponent<GridItem>();
+                        selectItemDef = dragObject.Def;
                         dragObject.behaviour.gameObject.SetActive(false);
                         List<Cell> cells = dragObject.GetComponent<GridItem>().cells;
                         foreach (Cell cell in cells)
@@ -238,6 +239,7 @@ namespace _Game.Scripts
             }
             else
             {
+                Debug.Log("UP " + itemRef.Id);
                 OnGridItemUp.Invoke(itemRef);
             }
 

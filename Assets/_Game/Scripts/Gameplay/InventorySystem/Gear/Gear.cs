@@ -11,6 +11,17 @@ namespace _Game.Scripts.InventorySystem
         public GearType GearType;
         public Rarity Rarity { get; set; }
         public List<Stat> stats;
+        public Gear() : base()
+        {
+
+        }
+        public Gear(InventoryId id, string name, GearType gearType, Rarity rarity, List<Stat> stats) : base(id, name)
+        {
+
+            GearType = gearType;
+            Rarity = rarity;
+            this.stats = stats;
+        }
 
         public override void Read(BinaryReader br)
         {

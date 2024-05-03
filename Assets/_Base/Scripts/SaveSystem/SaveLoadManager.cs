@@ -10,8 +10,8 @@ namespace _Base.Scripts.SaveSystem
         private static readonly string SaveVersion = "1";
         public static void WriteSave(SaveData saveData)
         {
-            try
-            {
+            /*try
+            {*/
                 RecreateSaveDirectory();
 
                 using (var fs = new FileStream(GenerateSaveFileName(saveData.SaveId), FileMode.Create, FileAccess.Write))
@@ -19,23 +19,23 @@ namespace _Base.Scripts.SaveSystem
                     using (var bw = new BinaryWriter(fs))
                     {
                         bw.Write(SaveVersion);
-                        bw.Write(saveData.SaveId);
+                        saveData.Write(bw);
                     }
                 }
-            }
+            /*}
             catch (Exception ex)
             {
                 Debug.LogError("Error while writing save slot " + saveData.SaveId + "! " + ex.Message +
                                "Inner: " + (ex.InnerException != null ? ex.InnerException.Message : "None"));
-            }
+            }*/
         }
         public static SaveData ReadSave(int slotId)
         {
             if (!File.Exists(GenerateSaveFileName(slotId)))
                 return null;
 
-            try
-            {
+           /* try
+            {*/
                 RecreateSaveDirectory();
 
                 SaveData saveData = new SaveData();
@@ -45,18 +45,18 @@ namespace _Base.Scripts.SaveSystem
                     {
                         if (br.ReadString() != SaveVersion)
                             throw new NotImplementedException("Updater for old save files is not implemented!");
-                        saveData.SaveId = br.ReadInt32();
+                        saveData.Read(br);
                         return saveData;
                     }
                 }
-            }
+            /*}
             catch (Exception ex)
             {
                 Debug.LogError("Error while reading save slot " + slotId + "! " + ex.Message +
                                "Inner: " + (ex.InnerException != null ? ex.InnerException.Message : "None"));
                 DeleteSave(slotId);
                 return null;
-            }
+            }*/
         }
         private static void RecreateSaveDirectory()
         {
@@ -67,7 +67,7 @@ namespace _Base.Scripts.SaveSystem
         private static string GenerateSaveFileName(int slotId)
         {
             return Application.persistentDataPath + Path.AltDirectorySeparatorChar + "Saves" +
-                   Path.AltDirectorySeparatorChar + "Temp2" + slotId + ".temp2";
+                   Path.AltDirectorySeparatorChar + "SOF" + slotId + ".sof";
         }
         public static void DeleteSave(int slotId)
         {

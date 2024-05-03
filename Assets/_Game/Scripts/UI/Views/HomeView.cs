@@ -59,7 +59,7 @@ namespace _Game.Scripts.UI
         }
         void OnInventoryClick()
         {
-            LinkEvents.Click_PreBattle.Raise();
+            ViewManager.Instance.Show<InventoryView>();
         }
         void OnFarmClick()
         {

@@ -1,10 +1,7 @@
 ﻿using _Base.Scripts.SaveSystem;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using UnityEngine;
 
 namespace _Game.Scripts.InventorySystem
 {
@@ -22,8 +19,16 @@ namespace _Game.Scripts.InventorySystem
             int itemCount = br.ReadInt32();
             for (int i = 0; i < itemCount; i++)
             {
-                T item = new T();
+                T item = new();
                 item.Read(br);
+               /* if (item.Id.InventoryType == InventoryType.Gear)
+                {
+                    Gear gear = new Gear();
+                    gear.Id = item.Id;
+                    gear.Name = item.Name;
+                    gear.Read(br);
+                    item = gear;
+                }*/
                 Items.Add(item);
             }
         }

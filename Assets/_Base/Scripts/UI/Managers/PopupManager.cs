@@ -39,6 +39,11 @@ namespace _Base.Scripts.UI.Managers
             popup.Hide();
         }
 
+        public void HideImmediately(Popup popup)
+        {
+            popup.HideImmediately();
+        }
+
         public void ShowPopup<T>() where T : Popup
         {
             foreach (var view in popups)
