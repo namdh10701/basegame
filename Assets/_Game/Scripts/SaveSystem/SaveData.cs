@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using _Base.Scripts.SaveSystem;
-
+using _Game.Scripts.InventorySystem;
 namespace _Game.Scripts.SaveLoad
 {
     public class SaveData : IBinarySaveData
@@ -9,19 +9,19 @@ namespace _Game.Scripts.SaveLoad
         public static SaveData DefaultSave = GetDefaultSave();
 
         public int SaveId;
-        public GearCombination EquipingGears;
-        public List<GearDefinition> OwnedGears;
+        public InventoryCollection<Gear> EquipingGears;
+        public InventoryCollection<InventoryItem> OwnedInventoryItems;
         public CharacterDefinition SelectedCharacter;
 
         public SaveData(int saveId)
         {
             SaveId = saveId;
         }
-        public SaveData(int saveId, GearCombination gearCombination, List<GearDefinition> ownedGears)
+        public SaveData(int saveId, InventoryCollection<Gear> gearCombination, InventoryCollection<InventoryItem> ownedInventoryItems)
         {
             SaveId = saveId;
             EquipingGears = gearCombination;
-            OwnedGears = ownedGears;
+            OwnedInventoryItems = ownedInventoryItems;
         }
         public SaveData()
         {
@@ -40,7 +40,6 @@ namespace _Game.Scripts.SaveLoad
         public static SaveData GetDefaultSave()
         {
             SaveData defaultSave = new SaveData(1);
-            List<GearDefinition> ownedGears = new List<GearDefinition>();
             return defaultSave;
         }
     }

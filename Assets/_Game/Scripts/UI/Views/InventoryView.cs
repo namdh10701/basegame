@@ -23,7 +23,7 @@ namespace _Game.Scripts.UI
 
         void InitGearSlots()
         {
-            GearCombination equipingGears = SaveSystem.GameSave.EquipingGears;
+            /*GearCombination equipingGears = SaveSystem.GameSave.EquipingGears;
             foreach (GearDefinition gearDefinition in equipingGears.GearDefinitions)
             {
                 GearKey gearKey = gearDefinition.Id;
@@ -40,7 +40,7 @@ namespace _Game.Scripts.UI
                         necklace.SetData(gearDefinition);
                         break;
                 }
-            }
+            }*/
         }
 
         void InitCharacterFrame()
@@ -51,7 +51,7 @@ namespace _Game.Scripts.UI
 
         void InitGearCollection()
         {
-            List<GearDefinition> ownedGears = SaveSystem.GameSave.OwnedGears;
+            /*List<GearDefinition> ownedGears = SaveSystem.GameSave.OwnedGears;
             if (ownedGears.Count == 0)
             {
                 noGearMsg.SetActive(true);
@@ -66,7 +66,7 @@ namespace _Game.Scripts.UI
                 {
 
                 }
-            }
+            }*/
         }
     }
 }

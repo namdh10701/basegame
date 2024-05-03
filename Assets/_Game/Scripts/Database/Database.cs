@@ -9,7 +9,6 @@ namespace _Game.Scripts.Database
         string hatGearPath = "Database/Gears/Hat/Images";
         string swordGearPath = "Database/Gears/Sword/Images";
         string necklaceGearPath = "Database/Gears/Necklace/Images";
-        public static Database<GearIdentifier> Gear = new();
         public void Load()
         {
             /*Sprite[] hatSprites = Resources.LoadAll<Sprite>(hatGearPath);
