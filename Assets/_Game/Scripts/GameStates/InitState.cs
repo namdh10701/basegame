@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using _Base.Scripts.StateMachine;
 using _Game.Scripts.Bootstrap;
+using _Game.Scripts.SaveLoad;
 using UnityEngine;
 
 namespace _Game.Scripts.GameStates
@@ -16,7 +17,7 @@ namespace _Game.Scripts.GameStates
         {
             Game.Instance.AssetLoader.Load();
             Game.Instance.GameManager.LoadDatabase();
-            Game.Instance.GameManager.LoadSave();
+            SaveSystem.LoadSave();
             yield return null;
         }
 

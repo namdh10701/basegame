@@ -3,6 +3,7 @@ using System.Linq;
 using _Base.Scripts.UI;
 using _Base.Scripts.UI.Managers;
 using _Game.Scripts.Managers;
+using _Game.Scripts.UI;
 using DG.Tweening;
 using UnityEngine;
 

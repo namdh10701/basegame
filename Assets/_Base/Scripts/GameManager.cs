@@ -6,7 +6,5 @@ namespace _Base.Scripts
     {
         public MapManager MapManager;
         public abstract void LoadDatabase();
-        public abstract void LoadSave();
-        public abstract void SaveGame();
     }
 }

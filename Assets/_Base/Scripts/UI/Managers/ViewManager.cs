@@ -19,7 +19,7 @@ namespace _Base.Scripts.UI.Managers
         Dictionary<Type, string> prefabPaths = new Dictionary<Type, string>
         {
             { typeof(View), "Prefabs/UI/SettingPopup" },
-            { typeof(View), "Prefabs/UI/Popup" }
+           
         };
 
         private static ViewManager instance;

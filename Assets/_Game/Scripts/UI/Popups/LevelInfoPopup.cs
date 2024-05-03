@@ -4,26 +4,29 @@ using _Game.Scripts;
 using Map;
 using UnityEngine;
 using UnityEngine.UI;
-public class LevelInfoPopup : Popup
+namespace _Game.Scripts.UI
 {
-    [SerializeField] Button playBtn;
-
-    private void OnDisable()
+    public class LevelInfoPopup : Popup
     {
-        playBtn.onClick.RemoveAllListeners();
-    }
+        [SerializeField] Button playBtn;
 
-    private void OnEnable()
-    {
-        playBtn.onClick.AddListener(OnPlayClick);
-    }
+        private void OnDisable()
+        {
+            playBtn.onClick.RemoveAllListeners();
+        }
 
-    void OnPlayClick()
-    {
-        LinkEvents.Click_Play.Raise();
-    }
-    public void SetData(MapNode mapNode)
-    {
+        private void OnEnable()
+        {
+            playBtn.onClick.AddListener(OnPlayClick);
+        }
 
+        void OnPlayClick()
+        {
+            LinkEvents.Click_Play.Raise();
+        }
+        public void SetData(MapNode mapNode)
+        {
+
+        }
     }
 }

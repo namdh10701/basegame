@@ -1,6 +1,6 @@
 using System;
 using System.IO;
-using _Game.Scripts.SaveSystem;
+using _Game.Scripts.SaveLoad;
 using UnityEngine;
 
 namespace _Base.Scripts.SaveSystem
@@ -20,7 +20,6 @@ namespace _Base.Scripts.SaveSystem
                     {
                         bw.Write(SaveVersion);
                         bw.Write(saveData.SaveId);
-                        bw.Write(saveData.Coin);
                     }
                 }
             }
@@ -47,7 +46,6 @@ namespace _Base.Scripts.SaveSystem
                         if (br.ReadString() != SaveVersion)
                             throw new NotImplementedException("Updater for old save files is not implemented!");
                         saveData.SaveId = br.ReadInt32();
-                        saveData.Coin = br.ReadInt32();
                         return saveData;
                     }
                 }
