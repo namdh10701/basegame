@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using _Base.Scripts.RPG.Behaviours.AttackTarget;
 using _Base.Scripts.RPG.Effects;
+using _Base.Scripts.RPG.Entities;
 using _Base.Scripts.RPG.Stats;
 using _Base.Scripts.RPGCommon.Entities;
 using _Game.Scripts.Entities.CannonComponent;
@@ -9,7 +10,7 @@ using UnityEngine.Assertions;
 
 namespace _Game.Scripts.Entities
 {
-    public class Cannon : GridItem, IShooter
+    public class Cannon : Entity, IGridItem, IShooter
     {
         [ContextMenu("Apply stats changed")]
         void ApplyStatsChanged()
@@ -74,6 +75,9 @@ namespace _Game.Scripts.Entities
 
         [field: SerializeField]
         public List<Effect> BulletEffects { get; set; } = new();
+        public List<Cell> OccupyCells { get; set; }
+        public GridItemDef Def { get; set; }
+        public Transform Behaviour { get; set; }
 
         // public ShootTargetTriggerBehaviour ShootTargetTriggerBehaviour;
         // public AimTargetBehaviour aimTargetBehaviour;

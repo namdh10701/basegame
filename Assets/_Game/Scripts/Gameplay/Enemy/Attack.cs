@@ -9,21 +9,27 @@ namespace _Game.Scripts.Battle
     {
         [SerializeField] protected AttackPatternProfile AttackPatternProfile;
 
-        [SerializeField] protected List<Cell> targetCells;
-        [SerializeField] protected Cell centerCell;
-
         [SerializeField] GridPicker gridPicker;
+        GridAttackHandler attackHandler;
 
         private void Awake()
         {
             gridPicker = FindAnyObjectByType<GridPicker>();
+            attackHandler = FindAnyObjectByType<GridAttackHandler>();
         }
-        public void SelectCells()
+        public void SelectCells(out EnemyAttackData enemyAttackData)
         {
-            targetCells = gridPicker.PickCells(transform, AttackPatternProfile, out Cell centerCell);
-            this.centerCell = centerCell;
+            enemyAttackData = new EnemyAttackData();
+            enemyAttackData.TargetCells = gridPicker.PickCells(transform, AttackPatternProfile, out Cell centerCell);
+            enemyAttackData.CenterCell = centerCell;
+            attackHandler.PlayTargetingFx(enemyAttackData.TargetCells);
         }
-
-        public abstract void DoAttack();
+        public IEnumerator PlayAttackSequence()
+        {
+            SelectCells(out EnemyAttackData enemyAttackData);
+            yield return new WaitForSeconds(2);
+            DoAttack(enemyAttackData);
+        }
+        public abstract void DoAttack(EnemyAttackData enemyAttackData);
     }
 }

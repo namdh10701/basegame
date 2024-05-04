@@ -6,8 +6,8 @@ using UnityEngine;
 
 namespace _Game.Scripts.Entities
 {
-    public class GridItem : Entity
-    {
+    public interface IGridItem { 
+    
         public static Dictionary<int, int[,]> ShapeDic = new Dictionary<int, int[,]>()
     {
         {
@@ -42,20 +42,8 @@ namespace _Game.Scripts.Entities
         }
     };
 
-        public List<Cell> cells;
-        public GridItemDef Def;
-        GridItemStats gridItemStats;
-        public int[,] Shape;
-        public Transform behaviour;
-        public override Stats Stats => gridItemStats;
-        protected override void Awake()
-        {
-            base.Awake();
-            if (Def.ShapeId != 0)
-            {
-                Shape = ShapeDic[Def.ShapeId];
-            }
-        }
-
+        public List<Cell> OccupyCells { get; set; }
+        public GridItemDef Def { get; set; }
+        public Transform Behaviour { get; set;}
     }
 }

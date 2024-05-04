@@ -241,6 +241,7 @@ namespace _Game.Scripts
             {
                 Debug.Log("UP " + itemRef.Id);
                 OnGridItemUp.Invoke(itemRef);
+                ShipSetup.RemoveGridItem(itemRef);
             }
 
             ResetHighlightCell();
@@ -302,6 +303,7 @@ namespace _Game.Scripts
             gridItemData.GridId = selectCell.Grid.Id;
             gridItemData.position = gameObject.transform.localPosition;
             gridItemData.Def = gameObject.GetComponent<GridItem>().Def;
+            gridItemData.OccupyCells = cells;
             OnGridItemPlaced.Invoke(selectItemDef);
             ShipSetup.AddNewGridItem(gridItemData);
         }

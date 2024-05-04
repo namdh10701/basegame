@@ -12,4 +12,5 @@ public class GridItemData
     public string GridId;
     public Vector3 position;
     public GridItemDef Def;
+    public List<Cell> OccupyCells;
 }

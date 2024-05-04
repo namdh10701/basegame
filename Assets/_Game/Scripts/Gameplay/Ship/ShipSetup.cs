@@ -43,14 +43,13 @@ namespace _Game.Scripts
         {
             foreach (GridItemData gridItemData in GridItemDatas)
             {
-                Debug.Log(gridItemData.GridId + " " + gridItemData.Def.ToString());
                 Transform itemGridTransform = GetGridTransformById(gridItemData.GridId);
                 if (itemGridTransform == null)
                 {
                     Debug.Log("Ship not have grid with id " + gridItemData.GridId);
                     return;
                 }
-                SpawnItems(gridItemData, itemGridTransform);
+                SpawnItems(gridItemData, itemGridTransform.GetComponent<Grid>());
             }
         }
         Transform GetGridTransformById(string id)
@@ -65,10 +64,12 @@ namespace _Game.Scripts
             return null;
         }
 
-        void SpawnItems(GridItemData gridItemData, Transform itemGridTransform)
+        void SpawnItems(GridItemData gridItemData, Grid grid)
         {
             GridItem prefab = ItemReferenceHolder.GetItemByIdAndType(gridItemData.Def.Id, gridItemData.Def.Type);
-            GridItem gridItem = Instantiate(prefab, itemGridTransform);
+            GridItem gridItem = Instantiate(prefab, grid.GridItemRoot);
+            float scale = Vector3.one.x / gridItem.transform.parent.lossyScale.x;
+            gridItem.transform.localScale = new Vector3(scale, scale, scale);
             gridItem.transform.localPosition = gridItemData.position;
         }
 

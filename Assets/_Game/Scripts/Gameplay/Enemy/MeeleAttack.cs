@@ -13,10 +13,10 @@ namespace _Game.Scripts.Battle
         {
             GridAttackHandler = FindAnyObjectByType<GridAttackHandler>();
         }
-        public override void DoAttack()
+
+        public override void DoAttack(EnemyAttackData atkData)
         {
-            Debug.Log("MElleATK");
-            GridAttackHandler.ProcessAttack(targetCells, new DecreaseHealthEffect(2));
+            GridAttackHandler.ProcessAttack(atkData.TargetCells, new DecreaseHealthEffect(2));
         }
     }
 }
