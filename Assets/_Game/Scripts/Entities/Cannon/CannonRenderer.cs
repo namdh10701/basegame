@@ -19,7 +19,7 @@ namespace _Game.Scripts.Entities
 
         private void Start()
         {
-            skeleton = _skeletonAnimation.skeleton;
+            skeleton = _skeletonAnimation?.skeleton;
         }
         private void Update()
         {

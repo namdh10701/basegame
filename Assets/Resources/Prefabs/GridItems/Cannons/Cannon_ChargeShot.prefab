@@ -346,9 +346,7 @@ MonoBehaviour:
   EffectHandler: {fileID: 1093922780712145661}
   EntityCollisionDetector: {fileID: 2008907440976116900}
   OutgoingEffects: []
-  cells: []
-  Def: {fileID: 11400000, guid: f7ee00368f0114948b652824bdad44ed, type: 2}
-  behaviour: {fileID: 8427063930449867751}
+  def: {fileID: 11400000, guid: f7ee00368f0114948b652824bdad44ed, type: 2}
   _stats:
     <HealthPoint>k__BackingField:
       _value:
@@ -387,6 +385,7 @@ MonoBehaviour:
   <AttackStrategy>k__BackingField: {fileID: 8707462507672701434}
   <AttackTargetBehaviour>k__BackingField: {fileID: 0}
   <BulletEffects>k__BackingField: []
+  behaviour: {fileID: 8427063930449867751}
 --- !u!114 &-717564830529616064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -427,8 +426,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67c65d8f56cc6f246ae2ae6a9e9a9b1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  angleMin: 15
-  angleMax: 25
+  minAngle: 15
+  maxAngle: 25
+  minSpeedBullet: 3
+  maxSpeedBullet: 5
   amount: 3
   angles: []
 --- !u!210 &-4224020692567062829
