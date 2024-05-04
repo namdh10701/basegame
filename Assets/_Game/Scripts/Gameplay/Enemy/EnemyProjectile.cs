@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class EnemyProjectile : MonoBehaviour
 {
-    Rigidbody2D body;
+    [SerializeField] Rigidbody2D body;
     EnemyAttackData atkData;
     public float speed;
 
@@ -19,7 +19,7 @@ public class EnemyProjectile : MonoBehaviour
 
     public void Launch()
     {
-        body.velocity = new Vector2(0, speed);
+        body.velocity = speed * transform.up;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

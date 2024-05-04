@@ -7,8 +7,11 @@ using UnityEngine;
 namespace _Game.Scripts
 {
     [Serializable]
-    public class CannonStats : GridItemStats, IFighterStats
+    public class CannonStats : Stats, IAliveStats, IFighterStats
     {
+        [field: SerializeField]
+        public RangedStat HealthPoint { get; set; } = new(500, 0, 800);
+
         [field: SerializeField]
         public Stat AttackDamage { get; set; } = new("AttackDamage");
 
@@ -26,5 +29,6 @@ namespace _Game.Scripts
         public RangedStat Ammo { get; set; } = new(10, 0, 10);
 
         public IFighterStats.AttackTypes AttackType { get; set; } = IFighterStats.AttackTypes.UNIT;
+
     }
 }

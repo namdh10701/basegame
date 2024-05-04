@@ -12,7 +12,10 @@ namespace _Game.Scripts.Battle
         [SerializeField] Enemy melleEnemy;
         [SerializeField] Enemy rangedEnemy;
         bool IsActive;
-
+        private void Start()
+        {
+            InvokeRepeating("SpawnRanged", 0, 5);
+        }
         public void SpawnMelle()
         {
             entityManager.SpawnEntity(melleEnemy, spawnArea.SamplePoint(), Quaternion.identity, null);

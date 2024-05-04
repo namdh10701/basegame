@@ -360,7 +360,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _aimTargetBehaviour: {fileID: 4089692241188050585}
-  _spriteRenderer: {fileID: 172921155745622773}
+  _skeletonAnimation: {fileID: 0}
   _crosshair: {fileID: 309480142673942966}
 --- !u!114 &5667120264804020780
 MonoBehaviour:
@@ -391,9 +391,7 @@ MonoBehaviour:
   EffectHandler: {fileID: 1093922780712145661}
   EntityCollisionDetector: {fileID: 2008907440976116900}
   OutgoingEffects: []
-  cells: []
-  Def: {fileID: 11400000, guid: 2c822956dc430f641a17a069044e3bf9, type: 2}
-  behaviour: {fileID: 8427063930449867751}
+  def: {fileID: 11400000, guid: 2c822956dc430f641a17a069044e3bf9, type: 2}
   _stats:
     <HealthPoint>k__BackingField:
       _value:
@@ -1347,7 +1345,7 @@ MonoBehaviour:
   entity: {fileID: 94858937819000496}
   shootPosition: {fileID: 6845910018613200724}
   projectilePrefab: {fileID: 9038214777133773486, guid: 5ca95de0050294232be82d462f376a92, type: 3}
-  spineAnimation: {fileID: 0}
+  animationHandler: {fileID: 0}
 --- !u!1 &6107043427561523906
 GameObject:
   m_ObjectHideFlags: 0

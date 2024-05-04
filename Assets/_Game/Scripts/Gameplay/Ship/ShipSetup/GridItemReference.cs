@@ -8,7 +8,7 @@ namespace _Game.Scripts
     public struct GridItemReference
     {
         public Sprite Image;
-        public GridItem Prefab;
+        public IGridItem Prefab;
         //TODO
         public bool Selected;
         public override bool Equals(object obj)

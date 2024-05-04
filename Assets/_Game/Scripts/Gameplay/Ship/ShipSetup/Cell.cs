@@ -12,7 +12,7 @@ namespace _Game.Scripts
         public int X;
         public int Y;
         public Grid Grid;
-        public GridItem GridItem;
+        public IGridItem GridItem;
         public override string ToString()
         {
             return $"{X}, {Y}";

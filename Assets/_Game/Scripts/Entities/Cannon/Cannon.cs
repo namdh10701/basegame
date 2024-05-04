@@ -47,6 +47,8 @@ namespace _Game.Scripts.Entities
             Debug.Log("stat ok " + stat.StatValue.Value);
 
         }
+        [field: SerializeField]
+        private GridItemDef def;
 
         [SerializeField]
         private CannonStats _stats;
@@ -75,36 +77,10 @@ namespace _Game.Scripts.Entities
 
         [field: SerializeField]
         public List<Effect> BulletEffects { get; set; } = new();
+
+        public Transform behaviour;
         public List<Cell> OccupyCells { get; set; }
-        public GridItemDef Def { get; set; }
-        public Transform Behaviour { get; set; }
-
-        // public ShootTargetTriggerBehaviour ShootTargetTriggerBehaviour;
-        // public AimTargetBehaviour aimTargetBehaviour;
-
-        private void Start()
-        {
-            // _stats = Instantiate(_statsTemplate).Data;
-            // var eff = gameObject.AddComponent<DecreaseHealthEffect>();
-            // eff.Amount = _stats.AttackDamage.Value;
-            // BulletEffects.Add(eff);
-            //
-            // _stats.AttackDamage.OnValueChanged += stat =>
-            // {
-            //     eff.Amount = stat.Value;
-            // };
-        }
-        //
-        // protected void AutoAttack()
-        // {
-        //     if (!aimTargetBehaviour.IsReadyToAttack)
-        //     {
-        //         return;
-        //     }
-        //     
-        //     AttackStrategy.SetData(this, shootPosition, projectilePrefab, aimTargetBehaviour.FollowTargetBehaviour.FindTargetBehaviour.Strategy, aimTargetBehaviour.LockedPosition);
-        // }
-
-
+        public GridItemDef Def { get => def; }
+        public Transform Behaviour { get => behaviour; }
     }
 }

@@ -10,7 +10,7 @@ namespace _Game.Scripts
         public string Id;
         public GridItemType Type;
         public int ShapeId;
-
+        public string Name;
         public override string ToString()
         {
             return Id + "  A " + Type.ToString() + " A" + ShapeId;

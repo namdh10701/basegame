@@ -43,6 +43,7 @@ namespace _Game.Scripts
         {
             foreach (GridItemData gridItemData in GridItemDatas)
             {
+                Debug.Log(gridItemData.Def.Id);
                 Transform itemGridTransform = GetGridTransformById(gridItemData.GridId);
                 if (itemGridTransform == null)
                 {
@@ -66,8 +67,8 @@ namespace _Game.Scripts
 
         void SpawnItems(GridItemData gridItemData, Grid grid)
         {
-            GridItem prefab = ItemReferenceHolder.GetItemByIdAndType(gridItemData.Def.Id, gridItemData.Def.Type);
-            GridItem gridItem = Instantiate(prefab, grid.GridItemRoot);
+            GameObject prefab = ResourceLoader.LoadGridItemPrefab(gridItemData.Def);
+            GameObject gridItem = Instantiate(prefab, grid.GridItemRoot);
             float scale = Vector3.one.x / gridItem.transform.parent.lossyScale.x;
             gridItem.transform.localScale = new Vector3(scale, scale, scale);
             gridItem.transform.localPosition = gridItemData.position;
@@ -87,6 +88,7 @@ namespace _Game.Scripts
             {
                 if (gid.Def == gridItemDef)
                 {
+                    Debug.LogWarning("ASDDS");
                     GridItemDatas.Remove(gid);
                 }
             }

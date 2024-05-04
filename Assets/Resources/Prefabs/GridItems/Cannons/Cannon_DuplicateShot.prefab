@@ -361,7 +361,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _aimTargetBehaviour: {fileID: 4089692241188050585}
-  _spriteRenderer: {fileID: 172921155745622773}
+  _skeletonAnimation: {fileID: 0}
   _crosshair: {fileID: 309480142673942966}
 --- !u!114 &94858937819000496
 MonoBehaviour:
@@ -378,9 +378,7 @@ MonoBehaviour:
   EffectHandler: {fileID: 1093922780712145661}
   EntityCollisionDetector: {fileID: 2008907440976116900}
   OutgoingEffects: []
-  cells: []
-  Def: {fileID: 11400000, guid: 6be1b4090313cae4397ca8a3b5ce4b5b, type: 2}
-  behaviour: {fileID: 8427063930449867751}
+  def: {fileID: 11400000, guid: 6be1b4090313cae4397ca8a3b5ce4b5b, type: 2}
   _stats:
     <HealthPoint>k__BackingField:
       _value:
@@ -419,6 +417,7 @@ MonoBehaviour:
   <AttackStrategy>k__BackingField: {fileID: -7205997211370206759}
   <AttackTargetBehaviour>k__BackingField: {fileID: 0}
   <BulletEffects>k__BackingField: []
+  behaviour: {fileID: 8427063930449867751}
 --- !u!114 &-717564830529616064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -927,7 +926,7 @@ SpriteRenderer:
   m_Size: {x: 0.78, y: 0.98}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!61 &1543007601411507376
@@ -1378,7 +1377,7 @@ MonoBehaviour:
   entity: {fileID: 94858937819000496}
   shootPosition: {fileID: 6845910018613200724}
   projectilePrefab: {fileID: 9038214777133773486, guid: 5ca95de0050294232be82d462f376a92, type: 3}
-  spineAnimation: {fileID: 0}
+  animationHandler: {fileID: 0}
 --- !u!1 &6107043427561523906
 GameObject:
   m_ObjectHideFlags: 0

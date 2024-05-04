@@ -199,7 +199,11 @@ namespace _Game.Scripts
             for (int i = 1; i <= size - 1; i++)
             {
                 if (centerCell.Y - i >= 0)
-                    cells.Add(grid.Cells[centerCell.X, centerCell.Y - i]);
+                {
+                    Debug.Log(centerCell.Y - i);
+                    cells.Add(grid.Cells[centerCell.Y - i, centerCell.X]);
+
+                }
             }
 
             return cells;

@@ -149,7 +149,7 @@ Camera:
   m_GameObject: {fileID: 65562029}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 2
+  m_ClearFlags: 3
   m_BackGroundColor: {r: 0, g: 0.49484015, b: 1, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -179,7 +179,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 32
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -367,6 +367,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   viewType: 1
+  IsDestroyOnHide: 0
   ViewState: 0
   root: {fileID: 0}
   originalPos: {x: 0, y: 0}
@@ -504,6 +505,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   viewType: 1
+  IsDestroyOnHide: 0
   ViewState: 0
   root: {fileID: 0}
   originalPos: {x: 0, y: 0}

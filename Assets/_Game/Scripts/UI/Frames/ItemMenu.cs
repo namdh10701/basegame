@@ -25,10 +25,11 @@ namespace _Game.Scripts
             pointClickDetectorUI.onPointerDown -= OnPointerDown;
             pointClickDetectorUI.onPointerUp -= OnPointerUp;
         }
-        public void Setup(GridItemReference gridItemReference, Action<GridItemDef> onPointerDown, Action<GridItemDef> onPointerUp, bool isDisabled)
+        public void Setup(GridItemDef gridItemDef, Action<GridItemDef> onPointerDown, Action<GridItemDef> onPointerUp, bool isDisabled)
         {
-            this.GridItemDef = gridItemReference.Prefab.Def;
-            _icon.sprite = gridItemReference.Image;
+            this.GridItemDef = gridItemDef;
+            Sprite image = ResourceLoader.LoadGridItemImage(gridItemDef);
+            _icon.sprite = image;
             this.onPointerDown = onPointerDown;
             this.onPointerUp = onPointerUp;
             if (isDisabled)

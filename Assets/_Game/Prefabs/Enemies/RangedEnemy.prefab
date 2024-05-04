@@ -239,11 +239,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AttackPatternProfile: {fileID: 11400000, guid: fa58f757626526441a9ea43019040351, type: 2}
-  targetCells: []
-  centerCell: {fileID: 0}
   gridPicker: {fileID: 0}
   shootPos: {fileID: 1179761745337557162}
-  projectilePrefab: {fileID: 9038214777133773486, guid: 05a4d54185279984eafc19c347d35ed8, type: 3}
+  projectilePrefab: {fileID: 2288863263780280219, guid: e64563b4f0ba3b34b9c2892b256c59f0, type: 3}
 --- !u!1 &5396749621053544829
 GameObject:
   m_ObjectHideFlags: 0
@@ -453,7 +451,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b25af8627659c6949b60949c3aa8d91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedEditorNode: {fileID: 3680233161435457817}
+  selectedEditorNode: {fileID: 3988591735158485074}
   repeatOnFinish: 1
   maxExecutionsPerTick: 1000
   parent: {fileID: 0}
@@ -629,9 +627,9 @@ MonoBehaviour:
   UnityEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7387028644812047960}
-        m_TargetAssemblyTypeName: _Game.Scripts.RangedEnemy, Assembly-CSharp
-        m_MethodName: DoAttack
+      - m_Target: {fileID: 1348317168218471329}
+        m_TargetAssemblyTypeName: _Game.Scripts.Battle.EnemyAttackBehaviour, Assembly-CSharp
+        m_MethodName: PlayAttackSequence
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

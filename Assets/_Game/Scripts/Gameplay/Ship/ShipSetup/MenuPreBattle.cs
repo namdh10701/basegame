@@ -21,13 +21,13 @@ public class MenuPreBattle : MonoBehaviour
     [SerializeField] Canvas _canvas;
     [SerializeField] DragController DragController;
 
-    public GridItemReferenceHolder GridItemReferenceHolder;
 
     List<ItemMenu> _itemMenus = new List<ItemMenu>();
 
     private GridItemType _curentTab = GridItemType.Cannon;
     List<GridItemDef> selectedItems = new List<GridItemDef>();
     List<GridItemDef> inavailableItems = new List<GridItemDef>();
+    [SerializeReference] GridItemReferenceHolder GridItemReferenceHolder;
     void Awake()
     {
         DragController.OnGridItemPlaced += OnGridItemPlaced;
@@ -89,7 +89,7 @@ public class MenuPreBattle : MonoBehaviour
         {
             RemoveItemMenus();
         }
-        GridItemReference[] itemList = null;
+        GridItemDef[] itemList = null;
         switch (_curentTab)
         {
             case GridItemType.Cannon:
@@ -108,7 +108,7 @@ public class MenuPreBattle : MonoBehaviour
             foreach (var item in itemList)
             {
                 var temp = Instantiate(_prefabItemMenu, _content);
-                temp.Setup(item, DragController.OnPointerDown, DragController.OnPointerUp, selectedItems.Contains(item.Prefab.Def));
+                temp.Setup(item, DragController.OnPointerDown, DragController.OnPointerUp, selectedItems.Contains(item));
 
                 _itemMenus.Add(temp);
             }

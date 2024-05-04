@@ -1,3 +1,4 @@
+using _Base.Scripts.RPG.Effects;
 using _Game.Scripts;
 using System.Collections;
 using System.Collections.Generic;
@@ -22,9 +23,16 @@ namespace _Game.Scripts.Battle
             enemyAttackData = new EnemyAttackData();
             enemyAttackData.TargetCells = gridPicker.PickCells(transform, AttackPatternProfile, out Cell centerCell);
             enemyAttackData.CenterCell = centerCell;
+            enemyAttackData.Effect = new DecreaseHealthEffect(2);
             attackHandler.PlayTargetingFx(enemyAttackData.TargetCells);
         }
-        public IEnumerator PlayAttackSequence()
+
+        public void PlayAttackSequence()
+        {
+            StartCoroutine(AttackSequence());
+        }
+
+        public IEnumerator AttackSequence()
         {
             SelectCells(out EnemyAttackData enemyAttackData);
             yield return new WaitForSeconds(2);
