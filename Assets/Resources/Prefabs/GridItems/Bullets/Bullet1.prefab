@@ -197,7 +197,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69b63fcec66342af9cc00f0e6ea683e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Entity: {fileID: 0}
+  Entity: {fileID: 5909292734019790869}
 --- !u!114 &4647354637786742037
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236,10 +236,11 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.15, y: 0.15, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7188977587407966902}
+  - {fileID: 1902150805391406463}
   m_Father: {fileID: 7691449450847267648}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6658909166558826484
@@ -319,13 +320,13 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 531.136, y: 317.2862, z: -1.5624287}
-  m_LocalScale: {x: 0.075, y: 0.075, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6285931283239893931}
   - {fileID: 2709344038220925093}
   - {fileID: 8786654320534215238}
-  - {fileID: 1902150805391406463}
+  - {fileID: 9173159092366329504}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &1933465007915484115
@@ -367,9 +368,45 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e7c75d22ca6fbd49812b0f5a8f9aa61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  EffectHandler: {fileID: 0}
+  EntityCollisionDetector: {fileID: 0}
+  OutgoingEffects: []
   Projectile: {fileID: 9038214777133773486, guid: 5ca95de0050294232be82d462f376a92, type: 3}
   def: {fileID: 11400000, guid: 19c10b0ed2df3c44983a797e71a7aee0, type: 2}
   behaviour: {fileID: 8786654320534215238}
+  cs:
+    <HealthPoint>k__BackingField:
+      _value:
+        statModifiers: []
+        _baseValue: 500
+      _minValue:
+        statModifiers: []
+        _baseValue: 0
+      _maxValue:
+        statModifiers: []
+        _baseValue: 800
+    <AttackDamage>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <CriticalChance>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <CriticalDamage>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <AttackRange>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <Ammo>k__BackingField:
+      _value:
+        statModifiers: []
+        _baseValue: 10
+      _minValue:
+        statModifiers: []
+        _baseValue: 0
+      _maxValue:
+        statModifiers: []
+        _baseValue: 10
 --- !u!210 &5130047194203769147
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -408,12 +445,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8149525548485049828}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7691449450847267648}
+  m_Father: {fileID: 6285931283239893931}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &5625832027668065710
 BoxCollider2D:
@@ -474,3 +511,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   collider: {fileID: 5625832027668065710}
   Item: {fileID: 7099963840742418997}
+--- !u!1 &8284918489110610702
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9173159092366329504}
+  m_Layer: 0
+  m_Name: Anchor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9173159092366329504
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8284918489110610702}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.26, y: -0.286, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7691449450847267648}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

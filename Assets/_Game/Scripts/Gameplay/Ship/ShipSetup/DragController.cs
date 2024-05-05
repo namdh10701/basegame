@@ -34,6 +34,16 @@ namespace _Game.Scripts
 
         private void Update()
         {
+#if UNITY_EDITOR
+            HandleMouse();
+#else
+            HandleTouch();
+#endif
+
+        }
+
+        void HandleMouse()
+        {
             if (UnityEngine.Input.GetMouseButtonDown(0))
             {
                 Vector3 mousePosition = _camera.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
@@ -51,6 +61,8 @@ namespace _Game.Scripts
                         {
                             cell.GridItem = null;
                         }
+
+                        ShipSetup.RemoveGridItem(draggingGridItem.Def);
                     }
                 }
             }
@@ -193,6 +205,175 @@ namespace _Game.Scripts
                 }
             }
         }
+
+        void HandleTouch()
+        {
+            if (UnityEngine.Input.touchCount > 0)
+            {
+                Touch touch = UnityEngine.Input.GetTouch(0);
+                Vector3 mousePosition;
+                switch (touch.phase)
+                {
+                    case TouchPhase.Began:
+                        mousePosition = _camera.ScreenToWorldPoint(touch.position);
+                        RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero, Mathf.Infinity, dragGameObjectMask);
+                        if (hit.collider != null)
+                        {
+                            if (hit.collider.TryGetComponent(out ItemClickDetector icd))
+                            {
+                                draggingObject = icd.Item;
+                                draggingGridItem = icd.Item.GetComponent<IGridItem>();
+                                selectItemDef = draggingGridItem.Def;
+                                draggingGridItem.Behaviour.gameObject.SetActive(false);
+                                List<Cell> cells = draggingGridItem.OccupyCells;
+                                foreach (Cell cell in cells)
+                                {
+                                    cell.GridItem = null;
+                                }
+
+                                ShipSetup.RemoveGridItem(draggingGridItem.Def);
+                            }
+                        }
+                        break;
+                    case TouchPhase.Moved:
+                        mousePosition = _camera.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
+                        RaycastHit2D hit1 = Physics2D.Raycast(mousePosition, Vector2.zero, Mathf.Infinity, layerMask);
+
+                        if (hit1.collider != null)
+                        {
+                            // Check if the hit object has the "Cell" component
+                            if (hit1.collider.TryGetComponent(out Cell cell))
+                            {
+                                if (selectCell != null)
+                                {
+                                    if (selectCell != cell)
+                                    {
+                                        ResetHighlightCell();
+                                        selectCell.CellRenderer.ToggleHighlight(HighlightType.Normal);
+                                        selectCell = cell;
+                                        if (draggingGridItem.Def.ShapeId != 0)
+                                        {
+                                            int[,] itemShape = Shape.ShapeDic[draggingGridItem.Def.ShapeId];
+                                            cells = GridHelper.GetCoveredCellsIfPutShapeAtCell(itemShape, selectCell);
+                                            if (GridHelper.IsCellsCoveredShape(cells, itemShape))
+                                            {
+                                                Vector3 position = GridHelper.GetAveragePosition(cells);
+                                                draggingObject.transform.position = position;
+                                                finalPos = position;
+
+                                                if (IsCellsEmpty(cells))
+                                                {
+                                                    IsAceppted = true;
+                                                    ToggleHighlight(cells, HighlightType.Accepted);
+                                                }
+                                                else
+                                                {
+                                                    IsAceppted = false;
+                                                    ToggleHighlight(cells, HighlightType.Denied);
+                                                }
+                                            }
+                                            else
+                                            {
+                                                IsAceppted = false;
+                                                ToggleHighlight(cells, HighlightType.Denied);
+                                            }
+                                        }
+                                        else
+                                        {
+                                            Vector3 position = selectCell.transform.position;
+                                            draggingObject.transform.position = position;
+                                            finalPos = position;
+                                            if (selectCell.GridItem == null)
+                                            {
+                                                selectCell.CellRenderer.ToggleHighlight(HighlightType.Accepted);
+                                                IsAceppted = true;
+                                            }
+                                            else
+                                            {
+                                                selectCell.CellRenderer.ToggleHighlight(HighlightType.Denied);
+                                                IsAceppted = false;
+                                            }
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    selectCell = cell;
+                                    ResetHighlightCell();
+                                    selectCell.CellRenderer.ToggleHighlight(HighlightType.Normal);
+                                    selectCell = cell;
+                                    if (draggingGridItem.Def.ShapeId != 0)
+                                    {
+                                        int[,] itemShape = Shape.ShapeDic[draggingGridItem.Def.ShapeId];
+                                        cells = GridHelper.GetCoveredCellsIfPutShapeAtCell(itemShape, selectCell);
+                                        if (GridHelper.IsCellsCoveredShape(cells, itemShape))
+                                        {
+                                            Vector3 position = GridHelper.GetAveragePosition(cells);
+                                            draggingObject.transform.position = position;
+                                            finalPos = position;
+
+                                            if (IsCellsEmpty(cells))
+                                            {
+                                                IsAceppted = true;
+                                                ToggleHighlight(cells, HighlightType.Accepted);
+                                            }
+                                            else
+                                            {
+                                                IsAceppted = false;
+                                                ToggleHighlight(cells, HighlightType.Denied);
+                                            }
+                                        }
+                                        else
+                                        {
+                                            IsAceppted = false;
+                                            ToggleHighlight(cells, HighlightType.Denied);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        Vector3 position = selectCell.transform.position;
+                                        draggingObject.transform.position = position;
+                                        finalPos = position;
+                                        if (selectCell.GridItem == null)
+                                        {
+                                            selectCell.CellRenderer.ToggleHighlight(HighlightType.Accepted);
+                                            IsAceppted = true;
+                                        }
+                                        else
+                                        {
+                                            selectCell.CellRenderer.ToggleHighlight(HighlightType.Denied);
+                                            IsAceppted = false;
+                                        }
+                                    }
+
+                                }
+                            }
+                            else
+                            {
+                                IsAceppted = false;
+                            }
+                        }
+                        else
+                        {
+                            ResetHighlightCell();
+                            IsAceppted = false;
+                        }
+
+                        if (!IsAceppted)
+                        {
+                            mousePosition.z = 0;
+                            Vector3 dragPos = mousePosition - anchorOffset;
+                            draggingObject.transform.position = dragPos;
+                        }
+                        break;
+                    case TouchPhase.Canceled:
+                    case TouchPhase.Ended:
+                        if (draggingObject != null)
+                            OnPointerUp(selectItemDef);
+                        break;
+                }
+            }
+        }
         bool IsCellsEmpty(List<Cell> cells)
         {
             foreach (Cell cell in cells)
@@ -246,7 +427,7 @@ namespace _Game.Scripts
             {
                 Debug.Log("UP " + itemRef.Id);
                 OnGridItemUp.Invoke(itemRef);
-                ShipSetup.RemoveGridItem(itemRef);
+
             }
 
             ResetHighlightCell();

@@ -2697,7 +2697,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _aimTargetBehaviour: {fileID: 1789655975}
-  _spriteRenderer: {fileID: 557748985}
+  _skeletonAnimation: {fileID: 0}
   _crosshair: {fileID: 1925295590}
 --- !u!1 &370118257
 GameObject:
@@ -4031,7 +4031,7 @@ MonoBehaviour:
   entity: {fileID: 0}
   shootPosition: {fileID: 312633634}
   projectilePrefab: {fileID: 9038214777133773486, guid: 5ca95de0050294232be82d462f376a92, type: 3}
-  spineAnimation: {fileID: 0}
+  animationHandler: {fileID: 0}
 --- !u!114 &580552932
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5088,7 +5088,7 @@ MonoBehaviour:
   entity: {fileID: 0}
   shootPosition: {fileID: 491665530}
   projectilePrefab: {fileID: 9038214777133773486, guid: 5ca95de0050294232be82d462f376a92, type: 3}
-  spineAnimation: {fileID: 0}
+  animationHandler: {fileID: 0}
 --- !u!114 &663036056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5855,29 +5855,13 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -7205997211370206759, guid: f7ffebfb0bebaee4b902bd888e8cfee6, type: 3}
-      propertyPath: angle
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: -7205997211370206759, guid: f7ffebfb0bebaee4b902bd888e8cfee6, type: 3}
-      propertyPath: amount
-      value: 4
+    - target: {fileID: 611541526588908095, guid: f7ffebfb0bebaee4b902bd888e8cfee6, type: 3}
+      propertyPath: m_Mesh
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 2506795332634619781, guid: f7ffebfb0bebaee4b902bd888e8cfee6, type: 3}
       propertyPath: m_Name
       value: Cannon_DuplicateShot
-      objectReference: {fileID: 0}
-    - target: {fileID: 4759703321050827762, guid: f7ffebfb0bebaee4b902bd888e8cfee6, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 150
-      objectReference: {fileID: 0}
-    - target: {fileID: 4759703321050827762, guid: f7ffebfb0bebaee4b902bd888e8cfee6, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 150
-      objectReference: {fileID: 0}
-    - target: {fileID: 4759703321050827762, guid: f7ffebfb0bebaee4b902bd888e8cfee6, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 4759703321050827762, guid: f7ffebfb0bebaee4b902bd888e8cfee6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7858,7 +7842,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _aimTargetBehaviour: {fileID: 767992693}
-  _spriteRenderer: {fileID: 1442607979}
+  _skeletonAnimation: {fileID: 0}
   _crosshair: {fileID: 293882016}
 --- !u!1 &1148386790
 GameObject:
@@ -9908,7 +9892,7 @@ MonoBehaviour:
   entity: {fileID: 0}
   shootPosition: {fileID: 975122659}
   projectilePrefab: {fileID: 9038214777133773486, guid: 5ca95de0050294232be82d462f376a92, type: 3}
-  spineAnimation: {fileID: 0}
+  animationHandler: {fileID: 0}
 --- !u!114 &1401326173
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9975,7 +9959,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _aimTargetBehaviour: {fileID: 322055672}
-  _spriteRenderer: {fileID: 1628245000}
+  _skeletonAnimation: {fileID: 0}
   _crosshair: {fileID: 225978819}
 --- !u!114 &1434138507
 MonoBehaviour:
@@ -10326,7 +10310,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _aimTargetBehaviour: {fileID: 1225454161}
-  _spriteRenderer: {fileID: 1999658704}
+  _skeletonAnimation: {fileID: 0}
   _crosshair: {fileID: 1210308278}
 --- !u!1 &1457480505
 GameObject:
@@ -11674,7 +11658,7 @@ MonoBehaviour:
   entity: {fileID: 0}
   shootPosition: {fileID: 698863054}
   projectilePrefab: {fileID: 9038214777133773486, guid: 5ca95de0050294232be82d462f376a92, type: 3}
-  spineAnimation: {fileID: 0}
+  animationHandler: {fileID: 0}
 --- !u!114 &1619572782
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15756,7 +15740,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _aimTargetBehaviour: {fileID: 5024420298999148813}
-  _spriteRenderer: {fileID: 1760717006329234338}
+  _skeletonAnimation: {fileID: 0}
   _crosshair: {fileID: 5255708685719985631}
 --- !u!222 &1058466849847797460
 CanvasRenderer:
@@ -16006,7 +15990,7 @@ SpriteRenderer:
   m_Size: {x: 0.78, y: 0.98}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &1765882919816860883
@@ -16394,7 +16378,7 @@ MonoBehaviour:
   entity: {fileID: 9193296739441679677}
   shootPosition: {fileID: 7228328046656059462}
   projectilePrefab: {fileID: 9038214777133773486, guid: 5ca95de0050294232be82d462f376a92, type: 3}
-  spineAnimation: {fileID: 0}
+  animationHandler: {fileID: 0}
 --- !u!224 &3581347377379300037
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17738,9 +17722,7 @@ MonoBehaviour:
   EffectHandler: {fileID: 6781585972579222134}
   EntityCollisionDetector: {fileID: 6039019038822092119}
   OutgoingEffects: []
-  cells: []
-  Def: {fileID: 0}
-  behaviour: {fileID: 0}
+  def: {fileID: 0}
   _stats:
     <HealthPoint>k__BackingField:
       _value:
@@ -17779,6 +17761,7 @@ MonoBehaviour:
   <AttackStrategy>k__BackingField: {fileID: 3331015634781153910}
   <AttackTargetBehaviour>k__BackingField: {fileID: 0}
   <BulletEffects>k__BackingField: []
+  behaviour: {fileID: 0}
 --- !u!1 &9204020630371051066
 GameObject:
   m_ObjectHideFlags: 0

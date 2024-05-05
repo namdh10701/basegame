@@ -74,27 +74,21 @@ namespace _Game.Scripts
             // Add cells horizontallX
             for (int i = 1; i <= size - 1; i++)
             {
-                if (centerCell.Y + i < grid.Col)
-                    cells.Add(grid.Cells[centerCell.X, centerCell.Y + i]);
+                if (centerCell.X + i < grid.Col)
+                    cells.Add(grid.Cells[centerCell.Y, centerCell.X + i]);
 
-                if (centerCell.Y - i >= 0)
-                    cells.Add(grid.Cells[centerCell.X, centerCell.Y - i]);
+                if (centerCell.X - i >= 0)
+                    cells.Add(grid.Cells[centerCell.Y, centerCell.X - 1]);
             }
 
             // Add cells verticallX
             for (int i = 1; i <= size - 1; i++)
             {
-                if (centerCell.X + i < grid.Row)
-                    cells.Add(grid.Cells[centerCell.X + i, centerCell.Y]);
+                if (centerCell.Y + i < grid.Row)
+                    cells.Add(grid.Cells[centerCell.Y + i, centerCell.X]);
 
-                if (centerCell.X - i >= 0)
-                    cells.Add(grid.Cells[centerCell.X - i, centerCell.Y]);
-            }
-
-            Debug.Log("GET +" + cells.Count)
-                ;
-            foreach (Cell cell in cells)
-            {
+                if (centerCell.Y - i >= 0)
+                    cells.Add(grid.Cells[centerCell.Y - i, centerCell.X]);
             }
             return cells;
         }
@@ -200,7 +194,6 @@ namespace _Game.Scripts
             {
                 if (centerCell.Y - i >= 0)
                 {
-                    Debug.Log(centerCell.Y - i);
                     cells.Add(grid.Cells[centerCell.Y - i, centerCell.X]);
 
                 }

@@ -60,6 +60,8 @@ namespace _Game.Scripts.Entities
             if (blinkSequence == null)
                 return;
             blinkSequence.Kill();
+
+            blinkSequence = null;
             skeleton.SetColor(Color.white);
         }
     }

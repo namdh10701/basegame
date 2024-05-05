@@ -28,6 +28,7 @@ namespace _Game.Scripts.Battle
             if (newStat.Value <= 0)
             {
                 aliveEntities.Remove(alive);
+                Destroy(alive.gameObject);
                 GlobalEvent<Entity>.Send("EntityDied", alive);
             }
         }

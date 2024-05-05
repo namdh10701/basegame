@@ -75,7 +75,7 @@ namespace _Game.Scripts
                     path = cannonImagePath;
                     break;
                 case GridItemType.Bullet:
-                    path = cannonImagePath;
+                    path = bulletImagePath;
                     break;
             }
             path += $"/{def.Id}";

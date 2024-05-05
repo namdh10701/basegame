@@ -31,8 +31,6 @@ namespace _Game.Scripts.Battle
 
         private void CollisionDetector_OnObjectCollisionEnter(GameObject obj)
         {
-            Debug.Log(obj.name);
-
             if (obj == shipReference.Value.gameObject)
             {
                 isMet = true;

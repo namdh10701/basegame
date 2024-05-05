@@ -1,13 +1,10 @@
 using UnityEngine;
+using static _Base.Scripts.UI.FlexibleGridLayout;
 
 public enum FitType
 {
-    None,
-    FitX,
-    FitY,
-    Both
+    FitX, FitY, Both
 }
-
 public class CameraFitter : MonoBehaviour
 {
     private static CameraFitter instance;

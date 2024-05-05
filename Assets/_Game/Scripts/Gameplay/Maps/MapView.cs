@@ -94,7 +94,7 @@ namespace Map
 
             DrawLines();
 
-            SetOrientation();
+            //SetOrientation();
 
             ResetNodesRotation();
 

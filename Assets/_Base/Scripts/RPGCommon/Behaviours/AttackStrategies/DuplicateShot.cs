@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
 {
-    [AddComponentMenu("[Attack Strategy] SplitShot")]
+    [AddComponentMenu("[Attack Strategy] Duplicate Shot")]
     public class DuplicateShot : NormalShot
     {
         public float angle = 15f;

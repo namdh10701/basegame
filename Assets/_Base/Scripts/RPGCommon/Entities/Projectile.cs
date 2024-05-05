@@ -1,4 +1,5 @@
 using _Base.Scripts.RPG.Behaviours.FindTarget;
+using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.RPG.Entities;
 using _Base.Scripts.RPG.Stats;
 using Unity.VisualScripting;
@@ -29,6 +30,7 @@ namespace _Base.Scripts.RPGCommon.Entities
 
         private void Start()
         {
+            OutgoingEffects.Add(new DecreaseHealthEffect(250));
             body.velocity = transform.up * moveSpeed.Value;
         }
 
@@ -69,6 +71,6 @@ namespace _Base.Scripts.RPGCommon.Entities
             base.Awake();
             SetCollisionObjectChecker(entity => findTargetStrategy.TryGetTargetEntity(entity.gameObject, out var tmp));
         }
-        
+
     }
 }

@@ -1,5 +1,6 @@
 using _Base.Scripts.RPG.Effects;
 using _Game.Scripts;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -27,16 +28,17 @@ namespace _Game.Scripts.Battle
             attackHandler.PlayTargetingFx(enemyAttackData.TargetCells);
         }
 
-        public void PlayAttackSequence()
+        public void PlayAttackSequence(Action onCompleted)
         {
-            StartCoroutine(AttackSequence());
+            StartCoroutine(AttackSequence(onCompleted));
         }
 
-        public IEnumerator AttackSequence()
+        public IEnumerator AttackSequence(Action onCompleted)
         {
             SelectCells(out EnemyAttackData enemyAttackData);
             yield return new WaitForSeconds(2);
             DoAttack(enemyAttackData);
+            onCompleted?.Invoke();
         }
         public abstract void DoAttack(EnemyAttackData enemyAttackData);
     }

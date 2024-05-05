@@ -99,7 +99,7 @@ public class MenuPreBattle : MonoBehaviour
                 itemList = GridItemReferenceHolder.BulletReferences;
                 break;
             case GridItemType.Crew:
-                itemList = GridItemReferenceHolder.BulletReferences;
+                itemList = GridItemReferenceHolder.CrewReferences;
                 break;
         }
 

@@ -46,9 +46,9 @@ namespace _Game.Scripts.Entities
             _blackboard.GetVariable<FloatVariable>("ActionSequenceInterval").Value = _stats.ActionSequenceInterval.Value;
         }
 
-        public void PlayAttackSequence()
+        public void PlayAttackSequence(Action onCompleted = null)
         {
-            EnemyAttackBehaviour.PlayAttackSequence();
+            EnemyAttackBehaviour.PlayAttackSequence(onCompleted);
         }
     }
 }

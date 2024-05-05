@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace _Game.Scripts.Entities
 {
-    public class Bullet : MonoBehaviour, IGridItem
+    public class Bullet : Entity, IGridItem
     {
         public Projectile Projectile;
 
@@ -16,5 +16,8 @@ namespace _Game.Scripts.Entities
         public List<Cell> OccupyCells { get; set; }
         public GridItemDef Def { get => def; }
         public Transform Behaviour { get => behaviour; }
+
+        public CannonStats cs;
+        public override Stats Stats => cs;
     }
 }

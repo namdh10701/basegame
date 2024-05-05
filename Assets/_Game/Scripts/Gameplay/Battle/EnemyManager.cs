@@ -14,7 +14,7 @@ namespace _Game.Scripts.Battle
         bool IsActive;
         private void Start()
         {
-            InvokeRepeating("SpawnRanged", 0, 5);
+            //InvokeRepeating("SpawnRanged", 3, 5);
         }
         public void SpawnMelle()
         {

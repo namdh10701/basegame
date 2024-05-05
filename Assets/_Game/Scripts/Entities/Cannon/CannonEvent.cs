@@ -18,12 +18,14 @@ namespace _Game.Scripts.Entities.CannonComponent
 
         private void Ammo_OnValueChanged(_Base.Scripts.RPG.Stats.RangedStat stat)
         {
-            if (stat.Value == stat.MinValue)
+            if (stat.StatValue.BaseValue == stat.MinValue)
             {
+                Debug.Log("HERE");
                 OnOutOfAmmo();
             }
-            else if (stat.Value == stat.MaxValue)
+            else if (stat.StatValue.BaseValue == stat.MaxValue)
             {
+                Debug.Log("HERE1");
                 OnReloaded();
             }
         }
