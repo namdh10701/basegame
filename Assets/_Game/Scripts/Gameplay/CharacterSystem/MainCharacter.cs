@@ -5,6 +5,6 @@ namespace _Game.Scripts.CharacterSystem
 {
     public class MainCharacter
     {
-        public List<Skill> AvailableSkill;
+        public List<SkillDefinition> AvailableSkill;
     }
 }

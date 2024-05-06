@@ -19,7 +19,7 @@ namespace _Game.Scripts.UI
         {
             SkillTree = GetSkillTree();
             Instantiate(SkillTree, skillTreeRoot);
-            SkillTree.UpdateState();
+            
             foreach (SkillNode node in SkillTree.AllNodes)
             {
                 node.OnClickAction = OnBuySkill;
@@ -35,12 +35,6 @@ namespace _Game.Scripts.UI
         {
             SkillTree skillTree = Resources.Load<SkillTree>("Database/SkillTree/PreDefined/SkillTree");
             return skillTree;
-            /* var input = new StringReader(textAsset.text);
-             var deserializer = new DeserializerBuilder()
-                 .WithNamingConvention(CamelCaseNamingConvention.Instance)
-                 .Build();
-             var skillTree = deserializer.Deserialize<SkillTree>(input);
-             return skillTree;*/
         }
     }
 }

@@ -7,51 +7,20 @@ namespace _Game.Scripts.SkillSystem
 {
     public class SkillNode : MonoBehaviour
     {
-        public int Id;
-        public List<SkillNode> Outgoing;
-        public List<Image> OutgoingLine;
-        public Image Image;
-        public Button BuySkillBtn;
+        public SkillDefinition SkillDefinition;
+        public List<Prerequisite> Prerequisites;
         public Action<SkillNode> OnClickAction;
+        public SkillNodeUI SkillNodeUI;
 
-        public Color boughtColor;
-        public Color disabledColor;
-        public Color enabledColor;
 
-        private void Awake()
+        public void Init(SkillSaveData skillSaveData)
         {
-            Sprite sprite = ResourceLoader.LoadSkillImage(Id);
-            Image.sprite = sprite;
-        }
-
-        private void OnEnable()
-        {
-            BuySkillBtn.onClick.AddListener(OnBuySkillClick);
-        }
-
-        private void OnDisable()
-        {
-            BuySkillBtn.onClick.RemoveListener(OnBuySkillClick);
-        }
-
-        void OnBuySkillClick()
-        {
-            OnClickAction?.Invoke(this);
-        }
-
-        public void Disable()
-        {
-
-        }
-
-        public void Enable()
-        {
-
-        }
-
-        public void EnableOutgoings()
-        {
-
+            foreach (Prerequisite prerequisite in Prerequisites)
+            {
+                int level = skillSaveData.GetLevel(prerequisite.SkillDef.Id);
+                prerequisite.line.color = level > 0 ? Color.white : Color.black;
+            }
+            SkillNodeUI.Init(SkillDefinition, skillSaveData.GetLevel(SkillDefinition.Id));
         }
     }
 }

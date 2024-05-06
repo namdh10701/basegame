@@ -1,9 +1,13 @@
-﻿namespace _Game.Scripts.SkillSystem
+﻿using UnityEngine;
+
+namespace _Game.Scripts.SkillSystem
 {
-    public class Skill
+    [CreateAssetMenu(menuName = "Scriptable Objects/Skill Definition")]
+    public class SkillDefinition : ScriptableObject
     {
-        public string Id;
+        public int Id;
         public string Name;
         public string Description;
+        public int MaxLevel;
     }
 }

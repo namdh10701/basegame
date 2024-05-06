@@ -8,7 +8,24 @@ namespace _Game.Scripts.SkillSystem
     {
         public List<SkillNode> Roots;
         public List<SkillNode> AllNodes;
-        public void TraverseDFS()
+
+        private void Start()
+        {
+            UpdateState();
+        }
+
+        void UpdateState()
+        {
+            SkillSaveData skillSaveData = new SkillSaveData();
+            skillSaveData.SkillDatas.Add(new SkillData(1, 1));
+            skillSaveData.SkillDatas.Add(new SkillData(2, 1));
+
+            foreach (SkillNode skillNode in AllNodes)
+            {
+                skillNode.Init(skillSaveData);
+            }
+        }
+        /*public void TraverseDFS()
         {
             HashSet<SkillNode> visited = new HashSet<SkillNode>();
             foreach (SkillNode root in Roots)
@@ -59,6 +76,38 @@ namespace _Game.Scripts.SkillSystem
         public void UpdateState()
         {
 
+        }*/
+    }
+
+    public class SkillSaveData
+    {
+        public List<SkillData> SkillDatas;
+        public SkillSaveData()
+        {
+            SkillDatas = new List<SkillData>();
+        }
+        public int GetLevel(int Id)
+        {
+            foreach (SkillData skillData in SkillDatas)
+            {
+                if (skillData.Id == Id)
+                {
+                    return skillData.Level;
+                }
+            }
+            return 0;
+        }
+    }
+
+    public class SkillData
+    {
+        public int Id;
+        public int Level;
+
+        public SkillData(int id, int level)
+        {
+            this.Id = id;
+            this.Level = level;
         }
     }
 }
