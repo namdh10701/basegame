@@ -4,9 +4,7 @@ using _Game.Scripts.Entities;
 using _Game.Scripts.Input;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
+
 using UnityEngine;
 namespace _Game.Scripts
 {
@@ -56,13 +54,17 @@ namespace _Game.Scripts
                         draggingGridItem = icd.Item.GetComponent<IGridItem>();
                         selectItemDef = draggingGridItem.Def;
                         draggingGridItem.Behaviour.gameObject.SetActive(false);
-                        List<Cell> cells = draggingGridItem.OccupyCells;
-                        foreach (Cell cell in cells)
+                        ShipSetup.RemoveGridItem(draggingGridItem.Def);
+
+                        List<Vector2Int> cells = draggingGridItem.OccupyCells;
+                        if (cells != null)
                         {
-                            cell.GridItem = null;
+                            foreach (Vector2Int cell in cells)
+                            {
+                                ShipSetup.Grids[int.Parse(draggingGridItem.GridId) - 1].Cells[cell.y, cell.x].GridItem = null;
+                            }
                         }
 
-                        ShipSetup.RemoveGridItem(draggingGridItem.Def);
                     }
                 }
             }
@@ -121,6 +123,7 @@ namespace _Game.Scripts
                                     Vector3 position = selectCell.transform.position;
                                     draggingObject.transform.position = position;
                                     finalPos = position;
+                                    cells = new List<Cell>() { selectCell };
                                     if (selectCell.GridItem == null)
                                     {
                                         selectCell.CellRenderer.ToggleHighlight(HighlightType.Accepted);
@@ -169,6 +172,7 @@ namespace _Game.Scripts
                             }
                             else
                             {
+                                cells = new List<Cell>() { selectCell };
                                 Vector3 position = selectCell.transform.position;
                                 draggingObject.transform.position = position;
                                 finalPos = position;
@@ -225,13 +229,18 @@ namespace _Game.Scripts
                                 draggingGridItem = icd.Item.GetComponent<IGridItem>();
                                 selectItemDef = draggingGridItem.Def;
                                 draggingGridItem.Behaviour.gameObject.SetActive(false);
-                                List<Cell> cells = draggingGridItem.OccupyCells;
-                                foreach (Cell cell in cells)
-                                {
-                                    cell.GridItem = null;
-                                }
+
+
 
                                 ShipSetup.RemoveGridItem(draggingGridItem.Def);
+                                List<Vector2Int> cells = draggingGridItem.OccupyCells;
+                                if (cells != null)
+                                {
+                                    foreach (Vector2Int cell in cells)
+                                    {
+                                        ShipSetup.Grids[int.Parse(draggingGridItem.GridId) - 1].Cells[cell.y, cell.x].GridItem = null;
+                                    }
+                                }
                             }
                         }
                         break;
@@ -255,6 +264,7 @@ namespace _Game.Scripts
                                         {
                                             int[,] itemShape = Shape.ShapeDic[draggingGridItem.Def.ShapeId];
                                             cells = GridHelper.GetCoveredCellsIfPutShapeAtCell(itemShape, selectCell);
+                                            Debug.Log(cells.Count);
                                             if (GridHelper.IsCellsCoveredShape(cells, itemShape))
                                             {
                                                 Vector3 position = GridHelper.GetAveragePosition(cells);
@@ -282,6 +292,7 @@ namespace _Game.Scripts
                                         {
                                             Vector3 position = selectCell.transform.position;
                                             draggingObject.transform.position = position;
+                                            cells = new List<Cell>() { selectCell };
                                             finalPos = position;
                                             if (selectCell.GridItem == null)
                                             {
@@ -406,6 +417,12 @@ namespace _Game.Scripts
         {
             this.selectItemDef = itemRef;
             draggingObject = Instantiate(ResourceLoader.LoadGridItemPrefab(itemRef));
+#if UNITY_EDITOR
+            draggingObject.transform.position = _camera.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
+#else
+
+            draggingObject.transform.position = _camera.ScreenToWorldPoint(UnityEngine.Input.GetTouch(0).position);
+#endif
             draggingGridItem = draggingObject.GetComponent<IGridItem>();
             draggingGridItem.Behaviour.gameObject.SetActive(false);
             anchorOffset = draggingObject.transform.Find("Anchor").localPosition;
@@ -445,7 +462,15 @@ namespace _Game.Scripts
             float scale = Vector3.one.x / gameObject.transform.parent.lossyScale.x;
             gameObject.transform.localScale = new Vector3(scale, scale, scale);
             gameObject.transform.position = position;
-            gameObject.GetComponent<IGridItem>().OccupyCells = cells;
+            List<Vector2Int> occupyCells = new List<Vector2Int>();
+
+            foreach (Cell cell in cells)
+            {
+                occupyCells.Add(new Vector2Int(cell.X, cell.Y));
+            }
+
+            gameObject.GetComponent<IGridItem>().OccupyCells = occupyCells;
+            gameObject.GetComponent<IGridItem>().GridId = cells[0].Grid.Id;
             if (draggingGridItem.Def.ShapeId == 0)
             {
                 selectCell.GridItem = gameObject.GetComponent<IGridItem>();
@@ -461,7 +486,7 @@ namespace _Game.Scripts
             gridItemData.GridId = selectCell.Grid.Id;
             gridItemData.position = gameObject.transform.localPosition;
             gridItemData.Def = gameObject.GetComponent<IGridItem>().Def;
-            gridItemData.OccupyCells = cells;
+            gridItemData.OccupyCells = occupyCells;
             OnGridItemPlaced.Invoke(selectItemDef);
             ShipSetup.AddNewGridItem(gridItemData);
         }

@@ -1,9 +1,5 @@
 using _Game.Scripts;
-using _Game.Scripts.Entities;
-using Mono.Cecil;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class BulletsMenu : MonoBehaviour

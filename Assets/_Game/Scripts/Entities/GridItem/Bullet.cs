@@ -13,11 +13,13 @@ namespace _Game.Scripts.Entities
         [SerializeField] private GridItemDef def;
 
         [SerializeField] private Transform behaviour;
-        public List<Cell> OccupyCells { get; set; }
+        public List<Vector2Int> OccupyCells { get; set; }
         public GridItemDef Def { get => def; }
         public Transform Behaviour { get => behaviour; }
 
         public CannonStats cs;
         public override Stats Stats => cs;
+
+        public string GridId { get; set; }
     }
 }

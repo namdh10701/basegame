@@ -1,17 +1,33 @@
 roots:
   - id: 1
+    maxLevel:3
+    unlockNextLevel:1
     outgoing:
       - id: 2
-        outgoing:
+        maxLevel:3
+        unlockNextLevel:1
+	outgoing:
           - id: 3
+	    maxLevel:3
+            unlockNextLevel:1
             outgoing: []
           - id: 4
+	    maxLevel:3
+            unlockNextLevel:1
             outgoing: []
   - id: 5
+    maxLevel:3
+    unlockNextLevel:1
     outgoing:
       - id: 6
-        outgoing:
-          - id: 7
-            outgoing: []
-          - id: 8
-            outgoing: []
+        maxLevel:3
+        unlockNextLevel:1
+	outgoing:[]
+      - id: 7
+        maxLevel:3
+        unlockNextLevel:1
+	outgoing:[]
+      - id: 8
+        maxLevel:3
+        unlockNextLevel:1
+	outgoing:[]

@@ -523,10 +523,42 @@ MonoBehaviour:
   EffectHandler: {fileID: 0}
   EntityCollisionDetector: {fileID: 0}
   OutgoingEffects: []
-  cells: []
-  Def: {fileID: 11400000, guid: 59419c5e2f8bdcb4bb47e65d649550c9, type: 2}
-  behaviour: {fileID: 6849732585692131936}
   Projectile: {fileID: 0}
+  def: {fileID: 11400000, guid: 59419c5e2f8bdcb4bb47e65d649550c9, type: 2}
+  behaviour: {fileID: 6849732585692131936}
+  cs:
+    <HealthPoint>k__BackingField:
+      _value:
+        statModifiers: []
+        _baseValue: 500
+      _minValue:
+        statModifiers: []
+        _baseValue: 0
+      _maxValue:
+        statModifiers: []
+        _baseValue: 800
+    <AttackDamage>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <CriticalChance>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <CriticalDamage>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <AttackRange>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <Ammo>k__BackingField:
+      _value:
+        statModifiers: []
+        _baseValue: 10
+      _minValue:
+        statModifiers: []
+        _baseValue: 0
+      _maxValue:
+        statModifiers: []
+        _baseValue: 10
 --- !u!210 &6275412137365976721
 SortingGroup:
   m_ObjectHideFlags: 0

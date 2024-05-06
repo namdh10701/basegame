@@ -10,6 +10,7 @@ namespace _Base.Scripts.Enviroments
 
         private void Awake()
         {
+            Application.targetFrameRate = 60;
             SetEnvironment(env);
             Debug.unityLogger.logEnabled = enableDebugLog;
         }

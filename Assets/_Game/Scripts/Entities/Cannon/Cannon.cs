@@ -79,8 +79,9 @@ namespace _Game.Scripts.Entities
         public List<Effect> BulletEffects { get; set; } = new();
 
         public Transform behaviour;
-        public List<Cell> OccupyCells { get; set; }
+        public List<Vector2Int> OccupyCells { get; set; }
         public GridItemDef Def { get => def; }
         public Transform Behaviour { get => behaviour; }
+        public string GridId { get; set ; }
     }
 }

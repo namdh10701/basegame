@@ -258,6 +258,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 7188977587407966902}
+  - {fileID: 2956362932582141021}
   m_Father: {fileID: 7691449450847267648}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2045889202845304733
@@ -317,12 +318,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3877288109881890509}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 4.3, y: 4.3, z: 4.3}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.5833334, y: 4.2250004, z: 0}
+  m_LocalScale: {x: 35.833336, y: 35.833336, z: 0}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 7691449450847267648}
+  m_Father: {fileID: 6285931283239893931}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8748910863019285708
 MonoBehaviour:
@@ -389,37 +390,6 @@ PolygonCollider2D:
       - {x: 0.26018584, y: -0.13175476}
       - {x: 0.25948328, y: -0.0048315395}
   m_UseDelaunayMesh: 0
---- !u!1 &4120018207454345234
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6849732585692131936}
-  m_Layer: 0
-  m_Name: CarringEffects
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6849732585692131936
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4120018207454345234}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 28.238668, y: -10.607183, z: 0}
-  m_LocalScale: {x: 12.803371, y: 12.803371, z: 0}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 7691449450847267648}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6658909166558826484
 GameObject:
   m_ObjectHideFlags: 0
@@ -503,8 +473,6 @@ Transform:
   - {fileID: 6285931283239893931}
   - {fileID: 2709344038220925093}
   - {fileID: 8786654320534215238}
-  - {fileID: 6849732585692131936}
-  - {fileID: 2956362932582141021}
   - {fileID: 4278085495671987510}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -550,10 +518,42 @@ MonoBehaviour:
   EffectHandler: {fileID: 0}
   EntityCollisionDetector: {fileID: 0}
   OutgoingEffects: []
-  cells: []
-  Def: {fileID: 11400000, guid: 5764c360fb72fd24abd589cd0302864f, type: 2}
-  behaviour: {fileID: 6849732585692131936}
   Projectile: {fileID: 0}
+  def: {fileID: 11400000, guid: 5764c360fb72fd24abd589cd0302864f, type: 2}
+  behaviour: {fileID: 8786654320534215238}
+  cs:
+    <HealthPoint>k__BackingField:
+      _value:
+        statModifiers: []
+        _baseValue: 500
+      _minValue:
+        statModifiers: []
+        _baseValue: 0
+      _maxValue:
+        statModifiers: []
+        _baseValue: 800
+    <AttackDamage>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <CriticalChance>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <CriticalDamage>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <AttackRange>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <Ammo>k__BackingField:
+      _value:
+        statModifiers: []
+        _baseValue: 10
+      _minValue:
+        statModifiers: []
+        _baseValue: 0
+      _maxValue:
+        statModifiers: []
+        _baseValue: 10
 --- !u!210 &6275412137365976721
 SortingGroup:
   m_ObjectHideFlags: 0

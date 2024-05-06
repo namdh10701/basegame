@@ -52,9 +52,43 @@ namespace _Game.Scripts
             }
         }
 
+        bool isClick = false;
         void HandleTouch()
         {
-
+            if (UnityEngine.Input.touchCount > 0)
+            {
+                Touch touch = UnityEngine.Input.GetTouch(0);
+                switch (touch.phase)
+                {
+                    case TouchPhase.Began:
+                        isClick = true;
+                        break;
+                    case TouchPhase.Ended:
+                        if (isClick)
+                        {
+                            Vector3 mousePosition = _camera.ScreenToWorldPoint(touch.position);
+                            RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero, Mathf.Infinity, layerMask);
+                            if (hit.collider != null)
+                            {
+                                if (hit.collider.TryGetComponent(out ItemClickDetector icd))
+                                {
+                                    IGridItem gridItem = icd.Item.gameObject.GetComponent<IGridItem>();
+                                    if (gridItem is Cannon)
+                                    {
+                                        selectingCannon = gridItem as Cannon;
+                                        CreateBulletsMenu();
+                                    }
+                                    else if (gridItem is Bullet bullet)
+                                    {
+                                        OnSelectBullet(bullet);
+                                    }
+                                }
+                            }
+                            isClick = false;
+                        }
+                        break;
+                }
+            }
         }
 
         void CreateBulletsMenu()

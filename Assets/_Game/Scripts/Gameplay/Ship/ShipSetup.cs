@@ -1,8 +1,5 @@
 using _Game.Scripts.Entities;
-using Mono.Cecil;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace _Game.Scripts
@@ -69,6 +66,9 @@ namespace _Game.Scripts
         {
             GameObject prefab = ResourceLoader.LoadGridItemPrefab(gridItemData.Def);
             GameObject gridItem = Instantiate(prefab, grid.GridItemRoot);
+            gridItem.GetComponent<IGridItem>().GridId = gridItemData.GridId;
+            gridItem.GetComponent<IGridItem>().OccupyCells = gridItemData.OccupyCells;
+
             float scale = Vector3.one.x / gridItem.transform.parent.lossyScale.x;
             gridItem.transform.localScale = new Vector3(scale, scale, scale);
             gridItem.transform.localPosition = gridItemData.position;

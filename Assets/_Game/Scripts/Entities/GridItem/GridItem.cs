@@ -6,10 +6,11 @@ using UnityEngine;
 
 namespace _Game.Scripts.Entities
 {
-    public interface IGridItem { 
-    
-        public List<Cell> OccupyCells { get; set; }
-        public GridItemDef Def { get;}
-        public Transform Behaviour { get;}
+    public interface IGridItem
+    {
+        public string GridId { get; set; }
+        public List<Vector2Int> OccupyCells { get; set; }
+        public GridItemDef Def { get; }
+        public Transform Behaviour { get; }
     }
 }
