@@ -11,18 +11,9 @@ namespace _Game.Scripts.InventorySystem
         public Rarity Rarity { get; set; }
         public int Count { get; set; }
 
-        public override void Read(BinaryReader br)
+        public Material(int id, string name) : base(id, name)
         {
-            base.Read(br);
-            Rarity = (Rarity)br.ReadInt32();
-            Count = br.ReadInt32();
-        }
 
-        public override void Write(BinaryWriter bw)
-        {
-            base.Write(bw);
-            bw.Write((int)Rarity);
-            bw.Write(Count);
         }
     }
 }

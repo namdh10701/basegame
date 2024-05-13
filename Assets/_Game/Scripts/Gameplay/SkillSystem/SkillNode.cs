@@ -1,7 +1,7 @@
-﻿using System;
+﻿using _Game.Scripts.SaveLoad;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace _Game.Scripts.SkillSystem
 {
@@ -15,12 +15,15 @@ namespace _Game.Scripts.SkillSystem
 
         public void Init(SkillSaveData skillSaveData)
         {
-            foreach (Prerequisite prerequisite in Prerequisites)
+            if (Prerequisites != null)
             {
-                int level = skillSaveData.GetLevel(prerequisite.SkillDef.Id);
-                prerequisite.line.color = level > 0 ? Color.white : Color.black;
+                foreach (Prerequisite prerequisite in Prerequisites)
+                {
+                    int level = skillSaveData.GetLevel(prerequisite.SkillDef.Id);
+                    prerequisite.line.color = level > 0 ? Color.white : Color.black;
+                }
+                SkillNodeUI.Init(SkillDefinition, skillSaveData.GetLevel(SkillDefinition.Id));
             }
-            SkillNodeUI.Init(SkillDefinition, skillSaveData.GetLevel(SkillDefinition.Id));
         }
     }
 }

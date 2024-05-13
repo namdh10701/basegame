@@ -58,18 +58,18 @@ namespace _Game.Scripts.UI
 
         void EquipGear(Gear newGear)
         {
-            SaveList<GearSlot> equipingGears = SaveSystem.GameSave.EquipingGears;
-            for (int i = 0; i < equipingGears.Items.Count; i++)
+            List<GearData> equipingGears = SaveSystem.GameSave.InventorySaveData.EquippingGears;
+            for (int i = 0; i < equipingGears.Count; i++)
             {
-                if (equipingGears.Items[i].GearType == newGear.GearType)
+                if (equipingGears[i].GearType == newGear.GearType)
                 {
-                    equipingGears.Items[i].Gear = newGear;
+                    equipingGears[i] = new GearData(newGear.Id, newGear.GearType);
                     SaveSystem.SaveGame();
                     InitGearSlots();
                     return;
                 }
             }
-            equipingGears.Items.Add(new GearSlot(newGear.GearType, newGear));
+            equipingGears.Add(new GearData(newGear.Id, newGear.GearType));
             SaveSystem.SaveGame();
             InitGearSlots();
 
@@ -77,19 +77,20 @@ namespace _Game.Scripts.UI
 
         void InitGearSlots()
         {
-            SaveList<GearSlot> equipingGears = SaveSystem.GameSave.EquipingGears;
-            foreach (GearSlot gearSlot in equipingGears.Items)
+            List<GearData> equipingGears = SaveSystem.GameSave.InventorySaveData.EquippingGears;
+            foreach (GearData gearData in equipingGears)
             {
-                switch (gearSlot.GearType)
+                Gear gear = new Gear(gearData);
+                switch (gear.GearType)
                 {
                     case GearType.Hat:
-                        hat.SetData(gearSlot.Gear);
+                        hat.SetData(gear);
                         break;
                     case GearType.Sword:
-                        sword.SetData(gearSlot.Gear);
+                        sword.SetData(gear);
                         break;
                     case GearType.Necklace:
-                        necklace.SetData(gearSlot.Gear);
+                        necklace.SetData(gear);
                         break;
                 }
             }
@@ -97,13 +98,13 @@ namespace _Game.Scripts.UI
 
         void InitCharacterFrame()
         {
-            CharacterDefinition characterDefinition = SaveSystem.GameSave.SelectedCharacter;
-            characterFrame.SetData(characterDefinition);
+           /* CharacterDefinition characterDefinition = SaveSystem.GameSave.SelectedCharacter;
+            characterFrame.SetData(characterDefinition);*/
         }
 
         void InitGearCollection()
         {
-            List<Gear> ownedGears = SaveSystem.GameSave.GetOwnedGears();
+            List<GearData> ownedGears = SaveSystem.GameSave.GetOwnedGears();
             if (ownedGears.Count == 0)
             {
                 noGearMsg.SetActive(true);
@@ -113,8 +114,9 @@ namespace _Game.Scripts.UI
             {
                 noGearMsg.SetActive(false);
                 scrollRect.gameObject.SetActive(true);
-                foreach (Gear gear in ownedGears)
+                foreach (GearData gearData in ownedGears)
                 {
+                    Gear gear = new Gear(gearData);
                     GearFrame gearFrame = Instantiate(gearFramePrefab, inventoryRoot);
                     gearFrame.SetData(gear);
                 }

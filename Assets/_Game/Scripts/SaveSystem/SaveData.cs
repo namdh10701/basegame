@@ -5,72 +5,55 @@ using _Game.Scripts.InventorySystem;
 using UnityEngine;
 namespace _Game.Scripts.SaveLoad
 {
-    public class SaveData : IBinarySaveData
+    public class SaveData
     {
         public static SaveData DefaultSave = GetDefaultSave();
 
+        public int SaveVersion;
         public int SaveId;
-        public SaveList<GearSlot> EquipingGears;
-        public InventoryCollection<Gear> OwnedInventoryItems;
-        public CharacterDefinition SelectedCharacter;
+        public SkillSaveData SkillSaveData;
+        public InventorySaveData InventorySaveData;
 
         public SaveData(int saveId)
         {
             SaveId = saveId;
         }
-        public SaveData(int saveId, SaveList<GearSlot> gearCombination, InventoryCollection<Gear> ownedInventoryItems)
-        {
-            SaveId = saveId;
-            EquipingGears = gearCombination;
-            OwnedInventoryItems = ownedInventoryItems;
-        }
         public SaveData()
         {
-            EquipingGears = new SaveList<GearSlot>();
-            OwnedInventoryItems = new InventoryCollection<Gear>();
         }
 
-        public void Read(BinaryReader br)
-        {
-            SaveId = br.ReadInt32();
-            EquipingGears.Read(br);
-            OwnedInventoryItems.Read(br);
-        }
-
-        public void Write(BinaryWriter bw)
-        {
-            bw.Write(SaveId);
-            EquipingGears.Write(bw);
-            OwnedInventoryItems.Write(bw);
-        }
 
         public static SaveData GetDefaultSave()
         {
-            SaveData defaultSave = new SaveData(1, new SaveList<GearSlot>(), new InventoryCollection<Gear>());
-            InventoryCollection<Gear> inventoryCollection = new InventoryCollection<Gear>();
-            inventoryCollection.Items.Add(new Gear(new InventoryId(1, InventoryType.Gear), "Sword 1", GearType.Sword, Rarity.Uncommon, null));
-            inventoryCollection.Items.Add(new Gear(new InventoryId(2, InventoryType.Gear), "Sword 2", GearType.Sword, Rarity.Uncommon, null));
-            inventoryCollection.Items.Add(new Gear(new InventoryId(1, InventoryType.Gear), "Hat 1", GearType.Hat, Rarity.Uncommon, null));
-            inventoryCollection.Items.Add(new Gear(new InventoryId(2, InventoryType.Gear), "Hat 2", GearType.Hat, Rarity.Uncommon, null));
-            inventoryCollection.Items.Add(new Gear(new InventoryId(1, InventoryType.Gear), "Necklace 1", GearType.Necklace, Rarity.Epic, null));
-            inventoryCollection.Items.Add(new Gear(new InventoryId(2, InventoryType.Gear), "Necklace 2", GearType.Necklace, Rarity.Legend, null));
-            defaultSave.OwnedInventoryItems = inventoryCollection;
+            SaveData defaultSave = new SaveData(1);
 
-          
+            InventorySaveData inventorySaveData = new InventorySaveData();
+
+            List<InventoryData> owned = new List<InventoryData>();
+            List<GearData> equipingGear = new List<GearData>();
+
+            owned.Add(new GearData(1, GearType.Sword));
+            owned.Add(new GearData(1, GearType.Hat));
+
+            owned.Add(new InventoryData(1, InventoryType.Potion));
+            inventorySaveData.OwnedInventories = owned;
+            inventorySaveData.EquippingGears = equipingGear;
+            defaultSave.InventorySaveData = inventorySaveData;
+
             return defaultSave;
         }
 
-        public List<Gear> GetOwnedGears()
+        public List<GearData> GetOwnedGears()
         {
-            List<Gear> ownedGears = new List<Gear>();
-            foreach (InventoryItem inventoryItem in OwnedInventoryItems.Items)
+            List<GearData> gearDatas = new List<GearData>();
+            foreach (InventoryData inventoryData in InventorySaveData.OwnedInventories)
             {
-                if (inventoryItem.Id.InventoryType == InventoryType.Gear)
+                if (inventoryData is GearData gearData)
                 {
-                    ownedGears.Add((Gear)inventoryItem);
+                    gearDatas.Add(gearData);
                 }
             }
-            return ownedGears;
+            return gearDatas;
         }
     }
 }

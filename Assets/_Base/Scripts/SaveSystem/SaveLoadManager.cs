@@ -1,62 +1,27 @@
 using System;
 using System.IO;
 using _Game.Scripts.SaveLoad;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace _Base.Scripts.SaveSystem
 {
     public class SaveLoadManager : MonoBehaviour
     {
-        private static readonly string SaveVersion = "1";
         public static void WriteSave(SaveData saveData)
         {
-            /*try
-            {*/
-                RecreateSaveDirectory();
-
-                using (var fs = new FileStream(GenerateSaveFileName(saveData.SaveId), FileMode.Create, FileAccess.Write))
-                {
-                    using (var bw = new BinaryWriter(fs))
-                    {
-                        bw.Write(SaveVersion);
-                        saveData.Write(bw);
-                    }
-                }
-            /*}
-            catch (Exception ex)
-            {
-                Debug.LogError("Error while writing save slot " + saveData.SaveId + "! " + ex.Message +
-                               "Inner: " + (ex.InnerException != null ? ex.InnerException.Message : "None"));
-            }*/
+            RecreateSaveDirectory();
+            string saveDataString = JsonUtility.ToJson(saveData);
+            File.WriteAllText(GenerateSaveFileName(saveData.SaveId), saveDataString);
         }
         public static SaveData ReadSave(int slotId)
         {
             if (!File.Exists(GenerateSaveFileName(slotId)))
                 return null;
-
-           /* try
-            {*/
-                RecreateSaveDirectory();
-
-                SaveData saveData = new SaveData();
-                using (var fs = new FileStream(GenerateSaveFileName(slotId), FileMode.Open, FileAccess.Read))
-                {
-                    using (var br = new BinaryReader(fs))
-                    {
-                        if (br.ReadString() != SaveVersion)
-                            throw new NotImplementedException("Updater for old save files is not implemented!");
-                        saveData.Read(br);
-                        return saveData;
-                    }
-                }
-            /*}
-            catch (Exception ex)
-            {
-                Debug.LogError("Error while reading save slot " + slotId + "! " + ex.Message +
-                               "Inner: " + (ex.InnerException != null ? ex.InnerException.Message : "None"));
-                DeleteSave(slotId);
-                return null;
-            }*/
+            RecreateSaveDirectory();
+            string saveDataString = File.ReadAllText(GenerateSaveFileName(slotId));
+            SaveData saveData = JsonUtility.FromJson<SaveData>(saveDataString);
+            return saveData;
         }
         private static void RecreateSaveDirectory()
         {

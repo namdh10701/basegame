@@ -22,7 +22,7 @@ namespace _Game.Scripts
         public static Sprite LoadGearImage(Gear gear)
         {
             GearType gearType = gear.GearType;
-            int id = ((InventoryId)gear.Id).Id;
+            int id = (gear.Id);
             string path = "";
             switch (gearType)
             {

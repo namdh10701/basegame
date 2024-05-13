@@ -20,7 +20,7 @@ namespace _Game.Scripts.InventorySystem
             for (int i = 0; i < itemCount; i++)
             {
                 T item = new();
-                item.Read(br);
+               // item.Read(br);
                /* if (item.Id.InventoryType == InventoryType.Gear)
                 {
                     Gear gear = new Gear();
@@ -38,7 +38,7 @@ namespace _Game.Scripts.InventorySystem
             bw.Write(Items.Count);
             foreach (var item in Items)
             {
-                item.Write(bw);
+               // item.Write(bw);
             }
         }
     }

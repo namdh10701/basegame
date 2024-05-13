@@ -34,7 +34,7 @@ namespace _Game.Scripts.SkillSystem
 
         void OnBuyClick()
         {
-
+            Debug.Log("buy");
         }
     }
 }
