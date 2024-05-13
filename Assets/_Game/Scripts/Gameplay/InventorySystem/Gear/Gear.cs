@@ -1,30 +1,28 @@
 using _Base.Scripts.RPG.Stats;
 using _Game.Scripts.SaveLoad;
-using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using UnityEngine;
 
 namespace _Game.Scripts.InventorySystem
 {
-    public class Gear : InventoryItem, IUpgradeable
+    public class Gear : IInventoryItem, IUpgradeable
     {
-        public GearType GearType;
-        public Rarity Rarity { get; set; }
+        private int id;
+        private string name;
+        private string description;
+        private GearType gearType;
+        private Rarity rarity;
+
         public List<Stat> stats;
-        public Gear(int id, string name, GearType gearType, Rarity rarity, List<Stat> stats) : base(id, name)
-        {
-            Type = InventoryType.Gear;
-            GearType = gearType;
-            Rarity = rarity;
-            this.stats = stats;
-        }
+
+        public int Id { get => id; }
+        public string Name { get => name; }
+        public string Description { get => description; }
+        public GearType GearType { get => gearType; }
+        public Rarity Rarity { get => rarity; set => rarity = value; }
 
         public Gear(GearData gearData)
         {
-            Id = gearData.Id;
-            Name = "";
-            Type = InventoryType.Gear;
+            id = gearData.Id;
         }
     }
 }

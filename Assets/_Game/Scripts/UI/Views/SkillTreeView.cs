@@ -7,7 +7,7 @@ namespace _Game.Scripts.UI
     public class SkillTreeView : View
     {
         [SerializeField] Transform skillTreeRoot;
-        
+
         SkillTree SkillTree;
         public override void Initialize()
         {
@@ -19,14 +19,9 @@ namespace _Game.Scripts.UI
         {
             SkillTree = GetSkillTree();
             Instantiate(SkillTree, skillTreeRoot);
-            
-            foreach (SkillNode node in SkillTree.AllNodes)
-            {
-                node.OnClickAction = OnBuySkill;
-            }
         }
 
-        void OnBuySkill(SkillNode skillNode)
+        void OnSkillPointChanged()
         {
 
         }

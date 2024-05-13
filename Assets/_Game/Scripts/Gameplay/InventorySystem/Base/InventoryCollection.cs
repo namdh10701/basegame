@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace _Game.Scripts.InventorySystem
 {
-    public class InventoryCollection<T> : IBinarySaveData where T : InventoryItem, new()
+/*    public class InventoryCollection<T> : IBinarySaveData where T : InventoryItem, new()
     {
         public List<T> Items;
 
@@ -21,14 +21,14 @@ namespace _Game.Scripts.InventorySystem
             {
                 T item = new();
                // item.Read(br);
-               /* if (item.Id.InventoryType == InventoryType.Gear)
+               *//* if (item.Id.InventoryType == InventoryType.Gear)
                 {
                     Gear gear = new Gear();
                     gear.Id = item.Id;
                     gear.Name = item.Name;
                     gear.Read(br);
                     item = gear;
-                }*/
+                }*//*
                 Items.Add(item);
             }
         }
@@ -41,5 +41,5 @@ namespace _Game.Scripts.InventorySystem
                // item.Write(bw);
             }
         }
-    }
+    }*/
 }

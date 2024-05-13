@@ -63,13 +63,13 @@ namespace _Game.Scripts.UI
             {
                 if (equipingGears[i].GearType == newGear.GearType)
                 {
-                    equipingGears[i] = new GearData(newGear.Id, newGear.GearType);
+                    equipingGears[i] = new GearData(newGear.Id, newGear.GearType, newGear.Rarity);
                     SaveSystem.SaveGame();
                     InitGearSlots();
                     return;
                 }
             }
-            equipingGears.Add(new GearData(newGear.Id, newGear.GearType));
+            equipingGears.Add(new GearData(newGear.Id, newGear.GearType, newGear.Rarity));
             SaveSystem.SaveGame();
             InitGearSlots();
 

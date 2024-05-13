@@ -7,32 +7,35 @@ namespace _Game.Scripts.SaveLoad
     [System.Serializable]
     public class InventorySaveData
     {
-        [SerializeReference] public List<InventoryData> OwnedInventories;
+        [SerializeReference] public List<IInventoryData> OwnedInventories;
         public List<GearData> EquippingGears;
     }
 
-    [System.Serializable]
-    public class InventoryData
+    public interface IInventoryData
     {
-        public int Id;
-        public InventoryType Type;
+        public int Id { get; set; }
+        public InventoryType Type { get; }
 
-        public InventoryData(int id, InventoryType type)
-        {
-            Id = id;
-            Type = type;
-        }
     }
 
     [System.Serializable]
-    public class GearData : InventoryData
+    public class GearData : IInventoryData, IUpgradeable
     {
+        public int id;
+        public InventoryType inventoryType;
         public GearType GearType;
+        public Rarity rarity;
 
-        public GearData(int id, GearType gearType) : base(id, InventoryType.Gear)
+        public GearData(int id, GearType gearType, Rarity rarity)
         {
-            Id = id;
-            GearType = gearType;
+            this.id = id;
+            this.inventoryType = InventoryType.Gear;
+            this.GearType = gearType;
+            this.rarity = rarity;
         }
+
+        public int Id { get => id; set => id = value; }
+        public InventoryType Type { get => inventoryType; }
+        public Rarity Rarity { get => rarity; set => rarity = value; }
     }
 }

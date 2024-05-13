@@ -1,5 +1,6 @@
 ﻿using _Base.Scripts.Database;
 using _Base.Scripts.SaveSystem;
+using _Game.Scripts.SaveLoad;
 using System.IO;
 using UnityEngine;
 
@@ -9,20 +10,11 @@ namespace _Game.Scripts.InventorySystem
     {
         Potion, Gear, Crew
     }
-    public class InventoryItem
+    public interface IInventoryItem
     {
-        public int Id;
-        public InventoryType Type;
-        public string Name;
-        public InventoryItem()
-        {
-
-        }
-        public InventoryItem(int id, string name)
-        {
-            Id = id;
-            Type = InventoryType.Gear;
-            Name = name;
-        }
+        public int Id { get;}
+        public GearType GearType { get;}
+        public string Name { get;}
+        public string Description { get;}
     }
 }

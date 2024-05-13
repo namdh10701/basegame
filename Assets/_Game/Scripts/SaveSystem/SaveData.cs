@@ -29,24 +29,32 @@ namespace _Game.Scripts.SaveLoad
 
             InventorySaveData inventorySaveData = new InventorySaveData();
 
-            List<InventoryData> owned = new List<InventoryData>();
+            List<IInventoryData> owned = new List<IInventoryData>();
             List<GearData> equipingGear = new List<GearData>();
 
-            owned.Add(new GearData(1, GearType.Sword));
-            owned.Add(new GearData(1, GearType.Hat));
+            GearData gearData = new GearData(1, GearType.Sword, Rarity.Common);
+            Debug.Log(gearData.Id + " DEFAULT");
+            owned.Add(gearData);
+            owned.Add(new GearData(2, GearType.Hat, Rarity.Rare));
 
-            owned.Add(new InventoryData(1, InventoryType.Potion));
+
             inventorySaveData.OwnedInventories = owned;
             inventorySaveData.EquippingGears = equipingGear;
             defaultSave.InventorySaveData = inventorySaveData;
 
+
+            SkillSaveData skillSaveData = new SkillSaveData(1);
+            skillSaveData.SkillDatas.Add(new SkillData(1, 1));
+            skillSaveData.SkillDatas.Add(new SkillData(2, 1));
+
+            defaultSave.SkillSaveData = skillSaveData;
             return defaultSave;
         }
 
         public List<GearData> GetOwnedGears()
         {
             List<GearData> gearDatas = new List<GearData>();
-            foreach (InventoryData inventoryData in InventorySaveData.OwnedInventories)
+            foreach (IInventoryItem inventoryData in InventorySaveData.OwnedInventories)
             {
                 if (inventoryData is GearData gearData)
                 {

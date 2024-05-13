@@ -32,7 +32,7 @@ namespace _Base.Scripts.SaveSystem
         private static string GenerateSaveFileName(int slotId)
         {
             return Application.persistentDataPath + Path.AltDirectorySeparatorChar + "Saves" +
-                   Path.AltDirectorySeparatorChar + "SOF" + slotId + ".sof";
+                   Path.AltDirectorySeparatorChar + "SOF" + slotId + ".dat";
         }
         public static void DeleteSave(int slotId)
         {
