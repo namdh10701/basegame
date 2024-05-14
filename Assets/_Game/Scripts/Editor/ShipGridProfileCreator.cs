@@ -40,6 +40,10 @@ namespace _Game.Scripts.Editor
             {
                 LoadProfile();
             }
+            if (gridDefinitions == null)
+            {
+                return;
+            }
             if (gridDefinitions.Length != gridRoots.Length)
             {
                 if (GUILayout.Button("ApllyRoots"))
