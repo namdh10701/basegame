@@ -7,7 +7,7 @@ namespace _Game.Scripts.SaveLoad
     [System.Serializable]
     public class InventorySaveData
     {
-        [SerializeReference] public List<IInventoryData> OwnedInventories;
+        [SerializeReference] public List<IInventoryData> OwnedInventories = new List<IInventoryData>();
         public List<GearData> EquippingGears;
     }
 

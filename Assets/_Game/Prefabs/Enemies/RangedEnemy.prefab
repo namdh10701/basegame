@@ -399,6 +399,7 @@ GameObject:
   - component: {fileID: 6426271805686395903}
   - component: {fileID: 3680233161435457817}
   - component: {fileID: 809335075662689324}
+  - component: {fileID: 1458248948832567529}
   m_Layer: 0
   m_Name: BehaviourTree
   m_TagString: Untagged
@@ -451,7 +452,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b25af8627659c6949b60949c3aa8d91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedEditorNode: {fileID: 0}
+  selectedEditorNode: {fileID: 1458248948832567529}
   repeatOnFinish: 1
   maxExecutionsPerTick: 1000
   parent: {fileID: 0}
@@ -546,6 +547,7 @@ MonoBehaviour:
   - {fileID: 3680233161435457817}
   - {fileID: 809335075662689324}
   - {fileID: 8061886926821081734}
+  - {fileID: 1458248948832567529}
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
@@ -705,6 +707,31 @@ MonoBehaviour:
   breakpoint: 0
   attackBehaviour: {fileID: 1348317168218471329}
   isFinished: 0
+--- !u!114 &1458248948832567529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6429214349066125210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efee2c6abc08f1d42acf5b1a33db992c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: SubTree
+  rect:
+    serializedVersion: 2
+    x: 640
+    y: 220
+    width: 160
+    height: 45
+  parent: {fileID: 3787508379463207611}
+  children: []
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+  tree: {fileID: 1789502611363134456}
 --- !u!1 &7591462011415005413
 GameObject:
   m_ObjectHideFlags: 0

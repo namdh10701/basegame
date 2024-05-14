@@ -54,7 +54,7 @@ namespace _Game.Scripts.SaveLoad
         public List<GearData> GetOwnedGears()
         {
             List<GearData> gearDatas = new List<GearData>();
-            foreach (IInventoryItem inventoryData in InventorySaveData.OwnedInventories)
+            foreach (IInventoryData inventoryData in InventorySaveData.OwnedInventories)
             {
                 if (inventoryData is GearData gearData)
                 {
