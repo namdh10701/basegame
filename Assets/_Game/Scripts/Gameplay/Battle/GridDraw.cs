@@ -1,19 +1,28 @@
 
 using UnityEngine;
+using static Fusion.Sockets.NetBitBuffer;
 
 namespace _Game.Scripts
 {
     public class GridDraw : MonoBehaviour
     {
+        [SerializeField] Bounds bounds;
+        [SerializeField] Color color;
+        public Color playgroundColor;
         public int col;
         public int row;
         public Vector2 spaces;
         public float lineWidth = 0.05f;
         public Material lineMaterial;
-        public Color color;
+
 
         private LineRenderer[] lineRenderers;
-
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = playgroundColor; // Set the color of the bounds
+            bounds.center = transform.position;
+            Gizmos.DrawWireCube(bounds.center, bounds.size);
+        }
         private void OnEnable()
         {
             CreateGrid();
@@ -45,7 +54,7 @@ namespace _Game.Scripts
             // Create vertical lines
             for (int j = 0; j <= col; j++)
             {
-                Vector3 start = startPosition + new Vector3(j * spaces.x, 0, 0);
+                Vector3 start = startPosition + new Vector3(j * spaces.x + 0.5f, 0, 0);
                 Vector3 end = start + new Vector3(0, height, 0);
                 CreateLineRenderer(j + row + 1, start, end);
             }

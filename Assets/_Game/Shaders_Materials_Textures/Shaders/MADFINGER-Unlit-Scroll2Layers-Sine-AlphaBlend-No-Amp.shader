@@ -21,10 +21,6 @@ SubShader {
 	Blend SrcAlpha OneMinusSrcAlpha
 	Cull Off Lighting Off ZWrite Off Fog { Color (0,0,0,0) }
 
-	LOD 100
-
-
-
 	CGINCLUDE
 	#pragma multi_compile LIGHTMAP_OFF LIGHTMAP_ON
 	#include "UnityCG.cginc"

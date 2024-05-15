@@ -6,7 +6,7 @@ namespace _Game.Scripts.Gameplay
 {
     public class BattleManager : MonoBehaviour
     {
+        
        
     }
-
 }
