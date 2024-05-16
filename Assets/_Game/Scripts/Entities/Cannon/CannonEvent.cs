@@ -20,12 +20,10 @@ namespace _Game.Scripts.Entities.CannonComponent
         {
             if (stat.StatValue.BaseValue == stat.MinValue)
             {
-                Debug.Log("HERE");
                 OnOutOfAmmo();
             }
             else if (stat.StatValue.BaseValue == stat.MaxValue)
             {
-                Debug.Log("HERE1");
                 OnReloaded();
             }
         }
