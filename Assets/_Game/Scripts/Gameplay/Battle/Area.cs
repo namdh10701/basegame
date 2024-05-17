@@ -9,9 +9,13 @@ namespace _Game.Scripts.Battle
         [SerializeField] Bounds bounds;
         [SerializeField] Color color;
         [SerializeField] Vector2 offset;
-
+        [SerializeField] bool isDrawGizmos;
         private void OnDrawGizmos()
         {
+            if (!isDrawGizmos)
+            {
+                return;
+            }
             Gizmos.color = color; // Set the color of the bounds
             bounds.center = transform.position;
             Gizmos.DrawWireCube(bounds.center + (Vector3)offset, bounds.size);

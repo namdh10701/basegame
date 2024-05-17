@@ -20,13 +20,16 @@ namespace _Game.Scripts.Battle
         [SerializeField] Transform enemyRoot;
         bool IsActive;
 
+
+
         private void Start()
         {
             foreach (var groupSpawnData in groupEnemySpawnData)
             {
                 foreach (EnemySpawnData enemySpawnData in groupSpawnData.EnemySpawnDatas)
                 {
-                    enemySpawnTimer.RegisterEvent(new TimedEvent(enemySpawnData.Time, () => SpawnEnemy(enemySpawnData.EnemyId, enemySpawnData.Position)));
+                    Debug.Log(CoordinateConverter.ToWorldPos(enemySpawnData.Position));
+                    enemySpawnTimer.RegisterEvent(new TimedEvent(enemySpawnData.Time, () => SpawnEnemy(enemySpawnData.EnemyId, CoordinateConverter.ToWorldPos(enemySpawnData.Position))));
                 }
             }
             enemySpawnTimer.StartTimer();

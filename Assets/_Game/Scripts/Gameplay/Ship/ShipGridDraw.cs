@@ -9,7 +9,7 @@ public class ShipGridDraw : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        //DrawGridGizmos();
+        DrawGridGizmos();
     }
 
 

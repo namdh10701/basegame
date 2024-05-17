@@ -13,7 +13,7 @@ namespace _Game.Scripts.UI
         [SerializeField] private GearFrame hat;
         [SerializeField] private GearFrame necklace;
         [SerializeField] private GearFrame sword;
-        [SerializeField] private CharacterFrame characterFrame;
+        [SerializeField] private CrewFrame characterFrame;
         [SerializeField] private GearFrame gearFramePrefab;
         [SerializeField] private GameObject noGearMsg;
         [SerializeField] private GameObject scrollRect;
