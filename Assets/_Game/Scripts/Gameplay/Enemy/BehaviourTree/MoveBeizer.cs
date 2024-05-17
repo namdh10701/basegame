@@ -10,9 +10,9 @@ namespace _Game.Scripts.Battle
     [AddComponentMenu("")]
     public class MoveBeizer : Leaf
     {
-        public Vector2 startPoint;
-        public Vector2 destination;
-        public Vector2 controlPoint;
+        public Vector2Reference destination;
+        private Vector2 startPoint;
+        private Vector2 controlPoint;
         public Rigidbody2D body;
         public float controlPointDistance;
         public float controlPointOffset;
@@ -31,18 +31,18 @@ namespace _Game.Scripts.Battle
             t += Time.deltaTime / duration; // Increment parameter based on time
 
             // Calculate position along the Bezier curve
-            Vector3 position = CalculateBezierPoint(startPoint, controlPoint, destination, t);
+            Vector3 position = CalculateBezierPoint(startPoint, controlPoint, destination.Value, t);
 
             // Move the Rigidbody2D to the calculated position
             body.MovePosition(position);
-            Debug.Log(Vector2.Distance(body.position, destination));
-            return Vector2.Distance(body.position, destination) > 0.1 ? NodeResult.running : NodeResult.success;
+            Debug.Log(Vector2.Distance(body.position, destination.Value));
+            return Vector2.Distance(body.position, destination.Value) > 0.1 ? NodeResult.running : NodeResult.success;
         }
 
 
         void CalculateControlPoint()
         {
-            controlPoint = (startPoint + destination) / 2f;
+            controlPoint = (startPoint + destination.Value) / 2f;
             controlPoint += Vector2.up * controlPointOffset; // Adjust height if needed
             t = 0f; // Reset parameter
         }

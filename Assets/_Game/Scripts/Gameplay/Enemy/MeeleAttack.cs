@@ -17,6 +17,7 @@ namespace _Game.Scripts.Battle
         public override void DoAttack()
         {
             GridAttackHandler.ProcessAttack(EnemyAttackData.TargetCells, new DecreaseHealthEffect(2));
+
         }
 
     }

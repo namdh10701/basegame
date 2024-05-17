@@ -1,4 +1,5 @@
 using _Base.Scripts.RPG;
+using _Base.Scripts.RPG.Entities;
 using _Game.Scripts;
 using _Game.Scripts.Gameplay.Ship;
 using MBT;
@@ -23,7 +24,13 @@ namespace _Game.Scripts.Battle
 
         private void CollisionDetector_OnObjectCollisionExit(GameObject obj)
         {
-            if (obj == shipReference.Value)
+            var entityBody = obj.GetComponent<EntityProvider>();
+
+            if (entityBody == null)
+            {
+                return;
+            }
+            if (entityBody.Entity.gameObject == shipReference.Value.gameObject)
             {
                 isMet = false;
             }
@@ -31,7 +38,13 @@ namespace _Game.Scripts.Battle
 
         private void CollisionDetector_OnObjectCollisionEnter(GameObject obj)
         {
-            if (obj == shipReference.Value.gameObject)
+            var entityBody = obj.GetComponent<EntityProvider>();
+
+            if (entityBody == null)
+            {
+                return;
+            }
+            if (entityBody.Entity.gameObject == shipReference.Value.gameObject)
             {
                 isMet = true;
             }
