@@ -3,6 +3,7 @@ using _Game.Scripts;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace _Game.Scripts.Battle
@@ -14,6 +15,8 @@ namespace _Game.Scripts.Battle
         [SerializeField] GridPicker gridPicker;
         GridAttackHandler attackHandler;
 
+        protected EnemyAttackData EnemyAttackData;
+        SpineAnimationHandler animHandler;
         private void Awake()
         {
             gridPicker = FindAnyObjectByType<GridPicker>();
@@ -35,11 +38,14 @@ namespace _Game.Scripts.Battle
 
         public IEnumerator AttackSequence(Action onCompleted)
         {
-            SelectCells(out EnemyAttackData enemyAttackData);
+            SelectCells(out EnemyAttackData);
             yield return new WaitForSeconds(2);
-            DoAttack(enemyAttackData);
+            animHandler.PlayAnim("action", false);
+
+            DoAttack();
             onCompleted?.Invoke();
         }
-        public abstract void DoAttack(EnemyAttackData enemyAttackData);
+        public abstract void DoAttack();
+
     }
 }

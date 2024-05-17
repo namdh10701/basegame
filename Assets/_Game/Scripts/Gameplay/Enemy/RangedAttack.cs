@@ -9,10 +9,10 @@ namespace _Game.Scripts.Battle
         [SerializeField] Transform shootPos;
         [SerializeField] EnemyProjectile projectilePrefab;
 
-        public override void DoAttack(EnemyAttackData atkData)
+        public override void DoAttack()
         {
             EnemyProjectile projectile = Instantiate(projectilePrefab);
-            projectile.SetData(atkData, shootPos.position);
+            projectile.SetData(EnemyAttackData, shootPos.position);
             projectile.Launch();
         }
     }
