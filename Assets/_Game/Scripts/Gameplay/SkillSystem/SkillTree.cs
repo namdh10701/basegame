@@ -1,4 +1,5 @@
-﻿using _Game.Scripts.SaveLoad;
+﻿using _Game.Scripts.InventorySystem;
+using _Game.Scripts.SaveLoad;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
