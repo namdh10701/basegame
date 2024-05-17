@@ -42,9 +42,6 @@ namespace _Game.Scripts
 
         public void ApplyEffectEmptyCells(List<Cell> cells, Effect effect)
         {
-            Debug.Log(ship);
-            Debug.Log(ship.EffectHandler);
-            Debug.Log(cells);
             foreach (Cell cell in cells)
             {
                 ship.EffectHandler.Apply(effect);
