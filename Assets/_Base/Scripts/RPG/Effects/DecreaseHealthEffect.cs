@@ -18,6 +18,9 @@ namespace _Base.Scripts.RPG.Effects
 
         protected override void OnApply(Entity entity)
         {
+            Debug.Log(entity.name);
+
+            Debug.Log(entity.Stats);
             if (entity.Stats is not IAliveStats alive)
             {
                 return;

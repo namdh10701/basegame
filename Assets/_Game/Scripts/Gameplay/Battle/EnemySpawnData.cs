@@ -14,4 +14,5 @@ public struct EnemySpawnData
     public int EnemyId;
     public int Time;
     public Vector2 Position;
+    public Vector2 TargetPosition;
 }
