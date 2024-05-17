@@ -1,6 +1,5 @@
 using UnityEngine;
 using Spine.Unity;
-using System;
 using Spine;
 public class SpineAnimationEnemyHandler : MonoBehaviour
 {
@@ -13,7 +12,10 @@ public class SpineAnimationEnemyHandler : MonoBehaviour
             switch (trackEntry.Animation.Name)
             {
                 case "action":
+                case "appear":
+                case "hide":
                     Debug.Log("Play aninm Idle");
+                    skeletonAnimation.AnimationState.SetAnimation(0, "idle", true);
                     break;
             }
         };
@@ -23,20 +25,16 @@ public class SpineAnimationEnemyHandler : MonoBehaviour
     {
         skeletonAnimation.AnimationState.SetAnimation(0, "action", isLoop);
         Debug.Log("Play PlayAttackAnim");
-
-        //Idle
     }
 
     public void PlayIdleAnim(bool isLoop)
     {
-        skeletonAnimation.AnimationState.SetAnimation(0, "spineShoot", isLoop);
-        //Idle
+        skeletonAnimation.AnimationState.SetAnimation(0, "appear", isLoop);
     }
 
     public void PlayMoveAnim(bool isLoop)
     {
-        skeletonAnimation.AnimationState.SetAnimation(0, "spineShoot", isLoop);
-        //Idle
+        skeletonAnimation.AnimationState.SetAnimation(0, "hide", isLoop);
     }
 
     public void PlayAnim(string name, bool isLoop)
