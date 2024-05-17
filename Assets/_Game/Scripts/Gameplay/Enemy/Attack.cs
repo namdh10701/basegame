@@ -16,7 +16,7 @@ namespace _Game.Scripts.Battle
         GridAttackHandler attackHandler;
 
         protected EnemyAttackData EnemyAttackData;
-        SpineAnimationHandler animHandler;
+        [SerializeField] SpineAnimationEnemyHandler _spineAnimationEnemyHandler;
         private void Awake()
         {
             gridPicker = FindAnyObjectByType<GridPicker>();
@@ -40,9 +40,7 @@ namespace _Game.Scripts.Battle
         {
             SelectCells(out EnemyAttackData);
             yield return new WaitForSeconds(2);
-            animHandler.PlayAnim("action", false);
-
-            DoAttack();
+            _spineAnimationEnemyHandler.PlayAttackAnim(false);
             onCompleted?.Invoke();
         }
         public abstract void DoAttack();
