@@ -1,4 +1,4 @@
-﻿using System;
+﻿using _Game.Scripts.SkillSystem;
 using System.Collections.Generic;
 
 namespace _Game.Scripts.SaveLoad
@@ -37,17 +37,5 @@ namespace _Game.Scripts.SaveLoad
             return null;
         }
 
-    }
-    [System.Serializable]
-    public class SkillData
-    {
-        public int Id;
-        public int Level;
-
-        public SkillData(int id, int level)
-        {
-            this.Id = id;
-            this.Level = level;
-        }
     }
 }
