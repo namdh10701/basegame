@@ -9,6 +9,7 @@ public class SpineAnimationEnemyHandler : MonoBehaviour
     {
         //skeletonAnimation.AnimationState.SetAnimation(0, "idle", true);
 
+
         skeletonAnimation.AnimationState.Complete += delegate (TrackEntry trackEntry)
         {
             Debug.Log("END ANIM");
