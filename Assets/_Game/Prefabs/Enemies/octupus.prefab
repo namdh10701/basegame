@@ -45,6 +45,7 @@ GameObject:
   - component: {fileID: 5177814749121741407}
   - component: {fileID: 7387028644812047960}
   - component: {fileID: 1348317168218471329}
+  - component: {fileID: 2648941026957704213}
   m_Layer: 0
   m_Name: octupus
   m_TagString: Untagged
@@ -140,7 +141,12 @@ MonoBehaviour:
       _baseValue: 1
   _statsTemplate: {fileID: 11400000, guid: 7b641c5f7ad3c493c9f6f71cb400fdee, type: 2}
   _blackboard: {fileID: 4677285129039575907}
+  body: {fileID: 5177814749121741407}
+  collider: {fileID: 1726368781317324272}
   EnemyAttackBehaviour: {fileID: 1348317168218471329}
+  SpineAnimationEnemyHandler: {fileID: 5932466136117731628}
+  MBTExecutor: {fileID: 4219786944901737619}
+  positionPool: {fileID: 2648941026957704213}
 --- !u!114 &1348317168218471329
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -154,10 +160,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AttackPatternProfile: {fileID: 11400000, guid: fa58f757626526441a9ea43019040351, type: 2}
-  gridPicker: {fileID: 0}
   _spineAnimationEnemyHandler: {fileID: 5932466136117731628}
   shootPos: {fileID: 7167055026096568313}
   projectilePrefab: {fileID: 2288863263780280219, guid: e64563b4f0ba3b34b9c2892b256c59f0, type: 3}
+  positionPool: {fileID: 2648941026957704213}
+--- !u!114 &2648941026957704213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3056500386828138881}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a19079c5a9179544f981801ffd9bac5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Pool: []
 --- !u!1 &4468273977996884430
 GameObject:
   m_ObjectHideFlags: 0
@@ -307,7 +326,7 @@ MonoBehaviour:
   disableRenderingOnOverride: 1
   updateTiming: 1
   unscaledTime: 0
-  _animationName: 
+  _animationName: idle
   loop: 0
   timeScale: 1
 --- !u!33 &438415312697464669
@@ -330,7 +349,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd6c4d152a561f04b8f068aaecd28b9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animNames:
+  - name: idle
+    anim: 0
+  - name: die
+    anim: 1
+  - name: action
+    anim: 2
+  - name: hide
+    anim: 3
+  - name: appear
+    anim: 4
   skeletonAnimation: {fileID: 639902580781943949}
+  OnShoot:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1348317168218471329}
+        m_TargetAssemblyTypeName: _Game.Scripts.Battle.RangedAttack, Assembly-CSharp
+        m_MethodName: DoAttack
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  enemy: {fileID: 7387028644812047960}
 --- !u!114 &8963814849463975132
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -338,7 +384,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4468742001843441618}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 376298de10a24584485df7cebe3d9579, type: 3}
   m_Name: 
@@ -480,12 +526,12 @@ GameObject:
   - component: {fileID: 4219786944901737619}
   - component: {fileID: 5256015764280418347}
   - component: {fileID: 3787508379463207611}
-  - component: {fileID: 1547730322413360891}
-  - component: {fileID: 6935240791879360495}
   - component: {fileID: 8061886926821081734}
   - component: {fileID: 6426271805686395903}
-  - component: {fileID: 3680233161435457817}
   - component: {fileID: 809335075662689324}
+  - component: {fileID: 7644863958491739212}
+  - component: {fileID: 2993159372647948967}
+  - component: {fileID: 6982772509162088093}
   m_Layer: 0
   m_Name: BehaviourTree
   m_TagString: Untagged
@@ -523,8 +569,8 @@ MonoBehaviour:
   variables:
   - {fileID: 4337047500505765116}
   - {fileID: 5256015764280418347}
-  - {fileID: 6935240791879360495}
   - {fileID: 6426271805686395903}
+  - {fileID: 2993159372647948967}
   masterBlackboard: {fileID: 0}
 --- !u!114 &1789502611363134456
 MonoBehaviour:
@@ -538,7 +584,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b25af8627659c6949b60949c3aa8d91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedEditorNode: {fileID: 0}
+  selectedEditorNode: {fileID: 6982772509162088093}
   repeatOnFinish: 1
   maxExecutionsPerTick: 1000
   parent: {fileID: 0}
@@ -629,64 +675,14 @@ MonoBehaviour:
     height: 45
   parent: {fileID: 6520982428291994423}
   children:
-  - {fileID: 1547730322413360891}
-  - {fileID: 3680233161435457817}
+  - {fileID: 7644863958491739212}
+  - {fileID: 6982772509162088093}
   - {fileID: 809335075662689324}
   - {fileID: 8061886926821081734}
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
   random: 0
---- !u!114 &1547730322413360891
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6429214349066125210}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4791b9bdc6d1e984aaba4cd2ef4e9b81, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  title: Select Random Position From Area
-  rect:
-    serializedVersion: 2
-    x: 0
-    y: 360
-    width: 160
-    height: 59
-  parent: {fileID: 3787508379463207611}
-  children: []
-  behaviourTree: {fileID: 0}
-  runtimePriority: 0
-  breakpoint: 0
-  areaReference:
-    useConstant: 0
-    mode: 0
-    blackboard: {fileID: 4677285129039575907}
-    key: MoveArea
-    constantValue: {fileID: 0}
-  point:
-    useConstant: 0
-    mode: 0
-    blackboard: {fileID: 4677285129039575907}
-    key: point
-    constantValue: {x: 0, y: 0}
---- !u!114 &6935240791879360495
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6429214349066125210}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eaa62ce5e63cc9d45ae0efc52561ace7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  key: point
-  val: {x: 0, y: 0}
 --- !u!114 &8061886926821081734
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -733,39 +729,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   key: ActionSequenceInterval
   val: 0.5
---- !u!114 &3680233161435457817
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6429214349066125210}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f8484750bc8d924da28811cf4f96cdf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  title: Move Smooth To Position With Speed
-  rect:
-    serializedVersion: 2
-    x: 200
-    y: 320
-    width: 160
-    height: 59
-  parent: {fileID: 3787508379463207611}
-  children: []
-  behaviourTree: {fileID: 0}
-  runtimePriority: 0
-  breakpoint: 0
-  body: {fileID: 5177814749121741407}
-  movementSpeed: 3
-  destination:
-    useConstant: 0
-    mode: 0
-    blackboard: {fileID: 4677285129039575907}
-    key: point
-    constantValue: {x: 0, y: 0}
-  deviation: 0.1
 --- !u!114 &809335075662689324
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -792,6 +755,82 @@ MonoBehaviour:
   breakpoint: 0
   attackBehaviour: {fileID: 1348317168218471329}
   isFinished: 0
+--- !u!114 &7644863958491739212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6429214349066125210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d42cfcfc87d9653429046f60c28fb2be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: Select Next position from Pool
+  rect:
+    serializedVersion: 2
+    x: -20
+    y: 360
+    width: 160
+    height: 59
+  parent: {fileID: 3787508379463207611}
+  children: []
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+  point:
+    useConstant: 0
+    mode: 0
+    blackboard: {fileID: 4677285129039575907}
+    key: Destination
+    constantValue: {x: 0, y: 0}
+  positionPool: {fileID: 2648941026957704213}
+--- !u!114 &2993159372647948967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6429214349066125210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eaa62ce5e63cc9d45ae0efc52561ace7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: Destination
+  val: {x: 0, y: 0}
+--- !u!114 &6982772509162088093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6429214349066125210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1603983fdba220d499efebbe7c602210, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: Teleport to position
+  rect:
+    serializedVersion: 2
+    x: 188
+    y: 395
+    width: 160
+    height: 45
+  parent: {fileID: 3787508379463207611}
+  children: []
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+  enemy: {fileID: 7387028644812047960}
+  destination:
+    useConstant: 0
+    mode: 0
+    blackboard: {fileID: 4677285129039575907}
+    key: Destination
+    constantValue: {x: 0, y: 0}
 --- !u!1 &7591462011415005413
 GameObject:
   m_ObjectHideFlags: 0
@@ -865,7 +904,7 @@ Transform:
   m_GameObject: {fileID: 7702382484542656876}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.5166664, y: -5.5499988, z: 0}
+  m_LocalPosition: {x: -0.07446289, y: 0.5692792, z: 0}
   m_LocalScale: {x: 1.6666664, y: 1.6666664, z: 1.6666664}
   m_ConstrainProportionsScale: 0
   m_Children: []

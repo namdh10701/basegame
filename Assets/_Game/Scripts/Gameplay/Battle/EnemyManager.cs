@@ -30,17 +30,44 @@ namespace _Game.Scripts.Battle
             {
                 foreach (EnemySpawnData enemySpawnData in groupSpawnData.EnemySpawnDatas)
                 {
-                    Debug.Log(CoordinateConverter.ToWorldPos(enemySpawnData.Position));
-                    enemySpawnTimer.RegisterEvent(new TimedEvent(enemySpawnData.Time, () => SpawnEnemy(enemySpawnData.EnemyId, CoordinateConverter.ToWorldPos(enemySpawnData.Position), enemySpawnData.TargetPosition)));
+                    if (enemySpawnData.EnemyId == 1)
+                    {
+
+                        enemySpawnTimer.RegisterEvent(new TimedEvent(enemySpawnData.Time, () => SpawnEnemy(enemySpawnData.EnemyId, CoordinateConverter.ToWorldPos(enemySpawnData.Position), enemySpawnData.TargetPosition)));
+                    }
+                    else
+                    {
+
+                        enemySpawnTimer.RegisterEvent(new TimedEvent(enemySpawnData.Time, () => SpawnEnemy(enemySpawnData.EnemyId, CoordinateConverter.ToWorldPos(enemySpawnData.Position), enemySpawnData.TargetPosition)));
+                    }
                 }
             }
             enemySpawnTimer.StartTimer();
         }
 
 
-        public void SpawnEnemy(int id, Vector2 position, Vector2 targetPosition)
+        public void SpawnEnemy(int id, Vector2 position, List<Vector2> targetPosition)
         {
-            entityManager.SpawnEntity(enemyPrefabs[id - 1], position, Quaternion.identity, enemyRoot);
+            Enemy spawned = (Enemy)entityManager.SpawnEntity(enemyPrefabs[id - 1], position, Quaternion.identity, enemyRoot);
+            if (spawned is RangedEnemy ranged)
+            {
+                List<Vector2> tp = new List<Vector2>();
+                foreach (Vector2 v in targetPosition)
+                {
+                    tp.Add(CoordinateConverter.ToWorldPos(v));
+                }
+                ranged.SetTargetPoses(tp);
+            }
+
+            if (spawned is MeeleEnemy meele)
+            {
+                List<Vector2> tp = new List<Vector2>();
+                foreach (Vector2 v in targetPosition)
+                {
+                    tp.Add(CoordinateConverter.ToWorldPos(v));
+                }
+                meele.SetTargetPosition(tp.ToArray());
+            }
         }
 
 

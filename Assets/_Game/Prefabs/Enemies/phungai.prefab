@@ -166,7 +166,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 376808139338581299}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 376298de10a24584485df7cebe3d9579, type: 3}
   m_Name: 
@@ -200,7 +200,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd6c4d152a561f04b8f068aaecd28b9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animNames:
+  - name: idle
+    anim: 0
+  - name: action
+    anim: 2
+  - name: dead
+    anim: 1
   skeletonAnimation: {fileID: 5761579890241819939}
+  OnShoot:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1159744104280411663}
+        m_TargetAssemblyTypeName: _Game.Scripts.Battle.MeeleAttack, Assembly-CSharp
+        m_MethodName: DoAttack
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  enemy: {fileID: 1337160875895976424}
 --- !u!1 &377934781838029675
 GameObject:
   m_ObjectHideFlags: 0
@@ -266,7 +289,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -2.2866886}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -277,7 +300,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.2699306, y: 1.2983444}
+  m_Size: {x: 2.6052425, y: 5.8717217}
   m_EdgeRadius: 0
 --- !u!114 &8610591558934979431
 MonoBehaviour:
@@ -318,7 +341,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2143426673363138593}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
@@ -397,7 +420,12 @@ MonoBehaviour:
       _baseValue: 1
   _statsTemplate: {fileID: 0}
   _blackboard: {fileID: 4427921155494618053}
+  body: {fileID: 5883042411956388034}
+  collider: {fileID: 556408225849696479}
   EnemyAttackBehaviour: {fileID: 1159744104280411663}
+  SpineAnimationEnemyHandler: {fileID: 9154872020773401059}
+  MBTExecutor: {fileID: 4995510211644470400}
+  targetPoses: []
 --- !u!114 &1159744104280411663
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -411,9 +439,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AttackPatternProfile: {fileID: 11400000, guid: 75f74ddab4c2cf0419fcb1cabf83e168, type: 2}
-  gridPicker: {fileID: 0}
   _spineAnimationEnemyHandler: {fileID: 9154872020773401059}
-  GridAttackHandler: {fileID: 0}
 --- !u!1 &2589984711387285496
 GameObject:
   m_ObjectHideFlags: 0
@@ -430,11 +456,20 @@ GameObject:
   - component: {fileID: 2881442210477900825}
   - component: {fileID: 5239440144534239797}
   - component: {fileID: 8997508525013019419}
-  - component: {fileID: 5900862695455389824}
   - component: {fileID: 7937456012531713820}
   - component: {fileID: 3328856577594079445}
   - component: {fileID: 4995510211644470400}
   - component: {fileID: 5306210501342534311}
+  - component: {fileID: 827888008995706998}
+  - component: {fileID: 1341972576888878034}
+  - component: {fileID: 3888537419631610382}
+  - component: {fileID: 7509105278477122036}
+  - component: {fileID: 3116123779729685483}
+  - component: {fileID: 332193267040753520}
+  - component: {fileID: 8128160104560200541}
+  - component: {fileID: 7979014001489795413}
+  - component: {fileID: 3208808565572271983}
+  - component: {fileID: 4632424965371587569}
   m_Layer: 6
   m_Name: BehaviourTree
   m_TagString: Untagged
@@ -472,6 +507,9 @@ MonoBehaviour:
   variables:
   - {fileID: 5829403656455855599}
   - {fileID: 925506288155510998}
+  - {fileID: 1341972576888878034}
+  - {fileID: 3888537419631610382}
+  - {fileID: 8128160104560200541}
   masterBlackboard: {fileID: 0}
 --- !u!114 &7278742526585461375
 MonoBehaviour:
@@ -485,7 +523,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b25af8627659c6949b60949c3aa8d91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedEditorNode: {fileID: 0}
+  selectedEditorNode: {fileID: 332193267040753520}
   repeatOnFinish: 1
   maxExecutionsPerTick: 1000
   parent: {fileID: 0}
@@ -532,13 +570,13 @@ MonoBehaviour:
   title: Root
   rect:
     serializedVersion: 2
-    x: 320
-    y: 120
+    x: 180
+    y: 100
     width: 160
-    height: 44
+    height: 45
   parent: {fileID: 0}
   children:
-  - {fileID: 5239440144534239797}
+  - {fileID: 3116123779729685483}
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
@@ -557,14 +595,14 @@ MonoBehaviour:
   title: Selector
   rect:
     serializedVersion: 2
-    x: 320
-    y: 240
+    x: 300
+    y: 260
     width: 160
-    height: 44
-  parent: {fileID: 2881442210477900825}
+    height: 45
+  parent: {fileID: 3116123779729685483}
   children:
   - {fileID: 8997508525013019419}
-  - {fileID: 5900862695455389824}
+  - {fileID: 827888008995706998}
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
@@ -587,7 +625,7 @@ MonoBehaviour:
     x: 200
     y: 340
     width: 160
-    height: 44
+    height: 45
   parent: {fileID: 5239440144534239797}
   children:
   - {fileID: 7937456012531713820}
@@ -602,35 +640,6 @@ MonoBehaviour:
     key: Ship
     constantValue: {fileID: 0}
   isMet: 0
---- !u!114 &5900862695455389824
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2589984711387285496}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3870ee2921d941046bf38a8f2ecaa86b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  title: Move Cos Time
-  rect:
-    serializedVersion: 2
-    x: 421
-    y: 336
-    width: 160
-    height: 44
-  parent: {fileID: 5239440144534239797}
-  children: []
-  behaviourTree: {fileID: 0}
-  runtimePriority: 0
-  breakpoint: 0
-  body: {fileID: 5883042411956388034}
-  frequency: 2
-  amplitude: 1.5
-  modifier: 1
-  range: {fileID: 8997508525013019419}
 --- !u!114 &7937456012531713820
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -649,7 +658,7 @@ MonoBehaviour:
     x: 200
     y: 420
     width: 160
-    height: 44
+    height: 45
   parent: {fileID: 8997508525013019419}
   children:
   - {fileID: 5306210501342534311}
@@ -676,7 +685,7 @@ MonoBehaviour:
     x: 320
     y: 520
     width: 160
-    height: 44
+    height: 45
   parent: {fileID: 7937456012531713820}
   children: []
   behaviourTree: {fileID: 0}
@@ -719,9 +728,9 @@ MonoBehaviour:
   rect:
     serializedVersion: 2
     x: 120
-    y: 540
+    y: 520
     width: 160
-    height: 44
+    height: 45
   parent: {fileID: 7937456012531713820}
   children: []
   behaviourTree: {fileID: 0}
@@ -729,6 +738,286 @@ MonoBehaviour:
   breakpoint: 0
   attackBehaviour: {fileID: 1159744104280411663}
   isFinished: 0
+--- !u!114 &827888008995706998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2589984711387285496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b11b0578e1c0a245a894c97801a9e38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: Move Beizer
+  rect:
+    serializedVersion: 2
+    x: 440
+    y: 320
+    width: 160
+    height: 45
+  parent: {fileID: 5239440144534239797}
+  children: []
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+  destination:
+    useConstant: 0
+    mode: 0
+    blackboard: {fileID: 4427921155494618053}
+    key: Destination
+    constantValue: {x: 0, y: 0}
+  body: {fileID: 5883042411956388034}
+  controlPointDistance: 10
+  controlPointOffset: 5
+  t: 0
+  duration: 6
+  elapsedTime: 0
+--- !u!114 &1341972576888878034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2589984711387285496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eaa62ce5e63cc9d45ae0efc52561ace7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: Destination
+  val: {x: 0, y: 0}
+--- !u!114 &3888537419631610382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2589984711387285496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eaa62ce5e63cc9d45ae0efc52561ace7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: StartPoint
+  val: {x: 0, y: 0}
+--- !u!114 &7509105278477122036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2589984711387285496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c78c7da6b00e1b46bad07949050f82f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: Sequence
+  rect:
+    serializedVersion: 2
+    x: -120
+    y: 360
+    width: 160
+    height: 45
+  parent: {fileID: 332193267040753520}
+  children:
+  - {fileID: 3208808565572271983}
+  - {fileID: 7979014001489795413}
+  - {fileID: 4632424965371587569}
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+  random: 0
+--- !u!114 &3116123779729685483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2589984711387285496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08540605df275034fafc8e05c6704214, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: Selector
+  rect:
+    serializedVersion: 2
+    x: 140
+    y: 200
+    width: 160
+    height: 45
+  parent: {fileID: 2881442210477900825}
+  children:
+  - {fileID: 332193267040753520}
+  - {fileID: 5239440144534239797}
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+  random: 0
+--- !u!114 &332193267040753520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2589984711387285496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 534e3ec7de6cd444e984c2e7f68e42e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: Is Set Condition
+  rect:
+    serializedVersion: 2
+    x: -60
+    y: 280
+    width: 160
+    height: 45
+  parent: {fileID: 3116123779729685483}
+  children:
+  - {fileID: 7509105278477122036}
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+  abort: 0
+  invert: 1
+  type: 0
+  boolReference:
+    useConstant: 0
+    mode: 1
+    blackboard: {fileID: 4427921155494618053}
+    key: ReachStartPoint
+    constantValue: 0
+  objectReference:
+    useConstant: 0
+    mode: 1
+    blackboard: {fileID: 0}
+    key: 
+    constantValue: {fileID: 0}
+  transformReference:
+    useConstant: 0
+    mode: 1
+    blackboard: {fileID: 0}
+    key: 
+    constantValue: {fileID: 0}
+--- !u!114 &8128160104560200541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2589984711387285496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ae15c5e6bcb1714080f2e8296c3d17a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: ReachStartPoint
+  val: 0
+--- !u!114 &7979014001489795413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2589984711387285496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58fe7bc6a9b18e148b82820c7c1c0a90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: Wait
+  rect:
+    serializedVersion: 2
+    x: -200
+    y: 540
+    width: 160
+    height: 45
+  parent: {fileID: 7509105278477122036}
+  children: []
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+  time:
+    useConstant: 1
+    mode: 0
+    blackboard: {fileID: 0}
+    key: 
+    constantValue: 0.5
+  randomDeviation: 0
+  continueOnRestart: 0
+--- !u!114 &3208808565572271983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2589984711387285496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77cf6e975b6ee4243810d16d0aee424d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: Move Smooth To Position
+  rect:
+    serializedVersion: 2
+    x: -300
+    y: 440
+    width: 160
+    height: 45
+  parent: {fileID: 7509105278477122036}
+  children: []
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+  body: {fileID: 5883042411956388034}
+  duration: 2
+  elapsedTime: 0
+  destination:
+    useConstant: 0
+    mode: 0
+    blackboard: {fileID: 4427921155494618053}
+    key: StartPoint
+    constantValue: {x: 0, y: 0}
+--- !u!114 &4632424965371587569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2589984711387285496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a491dc0bc41ade74e85756aea423797c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: Set Boolean
+  rect:
+    serializedVersion: 2
+    x: -40
+    y: 460
+    width: 160
+    height: 45
+  parent: {fileID: 7509105278477122036}
+  children: []
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+  source:
+    useConstant: 1
+    mode: 0
+    blackboard: {fileID: 0}
+    key: 
+    constantValue: 1
+  destination:
+    useConstant: 0
+    mode: 1
+    blackboard: {fileID: 4427921155494618053}
+    key: ReachStartPoint
+    constantValue: 0
 --- !u!1 &3014901950003533006
 GameObject:
   m_ObjectHideFlags: 0

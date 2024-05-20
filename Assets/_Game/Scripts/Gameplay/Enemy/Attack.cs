@@ -12,8 +12,8 @@ namespace _Game.Scripts.Battle
     {
         [SerializeField] protected AttackPatternProfile AttackPatternProfile;
 
-        [SerializeField] GridPicker gridPicker;
-        GridAttackHandler attackHandler;
+        protected GridPicker gridPicker;
+        protected GridAttackHandler attackHandler;
 
         protected EnemyAttackData EnemyAttackData;
         [SerializeField] SpineAnimationEnemyHandler _spineAnimationEnemyHandler;
@@ -40,7 +40,8 @@ namespace _Game.Scripts.Battle
         {
             SelectCells(out EnemyAttackData);
             yield return new WaitForSeconds(2);
-            _spineAnimationEnemyHandler.PlayAttackAnim(false);
+            _spineAnimationEnemyHandler.PlayAnim(Anim.Attack, false);
+            yield return new WaitForSeconds(1);
             onCompleted?.Invoke();
         }
         public abstract void DoAttack();

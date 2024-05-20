@@ -8,15 +8,9 @@ namespace _Game.Scripts.Battle
 {
     public class MeeleAttack : EnemyAttackBehaviour
     {
-        public GridAttackHandler GridAttackHandler;
-        private void Start()
-        {
-            GridAttackHandler = FindAnyObjectByType<GridAttackHandler>();
-        }
-
         public override void DoAttack()
         {
-            GridAttackHandler.ProcessAttack(EnemyAttackData.TargetCells, new DecreaseHealthEffect(2));
+            attackHandler.ProcessAttack(EnemyAttackData.TargetCells, new DecreaseHealthEffect(2));
 
         }
 

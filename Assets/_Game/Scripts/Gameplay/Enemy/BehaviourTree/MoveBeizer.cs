@@ -18,18 +18,27 @@ namespace _Game.Scripts.Battle
         public float controlPointOffset;
         public float t;
         public float duration;
+        public float elapsedTime = 0;
         public override void OnEnter()
         {
             base.OnEnter();
             startPoint = body.position;
             t = 0;
+            elapsedTime = 0;
             CalculateControlPoint();
         }
 
         public override NodeResult Execute()
         {
-            t += Time.deltaTime / duration; // Increment parameter based on time
 
+            elapsedTime += Time.deltaTime;
+            // Increment parameter based on time
+            if (elapsedTime >= duration)
+            {
+                elapsedTime = duration;
+                t = 1;
+            }
+            t = elapsedTime / duration;
             // Calculate position along the Bezier curve
             Vector3 position = CalculateBezierPoint(startPoint, controlPoint, destination.Value, t);
 

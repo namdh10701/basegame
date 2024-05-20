@@ -41,7 +41,7 @@ namespace _Game.Scripts
             foreach (EventPair ep in events)
             {
                 EventData eventData = skeletonData.FindEvent(ep.spineEvent);
-                ep.eventDelegate = ep.eventDelegate ?? delegate (TrackEntry trackEntry, Spine.Event e) { if (e.Data == eventData) ep.unityHandler.Invoke(); };
+                ep.eventDelegate = ep.eventDelegate ?? delegate (TrackEntry trackEntry, Spine.Event e) { if (e.Data == eventData) Debug.Log(trackEntry.Animation.Name); ep.unityHandler.Invoke(); };
                 state.Event += ep.eventDelegate;
             }
         }
