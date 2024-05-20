@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using _Base.Scripts.RPG;
 using _Base.Scripts.RPG.Behaviours.AttackTarget;
@@ -61,11 +62,7 @@ namespace _Game.Scripts.Entities
                 Die();
             }
         }
-        public void PlayAttackSequence(Action onCompleted = null)
-        {
-            EnemyAttackBehaviour.PlayAttackSequence(onCompleted);
-        }
-        public abstract void Teleport(Vector2 pos, Action onCompleted);
+        public abstract IEnumerator Teleport(Vector2 pos);
 
         public virtual void Die()
         {

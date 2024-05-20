@@ -23,9 +23,9 @@ namespace _Game.Scripts.Entities
             _blackboard.GetVariable<Vector2Variable>("StartPoint").Value = targetPoses[0];
             _blackboard.GetVariable<Vector2Variable>("Destination").Value = targetPoses[1];
         }
-        public override void Teleport(Vector2 pos, Action onCompleted)
+        public override IEnumerator Teleport(Vector2 pos)
         {
-           
+            yield break;
         }
     }
 }

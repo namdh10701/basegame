@@ -11,12 +11,15 @@ namespace _Game.Scripts.Battle
     public abstract class EnemyAttackBehaviour : MonoBehaviour
     {
         [SerializeField] protected AttackPatternProfile AttackPatternProfile;
-
         protected GridPicker gridPicker;
         protected GridAttackHandler attackHandler;
 
         protected EnemyAttackData EnemyAttackData;
         [SerializeField] SpineAnimationEnemyHandler _spineAnimationEnemyHandler;
+
+        CooldownBehaviour cooldownBehaviour;
+        public bool IsAbleToAttack;
+
         private void Awake()
         {
             gridPicker = FindAnyObjectByType<GridPicker>();
@@ -31,18 +34,15 @@ namespace _Game.Scripts.Battle
             attackHandler.PlayTargetingFx(enemyAttackData.TargetCells);
         }
 
-        public void PlayAttackSequence(Action onCompleted)
-        {
-            StartCoroutine(AttackSequence(onCompleted));
-        }
-
-        public IEnumerator AttackSequence(Action onCompleted)
+        public IEnumerator AttackSequence()
         {
             SelectCells(out EnemyAttackData);
             yield return new WaitForSeconds(2);
-            _spineAnimationEnemyHandler.PlayAnim(Anim.Attack, false);
-            yield return new WaitForSeconds(1);
-            onCompleted?.Invoke();
+            _spineAnimationEnemyHandler.PlayAnim(Anim.Attack, false, () =>
+            {
+                cooldownBehaviour.StartCooldown();
+            });
+
         }
         public abstract void DoAttack();
 

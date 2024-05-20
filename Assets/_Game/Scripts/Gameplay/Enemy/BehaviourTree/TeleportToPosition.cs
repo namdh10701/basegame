@@ -12,31 +12,22 @@ namespace _Game.Scripts.Battle
     {
         [SerializeField] Enemy enemy;
         [SerializeField] Vector2Reference destination;
-        bool isfinished;
+        bool isFinished;
         bool isTriggered = false;
+        MyCoroutine myCoroutine;
+
         public override void OnEnter()
         {
             base.OnEnter();
-            isfinished = false;
-            isTriggered = false;
+            isFinished = false;
+            myCoroutine = new MyCoroutine(enemy, "Teleport", destination.Value, () => isFinished = true);
+            myCoroutine.Start();
         }
 
         public override NodeResult Execute()
         {
-            if (!isTriggered)
-            {
-                isTriggered = true;
-                enemy.Teleport(destination.Value, () =>
-            isfinished = true);
-            }
+            return isFinished ? NodeResult.success : NodeResult.running;
 
-            return isfinished ? NodeResult.success : NodeResult.running;
-
-        }
-        public override void OnExit()
-        {
-            base.OnExit();
-            isfinished = false;
         }
     }
 

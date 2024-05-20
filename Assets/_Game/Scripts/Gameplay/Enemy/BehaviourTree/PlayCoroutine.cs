@@ -1,4 +1,7 @@
+using _Base.Scripts.RPG.Entities;
+using _Base.Scripts.Unity.EditorUsedAttributes;
 using MBT;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,22 +13,22 @@ namespace _Game.Scripts.Battle
     [AddComponentMenu("")]
     public class PlayCoroutine : Leaf
     {
-        public EnemyAttackBehaviour attackBehaviour;
-        public bool isFinished = false;
-        bool played;
+        [MonoScript(typeof(MonoBehaviour))]
+        [SerializeField] private string type;
+        [SerializeField] private MonoBehaviour monoBehaviour;
+        [SerializeField] private string coroutineName;
+        private bool isFinished = false;
+        MyCoroutine myCoroutine;
         public override void OnEnter()
         {
             base.OnEnter();
             isFinished = false;
-            played = false;
+            monoBehaviour = (MonoBehaviour)monoBehaviour.GetComponent(Type.GetType(type));
+            myCoroutine = new MyCoroutine(monoBehaviour, coroutineName, null, () => isFinished = true);
+            myCoroutine.Start();
         }
         public override NodeResult Execute()
         {
-            if (!played)
-            {
-                attackBehaviour.PlayAttackSequence(() => { isFinished = true; });
-                played = true;
-            }
             if (isFinished)
             {
                 return NodeResult.success;

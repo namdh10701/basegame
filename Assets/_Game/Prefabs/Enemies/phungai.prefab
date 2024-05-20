@@ -30,7 +30,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1980473239063725020}
-  - {fileID: 2408227670172480998}
   m_Father: {fileID: 4524130939993444546}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &376808139338581299
@@ -440,6 +439,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AttackPatternProfile: {fileID: 11400000, guid: 75f74ddab4c2cf0419fcb1cabf83e168, type: 2}
   _spineAnimationEnemyHandler: {fileID: 9154872020773401059}
+  IsAbleToAttack: 0
 --- !u!1 &2589984711387285496
 GameObject:
   m_ObjectHideFlags: 0
@@ -523,7 +523,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b25af8627659c6949b60949c3aa8d91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedEditorNode: {fileID: 332193267040753520}
+  selectedEditorNode: {fileID: 5306210501342534311}
   repeatOnFinish: 1
   maxExecutionsPerTick: 1000
   parent: {fileID: 0}
@@ -595,8 +595,8 @@ MonoBehaviour:
   title: Selector
   rect:
     serializedVersion: 2
-    x: 300
-    y: 260
+    x: 303
+    y: 262
     width: 160
     height: 45
   parent: {fileID: 3116123779729685483}
@@ -727,8 +727,8 @@ MonoBehaviour:
   title: Play Coroutine
   rect:
     serializedVersion: 2
-    x: 120
-    y: 520
+    x: 140
+    y: 500
     width: 160
     height: 45
   parent: {fileID: 7937456012531713820}
@@ -736,8 +736,9 @@ MonoBehaviour:
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
-  attackBehaviour: {fileID: 1159744104280411663}
-  isFinished: 0
+  type: _Game.Scripts.Battle.MeeleAttack
+  monoBehaviour: {fileID: 1337160875895976424}
+  coroutineName: AttackSequence
 --- !u!114 &827888008995706998
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -845,8 +846,8 @@ MonoBehaviour:
   title: Selector
   rect:
     serializedVersion: 2
-    x: 140
-    y: 200
+    x: 180
+    y: 180
     width: 160
     height: 45
   parent: {fileID: 2881442210477900825}
@@ -872,8 +873,8 @@ MonoBehaviour:
   title: Is Set Condition
   rect:
     serializedVersion: 2
-    x: -60
-    y: 280
+    x: -120
+    y: 260
     width: 160
     height: 45
   parent: {fileID: 3116123779729685483}
@@ -932,8 +933,8 @@ MonoBehaviour:
   title: Wait
   rect:
     serializedVersion: 2
-    x: -200
-    y: 540
+    x: -180
+    y: 560
     width: 160
     height: 45
   parent: {fileID: 7509105278477122036}
@@ -964,8 +965,8 @@ MonoBehaviour:
   title: Move Smooth To Position
   rect:
     serializedVersion: 2
-    x: -300
-    y: 440
+    x: -320
+    y: 480
     width: 160
     height: 45
   parent: {fileID: 7509105278477122036}
@@ -997,8 +998,8 @@ MonoBehaviour:
   title: Set Boolean
   rect:
     serializedVersion: 2
-    x: -40
-    y: 460
+    x: -60
+    y: 480
     width: 160
     height: 45
   parent: {fileID: 7509105278477122036}
@@ -1047,6 +1048,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 2408227670172480998}
   - {fileID: 3913547633953639078}
   - {fileID: 6663307219870171230}
   - {fileID: 5884852905749466833}
@@ -1082,7 +1084,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2234520735724192416}
+  m_Father: {fileID: 6160604753637472993}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3302935395636013476
 MonoBehaviour:
