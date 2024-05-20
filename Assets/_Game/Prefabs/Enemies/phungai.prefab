@@ -62,7 +62,7 @@ Transform:
   m_GameObject: {fileID: 376808139338581299}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.398, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -402,6 +402,9 @@ MonoBehaviour:
       _maxValue:
         statModifiers: []
         _baseValue: 800
+    <BlockChance>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
     <AttackDamage>k__BackingField:
       statModifiers: []
       _baseValue: 0
@@ -523,7 +526,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b25af8627659c6949b60949c3aa8d91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedEditorNode: {fileID: 5306210501342534311}
+  selectedEditorNode: {fileID: 0}
   repeatOnFinish: 1
   maxExecutionsPerTick: 1000
   parent: {fileID: 0}
@@ -571,7 +574,7 @@ MonoBehaviour:
   rect:
     serializedVersion: 2
     x: 180
-    y: 100
+    y: -20
     width: 160
     height: 45
   parent: {fileID: 0}
@@ -595,8 +598,8 @@ MonoBehaviour:
   title: Selector
   rect:
     serializedVersion: 2
-    x: 303
-    y: 262
+    x: 320
+    y: 260
     width: 160
     height: 45
   parent: {fileID: 3116123779729685483}
@@ -818,7 +821,7 @@ MonoBehaviour:
   title: Sequence
   rect:
     serializedVersion: 2
-    x: -120
+    x: -180
     y: 360
     width: 160
     height: 45
@@ -847,7 +850,7 @@ MonoBehaviour:
   rect:
     serializedVersion: 2
     x: 180
-    y: 180
+    y: 60
     width: 160
     height: 45
   parent: {fileID: 2881442210477900825}
@@ -873,8 +876,8 @@ MonoBehaviour:
   title: Is Set Condition
   rect:
     serializedVersion: 2
-    x: -120
-    y: 260
+    x: -180
+    y: 240
     width: 160
     height: 45
   parent: {fileID: 3116123779729685483}
@@ -998,7 +1001,7 @@ MonoBehaviour:
   title: Set Boolean
   rect:
     serializedVersion: 2
-    x: -60
+    x: -40
     y: 480
     width: 160
     height: 45

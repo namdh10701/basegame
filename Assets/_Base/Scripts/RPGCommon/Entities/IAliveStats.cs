@@ -8,6 +8,6 @@ namespace _Base.Scripts.RPGCommon.Entities
     {
         RangedStat HealthPoint { get; set; }
         
-        // Stat MaxHealthPoint { get; set; }
+        Stat BlockChance { get; set; }
     }
 }

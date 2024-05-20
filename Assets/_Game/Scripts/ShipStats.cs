@@ -12,7 +12,10 @@ namespace _Game.Scripts
     {
         [field: SerializeField]
         public RangedStat HealthPoint { get; set; } = new(0, 0, 100);
-        
+
+        [field: SerializeField]
+        public Stat BlockChance { get; set; } = new();
+
         [field: SerializeField]
         public RangedStat ManaPoint { get; set; } = new(0, 0, 150);
         

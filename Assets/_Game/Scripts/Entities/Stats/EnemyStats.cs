@@ -14,13 +14,16 @@ namespace _Game.Scripts
         public RangedStat HealthPoint { get; set; } = new(500, 0, 800);
 
         [field: SerializeField]
-        public Stat AttackDamage {get;set;} = new();
-        
+        public Stat BlockChance { get; set; } = new();
+
         [field: SerializeField]
-        public Stat CriticalChance {get;set;} = new();
-        
+        public Stat AttackDamage { get; set; } = new();
+
         [field: SerializeField]
-        public Stat CriticalDamage {get;set;} = new();
+        public Stat CriticalChance { get; set; } = new();
+
+        [field: SerializeField]
+        public Stat CriticalDamage { get; set; } = new();
 
         [field: SerializeField]
         public Stat AttackRange { get; set; } = new();
@@ -31,6 +34,7 @@ namespace _Game.Scripts
         public Stat ActionSequenceInterval { get; set; } = new();
 
         public IFighterStats.AttackTypes AttackType { get; set; } = IFighterStats.AttackTypes.UNIT;
+
 
         // [SerializeField]
         // private float _healthPoint;

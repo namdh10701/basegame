@@ -48,6 +48,7 @@ namespace _Game.Scripts.Entities
             }
             if (_blackboard == null)
                 return;
+
             _blackboard.GetVariable<ShipVariable>("Ship").Value = ship;
             _blackboard.GetVariable<FloatVariable>("ActionSequenceInterval").Value = _stats.ActionSequenceInterval.Value;
 

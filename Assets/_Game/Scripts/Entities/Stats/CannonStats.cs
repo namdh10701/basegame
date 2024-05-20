@@ -13,6 +13,9 @@ namespace _Game.Scripts
         public RangedStat HealthPoint { get; set; } = new(500, 0, 800);
 
         [field: SerializeField]
+        public Stat BlockChance { get; set; } = new();
+
+        [field: SerializeField]
         public Stat AttackDamage { get; set; } = new("AttackDamage");
 
         [field: SerializeField]
