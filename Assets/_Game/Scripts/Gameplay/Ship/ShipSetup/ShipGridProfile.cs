@@ -17,6 +17,7 @@ namespace _Game.Scripts
         public Vector2 rootPosition;
         public int Col;
         public int Row;
+        public Vector2 CellSize;
         public Vector2 Spaces;
         public Cell CellPrefab;
     }
