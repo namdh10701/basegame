@@ -11,11 +11,11 @@ public class Timer : MonoBehaviour
     bool isStarted;
     bool isRunning;
 
-    private void Update()
+    public void Tick(float deltaTime)
     {
         if (isStarted && isRunning)
         {
-            elapsedTime += Time.deltaTime;
+            elapsedTime += deltaTime;
             foreach (TimedEvent timedEvent in timedEvents)
             {
                 if (!timedEvent.IsTriggered)

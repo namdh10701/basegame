@@ -26,8 +26,7 @@ public class SpineAnimationEnemyHandler : MonoBehaviour
     public Action onDeadCompleted;
     public UnityEvent OnShoot;
 
-    public Enemy enemy;
-    void Start()
+    protected virtual void Start()
     {
         foreach (AnimName an in animNames)
         {
@@ -73,7 +72,6 @@ public class SpineAnimationEnemyHandler : MonoBehaviour
                 break;
             case Anim.Dead:
                 skeletonAnimation.AnimationState.SetAnimation(0, animDic[Anim.Dead].name, isLoop);
-                skeletonAnimation.AnimationState.Apply(skeletonAnimation.Skeleton);
                 onDeadCompleted = onCompleted;
                 break;
             case Anim.Hide:
@@ -96,5 +94,15 @@ public class SpineAnimationEnemyHandler : MonoBehaviour
                 OnShoot.Invoke();
             }
         }
+    }
+
+    public void PlayAnim(string animName, bool isLoop)
+    {
+        skeletonAnimation.AnimationState.SetAnimation(0, animName, isLoop);
+    }
+    public void PlayAnimSequence(string anim1, string anim2, bool isLoop)
+    {
+        skeletonAnimation.AnimationState.AddAnimation(0, anim1, false, 0);
+        skeletonAnimation.AnimationState.AddAnimation(0, anim2, isLoop, 0);
     }
 }

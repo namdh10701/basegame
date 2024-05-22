@@ -50,7 +50,6 @@ namespace _Game.Scripts.Entities
                 return;
 
             _blackboard.GetVariable<ShipVariable>("Ship").Value = ship;
-            _blackboard.GetVariable<FloatVariable>("ActionSequenceInterval").Value = _stats.ActionSequenceInterval.Value;
 
             _stats.HealthPoint.OnValueChanged += HealthPoint_OnValueChanged;
         }
@@ -63,14 +62,13 @@ namespace _Game.Scripts.Entities
                 Die();
             }
         }
-        public abstract IEnumerator Teleport(Vector2 pos);
 
         public virtual void Die()
         {
             collider.enabled = false;
             MBTExecutor.enabled = false;
             StopAllCoroutines();
-            EnemyAttackBehaviour.StopAllCoroutines();
+            EnemyAttackBehaviour?.StopAllCoroutines();
             SpineAnimationEnemyHandler.PlayAnim(Anim.Dead, false, () => Destroy(gameObject));
         }
     }

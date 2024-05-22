@@ -56,7 +56,6 @@ namespace _Game.Scripts.Battle
                 {
                     tp.Add(CoordinateConverter.ToWorldPos(v));
                 }
-                ranged.SetTargetPoses(tp);
             }
 
             if (spawned is MeeleEnemy meele)
@@ -66,7 +65,6 @@ namespace _Game.Scripts.Battle
                 {
                     tp.Add(CoordinateConverter.ToWorldPos(v));
                 }
-                meele.SetTargetPosition(tp.ToArray());
             }
         }
 

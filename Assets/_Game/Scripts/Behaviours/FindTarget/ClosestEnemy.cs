@@ -19,7 +19,6 @@ namespace _Game.Scripts.Behaviours.FindTarget
             {
                 return false;
             }
-
             entity = found;
             return true;
         }

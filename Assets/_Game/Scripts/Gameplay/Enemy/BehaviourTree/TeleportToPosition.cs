@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using MBT;
 using _Game.Scripts.Entities;
+using _Base.Scripts.Utils;
 
 namespace _Game.Scripts.Battle
 {
@@ -10,24 +11,32 @@ namespace _Game.Scripts.Battle
     [AddComponentMenu("")]
     public class TeleportToPosition : Leaf
     {
-        [SerializeField] Enemy enemy;
-        [SerializeField] Vector2Reference destination;
+        [SerializeField] MonoBehaviour enemy;
         bool isFinished;
-        bool isTriggered = false;
         MyCoroutine myCoroutine;
-
+        ITeleportable teleporter;
         public override void OnEnter()
         {
             base.OnEnter();
+            teleporter = enemy.GetComponent<ITeleportable>();
             isFinished = false;
-            myCoroutine = new MyCoroutine(enemy, "Teleport", destination.Value, () => isFinished = true);
-            myCoroutine.Start();
+            Coroutines.StartCoroutine(Coroutine());
         }
 
         public override NodeResult Execute()
         {
             return isFinished ? NodeResult.success : NodeResult.running;
+        }
 
+        public void Start()
+        {
+            Coroutines.StartCoroutine(Coroutine());
+        }
+
+        IEnumerator Coroutine()
+        {
+            yield return teleporter.Teleport();
+            isFinished = true;
         }
     }
 

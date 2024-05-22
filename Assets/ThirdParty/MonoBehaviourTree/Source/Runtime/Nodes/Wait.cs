@@ -46,5 +46,10 @@ namespace MBT
                 randomDeviation = Mathf.Clamp(randomDeviation, 0f, 600f);
             }
         }
+
+        public override void OnAllowInterrupt()
+        {
+            base.OnAllowInterrupt();
+        }
     }
 }

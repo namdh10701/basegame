@@ -6,12 +6,11 @@ using UnityEngine;
 
 namespace _Game.Scripts.Battle
 {
-    public class MeeleAttack : EnemyAttackBehaviour
+    public class MeeleAttack : CellAttacker
     {
         public override void DoAttack()
         {
-            attackHandler.ProcessAttack(EnemyAttackData.TargetCells, new DecreaseHealthEffect(2));
-
+            attackHandler.ProcessAttack(enemyAttackData.TargetCells, new DecreaseHealthEffect(2));
         }
 
     }
