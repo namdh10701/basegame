@@ -21,9 +21,22 @@ namespace _Game.Scripts.Battle
             Gizmos.DrawWireCube(bounds.center + (Vector3)offset, bounds.size);
         }
 
+        public Vector2 SampleCircle(CircleCollider2D circleCollider)
+        {
+            Vector2 sampledPoint = SamplePoint(circleCollider.radius, circleCollider.radius);
+            return sampledPoint;
+        }
+
         public Vector2 SamplePoint()
         {
             Vector2 point = bounds.center + new Vector3(Random.Range(-bounds.extents.x, bounds.extents.x), Random.Range(-bounds.extents.y, bounds.extents.y));
+            point += offset;
+            return point;
+        }
+
+        public Vector2 SamplePoint(float offsetX, float offsetY)
+        {
+            Vector2 point = bounds.center + new Vector3(Random.Range(-bounds.extents.x + offsetX, bounds.extents.x - offsetX), Random.Range(-bounds.extents.y + offsetY, bounds.extents.y - offsetY));
             point += offset;
             return point;
         }
