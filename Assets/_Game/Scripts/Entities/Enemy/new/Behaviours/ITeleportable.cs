@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public interface ITeleportable
+public interface ITeleporter
 {
     public Vector2 TeleportPosition { get; set; }
     public void RefreshTeleportPosition();

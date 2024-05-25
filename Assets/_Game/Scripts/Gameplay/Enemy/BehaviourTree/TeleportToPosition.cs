@@ -14,11 +14,11 @@ namespace _Game.Scripts.Battle
         [SerializeField] MonoBehaviour enemy;
         bool isFinished;
         MyCoroutine myCoroutine;
-        ITeleportable teleporter;
+        ITeleporter teleporter;
         public override void OnEnter()
         {
             base.OnEnter();
-            teleporter = enemy.GetComponent<ITeleportable>();
+            teleporter = enemy.GetComponent<ITeleporter>();
             isFinished = false;
             Coroutines.StartCoroutine(Coroutine());
         }

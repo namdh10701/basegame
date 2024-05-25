@@ -21,9 +21,13 @@ namespace _Game.Scripts.Battle
             Gizmos.DrawWireCube(bounds.center + (Vector3)offset, bounds.size);
         }
 
-        public Vector2 SampleCircle(CircleCollider2D circleCollider)
+        public Vector2 SampleCircle(CircleCollider2D circleCollider, Vector2 position, float minDistance)
         {
             Vector2 sampledPoint = SamplePoint(circleCollider.radius, circleCollider.radius);
+            while((sampledPoint-position).magnitude < minDistance)
+            {
+                sampledPoint = SamplePoint(circleCollider.radius, circleCollider.radius);
+            }
             return sampledPoint;
         }
 

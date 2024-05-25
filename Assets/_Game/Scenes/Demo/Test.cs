@@ -30,7 +30,7 @@ public class Test : MonoBehaviour
 
     void SelectTargetPoint()
     {
-        circleCollider.transform.position = area.SampleCircle(circleCollider);
+        //circleCollider.transform.position = area.SampleCircle(circleCollider);
         targetPoint = circleCollider.SamplePoint(circleColliderB);
     }
 

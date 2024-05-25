@@ -51,7 +51,6 @@ namespace _Game.Scripts.Entities
 
         public override NodeResult Execute()
         {
-            Debug.Log("SUB TICK");
             if (isSlowdowned)
             {
                 if (slowdownTimer < slowdownTime.Value)
@@ -112,11 +111,5 @@ namespace _Game.Scripts.Entities
             body.velocity = Vector2.ClampMagnitude(body.velocity, maxVel);
         }
 
-        public void Move()
-        {
-            isSlowdowned = false;
-            isAccelerate = true;
-            fastTimer = 0;
-        }
     }
 }
