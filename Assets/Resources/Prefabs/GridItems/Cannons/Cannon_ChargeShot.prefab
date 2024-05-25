@@ -357,6 +357,9 @@ MonoBehaviour:
       _maxValue:
         statModifiers: []
         _baseValue: 800
+    <BlockChance>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
     <AttackDamage>k__BackingField:
       statModifiers: []
       _baseValue: 0
@@ -1581,6 +1584,7 @@ GameObject:
   - component: {fileID: 3472134887174341717}
   - component: {fileID: 7147069703896698860}
   - component: {fileID: 3015704018446557585}
+  - component: {fileID: 696011279512913005}
   - component: {fileID: 3998683235849372507}
   m_Layer: 10
   m_Name: FindTarget
@@ -1723,6 +1727,18 @@ MonoBehaviour:
   - _Game.Scripts.Entities.RangedEnemy
   - _Game.Scripts.Entities.MeeleEnemy
   closestTo: {fileID: 575761695595097317}
+--- !u!114 &696011279512913005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6325944138744424202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34a08875fb244deab6cc436dd01dfa11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &3998683235849372507
 MonoBehaviour:
   m_ObjectHideFlags: 0
