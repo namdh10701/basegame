@@ -1,10 +1,6 @@
 using _Base.Scripts.RPG;
 using _Base.Scripts.RPG.Entities;
-using _Game.Scripts;
-using _Game.Scripts.Gameplay.Ship;
 using MBT;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace _Game.Scripts.Battle

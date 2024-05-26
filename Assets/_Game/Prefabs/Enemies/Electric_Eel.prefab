@@ -93,10 +93,10 @@ GameObject:
   - component: {fileID: 5272535603498227844}
   - component: {fileID: 1564369706626909024}
   - component: {fileID: 5312989881003853790}
-  - component: {fileID: 5188599232447864351}
   - component: {fileID: 7160152900157119154}
   - component: {fileID: 79989750662541017}
   - component: {fileID: 5701419017933622475}
+  - component: {fileID: 3717614829941420010}
   m_Layer: 6
   m_Name: BehaviourTree
   m_TagString: Untagged
@@ -148,7 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b25af8627659c6949b60949c3aa8d91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedEditorNode: {fileID: 0}
+  selectedEditorNode: {fileID: 7872520857758919274}
   repeatOnFinish: 0
   maxExecutionsPerTick: 6
   parent: {fileID: 0}
@@ -213,7 +213,7 @@ MonoBehaviour:
   parent: {fileID: 5272535603498227844}
   children:
   - {fileID: 2358695170628554788}
-  - {fileID: 5188599232447864351}
+  - {fileID: 3717614829941420010}
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
@@ -314,8 +314,8 @@ MonoBehaviour:
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
-  type: _Game.Scripts.Entities.PufferFish
-  monoBehaviour: {fileID: 0}
+  type: ElectricEel
+  monoBehaviour: {fileID: 6075121054568462866}
   coroutineName: AttackSequence
 --- !u!114 &6366388257384045121
 MonoBehaviour:
@@ -400,66 +400,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   key: TargetPoint
   val: {x: 0, y: 0}
---- !u!114 &5188599232447864351
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5245305612781269985}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4815fb35d8151c942a79ab431ac41965, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  title: Move
-  rect:
-    serializedVersion: 2
-    x: 340
-    y: 340
-    width: 160
-    height: 44
-  parent: {fileID: 6065938069518744946}
-  children: []
-  behaviourTree: {fileID: 0}
-  runtimePriority: 0
-  breakpoint: 0
-  body: {fileID: 9081800915487468024}
-  TargetPoint:
-    useConstant: 0
-    mode: 0
-    blackboard: {fileID: 5194563963806863679}
-    key: TargetPoint
-    constantValue: {x: 0, y: 0}
-  fastForce:
-    BaseValue: 30
-    Deviation: 5
-  maxFastSpeed:
-    BaseValue: 3
-    Deviation: 2
-  timeAccelerate:
-    BaseValue: 0.5
-    Deviation: 0.1
-  isAccelerate: 0
-  fastTimer: 0
-  normalSpeed:
-    BaseValue: 0.3
-    Deviation: 0.1
-  normalForce:
-    BaseValue: 0.6
-    Deviation: 0.3
-  normalTime:
-    BaseValue: 3
-    Deviation: 0.5
-  slowdownTime:
-    BaseValue: 0.25
-    Deviation: 0.125
-  slowdownSpeed:
-    BaseValue: 0.15
-    Deviation: 0.075
-  isSlowdowned: 0
-  slowdownTimer: 0
-  normalMoveTimer: 0
 --- !u!114 &7160152900157119154
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -554,6 +494,39 @@ MonoBehaviour:
     blackboard: {fileID: 5194563963806863679}
     key: TargetPoint
     constantValue: {x: 0, y: 0}
+--- !u!114 &3717614829941420010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5245305612781269985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e267a02da6b2838418ad3f351e5c2602, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: Move
+  rect:
+    serializedVersion: 2
+    x: 420
+    y: 300
+    width: 160
+    height: 44
+  parent: {fileID: 6065938069518744946}
+  children: []
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+  body: {fileID: 9081800915487468024}
+  moveSpeed: 5
+  waveFrequency: 2
+  waveAmplitude: 1
+  dashSpeed: 10
+  dashDuration: 0.2
+  dashCooldown: 2
+  changeDirectionInterval: 3
+  movementBounds: {fileID: 0}
 --- !u!1 &5303551782634425171
 GameObject:
   m_ObjectHideFlags: 0
@@ -596,9 +569,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5887077759218277640}
   - component: {fileID: 9081800915487468024}
-  - component: {fileID: 6974687745006894036}
+  - component: {fileID: 6075121054568462866}
   m_Layer: 6
-  m_Name: Puffer Fish
+  m_Name: Electric_Eel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -649,7 +622,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &6974687745006894036
+--- !u!114 &6075121054568462866
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -658,7 +631,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5407639160895214179}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f4883c937abf63448058d6d128383e0, type: 3}
+  m_Script: {fileID: 11500000, guid: 2ef6759beb939704bb47238a6442468d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   EffectHandler: {fileID: 6980205348978265785}
@@ -698,9 +671,9 @@ MonoBehaviour:
   body: {fileID: 9081800915487468024}
   collider: {fileID: 5727685085004212908}
   EnemyAttackBehaviour: {fileID: 0}
-  SpineAnimationEnemyHandler: {fileID: 7789903315881788189}
+  SpineAnimationEnemyHandler: {fileID: 1477516068028198663}
   MBTExecutor: {fileID: 688278576719588910}
-  Animation: {fileID: 7789903315881788189}
+  Animation: {fileID: 1477516068028198663}
   Enemy: {fileID: 0}
 --- !u!1 &5574262649067553459
 GameObject:
@@ -715,9 +688,9 @@ GameObject:
   - component: {fileID: 2323713613168333727}
   - component: {fileID: 7007667281566845363}
   - component: {fileID: 8567596412684709219}
-  - component: {fileID: 7789903315881788189}
+  - component: {fileID: 1477516068028198663}
   m_Layer: 0
-  m_Name: PhunGai_SkeletonAnimation
+  m_Name: Electric_Eel_SkeletonAnimation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -732,7 +705,7 @@ Transform:
   m_GameObject: {fileID: 5574262649067553459}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.398, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -758,7 +731,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d4d86e3029e88f341855a206c4c35de0, type: 2}
+  - {fileID: 2100000, guid: 3bec2c3e2c686a3489d857906672e477, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -792,7 +765,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d247ba06193faa74d9335f5481b2b56c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skeletonDataAsset: {fileID: 11400000, guid: a5416a92b79ba694db529332c86c952f, type: 2}
+  skeletonDataAsset: {fileID: 11400000, guid: 294e922e4e47fea49abe97ac50e332f7, type: 2}
   initialSkinName: 
   fixPrefabOverrideViaMeshFilter: 2
   initialFlipX: 0
@@ -857,7 +830,7 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
---- !u!114 &7789903315881788189
+--- !u!114 &1477516068028198663
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -866,16 +839,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 5574262649067553459}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43628b570e92515459f0bdc14a390d97, type: 3}
+  m_Script: {fileID: 11500000, guid: 07a3f013afcb7304cb2ffc28eb5ebaec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   animNames:
   - name: idle
     anim: 0
-  - name: action
+  - name: attack
     anim: 2
-  - name: bomb_ship_explo
+  - name: dead
     anim: 1
+  - name: appear
+    anim: 4
   skeletonAnimation: {fileID: 2323713613168333727}
   OnShoot:
     m_PersistentCalls:
@@ -1184,7 +1159,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69b63fcec66342af9cc00f0e6ea683e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Entity: {fileID: 6974687745006894036}
+  Entity: {fileID: 0}
 --- !u!114 &7152932867953758705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1483,15 +1458,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5201555825134513242, guid: 807c08b6e5252ae4dba62980dff94de3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.48
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5201555825134513242, guid: 807c08b6e5252ae4dba62980dff94de3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.58
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5201555825134513242, guid: 807c08b6e5252ae4dba62980dff94de3, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.03
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5201555825134513242, guid: 807c08b6e5252ae4dba62980dff94de3, type: 3}
       propertyPath: m_LocalRotation.w

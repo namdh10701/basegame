@@ -100,6 +100,7 @@ public class SpineAnimationEnemyHandler : MonoBehaviour
     {
         skeletonAnimation.AnimationState.SetAnimation(0, animName, isLoop);
     }
+    
     public void PlayAnimSequence(string anim1, string anim2, bool isLoop)
     {
         skeletonAnimation.AnimationState.AddAnimation(0, anim1, false, 0);

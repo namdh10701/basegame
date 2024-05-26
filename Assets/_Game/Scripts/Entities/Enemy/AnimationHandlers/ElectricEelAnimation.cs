@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PufferFishAnimation : SpineAnimationEnemyHandler
+public class ElectricEelAnimation : SpineAnimationEnemyHandler
 {
     protected override void Start()
     {
@@ -14,6 +14,7 @@ public class PufferFishAnimation : SpineAnimationEnemyHandler
 
     public void ChargeExplode()
     {
-        PlayAnimSequence("bomb_ship_transform", "bomb_ship_loop", true);
+        PlayAnim("attack", false);
+        
     }
 }

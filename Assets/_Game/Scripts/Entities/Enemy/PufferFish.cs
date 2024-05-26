@@ -1,8 +1,4 @@
-using _Game.Scripts.Battle;
-using JetBrains.Annotations;
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace _Game.Scripts.Entities
