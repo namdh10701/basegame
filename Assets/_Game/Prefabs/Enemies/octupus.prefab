@@ -263,11 +263,6 @@ MonoBehaviour:
   EnemyAttackBehaviour: {fileID: 0}
   SpineAnimationEnemyHandler: {fileID: 5932466136117731628}
   MBTExecutor: {fileID: 4219786944901737619}
-  <MoveableArea>k__BackingField: {fileID: 0}
-  <SampledMoveArea>k__BackingField: {fileID: 2618572338336607793}
-  <Collider>k__BackingField: {fileID: 7485769833707469950}
-  <Destination>k__BackingField: {x: 0, y: 0}
-  <Body>k__BackingField: {fileID: 5177814749121741407}
 --- !u!1 &4468273977996884430
 GameObject:
   m_ObjectHideFlags: 0
@@ -682,7 +677,7 @@ MonoBehaviour:
     x: 260
     y: 20
     width: 160
-    height: 45
+    height: 44
   parent: {fileID: 0}
   children:
   - {fileID: 9105812983900858520}
@@ -748,7 +743,7 @@ MonoBehaviour:
     x: 260
     y: 120
     width: 160
-    height: 45
+    height: 44
   parent: {fileID: 6520982428291994423}
   children:
   - {fileID: 2045235862676810235}
@@ -788,15 +783,29 @@ MonoBehaviour:
     x: 40
     y: 260
     width: 160
-    height: 45
+    height: 44
   parent: {fileID: 9105812983900858520}
   children: []
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
   MonoBehaviour: {fileID: 1348317168218471329}
-  TargetSpeed: 2
+  TargetSpeed:
+    BaseValue: 2.5
+    Deviation: 0.25
   Force: 1
+  MoveableArea: {fileID: 0}
+  SampledMoveArea: {fileID: 0}
+  Collider: {fileID: 0}
+  Body: {fileID: 0}
+  destination: {x: 0, y: 0}
+  direction: {x: 0, y: 0}
+  currentDirection: {x: 0, y: 0}
+  ChangeDirectionSpeed: 0
+  changeDirectionTime: 0
+  changeDiretionTimer: 0
+  distance: 0
+  currentDistance: 0
 --- !u!1 &7591462011415005413
 GameObject:
   m_ObjectHideFlags: 0
