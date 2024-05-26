@@ -39,26 +39,27 @@ namespace _Game.Scripts.Entities
         [SerializeField] EnemyAttackBehaviour EnemyAttackBehaviour;
         [SerializeField] protected SpineAnimationEnemyHandler SpineAnimationEnemyHandler;
         [SerializeField] MBTExecutor MBTExecutor;
-        protected virtual void Start()
+        protected virtual IEnumerator Start()
         {
             Ship ship = FindAnyObjectByType<Ship>();
             if (ship == null)
             {
-                return;
+                yield break;
             }
             if (_blackboard == null)
-                return;
+                yield break;
 
             _blackboard.GetVariable<ShipVariable>("Ship").Value = ship;
 
             _stats.HealthPoint.OnValueChanged += HealthPoint_OnValueChanged;
+            MBTExecutor.enabled = false;
+            yield return StartActionCoroutine();
+            MBTExecutor.enabled = true;
         }
         private void HealthPoint_OnValueChanged(_Base.Scripts.RPG.Stats.RangedStat obj)
         {
             if (obj.StatValue.Value <= obj.MinValue)
             {
-
-                Debug.LogError("DIE");
                 Die();
             }
         }
@@ -71,5 +72,10 @@ namespace _Game.Scripts.Entities
             EnemyAttackBehaviour?.StopAllCoroutines();
             SpineAnimationEnemyHandler.PlayAnim(Anim.Dead, false, () => Destroy(gameObject));
         }
+
+        public abstract IEnumerator StartActionCoroutine();
+        public abstract bool IsReadyToAttack();
+        public abstract IEnumerator AttackSequence();
+        public abstract void Move();
     }
 }

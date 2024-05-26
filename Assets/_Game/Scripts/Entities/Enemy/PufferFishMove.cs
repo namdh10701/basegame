@@ -8,13 +8,9 @@ using UnityEngine;
 
 namespace _Game.Scripts.Entities
 {
-
-    [MBTNode("PufferFish/Move")]
-    [AddComponentMenu("")]
-    public class PufferFishMove : Leaf
+    public class PufferFishMove : MonoBehaviour
     {
         public Rigidbody2D body;
-        public Vector2Reference TargetPoint;
 
         [Header("Fast phase")]
         public DeviableFloat fastForce = new(30, 5);
@@ -36,10 +32,9 @@ namespace _Game.Scripts.Entities
         public float slowdownTimer = 0;
         public float normalMoveTimer;
 
-        Vector2 direction;
+        public Vector2 direction;
         private void Start()
         {
-            direction = (TargetPoint.Value - (Vector2)transform.position).normalized;
             fastForce.RefreshValue();
             maxFastSpeed.RefreshValue();
             timeAccelerate.RefreshValue();
@@ -49,13 +44,13 @@ namespace _Game.Scripts.Entities
             slowdownSpeed.RefreshValue();
         }
 
-        public override NodeResult Execute()
+        public void Move()
         {
             if (isSlowdowned)
             {
                 if (slowdownTimer < slowdownTime.Value)
                 {
-                    slowdownTimer += DeltaTime;
+                    slowdownTimer += Time.fixedDeltaTime;
                     if (body.velocity.magnitude < slowdownSpeed.Value)
                     {
                         body.AddForce(normalForce.Value * direction);
@@ -70,7 +65,7 @@ namespace _Game.Scripts.Entities
             }
             else if (!isAccelerate)
             {
-                normalMoveTimer += DeltaTime;
+                normalMoveTimer += Time.fixedDeltaTime;
                 if (normalMoveTimer < normalTime.Value)
                 {
                     if (body.velocity.magnitude < normalSpeed.Value)
@@ -90,7 +85,7 @@ namespace _Game.Scripts.Entities
                 if (fastTimer < timeAccelerate.Value)
                 {
 
-                    fastTimer += DeltaTime;
+                    fastTimer += Time.fixedDeltaTime;
                     body.AddForce(fastForce.Value * direction);
                 }
                 else
@@ -101,9 +96,6 @@ namespace _Game.Scripts.Entities
                 }
             }
             ClampVel(maxFastSpeed.Value);
-
-
-            return NodeResult.success;
         }
 
         void ClampVel(float maxVel)

@@ -18,7 +18,6 @@ namespace MBT
 
         void FixedUpdate()
         {
-            Debug.Log("TICK");
             monoBehaviourTree.Tick();
         }
 

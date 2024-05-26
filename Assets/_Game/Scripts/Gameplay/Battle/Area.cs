@@ -6,7 +6,7 @@ namespace _Game.Scripts.Battle
 {
     public class Area : MonoBehaviour
     {
-        [SerializeField] Bounds bounds;
+        [SerializeField] public Bounds bounds;
         [SerializeField] Color color;
         [SerializeField] Vector2 offset;
         [SerializeField] bool isDrawGizmos;

@@ -9,6 +9,24 @@ namespace _Game.Scripts.Entities
 {
     public class RangedEnemy : Enemy
     {
-        
+        public override IEnumerator AttackSequence()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool IsReadyToAttack()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Move()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override IEnumerator StartActionCoroutine()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -9,13 +9,11 @@ using UnityEngine;
 
 namespace _Game.Scripts.Battle
 {
-    [MBTNode("My Node/Target In Range")]
-    [AddComponentMenu("")]
-    public class TargetInRange : MBT.Condition
+    public class TargetInRange : MonoBehaviour
     {
         [SerializeField] ObjectCollisionDetector collisionDetector;
-        [SerializeField] ShipReference shipReference;
-        public bool isMet;
+        [SerializeField] public Ship TargetShip;
+        public bool IsMet;
         private void OnEnable()
         {
             collisionDetector.OnObjectCollisionEnter += CollisionDetector_OnObjectCollisionEnter;
@@ -30,9 +28,9 @@ namespace _Game.Scripts.Battle
             {
                 return;
             }
-            if (entityBody.Entity.gameObject == shipReference.Value.gameObject)
+            if (entityBody.Entity.gameObject == TargetShip.gameObject)
             {
-                isMet = false;
+                IsMet = false;
             }
         }
 
@@ -44,15 +42,10 @@ namespace _Game.Scripts.Battle
             {
                 return;
             }
-            if (entityBody.Entity.gameObject == shipReference.Value.gameObject)
+            if (entityBody.Entity.gameObject == TargetShip.gameObject)
             {
-                isMet = true;
+                IsMet = true;
             }
-        }
-
-        public override bool Check()
-        {
-            return isMet;
         }
     }
 }
