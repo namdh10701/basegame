@@ -31,10 +31,10 @@ public class CellAttacker : EnemyAttackBehaviour, ICellAttacker
     {
         SelectCells();
         yield return new WaitForSeconds(2);
-        SpineAnimationEnemyHandler.PlayAnim(Anim.Attack, false, () =>
+        /*SpineAnimationEnemyHandler.PlayAnim(Anim.Attack, false, () =>
         {
             //cooldownBehaviour.StartCooldown();
-        });
+        });*/
     }
 
     public override void DoAttack()

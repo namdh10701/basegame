@@ -6,7 +6,7 @@ namespace _Game.Scripts.Battle
 {
     public class RangedAttack : CellAttacker
     {
-        [SerializeField] Transform shootPos;
+        [HideInInspector]public Transform ShootPos;
         [SerializeField] EnemyProjectile projectilePrefab;
         public override void DoAttack()
         {
@@ -15,7 +15,7 @@ namespace _Game.Scripts.Battle
                 return;
             }
             EnemyProjectile projectile = Instantiate(projectilePrefab);
-            projectile.SetData(enemyAttackData, shootPos.position);
+            projectile.SetData(enemyAttackData, ShootPos.position);
             projectile.Launch();
         }
     }

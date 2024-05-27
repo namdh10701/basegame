@@ -10,27 +10,29 @@ using Attribute = _Base.Scripts.RPG.Attributes.Attribute;
 namespace _Base.Scripts.RPG.Entities
 {
     [Serializable]
-    public class AttributeDictionary : SerializableDictionary<Type, string> {}
-    
+    public class AttributeDictionary : SerializableDictionary<Type, string> { }
+
     [Serializable]
     public class StringColorDictionary : SerializableDictionary<string, Color>
     {
-        public StringColorDictionary(IDictionary<string, Color> dict) : base(dict) {}
+        public StringColorDictionary(IDictionary<string, Color> dict) : base(dict) { }
     }
-    
+
     [DisallowMultipleComponent]
-    public abstract class Entity: MonoBehaviour//, IEntity
+    public abstract class Entity : MonoBehaviour//, IEntity
     {
         // public Transform attributeHolder;
         // public Transform effectHolder;
         // public Transform carryingEffectHolder;
 
+        [Header("Entity")]
+
         public EffectHandler EffectHandler;
         public EntityCollisionDetector EntityCollisionDetector;
         public ICollisionHandler CollisionHandler = new DefaultCollisionHandler();
-        
+
         public abstract _Game.Scripts.Stats Stats { get; }
-        
+
         // [field: SerializeReference] public List<Attribute> Attributes { get; set; } = new ();
 
         // public List<IEffect> Effects => effectHolder.GetComponents<IEffect>().ToList();
@@ -43,14 +45,14 @@ namespace _Base.Scripts.RPG.Entities
                 EntityCollisionDetector.CollisionObjectChecker = checker;
             }
         }
-        
+
         // public List<IEffect> IncomingEffects => carryingEffectHolder.GetComponents<IEffect>().ToList();
-        
+
         // public TAttribute GetAttribute<TAttribute>() where TAttribute : IAttribute
         // {
         //     return (TAttribute)(object)Attributes.Find(v => v.GetType() == typeof(TAttribute));
         // }
-        
+
         // public void SetAttribute<TAttribute>(TAttribute attribute) where TAttribute : Attribute
         // {
         //     var targetAttr = Attributes.Find(v => v.GetType() == typeof(TAttribute));
@@ -64,18 +66,18 @@ namespace _Base.Scripts.RPG.Entities
         //     targetAttr.MinValue = attribute.MinValue;
         //     // attributeHolder.gameObject.AddComponent(attribute);
         // }
-        
+
         // public TEffect AddEffect<TEffect>() where TEffect: Effect
         // {
         //     return effectHolder.gameObject.AddComponent<TEffect>();
         // }
-        
+
         // public void AddCarryingEffect(IEffect effect)
         // {
         //     // IncomingEffects.Add(effect);
         //     return carryingEffectHolder.gameObject.AddComponent<TEffect>();
         // }
-        
+
         // public TEffect AddEffectedEffect<TEffect>() where TEffect: Effect
         // {
         //     return carryingEffectHolder.gameObject.AddComponent<TEffect>();

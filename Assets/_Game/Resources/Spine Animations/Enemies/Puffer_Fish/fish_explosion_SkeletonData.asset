@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   atlasAssets:
   - {fileID: 11400000, guid: 3ad58f0cfff29ec46a58748f213214fa, type: 2}
-  scale: 0.014
+  scale: 0.012
   skeletonJSON: {fileID: 4900000, guid: 957906cc1ee4a5b4fa878d4f61dd95a5, type: 3}
   isUpgradingBlendModeMaterials: 0
   blendModeMaterials:
@@ -25,14 +25,17 @@ MonoBehaviour:
     screenMaterials: []
   skeletonDataModifiers: []
   fromAnimation:
-  - bomb_ship_loop
   - bomb_ship_transform
-  - idle
-  toAnimation:
-  - bomb_ship_explo
   - bomb_ship_loop
+  - idle_move
+  - move_fast
+  toAnimation:
+  - bomb_ship_loop
+  - bomb_ship_explo
+  - bomb_ship_transform
   - bomb_ship_transform
   duration:
+  - 0
   - 0
   - 0
   - 0
