@@ -23,7 +23,6 @@ namespace _Game.Scripts.GD
         public static GDConfigLoader Instance;
 
         public event Action OnLoaded;
-        public string SceneToLoadWhenComplete;
 
         public string KEY = "AIzaSyAgCbSrEuvfjkYcPUtQN9hYv4TzNtgOS8A";
         public string DOC_ID = "1M91hXkFM9BvP5SsfMKz-oDndDaOx-hJLfFTE39kfEJM";
@@ -39,7 +38,7 @@ namespace _Game.Scripts.GD
         {
             Instance = this;
         }
-        public async void Load()
+        public async Task Load()
         {
             // Cannon = await GetConfig<CannonConfig>(getSheetData("Cannon"));
             // Ammo = await GetConfig<AmmoConfig>(getSheetData("Ammo"));
