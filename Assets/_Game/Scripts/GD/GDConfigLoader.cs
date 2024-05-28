@@ -29,10 +29,15 @@ namespace _Game.Scripts.GD
         // public Dictionary<string, CannonConfig> Cannon { get; private set; }
         // public Dictionary<string, AmmoConfig> Ammo { get; private set; }
         
-        public Dictionary<string, Dictionary<string, string>> CannonMap { get; private set; }
-        public Dictionary<string, Dictionary<string, string>> AmmoMap { get; private set; }
-        public Dictionary<string, Dictionary<string, string>> EnemyMap { get; private set; }
-        public Dictionary<string, Dictionary<string, string>> ShipMap { get; private set; }
+        private Dictionary<string, Dictionary<string, string>> CannonMap { get; set; }
+        private Dictionary<string, Dictionary<string, string>> AmmoMap { get; set; }
+        private Dictionary<string, Dictionary<string, string>> EnemyMap { get; set; }
+        private Dictionary<string, Dictionary<string, string>> ShipMap { get; set; }
+        
+        public Dictionary<string, CannonConfig> Cannons { get; } = new ();
+        public Dictionary<string, AmmoConfig> Ammos { get; } = new ();
+        public Dictionary<string, EnemyConfig> Enemies { get; } = new ();
+        public Dictionary<string, ShipConfig> Ships { get; } = new ();
 
         private async void Awake()
         {
@@ -74,6 +79,8 @@ namespace _Game.Scripts.GD
                 var so = Resources.Load<CannonConfig>($"Configs/Cannon/Cannon_{key}");
                 if (!so) continue;
                 Load(so, properties);
+
+                Cannons[key] = so;
             }
             
             // Load ammo config
@@ -82,6 +89,8 @@ namespace _Game.Scripts.GD
                 var so = Resources.Load<AmmoConfig>($"Configs/Ammo/Ammo_{key}");
                 if (!so) continue;
                 Load(so, properties);
+                
+                Ammos[key] = so;
             }
             
             // Load enemy config
@@ -90,6 +99,8 @@ namespace _Game.Scripts.GD
                 var so = Resources.Load<EnemyConfig>($"Configs/Enemy/Enemy_{key}");
                 if (!so) continue;
                 Load(so, properties);
+                
+                Enemies[key] = so;
             }
             
             // Load ship config
@@ -98,6 +109,8 @@ namespace _Game.Scripts.GD
                 var so = Resources.Load<ShipConfig>($"Configs/Ship/Ship_{key}");
                 if (!so) continue;
                 Load(so, properties);
+                
+                Ships[key] = so;
             }
         }
         

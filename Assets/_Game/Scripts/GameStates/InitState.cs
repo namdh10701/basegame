@@ -5,6 +5,7 @@ using _Game.Scripts.Bootstrap;
 using _Game.Scripts.GD;
 using _Game.Scripts.SaveLoad;
 using Cysharp.Threading.Tasks;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace _Game.Scripts.GameStates
@@ -22,12 +23,15 @@ namespace _Game.Scripts.GameStates
             Game.Instance.GameManager.LoadDatabase();
             SaveSystem.LoadSave();
             
-            var asyncInitFunc = UniTask.RunOnThreadPool(AsyncInitFunc);
-            yield return new WaitUntil(() => asyncInitFunc.GetAwaiter().IsCompleted);
+            // yield return new WaitForSeconds(10.0f);
+            
+            var asyncInitFunc = UniTask.RunOnThreadPool(async () => await AsyncInitFunc());
+            yield return new WaitUntil(() => asyncInitFunc.Status.IsCompleted());
         }
 
-        private async void AsyncInitFunc()
+        private async Task AsyncInitFunc()
         {
+            // await UniTask.Delay(10000);
             await UniTask.SwitchToMainThread();
             await GDConfigLoader.Instance.Load();
         }

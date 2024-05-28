@@ -5,6 +5,7 @@ using ExitGames.Client.Photon.StructWrapping;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using _Game.Scripts.GD;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -89,6 +90,8 @@ public class MenuPreBattle : MonoBehaviour
         {
             RemoveItemMenus();
         }
+
+        // var xxx = GDConfigLoader.Instance.Cannons;
         GridItemDef[] itemList = null;
         switch (_curentTab)
         {

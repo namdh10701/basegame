@@ -31,16 +31,18 @@ namespace _Game.Scripts.GD
         public override string GetId() => ID;
         public override void ApplyGDConfig(object stats)
         {
-            var gdConfig = GDConfigLoader.Instance.CannonMap[ID];
-            foreach (var fieldInfo in typeof(CannonConfig).GetFields(BindingFlags.Public | BindingFlags.Instance))
-            {
-                object value = gdConfig[fieldInfo.Name];
-                if (fieldInfo.FieldType == typeof(float))
-                {
-                    value ??= 0f;
-                }
-                fieldInfo.SetValue(this, value);
-            }
+            // var gdConfig = GDConfigLoader.Instance.CannonMap[ID];
+            // foreach (var fieldInfo in typeof(CannonConfig).GetFields(BindingFlags.Public | BindingFlags.Instance))
+            // {
+            //     object value = gdConfig[fieldInfo.Name];
+            //     if (fieldInfo.FieldType == typeof(float))
+            //     {
+            //         value ??= 0f;
+            //     }
+            //     fieldInfo.SetValue(this, value);
+            // }
+            
+            
 
             // var cannonSt = (stats as AmmoStats)!;
             // cannonSt.HealthPoint.StatValue.BaseValue = HP;
