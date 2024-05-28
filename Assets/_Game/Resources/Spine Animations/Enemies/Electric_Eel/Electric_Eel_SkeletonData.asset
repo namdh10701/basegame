@@ -13,21 +13,24 @@ MonoBehaviour:
   m_Name: Electric_Eel_SkeletonData
   m_EditorClassIdentifier: 
   atlasAssets:
-  - {fileID: 11400000, guid: e3f251cf8ec28f748a4175469d6eb4e5, type: 2}
+  - {fileID: 11400000, guid: bfc7b8a761e8d8645b6ae351b0c1abf9, type: 2}
   scale: 0.01
-  skeletonJSON: {fileID: 4900000, guid: e009dd37922fa934db8038694661ab6c, type: 3}
+  skeletonJSON: {fileID: 4900000, guid: 995259d30d0e1904a8facb00586fa33b, type: 3}
   isUpgradingBlendModeMaterials: 0
   blendModeMaterials:
     requiresBlendModeMaterials: 1
     applyAdditiveMaterial: 1
     additiveMaterials:
     - pageName: Electric_Eel.png
-      material: {fileID: 2100000, guid: c425d5bc247774e45be37648739aa009, type: 2}
+      material: {fileID: 2100000, guid: 27aea951aab6b6448b93dd9feec2757b, type: 2}
     multiplyMaterials: []
     screenMaterials: []
   skeletonDataModifiers: []
-  fromAnimation: []
-  toAnimation: []
-  duration: []
+  fromAnimation:
+  - idle
+  toAnimation:
+  - appear
+  duration:
+  - 0
   defaultMix: 0.2
   controller: {fileID: 0}

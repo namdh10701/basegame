@@ -31,7 +31,7 @@ namespace _Base.Scripts.RPGCommon.Entities
         private void Start()
         {
             OutgoingEffects.Add(new DecreaseHealthEffect(250));
-            body.velocity = transform.up * 10;
+            body.velocity = transform.up * moveSpeed.Value;
         }
 
         // private void OnTriggerEnter2D(Collider2D collision)
