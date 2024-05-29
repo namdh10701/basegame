@@ -288,9 +288,9 @@ GameObject:
   - component: {fileID: -717564830529616064}
   - component: {fileID: 1570808234364923535}
   - component: {fileID: 1607559049652280926}
-  - component: {fileID: 3014231783961799318}
+  - component: {fileID: 2833378913125390323}
   m_Layer: 9
-  m_Name: Cannon_ChargeShot
+  m_Name: fork
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -312,7 +312,6 @@ Transform:
   - {fileID: 319121703950278571}
   - {fileID: 542151175845535387}
   - {fileID: 8427063930449867751}
-  - {fileID: 3800795175489642188}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4194977101597096630
@@ -345,7 +344,7 @@ MonoBehaviour:
   EffectHandler: {fileID: 1093922780712145661}
   EntityCollisionDetector: {fileID: 2008907440976116900}
   OutgoingEffects: []
-  def: {fileID: 11400000, guid: f7ee00368f0114948b652824bdad44ed, type: 2}
+  def: {fileID: 11400000, guid: 2c822956dc430f641a17a069044e3bf9, type: 2}
   _stats:
     <HealthPoint>k__BackingField:
       _value:
@@ -357,9 +356,6 @@ MonoBehaviour:
       _maxValue:
         statModifiers: []
         _baseValue: 800
-    <BlockChance>k__BackingField:
-      statModifiers: []
-      _baseValue: 0
     <AttackDamage>k__BackingField:
       statModifiers: []
       _baseValue: 0
@@ -384,7 +380,7 @@ MonoBehaviour:
         _baseValue: 10
   _statsTemplate: {fileID: 11400000, guid: 14077db5de1824e3abe122b6685a11ce, type: 2}
   _cannonReloader: {fileID: 1570808234364923535}
-  <AttackStrategy>k__BackingField: {fileID: 3014231783961799318}
+  <AttackStrategy>k__BackingField: {fileID: 2833378913125390323}
   <AttackTargetBehaviour>k__BackingField: {fileID: 0}
   <BulletEffects>k__BackingField: []
   behaviour: {fileID: 8427063930449867751}
@@ -443,7 +439,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &3014231783961799318
+--- !u!114 &2833378913125390323
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -452,15 +448,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2506795332634619781}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67c65d8f56cc6f246ae2ae6a9e9a9b1a, type: 3}
+  m_Script: {fileID: 11500000, guid: b296f66e694a42d2af2ee4a01ec0a872, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minAngle: 1
-  maxAngle: 5
-  minSpeedBullet: 3
-  maxSpeedBullet: 5
-  amount: 6
-  angles: []
+  lookupRange: 1228.9
+  bounceTimes: 5
+  damageScale: 0
 --- !u!1 &2738015328258581795
 GameObject:
   m_ObjectHideFlags: 0
@@ -736,8 +729,8 @@ GameObject:
   - component: {fileID: 4897585893042246566}
   - component: {fileID: 1117780275231740217}
   - component: {fileID: 2733307776132212002}
-  - component: {fileID: 8500362044147851668}
-  - component: {fileID: 6218501232900439967}
+  - component: {fileID: 5008025058748683791}
+  - component: {fileID: 9220442219040189723}
   m_Layer: 0
   m_Name: Gun 2 - Spine
   m_TagString: Untagged
@@ -881,7 +874,21 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
---- !u!114 &8500362044147851668
+--- !u!114 &5008025058748683791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3314614021591990170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46cfab6f8b19e7247b5e074de603d445, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skeletonAnim: {fileID: 1117780275231740217}
+  color: {r: 1, g: 0.26521462, b: 0.1745283, a: 1}
+--- !u!114 &9220442219040189723
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -895,20 +902,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skeletonAnimation: {fileID: 1117780275231740217}
   spineShoot: shoot
---- !u!114 &6218501232900439967
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3314614021591990170}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 46cfab6f8b19e7247b5e074de603d445, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  skeletonAnim: {fileID: 1117780275231740217}
-  color: {r: 0.71344304, g: 1, b: 0.2971698, a: 1}
 --- !u!1 &3335945261821481467
 GameObject:
   m_ObjectHideFlags: 0
@@ -1142,37 +1135,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e10284dfa44940ee863f817c760bce5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &4132039122546481623
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3800795175489642188}
-  m_Layer: 9
-  m_Name: Anchor
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3800795175489642188
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4132039122546481623}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.34900025, y: -0.31900096, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 4759703321050827762}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4198531215178574024
 GameObject:
   m_ObjectHideFlags: 0
@@ -1493,7 +1455,7 @@ MonoBehaviour:
   entity: {fileID: 94858937819000496}
   shootPosition: {fileID: 6845910018613200724}
   projectilePrefab: {fileID: 9038214777133773486, guid: 5ca95de0050294232be82d462f376a92, type: 3}
-  animationHandler: {fileID: 8500362044147851668}
+  animationHandler: {fileID: 0}
 --- !u!1 &6107043427561523906
 GameObject:
   m_ObjectHideFlags: 0
@@ -1584,7 +1546,6 @@ GameObject:
   - component: {fileID: 3472134887174341717}
   - component: {fileID: 7147069703896698860}
   - component: {fileID: 3015704018446557585}
-  - component: {fileID: 696011279512913005}
   - component: {fileID: 3998683235849372507}
   m_Layer: 10
   m_Name: FindTarget
@@ -1727,18 +1688,6 @@ MonoBehaviour:
   - _Game.Scripts.Entities.RangedEnemy
   - _Game.Scripts.Entities.MeeleEnemy
   closestTo: {fileID: 575761695595097317}
---- !u!114 &696011279512913005
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6325944138744424202}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34a08875fb244deab6cc436dd01dfa11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &3998683235849372507
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,5 +1,6 @@
 
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,6 +10,7 @@ namespace _Game.Scripts
     {
         [SerializeField] Image _backGroup;
         [SerializeField] Image _icon;
+        [SerializeField] TextMeshProUGUI _id;
         [SerializeField] PointClickDetectorUI pointClickDetectorUI;
 
         public Action<GridItemDef> onPointerDown;
@@ -30,6 +32,8 @@ namespace _Game.Scripts
             this.GridItemDef = gridItemDef;
             Sprite image = ResourceLoader.LoadGridItemImage(gridItemDef);
             _icon.sprite = image;
+            _id.text = $"{gridItemDef.Name} {gridItemDef.Id}";
+            Debug.Log("Setup Item" + _id.text);
             this.onPointerDown = onPointerDown;
             this.onPointerUp = onPointerUp;
             if (isDisabled)

@@ -92,11 +92,25 @@ public class MenuPreBattle : MonoBehaviour
         }
 
         // var xxx = GDConfigLoader.Instance.Cannons;
+        var cannons = GDConfigLoader.Instance.Cannons;
         GridItemDef[] itemList = null;
+        GridItemDef[] itemList1 = null;
         switch (_curentTab)
         {
             case GridItemType.Cannon:
-                itemList = GridItemReferenceHolder.CannonReferences;
+                itemList = new GridItemDef[cannons.Count];
+                for (int i = 0; i < cannons.Values.Count; i++)
+                {
+                    itemList[i] = new GridItemDef()
+                    {
+                        Id = cannons.Values.ElementAt(i).ID,
+                        Type = GridItemType.Cannon,
+                        ShapeId = 0,
+                        Name = cannons.Values.ElementAt(i).name
+                    };
+                }
+
+                itemList1 = GridItemReferenceHolder.CannonReferences;
                 break;
             case GridItemType.Bullet:
                 itemList = GridItemReferenceHolder.BulletReferences;

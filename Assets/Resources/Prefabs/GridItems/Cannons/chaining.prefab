@@ -287,10 +287,10 @@ GameObject:
   - component: {fileID: 94858937819000496}
   - component: {fileID: -717564830529616064}
   - component: {fileID: 1570808234364923535}
-  - component: {fileID: 7000612455268449874}
   - component: {fileID: 1607559049652280926}
+  - component: {fileID: 3014231783961799318}
   m_Layer: 9
-  m_Name: Cannon_SplitShot
+  m_Name: chaining
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -345,7 +345,7 @@ MonoBehaviour:
   EffectHandler: {fileID: 1093922780712145661}
   EntityCollisionDetector: {fileID: 2008907440976116900}
   OutgoingEffects: []
-  def: {fileID: 11400000, guid: 9b32df294375f80449a42cb87c642e70, type: 2}
+  def: {fileID: 11400000, guid: f7ee00368f0114948b652824bdad44ed, type: 2}
   _stats:
     <HealthPoint>k__BackingField:
       _value:
@@ -357,6 +357,9 @@ MonoBehaviour:
       _maxValue:
         statModifiers: []
         _baseValue: 800
+    <BlockChance>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
     <AttackDamage>k__BackingField:
       statModifiers: []
       _baseValue: 0
@@ -381,7 +384,7 @@ MonoBehaviour:
         _baseValue: 10
   _statsTemplate: {fileID: 11400000, guid: 14077db5de1824e3abe122b6685a11ce, type: 2}
   _cannonReloader: {fileID: 1570808234364923535}
-  <AttackStrategy>k__BackingField: {fileID: 7000612455268449874}
+  <AttackStrategy>k__BackingField: {fileID: 3014231783961799318}
   <AttackTargetBehaviour>k__BackingField: {fileID: 0}
   <BulletEffects>k__BackingField: []
   behaviour: {fileID: 8427063930449867751}
@@ -413,20 +416,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cannon: {fileID: 94858937819000496}
   AttackTargetBehaviour: {fileID: 8192189898026933683}
---- !u!114 &7000612455268449874
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2506795332634619781}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ed444165b5b43b0801413ed5c0a1352, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  angle: 15
-  amount: 3
 --- !u!50 &1607559049652280926
 Rigidbody2D:
   serializedVersion: 4
@@ -454,6 +443,24 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &3014231783961799318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2506795332634619781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67c65d8f56cc6f246ae2ae6a9e9a9b1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minAngle: 1
+  maxAngle: 5
+  minSpeedBullet: 3
+  maxSpeedBullet: 5
+  amount: 6
+  angles: []
 --- !u!1 &2738015328258581795
 GameObject:
   m_ObjectHideFlags: 0
@@ -730,6 +737,7 @@ GameObject:
   - component: {fileID: 1117780275231740217}
   - component: {fileID: 2733307776132212002}
   - component: {fileID: 8500362044147851668}
+  - component: {fileID: 6218501232900439967}
   m_Layer: 0
   m_Name: Gun 2 - Spine
   m_TagString: Untagged
@@ -887,6 +895,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skeletonAnimation: {fileID: 1117780275231740217}
   spineShoot: shoot
+--- !u!114 &6218501232900439967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3314614021591990170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46cfab6f8b19e7247b5e074de603d445, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skeletonAnim: {fileID: 1117780275231740217}
+  color: {r: 0.71344304, g: 1, b: 0.2971698, a: 1}
 --- !u!1 &3335945261821481467
 GameObject:
   m_ObjectHideFlags: 0
@@ -1562,6 +1584,7 @@ GameObject:
   - component: {fileID: 3472134887174341717}
   - component: {fileID: 7147069703896698860}
   - component: {fileID: 3015704018446557585}
+  - component: {fileID: 696011279512913005}
   - component: {fileID: 3998683235849372507}
   m_Layer: 10
   m_Name: FindTarget
@@ -1704,6 +1727,18 @@ MonoBehaviour:
   - _Game.Scripts.Entities.RangedEnemy
   - _Game.Scripts.Entities.MeeleEnemy
   closestTo: {fileID: 575761695595097317}
+--- !u!114 &696011279512913005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6325944138744424202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34a08875fb244deab6cc436dd01dfa11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &3998683235849372507
 MonoBehaviour:
   m_ObjectHideFlags: 0
