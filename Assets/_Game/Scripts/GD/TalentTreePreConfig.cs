@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace _Game.Scripts.GD
 {
@@ -7,18 +8,12 @@ namespace _Game.Scripts.GD
     [Serializable]
     public class TalentTreePreConfig: GDConfig
     {
-        public string ID;
-        public string Premium;
+        public string id;
+        public string premium;
         public float diamond_cost;
-        public float atk;
-        public float hp;
-        public float max_mana;
-        public float mana_regen;
-        public float ship_slot;
-        public float Crit_chance;
-        public float Gold_earning;
+        public float stat_id;
 
-        public override string GetId() => ID;
+        public override string GetId() => id;
         public override void ApplyGDConfig(object stats)
         {
            

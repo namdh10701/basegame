@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace _Game.Scripts.GD
 {
@@ -8,14 +9,14 @@ namespace _Game.Scripts.GD
     [Serializable]
     public class EnemyConfig: GDConfig
     {
-        public string ID;
+        public string id;
         public string name;
         public float attack;
         public float attack_speed;
         public float hp;
         public float block_chance;
 
-        public override string GetId() => ID;
+        public override string GetId() => id;
 
         public override void ApplyGDConfig(object stats)
         {

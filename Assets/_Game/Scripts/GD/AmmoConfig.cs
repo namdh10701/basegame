@@ -1,6 +1,7 @@
 using System;
 using System.Reflection;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace _Game.Scripts.GD
 {
@@ -8,7 +9,7 @@ namespace _Game.Scripts.GD
     [Serializable]
     public class AmmoConfig: GDConfig
     {
-        public string ID;
+        public string id;
         public string name;
         public string default_rarity;
         public float energy_cost;
@@ -28,7 +29,7 @@ namespace _Game.Scripts.GD
         public float pierc_count;
         public float hp_threshold;
 
-        public override string GetId() => ID;
+        public override string GetId() => id;
         public override void ApplyGDConfig(object stats)
         {
             // var gdConfig = GDConfigLoader.Instance.CannonMap[ID];
