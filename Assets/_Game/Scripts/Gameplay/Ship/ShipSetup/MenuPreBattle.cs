@@ -103,7 +103,7 @@ public class MenuPreBattle : MonoBehaviour
                 {
                     itemList[i] = new GridItemDef()
                     {
-                        Id = cannons.Values.ElementAt(i).ID,
+                        Id = cannons.Values.ElementAt(i).id,
                         Type = GridItemType.Cannon,
                         ShapeId = 0,
                         Name = cannons.Values.ElementAt(i).name

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace _Game.Scripts.GD
 {
@@ -8,13 +9,13 @@ namespace _Game.Scripts.GD
     [Serializable]
     public class ShipConfig: GDConfig
     {
-        public string ID;
+        public string id;
         public string name;
         public float hp;
         public float block_chance;
         public float mana_regen_rate;
 
-        public override string GetId() => ID;
+        public override string GetId() => id;
 
         public override void ApplyGDConfig(object stats)
         {
