@@ -2,75 +2,62 @@ using _Base.Scripts.RPG.Behaviours.FindTarget;
 using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.RPG.Entities;
 using _Base.Scripts.RPG.Stats;
-using Unity.VisualScripting;
+using _Game.Scripts;
 using UnityEngine;
 
 namespace _Base.Scripts.RPGCommon.Entities
 {
-    public class ProjectileCollisionHandler : DefaultCollisionHandler
-    {
-        public override void Process(Entity mainEntity, Entity collidedEntity)
-        {
-            base.Process(mainEntity, collidedEntity);
-            Object.Destroy(mainEntity.gameObject);
-        }
-    }
-    public abstract class Projectile : Entity
+    public class Projectile : Entity
     {
         public Rigidbody2D body;
-
-        public Stat moveSpeed;
-
-        public FindTargetStrategy findTargetStrategy;
-
-        protected Projectile()
+        public ParticleSystem onHitParticle;
+        [SerializeField]
+        private ProjectileStats projectileStats;
+        public ProjectileMovement ProjectileMovement;
+        public override Stats Stats => projectileStats;
+        protected override void Awake()
         {
-            CollisionHandler = new ProjectileCollisionHandler();
+            base.Awake();
+            CollisionHandler = new ProjectileCollisionHandler(this);
+            ProjectileCollisionHandler projectileCollisionHandler = (ProjectileCollisionHandler)CollisionHandler;
+            if (onHitParticle != null)
+            {
+                projectileCollisionHandler.LoopHandlers.Add(new ParticleHandler(onHitParticle));
+            }
+            projectileCollisionHandler.Handlers.Add(new PiercingHandler((int)projectileStats.Piercing.Value));
+            OutgoingEffects = new System.Collections.Generic.List<Effect>() { new DecreaseHealthEffect(2) };
+            ProjectileMovement = new StraightMove(this);
+        }
+        private void FixedUpdate()
+        {
+            ProjectileMovement.Move();
         }
 
-        private void Start()
+        public void AddMoveSpeed(StatModifier statModifier)
         {
-            OutgoingEffects.Add(new DecreaseHealthEffect(250));
-            body.velocity = transform.up * moveSpeed.Value;
+            projectileStats.Speed.AddModifier(statModifier);
         }
 
-        // private void OnTriggerEnter2D(Collider2D collision)
-        // {
-        //     if (!findTargetStrategy.TryGetTargetEntity(collision.gameObject, out var found))
-        //     {
-        //         return;
-        //     }
-        //     OnCollisionStart(found);
-        // }
+        public void AddDamage(StatModifier statModifier)
+        {
+            projectileStats.Damage.AddModifier(statModifier);
+        }
+
+        public void AddCritDamage(StatModifier statModifier)
+        {
+            projectileStats.CritDamage.AddModifier(statModifier);
+        }
+
+        public void AddCritChance(StatModifier statModifier)
+        {
+            projectileStats.CritChance.AddModifier(statModifier);
+        }
+
 
         private void OnBecameInvisible()
         {
             Destroy(gameObject);
         }
-
-        // protected void OnCollisionStart(Entity entity)
-        // {
-        //     foreach (var effect in OutgoingEffects)
-        //     {
-        //         if (entity.Stats is not IAlive)
-        //         {
-        //             continue;
-        //         }
-        //
-        //         // entity.AddCarryingEffect(effect);
-        //         // effect.Process();
-        //         
-        //         entity.EffectHandler.Apply(effect);
-        //         // entity.effectHolder.gameObject.AddComponent((Effect)effect);//.Process();
-        //     }
-        //     Destroy(gameObject);
-        // }
-
-        protected override void Awake()
-        {
-            base.Awake();
-            SetCollisionObjectChecker(entity => findTargetStrategy.TryGetTargetEntity(entity.gameObject, out var tmp));
-        }
-
     }
+
 }

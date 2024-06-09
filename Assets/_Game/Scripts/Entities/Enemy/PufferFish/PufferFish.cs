@@ -1,6 +1,7 @@
 
 using _Game.Scripts.Battle;
 using _Game.Scripts.Gameplay.Ship;
+using DG.Tweening;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -15,6 +16,7 @@ namespace _Game.Scripts.Entities
         public PufferFishAnimation Animation;
         public TargetInRange TargetInRange;
         public PufferFishMove PufferFishMove;
+        public DamageArea DamageArea;
         protected override IEnumerator Start()
         {
             Animation.OnAttack.AddListener(DoAttack);
@@ -30,7 +32,11 @@ namespace _Game.Scripts.Entities
                 Animation.ChargeExplode();
                 yield return new WaitForSeconds(2);
                 Die();
-                Animation.PlayDie(() => Destroy(gameObject));
+                Animation.PlayDie(() =>
+                {
+                    Destroy(gameObject);
+                });
+
             }
         }
 
@@ -47,12 +53,21 @@ namespace _Game.Scripts.Entities
 
         public override IEnumerator StartActionCoroutine()
         {
-            yield break;
+            transform.localScale = Vector3.zero;
+            yield return new WaitForSeconds(1);
+            Tween tween = transform.DOScale(1, .5f).SetEase(Ease.OutBack);
+            yield return tween.WaitForCompletion();
+        }
+        public override void Die()
+        {
+            base.Die();
+            StartCoroutine(AttackSequence());
         }
 
         public void DoAttack()
         {
-            Debug.Log(name + " Attack");
+            DamageArea da = Instantiate(DamageArea, transform.position, Quaternion.identity);
+            da.Activate();
         }
     }
 }

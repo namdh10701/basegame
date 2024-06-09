@@ -8,7 +8,7 @@ namespace _Base.Scripts.RPG.Effects
     [Serializable]
     public class DecreaseHealthEffect : OneShotEffect
     {
-        [field:SerializeField]
+        [field: SerializeField]
         public float Amount { get; set; }
 
         public DecreaseHealthEffect(float amount)
@@ -18,6 +18,10 @@ namespace _Base.Scripts.RPG.Effects
 
         protected override void OnApply(Entity entity)
         {
+            if (entity.Stats == null)
+            {
+                return;
+            }
             if (entity.Stats is not IAliveStats alive)
             {
                 return;

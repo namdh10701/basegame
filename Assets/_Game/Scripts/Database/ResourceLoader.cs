@@ -1,3 +1,4 @@
+using _Game.Scripts.Entities;
 using _Game.Scripts.InventorySystem;
 using UnityEngine;
 
@@ -80,6 +81,12 @@ namespace _Game.Scripts
             }
             path += $"/{def.Id}";
             return Resources.Load<Sprite>(path);
+        }
+
+        public static Cannon LoadCannon(string name)
+        {
+            Cannon ret = Resources.Load<Cannon>(cannonPrefabPath + $"/{name}");
+            return ret;
         }
     }
 }

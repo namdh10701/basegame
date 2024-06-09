@@ -1,3 +1,4 @@
+using _Game.Scripts;
 using _Game.Scripts.Battle;
 using BehaviorDesigner.Runtime.Tasks;
 using BehaviorDesigner.Runtime.Tasks.Unity.UnityParticleSystem;
@@ -16,8 +17,10 @@ public enum State
 [MBTNode("Wanderer/Wander")]
 public class Wander : Leaf
 {
+    public JellyFishAnimation jellyFishAnimation;
+
     [Header("Detector")]
-    public Area MoveableArea;
+    public AreaReference MoveableArea;
     public OctaDirectionRay Detector;
     public List<DirectionRay> RayToSelectDirection;
 
@@ -36,6 +39,12 @@ public class Wander : Leaf
 
     public float Timea;
     float timer;
+
+
+
+    public DeviableFloat WanderTime;
+    float wanderTimer;
+    public bool IsTimeConstraint;
     private void Awake()
     {
         //Detector.OnChanged += UpdateDirection;
@@ -46,14 +55,20 @@ public class Wander : Leaf
     public override void OnEnter()
     {
         base.OnEnter();
-
+        if (IsTimeConstraint)
+        {
+            WanderTime.RefreshValue(); wanderTimer = 0;
+        }
+        jellyFishAnimation?.PlayMove();
     }
     public override NodeResult Execute()
     {
         if (!isPlayed)
         {
             isPlayed = true;
+            WanderTime.RefreshValue();
         }
+        wanderTimer += Time.fixedDeltaTime;
         timer += Time.fixedDeltaTime;
         if (Detector.IsInBounds)
         {
@@ -71,11 +86,18 @@ public class Wander : Leaf
         Move();
         ClampVel();
         Debug.DrawLine(Body.transform.position, (Vector3)CurrentDirection * 2 + Body.transform.position, Color.blue);
-        return NodeResult.success;
+        if (!IsTimeConstraint)
+        {
+            return NodeResult.success;
+        }
+        else
+        {
+            return wanderTimer < WanderTime.Value ? NodeResult.running : NodeResult.success;
+        }
     }
     void FindWayToBounds()
     {
-        TargetDirection = (MoveableArea.transform.position - Body.transform.position).normalized;
+        TargetDirection = (MoveableArea.Value.transform.position - Body.transform.position).normalized;
     }
 
     void Move()
@@ -86,7 +108,7 @@ public class Wander : Leaf
     void UpdateDirection()
     {
         Debug.Log("UPDATE");
-        if (MoveableArea.bounds.Contains(Body.position))
+        if (MoveableArea.Value.bounds.Contains(Body.position))
         {
             //RayToSelectDirection = //Detector.ReverseIntersectingRays;
             RayToSelectDirection = Detector.NotIntersectingRays;
@@ -116,7 +138,7 @@ public class Wander : Leaf
             bool isAbove = false;
             bool isLeft = false;
             RayToSelectDirection = Detector.DirectionRay;
-            if (Body.position.y > MoveableArea.bounds.max.y)
+            if (Body.position.y > MoveableArea.Value.bounds.max.y)
             {
                 isAbove = true;
             }
@@ -125,7 +147,7 @@ public class Wander : Leaf
                 isAbove = false;
             }
 
-            if (Body.position.x < MoveableArea.bounds.max.x)
+            if (Body.position.x < MoveableArea.Value.bounds.max.x)
             {
                 isLeft = true;
             }
@@ -232,7 +254,11 @@ public class Wander : Leaf
         timer = 0;
         Force.RefreshValue();
         MaxSpeed.RefreshValue();
-        if (MoveableArea.bounds.Contains(Body.position))
+        if (MoveableArea == null)
+        {
+            return;
+        }
+        if (MoveableArea.Value.bounds.Contains(Body.position))
         {
             //RayToSelectDirection = //Detector.ReverseIntersectingRays;
             RayToSelectDirection = Detector.NotIntersectingRays;

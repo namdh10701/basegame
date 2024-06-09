@@ -6,15 +6,16 @@ using UnityEngine;
 
 public class JellyFish : Enemy
 {
-    public RangedAttack rangedAttack;
+    public JellyFishAttack rangedAttack;
     public CooldownBehaviour CooldownBehaviour;
     public JellyFishAnimation anim;
     public Transform spawnPosition;
+
+    bool isCurrentAttackLeftHand;
     protected override void Awake()
     {
         base.Awake();
-        anim.Attack.AddListener(AttackLeftHand);
-        anim.AttackCharge.AddListener(ChargeAttack);
+        anim.Attack.AddListener(Attack);
     }
     protected override IEnumerator Start()
     {
@@ -24,7 +25,24 @@ public class JellyFish : Enemy
     }
     public override IEnumerator AttackSequence()
     {
+
+        if (isCurrentAttackLeftHand)
+        {
+            anim.PlayIdleToAttackLoopLeftHand();
+        }
+        else
+        {
+            anim.PlayIdleToAttackLoopRightHand();
+        }
         yield return new WaitForSeconds(2);
+        if (isCurrentAttackLeftHand)
+        {
+            anim.PlayAttackLeftHand();
+        }
+        else
+        {
+            anim.PlayAttackRightHand();
+        }
         CooldownBehaviour.StartCooldown();
     }
 
@@ -44,15 +62,12 @@ public class JellyFish : Enemy
         yield return new WaitForSeconds(3);
     }
 
-    public void AttackLeftHand(Transform shootPos)
+    public void Attack(Transform shootPos)
     {
-        rangedAttack.ShootPos = shootPos;
-        rangedAttack.DoAttack();
+        if (isCurrentAttackLeftHand)
+            rangedAttack.DoLeftAttack();
+        else
+            rangedAttack.DoRightAttack();
+        isCurrentAttackLeftHand = !isCurrentAttackLeftHand;
     }
-    public void ChargeAttack()
-    {
-        rangedAttack.SelectCells();
-    }
-
-
 }

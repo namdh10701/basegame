@@ -1,8 +1,12 @@
 using System;
+using System.Collections.Generic;
+using _Base.Scripts.RPG;
 using _Base.Scripts.RPG.Behaviours.FindTarget;
 using _Base.Scripts.RPG.Entities;
 using _Base.Scripts.RPGCommon.Behaviours.FindTargetStrategies;
 using _Base.Scripts.RPGCommon.Entities;
+using _Game.Scripts.Entities;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
@@ -14,54 +18,72 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
         public float lookupRange = 100f;
         public int bounceTimes = 0;
         public float damageScale = 0;
-        Entity oldCollidedEntity;
-        public System.Action<Entity, int> OnCollisionEnter;
-
+        public FindTargetBehaviour targetBehaviour;
         public override void DoAttack()
         {
             var shootDirection = CalculateShootDirection();
             var projectile = SpawnProjectile(shootDirection, shootPosition);
-
-            projectile.CollisionHandler = new BouncingShotCollisionHandler(this);
-            OnCollisionEnter += (mainEntity, count) => SpawnCouncingShot(mainEntity, count);
+            ((ProjectileCollisionHandler)projectile.CollisionHandler).Handlers.Add(new BouncingHandler(bounceTimes, lookupRange));
+            projectile.ProjectileMovement = new HomingMove(projectile, targetBehaviour.MostTargets[0].transform);
         }
 
-        private void SpawnCouncingShot(Entity mainEntity, int count)
+        public class BouncingHandler : IHandler
         {
-            // find next target
-            var projectile = mainEntity.gameObject.GetComponentInChildren<Projectile>();
-            var findTargetBehaviour = mainEntity.gameObject.GetComponentInChildren<FindTargetBehaviour>();
-            if (findTargetBehaviour.Targets.Count <= count)
-            {
-                Destroy(mainEntity.gameObject);
-            }
-            else
-            {
-                var direction = findTargetBehaviour.Targets[count].transform.position - findTargetBehaviour.Targets[count - 1].transform.position;
-                projectile.body.velocity = direction.normalized * projectile.moveSpeed.Value;
-            }
-
-        }
-
-        class BouncingShotCollisionHandler : DefaultCollisionHandler
-        {
-            public BouncingShot strategy;
             public int bounceCount;
+            private float range;
+            private int maxBounce;
+            public List<Entity> collided;
 
-            public BouncingShotCollisionHandler(BouncingShot strategy)
+            public bool IsCompleted => bounceCount == maxBounce;
+
+            public BouncingHandler(int maxBounce, float range)
             {
-                this.strategy = strategy;
+                this.maxBounce = maxBounce;
+                this.range = range;
             }
 
-            public override void Process(Entity mainEntity, Entity collidedEntity)
+            void IHandler.Process(Projectile p, Entity mainEntity, Entity collidedEntity)
             {
-                strategy.oldCollidedEntity = collidedEntity;
-                base.Process(mainEntity, collidedEntity);
-                if (++bounceCount <= 3)
+                List<Entity> inRangeEntities = new List<Entity>();
+                RaycastHit2D[] inRangeColliders = Physics2D.CircleCastAll(collidedEntity.transform.position, range, Vector2.zero);
+                foreach (RaycastHit2D hit in inRangeColliders)
                 {
-                    strategy.OnCollisionEnter?.Invoke(mainEntity, bounceCount);
-                    // Destroy(mainEntity.gameObject);
-                    return;
+                    if (hit.collider.TryGetComponent(out EntityCollisionDetector entityCollisionDetector))
+                    {
+                        Entity entity = entityCollisionDetector.GetComponent<EntityProvider>().Entity;
+
+
+                        if (!((ProjectileCollisionHandler)p.CollisionHandler).IgnoreCollideEntities.Contains(entity))
+                        {
+                            if (entity is Enemy)
+                            {
+                                inRangeEntities.Add(entity);
+                            }
+                        }
+                    }
+                }
+
+                if (inRangeEntities.Count > 0)
+                {
+                    Entity nextTarget = inRangeEntities[0];
+                    float minDistance = Mathf.Infinity;
+                    foreach (Entity entity in inRangeEntities)
+                    {
+                        float distance = Vector2.Distance(mainEntity.transform.position, entity.transform.position);
+                        if (distance < minDistance)
+                        {
+                            nextTarget = entity;
+                            minDistance = distance;
+                        }
+                    }
+
+                    bounceCount++;
+                    ((HomingMove)p.ProjectileMovement).target = nextTarget.transform;
+                    Debug.Log(nextTarget.name);
+                }
+                else
+                {
+                    bounceCount = maxBounce;
                 }
             }
         }

@@ -10,21 +10,18 @@ namespace _Base.Scripts.RPG.Behaviours.AttackTarget
 {
     public class AttackTargetBehaviour : MonoBehaviour
     {
-        // public AttackAccuracy attackAccuracy;
-        // public Transform attackTargetPosition;
         public AimTargetBehaviour aimTargetBehaviour;
-        // public CollidedTargetChecker collidedTargetChecker;
-        // public IAttackStrategy attackStrategy = new ShootTargetStrategy_Normal();
-
         public IAttackStrategy attackStrategy;
         public Entity entity;
         public Transform shootPosition;
         public Entity projectilePrefab;
-        public SpineAnimationHandler animationHandler;
+        public SpineAnimationCannonHandler Animation;
+
         private void Awake()
         {
             Assert.IsNotNull(aimTargetBehaviour);
             attackStrategy = (entity as IFighter).AttackStrategy;
+            Animation.OnShoot += DoAttack;
         }
 
 
@@ -33,7 +30,6 @@ namespace _Base.Scripts.RPG.Behaviours.AttackTarget
             attackStrategy.SetData(entity, shootPosition, projectilePrefab, aimTargetBehaviour.FollowTargetBehaviour.FindTargetBehaviour.Strategy, aimTargetBehaviour.LockedPosition);
             attackStrategy.DoAttack();
         }
-
 
         public void Attack()
         {
@@ -50,7 +46,12 @@ namespace _Base.Scripts.RPG.Behaviours.AttackTarget
                     return;
                 Ammo.StatValue.BaseValue--;
             }
-            animationHandler.PlayShootAnim(false);
+            PlayAttackAnimation();
+        }
+
+        public virtual void PlayAttackAnimation()
+        {
+            Animation.PlayShootAnim(false);
         }
 
     }

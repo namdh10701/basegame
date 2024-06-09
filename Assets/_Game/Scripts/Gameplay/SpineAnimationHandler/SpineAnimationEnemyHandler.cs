@@ -2,11 +2,7 @@ using UnityEngine;
 using Spine.Unity;
 using Spine;
 using System;
-using UnityEngine.Events;
-using _Game.Scripts.Entities;
-using _Game.Scripts;
-using System.Collections.Generic;
-using Unity.VisualScripting;
+using System.Collections;
 public enum Anim
 {
     Idle, Dead, Attack, Hide, Appear
@@ -19,10 +15,19 @@ public struct AnimName
 }
 public abstract class SpineAnimationEnemyHandler : MonoBehaviour
 {
+    [Header("Animation")]
     public SkeletonAnimation skeletonAnimation;
     [SpineAnimation] public string idle;
     [SpineAnimation] public string dead;
-    Action onDead;
+    protected Action onDead;
+
+
+    [Header("Renderer")]
+    public MeshRenderer meshRenderer;
+    public Color onHitColor = new Color(180, 180, 180);
+    public float onHitduration = 0.1f;
+    Coroutine blinkCoroutine;
+
     protected virtual void Start()
     {
         skeletonAnimation.AnimationState.Event += AnimationState_Event;
@@ -63,5 +68,22 @@ public abstract class SpineAnimationEnemyHandler : MonoBehaviour
         skeletonAnimation.AnimationState.Event -= AnimationState_Event;
         skeletonAnimation.AnimationState.Complete -= AnimationState_Complete;
     }
+    public void Blink()
+    {
+        if (blinkCoroutine != null)
+        {
+            StopCoroutine(blinkCoroutine);
+        }
+        blinkCoroutine = StartCoroutine(BlinkCoroutine());
+    }
 
+    IEnumerator BlinkCoroutine()
+    {
+        MaterialPropertyBlock mpb = new MaterialPropertyBlock();
+        mpb.SetColor("_Black", onHitColor);
+        meshRenderer.SetPropertyBlock(mpb);
+        yield return new WaitForSeconds(onHitduration);
+        mpb.SetColor("_Black", Color.black);
+        meshRenderer.SetPropertyBlock(mpb);
+    }
 }

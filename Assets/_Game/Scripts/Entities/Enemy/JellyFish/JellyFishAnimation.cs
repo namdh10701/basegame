@@ -44,6 +44,13 @@ public class JellyFishAnimation : SpineAnimationEnemyHandler
         skeletonAnimation.AnimationState.SetAnimation(0, "appear", false);
     }
 
+    public void PlayMove()
+    {
+        if (skeletonAnimation.AnimationState.GetCurrent(0).Animation.Name != "move")
+        {
+            skeletonAnimation.AnimationState.SetAnimation(0, "move", true);
+        }
+    }
     protected override void AnimationState_Event(TrackEntry trackEntry, Spine.Event e)
     {
     }
@@ -56,7 +63,7 @@ public class JellyFishAnimation : SpineAnimationEnemyHandler
     protected override void Start()
     {
         base.Start();
-        
+
     }
     private void Update()
     {

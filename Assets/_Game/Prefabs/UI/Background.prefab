@@ -201,6 +201,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4489699538012865116}
+  - component: {fileID: 2592666690263257255}
   m_Layer: 0
   m_Name: Background
   m_TagString: Untagged
@@ -227,6 +228,25 @@ Transform:
   - {fileID: 6859519818548493617}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2592666690263257255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2636826505972318272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7a949be61c301c478e75f984ed95893, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  background: {fileID: 8997582685274386131}
+  waves: {fileID: 5373067677207898991}
+  currentOffset: {x: 0, y: 0}
+  direction: {x: 1, y: 0}
+  scrollSpeed: {x: 0.05, y: 0}
+  backgroundTexture: {fileID: 2800000, guid: 00a358565b52b1240aabf994f689e26f, type: 3}
+  startSpeed: 0
 --- !u!1 &2770156844088241419
 GameObject:
   m_ObjectHideFlags: 0
@@ -337,7 +357,7 @@ GameObject:
   - component: {fileID: 2890168635942776223}
   - component: {fileID: 810983910036550853}
   m_Layer: 0
-  m_Name: Quad
+  m_Name: Wave
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -352,8 +372,8 @@ Transform:
   m_GameObject: {fileID: 7290816072472372199}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.037399292, y: -0.08739996, z: -5.23}
-  m_LocalScale: {x: 31.877972, y: 31.877972, z: 31.877972}
+  m_LocalPosition: {x: -0.41, y: 1.17, z: -1}
+  m_LocalScale: {x: 32, y: 32, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4489699538012865116}

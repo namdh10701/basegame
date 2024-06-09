@@ -19,7 +19,7 @@ namespace _Game.Scripts
         }
         public override IEnumerator AttackSequence()
         {
-            //   saeh.PlayAnim(Anim.Attack, false);
+            anim.PlayAttack();
             yield return new WaitForSeconds(2);
             CooldownBehaviour.StartCooldown();
         }

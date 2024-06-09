@@ -12,6 +12,7 @@ namespace _Game.Scripts.Entities
 {
     public class Cannon : Entity, IGridItem, IShooter
     {
+
         [ContextMenu("Apply stats changed")]
         void ApplyStatsChanged()
         {
@@ -47,6 +48,10 @@ namespace _Game.Scripts.Entities
             Debug.Log("stat ok " + stat.StatValue.Value);
 
         }
+
+
+
+        [Header("Cannon")]
         [field: SerializeField]
         private GridItemDef def;
 
@@ -62,6 +67,7 @@ namespace _Game.Scripts.Entities
         public CannonReloader Reloader => _cannonReloader;
 
         public override Stats Stats => _stats;
+
         public IFighterStats FighterStats
         {
             get => _stats;
@@ -72,16 +78,13 @@ namespace _Game.Scripts.Entities
         [field: SerializeReference]
         public AttackStrategy AttackStrategy { get; set; }// = new ShootTargetStrategyNormal_SplitShot();
 
-        [field: SerializeReference]
-        public AttackTargetBehaviour AttackTargetBehaviour { get; set; }// = new ShootTargetStrategyNormal_SplitShot();
-
         [field: SerializeField]
         public List<Effect> BulletEffects { get; set; } = new();
 
         public Transform behaviour;
         public List<Vector2Int> OccupyCells { get; set; }
-        public GridItemDef Def { get => def; }
+        public GridItemDef Def { get => def; set => def = value; }
         public Transform Behaviour { get => behaviour; }
-        public string GridId { get; set ; }
+        public string GridId { get; set; }
     }
 }

@@ -24,11 +24,11 @@ public class Decelerate : Leaf
     }
     public override NodeResult Execute()
     {
-        elapsedTime += Time.fixedDeltaTime;
+        /*elapsedTime += Time.fixedDeltaTime;
         float speed = Mathf.Lerp(startSpeed, TargetSpeed.Value, elapsedTime / Duration.Value);
 
-        body.velocity = Vector2.ClampMagnitude(body.velocity, speed);
-        return elapsedTime < Duration.Value ? NodeResult.running : NodeResult.success;
+        body.velocity = Vector2.ClampMagnitude(body.velocity, speed);*/
+        return NodeResult.success;
     }
 
 

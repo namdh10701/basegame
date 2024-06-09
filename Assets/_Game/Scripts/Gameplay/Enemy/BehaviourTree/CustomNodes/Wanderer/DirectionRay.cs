@@ -25,6 +25,10 @@ public class DirectionRay : MonoBehaviour
     }
     void Update()
     {
+        if (area == null)
+        {
+            return;
+        }
         // The origin point of the raycast (can be the position of the GameObject)
         Vector2 origin = transform.position;
 

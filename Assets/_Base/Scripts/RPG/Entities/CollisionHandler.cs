@@ -1,16 +1,18 @@
+using UnityEngine;
+
 namespace _Base.Scripts.RPG.Entities
 {
     public interface ICollisionHandler
     {
         void Process(Entity mainEntity, Entity collidedEntity);
     }
-    
-    public abstract class CollisionHandler: ICollisionHandler
+
+    public abstract class CollisionHandler : ICollisionHandler
     {
         public abstract void Process(Entity mainEntity, Entity collidedEntity);
     }
-    
-    public class DefaultCollisionHandler: CollisionHandler
+
+    public class DefaultCollisionHandler : CollisionHandler
     {
         public override void Process(Entity mainEntity, Entity collidedEntity)
         {
@@ -20,7 +22,7 @@ namespace _Base.Scripts.RPG.Entities
                 {
                     continue;
                 }
-                collidedEntity.EffectHandler.Apply(effect);
+                collidedEntity.EffectHandler?.Apply(effect);
             }
         }
     }

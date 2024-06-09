@@ -1,6 +1,9 @@
 using _Base.Scripts.RPG.Entities;
+using _Base.Scripts.RPGCommon.Entities;
 using _Base.Scripts.Utils.Extensions;
+using System.Collections.Generic;
 using UnityEngine;
+using static _Base.Scripts.RPGCommon.Behaviours.AttackStrategies.BouncingShot;
 
 namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
 {
@@ -9,80 +12,45 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
     {
         public float angle = 15f;
         public int amount = 3;
-        Entity oldMainEntity;
-        Entity oldcollidedEntity;
-
-        public System.Action<Entity, Entity> OnCollisionEnter;
-
         public override void DoAttack()
         {
             var shootDirection = CalculateShootDirection();
             var projectile = SpawnProjectile(shootDirection, shootPosition);
-
-            projectile.CollisionHandler = new DuplicateShotCollisionHandler(this);
-            OnCollisionEnter += (mainEntity, collidedEntity) => SpawnDuplicateShot(mainEntity, collidedEntity);
-
+            ((ProjectileCollisionHandler)projectile.CollisionHandler).Handlers.Add(new DupplicateHandler(angle, amount));
         }
 
-        public void SpawnDuplicateShot(Entity mainEntity, Entity collidedEntity)
+        public class DupplicateHandler : IHandler
         {
-            oldMainEntity = mainEntity;
-            oldcollidedEntity = collidedEntity;
-            var centerDirection = CalculateShootDirection();
+            float angle;
+            float amount;
+            bool isActivated;
+            public bool IsCompleted => isActivated;
 
-            var mostLeftAngle = amount / 2 * angle;
-            if (amount % 2 == 0)
+            public DupplicateHandler(float angle, float amount)
             {
-                mostLeftAngle -= angle / 2;
-            }
-            var mostLeftDirection = centerDirection.Rotate(-mostLeftAngle);
-
-            for (var idx = 0; idx < amount; idx++)
-            {
-                var shootDirection = mostLeftDirection.Rotate(idx * angle);
-                var projectile = SpawnProjectile(shootDirection, collidedEntity.transform);
-                projectile.transform.localPosition = collidedEntity.transform.position;
-                projectile.CollisionHandler = new AfterDuplicateShotCollisionHandler(this);
-            }
-        }
-
-        class DuplicateShotCollisionHandler : DefaultCollisionHandler
-        {
-            public DuplicateShot Strategy;
-
-            public DuplicateShotCollisionHandler(DuplicateShot strategy)
-            {
-                Strategy = strategy;
+                this.angle = angle;
+                this.amount = amount;
             }
 
-            public override void Process(Entity mainEntity, Entity collidedEntity)
+            void IHandler.Process(Projectile p, Entity mainEntity, Entity collidedEntity)
             {
-                base.Process(mainEntity, collidedEntity);
-                Strategy.OnCollisionEnter?.Invoke(mainEntity, collidedEntity);
-                Object.Destroy(mainEntity.gameObject);
+                isActivated = true;
+                var centerDirection = p.transform.rotation;
 
+                var mostLeftAngle = amount / 2 * angle;
+                if (amount % 2 == 0)
+                {
+                    mostLeftAngle -= angle / 2;
+                }
+                var mostLeftDirection = centerDirection.Rotate(-mostLeftAngle);
+                for (var idx = 0; idx < amount; idx++)
+                {
+                    var shootDirection = mostLeftDirection.Rotate(idx * angle);
+                    var projectileEntity = Object.Instantiate(p.gameObject, p.transform.position, shootDirection, null);
+                    var projectile = projectileEntity.GetComponent<Projectile>();
+                    ((ProjectileCollisionHandler)projectile.CollisionHandler).IgnoreCollideEntities.Add(collidedEntity);
+                }
             }
-
-        }
-
-        class AfterDuplicateShotCollisionHandler : DefaultCollisionHandler
-        {
-            public DuplicateShot Strategy;
-
-            public AfterDuplicateShotCollisionHandler(DuplicateShot strategy)
-            {
-                Strategy = strategy;
-            }
-
-            public override void Process(Entity mainEntity, Entity collidedEntity)
-            {
-                if (Strategy.oldcollidedEntity == collidedEntity) return;
-                base.Process(mainEntity, collidedEntity);
-                Object.Destroy(mainEntity.gameObject);
-
-
-            }
-
         }
     }
 }

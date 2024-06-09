@@ -10,6 +10,7 @@ using _Game.Scripts.Attributes;
 using _Game.Scripts.Battle;
 using _Game.Scripts.Gameplay.Ship;
 using MBT;
+using Mono.Collections.Generic;
 using Spine.Unity;
 using UnityEngine;
 using static UnityEngine.EventSystems.EventTrigger;
@@ -36,10 +37,10 @@ namespace _Game.Scripts.Entities
         [SerializeField] protected Blackboard blackboard;
         [SerializeField] protected Rigidbody2D body;
         [SerializeField] protected Collider2D pushCollider;
-        [SerializeField] protected Collider2D effectCollider;
         [SerializeField] MBTExecutor MBTExecutor;
         protected virtual IEnumerator Start()
         {
+            CollisionHandler = new EnemyCollisionHandler(_stats);
             Ship ship = FindAnyObjectByType<Ship>();
             if (ship == null || blackboard == null)
                 yield break;
@@ -51,7 +52,7 @@ namespace _Game.Scripts.Entities
         public virtual void Die()
         {
             pushCollider.enabled = false;
-            effectCollider.enabled = false;
+            EntityCollisionDetector.GetComponent<Collider2D>().enabled = false;
             MBTExecutor.enabled = false;
         }
 

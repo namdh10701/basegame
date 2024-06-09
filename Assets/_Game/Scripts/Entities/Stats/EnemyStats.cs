@@ -30,6 +30,8 @@ namespace _Game.Scripts
 
         public Stat AttackAccuracy { get; set; } = new();
 
+        public Stat EvasionChance { get; set; } = new();
+
         [field: SerializeField]
         public Stat ActionSequenceInterval { get; set; } = new();
 

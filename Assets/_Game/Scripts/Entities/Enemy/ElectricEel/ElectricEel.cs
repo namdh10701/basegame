@@ -5,31 +5,46 @@ using UnityEngine;
 
 public class ElectricEel : Enemy
 {
+    [Header("Electric Eel")]
+
     public ElectricEelAnimation Animation;
-    public ParticleSystem ParticleSystem;
-    public Projectile Projectile;
+    public ElectricFx electricFx;
+    public ElectricEelProjectile Projectile;
     public Transform target;
+    public CooldownBehaviour CooldownBehaviour;
+    [Header("Sycn Animation")]
+
+    public float delayTime;
+    public float timer;
+    bool attack;
     protected override IEnumerator Start()
     {
         Animation.Attack.AddListener(DoAttack);
+        Animation.OnHide += OnHide;
+        CooldownBehaviour.SetCooldownTime(7);
+        CooldownBehaviour.StartCooldown();
         return base.Start();
     }
+
+    void OnHide()
+    {
+
+    }
+
     public override IEnumerator AttackSequence()
     {
-        //Animation.ChargeExplode();
+        Animation.Charge();
         yield return new WaitForSeconds(2);
-        // Die();
+        Animation.PlayAttack();
+        CooldownBehaviour.StartCooldown();
         yield break;
     }
 
-    void DoAttack(Transform t)
+    void DoAttack()
     {
         attack = true;
         timer = 0;
     }
-    bool attack;
-    public float delayTime;
-    public float timer;
     private void Update()
     {
         if (attack)
@@ -38,18 +53,20 @@ public class ElectricEel : Enemy
             if (timer > delayTime)
             {
                 attack = false;
-                ParticleSystem.Play();
-                Projectile projectile = Instantiate(Projectile);
-                projectile.transform.position = ParticleSystem.transform.position;
-                projectile.moveSpeed.BaseValue = 10;
-                projectile.transform.up = target.transform.position - ParticleSystem.transform.position;
+                electricFx.targetTransform = target;
+                electricFx.Play();
+                ElectricEelProjectile projectile = Instantiate(Projectile);
+                projectile.transform.position = electricFx.transform.position;
+                projectile.targetTransform = target;
+                projectile.startTransform = transform;
+                ((HomingMove)projectile.ProjectileMovement).target = target;
             }
         }
     }
 
     public override bool IsReadyToAttack()
     {
-        return false;
+        return !CooldownBehaviour.IsInCooldown;
     }
 
     public override void Move()
@@ -59,6 +76,17 @@ public class ElectricEel : Enemy
 
     public override IEnumerator StartActionCoroutine()
     {
+        Animation.PlayIdle();
         yield break;
+    }
+
+    public void Hide()
+    {
+        Animation.Hide();
+    }
+
+    public void Show()
+    {
+        Animation.Appear();
     }
 }

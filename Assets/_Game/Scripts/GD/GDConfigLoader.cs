@@ -18,7 +18,7 @@ namespace _Game.Scripts.GD
     }
 
     [DefaultExecutionOrder(-10000)]
-    public class GDConfigLoader: MonoBehaviour
+    public class GDConfigLoader : MonoBehaviour
     {
         public static GDConfigLoader Instance;
 
@@ -28,20 +28,20 @@ namespace _Game.Scripts.GD
         public string DOC_ID = "1M91hXkFM9BvP5SsfMKz-oDndDaOx-hJLfFTE39kfEJM";
         // public Dictionary<string, CannonConfig> Cannon { get; private set; }
         // public Dictionary<string, AmmoConfig> Ammo { get; private set; }
-        
+
         private Dictionary<string, Dictionary<string, string>> CannonMap { get; set; }
         private Dictionary<string, Dictionary<string, string>> AmmoMap { get; set; }
         private Dictionary<string, Dictionary<string, string>> EnemyMap { get; set; }
         private Dictionary<string, Dictionary<string, string>> ShipMap { get; set; }
         private Dictionary<string, Dictionary<string, string>> TalentTreeNormalMap { get; set; }
         private Dictionary<string, Dictionary<string, string>> TalentTreePreMap { get; set; }
-        
-        public Dictionary<string, CannonConfig> Cannons { get; } = new ();
-        public Dictionary<string, AmmoConfig> Ammos { get; } = new ();
-        public Dictionary<string, EnemyConfig> Enemies { get; } = new ();
-        public Dictionary<string, ShipConfig> Ships { get; } = new ();
-        public Dictionary<string, TalentTreeNormalConfig> TalentTreeNormals { get; } = new ();
-        public Dictionary<string, TalentTreePreConfig> TalentTreePres { get; } = new ();
+
+        public Dictionary<string, CannonConfig> Cannons { get; } = new();
+        public Dictionary<string, AmmoConfig> Ammos { get; } = new();
+        public Dictionary<string, EnemyConfig> Enemies { get; } = new();
+        public Dictionary<string, ShipConfig> Ships { get; } = new();
+        public Dictionary<string, TalentTreeNormalConfig> TalentTreeNormals { get; } = new();
+        public Dictionary<string, TalentTreePreConfig> TalentTreePres { get; } = new();
 
         private async void Awake()
         {
@@ -60,7 +60,7 @@ namespace _Game.Scripts.GD
             TalentTreePreMap = await GetConfigMap(getSheetData("Pre Level"));
 
             SetLocalData();
-            
+
             OnLoaded?.Invoke();
             // SceneManager.LoadScene(SceneToLoadWhenComplete);
         }
@@ -75,7 +75,7 @@ namespace _Game.Scripts.GD
 
             LoadAll();
         }
-        
+
         [ContextMenu("LoadAll")]
         private void LoadAll()
         {
@@ -88,59 +88,59 @@ namespace _Game.Scripts.GD
 
                 Cannons[key] = so;
             }
-            
+
             // Load ammo config
             foreach (var (key, properties) in GDConfigLoader.Instance.AmmoMap)
             {
                 var so = Resources.Load<AmmoConfig>($"Configs/Ammo/Ammo_{key}");
                 if (!so) continue;
                 Load(so, properties);
-                
+
                 Ammos[key] = so;
             }
-            
+
             // Load enemy config
             foreach (var (key, properties) in GDConfigLoader.Instance.EnemyMap)
             {
                 var so = Resources.Load<EnemyConfig>($"Configs/Enemy/Enemy_{key}");
                 if (!so) continue;
                 Load(so, properties);
-                
+
                 Enemies[key] = so;
             }
-            
+
             // Load ship config
             foreach (var (key, properties) in GDConfigLoader.Instance.ShipMap)
             {
                 var so = Resources.Load<ShipConfig>($"Configs/Ship/Ship_{key}");
                 if (!so) continue;
                 Load(so, properties);
-                
+
                 Ships[key] = so;
             }
-            
+
             // talent tree normal
             foreach (var (key, properties) in GDConfigLoader.Instance.TalentTreeNormalMap)
             {
                 var so = Resources.Load<TalentTreeNormalConfig>($"Configs/TalentTreeNormal/TalentTreeNormal_{key}");
                 if (!so) continue;
                 Load(so, properties);
-                
+
                 TalentTreeNormals[key] = so;
             }
-            
+
             // talent tree pre
             foreach (var (key, properties) in GDConfigLoader.Instance.TalentTreePreMap)
             {
                 var so = Resources.Load<TalentTreePreConfig>($"Configs/TalentTreePre/TalentTreePre_{key}");
                 if (!so) continue;
                 Load(so, properties);
-                
+
                 TalentTreePres[key] = so;
             }
-            
+
         }
-        
+
         public static void Load(ScriptableObject so, Dictionary<string, string> properties)
         {
             Debug.Log($"Load SO: {so.name} | {string.Join(Environment.NewLine, properties)}");
@@ -155,10 +155,10 @@ namespace _Game.Scripts.GD
                 fieldInfo.SetValue(so, value);
             }
         }
-        
-        
 
-        private string getSheetData(string sheetName) 
+
+
+        private string getSheetData(string sheetName)
             => $"https://sheets.googleapis.com/v4/spreadsheets/{DOC_ID}/values/{sheetName}?alt=json&key={KEY}";
 
         private async Task<GSheetData> GetGSheetData(string url)
@@ -205,7 +205,7 @@ namespace _Game.Scripts.GD
 
             return dict;
         }
-        
+
         private async Task<Dictionary<string, T>> GetConfigs<T>(string url, int headerCount = 1)
         {
             var dict = new Dictionary<string, T>();
@@ -241,8 +241,9 @@ namespace _Game.Scripts.GD
 
             return dict;
         }
-        
-        async Task<string> GetHttpResponse(string url) {
+
+        async Task<string> GetHttpResponse(string url)
+        {
             return (await UnityWebRequest.Get(url).SendWebRequest()).downloadHandler.text;
         }
     }
