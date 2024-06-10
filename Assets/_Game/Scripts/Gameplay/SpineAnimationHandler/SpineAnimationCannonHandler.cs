@@ -12,6 +12,7 @@ public class SpineAnimationCannonHandler : SpineAnimationHandler
     [SpineEvent] public string shootEvent;
     public Action OnShoot;
     public SkeletonAnimation shellAnimation;
+    public SkeletonAnimation muzzleAnimation;
 
     bool isLeft;
     public void PlayShootAnim(bool isLoop)
@@ -37,6 +38,8 @@ public class SpineAnimationCannonHandler : SpineAnimationHandler
             isLeft = !isLeft;
             if (isLeft) shellAnimation.AnimationState.SetAnimation(0, "shell_left", false);
             else shellAnimation.AnimationState.SetAnimation(0, "shell_right", false);
+            muzzleAnimation?.AnimationState.AddAnimation(0, "demo_fireeffect", false, .15f);
+            muzzleAnimation?.AnimationState.AddEmptyAnimation(0, 0f, 0);
         }
     }
 

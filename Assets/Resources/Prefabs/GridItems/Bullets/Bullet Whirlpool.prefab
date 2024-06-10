@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 2196496888201420371}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.502, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -65,7 +65,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.1}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -76,7 +76,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.83, y: 0.9}
+  m_Size: {x: 0.83, y: 0.98}
   m_EdgeRadius: 0
 --- !u!114 &7913287629996107983
 MonoBehaviour:
@@ -162,8 +162,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -285313645
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 80dbce79fa46fe540a75ad7cb5df0358, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -175,7 +175,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!1 &7743350059817669522
 GameObject:
   m_ObjectHideFlags: 0
@@ -186,7 +186,6 @@ GameObject:
   m_Component:
   - component: {fileID: 528517828048701709}
   - component: {fileID: 5927501447640042736}
-  - component: {fileID: 8803426902243124681}
   m_Layer: 0
   m_Name: Bullet Whirlpool
   m_TagString: Untagged
@@ -226,18 +225,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Projectile: {fileID: 9038214777133773486, guid: 5ca95de0050294232be82d462f376a92, type: 3}
   def: {fileID: 11400000, guid: 19c10b0ed2df3c44983a797e71a7aee0, type: 2}
---- !u!210 &8803426902243124681
-SortingGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7743350059817669522}
-  m_Enabled: 1
-  m_SortingLayerID: 203964339
-  m_SortingLayer: 2
-  m_SortingOrder: 150
-  m_SortAtRoot: 0
 --- !u!1 &8348072679632945211
 GameObject:
   m_ObjectHideFlags: 0
@@ -263,7 +250,7 @@ Transform:
   m_GameObject: {fileID: 8348072679632945211}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.375, y: -0.497, z: 0}
+  m_LocalPosition: {x: -0.399, y: 0.039, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

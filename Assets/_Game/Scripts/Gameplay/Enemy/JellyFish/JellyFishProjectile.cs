@@ -38,6 +38,11 @@ public class JellyFishProjectile : MonoBehaviour
             transform.rotation = Quaternion.Lerp(transform.rotation, newRotation, Time.fixedDeltaTime * rotateSpeed);
 
             body.velocity = speed * transform.up;
+            rotateSpeed += Time.fixedDeltaTime * 5;
+            if (Vector2.Distance(body.position, atkData.CenterCell.transform.position) < .5f)
+            {
+                OnImpact();
+            }
         }
     }
 
@@ -50,13 +55,13 @@ public class JellyFishProjectile : MonoBehaviour
         isLaunched = true;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject == atkData.CenterCell.gameObject)
+    /*    private void OnTriggerEnter2D(Collider2D collision)
         {
-            OnImpact();
-        }
-    }
+            if (collision.gameObject == atkData.CenterCell.gameObject)
+            {
+                OnImpact();
+            }
+        }*/
 
     void OnImpact()
     {

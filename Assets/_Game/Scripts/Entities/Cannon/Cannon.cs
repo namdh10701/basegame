@@ -5,6 +5,8 @@ using _Base.Scripts.RPG.Entities;
 using _Base.Scripts.RPG.Stats;
 using _Base.Scripts.RPGCommon.Entities;
 using _Game.Scripts.Entities.CannonComponent;
+using _Game.Scripts.GD;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -49,7 +51,10 @@ namespace _Game.Scripts.Entities
 
         }
 
-
+        protected override void Awake()
+        {
+            base.Awake();
+        }
 
         [Header("Cannon")]
         [field: SerializeField]
@@ -86,5 +91,36 @@ namespace _Game.Scripts.Entities
         public GridItemDef Def { get => def; set => def = value; }
         public Transform Behaviour { get => behaviour; }
         public string GridId { get; set; }
+
+        private void Start()
+        {
+            LoadShipStats();
+            LoadModifiers();
+        }
+        void LoadShipStats()
+        {
+            if (GDConfigLoader.Instance != null)
+            {
+                if (GDConfigLoader.Instance.Cannons.TryGetValue(def.Id, out CannonConfig cannonConfig))
+                {
+                    ApplyConfig(cannonConfig);
+                }
+            }
+            else
+            {
+                _stats = ResourceLoader.LoadCannonStatsTemplate(def.Id).Data;
+            }
+
+        }
+
+        void ApplyConfig(CannonConfig shipConfig)
+        {
+
+        }
+
+        void LoadModifiers()
+        {
+
+        }
     }
 }

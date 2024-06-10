@@ -114,7 +114,7 @@ public class MenuPreBattle : MonoBehaviour
                     }
                     if (ResourceLoader.LoadCannon(name)) ;
                     int shapeId = 0;
-                    ShapeDic.TryGetValue(cannons.Values.ElementAt(i).ID, out shapeId);
+                    ShapeDic.TryGetValue(cannons.Values.ElementAt(i).id, out shapeId);
                     Debug.Log(shapeId);
 
                     itemList[i] = new GridItemDef()

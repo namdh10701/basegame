@@ -1,34 +1,52 @@
 ﻿using _Base.Scripts.RPG.Entities;
 using _Game.Scripts.GD;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace _Game.Scripts.Gameplay.Ship
 {
     public class Ship : Entity
     {
+        [Space]
+        [Header("Ship")]
         public string Id;
-        [SerializeField] ShipStats stats;
-        public override Stats Stats => stats;
+        public ShipStats stats;
         public ShipSetup ShipSetup;
+        public override Stats Stats => stats;
 
-
-        protected override void Awake()
-        {
-            base.Awake();
-        }
         private void Start()
         {
             LoadShipStats();
+            LoadModifiers();
             ShipSetup.LoadShipItems();
         }
 
         void LoadShipStats()
         {
-            if (GDConfigLoader.Instance.Ships.TryGetValue(Id, out ShipConfig shipConfig))
+            if (GDConfigLoader.Instance != null)
             {
-
+                if (GDConfigLoader.Instance.Ships.TryGetValue(Id, out ShipConfig shipConfig))
+                {
+                    ApplyConfig(shipConfig);
+                }
             }
+            else
+            {
+                stats = ResourceLoader.LoadShipTemplateConfig(Id).Data;
+            }
+
         }
+
+        void ApplyConfig(ShipConfig shipConfig)
+        {
+
+        }
+
+        void LoadModifiers()
+        {
+
+        }
+
 
         private void Update()
         {

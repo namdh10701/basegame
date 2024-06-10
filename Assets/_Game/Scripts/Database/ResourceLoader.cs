@@ -88,5 +88,18 @@ namespace _Game.Scripts
             Cannon ret = Resources.Load<Cannon>(cannonPrefabPath + $"/{name}");
             return ret;
         }
+
+        static string StatsTemplatePath = "Database/StatsTemplate";
+        public static ShipStatsTemplate LoadShipTemplateConfig(string id)
+        {
+            ShipStatsTemplate ret = Resources.Load<ShipStatsTemplate>(StatsTemplatePath + $"/Ship/{id}");
+            return ret;
+        }
+
+        public static CannonStatsTemplate LoadCannonStatsTemplate(string id)
+        {
+            CannonStatsTemplate ret = Resources.Load<CannonStatsTemplate>(StatsTemplatePath + $"/Cannon/{id}");
+            return ret;
+        }
     }
 }

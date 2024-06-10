@@ -8,6 +8,5 @@ using UnityEngine;
 [Serializable]
 public class ShipStatsTemplate : ScriptableObject
 {
-    public string ShipId;
     [field: SerializeField] public ShipStats Data { get; set; } = new();
 }

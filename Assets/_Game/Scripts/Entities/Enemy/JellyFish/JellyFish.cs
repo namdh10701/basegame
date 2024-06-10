@@ -50,7 +50,11 @@ public class JellyFish : Enemy
     {
         return !CooldownBehaviour.IsInCooldown;
     }
-
+    public override void Die()
+    {
+        base.Die();
+        anim.PlayDie(() => Destroy(gameObject));
+    }
     public override void Move()
     {
     }
