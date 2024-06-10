@@ -1,15 +1,21 @@
 using System;
+using _Game.Scripts.GD;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace _Game.Scripts.Gameplay.TalentTree
 {
     [ExecuteAlways]
-    public class TalentNode: MonoBehaviour
+    public class TalentTreeController: MonoBehaviour
     {
+        public enum Type
+        {
+            Normal,
+            Level,
+            Premium,
+        }
 
         public string itemId;
-        [FormerlySerializedAs("nodeType")] public NodeType nodeNodeType;
+        public Type nodeType;
 
         public GameObject lineTop;
         public GameObject lineRight;
@@ -18,14 +24,19 @@ namespace _Game.Scripts.Gameplay.TalentTree
 
         private void Awake()
         {
-            if (nodeNodeType == NodeType.Normal)
+            if (nodeType == Type.Normal)
             {
                 lineLeft.SetActive(false);
             }
-            else if (nodeNodeType == NodeType.Premium)
+            else if (nodeType == Type.Premium)
             {
                 lineRight.SetActive(false);
             }
+        }
+
+        public void PopulateTree()
+        {
+            // GDConfigLoader.Instance.TalentTreeNormals
         }
     }
 }
