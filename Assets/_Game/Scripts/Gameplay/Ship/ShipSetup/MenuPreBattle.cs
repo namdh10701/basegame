@@ -94,7 +94,6 @@ public class MenuPreBattle : MonoBehaviour
         // var xxx = GDConfigLoader.Instance.Cannons;
         var cannons = GDConfigLoader.Instance.Cannons;
         GridItemDef[] itemList = null;
-        GridItemDef[] itemList1 = null;
         switch (_curentTab)
         {
             case GridItemType.Cannon:
@@ -110,7 +109,6 @@ public class MenuPreBattle : MonoBehaviour
                     };
                 }
 
-                itemList1 = GridItemReferenceHolder.CannonReferences;
                 break;
             case GridItemType.Bullet:
                 itemList = GridItemReferenceHolder.BulletReferences;
