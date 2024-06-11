@@ -33,11 +33,15 @@ namespace _Game.Scripts.GD
         private Dictionary<string, Dictionary<string, string>> AmmoMap { get; set; }
         private Dictionary<string, Dictionary<string, string>> EnemyMap { get; set; }
         private Dictionary<string, Dictionary<string, string>> ShipMap { get; set; }
+        private Dictionary<string, Dictionary<string, string>> TalentTreeNormalMap { get; set; }
+        private Dictionary<string, Dictionary<string, string>> TalentTreePreMap { get; set; }
         
         public Dictionary<string, CannonConfig> Cannons { get; } = new ();
         public Dictionary<string, AmmoConfig> Ammos { get; } = new ();
         public Dictionary<string, EnemyConfig> Enemies { get; } = new ();
         public Dictionary<string, ShipConfig> Ships { get; } = new ();
+        public Dictionary<string, TalentTreeNormalConfig> TalentTreeNormals { get; } = new ();
+        public Dictionary<string, TalentTreePreConfig> TalentTreePres { get; } = new ();
 
         private async void Awake()
         {
@@ -52,6 +56,8 @@ namespace _Game.Scripts.GD
             AmmoMap = await GetConfigMap(getSheetData("Ammo"));
             EnemyMap = await GetConfigMap(getSheetData("Monster"));
             ShipMap = await GetConfigMap(getSheetData("Ship"));
+            TalentTreeNormalMap = await GetConfigMap(getSheetData("Normal Level"));
+            TalentTreePreMap = await GetConfigMap(getSheetData("Pre Level"));
 
             SetLocalData();
             
@@ -112,6 +118,27 @@ namespace _Game.Scripts.GD
                 
                 Ships[key] = so;
             }
+            
+            // talent tree normal
+            foreach (var (key, properties) in GDConfigLoader.Instance.TalentTreeNormalMap)
+            {
+                var so = Resources.Load<TalentTreeNormalConfig>($"Configs/TalentTreeNormal/TalentTreeNormal_{key}");
+                if (!so) continue;
+                Load(so, properties);
+                
+                TalentTreeNormals[key] = so;
+            }
+            
+            // talent tree pre
+            foreach (var (key, properties) in GDConfigLoader.Instance.TalentTreePreMap)
+            {
+                var so = Resources.Load<TalentTreePreConfig>($"Configs/TalentTreePre/TalentTreePre_{key}");
+                if (!so) continue;
+                Load(so, properties);
+                
+                TalentTreePres[key] = so;
+            }
+            
         }
         
         public static void Load(ScriptableObject so, Dictionary<string, string> properties)
@@ -152,6 +179,10 @@ namespace _Game.Scripts.GD
 
             foreach (var list in gSheetData.values.Skip(headerCount))
             {
+                if (!list.Any())
+                {
+                    continue;
+                }
                 var colIdx = 0;
                 dict[list[0]] = new Dictionary<string, string>();
                 foreach (var fieldInfo in fields)

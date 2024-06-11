@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace _Game.Scripts.GD
 {
@@ -8,10 +9,10 @@ namespace _Game.Scripts.GD
     [Serializable]
     public class CannonConfig: GDConfig
     {
-        public string ID;
+        public string id;
         public string name;
         public string default_rarity;
-        public float HP;
+        public float hp;
         public float attack;
         public float attack_speed;
         public float accuracy;
@@ -20,7 +21,7 @@ namespace _Game.Scripts.GD
         public float range;
         public float skill;
 
-        public override string GetId() => ID;
+        public override string GetId() => id;
 
         public override void ApplyGDConfig(object stats)
         {
@@ -36,8 +37,8 @@ namespace _Game.Scripts.GD
             // }
 
             var cannonSt = (stats as CannonStats)!;
-            cannonSt.HealthPoint.StatValue.BaseValue = HP;
-            cannonSt.HealthPoint.MaxStatValue.BaseValue = HP;
+            cannonSt.HealthPoint.StatValue.BaseValue = hp;
+            cannonSt.HealthPoint.MaxStatValue.BaseValue = hp;
             cannonSt.AttackDamage.BaseValue = attack;
             cannonSt.AttackDamage.BaseValue = attack_speed;
             cannonSt.AttackAccuracy.BaseValue = accuracy;
