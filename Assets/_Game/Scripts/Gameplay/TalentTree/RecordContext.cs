@@ -19,7 +19,7 @@ namespace _Game.Scripts.Gameplay.TalentTree
             set => _normalNodeProperty.Value = value;
         }
 
-        private readonly Property<NodeContext> _normalNodeProperty = new();
+        private readonly Property<NodeContext> _normalNodeProperty = new(new NodeContext());
 
         #endregion
 
@@ -35,7 +35,7 @@ namespace _Game.Scripts.Gameplay.TalentTree
             set => _levelNodeProperty.Value = value;
         }
 
-        private readonly Property<NodeContext> _levelNodeProperty = new();
+        private readonly Property<NodeContext> _levelNodeProperty = new(new NodeContext());
 
         #endregion
 
@@ -51,7 +51,7 @@ namespace _Game.Scripts.Gameplay.TalentTree
             set => _premiumNodeProperty.Value = value;
         }
 
-        private readonly Property<NodeContext> _premiumNodeProperty = new();
+        private readonly Property<NodeContext> _premiumNodeProperty = new(new NodeContext());
 
         #endregion
     }

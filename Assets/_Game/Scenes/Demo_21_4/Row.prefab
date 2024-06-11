@@ -86,6 +86,7 @@ GameObject:
   - component: {fileID: 2023504113582706255}
   - component: {fileID: 30442849388400097}
   - component: {fileID: 928493130219294128}
+  - component: {fileID: 6957151468381115962}
   m_Layer: 5
   m_Name: Row
   m_TagString: Untagged
@@ -155,6 +156,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 2
   m_VerticalFit: 0
+--- !u!114 &6957151468381115962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 641608414481690158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0353de6b5a9e8fa4eaded0354856aa9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  contextType: _Game.Scripts.Gameplay.TalentTree.RecordContext, Assembly-CSharp,
+    Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  createContext: 0
 --- !u!1 &662730353872349344
 GameObject:
   m_ObjectHideFlags: 0
@@ -1310,6 +1326,8 @@ GameObject:
   - component: {fileID: 6715682257502463439}
   - component: {fileID: 8007100784896494977}
   - component: {fileID: 5067201498034092146}
+  - component: {fileID: 4435057989224840881}
+  - component: {fileID: 7797602105392660523}
   m_Layer: 5
   m_Name: Node (2)
   m_TagString: Untagged
@@ -1327,7 +1345,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 86616090048226595}
   - {fileID: 4511860814200562289}
@@ -1434,6 +1452,43 @@ MonoBehaviour:
   lineRight: {fileID: 8038209141098801412}
   lineBottom: {fileID: 1073391652095325726}
   lineLeft: {fileID: 6010380797450996681}
+--- !u!225 &4435057989224840881
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4804529947168396089}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &7797602105392660523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4804529947168396089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd0a6ee19b4e8244380883cc0bfe5c82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Data:
+    Constant: 
+    Path: NormalNode.CanvasGroupAlpha
+    Provider: {fileID: 0}
+    Reference: {fileID: 0}
+    Type: 0
+  TargetBinding:
+    Constant: 
+    Path: 
+    Provider: {fileID: 0}
+    Reference: {fileID: 4435057989224840881}
+    Type: 3
+  constantTarget: {fileID: 0}
 --- !u!1 &5127884108297579580
 GameObject:
   m_ObjectHideFlags: 0
