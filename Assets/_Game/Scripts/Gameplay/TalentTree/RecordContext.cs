@@ -13,13 +13,13 @@ namespace _Game.Scripts.Gameplay.TalentTree
         /// NormalNode
         /// </summary>
 
-        public NodeContext NormalNode
+        public NodeViewModel NormalNode
         {
             get => _normalNodeProperty.Value;
             set => _normalNodeProperty.Value = value;
         }
 
-        private readonly Property<NodeContext> _normalNodeProperty = new(new NodeContext());
+        private readonly Property<NodeViewModel> _normalNodeProperty = new(new NodeViewModel());
 
         #endregion
 
@@ -29,13 +29,13 @@ namespace _Game.Scripts.Gameplay.TalentTree
         /// LevelNode
         /// </summary>
 
-        public NodeContext LevelNode
+        public NodeViewModel LevelNode
         {
             get => _levelNodeProperty.Value;
             set => _levelNodeProperty.Value = value;
         }
 
-        private readonly Property<NodeContext> _levelNodeProperty = new(new NodeContext());
+        private readonly Property<NodeViewModel> _levelNodeProperty = new(new NodeViewModel());
 
         #endregion
 
@@ -45,13 +45,13 @@ namespace _Game.Scripts.Gameplay.TalentTree
         /// PremiumNode
         /// </summary>
 
-        public NodeContext PremiumNode
+        public NodeViewModel PremiumNode
         {
             get => _premiumNodeProperty.Value;
             set => _premiumNodeProperty.Value = value;
         }
 
-        private readonly Property<NodeContext> _premiumNodeProperty = new(new NodeContext());
+        private readonly Property<NodeViewModel> _premiumNodeProperty = new(new NodeViewModel());
 
         #endregion
     }

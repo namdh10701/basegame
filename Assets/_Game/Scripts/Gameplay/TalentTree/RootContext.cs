@@ -20,12 +20,12 @@ namespace _Game.Scripts.Gameplay.TalentTree
 
         #endregion
         
-        public RootContext()
-        {
-            this.Records.Add(new RecordContext() { NormalNode = new NodeContext() { IsVisible = false }});
-            // this.Records.Add(new RecordContext());
-            // this.Records.Add(new RecordContext());
-            // this.Records.Add(new RecordContext());
-        }
+        // public RootContext()
+        // {
+        //     this.Records.Add(new RecordContext() { NormalNode = new NodeViewModel() { IsVisible = false }});
+        //     // this.Records.Add(new RecordContext());
+        //     // this.Records.Add(new RecordContext());
+        //     // this.Records.Add(new RecordContext());
+        // }
     }
 }
