@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,9 +15,7 @@ namespace _Game.Scripts.Gameplay.TalentTree
     {
         private ObservableList<LevelRecord> items = new ObservableList<LevelRecord>()
         {
-            new LevelRecord() { },
-            new LevelRecord(),
-            new LevelRecord()
+            
         };
 
         [Binding]
@@ -46,5 +45,22 @@ namespace _Game.Scripts.Gameplay.TalentTree
         }
 
         #endregion
+
+        private void Awake()
+        {
+            items.Add(new LevelRecord
+            {
+                NormalNode = new NodeViewModel(),
+                LevelNode = new NodeViewModel { CanvasGroupAlpha = 0 },
+                PremiumNode = new NodeViewModel { CanvasGroupAlpha = 0 },
+            });
+            
+            items.Add(new LevelRecord
+            {
+                NormalNode = new NodeViewModel(),
+                LevelNode = new NodeViewModel { CanvasGroupAlpha = 0 },
+                PremiumNode = new NodeViewModel { CanvasGroupAlpha = 1 },
+            });
+        }
     }
 }

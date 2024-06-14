@@ -10,24 +10,78 @@ namespace _Game.Scripts.Gameplay.TalentTree
     [Binding]
     public class LevelRecord : INotifyPropertyChanged
     {
-        private NodeViewModel _mNormalNode = new();
+        #region Binding Prop: NormalNode
+
+        private NodeViewModel _normalNode = new();
 
         [Binding]
         public NodeViewModel NormalNode
         {
-            get => _mNormalNode;
+            get => _normalNode;
             set
             {
-                if (_mNormalNode == value)
+                if (_normalNode == value)
                 {
                     return;
                 }
 
-                _mNormalNode = value;
+                _normalNode = value;
 
                 OnPropertyChanged(nameof(NormalNode));
             }
         }
+
+        #endregion
+
+        #region Binding Prop: LevelNode
+
+        /// <summary>
+        /// LevelNode
+        /// </summary>
+        [Binding]
+        public NodeViewModel LevelNode
+        {
+            get => _levelNode;
+            set
+            {
+                if (Equals(_levelNode, value))
+                {
+                    return;
+                }
+
+                _levelNode = value;
+                OnPropertyChanged(nameof(LevelNode));
+            }
+        }
+
+        private NodeViewModel _levelNode;
+
+        #endregion
+
+        #region Binding Prop: PremiumNode
+
+        /// <summary>
+        /// PremiumNode
+        /// </summary>
+        [Binding]
+        public NodeViewModel PremiumNode
+        {
+            get => _premiumNode;
+            set
+            {
+                if (Equals(_premiumNode, value))
+                {
+                    return;
+                }
+
+                _premiumNode = value;
+                OnPropertyChanged(nameof(PremiumNode));
+            }
+        }
+
+        private NodeViewModel _premiumNode;
+
+        #endregion
         
         #region INotifyPropertyChanged
 
