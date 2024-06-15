@@ -4,6 +4,7 @@ using Spine.Unity;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class SpineAnimationCannonHandler : SpineAnimationHandler
@@ -11,9 +12,11 @@ public class SpineAnimationCannonHandler : SpineAnimationHandler
     [SpineAnimation] public string spineShoot;
     [SpineEvent] public string shootEvent;
     public Action OnShoot;
-    public SkeletonAnimation shellAnimation;
-    public SkeletonAnimation muzzleAnimation;
+    public ShellAnimationPool ShellAnimationPool;
+    public MuzzleAnimation muzzleAnimationPrefab;
 
+    ShellAnimation shellAnimation;
+    public float muzzleDelay;
     bool isLeft;
     public void PlayShootAnim(bool isLoop)
     {
@@ -36,10 +39,14 @@ public class SpineAnimationCannonHandler : SpineAnimationHandler
         {
             OnShoot?.Invoke();
             isLeft = !isLeft;
-            if (isLeft) shellAnimation.AnimationState.SetAnimation(0, "shell_left", false);
-            else shellAnimation.AnimationState.SetAnimation(0, "shell_right", false);
-            muzzleAnimation?.AnimationState.AddAnimation(0, "demo_fireeffect", false, .15f);
-            muzzleAnimation?.AnimationState.AddEmptyAnimation(0, 0f, 0);
+            shellAnimation = (ShellAnimation)ShellAnimationPool.Pull();
+            if (isLeft) shellAnimation.PlayLeftShell();
+            else shellAnimation.PlayRightShell();
+            if (muzzleAnimationPrefab != null)
+            {
+                MuzzleAnimation muzzle = Instantiate(muzzleAnimationPrefab, muzzleAnimationPrefab.transform.position, muzzleAnimationPrefab.transform.rotation, null);
+                muzzle.Play(muzzleDelay);
+            }
         }
     }
 

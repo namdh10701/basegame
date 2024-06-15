@@ -19,6 +19,7 @@ public abstract class SpineAnimationEnemyHandler : MonoBehaviour
     public SkeletonAnimation skeletonAnimation;
     [SpineAnimation] public string idle;
     [SpineAnimation] public string dead;
+    [SpineAnimation] public string move;
     protected Action onDead;
 
 
@@ -30,6 +31,7 @@ public abstract class SpineAnimationEnemyHandler : MonoBehaviour
 
     protected virtual void Start()
     {
+        Debug.Log("START");
         skeletonAnimation.AnimationState.Event += AnimationState_Event;
         skeletonAnimation.AnimationState.Complete += AnimationState_Complete;
     }
@@ -43,7 +45,17 @@ public abstract class SpineAnimationEnemyHandler : MonoBehaviour
             onDead = null;
         }
         if (!trackEntry.Loop && trackEntry.Next == null)
-            PlayIdle();
+        {
+        PlayIdle();
+        }
+           
+    }
+    public void PlayMove()
+    {
+        if (skeletonAnimation.AnimationState.GetCurrent(0).Animation.Name != move)
+        {
+            skeletonAnimation.AnimationState.SetAnimation(0, move, true);
+        }
     }
 
     public void PlayIdle()
