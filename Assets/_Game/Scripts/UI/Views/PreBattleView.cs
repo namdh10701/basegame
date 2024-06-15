@@ -28,7 +28,7 @@ namespace _Game.Scripts.UI
         }
         void OnMapBtnClick()
         {
-            ViewManager.Instance.Show<MapView>();
+            ViewManager.Instance.Show<MapView>();   
             
         }
     }
