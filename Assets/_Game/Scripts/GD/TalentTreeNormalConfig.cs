@@ -9,8 +9,9 @@ namespace _Game.Scripts.GD
     public class TalentTreeNormalConfig: GDConfig
     {
         public string id;
+        public float main;
         public float gold_cost;
-        public float stat_id;
+        public string stat_id;
 
         public override string GetId() => id;
         public override void ApplyGDConfig(object stats)

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using _Game.Scripts.GD;
 using Slash.Unity.DataBind.Core.Data;
 using UnityEngine;
 using UnityWeld.Binding;
@@ -48,19 +49,44 @@ namespace _Game.Scripts.Gameplay.TalentTree
 
         private void Awake()
         {
-            items.Add(new LevelRecord
+            GDConfigLoader.Instance.OnLoaded += Init;
+            GDConfigLoader.Instance.Load();
+        }
+
+        private void Init()
+        {
+            var maxLevel = GDConfigLoader.Instance.TalentTreeNormals.Max(v => v.Value.main);
+            for (int lvl = 0; lvl < maxLevel + 1; lvl++)
             {
-                NormalNode = new NodeViewModel(),
-                LevelNode = new NodeViewModel { CanvasGroupAlpha = 0 },
-                PremiumNode = new NodeViewModel { CanvasGroupAlpha = 0 },
-            });
-            
-            items.Add(new LevelRecord
-            {
-                NormalNode = new NodeViewModel(),
-                LevelNode = new NodeViewModel { CanvasGroupAlpha = 0 },
-                PremiumNode = new NodeViewModel { CanvasGroupAlpha = 1 },
-            });
+                var normalItems = GDConfigLoader.Instance.TalentTreeNormals.Where(v => v.Value.main.ToString() == lvl.ToString()).ToList();
+                var preItem = GDConfigLoader.Instance.TalentTreePres.FirstOrDefault(v => v.Value.premium.ToString() == lvl.ToString()).Value;
+
+                var normalItemsCount = normalItems.Count();
+                for (int j = 0; j < normalItemsCount; j++)
+                {
+                    var isLast = j == normalItemsCount - 1;
+                    var normalItem = normalItems[j];
+                
+                    items.Add(new LevelRecord
+                    {
+                        NormalNode = new NodeViewModel
+                        {
+                            ItemId = normalItem.Value.stat_id
+                        },
+                        LevelNode = new NodeViewModel
+                        {
+                            CanvasGroupAlpha = isLast ? 1: 0, 
+                            Level = lvl
+                        },
+                        PremiumNode = new NodeViewModel
+                        {
+                            CanvasGroupAlpha = (isLast && preItem != null) ? 1 : 0,
+                            ItemId = preItem == null ? "" : preItem.stat_id
+                        },
+                    });
+                }
+            }
+
         }
     }
 }

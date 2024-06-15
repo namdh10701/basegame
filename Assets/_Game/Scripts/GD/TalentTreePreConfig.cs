@@ -11,7 +11,7 @@ namespace _Game.Scripts.GD
         public string id;
         public string premium;
         public float diamond_cost;
-        public float stat_id;
+        public string stat_id;
 
         public override string GetId() => id;
         public override void ApplyGDConfig(object stats)
