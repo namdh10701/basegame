@@ -19,13 +19,13 @@ namespace _Game.Scripts.UI
         private void OnEnable()
         {
             preBattleBtn.onClick.AddListener(OnPrebattleClick);
-            craftingBtn.onClick.AddListener(OnCraftingClick);
-            rankingbtn.onClick.AddListener(OnRankingClick);
-            crewBtn.onClick.AddListener(OnCrewClick);
-            monsterPoolBtn.onClick.AddListener(OnMonsterPoolClick);
-            shopBtn.onClick.AddListener(OnShopClick);
-            inventoryBtn.onClick.AddListener(OnInventoryClick);
-            farmBtn.onClick.AddListener(OnFarmClick);
+            // craftingBtn.onClick.AddListener(OnCraftingClick);
+            // rankingbtn.onClick.AddListener(OnRankingClick);
+            // crewBtn.onClick.AddListener(OnCrewClick);
+            // monsterPoolBtn.onClick.AddListener(OnMonsterPoolClick);
+            // shopBtn.onClick.AddListener(OnShopClick);
+            // inventoryBtn.onClick.AddListener(OnInventoryClick);
+            // farmBtn.onClick.AddListener(OnFarmClick);
         }
 
         private void OnDisable()
