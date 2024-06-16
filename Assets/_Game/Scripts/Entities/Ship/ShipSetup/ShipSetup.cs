@@ -7,9 +7,12 @@ namespace _Game.Scripts
     public class ShipSetup : MonoBehaviour
     {
         public static List<GridItemData> GridItemDatas = new List<GridItemData>();
+        public List<GridItemData> Mockup = new List<GridItemData>();
         public GridItemReferenceHolder ItemReferenceHolder;
         public ShipGridProfile ShipGridProfile;
         public List<Grid> Grids = new List<Grid>();
+
+        public List<Bullet> bullets = new List<Bullet>();
         public List<Cell> AllCells
         {
             get
@@ -35,6 +38,7 @@ namespace _Game.Scripts
             {
                 Grids[i].Initialize(ShipGridProfile.GridDefinitions[i]);
             }
+            GridItemDatas = Mockup;
         }
         public void LoadShipItems()
         {
@@ -65,13 +69,25 @@ namespace _Game.Scripts
         void SpawnItems(GridItemData gridItemData, Grid grid)
         {
             GameObject prefab = ResourceLoader.LoadGridItemPrefab(gridItemData.Def);
-            GameObject gridItem = Instantiate(prefab, grid.GridItemRoot);
-            gridItem.GetComponent<IGridItem>().GridId = gridItemData.GridId;
-            gridItem.GetComponent<IGridItem>().OccupyCells = gridItemData.OccupyCells;
+            GameObject spawned = Instantiate(prefab, grid.GridItemRoot);
+            if (gridItemData.Def.Type == GridItemType.Bullet)
+            {
+                bullets.Add(spawned.GetComponent<Bullet>());
+            }
+            Debug.Log(gridItemData.Def.name);
+            IGridItem gridItem = spawned.GetComponent<IGridItem>();
+            gridItem.GridId = gridItemData.GridId;
+            List<Cell> occupyCells = gridItem.OccupyCells;
+            foreach (Vector2Int cell in gridItemData.OccupyCells)
+            {
+                Debug.Log(grid.Cells[cell.y, cell.x].ToString() + "ASDSAD");
+                grid.Cells[cell.y, cell.x].GridItem = gridItem;
+                occupyCells.Add(grid.Cells[cell.y, cell.x]);
+            }
 
-            float scale = Vector3.one.x / gridItem.transform.parent.lossyScale.x;
-            gridItem.transform.localScale = new Vector3(scale, scale, scale);
-            gridItem.transform.localPosition = gridItemData.position;
+            float scale = Vector3.one.x / spawned.transform.parent.lossyScale.x;
+            spawned.transform.localScale = new Vector3(scale, scale, scale);
+            spawned.transform.localPosition = gridItemData.position;
         }
 
         public void AddNewGridItem(GridItemData gridItemData)

@@ -3,31 +3,50 @@ using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.RPG.Entities;
 using _Base.Scripts.RPG.Stats;
 using _Game.Scripts;
+using _Game.Scripts.GD;
+using _Game.Scripts.InventorySystem;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace _Base.Scripts.RPGCommon.Entities
 {
-    public class Projectile : Entity
+    public abstract class Projectile : Entity, IUpgradeable, IEffectGiver
     {
-        public Rigidbody2D body;
+        [Header("Projectile")]
+        public string Id;
         public ParticleSystem onHitParticle;
-        [SerializeField]
-        private ProjectileStats projectileStats;
+        public ProjectileStats _stats;
+        public ProjectileStatsTemplate _statsTemplate;
         public ProjectileMovement ProjectileMovement;
-        public override Stats Stats => projectileStats;
+        public override Stats Stats => _stats;
+
+        public Rarity rarity;
+        public Rarity Rarity { get => rarity; set => rarity = value; }
+
+        public Transform Transform => transform;
+
+        public List<Effect> outGoingEffects = new List<Effect>();
+
+        public List<Effect> OutGoingEffects { get => outGoingEffects; set => outGoingEffects = value; }
+
+        public EffectGiverCollisionListener collisionListener;
+
+        public EffectCollisionHandler CollisionHandler;
+
         protected override void Awake()
         {
             base.Awake();
             CollisionHandler = new ProjectileCollisionHandler(this);
-            ProjectileCollisionHandler projectileCollisionHandler = (ProjectileCollisionHandler)CollisionHandler;
+            collisionListener.CollisionHandler = CollisionHandler;
+            ProjectileCollisionHandler projectileCollisionHandler = (ProjectileCollisionHandler)collisionListener.CollisionHandler;
             if (onHitParticle != null)
             {
                 projectileCollisionHandler.LoopHandlers.Add(new ParticleHandler(onHitParticle));
             }
-            projectileCollisionHandler.Handlers.Add(new PiercingHandler((int)projectileStats.Piercing.Value));
-            OutgoingEffects = new System.Collections.Generic.List<Effect>() { new DecreaseHealthEffect(2) };
+            projectileCollisionHandler.Handlers.Add(new PiercingHandler((int)_stats.Piercing.Value));
             ProjectileMovement = new StraightMove(this);
         }
+
         private void FixedUpdate()
         {
             ProjectileMovement.Move();
@@ -35,24 +54,28 @@ namespace _Base.Scripts.RPGCommon.Entities
 
         public void AddMoveSpeed(StatModifier statModifier)
         {
-            projectileStats.Speed.AddModifier(statModifier);
+            _stats.Speed.AddModifier(statModifier);
         }
 
         public void AddDamage(StatModifier statModifier)
         {
-            projectileStats.Damage.AddModifier(statModifier);
+            _stats.Damage.AddModifier(statModifier);
         }
 
         public void AddCritDamage(StatModifier statModifier)
         {
-            projectileStats.CritDamage.AddModifier(statModifier);
+            _stats.CritDamage.AddModifier(statModifier);
         }
 
         public void AddCritChance(StatModifier statModifier)
         {
-            projectileStats.CritChance.AddModifier(statModifier);
+            _stats.CritChance.AddModifier(statModifier);
         }
 
+        public void AddAccuaracy(StatModifier statModifier)
+        {
+            _stats.Accuracy.AddModifier(statModifier);
+        }
 
         private void OnBecameInvisible()
         {

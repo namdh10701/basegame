@@ -7,11 +7,13 @@ using UnityEngine.Events;
 
 public class ElectricEelAnimation : SpineAnimationEnemyHandler
 {
+    [Header("Ellectric Eel")]
+
     [HideInInspector] public UnityEvent Attack;
     [SpineEvent] public string AttackEvent;
     public Action OnHide;
     public GameObject rings;
-    public GameObject shadow;
+    public Renderer[] visuals;
     public void PlayAttack()
     {
         skeletonAnimation.AnimationState.SetAnimation(0, "attack_toidle", false);
@@ -26,9 +28,10 @@ public class ElectricEelAnimation : SpineAnimationEnemyHandler
 
     public void Appear()
     {
-        meshRenderer.enabled = true;
-
-        shadow.gameObject.SetActive(false);
+        foreach (Renderer renderer in visuals)
+        {
+            renderer.enabled = true;
+        }
         skeletonAnimation.AnimationState.AddAnimation(0, "appear", false, 0);
 
     }
@@ -59,8 +62,10 @@ public class ElectricEelAnimation : SpineAnimationEnemyHandler
 
         if (trackEntry.Animation.Name == "hide")
         {
-            meshRenderer.enabled = false;
-            shadow.gameObject.SetActive(true);
+            foreach (Renderer renderer in visuals)
+            {
+                renderer.enabled = false;
+            }
             OnHide?.Invoke();
         }
         if (trackEntry.Animation.Name == "appear")

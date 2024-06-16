@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using _Base.Scripts.RPG;
 using _Base.Scripts.RPG.Behaviours.AttackTarget;
 using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.RPG.Entities;
@@ -6,56 +7,15 @@ using _Base.Scripts.RPG.Stats;
 using _Base.Scripts.RPGCommon.Entities;
 using _Game.Scripts.Entities.CannonComponent;
 using _Game.Scripts.GD;
+using _Game.Scripts.InventorySystem;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 namespace _Game.Scripts.Entities
 {
-    public class Cannon : Entity, IGridItem, IShooter
+    public class Cannon : Entity, IGridItem, IShooter, IUpgradeable
     {
-
-        [ContextMenu("Apply stats changed")]
-        void ApplyStatsChanged()
-        {
-            // _stats.AttackDamage.TriggerValueChanged();
-            foreach (var propertyInfo in _stats.GetType().GetProperties())
-            {
-                propertyInfo.PropertyType.GetMethod("TriggerValueChanged").Invoke(propertyInfo, new object[] { });
-            }
-        }
-
-
-        [ContextMenu("Save stats")]
-        void SaveStats()
-        {
-            _statsTemplate.Data = _stats;
-        }
-
-        [ContextMenu("TestMyMethod")]
-        void TestMyMethod()
-        {
-            RangedStat stat = new RangedStat(10, 0, 100);
-
-
-            Assert.AreEqual(10, stat.Value);
-            stat.StatValue.AddModifier(StatModifier.Flat(10));
-
-            Debug.Log("stat ok 1");
-            // Assert.AreEqual(20, stat.Value);
-            //
-            stat.StatValue.AddModifier(StatModifier.Flat(100));
-            // Assert.AreEqual(100, stat.Value);
-
-            Debug.Log("stat ok " + stat.StatValue.Value);
-
-        }
-
-        protected override void Awake()
-        {
-            base.Awake();
-        }
-
         [Header("Cannon")]
         [field: SerializeField]
         private GridItemDef def;
@@ -79,48 +39,58 @@ namespace _Game.Scripts.Entities
             set => _stats = (CannonStats)value;
         }
 
-        // public IAttackStrategy AttackStrategy { get; set; } = new ShootTargetStrategy_Normal();
         [field: SerializeReference]
-        public AttackStrategy AttackStrategy { get; set; }// = new ShootTargetStrategyNormal_SplitShot();
+        public AttackStrategy AttackStrategy { get; set; }
 
         [field: SerializeField]
         public List<Effect> BulletEffects { get; set; } = new();
 
         public Transform behaviour;
-        public List<Vector2Int> OccupyCells { get; set; }
+        [field: SerializeField]
+        public List<Cell> OccupyCells { get; set; }
         public GridItemDef Def { get => def; set => def = value; }
         public Transform Behaviour { get => behaviour; }
         public string GridId { get; set; }
 
-        private void Start()
+        public Rarity rarity;
+        public Rarity Rarity { get => rarity; set => rarity = value; }
+
+        public ObjectCollisionDetector FindTargetCollider;
+        public AttackTargetBehaviour AttackTargetBehaviour;
+        protected override void Awake()
         {
-            LoadShipStats();
-            LoadModifiers();
+            base.Awake();
         }
-        void LoadShipStats()
+        protected override void LoadStats()
         {
             if (GDConfigLoader.Instance != null)
             {
                 if (GDConfigLoader.Instance.Cannons.TryGetValue(def.Id, out CannonConfig cannonConfig))
                 {
-                    ApplyConfig(cannonConfig);
+                    cannonConfig.ApplyGDConfig(_stats);
                 }
             }
             else
             {
-                _stats = ResourceLoader.LoadCannonStatsTemplate(def.Id).Data;
+                _statsTemplate.ApplyConfig(_stats);
             }
-
         }
 
-        void ApplyConfig(CannonConfig shipConfig)
+        protected override void LoadModifiers()
         {
 
         }
-
-        void LoadModifiers()
+        protected override void ApplyStats()
         {
-
+            FindTargetCollider.SetRadius(_stats.AttackRange.Value);
         }
+
+        public void SetProjectile(CannonProjectile projectile)
+        {
+            AttackTargetBehaviour.projectilePrefab = projectile;
+        }
+
+
+
     }
 }

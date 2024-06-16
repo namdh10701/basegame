@@ -29,5 +29,6 @@ namespace _Game.Scripts
         
         [field: SerializeField]
         public RangedStat HealthRegenerationRate { get; set; } = new(1, 0, 10);
+
     }
 }

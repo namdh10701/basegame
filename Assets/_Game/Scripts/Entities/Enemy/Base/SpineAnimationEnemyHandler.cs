@@ -31,7 +31,6 @@ public abstract class SpineAnimationEnemyHandler : MonoBehaviour
 
     protected virtual void Start()
     {
-        Debug.Log("START");
         skeletonAnimation.AnimationState.Event += AnimationState_Event;
         skeletonAnimation.AnimationState.Complete += AnimationState_Complete;
     }

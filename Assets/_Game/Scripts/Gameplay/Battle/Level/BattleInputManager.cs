@@ -12,12 +12,11 @@ namespace _Game.Scripts
     {
         [SerializeField] Camera _camera;
         [SerializeField] LayerMask layerMask;
-        [SerializeField] ShipSetup shipSetup;
-        [SerializeField] Ship Ship;
-        public BulletsMenu bulletMenuPrefab;
-
+        public ShipSetup shipSetup;
         Cannon selectingCannon;
-        BulletsMenu bulletMenu;
+        public BulletsMenu bulletMenu;
+        public GameObject canvas;
+
         private void Update()
         {
 #if UNITY_EDITOR
@@ -41,11 +40,8 @@ namespace _Game.Scripts
                         if (gridItem is Cannon)
                         {
                             selectingCannon = gridItem as Cannon;
+
                             CreateBulletsMenu();
-                        }
-                        else if (gridItem is Bullet bullet)
-                        {
-                            OnSelectBullet(bullet);
                         }
                     }
                 }
@@ -78,10 +74,6 @@ namespace _Game.Scripts
                                         selectingCannon = gridItem as Cannon;
                                         CreateBulletsMenu();
                                     }
-                                    else if (gridItem is Bullet bullet)
-                                    {
-                                        OnSelectBullet(bullet);
-                                    }
                                 }
                             }
                             isClick = false;
@@ -93,26 +85,9 @@ namespace _Game.Scripts
 
         void CreateBulletsMenu()
         {
-            if (bulletMenu != null)
-                return;
-            bulletMenu = Instantiate(bulletMenuPrefab, this.transform);
-            bulletMenu.Setup(ShipSetup.GridItemDatas);
+            canvas.SetActive(true);
+            bulletMenu.Setup(selectingCannon, shipSetup.bullets);
         }
 
-        public void OnSelectBullet(Bullet bullet)
-        {
-            if (selectingCannon == null)
-                return;
-            /*if (((ShipStats)Ship.Instance.Stats).ManaPoint.StatValue.BaseValue > 30)
-            {
-                ((ShipStats)Ship.Instance.Stats).ManaPoint.StatValue.BaseValue -= 30;
-                var bulletPrefab = bullet.Projectile;
-                selectingCannon.Reloader.Reload(bulletPrefab);
-            }*/
-            if (bulletMenu != null)
-            {
-                Destroy(bulletMenu.gameObject);
-            }
-        }
     }
 }

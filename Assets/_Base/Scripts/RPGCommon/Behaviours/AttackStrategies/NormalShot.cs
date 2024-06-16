@@ -15,7 +15,7 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
     [AddComponentMenu("[Attack Strategy] NormalShot")]
     public class NormalShot : AttackStrategy
     {
-        public Cannon Cannon;
+        Cannon Cannon;
         protected Transform shootPosition;
         private Entity projectilePrefab;
         private Vector3 TargetPosition;
@@ -61,7 +61,7 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
         {
             CannonStats cannonStats = (CannonStats)Cannon.Stats;
             projectile.AddCritChance(new StatModifier(cannonStats.CriticalChance.Value, StatModType.Flat, 1));
-            projectile.AddCritDamage(new StatModifier(cannonStats.CriticalChance.Value, StatModType.Flat, 1));
+            projectile.AddAccuaracy(new StatModifier(cannonStats.AttackAccuracy.Value, StatModType.Flat, 1));
             projectile.AddDamage(new StatModifier(cannonStats.AttackDamage.Value, StatModType.Flat, 1));
         }
 

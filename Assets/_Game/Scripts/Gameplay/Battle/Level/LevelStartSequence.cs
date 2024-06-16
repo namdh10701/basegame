@@ -11,28 +11,22 @@ namespace _Game.Scripts
         public ShipSpeed shipSpeed;
         public bool Active;
         Sequence startSequence;
-        private void Update()
+        public IEnumerator Play()
         {
-            if (UnityEngine.Input.GetKeyDown(KeyCode.V))
-            {
-                Activate();
-            }
-        }
-
-        void Activate()
-        {
+            background.AdjustSpeed(new Vector2(.3f, 0), 2f);
             startSequence = DOTween.Sequence();
             shipSpeed.AdjustSpeed(new Vector2(.75f, .1f), .1f);
             startSequence.Append(shipSpeed.transform.DOMoveX(2, 2.5f).SetEase(Ease.OutQuad));
             startSequence.AppendInterval(.1f);
             startSequence.AppendCallback(() =>
             {
-                shipSpeed.AdjustSpeed(new Vector2(.25f, .1f), 2f);
-                background.AdjustSpeed(new Vector2(.1f, 0), 2f);
+                shipSpeed.AdjustSpeed(new Vector2(.05f, .1f), 2f);
+                background.AdjustSpeed(new Vector2(.05f, 0), 2f);
             }
             );
             startSequence.Append(shipSpeed.transform.DOMoveX(0, 2.5f).SetEase(Ease.InOutQuad));
-
+            yield return startSequence.WaitForCompletion();
+            yield break;
         }
     }
 }

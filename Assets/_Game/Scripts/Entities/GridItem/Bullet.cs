@@ -11,9 +11,12 @@ namespace _Game.Scripts.Entities
         public Projectile Projectile;
 
         [SerializeField] private GridItemDef def;
-        public List<Vector2Int> OccupyCells { get; set; }
+
+        [field: SerializeField]
+        public List<Cell> OccupyCells { get; set; }
         public GridItemDef Def { get => def; }
         public Transform Behaviour { get => null; }
         public string GridId { get; set; }
+
     }
 }

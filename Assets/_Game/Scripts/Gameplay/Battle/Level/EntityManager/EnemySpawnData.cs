@@ -11,8 +11,6 @@ public struct GroupEnemySpawnData
 [Serializable]
 public struct EnemySpawnData
 {
-    public int EnemyId;
-    public int Time;
-    public Vector2 Position;
-    public List<Vector2> TargetPosition;
+    public string EnemyId;
+    public float Time;
 }

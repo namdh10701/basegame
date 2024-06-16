@@ -11,6 +11,7 @@ namespace _Game.Scripts
         public GridItemType Type;
         public int ShapeId;
         public string Name;
+        public Sprite Image;
         public override string ToString()
         {
             return Id + " " + Type.ToString() + " " + ShapeId;

@@ -4,12 +4,26 @@ using _Base.Scripts.RPG.Entities;
 using _Base.Scripts.RPGCommon.Entities;
 using _Game.Scripts;
 using _Game.Scripts.Entities;
+using _Game.Scripts.GD;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ElectricEelProjectile : Projectile
 {
+    protected override void LoadStats()
+    {
+    }
+
+    protected override void LoadModifiers()
+    {
+
+    }
+    protected override void ApplyStats()
+    {
+
+    }
+
     public Transform startTransform;
     public Transform targetTransform;
     public ElectricFx lightingFx;
@@ -46,18 +60,18 @@ public class ElectricBounceHandler : IHandler
 
     public bool IsCompleted => bounceCount == maxBounce;
 
-    public void Process(Projectile p, Entity mainEntity, Entity collidedEntity)
+    public void Process(Projectile p, IEffectGiver mainEntity, IEffectTaker collidedEntity)
     {
         List<Entity> inRangeEntities = new List<Entity>();
-        RaycastHit2D[] inRangeColliders = Physics2D.CircleCastAll(collidedEntity.transform.position, range, Vector2.zero);
+        RaycastHit2D[] inRangeColliders = Physics2D.CircleCastAll(collidedEntity.Transform.position, range, Vector2.zero);
         foreach (RaycastHit2D hit in inRangeColliders)
         {
-            if (hit.collider.TryGetComponent(out EntityCollisionDetector entityCollisionDetector))
+            if (hit.collider.TryGetComponent(out EffectCollisionDetector entityCollisionDetector))
             {
                 Entity entity = entityCollisionDetector.GetComponent<EntityProvider>().Entity;
 
 
-                if (!((ProjectileCollisionHandler)p.CollisionHandler).IgnoreCollideEntities.Contains(entity))
+                if (!((ProjectileCollisionHandler)p.CollisionHandler).IgnoreCollideEntities.Contains(collidedEntity))
                 {
                     if (entity is Entity && entity != p)
                     {
@@ -73,7 +87,7 @@ public class ElectricBounceHandler : IHandler
             float minDistance = Mathf.Infinity;
             foreach (Entity entity in inRangeEntities)
             {
-                float distance = Vector2.Distance(mainEntity.transform.position, entity.transform.position);
+                float distance = Vector2.Distance(mainEntity.Transform.position, entity.transform.position);
                 if (distance < minDistance)
                 {
                     nextTarget = entity;
@@ -84,8 +98,8 @@ public class ElectricBounceHandler : IHandler
             bounceCount++;
             ((HomingMove)p.ProjectileMovement).target = nextTarget.transform;
             ElectricFx nextProjectile = GameObject.Instantiate(electricFxPrefab);
-            nextProjectile.transform.position = collidedEntity.transform.position;
-            nextProjectile.startTransform = collidedEntity.transform;
+            nextProjectile.transform.position = collidedEntity.Transform.position;
+            nextProjectile.startTransform = collidedEntity.Transform;
             nextProjectile.targetTransform = nextTarget.transform;
             nextProjectile.Play();
         }
@@ -95,4 +109,5 @@ public class ElectricBounceHandler : IHandler
         }
 
     }
+
 }

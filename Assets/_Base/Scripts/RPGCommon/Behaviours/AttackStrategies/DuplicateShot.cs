@@ -32,7 +32,7 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
                 this.amount = amount;
             }
 
-            void IHandler.Process(Projectile p, Entity mainEntity, Entity collidedEntity)
+            void IHandler.Process(Projectile p, IEffectGiver mainEntity, IEffectTaker collidedEntity)
             {
                 isActivated = true;
                 var centerDirection = p.transform.rotation;

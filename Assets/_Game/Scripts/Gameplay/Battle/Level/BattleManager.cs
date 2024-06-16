@@ -1,3 +1,4 @@
+using _Game.Scripts.Battle;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +7,24 @@ namespace _Game.Scripts.Gameplay
 {
     public class BattleManager : MonoBehaviour
     {
-        
-       
+        public string selectShipid = "0001";
+        public Transform shipStartPos;
+        public EntityManager EntityManager;
+        public LevelStartSequence LevelStartSequence;
+        public EnemyManager EnemyManager;
+        public BattleInputManager BattleInputManager;
+        private void Awake()
+        {
+            EntityManager.SpawnShip(selectShipid, shipStartPos.position);
+            LevelStartSequence.shipSpeed = EntityManager.Ship.ShipSpeed;
+            BattleInputManager.shipSetup = EntityManager.Ship.ShipSetup;
+            StartCoroutine(LevelEntryCoroutine());
+        }
+
+        IEnumerator LevelEntryCoroutine()
+        {
+            yield return LevelStartSequence.Play();
+            EnemyManager.StartLevel();
+        }
     }
 }

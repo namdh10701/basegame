@@ -1,39 +1,56 @@
+using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.RPG.Entities;
 using _Base.Scripts.RPGCommon.Entities;
+using _Game.Scripts;
+using _Game.Scripts.Entities;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 public interface IHandler
 {
     public bool IsCompleted { get; }
-    public void Process(Projectile p, Entity mainEntity, Entity collidedEntity);
+    public void Process(Projectile p, IEffectGiver mainEntity, IEffectTaker collidedEntity);
 }
-public class ProjectileCollisionHandler : DefaultCollisionHandler
+public class ProjectileCollisionHandler : DefaultEffectCollisionHandler
 {
     Projectile projectile;
     public List<IHandler> Handlers = new List<IHandler>();
     public List<IHandler> LoopHandlers = new List<IHandler>();
-    public List<Entity> IgnoreCollideEntities = new List<Entity>();
+    public List<IEffectTaker> IgnoreCollideEntities = new List<IEffectTaker>();
 
     public ProjectileCollisionHandler(Projectile projectile)
     {
         this.projectile = projectile;
     }
 
-    public override void Process(Entity mainEntity, Entity collidedEntity)
+    public override void Process( IEffectGiver giver, IEffectTaker taker)
     {
-        if (IgnoreCollideEntities.Contains(collidedEntity))
+        if (taker is Enemy enemy)
+        {
+            float evadeChance = ((EnemyStats)enemy.Stats).EvadeChance.Value;
+            Debug.Log(evadeChance);
+            if (evadeChance > 0)
+            {
+                if (Random.Range(0, 1f) < evadeChance)
+                {
+                    return;
+                }
+            }
+        }
+
+        if (IgnoreCollideEntities.Contains(taker))
         {
             return;
         }
-        IgnoreCollideEntities.Add(collidedEntity);
-        base.Process(mainEntity, collidedEntity);
+        IgnoreCollideEntities.Add(taker);
+        base.Process(giver, taker);
         foreach (IHandler handler in LoopHandlers.ToArray())
         {
-            handler.Process(projectile, mainEntity, collidedEntity);
+            handler.Process(projectile, giver, taker);
         }
         foreach (IHandler handler in Handlers.ToArray())
         {
-            handler.Process(projectile, mainEntity, collidedEntity);
+            handler.Process(projectile, giver, taker);
             if (handler.IsCompleted)
             {
                 Handlers.Remove(handler);
@@ -41,7 +58,7 @@ public class ProjectileCollisionHandler : DefaultCollisionHandler
         }
         if (Handlers.Count == 0)
         {
-            Object.Destroy(mainEntity.gameObject);
+            Object.Destroy(projectile.gameObject);
         }
     }
 }
@@ -55,7 +72,7 @@ public class ParticleHandler : IHandler
     }
 
     bool IHandler.IsCompleted { get => false; }
-    void IHandler.Process(Projectile p, Entity mainEntity, Entity collidedEntity)
+    void IHandler.Process(Projectile p, IEffectGiver mainEntity, IEffectTaker collidedEntity)
     {
         GameObject particle = GameObject.Instantiate(onHitParticle.gameObject, p.transform.position, Quaternion.identity, null);
         particle.SetActive(true);
@@ -74,7 +91,7 @@ public class PiercingHandler : IHandler
 
     public bool IsCompleted => piercingCount >= maxPiercing;
 
-    void IHandler.Process(Projectile p, Entity mainEntity, Entity collidedEntity)
+    void IHandler.Process(Projectile p, IEffectGiver mainEntity, IEffectTaker collidedEntity)
     {
         piercingCount++;
     }

@@ -5,12 +5,14 @@ using UnityEngine;
 
 public class Timer : MonoBehaviour
 {
-
     public List<TimedEvent> timedEvents = new List<TimedEvent>();
     float elapsedTime;
     bool isStarted;
     bool isRunning;
-
+    private void Update()
+    {
+        Tick(Time.deltaTime);
+    }
     public void Tick(float deltaTime)
     {
         if (isStarted && isRunning)

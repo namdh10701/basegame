@@ -14,6 +14,7 @@ namespace _Game.Scripts
 
         public void ApplyConfig(CrewStats stats)
         {
+            stats.MoveSpeed.BaseValue = Data.MoveSpeed.BaseValue;
         }
     }
 }

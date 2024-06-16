@@ -41,7 +41,6 @@ namespace _Base.Scripts.RPG.Behaviours.AttackTarget
             if (entity != null)
             {
                 RangedStat Ammo = ((CannonStats)entity.Stats).Ammo;
-
                 if (Ammo.Value <= Ammo.MinValue)
                     return;
                 Ammo.StatValue.BaseValue--;

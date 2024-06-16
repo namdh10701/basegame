@@ -10,49 +10,60 @@ public class JellyFishAnimation : SpineAnimationEnemyHandler
     [HideInInspector] public UnityEvent<Transform> Attack;
     [HideInInspector] public UnityEvent AttackCharge;
 
+    [SpineEvent] public string eventattack;
     public Transform leftHandShootPos;
     public Transform rightHandShootPos;
 
     public void PlayIdleToAttackLoopRightHand()
     {
-        skeletonAnimation.AnimationState.SetAnimation(0, "attack_r_hand_idletoready", false);
+        skeletonAnimation.AnimationState.AddAnimation(0, "attack_r_hand_idletoready", false, 0);
         skeletonAnimation.AnimationState.AddAnimation(0, "attack_r_hand_readyloop", true, 0);
         AttackCharge?.Invoke();
     }
 
     public void PlayAttackRightHand()
     {
-        skeletonAnimation.AnimationState.SetAnimation(0, "attack_r_hand_attacktoidle", false);
-        Attack?.Invoke(rightHandShootPos);
+        skeletonAnimation.AnimationState.AddAnimation(0, "attack_r_hand_attacktoidle", false, 0);
+        skeletonAnimation.AnimationState.AddAnimation(0, "idle", true, -.4f);
     }
 
     public void PlayIdleToAttackLoopLeftHand()
     {
-        skeletonAnimation.AnimationState.SetAnimation(0, "attack_l_hand_idletoready", false);
+        skeletonAnimation.AnimationState.AddAnimation(0, "attack_l_hand_idletoready", false, 0);
         skeletonAnimation.AnimationState.AddAnimation(0, "attack_l_hand_readyloop", true, 0);
         AttackCharge?.Invoke();
     }
 
     public void PlayAttackLeftHand()
     {
-        skeletonAnimation.AnimationState.SetAnimation(0, "attack_l_hand_attacktoidle", false);
-        Attack?.Invoke(leftHandShootPos);
+        skeletonAnimation.AnimationState.AddAnimation(0, "attack_l_hand_attacktoidle", false, 0);
+        skeletonAnimation.AnimationState.AddAnimation(0, "idle", true, -.4f);
+
+    }
+    public void PlayAttackMeeleRightHand()
+    {
+        skeletonAnimation.AnimationState.AddAnimation(0, "attack_r_hand_melee", false, 0);
+    }
+
+    public void PlayAttackMeeleLeftHand()
+    {
+
+        skeletonAnimation.AnimationState.AddAnimation(0, "attack_l_hand_melee", false, 0);
     }
 
     public void Appear()
     {
         skeletonAnimation.AnimationState.SetAnimation(0, "appear", false);
+        skeletonAnimation.AnimationState.AddAnimation(0, "idle", true, 0);
     }
 
-    public void PlayMove()
-    {
-        if (skeletonAnimation.AnimationState.GetCurrent(0).Animation.Name != "move")
-        {
-            skeletonAnimation.AnimationState.SetAnimation(0, "move", true);
-        }
-    }
     protected override void AnimationState_Event(TrackEntry trackEntry, Spine.Event e)
     {
+        Debug.Log(e.Data.Name);
+        if (e.Data.Name == eventattack)
+        {
+            Attack?.Invoke(leftHandShootPos);
+        }
     }
 
     protected override void AnimationState_Complete(TrackEntry trackEntry)
@@ -60,11 +71,6 @@ public class JellyFishAnimation : SpineAnimationEnemyHandler
         base.AnimationState_Complete(trackEntry);
     }
 
-    protected override void Start()
-    {
-        base.Start();
-
-    }
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.X))
@@ -89,6 +95,13 @@ public class JellyFishAnimation : SpineAnimationEnemyHandler
         {
             PlayIdleToAttackLoopRightHand();
         }
-
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            PlayAttackMeeleLeftHand();
+        }
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            PlayAttackMeeleRightHand();
+        }
     }
 }

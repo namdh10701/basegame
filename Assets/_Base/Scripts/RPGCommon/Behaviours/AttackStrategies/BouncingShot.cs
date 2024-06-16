@@ -42,18 +42,18 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
                 this.range = range;
             }
 
-            void IHandler.Process(Projectile p, Entity mainEntity, Entity collidedEntity)
+            void IHandler.Process(Projectile p, IEffectGiver mainEntity, IEffectTaker collidedEntity)
             {
                 List<Entity> inRangeEntities = new List<Entity>();
-                RaycastHit2D[] inRangeColliders = Physics2D.CircleCastAll(collidedEntity.transform.position, range, Vector2.zero);
+                RaycastHit2D[] inRangeColliders = Physics2D.CircleCastAll(collidedEntity.Transform.position, range, Vector2.zero);
                 foreach (RaycastHit2D hit in inRangeColliders)
                 {
-                    if (hit.collider.TryGetComponent(out EntityCollisionDetector entityCollisionDetector))
+                    if (hit.collider.TryGetComponent(out EffectCollisionDetector entityCollisionDetector))
                     {
                         Entity entity = entityCollisionDetector.GetComponent<EntityProvider>().Entity;
 
 
-                        if (!((ProjectileCollisionHandler)p.CollisionHandler).IgnoreCollideEntities.Contains(entity))
+                        if (!((ProjectileCollisionHandler)p.CollisionHandler).IgnoreCollideEntities.Contains(collidedEntity))
                         {
                             if (entity is Enemy)
                             {
@@ -69,7 +69,7 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
                     float minDistance = Mathf.Infinity;
                     foreach (Entity entity in inRangeEntities)
                     {
-                        float distance = Vector2.Distance(mainEntity.transform.position, entity.transform.position);
+                        float distance = Vector2.Distance(mainEntity.Transform.position, entity.transform.position);
                         if (distance < minDistance)
                         {
                             nextTarget = entity;

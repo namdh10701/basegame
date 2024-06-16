@@ -10,6 +10,12 @@ namespace _Game.Scripts
     [Serializable]
     public class EnemyStatsTemplate : ScriptableObject
     {
-        [field:SerializeField] public EnemyStats Data { get; set; } = new();
+        [field: SerializeField] public EnemyStats Data { get; set; } = new();
+        public void ApplyConfig(EnemyStats enemyStats)
+        {
+            enemyStats.AttackDamage.BaseValue = Data.AttackDamage.BaseValue;
+
+            Debug.Log(enemyStats.AttackDamage.BaseValue + "APPLY");
+        }
     }
 }

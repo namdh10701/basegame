@@ -50,18 +50,22 @@ namespace _Game.Scripts
 
         public void ApplyEffect(List<IGridItem> placements, Effect effect)
         {
-            foreach (Entity placement in placements)
+            foreach (IEffectTaker placement in placements)
             {
                 placement.EffectHandler.Apply(effect);
             }
         }
-        public void ApplyEffect(Entity placement, Effect effect)
+        public void ApplyEffect(IEffectTaker placement, Effect effect)
         {
             placement.EffectHandler.Apply(effect);
         }
 
         public void PlayFx(List<Cell> cells)
         {
+            if (fxATKPrefab == null)
+            {
+                return;
+            }
             foreach (Cell cell in cells)
             {
                 Fx go = Instantiate(fxATKPrefab, null);

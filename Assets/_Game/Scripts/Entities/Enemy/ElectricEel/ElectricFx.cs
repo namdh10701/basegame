@@ -39,7 +39,7 @@ public class ElectricFx : MonoBehaviour
             if (!lighting.IsAlive(true) && !IsNotDestrouy)
             {
                 Destroy(gameObject);
-
+                isPlay = false;
             }
         }
     }

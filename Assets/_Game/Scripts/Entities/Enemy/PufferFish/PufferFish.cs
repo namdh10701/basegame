@@ -20,7 +20,10 @@ namespace _Game.Scripts.Entities
         protected override IEnumerator Start()
         {
             Animation.OnAttack.AddListener(DoAttack);
-            TargetInRange.TargetShip = FindAnyObjectByType<Ship>();
+            Ship Ship = FindAnyObjectByType<Ship>();
+            TargetInRange.TargetShip = Ship;
+            Vector2 targetPos = Ship.EffectCollider.ClosestPoint(transform.position);
+            PufferFishMove.direction.BaseValue = (targetPos - (Vector2)transform.position).normalized;
             yield return base.Start();
         }
         bool isAttacking;
@@ -67,7 +70,7 @@ namespace _Game.Scripts.Entities
         public void DoAttack()
         {
             DamageArea da = Instantiate(DamageArea, transform.position, Quaternion.identity);
-            da.Activate();
+            da.SetDamage(_stats.AttackDamage.Value);
         }
     }
 }

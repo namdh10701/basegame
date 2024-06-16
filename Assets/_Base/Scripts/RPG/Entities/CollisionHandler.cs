@@ -1,29 +1,33 @@
+using _Game.Scripts;
 using UnityEngine;
 
 namespace _Base.Scripts.RPG.Entities
 {
-    public interface ICollisionHandler
-    {
-        void Process(Entity mainEntity, Entity collidedEntity);
-    }
-
-    public abstract class CollisionHandler : ICollisionHandler
-    {
-        public abstract void Process(Entity mainEntity, Entity collidedEntity);
-    }
-
-    public class DefaultCollisionHandler : CollisionHandler
-    {
-        public override void Process(Entity mainEntity, Entity collidedEntity)
+    /*    public interface ICollisionHandler
         {
-            foreach (var effect in mainEntity.OutgoingEffects)
+            void Process(Entity mainEntity, Entity collidedEntity);
+        }*/
+
+    /*    public abstract class EffectCollider : ICollisionHandler
+        {
+            public abstract void Process(Entity mainEntity, Entity collidedEntity);
+        }*/
+    public abstract class EffectCollisionHandler
+    {
+        public virtual void Process(IEffectGiver giver, IEffectTaker taker)
+        {
+            foreach (var effect in giver.OutGoingEffects)
             {
-                if (!effect.CanEffect(collidedEntity))
+                if (!effect.CanEffect(taker))
                 {
                     continue;
                 }
-                collidedEntity.EffectHandler?.Apply(effect);
+                taker.EffectHandler?.Apply(effect);
             }
         }
+    }
+    public class DefaultEffectCollisionHandler : EffectCollisionHandler
+    {
+
     }
 }

@@ -7,7 +7,8 @@ public enum GridItemType
 {
     Cannon, Bullet, Crew, Relic
 }
-public class GridItemData
+[System.Serializable]
+public struct GridItemData
 {
     public string GridId;
     public Vector3 position;

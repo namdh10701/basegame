@@ -1,3 +1,4 @@
+using _Game.Scripts;
 using _Game.Scripts.Battle;
 using _Game.Scripts.Entities;
 using System.Collections;
@@ -9,12 +10,13 @@ public class JellyFish : Enemy
     public JellyFishAttack rangedAttack;
     public CooldownBehaviour CooldownBehaviour;
     public JellyFishAnimation anim;
-    public Transform spawnPosition;
-
     bool isCurrentAttackLeftHand;
+
     protected override void Awake()
     {
         base.Awake();
+        MoveAreaController moveArea = FindAnyObjectByType<MoveAreaController>();
+        blackboard.GetVariable<AreaVariable>("MoveArea").Value = moveArea.GetArea(AreaType.Floor2Plus3);
         anim.Attack.AddListener(Attack);
     }
     protected override IEnumerator Start()
@@ -61,9 +63,8 @@ public class JellyFish : Enemy
 
     public override IEnumerator StartActionCoroutine()
     {
-        transform.position = spawnPosition.position;
         anim.Appear();
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(4.5f);
     }
 
     public void Attack(Transform shootPos)

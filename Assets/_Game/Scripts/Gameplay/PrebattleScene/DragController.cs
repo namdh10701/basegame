@@ -56,12 +56,12 @@ namespace _Game.Scripts
                         draggingGridItem.Behaviour.gameObject.SetActive(false);
                         ShipSetup.RemoveGridItem(draggingGridItem.Def);
 
-                        List<Vector2Int> cells = draggingGridItem.OccupyCells;
+                        List<Cell> cells = draggingGridItem.OccupyCells;
                         if (cells != null)
                         {
-                            foreach (Vector2Int cell in cells)
+                            foreach (Cell cell in cells)
                             {
-                                ShipSetup.Grids[int.Parse(draggingGridItem.GridId) - 1].Cells[cell.y, cell.x].GridItem = null;
+                                cell.GridItem = null;
                             }
                         }
 
@@ -233,12 +233,12 @@ namespace _Game.Scripts
 
 
                                 ShipSetup.RemoveGridItem(draggingGridItem.Def);
-                                List<Vector2Int> cells = draggingGridItem.OccupyCells;
+                                List<Cell> cells = draggingGridItem.OccupyCells;
                                 if (cells != null)
                                 {
-                                    foreach (Vector2Int cell in cells)
+                                    foreach (Cell cell in cells)
                                     {
-                                        ShipSetup.Grids[int.Parse(draggingGridItem.GridId) - 1].Cells[cell.y, cell.x].GridItem = null;
+                                        cell.GridItem = null;
                                     }
                                 }
                             }
@@ -462,11 +462,11 @@ namespace _Game.Scripts
             float scale = Vector3.one.x / gameObject.transform.parent.lossyScale.x;
             gameObject.transform.localScale = new Vector3(scale, scale, scale);
             gameObject.transform.position = position;
-            List<Vector2Int> occupyCells = new List<Vector2Int>();
+            List<Cell> occupyCells = new List<Cell>();
 
             foreach (Cell cell in cells)
             {
-                occupyCells.Add(new Vector2Int(cell.X, cell.Y));
+                occupyCells.Add(cell);
             }
 
             gameObject.GetComponent<IGridItem>().OccupyCells = occupyCells;
@@ -486,7 +486,12 @@ namespace _Game.Scripts
             gridItemData.GridId = selectCell.Grid.Id;
             gridItemData.position = gameObject.transform.localPosition;
             gridItemData.Def = gameObject.GetComponent<IGridItem>().Def;
-            gridItemData.OccupyCells = occupyCells;
+            List<Vector2Int> cellPoses = new List<Vector2Int>();
+            foreach (Cell cell in cells)
+            {
+                cellPoses.Add(new Vector2Int(cell.X, cell.Y));
+            }
+            gridItemData.OccupyCells = cellPoses;
             OnGridItemPlaced.Invoke(selectItemDef);
             ShipSetup.AddNewGridItem(gridItemData);
         }

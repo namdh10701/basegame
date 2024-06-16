@@ -1,4 +1,5 @@
 
+using System.Collections.Generic;
 using UnityEngine;
 using static Fusion.Sockets.NetBitBuffer;
 
@@ -14,14 +15,13 @@ namespace _Game.Scripts
         public Vector2 spaces;
         public float lineWidth = 0.05f;
         public Material lineMaterial;
-
-
-        private LineRenderer[] lineRenderers;
+        private List<LineRenderer> lineRenderers;
         private void OnDrawGizmos()
         {
             Gizmos.color = playgroundColor; // Set the color of the bounds
             bounds.center = transform.position;
             Gizmos.DrawWireCube(bounds.center, bounds.size);
+
         }
         private void OnEnable()
         {
@@ -35,28 +35,23 @@ namespace _Game.Scripts
 
         private void CreateGrid()
         {
-            lineRenderers = new LineRenderer[col + row + 2]; // One for horizontal lines, one for vertical lines
-
-            // Calculate grid dimensions
-            float width = col * spaces.x;
-            float height = row * spaces.y;
-
-            Vector3 startPosition = transform.position - new Vector3(width / 2, height / 2, 0);
-
-            // Create horizontal lines
-            for (int i = 0; i <= row; i++)
+            lineRenderers = new List<LineRenderer>(); // One for horizontal lines, one for vertical lines
+            // Create vertical lines
+            for (int j = -15; j <= 15; j++)
             {
-                Vector3 start = startPosition + new Vector3(0, i * spaces.y, 0);
-                Vector3 end = start + new Vector3(width, 0, 0);
-                CreateLineRenderer(i, start, end);
+                Vector3 start = new Vector3(j, -20, 0);
+                Vector3 end = new Vector3(j, 20, 0);
+                LineRenderer line = CreateLineRenderer(start, end);
+                lineRenderers.Add(line);
             }
 
-            // Create vertical lines
-            for (int j = 0; j <= col; j++)
+
+            for (int i = -20; i <= 20; i++)
             {
-                Vector3 start = startPosition + new Vector3(j * spaces.x + 0.5f, 0, 0);
-                Vector3 end = start + new Vector3(0, height, 0);
-                CreateLineRenderer(j + row + 1, start, end);
+                Vector3 start = new Vector3(-20, i, 0);
+                Vector3 end = new Vector3(20, i, 0);
+                LineRenderer line = CreateLineRenderer(start, end);
+                lineRenderers.Add(line);
             }
         }
 
@@ -74,23 +69,21 @@ namespace _Game.Scripts
             }
         }
 
-        private void CreateLineRenderer(int index, Vector3 start, Vector3 end)
+        private LineRenderer CreateLineRenderer(Vector3 start, Vector3 end)
         {
-            GameObject lineObject = new GameObject("GridLine" + index);
+            GameObject lineObject = new GameObject("GridLine");
             lineObject.transform.SetParent(transform);
             LineRenderer lineRenderer = lineObject.AddComponent<LineRenderer>();
 
             lineRenderer.positionCount = 2;
             lineRenderer.SetPosition(0, start);
             lineRenderer.SetPosition(1, end);
-
             lineRenderer.startWidth = lineWidth;
             lineRenderer.endWidth = lineWidth;
             lineRenderer.startColor = color;
             lineRenderer.endColor = color;
             lineRenderer.material = lineMaterial;
-
-            lineRenderers[index] = lineRenderer;
+            return lineRenderer;
         }
     }
 }

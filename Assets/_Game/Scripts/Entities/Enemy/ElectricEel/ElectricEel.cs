@@ -1,5 +1,7 @@
 using System.Collections;
+using System.Collections.Generic;
 using _Base.Scripts.RPGCommon.Entities;
+using _Game.Scripts;
 using _Game.Scripts.Entities;
 using UnityEngine;
 
@@ -21,23 +23,30 @@ public class ElectricEel : Enemy
     {
         Animation.Attack.AddListener(DoAttack);
         Animation.OnHide += OnHide;
-        CooldownBehaviour.SetCooldownTime(7);
-        CooldownBehaviour.StartCooldown();
+        MoveAreaController moveArea = FindAnyObjectByType<MoveAreaController>();
+        blackboard.GetVariable<AreaVariable>("MoveArea").Value = moveArea.GetArea(AreaType.Floor2Plus3);
         return base.Start();
     }
 
     void OnHide()
     {
-
+        pushCollider.enabled = false;
+        EffectTakerCollider.enabled = false;
     }
 
     public override IEnumerator AttackSequence()
     {
+        FindTarget();
         Animation.Charge();
         yield return new WaitForSeconds(2);
         Animation.PlayAttack();
         CooldownBehaviour.StartCooldown();
         yield break;
+    }
+
+    void FindTarget()
+    {
+
     }
 
     void DoAttack()
@@ -74,10 +83,20 @@ public class ElectricEel : Enemy
         return;
     }
 
+    public override void Die()
+    {
+        base.Die();
+        attack = false;
+        Animation.PlayDie(() => { Destroy(gameObject); });
+    }
     public override IEnumerator StartActionCoroutine()
     {
-        Animation.PlayIdle();
-        yield break;
+        pushCollider.enabled = false;
+        Animation.Appear();
+        yield return new WaitForSeconds(1.5f);
+        pushCollider.enabled = true;
+        CooldownBehaviour.SetCooldownTime(7);
+        CooldownBehaviour.StartCooldown();
     }
 
     public void Hide()
@@ -88,5 +107,7 @@ public class ElectricEel : Enemy
     public void Show()
     {
         Animation.Appear();
+        pushCollider.enabled = true;
+        EffectTakerCollider.enabled = true;
     }
 }

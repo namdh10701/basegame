@@ -332,5 +332,66 @@ namespace _Game.Scripts
             Vector3 sum = mostLeftTop.transform.position + mostDownRight.transform.position;
             return new Vector3(sum.x / 2f, sum.y / 2f, 0);
         }
+
+        public static Cell GetClosetAvailableCellSurroundShape(Cell[,] grid, List<Cell> shape, Vector3 position)
+        {
+            Cell closestCell = null;
+            float closestDistance = float.MaxValue;
+
+            Debug.Log(shape.Count + " totalAmount");
+            // Iterate through each cell in the shape
+            foreach (var cell in shape)
+            {
+                Debug.Log("COUNT");
+                // Get adjacent cells (up, down, left, right)
+                List<Cell> adjacentCells = GetAdjacentCells(grid, cell);
+
+                // Check each adjacent cell
+                foreach (var adjCell in adjacentCells)
+                {
+                    // Calculate distance to the position
+                    float dist = Vector3.Distance(adjCell.transform.position, position);
+
+                    // Check if the cell is closer and has a null GridItem
+                    if (dist < closestDistance && adjCell.GridItem == null)
+                    {
+                        closestDistance = dist;
+                        closestCell = adjCell;
+                    }
+                }
+            }
+
+            return closestCell;
+        }
+        private static List<Cell> GetAdjacentCells(Cell[,] grid, Cell cell)
+        {
+            List<Cell> adjacentCells = new List<Cell>();
+
+            // Define possible directions (up, down, left, right)
+            Vector2Int[] directions = {
+                new Vector2Int(0, 1),   // Up
+                new Vector2Int(0, -1),  // Down
+                new Vector2Int(1, 0),   // Right
+                new Vector2Int(-1, 0)   // Left
+            };
+
+            // Get grid dimensions
+            int rows = grid.GetLength(0);
+            int cols = grid.GetLength(1);
+            // Iterate through each direction
+            foreach (var dir in directions)
+            {
+                int newX = cell.X + dir.x;
+                int newY = cell.Y + dir.y;
+
+                // Check bounds
+                if (newY >= 0 && newY < rows && newX >= 0 && newX < cols)
+                {
+                    adjacentCells.Add(grid[newY, newX]);
+                }
+            }
+
+            return adjacentCells;
+        }
     }
 }

@@ -27,25 +27,55 @@ MonoBehaviour:
     screenMaterials: []
   skeletonDataModifiers: []
   fromAnimation:
-  - appear
-  - idle
   - attack_l_hand_idletoready
   - attack_r_hand_idletoready
-  - attack_l_hand_readyloop
-  - attack_r_hand_readyloop
-  toAnimation:
-  - attack_l_hand_attacktoidle
-  - appear
-  - attack_l_hand_readyloop
-  - attack_r_hand_readyloop
   - attack_l_hand_attacktoidle
   - attack_r_hand_attacktoidle
+  - appear
+  - idle
+  - idle
+  - idle
+  - attack_l_hand_attacktoidle
+  - attack_r_hand_attacktoidle
+  - attack_l_hand_readyloop
+  - attack_r_hand_readyloop
+  - move
+  - move
+  - idle
+  - idle
+  toAnimation:
+  - attack_l_hand_readyloop
+  - attack_r_hand_readyloop
+  - idle
+  - idle
+  - idle
+  - move
+  - attack_l_hand_attacktoidle
+  - attack_r_hand_attacktoidle
+  - move
+  - move
+  - attack_l_hand_attacktoidle
+  - attack_r_hand_attacktoidle
+  - attack_l_hand_idletoready
+  - attack_r_hand_idletoready
+  - attack_r_hand_idletoready
+  - attack_l_hand_idletoready
   duration:
   - 0
   - 0
+  - 0.5
+  - 0.5
+  - 0.5
+  - 0.5
   - 0
   - 0
+  - 0.2
+  - 0.2
   - 0
   - 0
-  defaultMix: 0.2
+  - 0.2
+  - 0.2
+  - 0.2
+  - 0.2
+  defaultMix: 0
   controller: {fileID: 0}

@@ -1,20 +1,23 @@
+using _Game.Scripts;
+using UnityEngine;
 namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
 {
     public class AutoShootTargetTriggerBehaviour : ManualShootTargetTriggerBehaviour
     {
-
-        private void Awake()
+        float timer;
+        protected override void Awake()
         {
-            if (fireRate != null)
+            base.Awake();
+        }
+
+        private void Update()
+        {
+            timer += Time.deltaTime;
+            if (timer > fireRate.Value)
             {
-                InvokeRepeating("Pull", 0f,
-                fireRate.Value);
+                Pull();
+                timer = 0;
             }
-            else
-            {
-                InvokeRepeating("Pull", 0, 1);
-            }
-            // Pull();
         }
     }
 }

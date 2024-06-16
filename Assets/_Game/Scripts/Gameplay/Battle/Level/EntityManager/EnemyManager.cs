@@ -2,64 +2,60 @@ using _Game.Scripts.Entities;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace _Game.Scripts.Battle
 {
     public class EnemyManager : MonoBehaviour
     {
-        public List<GroupEnemySpawnData> groupEnemySpawnData;
-        private List<GroupEnemySpawnData> spawned;
-
+        [SerializeField] GroupEnemySpawnData[] _enemySpawnData;
         [SerializeField] EntityManager entityManager;
-        [SerializeField] Area spawnArea;
-        public Enemy[] enemyPrefabs;
+
+        [SerializeField] Area pufferFishSpawnArea;
+        [SerializeField] Area electricEelSpawnArea;
+        [SerializeField] Area squidSpawnArea;
+
         [SerializeField] Timer enemySpawnTimer;
-        [SerializeField] Transform enemyRoot;
-        bool IsActive;
-
-        private IEnumerator Start()
+        private void Awake()
         {
-            yield return new WaitForSeconds(1.0f);
-            foreach (var groupSpawnData in groupEnemySpawnData)
+            LoadLevelEnemyData();
+        }
+
+        void LoadLevelEnemyData()
+        {
+
+        }
+        public void StartLevel()
+        {
+            foreach (var spawnData in _enemySpawnData)
             {
-                foreach (EnemySpawnData enemySpawnData in groupSpawnData.EnemySpawnDatas)
+                foreach(var sd in spawnData.EnemySpawnDatas)
                 {
-                    if (enemySpawnData.EnemyId == 1)
-                    {
-
-                        enemySpawnTimer.RegisterEvent(new TimedEvent(enemySpawnData.Time, () => SpawnEnemy(enemySpawnData.EnemyId, CoordinateConverter.ToWorldPos(enemySpawnData.Position), enemySpawnData.TargetPosition)));
-                    }
-                    else
-                    {
-
-                        enemySpawnTimer.RegisterEvent(new TimedEvent(enemySpawnData.Time, () => SpawnEnemy(enemySpawnData.EnemyId, CoordinateConverter.ToWorldPos(enemySpawnData.Position), enemySpawnData.TargetPosition)));
-                    }
+                    TimedEvent timedEvent = new TimedEvent(sd.Time, () => SpawnEnemy(sd.EnemyId));
+                    enemySpawnTimer.RegisterEvent(timedEvent);
                 }
             }
             enemySpawnTimer.StartTimer();
         }
 
-
-        public void SpawnEnemy(int id, Vector2 position, List<Vector2> targetPosition)
+        public void SpawnEnemy(string id)
         {
-            Enemy spawned = (Enemy)entityManager.SpawnEntity(enemyPrefabs[id - 1], position, Quaternion.identity, enemyRoot);
-            if (spawned is RangedEnemy ranged)
+            Vector3 position = Vector3.zero;
+            switch (id)
             {
-                List<Vector2> tp = new List<Vector2>();
-                foreach (Vector2 v in targetPosition)
-                {
-                    tp.Add(CoordinateConverter.ToWorldPos(v));
-                }
+                case "0001":
+                    position = pufferFishSpawnArea.SamplePoint();
+                    break;
+                case "0002":
+                    position = electricEelSpawnArea.SamplePoint();
+                    break;
+                case "0003":
+                    position = squidSpawnArea.SamplePoint();
+                    break;
             }
 
-            if (spawned is MeeleEnemy meele)
-            {
-                List<Vector2> tp = new List<Vector2>();
-                foreach (Vector2 v in targetPosition)
-                {
-                    tp.Add(CoordinateConverter.ToWorldPos(v));
-                }
-            }
+            entityManager.SpawnEnemy(id, position);
+
         }
 
 
