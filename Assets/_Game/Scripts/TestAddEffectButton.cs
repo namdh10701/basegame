@@ -6,7 +6,7 @@ using UnityEngine;
     {
         public class TestAddEffectButton: MonoBehaviour
         {
-            public Cannon cannon;
+           /* public Cannon cannon;
             public void DecreaseHealth()
             {
                 // var alive = cannon.GetComponent<Cannon>().Stats as IAlive;
@@ -38,6 +38,6 @@ using UnityEngine;
                 // var eff = cannon.effectHolder.AddComponent<TempIncreaseHealthPointEffect>();
                 // eff.Amount = 500;
                 // eff.Duration = 5;
-            }
+            }*/
         }
     }

@@ -115,13 +115,8 @@ namespace _Game.Scripts.Entities
                     slowdownSpeed.RefreshValue();
                 }
             }
-            ClampVel(maxFastSpeed.Value);
         }
 
-        void ClampVel(float maxVel)
-        {
-            body.velocity = Vector2.ClampMagnitude(body.velocity, maxVel);
-        }
         bool animPlayed;
     }
 }

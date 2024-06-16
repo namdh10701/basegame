@@ -7,7 +7,5 @@ namespace _Base.Scripts.RPGCommon.Entities
     public interface IAliveStats
     {
         RangedStat HealthPoint { get; set; }
-        
-        Stat BlockChance { get; set; }
     }
 }

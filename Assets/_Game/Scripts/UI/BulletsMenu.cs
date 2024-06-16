@@ -1,48 +1,75 @@
+using _Base.Scripts.EventSystem;
 using _Game.Scripts;
+using _Game.Scripts.Entities;
+using _Game.Scripts.Gameplay.Ship;
+using JetBrains.Annotations;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BulletsMenu : MonoBehaviour
 {
-    [SerializeField] SpriteRenderer spriteRenderer;
-    List<GridItemDef> bullets;
-    List<GameObject> _menuItem = new List<GameObject>();
-    GameObject _menu;
-    float distance;
-    public void Setup(List<GridItemData> gridItemDatas)
+    /* [SerializeField] SpriteRenderer spriteRenderer;
+     List<GridItemDef> bullets;
+     List<GameObject> _menuItem = new List<GameObject>();
+     GameObject _menu;
+
+     float distance;*/
+
+    public Button[] buttons;
+    Cannon cannon;
+    public void Setup(Cannon cannon, List<Bullet> gridItemDatas)
     {
-        bullets = new List<GridItemDef>();
-        foreach (GridItemData gridItemData in gridItemDatas)
+        this.cannon = cannon;
+        for (int i = 0; i < buttons.Length; i++)
         {
-            if (gridItemData.Def.Type == GridItemType.Bullet)
-            {
-                bullets.Add(gridItemData.Def);
-            }
+            buttons[i].gameObject.SetActive(false);
         }
-        _menu = new GameObject("Menu");
-        _menu.transform.SetParent(this.transform);
-        distance = spriteRenderer.bounds.size.x;
-        CreateMenu();
+        for (int i = 0; i < gridItemDatas.Count; i++)
+        {
+            Bullet bullet = gridItemDatas[i];
+            Debug.Log(gridItemDatas[i].Def.name);
+            buttons[i].gameObject.SetActive(true);
+            buttons[i].GetComponent<Image>().sprite = gridItemDatas[i].Def.Image;
+            buttons[i].onClick.AddListener(() => Reload(bullet));
+        }
     }
 
-    public void CreateMenu()
+    void Reload(Bullet bullet)
     {
-        for (int i = 0; i < bullets.Count; i++)
-        {
-            GameObject menu = new GameObject("BulletItem");
-            menu.transform.parent = _menu.transform;
-            menu.transform.localRotation = Quaternion.Euler(0f, 0f, i * 360 / bullets.Count);
-            _menuItem.Add(menu);
-        }
-        CreateItemMenu();
+        GlobalEvent<Cannon, Bullet>.Send("Reload", cannon, bullet);
+        Close();
     }
-    public void CreateItemMenu()
+
+    void Close()
     {
-        for (int i = 0; i < _menuItem.Count; i++)
+        transform.parent.gameObject.SetActive(false);
+        for (int i = 0; i < buttons.Length; i++)
         {
-            var itemMenu = Instantiate(ResourceLoader.LoadGridItemPrefab(bullets[i]));
-            itemMenu.transform.parent = _menuItem[i].transform;
-            itemMenu.transform.localPosition = new Vector3(0, distance / 2, 0);
+            buttons[i].onClick.RemoveAllListeners();
+            buttons[i].gameObject.SetActive(false);
         }
     }
+
+    /* public void CreateMenu()
+     {
+         for (int i = 0; i < bullets.Count; i++)
+         {
+             GameObject menu = new GameObject("BulletItem");
+             menu.transform.parent = _menu.transform;
+             menu.transform.localRotation = Quaternion.Euler(0f, 0f, i * 360 / bullets.Count);
+             _menuItem.Add(menu);
+         }
+         CreateItemMenu();
+     }
+     public void CreateItemMenu()
+     {
+         for (int i = 0; i < _menuItem.Count; i++)
+         {
+             var itemMenu = Instantiate(ResourceLoader.LoadGridItemPrefab(bullets[i]));
+             itemMenu.transform.parent = _menuItem[i].transform;
+             itemMenu.transform.localPosition = new Vector3(0, distance / 2, 0);
+         }
+     }*/
 }

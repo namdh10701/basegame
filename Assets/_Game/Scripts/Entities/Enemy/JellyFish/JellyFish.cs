@@ -1,3 +1,4 @@
+using _Game.Scripts;
 using _Game.Scripts.Battle;
 using _Game.Scripts.Entities;
 using System.Collections;
@@ -6,15 +7,17 @@ using UnityEngine;
 
 public class JellyFish : Enemy
 {
-    public RangedAttack rangedAttack;
+    public JellyFishAttack rangedAttack;
     public CooldownBehaviour CooldownBehaviour;
     public JellyFishAnimation anim;
-    public Transform spawnPosition;
+    bool isCurrentAttackLeftHand;
+
     protected override void Awake()
     {
         base.Awake();
-        anim.Attack.AddListener(AttackLeftHand);
-        anim.AttackCharge.AddListener(ChargeAttack);
+        MoveAreaController moveArea = FindAnyObjectByType<MoveAreaController>();
+        blackboard.GetVariable<AreaVariable>("MoveArea").Value = moveArea.GetArea(AreaType.Floor2Plus3);
+        anim.Attack.AddListener(Attack);
     }
     protected override IEnumerator Start()
     {
@@ -24,7 +27,24 @@ public class JellyFish : Enemy
     }
     public override IEnumerator AttackSequence()
     {
+
+        if (isCurrentAttackLeftHand)
+        {
+            anim.PlayIdleToAttackLoopLeftHand();
+        }
+        else
+        {
+            anim.PlayIdleToAttackLoopRightHand();
+        }
         yield return new WaitForSeconds(2);
+        if (isCurrentAttackLeftHand)
+        {
+            anim.PlayAttackLeftHand();
+        }
+        else
+        {
+            anim.PlayAttackRightHand();
+        }
         CooldownBehaviour.StartCooldown();
     }
 
@@ -32,27 +52,27 @@ public class JellyFish : Enemy
     {
         return !CooldownBehaviour.IsInCooldown;
     }
-
+    public override void Die()
+    {
+        base.Die();
+        anim.PlayDie(() => Destroy(gameObject));
+    }
     public override void Move()
     {
     }
 
     public override IEnumerator StartActionCoroutine()
     {
-        transform.position = spawnPosition.position;
         anim.Appear();
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(4.5f);
     }
 
-    public void AttackLeftHand(Transform shootPos)
+    public void Attack(Transform shootPos)
     {
-        rangedAttack.ShootPos = shootPos;
-        rangedAttack.DoAttack();
+        if (isCurrentAttackLeftHand)
+            rangedAttack.DoLeftAttack();
+        else
+            rangedAttack.DoRightAttack();
+        isCurrentAttackLeftHand = !isCurrentAttackLeftHand;
     }
-    public void ChargeAttack()
-    {
-        rangedAttack.SelectCells();
-    }
-
-
 }

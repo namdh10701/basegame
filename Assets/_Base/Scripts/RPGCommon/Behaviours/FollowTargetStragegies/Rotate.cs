@@ -6,38 +6,41 @@ using UnityEngine;
 namespace _Base.Scripts.RPGCommon.Behaviours.FollowTargetStragegies
 {
     [AddComponentMenu("RPG/FollowTargetStrategy/[FollowTargetStrategy] Rotate")]
-    public class Rotate: FollowTargetStrategy
+    public class Rotate : FollowTargetStrategy
     {
-        [field: SerializeField] 
+        [field: SerializeField]
         public float RotateSpeed { get; set; } = 10f;
-        
-        [field:SerializeField]
+
+        [field: SerializeField]
         public Transform RotateTarget { get; set; }
-        
-        [field:SerializeField]
+
+        [field: SerializeField]
         public Vector3 Direction { get; private set; }
-        
-        [field:SerializeField]
+
+        [field: SerializeField]
         public Quaternion Rotation { get; private set; }
-        
+
         public override bool Follow(FindTargetBehaviour findTargetBehaviour)
         {
             if (findTargetBehaviour.MostTargets.Count == 0)
             {
+                RotateTarget.rotation = RotateSpeed > -1
+                    ? Quaternion.Slerp(RotateTarget.rotation, Quaternion.identity, RotateSpeed * Time.deltaTime)
+                    : Rotation;
                 return false;
             }
-            
+
             var targetTransform = findTargetBehaviour.MostTargets.First().transform;
             _targetTransform = targetTransform;
             Direction = targetTransform.position - RotateTarget.position;
             Rotation = Quaternion.LookRotation(Vector3.forward, Direction);
 
-            RotateTarget.rotation = RotateSpeed > -1 
-                ? Quaternion.Slerp(RotateTarget.rotation, Rotation, RotateSpeed * Time.deltaTime) 
+            RotateTarget.rotation = RotateSpeed > -1
+                ? Quaternion.Slerp(RotateTarget.rotation, Rotation, RotateSpeed * Time.deltaTime)
                 : Rotation;
 
             var angle = Quaternion.Angle(RotateTarget.transform.rotation, Rotation);
-            
+
             return angle < 2f;
         }
 

@@ -15,11 +15,13 @@ namespace _Game.Scripts
             anim.OnAction.AddListener(DoAction);
             CooldownBehaviour.SetCooldownTime(7f);
             CooldownBehaviour.StartCooldown();
+            MoveAreaController moveArea = FindAnyObjectByType<MoveAreaController>();
+            blackboard.GetVariable<AreaVariable>("MoveArea").Value = moveArea.GetArea(AreaType.Floor2Plus3);
             yield return base.Start();
         }
         public override IEnumerator AttackSequence()
         {
-            //   saeh.PlayAnim(Anim.Attack, false);
+            anim.PlayAttack();
             yield return new WaitForSeconds(2);
             CooldownBehaviour.StartCooldown();
         }

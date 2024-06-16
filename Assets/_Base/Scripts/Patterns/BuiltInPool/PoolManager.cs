@@ -7,7 +7,7 @@ namespace _Base.Scripts.Patterns.BuiltInPool
         UnityEngine.Pool.ObjectPool<PoolObject> pool;
         [SerializeField] int defaultCapacity;
         [SerializeField] int maxSize;
-        [SerializeField] PoolObject poolObjectPrefab;
+        [SerializeField] protected PoolObject poolObjectPrefab;
         private void Start()
         {
             pool = new UnityEngine.Pool.ObjectPool<PoolObject>(CreateObject, GetObject, ReleaseObject, ActionOnDestroy, true, defaultCapacity, maxSize);
@@ -17,8 +17,18 @@ namespace _Base.Scripts.Patterns.BuiltInPool
         protected abstract void GetObject(PoolObject getObject);
         protected virtual void ReleaseObject(PoolObject releaseObject)
         {
-            releaseObject.OnReset();
+            releaseObject.OnRelease();
         }
         protected abstract void ActionOnDestroy(PoolObject onDestroyObject);
+
+        public virtual PoolObject Pull()
+        {
+            return pool.Get();
+        }
+
+        public virtual void Release(PoolObject poolObject)
+        {
+            pool.Release(poolObject);
+        }
     }
 }

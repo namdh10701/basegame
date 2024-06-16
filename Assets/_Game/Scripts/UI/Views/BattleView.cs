@@ -21,7 +21,7 @@ namespace _Game.Scripts.UI
 
         private void OnEnable()
         {
-            decreaseHpBtn.onClick.AddListener(() =>
+          /*  decreaseHpBtn.onClick.AddListener(() =>
             {
                 ((ShipStats)Ship.Instance.Stats).HealthPoint.StatValue.BaseValue -= 25;
             });
@@ -29,7 +29,7 @@ namespace _Game.Scripts.UI
             {
                 ((ShipStats)Ship.Instance.Stats).ManaPoint.StatValue.BaseValue -= 25;
             });
-            endBattleBtn.onClick.AddListener(OnEndBattleClick);
+            endBattleBtn.onClick.AddListener(OnEndBattleClick);*/
         }
 
         void OnEndBattleClick()

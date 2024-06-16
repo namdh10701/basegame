@@ -6,7 +6,6 @@ using UnityEngine;
 
 namespace _Game.Scripts
 {
-    [CreateAssetMenu(fileName = "ShipStats", menuName = "Scriptable Objects/Ship Stats", order = 1)]
     [Serializable]
     public class ShipStats : Stats, IAliveStats
     {
@@ -17,6 +16,12 @@ namespace _Game.Scripts
         public Stat BlockChance { get; set; } = new();
 
         [field: SerializeField]
+        public Stat CannonLimit { get; set; } = new();
+
+        [field: SerializeField]
+        public Stat AmmoLimit { get; set; } = new();
+
+        [field: SerializeField]
         public RangedStat ManaPoint { get; set; } = new(0, 0, 150);
         
         [field: SerializeField]
@@ -24,5 +29,6 @@ namespace _Game.Scripts
         
         [field: SerializeField]
         public RangedStat HealthRegenerationRate { get; set; } = new(1, 0, 10);
+
     }
 }

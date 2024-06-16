@@ -2,75 +2,85 @@ using _Base.Scripts.RPG.Behaviours.FindTarget;
 using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.RPG.Entities;
 using _Base.Scripts.RPG.Stats;
-using Unity.VisualScripting;
+using _Game.Scripts;
+using _Game.Scripts.GD;
+using _Game.Scripts.InventorySystem;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace _Base.Scripts.RPGCommon.Entities
 {
-    public class ProjectileCollisionHandler : DefaultCollisionHandler
+    public abstract class Projectile : Entity, IUpgradeable, IEffectGiver
     {
-        public override void Process(Entity mainEntity, Entity collidedEntity)
+        [Header("Projectile")]
+        public string Id;
+        public ParticleSystem onHitParticle;
+        public ProjectileStats _stats;
+        public ProjectileStatsTemplate _statsTemplate;
+        public ProjectileMovement ProjectileMovement;
+        public override Stats Stats => _stats;
+
+        public Rarity rarity;
+        public Rarity Rarity { get => rarity; set => rarity = value; }
+
+        public Transform Transform => transform;
+
+        public List<Effect> outGoingEffects = new List<Effect>();
+
+        public List<Effect> OutGoingEffects { get => outGoingEffects; set => outGoingEffects = value; }
+
+        public EffectGiverCollisionListener collisionListener;
+
+        public EffectCollisionHandler CollisionHandler;
+
+        protected override void Awake()
         {
-            base.Process(mainEntity, collidedEntity);
-            Object.Destroy(mainEntity.gameObject);
+            base.Awake();
+            CollisionHandler = new ProjectileCollisionHandler(this);
+            collisionListener.CollisionHandler = CollisionHandler;
+            ProjectileCollisionHandler projectileCollisionHandler = (ProjectileCollisionHandler)collisionListener.CollisionHandler;
+            if (onHitParticle != null)
+            {
+                projectileCollisionHandler.LoopHandlers.Add(new ParticleHandler(onHitParticle));
+            }
+            projectileCollisionHandler.Handlers.Add(new PiercingHandler((int)_stats.Piercing.Value));
+            ProjectileMovement = new StraightMove(this);
         }
-    }
-    public abstract class Projectile : Entity
-    {
-        public Rigidbody2D body;
 
-        public Stat moveSpeed;
-
-        public FindTargetStrategy findTargetStrategy;
-
-        protected Projectile()
+        private void FixedUpdate()
         {
-            CollisionHandler = new ProjectileCollisionHandler();
+            ProjectileMovement.Move();
         }
 
-        private void Start()
+        public void AddMoveSpeed(StatModifier statModifier)
         {
-            OutgoingEffects.Add(new DecreaseHealthEffect(250));
-            body.velocity = transform.up * moveSpeed.Value;
+            _stats.Speed.AddModifier(statModifier);
         }
 
-        // private void OnTriggerEnter2D(Collider2D collision)
-        // {
-        //     if (!findTargetStrategy.TryGetTargetEntity(collision.gameObject, out var found))
-        //     {
-        //         return;
-        //     }
-        //     OnCollisionStart(found);
-        // }
+        public void AddDamage(StatModifier statModifier)
+        {
+            _stats.Damage.AddModifier(statModifier);
+        }
+
+        public void AddCritDamage(StatModifier statModifier)
+        {
+            _stats.CritDamage.AddModifier(statModifier);
+        }
+
+        public void AddCritChance(StatModifier statModifier)
+        {
+            _stats.CritChance.AddModifier(statModifier);
+        }
+
+        public void AddAccuaracy(StatModifier statModifier)
+        {
+            _stats.Accuracy.AddModifier(statModifier);
+        }
 
         private void OnBecameInvisible()
         {
             Destroy(gameObject);
         }
-
-        // protected void OnCollisionStart(Entity entity)
-        // {
-        //     foreach (var effect in OutgoingEffects)
-        //     {
-        //         if (entity.Stats is not IAlive)
-        //         {
-        //             continue;
-        //         }
-        //
-        //         // entity.AddCarryingEffect(effect);
-        //         // effect.Process();
-        //         
-        //         entity.EffectHandler.Apply(effect);
-        //         // entity.effectHolder.gameObject.AddComponent((Effect)effect);//.Process();
-        //     }
-        //     Destroy(gameObject);
-        // }
-
-        protected override void Awake()
-        {
-            base.Awake();
-            SetCollisionObjectChecker(entity => findTargetStrategy.TryGetTargetEntity(entity.gameObject, out var tmp));
-        }
-
     }
+
 }
