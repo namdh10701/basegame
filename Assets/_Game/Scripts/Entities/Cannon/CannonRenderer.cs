@@ -14,29 +14,12 @@ namespace _Game.Scripts.Entities
         [SerializeField] SkeletonAnimation _skeletonAnimation;
         [SerializeField] Skeleton skeleton;
 
-        [SerializeField] private Transform _crosshair;
         DG.Tweening.Sequence blinkSequence;
 
         private void Start()
         {
             skeleton = _skeletonAnimation?.skeleton;
         }
-        private void Update()
-        {
-            //_spriteRenderer.color = _aimTargetBehaviour.IsReadyToAttack ? Color.red : Color.white;
-
-            if (_aimTargetBehaviour.IsReadyToAttack)
-            {
-                _crosshair.position = _aimTargetBehaviour.LockedPosition;
-                _crosshair.gameObject.SetActive(true);
-            }
-            else
-            {
-                _crosshair.gameObject.SetActive(false);
-            }
-
-        }
-
         public void Blink()
         {
             Debug.Log(skeleton.GetColor());
@@ -47,7 +30,7 @@ namespace _Game.Scripts.Entities
             {
                 skeleton.SetColor(x);
 
-            }, 0.2f, 0.25f));
+            }, 0.5f, 0.25f));
             blinkSequence.Append(DOTween.ToAlpha(() => skeleton.GetColor(), x =>
             {
                 skeleton.SetColor(x);

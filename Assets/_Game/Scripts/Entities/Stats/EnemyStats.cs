@@ -30,8 +30,12 @@ namespace _Game.Scripts
 
         public Stat AttackAccuracy { get; set; } = new();
 
+        public Stat EvasionChance { get; set; } = new();
+
         [field: SerializeField]
         public Stat ActionSequenceInterval { get; set; } = new();
+        [field: SerializeField]
+        public Stat EvadeChance { get; set; } = new();
 
         public IFighterStats.AttackTypes AttackType { get; set; } = IFighterStats.AttackTypes.UNIT;
 

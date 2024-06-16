@@ -27,9 +27,14 @@ namespace _Game.Scripts
         [field: SerializeField]
         public Stat AttackRange { get; set; } = new();
 
+        [field: SerializeField]
         public Stat AttackAccuracy { get; set; } = new();
+
         [field: SerializeField]
         public RangedStat Ammo { get; set; } = new(10, 0, 10);
+
+        [field: SerializeField]
+        public Stat AttackSpeed { get; set; } = new();
 
         public IFighterStats.AttackTypes AttackType { get; set; } = IFighterStats.AttackTypes.UNIT;
 

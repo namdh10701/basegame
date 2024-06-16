@@ -9,6 +9,10 @@ namespace _Base.Scripts.Patterns.BuiltInPool
         {
             this.poolManager = poolManager;
         }
-        public abstract void OnReset();
+        public abstract void OnRelease();
+        public void Release()
+        {
+            poolManager.Release(this);
+        }
     }
 }

@@ -1,4 +1,7 @@
+using _Game.Scripts.Entities;
+using _Game.Scripts.Gameplay.Ship;
 using _Game.Scripts.InventorySystem;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace _Game.Scripts
@@ -49,7 +52,7 @@ namespace _Game.Scripts
         {
             return Resources.Load<Sprite>(skillPath + $"/{id}");
         }
-
+        static string cannonPath = "GridItems/Cannons/";
         public static GameObject LoadGridItemPrefab(GridItemDef def)
         {
             string path = "";
@@ -63,6 +66,7 @@ namespace _Game.Scripts
                     break;
             }
             path += $"/{def.Name}";
+            Debug.Log(path);
             return Resources.Load<GameObject>(path);
         }
 
@@ -81,5 +85,44 @@ namespace _Game.Scripts
             path += $"/{def.Id}";
             return Resources.Load<Sprite>(path);
         }
+
+        public static Cannon LoadCannon(string name)
+        {
+            Cannon ret = Resources.Load<Cannon>(cannonPrefabPath + $"/{name}");
+            return ret;
+        }
+
+        static string StatsTemplatePath = "Database/StatsTemplate";
+        public static ShipStatsTemplate LoadShipTemplateConfig(string id)
+        {
+            ShipStatsTemplate ret = Resources.Load<ShipStatsTemplate>(StatsTemplatePath + $"/Ship/{id}");
+            return ret;
+        }
+
+        public static CannonStatsTemplate LoadCannonStatsTemplate(string id)
+        {
+            CannonStatsTemplate ret = Resources.Load<CannonStatsTemplate>(StatsTemplatePath + $"/Cannon/{id}");
+            return ret;
+        }
+
+
+        static string shipPath = "Prefabs/Entities/Ship/Ship_0001/Ship_";
+        static string enemyPath = "Prefabs/Entities/Enemies/";
+        public static Ship LoadShip(string id)
+        {
+            return Resources.Load<Ship>($"{shipPath}{id}");
+        }
+
+        public static Enemy LoadEnemy(string id)
+        {
+            return Resources.Load<Enemy>($"{enemyPath}{enemyIdNameDic[id]}");
+        }
+
+        public static Dictionary<string, string> enemyIdNameDic = new Dictionary<string, string>()
+        {
+            { "0001", "Puffer Fish"},
+            { "0002", "Electric Eel"},
+            { "0003","Squid"}
+        };
     }
 }

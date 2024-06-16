@@ -14,7 +14,7 @@ namespace _Base.Scripts.RPG.Effects
 
         public List<Effect> effects = new List<Effect>();
 
-        public void Apply(Effect effect)
+        public virtual void Apply(Effect effect)
         {
             effects.Add(effect);
             effect.Apply(entity);
