@@ -6,7 +6,6 @@ using UnityEngine;
 
 namespace _Game.Scripts
 {
-    // [CreateAssetMenu(fileName = "EnemyStats", menuName = "Scriptable Objects/Enemy Stats", order = 1)]
     [Serializable]
     public class CrewStats : Stats, IAliveStats
     {

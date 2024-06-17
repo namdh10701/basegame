@@ -14,6 +14,7 @@ public class CellRenderer : MonoBehaviour
     [SerializeField] Color deniedColor;
     [SerializeField] Color normalColor;
     [SerializeField] Color takeDamageColor;
+    [SerializeField] SpriteRenderer brokenSprite;
     public void ToggleHighlight(HighlightType highlightType)
     {
         switch (highlightType)
@@ -42,5 +43,15 @@ public class CellRenderer : MonoBehaviour
         spriteRenderer.color = takeDamageColor;
         blinkSequence.Append(spriteRenderer.DOFade(0, .2f));
         blinkSequence.OnComplete(() => blinkSequence = null);
+    }
+
+    public void OnBroken()
+    {
+        brokenSprite.gameObject.SetActive(true);
+    }
+
+    public void OnRepaired()
+    {
+        brokenSprite.gameObject.SetActive(false);
     }
 }

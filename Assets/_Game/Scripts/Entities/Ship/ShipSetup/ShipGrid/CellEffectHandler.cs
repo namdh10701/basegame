@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class CellEffectHandler : EffectHandler
 {
-    public ShipEffectListener shipEffectListener;
+    /*public EffectHandler shipEffectListener;
     Cell cell;
     private void Awake()
     {
@@ -19,5 +19,5 @@ public class CellEffectHandler : EffectHandler
         //shipEffectListener.OnTakeEffect(cell, effect);
         cell.CellRenderer.Blink();
         base.Apply(effect);
-    }
+    }*/
 }

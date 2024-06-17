@@ -21,11 +21,15 @@ namespace _Game.Scripts.Gameplay.Ship
 
         public EffectHandler EffectHandler => effectHandler;
         public PathfindingController PathfindingController;
-        public Collider2D EffectCollider;
+        public EffectTakerCollider EffectCollider;
         public ShipSpeed ShipSpeed;
 
 
-
+        protected override void Awake()
+        {
+            base.Awake();
+            EffectCollider.Taker = this;
+        }
         private void Start()
         {
             ShipSetup.LoadShipItems();

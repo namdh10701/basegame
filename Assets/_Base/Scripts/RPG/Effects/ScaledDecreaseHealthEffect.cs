@@ -22,6 +22,7 @@ public class ScaledDecreaseHealthEffect : OneShotEffect
 
     protected override void OnApply(Entity entity)
     {
+        Debug.Log(entity.name);
         if (entity.Stats == null)
         {
             return;
@@ -30,10 +31,11 @@ public class ScaledDecreaseHealthEffect : OneShotEffect
         {
             return;
         }
+
         float finalAmount;
         float blockChance;
 
-        if (entity is Ship || entity is Crew || entity is Cannon)
+        if (entity is Ship || entity is Crew || entity is Cannon || entity is Cell)
         {
             finalAmount = PlayerAmount;
         }
