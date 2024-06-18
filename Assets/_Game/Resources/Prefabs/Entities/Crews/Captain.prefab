@@ -166,6 +166,7 @@ GameObject:
   - component: {fileID: 3335989513427287495}
   - component: {fileID: 37263412830860456}
   - component: {fileID: 1466956755648038636}
+  - component: {fileID: 3941554842901566577}
   m_Layer: 0
   m_Name: Captain
   m_TagString: Untagged
@@ -203,6 +204,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   body: {fileID: 1466956755648038636}
+  ActionHandler: {fileID: 3941554842901566577}
   stats:
     <HealthPoint>k__BackingField:
       _value:
@@ -225,12 +227,16 @@ MonoBehaviour:
       _baseValue: 0
   wait: 0.5
   _statTemplate: {fileID: 11400000, guid: 84fb51cf2123cca4894e08b24d356752, type: 2}
+  Ship: {fileID: 0}
+  pathfinder: {fileID: 0}
   Animation: {fileID: 4222250464283174331}
   effectHandler: {fileID: 1551171939735814577}
   def: {fileID: 0}
   behaviour: {fileID: 0}
   <OccupyCells>k__BackingField: []
   carryObject: {fileID: 8626451152845765806}
+  crewController: {fileID: 0}
+  WanderData: {fileID: 0}
 --- !u!50 &1466956755648038636
 Rigidbody2D:
   serializedVersion: 4
@@ -258,6 +264,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &3941554842901566577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4727775757886341208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05d67288bea2d6e4baaf96c00b0c7502, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6794824730590784018
 GameObject:
   m_ObjectHideFlags: 0
@@ -388,6 +406,10 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0.71651256
       objectReference: {fileID: 0}
+    - target: {fileID: 3566426908048689067, guid: f97d416e7588d084f9cbd27877ff14c3, type: 3}
+      propertyPath: fix
+      value: hammer
+      objectReference: {fileID: 0}
     - target: {fileID: 4971587765587976191, guid: f97d416e7588d084f9cbd27877ff14c3, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -450,7 +472,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8958015434910719678, guid: f97d416e7588d084f9cbd27877ff14c3, type: 3}
       propertyPath: m_SortingOrder
-      value: 3
+      value: 713
       objectReference: {fileID: 0}
     - target: {fileID: 8958015434910719678, guid: f97d416e7588d084f9cbd27877ff14c3, type: 3}
       propertyPath: m_SortingLayerID
