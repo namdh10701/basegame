@@ -21,7 +21,13 @@ namespace _Game.Scripts
         [SerializeField]
         [SpineAnimation]
         string carry;
-
+        [SerializeField]
+        [SpineAnimation]
+        string fix;
+        public void PlayFix()
+        {
+            skeletonAnimation.AnimationState.SetAnimation(0, fix, true);
+        }
         public void PlayMove()
         {
             skeletonAnimation.AnimationState.SetAnimation(0, move, true);
@@ -33,6 +39,11 @@ namespace _Game.Scripts
         public void PlayCarry()
         {
             skeletonAnimation.AnimationState.SetAnimation(0, carry, true);
+        }
+
+        public void AddIdle()
+        {
+            skeletonAnimation.AnimationState.AddAnimation(0, idle, true, 0);
         }
         public void Flip(Direction direction)
         {

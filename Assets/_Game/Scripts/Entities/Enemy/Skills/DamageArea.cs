@@ -26,7 +26,7 @@ namespace _Game.Scripts
                 if (effect is ScaledDecreaseHealthEffect decreaseHealthEffect)
                 {
                     decreaseHealthEffect.PlayerAmount = damage;
-                    decreaseHealthEffect.EnemyAmount = damage * 100;
+                    decreaseHealthEffect.EnemyAmount = damage;
                 }
             }
         }

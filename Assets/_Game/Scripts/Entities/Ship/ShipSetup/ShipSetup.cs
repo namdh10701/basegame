@@ -1,4 +1,6 @@
+using _Base.Scripts.Utils.Extensions;
 using _Game.Scripts.Entities;
+using Map;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,30 +15,31 @@ namespace _Game.Scripts
         public List<Grid> Grids = new List<Grid>();
 
         public List<Bullet> bullets = new List<Bullet>();
-        public List<Cell> AllCells
-        {
-            get
-            {
-                List<Cell> cells = new List<Cell>();
-                foreach (Grid grid in Grids)
-                {
-                    for (int i = 0; i < grid.Row; i++)
-                    {
-                        for (int j = 0; j < grid.Col; j++)
-                        {
-                            cells.Add(grid.Cells[i, j]);
-                        }
-                    }
-                }
-                return cells;
-            }
-        }
+        public List<Cell> AllCells = new List<Cell>();
+        public List<Cell> FreeCells = new List<Cell>();
+
+
 
         private void Awake()
         {
             for (int i = 0; i < Grids.Count; i++)
             {
                 Grids[i].Initialize(ShipGridProfile.GridDefinitions[i]);
+            }
+            List<Cell> cells = new List<Cell>();
+            foreach (Grid grid in Grids)
+            {
+                for (int i = 0; i < grid.Row; i++)
+                {
+                    for (int j = 0; j < grid.Col; j++)
+                    {
+                        AllCells.Add(grid.Cells[i, j]);
+                        if (grid.Cells[i, j].GridItem == null)
+                        {
+                            FreeCells.Add(grid.Cells[i, j]);
+                        }
+                    }
+                }
             }
             GridItemDatas = Mockup;
         }
@@ -74,13 +77,11 @@ namespace _Game.Scripts
             {
                 bullets.Add(spawned.GetComponent<Bullet>());
             }
-            Debug.Log(gridItemData.Def.name);
             IGridItem gridItem = spawned.GetComponent<IGridItem>();
             gridItem.GridId = gridItemData.GridId;
             List<Cell> occupyCells = gridItem.OccupyCells;
             foreach (Vector2Int cell in gridItemData.OccupyCells)
             {
-                Debug.Log(grid.Cells[cell.y, cell.x].ToString() + "ASDSAD");
                 grid.Cells[cell.y, cell.x].GridItem = gridItem;
                 occupyCells.Add(grid.Cells[cell.y, cell.x]);
             }
