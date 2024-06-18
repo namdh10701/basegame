@@ -27,31 +27,7 @@ namespace _Game.Scripts
                 yield break;
             }
             crew.OccupyCells = new List<Cell> { cell };
-            yield return MoveCoroutine(path);
-        }
-
-        IEnumerator MoveCoroutine(List<Vector3> path)
-        {
-            Animation.PlayMove();
-            foreach (Vector3 waypoint in path)
-            {
-                Vector3 direction = (waypoint - crew.transform.position).normalized;
-                if (direction.x > 0)
-                {
-                    Animation.Flip(Direction.Right);
-                }
-                else if (direction.x < 0)
-                {
-                    Animation.Flip(Direction.Left);
-                }
-                while (Vector3.Distance(crew.transform.position, waypoint) > 0.1f)
-                {
-                    crew.body.velocity = direction * crew.stats.MoveSpeed.Value;
-                    yield return null;
-                }
-                crew.body.velocity = Vector3.zero;
-            }
-            Animation.PlayIdle();
+            yield return crew.CrewMovement.MoveByPath(path);
             yield return new WaitForSeconds(2);
         }
 

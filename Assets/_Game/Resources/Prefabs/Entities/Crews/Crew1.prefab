@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4423691010520195521}
   - component: {fileID: 3547516095354855559}
   - component: {fileID: 5154970329997059248}
+  - component: {fileID: 3125218877588862083}
   m_Layer: 0
   m_Name: Crew1
   m_TagString: Untagged
@@ -50,6 +51,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   body: {fileID: 3547516095354855559}
   ActionHandler: {fileID: 5154970329997059248}
+  CrewMovement: {fileID: 3125218877588862083}
   stats:
     <HealthPoint>k__BackingField:
       _value:
@@ -70,7 +72,6 @@ MonoBehaviour:
     <EvadeChance>k__BackingField:
       statModifiers: []
       _baseValue: 0
-  wait: 0.25
   _statTemplate: {fileID: 11400000, guid: 84fb51cf2123cca4894e08b24d356752, type: 2}
   Ship: {fileID: 0}
   pathfinder: {fileID: 0}
@@ -81,6 +82,7 @@ MonoBehaviour:
   <OccupyCells>k__BackingField: []
   carryObject: {fileID: 4267490572488331614}
   crewController: {fileID: 0}
+  WanderData: {fileID: 0}
 --- !u!50 &3547516095354855559
 Rigidbody2D:
   serializedVersion: 4
@@ -120,6 +122,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05d67288bea2d6e4baaf96c00b0c7502, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3125218877588862083
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 154046937988417403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd9a2d99cd0c75a4bb49fcf6a1890479, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crew: {fileID: 4423691010520195521}
 --- !u!1 &1903941828349410014
 GameObject:
   m_ObjectHideFlags: 0
@@ -391,7 +406,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6208264327265156139, guid: d108d638eb1901e4aa441881acb17726, type: 3}
       propertyPath: m_SortingOrder
-      value: 706
+      value: 702
+      objectReference: {fileID: 0}
+    - target: {fileID: 6903097208277004957, guid: d108d638eb1901e4aa441881acb17726, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.79
       objectReference: {fileID: 0}
     - target: {fileID: 7509032601309316565, guid: d108d638eb1901e4aa441881acb17726, type: 3}
       propertyPath: m_Mesh

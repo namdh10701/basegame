@@ -45,6 +45,7 @@ namespace _Game.Scripts.Entities
         [SerializeField] MBTExecutor MBTExecutor;
         protected virtual IEnumerator Start()
         {
+            Debug.LogError(name);
             EffectTakerCollider.Taker = this;
             Ship ship = FindAnyObjectByType<Ship>();
             if (ship == null || blackboard == null)

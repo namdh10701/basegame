@@ -1,3 +1,4 @@
+using _Base.Scripts.EventSystem;
 using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.RPG.Entities;
 using _Game.Scripts.Entities;
@@ -47,6 +48,15 @@ namespace _Game.Scripts
         protected override void LoadStats()
         {
 
+        }
+
+        public void OnBroken()
+        {
+            GlobalEvent<Cell>.Send("Broken", this);
+        }
+        public void OnFixed()
+        {
+            CellRenderer.OnFixed();
         }
     }
 }

@@ -12,6 +12,8 @@ namespace _Game.Scripts
     public class Crew : Entity, IGridItem, IEffectTaker
     {
         public CrewActionHandler ActionHandler;
+        public CrewMovement CrewMovement;
+
         public CrewStats stats;
         public override Stats Stats => stats;
         public CrewStatsTemplate _statTemplate;

@@ -25,7 +25,7 @@ public class ElectricEel : Enemy
         Animation.OnHide += OnHide;
         MoveAreaController moveArea = FindAnyObjectByType<MoveAreaController>();
         blackboard.GetVariable<AreaVariable>("MoveArea").Value = moveArea.GetArea(AreaType.Floor2Plus3);
-        return base.Start();
+        yield return base.Start();
     }
 
     void OnHide()

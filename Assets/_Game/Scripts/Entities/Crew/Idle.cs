@@ -20,7 +20,6 @@ public class Idle : CrewAction
         if (hit.collider != null)
         {
             Cell cell = hit.collider.GetComponent<Cell>();
-            Debug.Log(cell.ToString() + crew.name + " Stand on");
             if (cell != null)
             {
                 crew.OccupyCells = new List<Cell> { cell };

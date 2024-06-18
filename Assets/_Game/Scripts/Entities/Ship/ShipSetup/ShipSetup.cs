@@ -77,13 +77,11 @@ namespace _Game.Scripts
             {
                 bullets.Add(spawned.GetComponent<Bullet>());
             }
-            Debug.Log(gridItemData.Def.name);
             IGridItem gridItem = spawned.GetComponent<IGridItem>();
             gridItem.GridId = gridItemData.GridId;
             List<Cell> occupyCells = gridItem.OccupyCells;
             foreach (Vector2Int cell in gridItemData.OccupyCells)
             {
-                Debug.Log(grid.Cells[cell.y, cell.x].ToString() + "ASDSAD");
                 grid.Cells[cell.y, cell.x].GridItem = gridItem;
                 occupyCells.Add(grid.Cells[cell.y, cell.x]);
             }

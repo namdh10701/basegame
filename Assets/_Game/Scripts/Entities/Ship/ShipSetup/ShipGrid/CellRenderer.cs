@@ -1,3 +1,5 @@
+using _Base.Scripts.EventSystem;
+using _Game.Scripts;
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
@@ -50,7 +52,7 @@ public class CellRenderer : MonoBehaviour
         brokenSprite.gameObject.SetActive(true);
     }
 
-    public void OnRepaired()
+    public void OnFixed()
     {
         brokenSprite.gameObject.SetActive(false);
     }

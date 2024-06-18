@@ -26,7 +26,10 @@ public class CrewJobData : MonoBehaviour
 
     void AddFixCellJob(Cell cell)
     {
-
+        Debug.Log("ADD FIX CELL JOB");
+        FixCellJob fixCellJob = new FixCellJob(cell);
+        PendingJobs.Add(fixCellJob);
+        OnNewJobAdded.Invoke(fixCellJob);
     }
 
 

@@ -20,6 +20,7 @@ public class CrewController : MonoBehaviour
     }
     void OnNewJobAdded(CrewJob crewJob)
     {
+        Debug.Log("NEW JOB ADDED");
         Crew crew = GetMostSuitableCrewForJob(crewJob);
         if (crew != null)
         {
@@ -29,6 +30,7 @@ public class CrewController : MonoBehaviour
 
     public void RegisterForNewJob(Crew crew)
     {
+        Debug.Log("REGISTER FOR NEW JOB " + crew.name);
         CrewJob job = CrewJobData.GetHighestPiorityJob();
         AssignJob(crew, job);
     }
@@ -40,6 +42,7 @@ public class CrewController : MonoBehaviour
         if (ret == null)
         {
             ret = GetCrewWithLowerJobPiority(crewJob);
+            Debug.Log("crew lo" + ret);
         }
         return ret;
     }
@@ -52,6 +55,8 @@ public class CrewController : MonoBehaviour
         {
             if (crew.ActionHandler.CurrentAction is not CrewJob || crew.ActionHandler.CurrentAction == null)
             {
+                Debug.Log("FOUND FREE CREW " + crew.name + crew.ActionHandler.CurrentAction);
+                Debug.Log("DETAILS " + " " + (crew.ActionHandler.CurrentAction is not CrewJob) + " " + (crew.ActionHandler.CurrentAction == null));
                 freeCrews.Add(crew);
             }
         }

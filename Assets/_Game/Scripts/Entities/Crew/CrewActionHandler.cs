@@ -18,11 +18,22 @@ public class CrewActionHandler : MonoBehaviour
 
     IEnumerator HandleAssignNewAction(CrewAction crewAction)
     {
+        Debug.Log(" ON A " + crewAction);
         if (actionCoroutine != null)
         {
             StopCoroutine(actionCoroutine);
-            yield return CurrentAction.Interupt();
+            if (CurrentAction is not CrewJob)
+            {
+                Debug.Log(" ON C " + CurrentAction);
+            }
+            else
+            {
+                Debug.Log(" ON D " + CurrentAction);
+                yield return CurrentAction.Interupt();
+            }
         }
+
+        Debug.Log(" ON B " + crewAction);
         CurrentAction = crewAction;
         actionCoroutine = StartCoroutine(ActionCoroutine());
     }
@@ -30,6 +41,7 @@ public class CrewActionHandler : MonoBehaviour
     {
         yield return CurrentAction.Execute();
         actionCoroutine = null;
+        CurrentAction = null;
         OnFree.Invoke();
     }
 

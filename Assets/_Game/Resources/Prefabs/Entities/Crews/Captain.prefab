@@ -167,6 +167,7 @@ GameObject:
   - component: {fileID: 37263412830860456}
   - component: {fileID: 1466956755648038636}
   - component: {fileID: 3941554842901566577}
+  - component: {fileID: 8469707050344252408}
   m_Layer: 0
   m_Name: Captain
   m_TagString: Untagged
@@ -205,6 +206,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   body: {fileID: 1466956755648038636}
   ActionHandler: {fileID: 3941554842901566577}
+  CrewMovement: {fileID: 8469707050344252408}
   stats:
     <HealthPoint>k__BackingField:
       _value:
@@ -225,7 +227,6 @@ MonoBehaviour:
     <EvadeChance>k__BackingField:
       statModifiers: []
       _baseValue: 0
-  wait: 0.5
   _statTemplate: {fileID: 11400000, guid: 84fb51cf2123cca4894e08b24d356752, type: 2}
   Ship: {fileID: 0}
   pathfinder: {fileID: 0}
@@ -276,6 +277,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05d67288bea2d6e4baaf96c00b0c7502, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8469707050344252408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4727775757886341208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd9a2d99cd0c75a4bb49fcf6a1890479, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crew: {fileID: 37263412830860456}
 --- !u!1 &6794824730590784018
 GameObject:
   m_ObjectHideFlags: 0
