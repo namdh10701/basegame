@@ -1,13 +1,12 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using UnityEngine;
 using UnityWeld.Binding;
 
 namespace _Game.Scripts.UI
 {
     [Binding]
-    public class ViewModel: MonoBehaviour, INotifyPropertyChanged
+    public class SubViewModel: INotifyPropertyChanged
     {
         #region INotifyPropertyChanged
 

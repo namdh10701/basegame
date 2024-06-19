@@ -1,13 +1,30 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using UnityEngine;
 using UnityWeld.Binding;
 
-namespace _Game.Feature.Inventory
+namespace _Game.Features.Inventory
 {
+
+    public enum ItemType
+    {
+        CREW,
+        CANNON,
+        AMMO,
+    }
+    public class InventoryItemDto
+    {
+        public string Id;
+        public string Name;
+        public ItemType ItemType;
+    }
     [Binding]
     public class InventoryItem : INotifyPropertyChanged
     {
+        [Binding]
+        public string Id { get; set; }
+        
         #region Binding Prop: Name
 
         /// <summary>
@@ -57,15 +74,10 @@ namespace _Game.Feature.Inventory
         private ItemType m_type;
 
         #endregion
-
-        public enum ItemType
-        {
-            CREW,
-            CANNON,
-            AMMO,
-            
-        }
         
+        [Binding]
+        public Sprite Thumbnail => Resources.Load<Sprite>($"Images/Cannon/cannon_{Id}");
+
         #region INotifyPropertyChanged
 
         public event PropertyChangedEventHandler PropertyChanged;
