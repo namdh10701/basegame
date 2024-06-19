@@ -66,7 +66,6 @@ namespace _Game.Scripts
                     break;
             }
             path += $"/{def.Name}";
-            Debug.Log(path);
             return Resources.Load<GameObject>(path);
         }
 

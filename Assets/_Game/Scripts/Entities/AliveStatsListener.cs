@@ -1,5 +1,8 @@
+using _Base.Scripts.EventSystem;
 using _Base.Scripts.RPG.Entities;
 using _Base.Scripts.RPGCommon.Entities;
+using _Base.Scripts.Shared;
+using _Game.Scripts;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -37,7 +40,6 @@ public class AliveStatsListener : MonoBehaviour
         {
             OnIncreased.Invoke();
         }
-
         lastValue = hp.Value;
     }
 }

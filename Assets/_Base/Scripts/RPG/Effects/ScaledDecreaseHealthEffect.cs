@@ -22,7 +22,6 @@ public class ScaledDecreaseHealthEffect : OneShotEffect
 
     protected override void OnApply(Entity entity)
     {
-        Debug.Log(entity.name);
         if (entity.Stats == null)
         {
             return;

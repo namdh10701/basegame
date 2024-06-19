@@ -181,7 +181,7 @@ MonoBehaviour:
   effectHandler: {fileID: 961302212376726107}
   EffectTakerCollider: {fileID: 2464650525156154373}
   blackboard: {fileID: 291860766914543287}
-  pushCollider: {fileID: 7800126783329499397}
+  pushCollider: {fileID: 8959591976242257430}
   MBTExecutor: {fileID: 6092494332393929708}
   Animation: {fileID: 5696707011990469512}
   electricFx: {fileID: 1285242852396960929}
@@ -638,7 +638,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1786719095
   m_SortingLayer: 2
-  m_SortingOrder: -99
+  m_SortingOrder: -844
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &8147785494522608060
 MonoBehaviour:
@@ -976,7 +976,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 7.9
+  m_Radius: 15
 --- !u!1 &6251369367449009748
 GameObject:
   m_ObjectHideFlags: 0
@@ -1922,7 +1922,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7007936183278374391}
-  - component: {fileID: 7800126783329499397}
+  - component: {fileID: 8959591976242257430}
   m_Layer: 6
   m_Name: ObjectCollider
   m_TagString: Untagged
@@ -1945,8 +1945,8 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8753017470773732673}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!58 &7800126783329499397
-CircleCollider2D:
+--- !u!70 &8959591976242257430
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1977,9 +1977,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.19654763}
-  serializedVersion: 2
-  m_Radius: 0.27
+  m_Offset: {x: -0.034991536, y: -0.24347895}
+  m_Size: {x: 0.56261647, y: 0.36141703}
+  m_Direction: 1
 --- !u!1 &9211727779277408376
 GameObject:
   m_ObjectHideFlags: 0
@@ -2317,6 +2317,7 @@ PrefabInstance:
     - {fileID: 1524588015234530928, guid: 8023c7f2bd4aa6e48abe4932f8bf5835, type: 3}
     - {fileID: 3480262956321240872, guid: 8023c7f2bd4aa6e48abe4932f8bf5835, type: 3}
     - {fileID: 1667494378802876749, guid: 8023c7f2bd4aa6e48abe4932f8bf5835, type: 3}
+    - {fileID: 1679563443378130017, guid: 8023c7f2bd4aa6e48abe4932f8bf5835, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 1439417939031342765, guid: 8023c7f2bd4aa6e48abe4932f8bf5835, type: 3}
       insertIndex: -1
