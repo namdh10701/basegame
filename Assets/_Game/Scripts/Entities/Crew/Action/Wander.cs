@@ -1,26 +1,24 @@
 using _Game.Scripts.Gameplay.Ship;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
-using static UnityEngine.RuleTile.TilingRuleOutput;
 
 namespace _Game.Scripts
 {
     public class Wander : CrewAction
     {
-        CrewAniamtionHandler Animation;
         Crew crew;
-        WanderData wanderData;
-        public Wander(Crew crew, WanderData wanderData)
+        MoveData moveData;
+        public Wander(Crew crew, MoveData moveData)
         {
             this.crew = crew;
-            this.Animation = this.crew.Animation;
-            this.wanderData = wanderData;
+            this.moveData = moveData;
+            this.Execute = DoExecute();
+            this.Interupt = DoInterupt();
         }
-        public override IEnumerator Execute()
+        public IEnumerator DoExecute()
         {
-            Cell cell = wanderData.GetFreeCell();
+            Cell cell = moveData.GetFreeCell();
             List<Vector3> path = crew.pathfinder.GetPath(crew.transform.position, cell.transform.position);
             if (path == null)
             {
@@ -29,9 +27,10 @@ namespace _Game.Scripts
             crew.OccupyCells = new List<Cell> { cell };
             yield return crew.CrewMovement.MoveByPath(path);
             yield return new WaitForSeconds(2);
+            Debug.Log("Done");
         }
 
-        public override IEnumerator Interupt()
+        public IEnumerator DoInterupt()
         {
             yield break;
         }

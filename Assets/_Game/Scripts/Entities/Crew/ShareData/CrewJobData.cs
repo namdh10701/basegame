@@ -19,30 +19,48 @@ public class CrewJobData : MonoBehaviour
 
     void AddReloadCannonJob(Cannon cannon, Bullet bullet)
     {
-        ReloadCannon reloadCannon = new ReloadCannon(cannon, bullet);
+        ReloadCannonJob reloadCannon = new ReloadCannonJob(cannon, bullet);
+        reloadCannon.OnJobInterupted += OnJobInterupted;
         PendingJobs.Add(reloadCannon);
         OnNewJobAdded.Invoke(reloadCannon);
     }
 
     void AddFixCellJob(Cell cell)
     {
-        Debug.Log("ADD FIX CELL JOB");
         FixCellJob fixCellJob = new FixCellJob(cell);
+        fixCellJob.OnJobInterupted += OnJobInterupted;
         PendingJobs.Add(fixCellJob);
         OnNewJobAdded.Invoke(fixCellJob);
     }
 
-
-    public CrewJob GetHighestPiorityJob()
+    void OnJobInterupted(CrewJob crewJob)
     {
-        CrewJob ret = null;
+        if (!PendingJobs.Contains(crewJob))
+        {
+            PendingJobs.Add(crewJob);
+        }
+    }
+
+
+    public List<CrewJob> GetHighestPiorityJobs()
+    {
+        List<CrewJob> ret = new List<CrewJob>();
         int piority = -1;
+
+
         foreach (CrewJob crewJob in PendingJobs)
         {
             if (crewJob.Piority > piority)
             {
-                ret = crewJob;
                 piority = crewJob.Piority;
+            }
+        }
+
+        foreach (CrewJob crewJob in PendingJobs)
+        {
+            if (crewJob.Piority == piority)
+            {
+                ret.Add(crewJob);
             }
         }
         return ret;

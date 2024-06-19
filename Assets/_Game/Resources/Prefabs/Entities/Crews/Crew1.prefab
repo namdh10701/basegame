@@ -82,7 +82,7 @@ MonoBehaviour:
   <OccupyCells>k__BackingField: []
   carryObject: {fileID: 4267490572488331614}
   crewController: {fileID: 0}
-  WanderData: {fileID: 0}
+  MoveData: {fileID: 0}
 --- !u!50 &3547516095354855559
 Rigidbody2D:
   serializedVersion: 4
@@ -122,6 +122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05d67288bea2d6e4baaf96c00b0c7502, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPaused: 0
 --- !u!114 &3125218877588862083
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -410,19 +411,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6903097208277004957, guid: d108d638eb1901e4aa441881acb17726, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.79
+      value: -0.364
       objectReference: {fileID: 0}
     - target: {fileID: 7509032601309316565, guid: d108d638eb1901e4aa441881acb17726, type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8084561506813521790, guid: d108d638eb1901e4aa441881acb17726, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.27256903
-      objectReference: {fileID: 0}
-    - target: {fileID: 8084561506813521790, guid: d108d638eb1901e4aa441881acb17726, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.0930955
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

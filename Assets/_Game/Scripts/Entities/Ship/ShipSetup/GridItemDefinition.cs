@@ -12,6 +12,7 @@ namespace _Game.Scripts
         public int ShapeId;
         public string Name;
         public Sprite Image;
+        public Sprite ProjectileImage;
         public override string ToString()
         {
             return Id + " " + Type.ToString() + " " + ShapeId;

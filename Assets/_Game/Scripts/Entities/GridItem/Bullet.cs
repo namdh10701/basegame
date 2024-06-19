@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace _Game.Scripts.Entities
 {
-    public class Bullet : MonoBehaviour, IGridItem
+    public class Bullet : MonoBehaviour, IGridItem, IWorkLocation
     {
         public Projectile Projectile;
 
@@ -17,6 +17,7 @@ namespace _Game.Scripts.Entities
         public GridItemDef Def { get => def; }
         public Transform Behaviour { get => null; }
         public string GridId { get; set; }
-
+        public List<WorkingSlot> workingSlots = new List<WorkingSlot>();
+        public List<WorkingSlot> WorkingSlots { get => workingSlots; set => workingSlots = value; }
     }
 }

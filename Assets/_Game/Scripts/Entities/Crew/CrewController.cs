@@ -1,6 +1,7 @@
 
 using _Base.Scripts.Utils.Extensions;
 using _Game.Scripts;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -31,10 +32,39 @@ public class CrewController : MonoBehaviour
     public void RegisterForNewJob(Crew crew)
     {
         Debug.Log("REGISTER FOR NEW JOB " + crew.name);
-        CrewJob job = CrewJobData.GetHighestPiorityJob();
-        AssignJob(crew, job);
+        List<CrewJob> highestPiorityJobs = CrewJobData.GetHighestPiorityJobs();
+        CrewJob closetJob = GetClosetJobFromPosition(highestPiorityJobs, crew);
+        AssignJob(crew, closetJob);
     }
 
+    CrewJob GetClosetJobFromPosition(List<CrewJob> jobs, Crew crew)
+    {
+        float distance = Mathf.Infinity;
+        CrewJob closetJob = jobs[0];
+        foreach (CrewJob job in jobs)
+        {
+            List<WorkingSlot> workingSlots = job.WorkLocation.WorkingSlots;
+            float distanceToJob = 0;
+            float minDistance = Mathf.Infinity;
+            WorkingSlot minDistanceWorkingSlot;
+            foreach (WorkingSlot workingSlot in workingSlots)
+            {
+                distanceToJob = Vector2.Distance(workingSlot.cell.transform.position, crew.transform.position);
+                if (distanceToJob < minDistance)
+                {
+                    minDistance = distanceToJob;
+                    minDistanceWorkingSlot = workingSlot;
+                }
+            }
+
+            if (minDistance < distance)
+            {
+                distance = minDistance;
+                closetJob = job;
+            }
+        }
+        return closetJob;
+    }
 
     Crew GetMostSuitableCrewForJob(CrewJob crewJob)
     {
@@ -53,10 +83,10 @@ public class CrewController : MonoBehaviour
 
         foreach (Crew crew in crews)
         {
-            if (crew.ActionHandler.CurrentAction is not CrewJob || crew.ActionHandler.CurrentAction == null)
+            if (crew.ActionHandler.CurrentAction is not CrewJobAction || crew.ActionHandler.CurrentAction == null)
             {
                 Debug.Log("FOUND FREE CREW " + crew.name + crew.ActionHandler.CurrentAction);
-                Debug.Log("DETAILS " + " " + (crew.ActionHandler.CurrentAction is not CrewJob) + " " + (crew.ActionHandler.CurrentAction == null));
+                Debug.Log("DETAILS " + " " + (crew.ActionHandler.CurrentAction is not CrewJobAction) + " " + (crew.ActionHandler.CurrentAction == null));
                 freeCrews.Add(crew);
             }
         }
@@ -67,9 +97,9 @@ public class CrewController : MonoBehaviour
     {
         foreach (Crew crew in crews)
         {
-            if (crew.ActionHandler.CurrentAction is CrewJob job)
+            if (crew.ActionHandler.CurrentAction is CrewJobAction action)
             {
-                if (job.Piority < crewJob.Piority)
+                if (action.CrewJob.Piority < crewJob.Piority)
                 {
                     return crew;
                 }
@@ -83,8 +113,8 @@ public class CrewController : MonoBehaviour
     {
         Debug.Log("ASSIGNED TO " + crew.name);
         CrewJobData.PendingJobs.Remove(crewJob);
-        crewJob.crew = crew;
-        crew.ActionHandler.Act(crewJob);
+        CrewJobAction action = crewJob.BuildCrewAction(crew);
+        crew.ActionHandler.Act(action);
     }
 
 }

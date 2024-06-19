@@ -2,6 +2,8 @@ using BehaviorDesigner.Runtime.Tasks.Unity.UnityBoxCollider;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UIElements;
+
 namespace _Game.Scripts
 {
     public enum CellPattern
@@ -333,8 +335,33 @@ namespace _Game.Scripts
             return new Vector3(sum.x / 2f, sum.y / 2f, 0);
         }
 
+        public static List<Cell> GetCellsAroundShape(Cell[,] grid, List<Cell> shape)
+        {
+            List<Cell> ret = new List<Cell>();
+
+            foreach (var cell in shape)
+            {
+                Debug.Log("COUNT");
+                // Get adjacent cells (up, down, left, right)
+                List<Cell> adjacentCells = GetAdjacentCells(grid, cell);
+
+                // Check each adjacent cell
+                foreach (var adjCell in adjacentCells)
+                {
+                    if (!shape.Contains(adjCell))
+                    {
+                        ret.Add(adjCell);
+                    }
+                }
+            }
+
+
+            return ret;
+        }
+
         public static Cell GetClosetAvailableCellSurroundShape(Cell[,] grid, List<Cell> shape, Vector3 position)
         {
+
             Cell closestCell = null;
             float closestDistance = float.MaxValue;
 

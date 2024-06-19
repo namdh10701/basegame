@@ -8,6 +8,7 @@ namespace _Game.Scripts
 {
     public class ShipSetup : MonoBehaviour
     {
+        public static List<GridItemData> GridItemDatas = new List<GridItemData>();
         public List<GridItemData> Mockup = new List<GridItemData>();
         public GridItemReferenceHolder ItemReferenceHolder;
         public ShipGridProfile ShipGridProfile;
@@ -16,7 +17,7 @@ namespace _Game.Scripts
         public List<Bullet> bullets = new List<Bullet>();
         public List<Cell> AllCells = new List<Cell>();
         public List<Cell> FreeCells = new List<Cell>();
-
+        public List<IWorkLocation> WorkLocations = new List<IWorkLocation>();
 
 
         private void Awake()
@@ -40,11 +41,12 @@ namespace _Game.Scripts
                     }
                 }
             }
-            Grids[0].GridItemDatas = Mockup;
+            GridItemDatas = Mockup;
+
         }
         public void LoadShipItems()
         {
-            foreach (GridItemData gridItemData in Grids[0].GridItemDatas)
+            foreach (GridItemData gridItemData in GridItemDatas)
             {
                 Debug.Log(gridItemData.Def.Id);
                 Transform itemGridTransform = GetGridTransformById(gridItemData.GridId);
@@ -88,6 +90,36 @@ namespace _Game.Scripts
             float scale = Vector3.one.x / spawned.transform.parent.lossyScale.x;
             spawned.transform.localScale = new Vector3(scale, scale, scale);
             spawned.transform.localPosition = gridItemData.position;
+
+            if (spawned.TryGetComponent(out IWorkLocation workLocation))
+            {
+                WorkLocations.Add(workLocation);
+                List<Cell> workingCells = GridHelper.GetCellsAroundShape(grid.Cells, gridItem.OccupyCells);
+                workLocation.WorkingSlots = new List<WorkingSlot>();
+                foreach (Cell cell in workingCells)
+                {
+                    workLocation.WorkingSlots.Add(new WorkingSlot(cell));
+                }
+            }
+        }
+
+        public void AddNewGridItem(GridItemData gridItemData)
+        {
+            if (!GridItemDatas.Contains(gridItemData))
+            {
+                GridItemDatas.Add(gridItemData);
+            }
+        }
+
+        public void RemoveGridItem(GridItemDef gridItemDef)
+        {
+            foreach (GridItemData gid in GridItemDatas.ToArray())
+            {
+                if (gid.Def == gridItemDef)
+                {
+                    GridItemDatas.Remove(gid);
+                }
+            }
         }
     }
 }

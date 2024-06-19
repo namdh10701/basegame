@@ -29,7 +29,6 @@ public class BulletsMenu : MonoBehaviour
         for (int i = 0; i < gridItemDatas.Count; i++)
         {
             Bullet bullet = gridItemDatas[i];
-            Debug.Log(gridItemDatas[i].Def.name);
             buttons[i].gameObject.SetActive(true);
             buttons[i].GetComponent<Image>().sprite = gridItemDatas[i].Def.Image;
             buttons[i].onClick.AddListener(() => Reload(bullet));
