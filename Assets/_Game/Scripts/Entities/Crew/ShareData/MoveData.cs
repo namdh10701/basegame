@@ -12,12 +12,32 @@ namespace _Game.Scripts
 
         public Cell GetFreeCell()
         {
+            List<IWorkLocation> workLocations = ShipSetup.WorkLocations;
+
+
+
+
             List<Cell> freeCells = new List<Cell>(ShipSetup.FreeCells);
             List<Crew> crews = CrewController.crews;
-
+            foreach (IWorkLocation workLocation in workLocations)
+            {
+                foreach (WorkingSlot slot in workLocation.WorkingSlots)
+                {
+                    if (slot.State == WorkingSlotState.Available)
+                    {
+                        if (freeCells.Contains(slot.cell))
+                        {
+                            freeCells.Remove(slot.cell);
+                        }
+                    }
+                }
+            }
             foreach (Crew crew in crews)
             {
-                freeCells.Remove(crew.ActionHandler.CurrentAction.OccupyingCell);
+                if (freeCells.Contains(crew.ActionHandler.CurrentAction.OccupyingCell))
+                {
+                    freeCells.Remove(crew.ActionHandler.CurrentAction.OccupyingCell);
+                }
             }
             return freeCells.GetRandom();
         }

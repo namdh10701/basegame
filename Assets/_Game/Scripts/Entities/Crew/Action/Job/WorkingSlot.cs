@@ -6,12 +6,12 @@ public enum WorkingSlotState
 }
 public class WorkingSlot
 {
-    public WorkingSlotState State;
+    public WorkingSlotState State = WorkingSlotState.Available;
     public Cell cell;
     public Crew crew;
 
     public WorkingSlot(Cell cell)
     {
-        this.cell = cell; 
+        this.cell = cell;
     }
 }

@@ -17,7 +17,7 @@ namespace _Game.Scripts
         public List<Bullet> bullets = new List<Bullet>();
         public List<Cell> AllCells = new List<Cell>();
         public List<Cell> FreeCells = new List<Cell>();
-
+        public List<IWorkLocation> WorkLocations = new List<IWorkLocation>();
 
 
         private void Awake()
@@ -42,6 +42,7 @@ namespace _Game.Scripts
                 }
             }
             GridItemDatas = Mockup;
+
         }
         public void LoadShipItems()
         {
@@ -89,6 +90,17 @@ namespace _Game.Scripts
             float scale = Vector3.one.x / spawned.transform.parent.lossyScale.x;
             spawned.transform.localScale = new Vector3(scale, scale, scale);
             spawned.transform.localPosition = gridItemData.position;
+
+            if (spawned.TryGetComponent(out IWorkLocation workLocation))
+            {
+                WorkLocations.Add(workLocation);
+                List<Cell> workingCells = GridHelper.GetCellsAroundShape(grid.Cells, gridItem.OccupyCells);
+                workLocation.WorkingSlots = new List<WorkingSlot>();
+                foreach (Cell cell in workingCells)
+                {
+                    workLocation.WorkingSlots.Add(new WorkingSlot(cell));
+                }
+            }
         }
 
         public void AddNewGridItem(GridItemData gridItemData)

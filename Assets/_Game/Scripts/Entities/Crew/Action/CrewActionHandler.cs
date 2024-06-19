@@ -18,6 +18,8 @@ public class CrewActionHandler : MonoBehaviour
 
     IEnumerator HandleAssignNewAction(CrewAction crewAction)
     {
+        Debug.Log("ASIGN NEW A");
+        Debug.Log(CurrentAction);
         if (isPaused)
         {
             yield break; // Exit coroutine if paused
@@ -25,14 +27,17 @@ public class CrewActionHandler : MonoBehaviour
         if (actionCoroutine != null)
         {
             StopCoroutine(actionCoroutine);
-            if (CurrentAction is not CrewAction)
+            if (CurrentAction is not CrewJobAction)
             {
+                Debug.Log("ASIGN NEW B");
             }
             else
             {
+                Debug.Log("ASIGN NEW C");
                 yield return CurrentAction.Interupt;
             }
         }
+        Debug.Log("ASIGN NEW D");
         CurrentAction = crewAction;
         actionCoroutine = StartCoroutine(ActionCoroutine());
     }

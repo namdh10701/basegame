@@ -65,13 +65,13 @@ namespace _Game.Scripts
             else
             {
                 float rand = UnityEngine.Random.Range(0f, 1f);
-                if (rand < 0.5f)
+                if (rand < 0.35f)
                 {
-                    ActionHandler.Act(idle);
+                    ActionHandler.Act(new Idle(this));
                 }
                 else
                 {
-                    ActionHandler.Act(wander);
+                    ActionHandler.Act(new Wander(this, MoveData));
                 }
             }
         }

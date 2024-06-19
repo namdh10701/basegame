@@ -43,17 +43,23 @@ public class CrewController : MonoBehaviour
         CrewJob closetJob = jobs[0];
         foreach (CrewJob job in jobs)
         {
-            List<WorkingSlot> workingSlots = job.WorkingSlot;
+            List<WorkingSlot> workingSlots = job.WorkLocation.WorkingSlots;
             float distanceToJob = 0;
+            float minDistance = Mathf.Infinity;
+            WorkingSlot minDistanceWorkingSlot;
             foreach (WorkingSlot workingSlot in workingSlots)
             {
                 distanceToJob = Vector2.Distance(workingSlot.cell.transform.position, crew.transform.position);
-
+                if (distanceToJob < minDistance)
+                {
+                    minDistance = distanceToJob;
+                    minDistanceWorkingSlot = workingSlot;
+                }
             }
 
-            if (distanceToJob < distance)
+            if (minDistance < distance)
             {
-                distance = distanceToJob;
+                distance = minDistance;
                 closetJob = job;
             }
         }

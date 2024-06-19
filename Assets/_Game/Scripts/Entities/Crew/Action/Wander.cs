@@ -27,6 +27,7 @@ namespace _Game.Scripts
             crew.OccupyCells = new List<Cell> { cell };
             yield return crew.CrewMovement.MoveByPath(path);
             yield return new WaitForSeconds(2);
+            Debug.Log("Done");
         }
 
         public IEnumerator DoInterupt()
