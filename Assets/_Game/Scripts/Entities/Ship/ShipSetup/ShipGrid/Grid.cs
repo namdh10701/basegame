@@ -13,6 +13,8 @@ namespace _Game.Scripts
         public int Row => Cells.GetLength(0);
         public Transform CellRoot;
         public Transform GridItemRoot;
+        public List<GridItemData> GridItemDatas = new List<GridItemData>();
+
         public void Initialize(GridDefinition gridDefinition)
         {
             Id = gridDefinition.Id;
@@ -27,7 +29,26 @@ namespace _Game.Scripts
                     Debug.LogError($"2 Cell with same coordinate {cell.X} {cell.Y}");
             }
         }
-    }
 
+        public void AddNewGridItem(GridItemData gridItemData)
+        {
+            if (!GridItemDatas.Contains(gridItemData))
+            {
+                GridItemDatas.Add(gridItemData);
+            }
+        }
+
+        public void RemoveGridItem(GridItemDef gridItemDef)
+        {
+            foreach (GridItemData gid in GridItemDatas.ToArray())
+            {
+                if (gid.Def == gridItemDef)
+                {
+                    GridItemDatas.Remove(gid);
+                }
+            }
+        }
+
+    }
 
 }

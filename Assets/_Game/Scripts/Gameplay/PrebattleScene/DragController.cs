@@ -21,6 +21,7 @@ namespace _Game.Scripts
         List<Cell> cells = new List<Cell>();
 
         public ShipSetup ShipSetup;
+        public Grid Grid;
         private Camera _camera;
         private GameObject _draggingObject;
         private IGridItem _draggingGridItem;
@@ -59,7 +60,7 @@ namespace _Game.Scripts
                         _draggingGridItem = icd.Item.GetComponent<IGridItem>();
                         _selectItemDef = _draggingGridItem.Def;
                         _draggingGridItem.Behaviour.gameObject.SetActive(false);
-                        ShipSetup.RemoveGridItem(_draggingGridItem.Def);
+                        Grid.RemoveGridItem(_draggingGridItem.Def);
 
                         List<Cell> cells = _draggingGridItem.OccupyCells;
                         if (cells != null)
@@ -237,7 +238,7 @@ namespace _Game.Scripts
 
 
 
-                                ShipSetup.RemoveGridItem(_draggingGridItem.Def);
+                                Grid.RemoveGridItem(_draggingGridItem.Def);
                                 List<Cell> cells = _draggingGridItem.OccupyCells;
                                 if (cells != null)
                                 {
@@ -497,8 +498,8 @@ namespace _Game.Scripts
                 cellPoses.Add(new Vector2Int(cell.X, cell.Y));
             }
             gridItemData.OccupyCells = cellPoses;
-            OnGridItemPlaced.Invoke(_selectItemDef);
-            ShipSetup.AddNewGridItem(gridItemData);
+            OnGridItemPlaced?.Invoke(_selectItemDef);
+            Grid.AddNewGridItem(gridItemData);
         }
     }
 }
