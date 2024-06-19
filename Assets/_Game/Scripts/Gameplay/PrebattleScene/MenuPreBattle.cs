@@ -23,8 +23,8 @@ public class MenuPreBattle : MonoBehaviour
     [Header("Prefab DragItemUI")]
     [SerializeField] ItemMenu _prefabItemMenu;
     [SerializeField] Transform _content;
-    [SerializeField] ScrollRect _scrollRect;
-    [SerializeField] Canvas _canvas;
+    // [SerializeField] ScrollRect _scrollRect;
+    // [SerializeField] Canvas _canvas;
     [SerializeField] DragController DragController;
 
 
@@ -34,15 +34,20 @@ public class MenuPreBattle : MonoBehaviour
     List<GridItemDef> selectedItems = new List<GridItemDef>();
     List<GridItemDef> inavailableItems = new List<GridItemDef>();
     [SerializeReference] GridItemReferenceHolder GridItemReferenceHolder;
+
     void Awake()
     {
+
+        GDConfigLoader.Instance.OnLoaded += Initialize;
+        GDConfigLoader.Instance.Load();
+
         DragController.OnGridItemPlaced += OnGridItemPlaced;
         DragController.OnGridItemUp += OnGridItemUp;
         foreach (GridItemData gridItemData in ShipSetup.GridItemDatas)
         {
             selectedItems.Add(gridItemData.Def);
         }
-        Initialize();
+        // Initialize();
     }
 
     private void OnGridItemPlaced(GridItemDef reference)
@@ -76,7 +81,7 @@ public class MenuPreBattle : MonoBehaviour
     }
     private void OnEnable()
     {
-        _scrollRect.verticalNormalizedPosition = 1;
+        // _scrollRect.verticalNormalizedPosition = 1;
     }
 
     public void SwitchTab(int tabType)
@@ -99,41 +104,64 @@ public class MenuPreBattle : MonoBehaviour
         // var xxx = GDConfigLoader.Instance.Cannons;
         var cannons = GDConfigLoader.Instance.Cannons;
         GridItemDef[] itemList = null;
-        switch (_curentTab)
+        itemList = new GridItemDef[cannons.Count];
+        for (int i = 0; i < cannons.Values.Count; i++)
         {
-            case GridItemType.Cannon:
-                itemList = new GridItemDef[cannons.Count];
-                for (int i = 0; i < cannons.Values.Count; i++)
-                {
-                    string name = cannons.Values.ElementAt(i).name;
-                    Cannon cannon = ResourceLoader.LoadCannon(name);
-                    if (cannon == null)
-                    {
-                        continue;
-                    }
-                    if (ResourceLoader.LoadCannon(name)) ;
-                    int shapeId = 0;
-                    ShapeDic.TryGetValue(cannons.Values.ElementAt(i).id, out shapeId);
-                    Debug.Log(shapeId);
+            string name = cannons.Values.ElementAt(i).name;
+            Cannon cannon = ResourceLoader.LoadCannon(name);
+            if (cannon == null)
+            {
+                continue;
+            }
+            if (ResourceLoader.LoadCannon(name)) ;
+            int shapeId = 0;
+            ShapeDic.TryGetValue(cannons.Values.ElementAt(i).id, out shapeId);
+            Debug.Log(shapeId);
 
-                    itemList[i] = new GridItemDef()
-                    {
-                        Id = cannons.Values.ElementAt(i).id,
-                        Type = GridItemType.Cannon,
-                        ShapeId = shapeId,
-                        Name = cannons.Values.ElementAt(i).name
-                    };
-                    cannon.Def = itemList[i];
-                }
-
-                break;
-            case GridItemType.Bullet:
-                itemList = GridItemReferenceHolder.BulletReferences;
-                break;
-            case GridItemType.Crew:
-                itemList = GridItemReferenceHolder.CrewReferences;
-                break;
+            itemList[i] = new GridItemDef()
+            {
+                Id = cannons.Values.ElementAt(i).id,
+                Type = GridItemType.Cannon,
+                ShapeId = shapeId,
+                Name = cannons.Values.ElementAt(i).name
+            };
+            cannon.Def = itemList[i];
         }
+        // switch (_curentTab)
+        // {
+        //     case GridItemType.Cannon:
+        //         itemList = new GridItemDef[cannons.Count];
+        //         for (int i = 0; i < cannons.Values.Count; i++)
+        //         {
+        //             string name = cannons.Values.ElementAt(i).name;
+        //             Cannon cannon = ResourceLoader.LoadCannon(name);
+        //             if (cannon == null)
+        //             {
+        //                 continue;
+        //             }
+        //             if (ResourceLoader.LoadCannon(name)) ;
+        //             int shapeId = 0;
+        //             ShapeDic.TryGetValue(cannons.Values.ElementAt(i).id, out shapeId);
+        //             Debug.Log(shapeId);
+
+        //             itemList[i] = new GridItemDef()
+        //             {
+        //                 Id = cannons.Values.ElementAt(i).id,
+        //                 Type = GridItemType.Cannon,
+        //                 ShapeId = shapeId,
+        //                 Name = cannons.Values.ElementAt(i).name
+        //             };
+        //             cannon.Def = itemList[i];
+        //         }
+
+        //         break;
+        //     case GridItemType.Bullet:
+        //         itemList = GridItemReferenceHolder.BulletReferences;
+        //         break;
+        //     case GridItemType.Crew:
+        //         itemList = GridItemReferenceHolder.CrewReferences;
+        //         break;
+        // }
 
         if (itemList != null)
         {
