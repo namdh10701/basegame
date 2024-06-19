@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using _Game.Scripts.Entities;
 using UnityEngine;
+using System.Linq;
 
 public enum JobStatus
 {
@@ -15,15 +16,37 @@ public abstract class CrewJob
     public int Piority;
     public JobStatus Status = JobStatus.Free;
     public IWorkLocation WorkLocation;
+    public bool IsJobActivated;
     public Action<CrewJob> OnJobCompleted;
     public Action<CrewJob> OnJobInterupted;
+    public CrewJob()
+    {
+        IsJobActivated = false;
+        Status = JobStatus.Free;
+    }
     public CrewJobAction BuildCrewAction(Crew crew)
     {
-        IEnumerator executeCoroutine = Execute(crew);
-        IEnumerator interuptCoroutine = Interupt(crew);
+        IEnumerator executeCoroutine = DoExecute(crew);
+        IEnumerator interuptCoroutine = DoInterupt(crew);
         CrewJobAction crewJobAction = new CrewJobAction(this, executeCoroutine, interuptCoroutine);
         return crewJobAction;
     }
+
+    public IEnumerator DoExecute(Crew crew)
+    {
+        Status = JobStatus.WorkingOn;
+        yield return Execute(crew);
+        OnJobCompleted.Invoke(this);
+        Status = JobStatus.Completed;
+    }
+    public IEnumerator DoInterupt(Crew crew)
+    {
+        OnJobInterupted.Invoke(this);
+        Status = JobStatus.Interupting;
+        yield return Interupt(crew);
+        Status = JobStatus.Free;
+    }
+
     public abstract IEnumerator Execute(Crew crew);
     public abstract IEnumerator Interupt(Crew crew);
 }
@@ -31,7 +54,7 @@ public abstract class CrewJob
 public class FixCellJob : CrewJob
 {
     public Cell cell;
-    public FixCellJob(Cell cell)
+    public FixCellJob(Cell cell) : base()
     {
         Piority = 3;
         WorkLocation = cell.GetComponent<IWorkLocation>();
@@ -49,7 +72,6 @@ public class FixCellJob : CrewJob
 
     public override IEnumerator Interupt(Crew crew)
     {
-        OnJobInterupted.Invoke(this);
         yield break;
     }
 }
@@ -58,7 +80,7 @@ public class ReloadCannonJob : CrewJob
 {
     public Cannon cannon;
     public Bullet bullet;
-    public ReloadCannonJob(Cannon cannon, Bullet bullet)
+    public ReloadCannonJob(Cannon cannon, Bullet bullet) : base()
     {
         Piority = 4;
         WorkLocation = bullet.GetComponent<IWorkLocation>();
@@ -68,41 +90,32 @@ public class ReloadCannonJob : CrewJob
     public override IEnumerator Execute(Crew crew)
     {
         crew.Animation.PlayMove();
-        List<Cell> cells = new List<Cell>();
-        foreach (WorkingSlot workingSlot in WorkLocation.WorkingSlots)
-        {
-            if (workingSlot.State == WorkingSlotState.Available)
-            {
-                cells.Add(workingSlot.cell);
-            }
-        }
-        //TODO WorkingSlot
-        Cell cellToReachBullet = GridHelper.GetClosetCellToPoint(cells, crew.transform.position);
-        Debug.Log(cells.Count);
-        WorkingSlot workingOnSlot = null;
-        foreach (WorkingSlot workingSlot in WorkLocation.WorkingSlots)
-        {
-            if (workingSlot.cell == cellToReachBullet)
-            {
-                workingOnSlot = workingSlot;
-                workingSlot.State = WorkingSlotState.Occupied;
-            }
-        }
-        List<Vector3> path = crew.pathfinder.GetPath(crew.transform.position, cellToReachBullet.transform.position);
-        yield return crew.CrewMovement.MoveByPath(path);
-        yield return new WaitForSeconds(.5f);
+        List<Cell> availableCells = WorkLocation.WorkingSlots
+            .Where(slot => slot.State == WorkingSlotState.Available)
+            .Select(slot => slot.cell)
+            .ToList();
+
+        Cell cellToReachBullet = GridHelper.GetClosetCellToPoint(availableCells, crew.transform.position);
+        WorkingSlot workingOnSlot = WorkLocation.WorkingSlots
+            .FirstOrDefault(slot => slot.cell == cellToReachBullet);
+
+        workingOnSlot.State = WorkingSlotState.Occupied;
+        
+        yield return crew.CrewMovement.MoveTo(cellToReachBullet.transform.position);
+        yield return new WaitForSeconds(0.5f);
         workingOnSlot.State = WorkingSlotState.Available;
-        crew.Animation.PlayCarry();
-        crew.carryObject.gameObject.SetActive(true);
-        crew.carryObject.sprite = bullet.Def.ProjectileImage;
-        Cell cellToReachCannon = GridHelper.GetClosetAvailableCellSurroundShape(crew.Ship.ShipSetup.Grids[0].Cells, cannon.OccupyCells, crew.transform.position);
-        //TODO WorkingSlot
-        List<Vector3> path1 = crew.pathfinder.GetPath(crew.transform.position, cellToReachCannon.transform.position);
-        yield return crew.CrewMovement.MoveByPathCarry(path1);
-        yield return new WaitForSeconds(.5f);
+        crew.Carry(bullet);
+
+        List<Cell> avaialbleSlots = cannon.GetComponent<IWorkLocation>().WorkingSlots
+            .Where(slot => slot.State == WorkingSlotState.Available)
+            .Select(slot => slot.cell)
+            .ToList();
+        Cell cellToReachCannon = GridHelper.GetClosetCellToPoint(avaialbleSlots, crew.transform.position);
+
+        yield return crew.CrewMovement.MoveTo(cellToReachCannon.transform.position);
+        yield return new WaitForSeconds(0.5f);
         cannon.Reloader.Reload(bullet.Projectile);
-        crew.carryObject.gameObject.SetActive(false);
-        yield break;
+        crew.StopCarry();
     }
 
     public override IEnumerator Interupt(Crew crew)
@@ -115,7 +128,6 @@ public class ReloadCannonJob : CrewJob
 [Serializable]
 public abstract class CrewAction
 {
-    public Cell OccupyingCell;
     public IEnumerator Execute;
     public IEnumerator Interupt;
 }

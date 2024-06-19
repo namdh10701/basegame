@@ -99,6 +99,19 @@ namespace _Game.Scripts
         {
             ActionHandler.Resume();
         }
+
+        public void Carry(Bullet bullet)
+        {
+            Animation.PlayCarry();
+            carryObject.gameObject.SetActive(true);
+            carryObject.sprite = bullet.Def.Image;
+        }
+
+        public void StopCarry()
+        {
+            Animation.PlayIdle();
+            carryObject.gameObject.SetActive(false);
+        }
     }
 }
 

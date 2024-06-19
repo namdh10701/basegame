@@ -13,5 +13,6 @@ public class WorkingSlot
     public WorkingSlot(Cell cell)
     {
         this.cell = cell;
+        State = WorkingSlotState.Available;
     }
 }

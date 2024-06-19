@@ -31,10 +31,16 @@ namespace _Game.Scripts
         {
             base.Awake();
             EffectCollider.Taker = this;
-            workingSlots = new List<WorkingSlot>()
+        }
+
+        public void Initialize()
+        {
+            workingSlots = new List<WorkingSlot>();
+            List<Cell> surroundCells = GridHelper.GetCellsAroundShape(Grid.Cells, new List<Cell> { this });
+            foreach (Cell cell in surroundCells)
             {
-                new WorkingSlot(this)
-        };
+                workingSlots.Add(new WorkingSlot(cell));
+            }
         }
 
         public override string ToString()

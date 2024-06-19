@@ -19,6 +19,7 @@ namespace _Game.Scripts
         public List<Cell> FreeCells = new List<Cell>();
         public List<IWorkLocation> WorkLocations = new List<IWorkLocation>();
 
+        public List<Cannon> Cannons = new List<Cannon>();
 
         private void Awake()
         {
@@ -26,7 +27,6 @@ namespace _Game.Scripts
             {
                 Grids[i].Initialize(ShipGridProfile.GridDefinitions[i]);
             }
-            List<Cell> cells = new List<Cell>();
             foreach (Grid grid in Grids)
             {
                 for (int i = 0; i < grid.Row; i++)
@@ -40,6 +40,11 @@ namespace _Game.Scripts
                         }
                     }
                 }
+            }
+
+            foreach (Cell cell in AllCells)
+            {
+                cell.Initialize();
             }
             GridItemDatas = Mockup;
 
@@ -78,6 +83,11 @@ namespace _Game.Scripts
             {
                 bullets.Add(spawned.GetComponent<Bullet>());
             }
+            else if (gridItemData.Def.Type == GridItemType.Cannon)
+            {
+                Cannons.Add(spawned.GetComponent<Cannon>());
+            }
+
             IGridItem gridItem = spawned.GetComponent<IGridItem>();
             gridItem.GridId = gridItemData.GridId;
             List<Cell> occupyCells = gridItem.OccupyCells;

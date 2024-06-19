@@ -8,20 +8,19 @@ using UnityEngine;
 public class CrewController : MonoBehaviour
 {
     public CrewJobData CrewJobData;
-    public bool HasPendingJob => CrewJobData.PendingJobs.Count > 0;
+    public bool HasPendingJob => CrewJobData.ActivateJobs.Count > 0;
     public List<Crew> crews = new List<Crew>();
     private void Awake()
     {
-        CrewJobData.OnNewJobAdded += OnNewJobAdded;
+        CrewJobData.OnJobActivate += OnJobActivate;
     }
     public void AddCrew(Crew crew)
     {
         crews.Add(crew);
         crew.crewController = this;
     }
-    void OnNewJobAdded(CrewJob crewJob)
+    void OnJobActivate(CrewJob crewJob)
     {
-        Debug.Log("NEW JOB ADDED");
         Crew crew = GetMostSuitableCrewForJob(crewJob);
         if (crew != null)
         {
@@ -31,8 +30,11 @@ public class CrewController : MonoBehaviour
 
     public void RegisterForNewJob(Crew crew)
     {
-        Debug.Log("REGISTER FOR NEW JOB " + crew.name);
         List<CrewJob> highestPiorityJobs = CrewJobData.GetHighestPiorityJobs();
+        if (highestPiorityJobs.Count == 0)
+        {
+            return;
+        }
         CrewJob closetJob = GetClosetJobFromPosition(highestPiorityJobs, crew);
         AssignJob(crew, closetJob);
     }
@@ -72,7 +74,10 @@ public class CrewController : MonoBehaviour
         if (ret == null)
         {
             ret = GetCrewWithLowerJobPiority(crewJob);
-            Debug.Log("crew lo" + ret);
+        }
+        if (ret == null)
+        {
+            ret = GridHelper.GetClosetCrewToWorkLocation(crews, crewJob.WorkLocation);
         }
         return ret;
     }
@@ -111,8 +116,6 @@ public class CrewController : MonoBehaviour
 
     public void AssignJob(Crew crew, CrewJob crewJob)
     {
-        Debug.Log("ASSIGNED TO " + crew.name);
-        CrewJobData.PendingJobs.Remove(crewJob);
         CrewJobAction action = crewJob.BuildCrewAction(crew);
         crew.ActionHandler.Act(action);
     }

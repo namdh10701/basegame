@@ -13,17 +13,13 @@ namespace _Game.Scripts
         public Cell GetFreeCell()
         {
             List<IWorkLocation> workLocations = ShipSetup.WorkLocations;
-
-
-
-
             List<Cell> freeCells = new List<Cell>(ShipSetup.FreeCells);
             List<Crew> crews = CrewController.crews;
             foreach (IWorkLocation workLocation in workLocations)
             {
                 foreach (WorkingSlot slot in workLocation.WorkingSlots)
                 {
-                    if (slot.State == WorkingSlotState.Available)
+                    if (slot.State == WorkingSlotState.Occupied)
                     {
                         if (freeCells.Contains(slot.cell))
                         {
@@ -34,9 +30,12 @@ namespace _Game.Scripts
             }
             foreach (Crew crew in crews)
             {
-                if (freeCells.Contains(crew.ActionHandler.CurrentAction.OccupyingCell))
+                foreach (Cell cell in crew.OccupyCells)
                 {
-                    freeCells.Remove(crew.ActionHandler.CurrentAction.OccupyingCell);
+                    if (freeCells.Contains(cell))
+                    {
+                        freeCells.Remove(cell);
+                    }
                 }
             }
             return freeCells.GetRandom();
