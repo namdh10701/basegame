@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace _Game.Scripts
 {
-    public class WanderData : MonoBehaviour
+    public class MoveData : MonoBehaviour
     {
         public ShipSetup ShipSetup;
         public CrewController CrewController;
@@ -17,10 +17,7 @@ namespace _Game.Scripts
 
             foreach (Crew crew in crews)
             {
-                foreach (Cell cell in crew.OccupyCells)
-                {
-                    freeCells.Remove(cell);
-                }
+                freeCells.Remove(crew.ActionHandler.CurrentAction.OccupyingCell);
             }
             return freeCells.GetRandom();
         }

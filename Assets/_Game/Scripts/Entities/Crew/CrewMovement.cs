@@ -29,7 +29,7 @@ public class CrewMovement : MonoBehaviour
                 crew.Animation.Flip(direction.x > 0 ? Direction.Right : Direction.Left);
                 direction = (waypoint - crew.transform.position).normalized;
                 crew.body.velocity = direction * crew.stats.MoveSpeed.Value;
-                yield return null;
+                yield return new WaitForFixedUpdate();
             }
             crew.body.velocity = Vector3.zero;
         }
@@ -60,7 +60,7 @@ public class CrewMovement : MonoBehaviour
                 crew.Animation.Flip(direction.x > 0 ? Direction.Right : Direction.Left);
                 direction = (waypoint - crew.transform.position).normalized;
                 crew.body.velocity = direction * crew.stats.MoveSpeed.Value;
-                yield return null;
+                yield return new WaitForFixedUpdate();
             }
             crew.body.velocity = Vector3.zero;
         }

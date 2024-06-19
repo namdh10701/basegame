@@ -10,7 +10,7 @@ public class CrewActionHandler : MonoBehaviour
     Coroutine actionCoroutine;
     public CrewAction CurrentAction;
     public Action OnFree;
-
+    public bool isPaused;
     public void Act(CrewAction crewAction)
     {
         StartCoroutine(HandleAssignNewAction(crewAction));
@@ -18,31 +18,48 @@ public class CrewActionHandler : MonoBehaviour
 
     IEnumerator HandleAssignNewAction(CrewAction crewAction)
     {
-        Debug.Log(" ON A " + crewAction);
+        if (isPaused)
+        {
+            yield break; // Exit coroutine if paused
+        }
         if (actionCoroutine != null)
         {
             StopCoroutine(actionCoroutine);
-            if (CurrentAction is not CrewJob)
+            if (CurrentAction is not CrewAction)
             {
-                Debug.Log(" ON C " + CurrentAction);
             }
             else
             {
-                Debug.Log(" ON D " + CurrentAction);
-                yield return CurrentAction.Interupt();
+                yield return CurrentAction.Interupt;
             }
         }
-
-        Debug.Log(" ON B " + crewAction);
         CurrentAction = crewAction;
         actionCoroutine = StartCoroutine(ActionCoroutine());
     }
     IEnumerator ActionCoroutine()
     {
-        yield return CurrentAction.Execute();
+        yield return CurrentAction.Execute;
         actionCoroutine = null;
         CurrentAction = null;
         OnFree.Invoke();
+    }
+
+    public void Pause()
+    {
+        isPaused = true;
+        if (actionCoroutine != null)
+        {
+            StopCoroutine(actionCoroutine);
+        }
+    }
+
+    public void Resume()
+    {
+        isPaused = false;
+        if (CurrentAction != null)
+        {
+            actionCoroutine = StartCoroutine(ActionCoroutine());
+        }
     }
 
 }

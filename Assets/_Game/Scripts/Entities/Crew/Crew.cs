@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace _Game.Scripts
 {
-    public class Crew : Entity, IGridItem, IEffectTaker
+    public class Crew : Entity, IGridItem, IEffectTaker, IStunable
     {
         public CrewActionHandler ActionHandler;
         public CrewMovement CrewMovement;
@@ -41,7 +41,7 @@ namespace _Game.Scripts
 
         public SpriteRenderer carryObject;
         public CrewController crewController;
-        public WanderData WanderData;
+        public MoveData MoveData;
         Idle idle;
         Wander wander;
         private void Start()
@@ -50,7 +50,7 @@ namespace _Game.Scripts
             pathfinder = Ship.PathfindingController;
             ActionHandler.OnFree += OnFree;
             idle = new Idle(this);
-            wander = new Wander(this, WanderData);
+            wander = new Wander(this, MoveData);
 
 
             ActionHandler.Act(idle);
@@ -88,6 +88,16 @@ namespace _Game.Scripts
         protected override void LoadStats()
         {
             _statTemplate.ApplyConfig(stats);
+        }
+
+        public void OnStun()
+        {
+            ActionHandler.Pause();
+        }
+
+        public void OnAfterStun()
+        {
+            ActionHandler.Resume();
         }
     }
 }

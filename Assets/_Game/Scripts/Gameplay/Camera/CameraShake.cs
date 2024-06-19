@@ -1,14 +1,17 @@
+using _Base.Scripts.Utils;
 using System.Collections;
 using UnityEngine;
 
 namespace _Game.Scripts
 {
-    public class CameraShake : MonoBehaviour
+    public static class CameraShake
     {
-        public float duration;
-        public float magnitude;
+        public static void Shake(Camera camera, float duration, float magnitude)
+        {
+            Coroutines.StartCoroutine(ShakeCoroutine(camera, duration, magnitude));
+        }
 
-        public IEnumerator Shake(float duration, float magnitude)
+        public static IEnumerator ShakeCoroutine(Camera camera, float duration, float magnitude)
         {
             Vector3 originalPos = new Vector3(0, 0, -10);
             float elapsedTime = 0;
@@ -17,20 +20,12 @@ namespace _Game.Scripts
                 float xOffset = Random.Range(-.5f, .5f) * magnitude;
                 float yOffset = Random.Range(-.5f, .5f) * magnitude;
 
-                transform.localPosition = new Vector3(xOffset, yOffset, originalPos.z);
+                camera.transform.localPosition = new Vector3(xOffset, yOffset, originalPos.z);
                 elapsedTime += Time.deltaTime;
 
                 yield return null;
             }
-            transform.localPosition = originalPos;
-        }
-
-        private void Update()
-        {
-            if (UnityEngine.Input.GetKeyDown(KeyCode.Q))
-            {
-                StartCoroutine(Shake(duration, magnitude));
-            }
+            camera.transform.localPosition = originalPos;
         }
 
     }
