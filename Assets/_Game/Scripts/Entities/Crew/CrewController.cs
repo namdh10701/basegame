@@ -37,6 +37,10 @@ public class CrewController : MonoBehaviour
             return;
         }
         CrewJob closetJob = GetClosetJobFromPosition(highestPiorityJobs, crew);
+        if (closetJob == null)
+        {
+            return;
+        }
         AssignJob(crew, closetJob);
     }
 
@@ -72,13 +76,17 @@ public class CrewController : MonoBehaviour
     Crew GetMostSuitableCrewForJob(CrewJob crewJob)
     {
         Crew ret = GetFreeCrew();
+
         if (ret == null)
         {
-            ret = GetCrewWithLowerJobPiority(crewJob);
-        }
-        if (ret == null)
-        {
-            ret = GridHelper.GetClosetCrewToWorkLocation(crews, crewJob.WorkLocation);
+            if (crewJob.Piority == int.MaxValue)
+            {
+                ret = GetClosetCrewToJob(crewJob);
+            }
+            else
+            {
+                ret = GetCrewWithLowerJobPiority(crewJob);
+            }
         }
         return ret;
     }
@@ -114,9 +122,15 @@ public class CrewController : MonoBehaviour
         return null;
     }
 
+    Crew GetClosetCrewToJob(CrewJob crewJob)
+    {
+        Crew ret;
+        return DistanceHelper.GetClosetToPosition(crews.ToArray(), crewJob.WorkLocation.WorkingSlots[0].transform.position).GetComponent<Crew>();
+    }
 
     public void AssignJob(Crew crew, CrewJob crewJob)
     {
+        Debug.Log("ASSIGNED TO "+ crew.name);
         CrewJobAction action = crewJob.BuildCrewAction(crew);
         crew.ActionHandler.Act(action);
     }

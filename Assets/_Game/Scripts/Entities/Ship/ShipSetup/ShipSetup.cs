@@ -6,6 +6,7 @@ using Map;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Scripting;
 
 namespace _Game.Scripts
 {
@@ -15,12 +16,12 @@ namespace _Game.Scripts
         public ShipSetupMockup ShipSetupMockup;
         public GridItemReferenceHolder ItemReferenceHolder;
         public ShipGridProfile ShipGridProfile;
-        public List<Grid> Grids = new List<Grid>();
-        public List<Bullet> bullets = new List<Bullet>();
-        public List<Cell> AllCells = new List<Cell>();
-        public List<IWorkLocation> WorkLocations = new List<IWorkLocation>();
+        public List<Grid> Grids;
+        public List<Bullet> Bullets { get; private set; } = new List<Bullet>();
+        public List<Cannon> Cannons { get; private set; } = new List<Cannon>();
+        public List<IWorkLocation> WorkLocations { get; private set; } = new List<IWorkLocation>();
+        public List<Cell> AllCells { get; private set; } = new List<Cell>();
 
-        public List<Cannon> Cannons = new List<Cannon>();
         public NodeGraph NodeGraph;
 
         public List<GameObject> spawnedItems = new List<GameObject>();
@@ -53,6 +54,15 @@ namespace _Game.Scripts
             }
 
             DefineWorkLocation();
+            ReloadCannons();
+        }
+
+        void ReloadCannons()
+        {
+            foreach (Cannon cannon in Cannons)
+            {
+                cannon.Reloader.Reload(Bullets[0]);
+            }
         }
 
         void DefineWorkLocation()
@@ -75,10 +85,31 @@ namespace _Game.Scripts
                                     foreach (var adjNode in node.neighbors)
                                     {
                                         if (adjNode.Walkable)
+                                        {
                                             workLocation.WorkingSlots.Add(adjNode);
+                                        }
                                     }
                                 }
                             }
+                        }
+                    }
+
+                    Debug.Log(spawned.name + " " + workLocation.WorkingSlots.Count);
+
+                }
+            }
+            spawnedItems.Clear();
+            foreach (Cell cell in AllCells)
+            {
+                cell.WorkingSlots = new List<PathFinding.Node>();
+                foreach (var node in NodeGraph.nodes)
+                {
+                    if (node.cell != null && node.cell == cell)
+                    {
+                        cell.WorkingSlots.Add(node);
+                        foreach (var neightbor in node.neighbors)
+                        {
+                            cell.WorkingSlots.Add(neightbor);
                         }
                     }
                 }
@@ -102,7 +133,7 @@ namespace _Game.Scripts
             GameObject spawned = Instantiate(prefab, grid.GridItemRoot);
             if (gridItemData.Def.Type == GridItemType.Bullet)
             {
-                bullets.Add(spawned.GetComponent<Bullet>());
+                Bullets.Add(spawned.GetComponent<Bullet>());
             }
             else if (gridItemData.Def.Type == GridItemType.Cannon)
             {
@@ -121,7 +152,7 @@ namespace _Game.Scripts
             float scale = Vector3.one.x / spawned.transform.parent.lossyScale.x;
             spawned.transform.localScale = new Vector3(scale, scale, scale);
             spawned.transform.localPosition = gridItemData.position;
-
+            spawnedItems.Add(spawned);
             if (spawned.TryGetComponent(out INodeOccupier nodeOccupier))
             {
                 foreach (Cell cell in gridItem.OccupyCells)

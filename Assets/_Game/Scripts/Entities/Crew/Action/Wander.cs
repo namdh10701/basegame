@@ -20,12 +20,10 @@ namespace _Game.Scripts
         public IEnumerator DoExecute()
         {
             Node node = moveData.GetFreeNode();
-            Debug.Log(node.name + " WANDER TO");
             crew.OccupyingNodes.Clear();
             crew.OccupyingNodes.Add(node);
             yield return crew.CrewMovement.MoveTo(node.transform.position);
             yield return new WaitForSeconds(2);
-            Debug.Log("Done");
         }
 
         public IEnumerator DoInterupt()

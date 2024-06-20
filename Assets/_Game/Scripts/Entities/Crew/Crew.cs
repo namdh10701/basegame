@@ -43,6 +43,7 @@ namespace _Game.Scripts
         public SpriteRenderer carryObject;
         public CrewController crewController;
         public MoveData MoveData;
+        public EffectTakerCollider EffectTakerCollider;
 
         public List<Node> occupiyingNodes = new List<Node>();
         public List<Node> OccupyingNodes { get => occupiyingNodes; set => occupiyingNodes = value; }
@@ -55,7 +56,7 @@ namespace _Game.Scripts
             ActionHandler.OnFree += OnFree;
             idle = new Idle(this);
             wander = new Wander(this, MoveData);
-
+            EffectTakerCollider.Taker = this;
 
             ActionHandler.Act(idle);
         }

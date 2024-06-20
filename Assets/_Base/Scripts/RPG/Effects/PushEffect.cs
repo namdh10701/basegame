@@ -17,7 +17,6 @@ public class PushEffect : OneShotEffect
     }
     protected override void OnApply(Entity entity)
     {
-        Debug.Log(entity.name);
         Vector2 direction = (entity.transform.position - transform.position).normalized;
         entity.body.AddForceAtPosition(force * direction, transform.position);
     }

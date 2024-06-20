@@ -25,6 +25,7 @@ public class CrewActionHandler : MonoBehaviour
         if (actionCoroutine != null)
         {
             StopCoroutine(actionCoroutine);
+           
             if (CurrentAction is not CrewJobAction)
             {
             }
@@ -38,7 +39,6 @@ public class CrewActionHandler : MonoBehaviour
     }
     IEnumerator ActionCoroutine()
     {
-        Debug.Log(CurrentAction);
         yield return CurrentAction.Execute;
         actionCoroutine = null;
         CurrentAction = null;

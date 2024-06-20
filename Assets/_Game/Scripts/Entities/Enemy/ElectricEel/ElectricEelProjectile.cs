@@ -21,7 +21,7 @@ public class ElectricEelProjectile : Projectile
     }
     protected override void ApplyStats()
     {
-
+        
     }
 
     public Transform startTransform;

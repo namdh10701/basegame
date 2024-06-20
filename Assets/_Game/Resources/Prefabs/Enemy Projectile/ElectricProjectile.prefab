@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: 7162109023908830039}
   - component: {fileID: 8059644799453874067}
   - component: {fileID: 4594968694585464567}
+  - component: {fileID: 6481008977829952846}
+  - component: {fileID: 8595738861902811351}
   m_Layer: 0
   m_Name: ElectricProjectile
   m_TagString: Untagged
@@ -111,8 +113,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43ec72c60e5bad84ead80f2361946d53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Id: 
   body: {fileID: 2693085079696738080}
+  Id: 
   onHitParticle: {fileID: 0}
   _stats:
     <Damage>k__BackingField:
@@ -142,9 +144,11 @@ MonoBehaviour:
     <CritDamage>k__BackingField:
       statModifiers: []
       _baseValue: 0
-  _statsTemplate: {fileID: 0}
+  _statsTemplate: {fileID: 11400000, guid: b8c7bf0392ef49743b470ae98921bfda, type: 2}
   rarity: 0
-  outGoingEffects: []
+  outGoingEffects:
+  - {fileID: 6481008977829952846}
+  - {fileID: 8595738861902811351}
   collisionListener: {fileID: 4594968694585464567}
   startTransform: {fileID: 0}
   targetTransform: {fileID: 0}
@@ -188,7 +192,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 986091187
-  m_SortingLayer: 4
+  m_SortingLayer: 5
   m_SortingOrder: 704
   m_Sprite: {fileID: 21300000, guid: 5e66aa71bf98dce4e86e562cd630eb5c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -226,3 +230,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EffectCollisionDetector: {fileID: 8059644799453874067}
+--- !u!114 &6481008977829952846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6751157435138116611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c262613bbca45d296cc9e30cfb58f40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Amount>k__BackingField: 0
+--- !u!114 &8595738861902811351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6751157435138116611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b613d5f555120443b561b7bad41e2b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StunDuration: 2

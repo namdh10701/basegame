@@ -38,7 +38,7 @@ namespace _Game.Scripts
             EffectCollider.Taker = this;
         }
 
-        public void Initialize()
+        public void InitWorkingSlot()
         {
             workingSlots = new List<Node>();
             foreach (var node in nodeGraph.nodes)
@@ -76,7 +76,7 @@ namespace _Game.Scripts
 
         public void OnBroken()
         {
-            GlobalEvent<Cell>.Send("Broken", this);
+            GlobalEvent<Cell>.Send("Fix", this);
         }
         public void OnFixed()
         {
@@ -87,7 +87,7 @@ namespace _Game.Scripts
         {
             if (stats.HealthPoint.Value == stats.HealthPoint.MinValue)
             {
-                GlobalEvent<Cell>.Send("Fix", this);
+                GlobalEvent<Cell>.Send("FixManual", this);
             }
         }
     }

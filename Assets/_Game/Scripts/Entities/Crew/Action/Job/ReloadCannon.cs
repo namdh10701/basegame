@@ -10,17 +10,20 @@ public class ReloadCannonJob : CrewJob
 {
     public Cannon cannon;
     public Bullet bullet;
+    Node workingSlot;
+    Node cannonWorkingSlot;
     public ReloadCannonJob(Cannon cannon) : base()
     {
         DefaultPiority = 3;
         Piority = 3;
-        
+
         this.cannon = cannon;
         this.bullet = null;
     }
 
     public void AssignBullet(Bullet bullet)
     {
+        this.bullet = bullet;
         WorkLocation = bullet.GetComponent<IWorkLocation>();
     }
     public override IEnumerator Execute(Crew crew)
@@ -29,9 +32,8 @@ public class ReloadCannonJob : CrewJob
         List<Node> availableWorkingSlots = WorkLocation.WorkingSlots
             .Where(slot => slot.State == WorkingSlotState.Free)
             .ToList();
-        Node workingSlot = DistanceHelper.GetClosestToPosition(availableWorkingSlots.ToArray(), (slot) => slot, crew.transform.position);
+        workingSlot = DistanceHelper.GetClosestToPosition(availableWorkingSlots.ToArray(), (slot) => slot, crew.transform.position);
         workingSlot.State = WorkingSlotState.Occupied;
-
         yield return crew.CrewMovement.MoveTo(workingSlot.transform.position);
         yield return new WaitForSeconds(0.5f);
         workingSlot.State = WorkingSlotState.Free;
@@ -40,7 +42,7 @@ public class ReloadCannonJob : CrewJob
         List<Node> availableCannonWorkingSlots = cannon.GetComponent<IWorkLocation>().WorkingSlots
           .Where(slot => slot.State == WorkingSlotState.Free)
           .ToList();
-        Node cannonWorkingSlot = DistanceHelper.GetClosestToPosition(availableCannonWorkingSlots.ToArray(), (slot) => slot, crew.transform.position);
+        cannonWorkingSlot = DistanceHelper.GetClosestToPosition(availableCannonWorkingSlots.ToArray(), (slot) => slot, crew.transform.position);
         yield return crew.CrewMovement.MoveTo(cannonWorkingSlot.transform.position);
         yield return new WaitForSeconds(0.5f);
         cannon.Reloader.Reload(bullet);
@@ -49,6 +51,14 @@ public class ReloadCannonJob : CrewJob
 
     public override IEnumerator Interupt(Crew crew)
     {
+        if (workingSlot != null)
+        {
+            workingSlot.State = WorkingSlotState.Free;
+        }
+        if (cannonWorkingSlot != null)
+        {
+            cannonWorkingSlot.State = WorkingSlotState.Free;
+        }
         crew.StopCarry();
         yield break;
     }

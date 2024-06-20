@@ -27,7 +27,6 @@ public abstract class CrewJob
     }
     public CrewJobAction BuildCrewAction(Crew crew)
     {
-        Status = JobStatus.WorkingOn;
         IEnumerator executeCoroutine = DoExecute(crew);
         IEnumerator interuptCoroutine = DoInterupt(crew);
         CrewJobAction crewJobAction = new CrewJobAction(this, executeCoroutine, interuptCoroutine);
@@ -36,6 +35,7 @@ public abstract class CrewJob
 
     public IEnumerator DoExecute(Crew crew)
     {
+        Status = JobStatus.WorkingOn;
         yield return Execute(crew);
         OnJobCompleted.Invoke(this);
         Status = JobStatus.Completed;

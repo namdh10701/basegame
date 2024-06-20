@@ -52,7 +52,6 @@ namespace _Game.Scripts
         {
             return Resources.Load<Sprite>(skillPath + $"/{id}");
         }
-        static string cannonPath = "GridItems/Cannons/";
         public static GameObject LoadGridItemPrefab(GridItemDef def)
         {
             string path = "";

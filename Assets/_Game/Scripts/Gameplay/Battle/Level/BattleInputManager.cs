@@ -4,6 +4,7 @@ using _Game.Scripts.Entities;
 using _Game.Scripts.GameContext;
 using _Game.Scripts.Gameplay.Ship;
 using _Game.Scripts.Input;
+using Mono.Cecil.Cil;
 using System.Collections.Generic;
 using Unity.Burst.CompilerServices;
 using UnityEngine;
@@ -31,31 +32,32 @@ namespace _Game.Scripts
 
         void HandleMouse()
         {
-            Vector3 mousePosition = _camera.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
-            RaycastHit2D[] hits = Physics2D.RaycastAll(mousePosition, Vector2.zero, Mathf.Infinity, layerMask);
-
-            float closestDistance = Mathf.Infinity;
-            RaycastHit2D closestHit = new RaycastHit2D();
-
-            foreach (RaycastHit2D hit in hits)
+            if (UnityEngine.Input.GetMouseButtonDown(0))
             {
-                float distance = Vector2.Distance(hit.point, mousePosition);
-                if (distance < closestDistance)
+
+                Vector3 mousePosition = _camera.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
+                RaycastHit2D[] hits = Physics2D.RaycastAll(mousePosition, Vector2.zero, Mathf.Infinity, layerMask);
+
+                float closestDistance = Mathf.Infinity;
+                RaycastHit2D closestHit = new RaycastHit2D();
+
+                foreach (RaycastHit2D hit in hits)
                 {
-                    closestDistance = distance;
-                    closestHit = hit;
+                    float distance = Vector2.Distance(hit.point, mousePosition);
+                    if (distance < closestDistance)
+                    {
+                        closestDistance = distance;
+                        closestHit = hit;
+                    }
                 }
-            }
 
-            // click vao Cell thi sua Cell
-            // click vao Cannon thi reload cannon c
-
-            if (closestHit.collider != null)
-            {
-                if (closestHit.collider.TryGetComponent(out ItemClickDetector icd))
+                if (closestHit.collider != null)
                 {
-                    IWorkLocation workLocation = icd.Item.GetComponent<IWorkLocation>();
-                    workLocation.OnClick();
+                    if (closestHit.collider.TryGetComponent(out ItemClickDetector icd))
+                    {
+                        IWorkLocation workLocation = icd.Item.GetComponent<IWorkLocation>();
+                        workLocation.OnClick();
+                    }
                 }
             }
         }
@@ -98,7 +100,7 @@ namespace _Game.Scripts
         void CreateBulletsMenu()
         {
             canvas.SetActive(true);
-            bulletMenu.Setup(selectingCannon, shipSetup.bullets);
+            bulletMenu.Setup(selectingCannon, shipSetup.Bullets);
         }
 
     }

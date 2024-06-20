@@ -35,7 +35,7 @@ public class CrewJobData : MonoBehaviour
         foreach (Cannon cannon in ShipSetup.Cannons)
         {
             ReloadCannonJob reloadCannonJob = new ReloadCannonJob(cannon);
-            if (ReloadCannonJobsDic.ContainsKey(cannon))
+            if (!ReloadCannonJobsDic.ContainsKey(cannon))
             {
                 ReloadCannonJobsDic.Add(cannon, reloadCannonJob);
             }
@@ -52,11 +52,17 @@ public class CrewJobData : MonoBehaviour
         GlobalEvent<Cannon, Bullet>.Register("ReloadManual", ActivateReloadCannonJobManual);
         GlobalEvent<Cannon, Bullet>.Register("Reload", ActivateReloadCannonJob);
         GlobalEvent<Cell>.Register("Fix", ActivateFixCellJob);
+        GlobalEvent<Cell>.Register("FixManual", ActivateFixCellJobManual);
     }
     void ActivateReloadCannonJobManual(Cannon cannon, Bullet bullet)
     {
         ReloadCannonJob reloadCannonJob = ReloadCannonJobsDic[cannon];
-
+        reloadCannonJob.Piority = int.MaxValue;
+        reloadCannonJob.AssignBullet(bullet);
+        if (reloadCannonJob.Status == JobStatus.WorkingOn && reloadCannonJob.bullet != bullet)
+        {
+            return;
+        }
         if (!ActivateJobs.Contains(reloadCannonJob))
         {
             reloadCannonJob.Piority = int.MaxValue;
@@ -67,7 +73,7 @@ public class CrewJobData : MonoBehaviour
         else
         {
             reloadCannonJob.Piority = int.MaxValue;
-            reloadCannonJob.bullet = bullet;
+            reloadCannonJob.AssignBullet(bullet);
             OnActivateJobsChanged.Invoke(reloadCannonJob);
         }
     }
@@ -81,7 +87,20 @@ public class CrewJobData : MonoBehaviour
             OnActivateJobsChanged?.Invoke(reloadCannonJob);
         }
     }
-
+    void ActivateFixCellJobManual(Cell cell)
+    {
+        FixCellJob fixCellJob = FixCellJobDic[cell];
+        fixCellJob.Piority = int.MaxValue;
+        if (fixCellJob.Status == JobStatus.WorkingOn)
+        {
+            return;
+        }
+        if (!ActivateJobs.Contains(fixCellJob))
+        {
+            ActivateJobs.Add(fixCellJob);
+            OnActivateJobsChanged?.Invoke(fixCellJob);
+        }
+    }
     void ActivateFixCellJob(Cell cell)
     {
         FixCellJob fixCellJob = FixCellJobDic[cell];

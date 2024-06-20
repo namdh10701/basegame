@@ -11,7 +11,6 @@ namespace _Game.Scripts.PathFinding
     }
     public class Node : MonoBehaviour
     {
-        public NodeRenderer NodeRenderer;
         public WorkingSlotState State;
         public Vector2 position => transform.position;
         public List<Node> neighbors;
