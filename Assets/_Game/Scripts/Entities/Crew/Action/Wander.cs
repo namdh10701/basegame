@@ -1,4 +1,5 @@
 using _Game.Scripts.Gameplay.Ship;
+using _Game.Scripts.PathFinding;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,13 +19,14 @@ namespace _Game.Scripts
         }
         public IEnumerator DoExecute()
         {
-            Cell cell = moveData.GetFreeCell();
-            List<Vector3> path = crew.pathfinder.GetPath(crew.transform.position, cell.transform.position);
+            Node node = moveData.GetFreeNode();
+            List<Vector3> path = crew.pathfinder.GetPath(crew.transform.position, node.transform.position);
             if (path == null)
             {
                 yield break;
             }
-            crew.OccupyCells = new List<Cell> { cell };
+            crew.OccupyingNodes.Clear();
+            crew.OccupyingNodes.Add(node);
             yield return crew.CrewMovement.MoveByPath(path);
             yield return new WaitForSeconds(2);
             Debug.Log("Done");

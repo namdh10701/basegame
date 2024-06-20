@@ -1,7 +1,10 @@
 using _Base.Scripts.Utils.Extensions;
 using _Game.Scripts.Entities;
+using _Game.Scripts.PathFinding;
+using Fusion;
 using Map;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace _Game.Scripts
@@ -20,7 +23,10 @@ namespace _Game.Scripts
         public List<IWorkLocation> WorkLocations = new List<IWorkLocation>();
 
         public List<Cannon> Cannons = new List<Cannon>();
+        public NodeGraph NodeGraph;
+        public List<PathFinding.Node> FreeNodes;
 
+        public List<GameObject> spawnedItems = new List<GameObject>();
         private void Awake()
         {
             for (int i = 0; i < Grids.Count; i++)
@@ -41,11 +47,6 @@ namespace _Game.Scripts
                     }
                 }
             }
-
-            foreach (Cell cell in AllCells)
-            {
-                cell.Initialize();
-            }
             GridItemDatas = Mockup;
 
         }
@@ -61,6 +62,38 @@ namespace _Game.Scripts
                     return;
                 }
                 SpawnItems(gridItemData, itemGridTransform.GetComponent<Grid>());
+            }
+
+            DefineWorkLocation();
+        }
+
+        void DefineWorkLocation()
+        {
+            foreach (GameObject spawned in spawnedItems)
+            {
+                if (spawned.TryGetComponent(out IWorkLocation workLocation))
+                {
+                    WorkLocations.Add(workLocation);
+                    workLocation.WorkingSlots = new List<PathFinding.Node>();
+
+                    if (spawned.TryGetComponent(out IGridItem gridItem))
+                    {
+                        foreach (Cell cell in gridItem.OccupyCells)
+                        {
+                            foreach (var node in NodeGraph.nodes)
+                            {
+                                if (node.cell != null && node.cell == cell)
+                                {
+                                    foreach (var adjNode in node.neighbors)
+                                    {
+                                        if (adjNode.Walkable)
+                                            workLocation.WorkingSlots.Add(adjNode);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
         Transform GetGridTransformById(string id)
@@ -101,14 +134,19 @@ namespace _Game.Scripts
             spawned.transform.localScale = new Vector3(scale, scale, scale);
             spawned.transform.localPosition = gridItemData.position;
 
-            if (spawned.TryGetComponent(out IWorkLocation workLocation))
+            if (spawned.TryGetComponent(out INodeOccupier nodeOccupier))
             {
-                WorkLocations.Add(workLocation);
-                List<Cell> workingCells = GridHelper.GetCellsAroundShape(grid.Cells, gridItem.OccupyCells);
-                workLocation.WorkingSlots = new List<WorkingSlot>();
-                foreach (Cell cell in workingCells)
+                foreach (Cell cell in gridItem.OccupyCells)
                 {
-                    workLocation.WorkingSlots.Add(new WorkingSlot(cell));
+                    foreach (var node in NodeGraph.nodes)
+                    {
+                        if (node.cell != null && node.cell == cell)
+                        {
+                            node.walkable = false;
+                            node.State = WorkingSlotState.Disabled;
+                            nodeOccupier.OccupyingNodes.Add(node);
+                        }
+                    }
                 }
             }
         }

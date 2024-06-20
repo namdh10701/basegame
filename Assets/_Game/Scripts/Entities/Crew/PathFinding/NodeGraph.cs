@@ -7,6 +7,7 @@ namespace _Game.Scripts.PathFinding
     {
         public List<Node> nodes;
 
+
         public NodeGraph()
         {
             nodes = new List<Node>();

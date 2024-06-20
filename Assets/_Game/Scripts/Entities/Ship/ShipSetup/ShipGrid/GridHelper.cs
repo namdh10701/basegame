@@ -430,11 +430,6 @@ namespace _Game.Scripts
             // Iterate through each WorkingSlot in the work location
             foreach (var slot in workLocation.WorkingSlots)
             {
-                // If the slot's cell is null or crew is already assigned, skip it
-                if (slot.cell == null || slot.crew != null)
-                    continue;
-
-                // Iterate through each crew in the list
                 foreach (var crew in crews)
                 {
                     // Calculate distance to the cell based on crew's position

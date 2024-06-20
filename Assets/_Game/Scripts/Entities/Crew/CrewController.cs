@@ -1,6 +1,7 @@
 
 using _Base.Scripts.Utils.Extensions;
 using _Game.Scripts;
+using _Game.Scripts.PathFinding;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,7 +13,7 @@ public class CrewController : MonoBehaviour
     public List<Crew> crews = new List<Crew>();
     private void Awake()
     {
-        CrewJobData.OnJobActivate += OnJobActivate;
+        CrewJobData.OnActivateJobsChanged += OnJobActivate;
     }
     public void AddCrew(Crew crew)
     {
@@ -45,13 +46,13 @@ public class CrewController : MonoBehaviour
         CrewJob closetJob = jobs[0];
         foreach (CrewJob job in jobs)
         {
-            List<WorkingSlot> workingSlots = job.WorkLocation.WorkingSlots;
+            List<Node> workingSlots = job.WorkLocation.WorkingSlots;
             float distanceToJob = 0;
             float minDistance = Mathf.Infinity;
-            WorkingSlot minDistanceWorkingSlot;
-            foreach (WorkingSlot workingSlot in workingSlots)
+            Node minDistanceWorkingSlot;
+            foreach (Node workingSlot in workingSlots)
             {
-                distanceToJob = Vector2.Distance(workingSlot.cell.transform.position, crew.transform.position);
+                distanceToJob = Vector2.Distance(workingSlot.transform.position, crew.transform.position);
                 if (distanceToJob < minDistance)
                 {
                     minDistance = distanceToJob;

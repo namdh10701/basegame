@@ -4,12 +4,13 @@ using _Base.Scripts.RPG.Entities;
 using _Base.Scripts.StateMachine;
 using _Game.Scripts.Entities;
 using _Game.Scripts.Gameplay.Ship;
+using _Game.Scripts.PathFinding;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace _Game.Scripts
 {
-    public class Crew : Entity, IGridItem, IEffectTaker, IStunable
+    public class Crew : Entity, IGridItem, INodeOccupier, IEffectTaker, IStunable
     {
         public CrewActionHandler ActionHandler;
         public CrewMovement CrewMovement;
@@ -42,6 +43,9 @@ namespace _Game.Scripts
         public SpriteRenderer carryObject;
         public CrewController crewController;
         public MoveData MoveData;
+
+        public List<Node> occupiyingNodes = new List<Node>();
+        public List<Node> OccupyingNodes { get => occupiyingNodes; set => occupiyingNodes = value; }
         Idle idle;
         Wander wander;
         private void Start()
@@ -90,9 +94,11 @@ namespace _Game.Scripts
             _statTemplate.ApplyConfig(stats);
         }
 
-        public void OnStun()
+        public void OnStun(float duration)
         {
             ActionHandler.Pause();
+            Animation.PlayStun();
+            Invoke("OnAfterStun", duration);
         }
 
         public void OnAfterStun()

@@ -108,7 +108,7 @@ public class PointClickDetector : MonoBehaviour
             GlobalContext.PlayerContext.ManaPoint.Value -= 30;
             var bulletItem = _gameObjectSlected.GetComponent<BulletItem>();
             var bulletPrefab = Resources.Load<_Base.Scripts.RPGCommon.Entities.Projectile>("Prefabs/Projectiles/" + bulletDic[bulletItem._id]);
-            selectedCannon.Reloader.Reload(bulletPrefab);
+            //selectedCannon.Reloader.Reload(bulletPrefab);
         }
         if (_bulletsMenu != null)
         {

@@ -10,14 +10,19 @@ using UnityEngine;
 public class CrewJobData : MonoBehaviour
 {
     public List<CrewJob> ActivateJobs = new List<CrewJob>();
-    public Action<CrewJob> OnJobActivate;
+    public Action<CrewJob> OnActivateJobsChanged;
 
     public ShipSetup ShipSetup;
 
     public Dictionary<Cell, FixCellJob> FixCellJobDic = new Dictionary<Cell, FixCellJob>();
-    public Dictionary<KeyValuePair<Cannon, Bullet>, ReloadCannonJob> ReloadCannonJobsDic = new Dictionary<KeyValuePair<Cannon, Bullet>, ReloadCannonJob>();
 
+    public Dictionary<Cannon, ReloadCannonJob> ReloadCannonJobsDic = new Dictionary<Cannon, ReloadCannonJob>();
 
+    //case 1 crew: click cannon -> reload cannon default bullet,
+    //             click bullet -> deactivate the reload cannonjob -> activate reload cannon with clicked bullet job
+    //case 2 crew: 
+
+    int crewNumber = 2;
     public void Initialize()
     {
         foreach (Cell cell in ShipSetup.AllCells)
@@ -29,14 +34,14 @@ public class CrewJobData : MonoBehaviour
         }
         foreach (Cannon cannon in ShipSetup.Cannons)
         {
-            foreach (Bullet bullet in ShipSetup.bullets)
+            ReloadCannonJob reloadCannonJob = new ReloadCannonJob(cannon);
+            if (ReloadCannonJobsDic.ContainsKey(cannon))
             {
-                ReloadCannonJob reloadCannonJob = new ReloadCannonJob(cannon, bullet);
-                ReloadCannonJobsDic.Add(new KeyValuePair<Cannon, Bullet>(cannon, bullet), reloadCannonJob);
-
-                reloadCannonJob.OnJobCompleted += OnJobCompleted;
-                reloadCannonJob.OnJobInterupted += OnJobInterupted;
+                ReloadCannonJobsDic.Add(cannon, reloadCannonJob);
             }
+            reloadCannonJob.OnJobCompleted += OnJobCompleted;
+            reloadCannonJob.OnJobInterupted += OnJobInterupted;
+
         }
         Debug.Log(ReloadCannonJobsDic.Count + " Reload Cannon Job Count");
         Debug.Log(FixCellJobDic.Count + " Fix Cell Job Count");
@@ -46,25 +51,34 @@ public class CrewJobData : MonoBehaviour
     {
         GlobalEvent<Cannon, Bullet>.Register("ReloadManual", ActivateReloadCannonJobManual);
         GlobalEvent<Cannon, Bullet>.Register("Reload", ActivateReloadCannonJob);
-        GlobalEvent<Cell>.Register("Broken", ActivateFixCellJob);
+        GlobalEvent<Cell>.Register("Fix", ActivateFixCellJob);
     }
     void ActivateReloadCannonJobManual(Cannon cannon, Bullet bullet)
     {
-        ReloadCannonJob reloadCannonJob = ReloadCannonJobsDic[new KeyValuePair<Cannon, Bullet>(cannon, bullet)];
+        ReloadCannonJob reloadCannonJob = ReloadCannonJobsDic[cannon];
+
         if (!ActivateJobs.Contains(reloadCannonJob))
         {
             reloadCannonJob.Piority = int.MaxValue;
+            reloadCannonJob.bullet = bullet;
             ActivateJobs.Add(reloadCannonJob);
-            OnJobActivate?.Invoke(reloadCannonJob);
+            OnActivateJobsChanged?.Invoke(reloadCannonJob);
+        }
+        else
+        {
+            reloadCannonJob.Piority = int.MaxValue;
+            reloadCannonJob.bullet = bullet;
+            OnActivateJobsChanged.Invoke(reloadCannonJob);
         }
     }
     void ActivateReloadCannonJob(Cannon cannon, Bullet bullet)
     {
-        ReloadCannonJob reloadCannonJob = ReloadCannonJobsDic[new KeyValuePair<Cannon, Bullet>(cannon, bullet)];
+        ReloadCannonJob reloadCannonJob = ReloadCannonJobsDic[cannon];
         if (!ActivateJobs.Contains(reloadCannonJob))
         {
+            reloadCannonJob.bullet = bullet;
             ActivateJobs.Add(reloadCannonJob);
-            OnJobActivate?.Invoke(reloadCannonJob);
+            OnActivateJobsChanged?.Invoke(reloadCannonJob);
         }
     }
 
@@ -74,18 +88,25 @@ public class CrewJobData : MonoBehaviour
         if (!ActivateJobs.Contains(fixCellJob))
         {
             ActivateJobs.Add(fixCellJob);
-            OnJobActivate?.Invoke(fixCellJob);
+            OnActivateJobsChanged?.Invoke(fixCellJob);
         }
     }
 
     void OnJobInterupted(CrewJob crewJob)
     {
-
+        if (ActivateJobs.Contains(crewJob))
+        {
+            ActivateJobs.Remove(crewJob);
+            crewJob.Piority = crewJob.DefaultPiority;
+            crewJob.IsJobActivated = false;
+            crewJob.Status = JobStatus.Free;
+        }
     }
 
     void OnJobCompleted(CrewJob crewJob)
     {
         crewJob.IsJobActivated = false;
+        crewJob.Piority = crewJob.DefaultPiority;
         if (ActivateJobs.Contains(crewJob))
         {
             ActivateJobs.Remove(crewJob);

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using _Base.Scripts.RPGCommon.Entities;
 using _Game.Scripts;
+using _Game.Scripts.Battle;
 using _Game.Scripts.Entities;
 using UnityEngine;
 
@@ -24,7 +25,8 @@ public class ElectricEel : Enemy
         Animation.Attack.AddListener(DoAttack);
         Animation.OnHide += OnHide;
         MoveAreaController moveArea = FindAnyObjectByType<MoveAreaController>();
-        blackboard.GetVariable<AreaVariable>("MoveArea").Value = moveArea.GetArea(AreaType.Floor2Plus3);
+        blackboard.GetVariable<AreaVariable>("MoveArea").Value = moveArea.GetArea(AreaType.All);
+
         yield return base.Start();
     }
 
