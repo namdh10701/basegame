@@ -449,7 +449,7 @@ namespace _Game.Scripts
             else
             {
                 Debug.Log("UP " + itemRef.Id);
-                OnGridItemUp.Invoke(itemRef);
+                OnGridItemUp?.Invoke(itemRef);
 
             }
 
