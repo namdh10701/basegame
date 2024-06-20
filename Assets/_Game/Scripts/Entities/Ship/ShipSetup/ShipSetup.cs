@@ -12,19 +12,16 @@ namespace _Game.Scripts
     public class ShipSetup : MonoBehaviour
     {
         public static List<GridItemData> GridItemDatas = new List<GridItemData>();
-        public List<GridItemData> Mockup = new List<GridItemData>();
+        public ShipSetupMockup ShipSetupMockup;
         public GridItemReferenceHolder ItemReferenceHolder;
         public ShipGridProfile ShipGridProfile;
         public List<Grid> Grids = new List<Grid>();
-
         public List<Bullet> bullets = new List<Bullet>();
         public List<Cell> AllCells = new List<Cell>();
-        public List<Cell> FreeCells = new List<Cell>();
         public List<IWorkLocation> WorkLocations = new List<IWorkLocation>();
 
         public List<Cannon> Cannons = new List<Cannon>();
         public NodeGraph NodeGraph;
-        public List<PathFinding.Node> FreeNodes;
 
         public List<GameObject> spawnedItems = new List<GameObject>();
         private void Awake()
@@ -40,14 +37,10 @@ namespace _Game.Scripts
                     for (int j = 0; j < grid.Col; j++)
                     {
                         AllCells.Add(grid.Cells[i, j]);
-                        if (grid.Cells[i, j].GridItem == null)
-                        {
-                            FreeCells.Add(grid.Cells[i, j]);
-                        }
                     }
                 }
             }
-            GridItemDatas = Mockup;
+            GridItemDatas = ShipSetupMockup.Datas;
 
         }
         public void LoadShipItems()
@@ -55,13 +48,8 @@ namespace _Game.Scripts
             foreach (GridItemData gridItemData in GridItemDatas)
             {
                 Debug.Log(gridItemData.Def.Id);
-                Transform itemGridTransform = GetGridTransformById(gridItemData.GridId);
-                if (itemGridTransform == null)
-                {
-                    Debug.Log("Ship not have grid with id " + gridItemData.GridId);
-                    return;
-                }
-                SpawnItems(gridItemData, itemGridTransform.GetComponent<Grid>());
+                Grid itemGridTransform = GetGridTransformById(gridItemData.GridId);
+                SpawnItems(gridItemData, itemGridTransform);
             }
 
             DefineWorkLocation();
@@ -96,13 +84,13 @@ namespace _Game.Scripts
                 }
             }
         }
-        Transform GetGridTransformById(string id)
+        Grid GetGridTransformById(string id)
         {
             foreach (Grid grid in Grids)
             {
                 if (grid.Id == id)
                 {
-                    return grid.transform;
+                    return grid;
                 }
             }
             return null;
@@ -142,8 +130,6 @@ namespace _Game.Scripts
                     {
                         if (node.cell != null && node.cell == cell)
                         {
-                            node.walkable = false;
-                            node.State = WorkingSlotState.Disabled;
                             nodeOccupier.OccupyingNodes.Add(node);
                         }
                     }

@@ -20,14 +20,10 @@ namespace _Game.Scripts
         public IEnumerator DoExecute()
         {
             Node node = moveData.GetFreeNode();
-            List<Vector3> path = crew.pathfinder.GetPath(crew.transform.position, node.transform.position);
-            if (path == null)
-            {
-                yield break;
-            }
+            Debug.Log(node.name + " WANDER TO");
             crew.OccupyingNodes.Clear();
             crew.OccupyingNodes.Add(node);
-            yield return crew.CrewMovement.MoveByPath(path);
+            yield return crew.CrewMovement.MoveTo(node.transform.position);
             yield return new WaitForSeconds(2);
             Debug.Log("Done");
         }

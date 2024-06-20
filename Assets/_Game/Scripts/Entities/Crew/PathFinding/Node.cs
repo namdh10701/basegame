@@ -7,11 +7,12 @@ namespace _Game.Scripts.PathFinding
 {
     public enum WorkingSlotState
     {
-        Disabled, Occupied, Free
+         Occupied, Free
     }
     public class Node : MonoBehaviour
     {
-        public WorkingSlotState State = WorkingSlotState.Disabled;
+        public NodeRenderer NodeRenderer;
+        public WorkingSlotState State;
         public Vector2 position => transform.position;
         public List<Node> neighbors;
         public float gCost;
@@ -20,18 +21,17 @@ namespace _Game.Scripts.PathFinding
         public Node parent;
 
         public Cell cell;
-        public bool walkable;
         public bool Walkable
         {
             get
             {
                 if (cell != null)
                 {
-                    return cell.GridItem == null && walkable;
+                    return cell.GridItem == null;
                 }
                 else
                 {
-                    return walkable;
+                    return true;
                 }
             }
         }

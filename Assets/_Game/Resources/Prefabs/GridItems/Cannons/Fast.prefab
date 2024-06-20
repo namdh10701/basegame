@@ -124,7 +124,7 @@ GameObject:
   - component: {fileID: 7017139140184525039}
   - component: {fileID: 6161222882180319943}
   m_Layer: 9
-  m_Name: fast
+  m_Name: Fast
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -239,8 +239,11 @@ MonoBehaviour:
   behaviour: {fileID: 8427063930449867751}
   <OccupyCells>k__BackingField: []
   rarity: 0
+  workingSlots: []
+  occupyingNodes: []
   FindTargetCollider: {fileID: 3998683235849372507}
-  AttackTargetBehaviour: {fileID: 0}
+  AttackTargetBehaviour: {fileID: 8192189898026933683}
+  usingBullet: {fileID: 5909292734019790869, guid: f484edc2e211fba4abf6d10c45701042, type: 3}
 --- !u!114 &8787947234298913926
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -851,11 +854,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1873359162549729432, guid: 43d5a83be21f15a4d888b9fa004a0da5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.004999971
+      value: -0.0049999654
       objectReference: {fileID: 0}
     - target: {fileID: 1873359162549729432, guid: 43d5a83be21f15a4d888b9fa004a0da5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.18
+      value: 1.1799998
       objectReference: {fileID: 0}
     - target: {fileID: 3609868654098374875, guid: 43d5a83be21f15a4d888b9fa004a0da5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -917,6 +920,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 4628489544369172504, guid: 43d5a83be21f15a4d888b9fa004a0da5, type: 3}
+      propertyPath: rotateTransform
+      value: 
+      objectReference: {fileID: 4759703321050827762}
     - target: {fileID: 6173023470258990155, guid: 43d5a83be21f15a4d888b9fa004a0da5, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
@@ -925,17 +932,21 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 6619441576395651145, guid: 43d5a83be21f15a4d888b9fa004a0da5, type: 3}
+      propertyPath: rotateTransform
+      value: 
+      objectReference: {fileID: 4759703321050827762}
     - target: {fileID: 7482249736106591603, guid: 43d5a83be21f15a4d888b9fa004a0da5, type: 3}
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7991765012408374175, guid: 43d5a83be21f15a4d888b9fa004a0da5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.001999997
+      value: -0.002000004
       objectReference: {fileID: 0}
     - target: {fileID: 7991765012408374175, guid: 43d5a83be21f15a4d888b9fa004a0da5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.2454
+      value: 0.24539995
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

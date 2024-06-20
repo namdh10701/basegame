@@ -14,7 +14,7 @@ namespace _Game.Scripts.PathFinding
         public Node GetFreeNode()
         {
             List<IWorkLocation> workLocations = ShipSetup.WorkLocations;
-            List<Node> freeCells = new List<Node>(ShipSetup.FreeNodes);
+            List<Node> freeCells = new List<Node>(ShipSetup.NodeGraph.nodes);
             List<Crew> crews = CrewController.crews;
             foreach (IWorkLocation workLocation in workLocations)
             {

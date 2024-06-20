@@ -60,7 +60,7 @@ public class CrewJobData : MonoBehaviour
         if (!ActivateJobs.Contains(reloadCannonJob))
         {
             reloadCannonJob.Piority = int.MaxValue;
-            reloadCannonJob.bullet = bullet;
+            reloadCannonJob.AssignBullet(bullet);
             ActivateJobs.Add(reloadCannonJob);
             OnActivateJobsChanged?.Invoke(reloadCannonJob);
         }
@@ -76,7 +76,7 @@ public class CrewJobData : MonoBehaviour
         ReloadCannonJob reloadCannonJob = ReloadCannonJobsDic[cannon];
         if (!ActivateJobs.Contains(reloadCannonJob))
         {
-            reloadCannonJob.bullet = bullet;
+            reloadCannonJob.AssignBullet(bullet);
             ActivateJobs.Add(reloadCannonJob);
             OnActivateJobsChanged?.Invoke(reloadCannonJob);
         }

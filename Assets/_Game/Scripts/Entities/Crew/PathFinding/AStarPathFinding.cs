@@ -52,8 +52,9 @@ namespace _Game.Scripts.PathFinding
 
                 foreach (Node neighbor in graph.GetNeighbors(currentNode))
                 {
-                    if (!neighbor.walkable || closedSet.Contains(neighbor))
+                    if (!neighbor.Walkable || closedSet.Contains(neighbor))
                     {
+                        
                         continue;
                     }
 

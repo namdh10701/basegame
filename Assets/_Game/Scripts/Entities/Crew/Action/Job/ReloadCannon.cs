@@ -14,9 +14,14 @@ public class ReloadCannonJob : CrewJob
     {
         DefaultPiority = 3;
         Piority = 3;
-        WorkLocation = bullet.GetComponent<IWorkLocation>();
+        
         this.cannon = cannon;
         this.bullet = null;
+    }
+
+    public void AssignBullet(Bullet bullet)
+    {
+        WorkLocation = bullet.GetComponent<IWorkLocation>();
     }
     public override IEnumerator Execute(Crew crew)
     {
