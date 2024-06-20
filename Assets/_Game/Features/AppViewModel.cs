@@ -1,4 +1,7 @@
+using System.Threading.Tasks;
+using _Game.Features.Home;
 using _Game.Features.Inventory;
+using _Game.Scripts.GD;
 using _Game.Scripts.UI;
 using UnityWeld.Binding;
 
@@ -7,6 +10,15 @@ namespace _Game.Scripts.Gameplay
     [Binding]
     public class AppViewModel: RootViewModel 
     {
+        public enum Nav
+        {
+            HOME,
+            SHOP,
+            SHIP,
+            INVENTORY,
+            RUG
+        }
+        
         #region Binding Prop: CanvasGroupAlpha
 
         private float _canvasGroupAlpha = 1f;
@@ -44,14 +56,7 @@ namespace _Game.Scripts.Gameplay
 
                 OnPropertyChanged(nameof(ActiveMainNavIndex));
 
-                if (value == 0)
-                {
-                    ActiveTabContentContent = HomeViewModel;
-                } 
-                else if (value == 1)
-                {
-                    ActiveTabContentContent = ShopViewModel;
-                }
+                OnActiveMainNavIndexChanged(value);
             }
         }
 
@@ -59,10 +64,10 @@ namespace _Game.Scripts.Gameplay
 
         #region Binding: HomeViewModel
 
-        private SubViewModel _homeViewModel = new SubViewModel();
+        private HomeViewModel _homeViewModel = new HomeViewModel();
         
         [Binding]
-        public SubViewModel HomeViewModel
+        public HomeViewModel HomeViewModel
         {
             get => _homeViewModel;
             set
@@ -80,14 +85,14 @@ namespace _Game.Scripts.Gameplay
 
         #endregion
         
-        #region Binding: ShopViewModel
+        #region Binding: InventoryViewModel
 
-        private InventoryViewModel _shopViewModel = new InventoryViewModel();
+        private InventoryViewModel _inventoryViewModel = new InventoryViewModel();
         
         [Binding]
-        public InventoryViewModel ShopViewModel
+        public InventoryViewModel InventoryViewModel
         {
-            get => _shopViewModel;
+            get => _inventoryViewModel;
             set
             {
                 if (_activeTabContent == value)
@@ -95,9 +100,9 @@ namespace _Game.Scripts.Gameplay
                     return;
                 }
 
-                _shopViewModel = value;
+                _inventoryViewModel = value;
 
-                OnPropertyChanged(nameof(ShopViewModel));
+                OnPropertyChanged(nameof(InventoryViewModel));
             }
         }
 
@@ -133,5 +138,43 @@ namespace _Game.Scripts.Gameplay
         private SubViewModel _activeTabContent = null;
 
         #endregion
+        
+        
+        private void OnActiveMainNavIndexChanged(int navIndex)
+        {
+            var nav = (Nav)navIndex;
+            switch (nav)
+            {
+                case Nav.HOME:
+                    ActiveTabContentContent = HomeViewModel;
+                    break;
+                
+                case Nav.INVENTORY:
+                    ActiveTabContentContent = InventoryViewModel;
+                    break;
+            }
+            
+            if (!ActiveTabContentContent.IsInitialized)
+            {
+                ActiveTabContentContent.Initialize();
+            }
+        }
+
+        private async void Awake()
+        {
+            // GDConfigLoader.Instance.OnLoaded += Init;
+            await GDConfigLoader.Instance.Load();
+        }
+
+        // private void Init()
+        // {
+        //     
+        // }
+
+        [Binding]
+        public void NavToWorldMap()
+        {
+            
+        }
     }
 }

@@ -59,16 +59,38 @@ namespace _Game.Features.Inventory
             Items.Clear();
             Items.AddRange(itemSource.Where(v => v.Type == itemType));
         }
+        //
+        // private void Awake()
+        // {
+        //     GDConfigLoader.Instance.OnLoaded += Init;
+        //     GDConfigLoader.Instance.Load();
+        // }
+        //
+        // private void Init()
+        // {
+        //     
+        //     for (int i = 0; i < 3; i++)
+        //     {
+        //         itemSource.Add(new InventoryItem { Type = ItemType.CREW });
+        //     }
+        //     
+        //     // for (int i = 0; i < 5; i++)
+        //     // {
+        //     //     itemSource.Add(new InventoryItem { Type = ItemType.CANNON, Id = "0001"});
+        //     // }
+        //     // GDConfigLoader.Instance.Cannons["0001"];
+        //     itemSource.Add(new InventoryItem { Type = ItemType.CANNON, Id = "0001"});
+        //     itemSource.Add(new InventoryItem { Type = ItemType.CANNON, Id = "0012"});
+        //     
+        //     for (int i = 0; i < 30; i++)
+        //     {
+        //         itemSource.Add(new InventoryItem { Type = ItemType.AMMO });
+        //     }
+        //
+        // }
 
-        private void Awake()
+        protected override void InitializeInternal()
         {
-            GDConfigLoader.Instance.OnLoaded += Init;
-            GDConfigLoader.Instance.Load();
-        }
-
-        private void Init()
-        {
-            
             for (int i = 0; i < 3; i++)
             {
                 itemSource.Add(new InventoryItem { Type = ItemType.CREW });
@@ -86,7 +108,6 @@ namespace _Game.Features.Inventory
             {
                 itemSource.Add(new InventoryItem { Type = ItemType.AMMO });
             }
-
         }
     }
 }
