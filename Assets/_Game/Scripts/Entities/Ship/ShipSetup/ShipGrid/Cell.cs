@@ -2,9 +2,11 @@ using _Base.Scripts.EventSystem;
 using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.RPG.Entities;
 using _Game.Scripts.Entities;
+using _Game.Scripts.PathFinding;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 
 namespace _Game.Scripts
 {
@@ -24,17 +26,32 @@ namespace _Game.Scripts
         public CellStatsTemplate template;
         public override Stats Stats => stats;
 
-        public List<WorkingSlot> WorkingSlots { get => workingSlots; set => workingSlots = value; }
-        public List<WorkingSlot> workingSlots;
+        public List<Node> WorkingSlots { get => workingSlots; set => workingSlots = value; }
+        public List<Node> workingSlots;
         public EffectTakerCollider EffectCollider;
+        public NodeGraph nodeGraph;
+
+
         protected override void Awake()
         {
             base.Awake();
             EffectCollider.Taker = this;
-            workingSlots = new List<WorkingSlot>()
+        }
+
+        public void Initialize()
+        {
+            workingSlots = new List<Node>();
+            foreach (var node in nodeGraph.nodes)
             {
-                new WorkingSlot(this)
-        };
+                if (node.cell != null && node.cell == this)
+                {
+                    workingSlots.Add(node);
+                    foreach (var neightbor in node.neighbors)
+                    {
+                        workingSlots.Add(neightbor);
+                    }
+                }
+            }
         }
 
         public override string ToString()
@@ -64,6 +81,14 @@ namespace _Game.Scripts
         public void OnFixed()
         {
             CellRenderer.OnFixed();
+        }
+
+        public void OnClick()
+        {
+            if (stats.HealthPoint.Value == stats.HealthPoint.MinValue)
+            {
+                GlobalEvent<Cell>.Send("Fix", this);
+            }
         }
     }
 }

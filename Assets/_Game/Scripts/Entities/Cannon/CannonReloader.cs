@@ -7,11 +7,12 @@ namespace _Game.Scripts.Entities.CannonComponent
         [SerializeField] Cannon cannon;
         [SerializeField] AttackTargetBehaviour AttackTargetBehaviour;
 
-        public void Reload(_Base.Scripts.RPGCommon.Entities.Projectile projectile)
+        public void Reload(Bullet bullet)
         {
+            cannon.usingBullet = bullet;
             CannonStats cannonStats = (CannonStats)cannon.Stats;
             cannonStats.Ammo.StatValue.BaseValue = cannonStats.Ammo.MaxValue;
-            AttackTargetBehaviour.projectilePrefab = projectile;
+            AttackTargetBehaviour.projectilePrefab = bullet.Projectile;
         }
     }
 }

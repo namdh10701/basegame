@@ -6,6 +6,13 @@ using UnityEngine;
 public class CrewMovement : MonoBehaviour
 {
     public Crew crew;
+
+    public IEnumerator MoveTo(Vector3 destination)
+    {
+        List<Vector3> path = crew.pathfinder.GetPath(crew.transform.position, destination);
+        yield return MoveByPath(path);
+    }
+
     public IEnumerator MoveByPath(List<Vector3> path)
     {
         if (path == null)

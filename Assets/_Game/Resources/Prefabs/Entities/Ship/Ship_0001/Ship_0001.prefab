@@ -1625,6 +1625,7 @@ MonoBehaviour:
   EffectCollider: {fileID: 4717154638384585547}
   ShipSpeed: {fileID: 4664509178203161118}
   CrewController: {fileID: 4629140384267381351}
+  CrewJobData: {fileID: 5965300281763846854}
 --- !u!114 &4408094167755191158
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1668,6 +1669,7 @@ MonoBehaviour:
   bullets: []
   AllCells: []
   FreeCells: []
+  Cannons: []
 --- !u!50 &3207635550512340188
 Rigidbody2D:
   serializedVersion: 4
@@ -1711,7 +1713,7 @@ MonoBehaviour:
   foam2: {fileID: 3990802452210739547}
   bigFoam: {fileID: 3710157731455552311}
   shipSpeed: 1
-  currentOffset: {x: 265.4685, y: 629.33795}
+  currentOffset: {x: 267.12732, y: 630.0014}
   direction: {x: 1, y: 1}
   scrollSpeed: {x: 0.25, y: 0.1}
 --- !u!114 &3846499980918795068
@@ -1869,6 +1871,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f95aea6c9ddfc2428df277118a4b3d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShipSetup: {fileID: 4408094167755191158}
 --- !u!114 &4629140384267381351
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4716,7 +4719,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7269179856779519348
 Transform:
   m_ObjectHideFlags: 0

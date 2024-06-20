@@ -41,6 +41,11 @@ namespace _Game.Scripts
             skeletonAnimation.AnimationState.SetAnimation(0, carry, true);
         }
 
+        public void PlayStun()
+        {
+            skeletonAnimation.AnimationState.ClearTracks();
+        }
+
         public void AddIdle()
         {
             skeletonAnimation.AnimationState.AddAnimation(0, idle, true, 0);

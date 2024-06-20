@@ -420,5 +420,33 @@ namespace _Game.Scripts
 
             return adjacentCells;
         }
+
+        public static Crew GetClosetCrewToWorkLocation(List<Crew> crews, IWorkLocation workLocation)
+        {
+            // Initialize variables to track the closest crew and the minimum distance
+            Crew closestCrew = null;
+            float minDistance = float.MaxValue;
+
+            // Iterate through each WorkingSlot in the work location
+            foreach (var slot in workLocation.WorkingSlots)
+            {
+                foreach (var crew in crews)
+                {
+                    // Calculate distance to the cell based on crew's position
+                    float distance = Vector3.Distance(crew.transform.position, slot.cell.transform.position);
+
+                    // Check if this crew is closer than the current closest crew
+                    if (distance < minDistance)
+                    {
+                        // Update closest crew and minimum distance
+                        closestCrew = crew;
+                        minDistance = distance;
+                    }
+                }
+            }
+
+            // Return the closest crew found
+            return closestCrew;
+        }
     }
 }

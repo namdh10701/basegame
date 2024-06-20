@@ -1,42 +1,42 @@
 using _Base.Scripts.Utils.Extensions;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-namespace _Game.Scripts
+namespace _Game.Scripts.PathFinding
 {
     public class MoveData : MonoBehaviour
     {
         public ShipSetup ShipSetup;
         public CrewController CrewController;
 
-        public Cell GetFreeCell()
+        public Node GetFreeNode()
         {
             List<IWorkLocation> workLocations = ShipSetup.WorkLocations;
-
-
-
-
-            List<Cell> freeCells = new List<Cell>(ShipSetup.FreeCells);
+            List<Node> freeCells = new List<Node>(ShipSetup.FreeNodes);
             List<Crew> crews = CrewController.crews;
             foreach (IWorkLocation workLocation in workLocations)
             {
-                foreach (WorkingSlot slot in workLocation.WorkingSlots)
+                foreach (Node slot in workLocation.WorkingSlots)
                 {
-                    if (slot.State == WorkingSlotState.Available)
+                    if (slot.State == WorkingSlotState.Occupied)
                     {
-                        if (freeCells.Contains(slot.cell))
+                        if (freeCells.Contains(slot))
                         {
-                            freeCells.Remove(slot.cell);
+                            freeCells.Remove(slot);
                         }
                     }
                 }
             }
             foreach (Crew crew in crews)
             {
-                if (freeCells.Contains(crew.ActionHandler.CurrentAction.OccupyingCell))
+                foreach (Node node in crew.OccupyingNodes)
                 {
-                    freeCells.Remove(crew.ActionHandler.CurrentAction.OccupyingCell);
+                    if (freeCells.Contains(node))
+                    {
+                        freeCells.Remove(node);
+                    }
                 }
             }
             return freeCells.GetRandom();
