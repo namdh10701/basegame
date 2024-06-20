@@ -1,6 +1,8 @@
 using System.Threading.Tasks;
+using _Base.Scripts.Utils;
 using _Game.Features.Home;
 using _Game.Features.Inventory;
+using _Game.Features.WorldMap;
 using _Game.Scripts.GD;
 using _Game.Scripts.UI;
 using UnityWeld.Binding;
@@ -16,7 +18,10 @@ namespace _Game.Scripts.Gameplay
             SHOP,
             SHIP,
             INVENTORY,
-            RUG
+            RUG,
+            
+            WORLD_MAP,
+            SEA_MAP,
         }
         
         #region Binding Prop: CanvasGroupAlpha
@@ -56,7 +61,7 @@ namespace _Game.Scripts.Gameplay
 
                 OnPropertyChanged(nameof(ActiveMainNavIndex));
 
-                OnActiveMainNavIndexChanged(value);
+                NavTo((Nav)value);
             }
         }
 
@@ -66,22 +71,22 @@ namespace _Game.Scripts.Gameplay
 
         private HomeViewModel _homeViewModel = new HomeViewModel();
         
-        [Binding]
-        public HomeViewModel HomeViewModel
-        {
-            get => _homeViewModel;
-            set
-            {
-                if (_activeTabContent == value)
-                {
-                    return;
-                }
-
-                _homeViewModel = value;
-
-                OnPropertyChanged(nameof(HomeViewModel));
-            }
-        }
+        // [Binding]
+        // public HomeViewModel HomeViewModel
+        // {
+        //     get => _homeViewModel;
+        //     set
+        //     {
+        //         if (_activeTabContent == value)
+        //         {
+        //             return;
+        //         }
+        //
+        //         _homeViewModel = value;
+        //
+        //         OnPropertyChanged(nameof(HomeViewModel));
+        //     }
+        // }
 
         #endregion
         
@@ -89,36 +94,38 @@ namespace _Game.Scripts.Gameplay
 
         private InventoryViewModel _inventoryViewModel = new InventoryViewModel();
         
-        [Binding]
-        public InventoryViewModel InventoryViewModel
-        {
-            get => _inventoryViewModel;
-            set
-            {
-                if (_activeTabContent == value)
-                {
-                    return;
-                }
-
-                _inventoryViewModel = value;
-
-                OnPropertyChanged(nameof(InventoryViewModel));
-            }
-        }
+        // [Binding]
+        // public InventoryViewModel InventoryViewModel
+        // {
+        //     get => _inventoryViewModel;
+        //     set
+        //     {
+        //         if (_activeTabContent == value)
+        //         {
+        //             return;
+        //         }
+        //
+        //         _inventoryViewModel = value;
+        //
+        //         OnPropertyChanged(nameof(InventoryViewModel));
+        //     }
+        // }
 
         #endregion
+
+        private WorldMapViewModel _WorldMapViewModel = new WorldMapViewModel();
 
         #region Binding: ActiveTabContentContent
 
         [Binding]
-        public SubViewModel ActiveTabContentContent
+        public SubViewModel ActiveViewModel
         {
             get
             {
                 // Lazy init
                 if (_activeTabContent == null)
                 {
-                    _activeTabContent = HomeViewModel;
+                    _activeTabContent = _homeViewModel;
                 }
 
                 return _activeTabContent;
@@ -132,13 +139,40 @@ namespace _Game.Scripts.Gameplay
 
                 _activeTabContent = value;
 
-                OnPropertyChanged(nameof(ActiveTabContentContent));
+                OnPropertyChanged(nameof(ActiveViewModel));
             }
         }
         private SubViewModel _activeTabContent = null;
+        private Nav _currentNav = Nav.HOME;
 
         #endregion
-        
+
+        #region Binding Prop: IsMainNavVisible
+
+        public bool IsMainNavVisible => _currentNav <= Nav.RUG;
+
+        // /// <summary>
+        // /// IsMainNavVisible
+        // /// </summary>
+        // [Binding]
+        // public bool IsMainNavVisible
+        // {
+        //     get => m_isMainNavVisible;
+        //     set
+        //     {
+        //         if (Equals(m_isMainNavVisible, value))
+        //         {
+        //             return;
+        //         }
+        //
+        //         m_isMainNavVisible = value;
+        //         OnPropertyChanged(nameof(IsMainNavVisible));
+        //     }
+        // }
+        //
+        // private bool m_isMainNavVisible;
+
+        #endregion
         
         private void OnActiveMainNavIndexChanged(int navIndex)
         {
@@ -146,22 +180,34 @@ namespace _Game.Scripts.Gameplay
             switch (nav)
             {
                 case Nav.HOME:
-                    ActiveTabContentContent = HomeViewModel;
+                    ActiveViewModel = _homeViewModel;
                     break;
                 
                 case Nav.INVENTORY:
-                    ActiveTabContentContent = InventoryViewModel;
+                    ActiveViewModel = _inventoryViewModel;
+                    break;
+                
+                case Nav.WORLD_MAP:
+                    ActiveViewModel = _WorldMapViewModel;
                     break;
             }
             
-            if (!ActiveTabContentContent.IsInitialized)
+            if (!ActiveViewModel.IsInitialized)
             {
-                ActiveTabContentContent.Initialize();
+                ActiveViewModel.Initialize();
             }
+            
+            OnPropertyChanged(nameof(IsMainNavVisible));
+
+            // if (nav > Nav.RUG)
+            // {
+            //     
+            // }
         }
 
         private async void Awake()
         {
+            IOC.Register(this);
             // GDConfigLoader.Instance.OnLoaded += Init;
             await GDConfigLoader.Instance.Load();
         }
@@ -174,7 +220,45 @@ namespace _Game.Scripts.Gameplay
         [Binding]
         public void NavToWorldMap()
         {
+            NavTo(Nav.WORLD_MAP);
+        }
+        
+        [Binding]
+        public void NavToSeaMap()
+        {
+            NavTo(Nav.SEA_MAP);
+        }
+        
+        [Binding]
+        public void NavToHome()
+        {
+            NavTo(Nav.HOME);
+        }
+
+        public void NavTo(Nav targetNav)
+        {
+            _currentNav = targetNav;
+            switch (targetNav)
+            {
+                case Nav.HOME:
+                    ActiveViewModel = _homeViewModel;
+                    break;
+                
+                case Nav.INVENTORY:
+                    ActiveViewModel = _inventoryViewModel;
+                    break;
+                
+                case Nav.WORLD_MAP:
+                    ActiveViewModel = _WorldMapViewModel;
+                    break;
+            }
             
+            if (!ActiveViewModel.IsInitialized)
+            {
+                ActiveViewModel.Initialize();
+            }
+            
+            OnPropertyChanged(nameof(IsMainNavVisible));
         }
     }
 }

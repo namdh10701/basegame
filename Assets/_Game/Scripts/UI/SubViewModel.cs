@@ -36,7 +36,9 @@ namespace _Game.Scripts.UI
             _isInitialized = true;
         }
 
-        protected abstract void InitializeInternal();
+        protected virtual void InitializeInternal()
+        {
+        }
 
         public bool IsInitialized => _isInitialized;
     }

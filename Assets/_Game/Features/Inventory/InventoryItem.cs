@@ -67,7 +67,7 @@ namespace _Game.Features.Inventory
                 }
 
                 m_type = value;
-                OnPropertyChanged(nameof(ItemType));
+                OnPropertyChanged(nameof(Type));
             }
         }
 
