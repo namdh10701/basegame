@@ -95,8 +95,10 @@ public class Wander : Leaf
             return wanderTimer < WanderTime.Value ? NodeResult.running : NodeResult.success;
         }
     }
+    bool needFindWay;
     void FindWayToBounds()
     {
+
         TargetDirection = (MoveableArea.Value.transform.position - Body.transform.position).normalized;
     }
 

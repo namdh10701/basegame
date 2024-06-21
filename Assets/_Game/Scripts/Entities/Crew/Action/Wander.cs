@@ -28,6 +28,7 @@ namespace _Game.Scripts
 
         public IEnumerator DoInterupt()
         {
+            crew.CrewMovement.Velocity = Vector2.zero;
             yield break;
         }
     }

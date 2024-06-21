@@ -20,5 +20,8 @@ namespace _Game.Scripts
 
         [field: SerializeField]
         public Stat EvadeChance { get; set; } = new();
+
+        [field: SerializeField]
+        public Stat RepairSpeed { get; set; } = new();
     }
 }

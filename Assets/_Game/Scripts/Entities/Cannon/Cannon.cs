@@ -111,5 +111,15 @@ namespace _Game.Scripts.Entities
         {
             GlobalEvent<Cannon, Bullet, int>.Send("Reload", this, usingBullet, int.MaxValue);
         }
+
+        public void OnBroken()
+        {
+            FindTargetCollider.enabled = false;
+        }
+
+        public void OnFixed()
+        {
+            FindTargetCollider.enabled = true;
+        }
     }
 }
