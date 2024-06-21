@@ -4,6 +4,7 @@ using _Game.Scripts;
 using _Game.Scripts.PathFinding;
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CrewController : MonoBehaviour
@@ -22,21 +23,24 @@ public class CrewController : MonoBehaviour
     }
     void OnJobActivate(CrewJob crewJob)
     {
-        Crew crew = GetMostSuitableCrewForJob(crewJob);
-        if (crew != null)
+        if (crewJob.Piority == int.MaxValue)
         {
-            AssignJob(crew, crewJob);
+            Crew crew = GetMostSuitableCrewForJob(crewJob);
+            if (crew != null)
+            {
+                AssignJob(crew, crewJob);
+            }
         }
     }
 
     public void RegisterForNewJob(Crew crew)
     {
-        List<CrewJob> highestPiorityJobs = CrewJobData.GetHighestPiorityJobs();
+        List<CrewJob> highestPiorityJobs = CrewJobData.GetHighestPiorityActiveJobs();
         if (highestPiorityJobs.Count == 0)
         {
             return;
         }
-        CrewJob closetJob = GetClosetJobFromPosition(highestPiorityJobs, crew);
+        CrewJob closetJob = GetClosetJobFromCrew(highestPiorityJobs, crew);
         if (closetJob == null)
         {
             return;
@@ -44,54 +48,52 @@ public class CrewController : MonoBehaviour
         AssignJob(crew, closetJob);
     }
 
-    CrewJob GetClosetJobFromPosition(List<CrewJob> jobs, Crew crew)
+
+
+
+    CrewJob GetClosetJobFromCrew(List<CrewJob> jobs, Crew crew)
     {
-        float distance = Mathf.Infinity;
-        CrewJob closetJob = jobs[0];
+        float closestDistance = Mathf.Infinity;
+        CrewJob closestJob = null;
         foreach (CrewJob job in jobs)
         {
             List<Node> workingSlots = job.WorkLocation.WorkingSlots;
-            float distanceToJob = 0;
-            float minDistance = Mathf.Infinity;
-            Node minDistanceWorkingSlot;
+
             foreach (Node workingSlot in workingSlots)
             {
-                distanceToJob = Vector2.Distance(workingSlot.transform.position, crew.transform.position);
-                if (distanceToJob < minDistance)
+                float distanceToJob = Vector2.Distance(workingSlot.transform.position, crew.transform.position);
+
+                if (distanceToJob < closestDistance)
                 {
-                    minDistance = distanceToJob;
-                    minDistanceWorkingSlot = workingSlot;
+                    closestDistance = distanceToJob;
+                    closestJob = job;
                 }
             }
-
-            if (minDistance < distance)
-            {
-                distance = minDistance;
-                closetJob = job;
-            }
         }
-        return closetJob;
+        return closestJob;
     }
 
     Crew GetMostSuitableCrewForJob(CrewJob crewJob)
     {
-        Crew ret = GetFreeCrew();
-
-        if (ret == null)
+        List<Crew> ret = GetFreeCrews();
+        Crew closestFreeCrew = GetClosetCrewToJob(crewJob, ret);
+        if (closestFreeCrew != null)
         {
-            if (crewJob.Piority == int.MaxValue)
+            return closestFreeCrew;
+        }
+        else
+        {
+            List<Crew> lowerPriorityCrews = GetCrewsWithLowerJobPriority(crewJob);
+            if (lowerPriorityCrews.Count > 0)
             {
-                ret = GetClosetCrewToJob(crewJob);
-            }
-            else
-            {
-                ret = GetCrewWithLowerJobPiority(crewJob);
+                Crew closetCrewWithLowerPriority = GetClosetCrewToJob(crewJob, lowerPriorityCrews);
+                return closetCrewWithLowerPriority;
             }
         }
-        return ret;
+        return null;
     }
 
-    Crew GetFreeCrew()
+    List<Crew> GetFreeCrews()
     {
         List<Crew> freeCrews = new List<Crew>();
 
@@ -104,8 +106,7 @@ public class CrewController : MonoBehaviour
                 freeCrews.Add(crew);
             }
         }
-        Crew ret = freeCrews.GetRandom();
-        return ret;
+        return freeCrews;
     }
     Crew GetCrewWithLowerJobPiority(CrewJob crewJob)
     {
@@ -122,15 +123,47 @@ public class CrewController : MonoBehaviour
         return null;
     }
 
-    Crew GetClosetCrewToJob(CrewJob crewJob)
+    Crew GetClosetCrewToJob(CrewJob crewJob, List<Crew> crews)
     {
-        Crew ret;
-        return DistanceHelper.GetClosetToPosition(crews.ToArray(), crewJob.WorkLocation.WorkingSlots[0].transform.position).GetComponent<Crew>();
+        Crew closestCrew = null;
+        float closestDistance = Mathf.Infinity;
+
+        foreach (Crew crew in crews)
+        {
+            foreach (Node workingSlot in crewJob.WorkLocation.WorkingSlots)
+            {
+                float distance = Vector2.Distance(crew.transform.position, workingSlot.transform.position);
+
+                if (distance < closestDistance)
+                {
+                    closestDistance = distance;
+                    closestCrew = crew;
+                }
+            }
+        }
+        return closestCrew;
+    }
+
+    List<Crew> GetCrewsWithLowerJobPriority(CrewJob crewjob)
+    {
+        List<Crew> ret = new List<Crew>();
+        foreach (Crew crew in crews)
+        {
+            if (crew.ActionHandler.CurrentAction is CrewJobAction crewJobAction)
+            {
+                if (crewJobAction.CrewJob.Piority < crewjob.Piority)
+                {
+                    ret.Add(crew);
+                    continue;
+                }
+            }
+        }
+        return ret;
     }
 
     public void AssignJob(Crew crew, CrewJob crewJob)
     {
-        Debug.Log("ASSIGNED TO "+ crew.name);
+        Debug.Log("ASSIGNED TO " + crew.name);
         CrewJobAction action = crewJob.BuildCrewAction(crew);
         crew.ActionHandler.Act(action);
     }

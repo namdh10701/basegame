@@ -76,7 +76,7 @@ namespace _Game.Scripts
 
         public void OnBroken()
         {
-            GlobalEvent<Cell>.Send("Fix", this);
+            GlobalEvent<Cell, int>.Send("Fix", this, 3);
         }
         public void OnFixed()
         {
@@ -87,7 +87,7 @@ namespace _Game.Scripts
         {
             if (stats.HealthPoint.Value == stats.HealthPoint.MinValue)
             {
-                GlobalEvent<Cell>.Send("FixManual", this);
+                GlobalEvent<Cell, int>.Send("Fix", this, int.MaxValue);
             }
         }
     }

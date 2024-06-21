@@ -18,6 +18,29 @@ public class CrewJobData : MonoBehaviour
 
     public Dictionary<Cannon, ReloadCannonJob> ReloadCannonJobsDic = new Dictionary<Cannon, ReloadCannonJob>();
 
+    public List<CrewJob> GetHighestPiorityActiveJobs()
+    {
+        List<CrewJob> highestPriorityJobs = new List<CrewJob>();
+        int highestPriority = -1;
+
+        foreach (CrewJob crewJob in ActivateJobs)
+        {
+            if (crewJob.Status != JobStatus.WorkingOn && crewJob.Piority > highestPriority)
+            {
+                highestPriority = crewJob.Piority;
+            }
+        }
+
+        foreach (CrewJob crewJob in ActivateJobs)
+        {
+            if (crewJob.Piority == highestPriority)
+            {
+                highestPriorityJobs.Add(crewJob);
+            }
+        }
+
+        return highestPriorityJobs;
+    }
     //case 1 crew: click cannon -> reload cannon default bullet,
     //             click bullet -> deactivate the reload cannonjob -> activate reload cannon with clicked bullet job
     //case 2 crew: 
@@ -49,76 +72,68 @@ public class CrewJobData : MonoBehaviour
 
     private void Awake()
     {
-        GlobalEvent<Cannon, Bullet>.Register("ReloadManual", ActivateReloadCannonJobManual);
-        GlobalEvent<Cannon, Bullet>.Register("Reload", ActivateReloadCannonJob);
-        GlobalEvent<Cell>.Register("Fix", ActivateFixCellJob);
-        GlobalEvent<Cell>.Register("FixManual", ActivateFixCellJobManual);
+        // Cannon, Bullet, Piority
+        GlobalEvent<Cannon, Bullet, int>.Register("Reload", ActivateReloadCannonJob);
+        // Cell, Piority
+        GlobalEvent<Cell, int>.Register("Fix", ActivateFixCellJob);
     }
-    void ActivateReloadCannonJobManual(Cannon cannon, Bullet bullet)
+
+    void ActivateReloadCannonJob(Cannon cannon, Bullet bullet, int piority = 0)
     {
         ReloadCannonJob reloadCannonJob = ReloadCannonJobsDic[cannon];
-        reloadCannonJob.Piority = int.MaxValue;
-        reloadCannonJob.AssignBullet(bullet);
-        if (reloadCannonJob.Status == JobStatus.WorkingOn && reloadCannonJob.bullet != bullet)
+        if (piority == 0)
         {
-            return;
-        }
-        if (!ActivateJobs.Contains(reloadCannonJob))
-        {
-            reloadCannonJob.Piority = int.MaxValue;
-            reloadCannonJob.AssignBullet(bullet);
-            ActivateJobs.Add(reloadCannonJob);
-            OnActivateJobsChanged?.Invoke(reloadCannonJob);
+            reloadCannonJob.Piority = reloadCannonJob.DefaultPiority;
         }
         else
         {
-            reloadCannonJob.Piority = int.MaxValue;
-            reloadCannonJob.AssignBullet(bullet);
-            OnActivateJobsChanged.Invoke(reloadCannonJob);
+            reloadCannonJob.Piority = piority;
         }
-    }
-    void ActivateReloadCannonJob(Cannon cannon, Bullet bullet)
-    {
-        ReloadCannonJob reloadCannonJob = ReloadCannonJobsDic[cannon];
         if (!ActivateJobs.Contains(reloadCannonJob))
         {
-            reloadCannonJob.AssignBullet(bullet);
             ActivateJobs.Add(reloadCannonJob);
-            OnActivateJobsChanged?.Invoke(reloadCannonJob);
         }
+        if (reloadCannonJob.bullet == bullet && reloadCannonJob.Status == JobStatus.WorkingOn)
+        {
+            Debug.Log(reloadCannonJob.Status);
+            return;
+        }
+        else if (reloadCannonJob.bullet == null || reloadCannonJob.bullet != bullet)
+        {
+            reloadCannonJob.AssignBullet(bullet);
+        }
+        Debug.Log(reloadCannonJob.Piority + " INVOKE");
+        OnActivateJobsChanged.Invoke(reloadCannonJob);
+
     }
-    void ActivateFixCellJobManual(Cell cell)
+    void ActivateFixCellJob(Cell cell, int piority)
     {
         FixCellJob fixCellJob = FixCellJobDic[cell];
-        fixCellJob.Piority = int.MaxValue;
+        if (piority == 0)
+        {
+            fixCellJob.Piority = fixCellJob.DefaultPiority;
+        }
+        else
+        {
+            fixCellJob.Piority = piority;
+        }
+        if (!ActivateJobs.Contains(fixCellJob))
+        {
+            ActivateJobs.Add(fixCellJob);
+        }
         if (fixCellJob.Status == JobStatus.WorkingOn)
         {
             return;
         }
-        if (!ActivateJobs.Contains(fixCellJob))
-        {
-            ActivateJobs.Add(fixCellJob);
-            OnActivateJobsChanged?.Invoke(fixCellJob);
-        }
-    }
-    void ActivateFixCellJob(Cell cell)
-    {
-        FixCellJob fixCellJob = FixCellJobDic[cell];
-        if (!ActivateJobs.Contains(fixCellJob))
-        {
-            ActivateJobs.Add(fixCellJob);
-            OnActivateJobsChanged?.Invoke(fixCellJob);
-        }
+        OnActivateJobsChanged?.Invoke(fixCellJob);
+
     }
 
     void OnJobInterupted(CrewJob crewJob)
     {
         if (ActivateJobs.Contains(crewJob))
         {
-            ActivateJobs.Remove(crewJob);
             crewJob.Piority = crewJob.DefaultPiority;
-            crewJob.IsJobActivated = false;
-            crewJob.Status = JobStatus.Free;
         }
     }
 
@@ -130,30 +145,5 @@ public class CrewJobData : MonoBehaviour
         {
             ActivateJobs.Remove(crewJob);
         }
-    }
-
-    public List<CrewJob> GetHighestPiorityJobs()
-    {
-        List<CrewJob> ret = new List<CrewJob>();
-        int piority = -1;
-        foreach (CrewJob crewJob in ActivateJobs)
-        {
-            if (crewJob.Status == JobStatus.Free)
-            {
-                if (crewJob.Piority > piority)
-                {
-                    piority = crewJob.Piority;
-                }
-            }
-        }
-
-        foreach (CrewJob crewJob in ActivateJobs)
-        {
-            if (crewJob.Piority == piority)
-            {
-                ret.Add(crewJob);
-            }
-        }
-        return ret;
     }
 }

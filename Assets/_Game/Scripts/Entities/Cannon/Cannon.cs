@@ -102,9 +102,14 @@ namespace _Game.Scripts.Entities
             AttackTargetBehaviour.projectilePrefab = projectile;
         }
 
+        public void OnOutOfAmmo()
+        {
+            GlobalEvent<Cannon, Bullet, int>.Send("Reload", this, usingBullet, 3);
+        }
+
         public void OnClick()
         {
-            GlobalEvent<Cannon, Bullet>.Send("ReloadManual", this, usingBullet);
+            GlobalEvent<Cannon, Bullet, int>.Send("Reload", this, usingBullet, int.MaxValue);
         }
     }
 }
