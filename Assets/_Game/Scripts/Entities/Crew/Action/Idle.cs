@@ -9,8 +9,10 @@ public class Idle : CrewAction
     public Idle(Crew crew)
     {
         this.crew = crew;
+        this.Execute = DoExecute();
+        this.Interupt = DoInterupt();
     }
-    public override IEnumerator Execute()
+    public IEnumerator DoExecute()
     {
         Vector2 raycastOrigin = crew.transform.position;
         Vector2 raycastDirection = Vector2.zero;
@@ -29,7 +31,7 @@ public class Idle : CrewAction
         yield return new WaitForSeconds(2);
     }
 
-    public override IEnumerator Interupt()
+    public IEnumerator DoInterupt()
     {
         yield break;
     }

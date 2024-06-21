@@ -1625,6 +1625,7 @@ MonoBehaviour:
   EffectCollider: {fileID: 4717154638384585547}
   ShipSpeed: {fileID: 4664509178203161118}
   CrewController: {fileID: 4629140384267381351}
+  CrewJobData: {fileID: 5965300281763846854}
 --- !u!114 &4408094167755191158
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1668,6 +1669,7 @@ MonoBehaviour:
   bullets: []
   AllCells: []
   FreeCells: []
+  Cannons: []
 --- !u!50 &3207635550512340188
 Rigidbody2D:
   serializedVersion: 4
@@ -1711,7 +1713,7 @@ MonoBehaviour:
   foam2: {fileID: 3990802452210739547}
   bigFoam: {fileID: 3710157731455552311}
   shipSpeed: 1
-  currentOffset: {x: 255.35695, y: 625.2928}
+  currentOffset: {x: 267.12732, y: 630.0014}
   direction: {x: 1, y: 1}
   scrollSpeed: {x: 0.25, y: 0.1}
 --- !u!114 &3846499980918795068
@@ -1869,6 +1871,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f95aea6c9ddfc2428df277118a4b3d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShipSetup: {fileID: 4408094167755191158}
 --- !u!114 &4629140384267381351
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4716,7 +4719,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7269179856779519348
 Transform:
   m_ObjectHideFlags: 0
@@ -11645,6 +11648,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 5268687737219043262}
     m_Modifications:
     - target: {fileID: 37263412830860456, guid: 10b5644253cc8b2498769adf3747cf4d, type: 3}
+      propertyPath: MoveData
+      value: 
+      objectReference: {fileID: 6574449360095983131}
+    - target: {fileID: 37263412830860456, guid: 10b5644253cc8b2498769adf3747cf4d, type: 3}
       propertyPath: WanderData
       value: 
       objectReference: {fileID: 4234412036565355677}
@@ -11674,11 +11681,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3335989513427287495, guid: 10b5644253cc8b2498769adf3747cf4d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.03999991
+      value: 0.048
       objectReference: {fileID: 0}
     - target: {fileID: 3335989513427287495, guid: 10b5644253cc8b2498769adf3747cf4d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.5999999
+      value: 1.62
       objectReference: {fileID: 0}
     - target: {fileID: 3335989513427287495, guid: 10b5644253cc8b2498769adf3747cf4d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -11724,6 +11731,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4727775757886341208, guid: 10b5644253cc8b2498769adf3747cf4d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4816180007289574500}
+    - targetCorrespondingSourceObject: {fileID: 4727775757886341208, guid: 10b5644253cc8b2498769adf3747cf4d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6574449360095983131}
   m_SourcePrefab: {fileID: 100100000, guid: 10b5644253cc8b2498769adf3747cf4d, type: 3}
 --- !u!1 &1403260090059933781 stripped
 GameObject:
@@ -11742,6 +11752,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05d67288bea2d6e4baaf96c00b0c7502, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPaused: 0
+--- !u!114 &6574449360095983131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1403260090059933781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfc9321a1a6affb4da083e58ef9ee8d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShipSetup: {fileID: 4408094167755191158}
+  CrewController: {fileID: 4629140384267381351}
 --- !u!114 &5936145069552925861 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 37263412830860456, guid: 10b5644253cc8b2498769adf3747cf4d, type: 3}
@@ -13064,6 +13089,10 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 702
       objectReference: {fileID: 0}
+    - target: {fileID: 4423691010520195521, guid: 45257a6d71d2c1046bef9e62627d73d9, type: 3}
+      propertyPath: MoveData
+      value: 
+      objectReference: {fileID: 4234412036565355677}
     - target: {fileID: 4423691010520195521, guid: 45257a6d71d2c1046bef9e62627d73d9, type: 3}
       propertyPath: WanderData
       value: 

@@ -14,7 +14,7 @@ using UnityEngine.Assertions;
 
 namespace _Game.Scripts.Entities
 {
-    public class Cannon : Entity, IGridItem, IShooter, IUpgradeable
+    public class Cannon : Entity, IGridItem, IShooter, IUpgradeable, IWorkLocation
     {
         [Header("Cannon")]
         [field: SerializeField]
@@ -54,6 +54,9 @@ namespace _Game.Scripts.Entities
 
         public Rarity rarity;
         public Rarity Rarity { get => rarity; set => rarity = value; }
+        public List<WorkingSlot> WorkingSlots { get => workingSlots; set => workingSlots = value; }
+
+        public List<WorkingSlot> workingSlots = new List<WorkingSlot>();
 
         public ObjectCollisionDetector FindTargetCollider;
         public AttackTargetBehaviour AttackTargetBehaviour;

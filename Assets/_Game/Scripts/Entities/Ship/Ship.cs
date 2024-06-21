@@ -24,7 +24,7 @@ namespace _Game.Scripts.Gameplay.Ship
         public EffectTakerCollider EffectCollider;
         public ShipSpeed ShipSpeed;
         public CrewController CrewController;
-
+        public CrewJobData CrewJobData;
         protected override void Awake()
         {
             base.Awake();
@@ -33,6 +33,7 @@ namespace _Game.Scripts.Gameplay.Ship
         private void Start()
         {
             ShipSetup.LoadShipItems();
+            CrewJobData.Initialize();
         }
         protected override void LoadStats()
         {

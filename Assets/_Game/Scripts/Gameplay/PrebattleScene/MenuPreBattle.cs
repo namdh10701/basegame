@@ -1,15 +1,10 @@
 
 using _Game.Scripts;
 using _Game.Scripts.Entities;
-using ExitGames.Client.Photon.StructWrapping;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using _Game.Scripts.GD;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 
 public class MenuPreBattle : MonoBehaviour
@@ -25,7 +20,8 @@ public class MenuPreBattle : MonoBehaviour
     [SerializeField] Transform _content;
     // [SerializeField] ScrollRect _scrollRect;
     // [SerializeField] Canvas _canvas;
-    [SerializeField] DragController DragController;
+    [SerializeField] DragController _dragController;
+    [SerializeField] ShipSetup _shipSetup;
 
 
     List<ItemMenu> _itemMenus = new List<ItemMenu>();
@@ -41,9 +37,9 @@ public class MenuPreBattle : MonoBehaviour
         GDConfigLoader.Instance.OnLoaded += Initialize;
         GDConfigLoader.Instance.Load();
 
-        DragController.OnGridItemPlaced += OnGridItemPlaced;
-        DragController.OnGridItemUp += OnGridItemUp;
-        foreach (GridItemData gridItemData in ShipSetup.GridItemDatas)
+        _dragController.OnGridItemPlaced += OnGridItemPlaced;
+        _dragController.OnGridItemUp += OnGridItemUp;
+        foreach (GridItemData gridItemData in _shipSetup.Grids[0].GridItemDatas)
         {
             selectedItems.Add(gridItemData.Def);
         }
@@ -170,7 +166,7 @@ public class MenuPreBattle : MonoBehaviour
                 if (item != null)
                 {
                     var temp = Instantiate(_prefabItemMenu, _content);
-                    temp.Setup(item, DragController.OnPointerDown, DragController.OnPointerUp, selectedItems.Contains(item));
+                    temp.Setup(item, _dragController.OnPointerDown, _dragController.OnPointerUp, selectedItems.Contains(item));
 
                     _itemMenus.Add(temp);
                 }

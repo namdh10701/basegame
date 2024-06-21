@@ -9,7 +9,7 @@ using UnityEngine;
 namespace _Game.Scripts
 {
     [System.Serializable]
-    public class Cell : Entity, IEffectTaker
+    public class Cell : Entity, IEffectTaker, IWorkLocation
     {
         public CellRenderer CellRenderer;
         public int X;
@@ -23,11 +23,24 @@ namespace _Game.Scripts
         public CellStats stats;
         public CellStatsTemplate template;
         public override Stats Stats => stats;
+
+        public List<WorkingSlot> WorkingSlots { get => workingSlots; set => workingSlots = value; }
+        public List<WorkingSlot> workingSlots;
         public EffectTakerCollider EffectCollider;
         protected override void Awake()
         {
             base.Awake();
             EffectCollider.Taker = this;
+        }
+
+        public void Initialize()
+        {
+            workingSlots = new List<WorkingSlot>();
+            List<Cell> surroundCells = GridHelper.GetCellsAroundShape(Grid.Cells, new List<Cell> { this });
+            foreach (Cell cell in surroundCells)
+            {
+                workingSlots.Add(new WorkingSlot(cell));
+            }
         }
 
         public override string ToString()

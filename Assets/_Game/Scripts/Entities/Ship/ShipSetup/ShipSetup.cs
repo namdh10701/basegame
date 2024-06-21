@@ -17,8 +17,9 @@ namespace _Game.Scripts
         public List<Bullet> bullets = new List<Bullet>();
         public List<Cell> AllCells = new List<Cell>();
         public List<Cell> FreeCells = new List<Cell>();
+        public List<IWorkLocation> WorkLocations = new List<IWorkLocation>();
 
-
+        public List<Cannon> Cannons = new List<Cannon>();
 
         private void Awake()
         {
@@ -26,7 +27,6 @@ namespace _Game.Scripts
             {
                 Grids[i].Initialize(ShipGridProfile.GridDefinitions[i]);
             }
-            List<Cell> cells = new List<Cell>();
             foreach (Grid grid in Grids)
             {
                 for (int i = 0; i < grid.Row; i++)
@@ -41,7 +41,13 @@ namespace _Game.Scripts
                     }
                 }
             }
+
+            foreach (Cell cell in AllCells)
+            {
+                cell.Initialize();
+            }
             GridItemDatas = Mockup;
+
         }
         public void LoadShipItems()
         {
@@ -77,6 +83,11 @@ namespace _Game.Scripts
             {
                 bullets.Add(spawned.GetComponent<Bullet>());
             }
+            else if (gridItemData.Def.Type == GridItemType.Cannon)
+            {
+                Cannons.Add(spawned.GetComponent<Cannon>());
+            }
+
             IGridItem gridItem = spawned.GetComponent<IGridItem>();
             gridItem.GridId = gridItemData.GridId;
             List<Cell> occupyCells = gridItem.OccupyCells;
@@ -89,6 +100,17 @@ namespace _Game.Scripts
             float scale = Vector3.one.x / spawned.transform.parent.lossyScale.x;
             spawned.transform.localScale = new Vector3(scale, scale, scale);
             spawned.transform.localPosition = gridItemData.position;
+
+            if (spawned.TryGetComponent(out IWorkLocation workLocation))
+            {
+                WorkLocations.Add(workLocation);
+                List<Cell> workingCells = GridHelper.GetCellsAroundShape(grid.Cells, gridItem.OccupyCells);
+                workLocation.WorkingSlots = new List<WorkingSlot>();
+                foreach (Cell cell in workingCells)
+                {
+                    workLocation.WorkingSlots.Add(new WorkingSlot(cell));
+                }
+            }
         }
 
         public void AddNewGridItem(GridItemData gridItemData)
