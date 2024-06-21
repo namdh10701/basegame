@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using _Base.Scripts.UI.Managers;
 using _Base.Scripts.Utils;
 using _Game.Features.Home;
 using _Game.Features.Inventory;
@@ -220,6 +221,7 @@ namespace _Game.Scripts.Gameplay
         [Binding]
         public void NavToWorldMap()
         {
+            // PopupManager.Instance.ShowPopup<GearInfoPopup>();
             NavTo(Nav.WORLD_MAP);
         }
         

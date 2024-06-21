@@ -5,7 +5,7 @@ using UnityWeld.Binding;
 namespace _Game.Features.WorldMap
 {
     [Binding]
-    public class WorldMapNode : SubViewModel
+    public class WorldMapNodeSingle : RootViewModel
     {
         #region Binding Prop: Name
 
