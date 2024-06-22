@@ -22,7 +22,6 @@ namespace _Game.Scripts.Entities
         }
         public void Blink()
         {
-            Debug.Log(skeleton.GetColor());
             if (blinkSequence != null)
                 return;
             blinkSequence = DOTween.Sequence();

@@ -1,20 +1,24 @@
 using System.Collections.Generic;
+using _Base.Scripts.EventSystem;
 using _Base.Scripts.RPG;
 using _Base.Scripts.RPG.Behaviours.AttackTarget;
 using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.RPG.Entities;
 using _Base.Scripts.RPG.Stats;
 using _Base.Scripts.RPGCommon.Entities;
+using _Base.Scripts.Shared;
 using _Game.Scripts.Entities.CannonComponent;
 using _Game.Scripts.GD;
 using _Game.Scripts.InventorySystem;
+using _Game.Scripts.PathFinding;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.Assertions;
+using YamlDotNet.Core.Tokens;
 
 namespace _Game.Scripts.Entities
 {
-    public class Cannon : Entity, IGridItem, IShooter, IUpgradeable
+    public class Cannon : Entity, IGridItem, IShooter, IUpgradeable, IWorkLocation, INodeOccupier
     {
         [Header("Cannon")]
         [field: SerializeField]
@@ -54,9 +58,16 @@ namespace _Game.Scripts.Entities
 
         public Rarity rarity;
         public Rarity Rarity { get => rarity; set => rarity = value; }
+        public List<Node> WorkingSlots { get => workingSlots; set => workingSlots = value; }
+        public List<Node> OccupyingNodes { get => occupyingNodes; set => occupyingNodes = value; }
+
+        public List<Node> workingSlots = new List<Node>();
+        public List<Node> occupyingNodes = new List<Node>();
 
         public ObjectCollisionDetector FindTargetCollider;
         public AttackTargetBehaviour AttackTargetBehaviour;
+
+        public Bullet usingBullet;
         protected override void Awake()
         {
             base.Awake();
@@ -83,6 +94,7 @@ namespace _Game.Scripts.Entities
         protected override void ApplyStats()
         {
             FindTargetCollider.SetRadius(_stats.AttackRange.Value);
+            AttackTargetBehaviour.projectilePrefab = usingBullet.Projectile;
         }
 
         public void SetProjectile(CannonProjectile projectile)
@@ -90,7 +102,24 @@ namespace _Game.Scripts.Entities
             AttackTargetBehaviour.projectilePrefab = projectile;
         }
 
+        public void OnOutOfAmmo()
+        {
+            GlobalEvent<Cannon, Bullet, int>.Send("Reload", this, usingBullet, 3);
+        }
 
+        public void OnClick()
+        {
+            GlobalEvent<Cannon, Bullet, int>.Send("Reload", this, usingBullet, int.MaxValue);
+        }
 
+        public void OnBroken()
+        {
+            FindTargetCollider.enabled = false;
+        }
+
+        public void OnFixed()
+        {
+            FindTargetCollider.enabled = true;
+        }
     }
 }

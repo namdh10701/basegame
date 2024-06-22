@@ -456,6 +456,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04a2db7fd60a46c9ad717e4290795b41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  body: {fileID: 0}
   def: {fileID: 11400000, guid: 9b32df294375f80449a42cb87c642e70, type: 2}
   _stats:
     <HealthPoint>k__BackingField:
@@ -506,8 +507,11 @@ MonoBehaviour:
   behaviour: {fileID: 2461236567741450463}
   <OccupyCells>k__BackingField: []
   rarity: 0
-  FindTargetCollider: {fileID: 0}
-  AttackTargetBehaviour: {fileID: 0}
+  workingSlots: []
+  occupyingNodes: []
+  FindTargetCollider: {fileID: 3152544984102912611}
+  AttackTargetBehaviour: {fileID: 8818864196946276441}
+  usingBullet: {fileID: 5909292734019790869, guid: f484edc2e211fba4abf6d10c45701042, type: 3}
 --- !u!114 &3798245963770099852
 MonoBehaviour:
   m_ObjectHideFlags: 0

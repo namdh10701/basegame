@@ -4,12 +4,13 @@ using _Base.Scripts.RPG.Entities;
 using _Base.Scripts.StateMachine;
 using _Game.Scripts.Entities;
 using _Game.Scripts.Gameplay.Ship;
+using _Game.Scripts.PathFinding;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace _Game.Scripts
 {
-    public class Crew : Entity, IGridItem, IEffectTaker
+    public class Crew : Entity, IGridItem, INodeOccupier, IEffectTaker, IStunable
     {
         public CrewActionHandler ActionHandler;
         public CrewMovement CrewMovement;
@@ -41,7 +42,11 @@ namespace _Game.Scripts
 
         public SpriteRenderer carryObject;
         public CrewController crewController;
-        public WanderData WanderData;
+        public MoveData MoveData;
+        public EffectTakerCollider EffectTakerCollider;
+
+        public List<Node> occupiyingNodes = new List<Node>();
+        public List<Node> OccupyingNodes { get => occupiyingNodes; set => occupiyingNodes = value; }
         Idle idle;
         Wander wander;
         private void Start()
@@ -50,8 +55,8 @@ namespace _Game.Scripts
             pathfinder = Ship.PathfindingController;
             ActionHandler.OnFree += OnFree;
             idle = new Idle(this);
-            wander = new Wander(this, WanderData);
-
+            wander = new Wander(this, MoveData);
+            EffectTakerCollider.Taker = this;
 
             ActionHandler.Act(idle);
         }
@@ -65,13 +70,13 @@ namespace _Game.Scripts
             else
             {
                 float rand = UnityEngine.Random.Range(0f, 1f);
-                if (rand < 0.5f)
+                if (rand < 0.35f)
                 {
-                    ActionHandler.Act(idle);
+                    ActionHandler.Act(new Idle(this));
                 }
                 else
                 {
-                    ActionHandler.Act(wander);
+                    ActionHandler.Act(new Wander(this, MoveData));
                 }
             }
         }
@@ -88,6 +93,31 @@ namespace _Game.Scripts
         protected override void LoadStats()
         {
             _statTemplate.ApplyConfig(stats);
+        }
+
+        public void OnStun(float duration)
+        {
+            ActionHandler.Pause();
+            Animation.PlayStun();
+            Invoke("OnAfterStun", duration);
+        }
+
+        public void OnAfterStun()
+        {
+            ActionHandler.Resume();
+        }
+
+        public void Carry(Bullet bullet)
+        {
+            Animation.PlayCarry();
+            carryObject.gameObject.SetActive(true);
+            carryObject.sprite = bullet.Def.Image;
+        }
+
+        public void StopCarry()
+        {
+            Animation.PlayIdle();
+            carryObject.gameObject.SetActive(false);
         }
     }
 }

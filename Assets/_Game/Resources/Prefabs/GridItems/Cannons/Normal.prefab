@@ -124,7 +124,7 @@ GameObject:
   - component: {fileID: 1607559049652280926}
   - component: {fileID: 1770014550532335167}
   m_Layer: 9
-  m_Name: normal
+  m_Name: Normal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -176,7 +176,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   body: {fileID: 0}
-  def: {fileID: 11400000, guid: 9b32df294375f80449a42cb87c642e70, type: 2}
+  def: {fileID: 11400000, guid: edca470e5f1dff7419f57866b7982078, type: 2}
   _stats:
     <HealthPoint>k__BackingField:
       _value:
@@ -226,8 +226,11 @@ MonoBehaviour:
   behaviour: {fileID: 8427063930449867751}
   <OccupyCells>k__BackingField: []
   rarity: 0
+  workingSlots: []
+  occupyingNodes: []
   FindTargetCollider: {fileID: 3998683235849372507}
-  AttackTargetBehaviour: {fileID: 0}
+  AttackTargetBehaviour: {fileID: 8192189898026933683}
+  usingBullet: {fileID: 5909292734019790869, guid: f484edc2e211fba4abf6d10c45701042, type: 3}
 --- !u!114 &-717564830529616064
 MonoBehaviour:
   m_ObjectHideFlags: 0

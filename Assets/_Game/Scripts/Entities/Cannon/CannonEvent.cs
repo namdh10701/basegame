@@ -36,5 +36,8 @@ namespace _Game.Scripts.Entities.CannonComponent
         {
             cannonRenderer.StopBlink();
         }
+
+
+
     }
 }

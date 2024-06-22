@@ -1,6 +1,8 @@
 using _Base.Scripts.RPG;
 using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.RPG.Entities;
+using _Game.Scripts;
+using _Game.Scripts.Entities;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,8 +19,11 @@ public class PushEffect : OneShotEffect
     }
     protected override void OnApply(Entity entity)
     {
-        Debug.Log(entity.name);
-        Vector2 direction = (entity.transform.position - transform.position).normalized;
-        entity.body.AddForceAtPosition(force * direction, transform.position);
+        if (entity is Enemy enemy)
+        {
+            Vector2 direction = (entity.transform.position - transform.position).normalized;
+            float poise = ((EnemyStats)enemy.Stats).Poise.Value;
+            entity.body.AddForceAtPosition(force * (1 - poise) * direction, transform.position);
+        }
     }
 }

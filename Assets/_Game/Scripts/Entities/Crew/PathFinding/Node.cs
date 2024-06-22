@@ -1,21 +1,39 @@
+using _Game.Scripts.Entities;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace _Game.Scripts.PathFinding
 {
+    public enum WorkingSlotState
+    {
+         Occupied, Free
+    }
     public class Node : MonoBehaviour
     {
+        public WorkingSlotState State;
         public Vector2 position => transform.position;
         public List<Node> neighbors;
-        public Cell cell;
-        // A* specific variables
         public float gCost;
         public float hCost;
         public float fCost { get { return gCost + hCost; } }
         public Node parent;
 
-        public bool walkable => cell.GridItem == null;
+        public Cell cell;
+        public bool Walkable
+        {
+            get
+            {
+                if (cell != null)
+                {
+                    return cell.GridItem == null;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+        }
 
     }
 }

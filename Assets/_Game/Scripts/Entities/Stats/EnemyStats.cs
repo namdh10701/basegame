@@ -37,6 +37,9 @@ namespace _Game.Scripts
         [field: SerializeField]
         public Stat EvadeChance { get; set; } = new();
 
+        [field: SerializeField]
+        public Stat Poise { get; set; } = new(1);
+
         public IFighterStats.AttackTypes AttackType { get; set; } = IFighterStats.AttackTypes.UNIT;
 
 

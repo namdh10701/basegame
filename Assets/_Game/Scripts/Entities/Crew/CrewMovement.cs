@@ -6,6 +6,23 @@ using UnityEngine;
 public class CrewMovement : MonoBehaviour
 {
     public Crew crew;
+    public Vector2 Velocity
+    {
+        get
+        {
+            return crew.body.velocity;
+        }
+        set
+        {
+            crew.body.velocity = value;
+        }
+    }
+    public IEnumerator MoveTo(Vector3 destination)
+    {
+        List<Vector3> path = crew.pathfinder.GetPath(crew.transform.position, destination);
+        yield return MoveByPath(path);
+    }
+
     public IEnumerator MoveByPath(List<Vector3> path)
     {
         if (path == null)
@@ -29,7 +46,7 @@ public class CrewMovement : MonoBehaviour
                 crew.Animation.Flip(direction.x > 0 ? Direction.Right : Direction.Left);
                 direction = (waypoint - crew.transform.position).normalized;
                 crew.body.velocity = direction * crew.stats.MoveSpeed.Value;
-                yield return null;
+                yield return new WaitForFixedUpdate();
             }
             crew.body.velocity = Vector3.zero;
         }
@@ -60,7 +77,7 @@ public class CrewMovement : MonoBehaviour
                 crew.Animation.Flip(direction.x > 0 ? Direction.Right : Direction.Left);
                 direction = (waypoint - crew.transform.position).normalized;
                 crew.body.velocity = direction * crew.stats.MoveSpeed.Value;
-                yield return null;
+                yield return new WaitForFixedUpdate();
             }
             crew.body.velocity = Vector3.zero;
         }

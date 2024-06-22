@@ -30,16 +30,26 @@ public class JellyFishProjectile : MonoBehaviour
     private void FixedUpdate()
     {
 
-        if (isLaunched)
+        if (isLaunched && atkData != null && atkData.CenterCell != null)
         {
             Vector2 targetDirection = (atkData.CenterCell.transform.position - transform.position).normalized;
             float angle = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg;
-            Quaternion newRotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
-            transform.rotation = Quaternion.Lerp(transform.rotation, newRotation, Time.fixedDeltaTime * rotateSpeed);
+            Quaternion targetRotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
+
+            float angleDifference = Quaternion.Angle(transform.rotation, targetRotation);
+
+            if (angleDifference < rotateSpeed * Time.fixedDeltaTime)
+            {
+                transform.rotation = targetRotation;
+            }
+            else
+            {
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * rotateSpeed);
+            }
 
             body.velocity = speed * transform.up;
-            rotateSpeed += Time.fixedDeltaTime * 5;
-            if (Vector2.Distance(body.position, atkData.CenterCell.transform.position) < .5f)
+
+            if (Vector2.Distance(body.position, atkData.CenterCell.transform.position) < 0.5f)
             {
                 OnImpact();
             }
@@ -54,15 +64,6 @@ public class JellyFishProjectile : MonoBehaviour
     {
         isLaunched = true;
     }
-
-    /*    private void OnTriggerEnter2D(Collider2D collision)
-        {
-            if (collision.gameObject == atkData.CenterCell.gameObject)
-            {
-                OnImpact();
-            }
-        }*/
-
     void OnImpact()
     {
         Destroy(gameObject);

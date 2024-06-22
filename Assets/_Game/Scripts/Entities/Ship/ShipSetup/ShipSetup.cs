@@ -1,32 +1,36 @@
 using _Base.Scripts.Utils.Extensions;
 using _Game.Scripts.Entities;
+using _Game.Scripts.PathFinding;
+using Fusion;
 using Map;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Scripting;
 
 namespace _Game.Scripts
 {
     public class ShipSetup : MonoBehaviour
     {
         public static List<GridItemData> GridItemDatas = new List<GridItemData>();
-        public List<GridItemData> Mockup = new List<GridItemData>();
+        public ShipSetupMockup ShipSetupMockup;
         public GridItemReferenceHolder ItemReferenceHolder;
         public ShipGridProfile ShipGridProfile;
-        public List<Grid> Grids = new List<Grid>();
+        public List<Grid> Grids;
+        public List<Bullet> Bullets { get; private set; } = new List<Bullet>();
+        public List<Cannon> Cannons { get; private set; } = new List<Cannon>();
+        public List<IWorkLocation> WorkLocations { get; private set; } = new List<IWorkLocation>();
+        public List<Cell> AllCells { get; private set; } = new List<Cell>();
 
-        public List<Bullet> bullets = new List<Bullet>();
-        public List<Cell> AllCells = new List<Cell>();
-        public List<Cell> FreeCells = new List<Cell>();
+        public NodeGraph NodeGraph;
 
-
-
+        public List<GameObject> spawnedItems = new List<GameObject>();
         private void Awake()
         {
             for (int i = 0; i < Grids.Count; i++)
             {
                 Grids[i].Initialize(ShipGridProfile.GridDefinitions[i]);
             }
-            List<Cell> cells = new List<Cell>();
             foreach (Grid grid in Grids)
             {
                 for (int i = 0; i < grid.Row; i++)
@@ -34,36 +38,90 @@ namespace _Game.Scripts
                     for (int j = 0; j < grid.Col; j++)
                     {
                         AllCells.Add(grid.Cells[i, j]);
-                        if (grid.Cells[i, j].GridItem == null)
-                        {
-                            FreeCells.Add(grid.Cells[i, j]);
-                        }
                     }
                 }
             }
-            GridItemDatas = Mockup;
+            GridItemDatas = ShipSetupMockup.Datas;
+
         }
         public void LoadShipItems()
         {
             foreach (GridItemData gridItemData in GridItemDatas)
             {
                 Debug.Log(gridItemData.Def.Id);
-                Transform itemGridTransform = GetGridTransformById(gridItemData.GridId);
-                if (itemGridTransform == null)
-                {
-                    Debug.Log("Ship not have grid with id " + gridItemData.GridId);
-                    return;
-                }
-                SpawnItems(gridItemData, itemGridTransform.GetComponent<Grid>());
+                Grid itemGridTransform = GetGridTransformById(gridItemData.GridId);
+                SpawnItems(gridItemData, itemGridTransform);
+            }
+
+            DefineWorkLocation();
+            ReloadCannons();
+        }
+
+        void ReloadCannons()
+        {
+            foreach (Cannon cannon in Cannons)
+            {
+                cannon.Reloader.Reload(Bullets[0]);
             }
         }
-        Transform GetGridTransformById(string id)
+
+        void DefineWorkLocation()
+        {
+            foreach (GameObject spawned in spawnedItems)
+            {
+                if (spawned.TryGetComponent(out IWorkLocation workLocation))
+                {
+                    WorkLocations.Add(workLocation);
+                    workLocation.WorkingSlots = new List<PathFinding.Node>();
+
+                    if (spawned.TryGetComponent(out IGridItem gridItem))
+                    {
+                        foreach (Cell cell in gridItem.OccupyCells)
+                        {
+                            foreach (var node in NodeGraph.nodes)
+                            {
+                                if (node.cell != null && node.cell == cell)
+                                {
+                                    foreach (var adjNode in node.neighbors)
+                                    {
+                                        if (adjNode.Walkable)
+                                        {
+                                            workLocation.WorkingSlots.Add(adjNode);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    Debug.Log(spawned.name + " " + workLocation.WorkingSlots.Count);
+
+                }
+            }
+            spawnedItems.Clear();
+            foreach (Cell cell in AllCells)
+            {
+                cell.WorkingSlots = new List<PathFinding.Node>();
+                foreach (var node in NodeGraph.nodes)
+                {
+                    if (node.cell != null && node.cell == cell)
+                    {
+                        cell.WorkingSlots.Add(node);
+                        foreach (var neightbor in node.neighbors)
+                        {
+                            cell.WorkingSlots.Add(neightbor);
+                        }
+                    }
+                }
+            }
+        }
+        Grid GetGridTransformById(string id)
         {
             foreach (Grid grid in Grids)
             {
                 if (grid.Id == id)
                 {
-                    return grid.transform;
+                    return grid;
                 }
             }
             return null;
@@ -75,8 +133,13 @@ namespace _Game.Scripts
             GameObject spawned = Instantiate(prefab, grid.GridItemRoot);
             if (gridItemData.Def.Type == GridItemType.Bullet)
             {
-                bullets.Add(spawned.GetComponent<Bullet>());
+                Bullets.Add(spawned.GetComponent<Bullet>());
             }
+            else if (gridItemData.Def.Type == GridItemType.Cannon)
+            {
+                Cannons.Add(spawned.GetComponent<Cannon>());
+            }
+
             IGridItem gridItem = spawned.GetComponent<IGridItem>();
             gridItem.GridId = gridItemData.GridId;
             List<Cell> occupyCells = gridItem.OccupyCells;
@@ -89,6 +152,20 @@ namespace _Game.Scripts
             float scale = Vector3.one.x / spawned.transform.parent.lossyScale.x;
             spawned.transform.localScale = new Vector3(scale, scale, scale);
             spawned.transform.localPosition = gridItemData.position;
+            spawnedItems.Add(spawned);
+            if (spawned.TryGetComponent(out INodeOccupier nodeOccupier))
+            {
+                foreach (Cell cell in gridItem.OccupyCells)
+                {
+                    foreach (var node in NodeGraph.nodes)
+                    {
+                        if (node.cell != null && node.cell == cell)
+                        {
+                            nodeOccupier.OccupyingNodes.Add(node);
+                        }
+                    }
+                }
+            }
         }
 
         public void AddNewGridItem(GridItemData gridItemData)

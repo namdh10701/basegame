@@ -16,6 +16,7 @@ namespace _Game.Scripts
             CooldownBehaviour.SetCooldownTime(7f);
             CooldownBehaviour.StartCooldown();
             MoveAreaController moveArea = FindAnyObjectByType<MoveAreaController>();
+            Area area = moveArea.GetCloset(transform.position);
             blackboard.GetVariable<AreaVariable>("MoveArea").Value = moveArea.GetArea(AreaType.Floor2Plus3);
             yield return base.Start();
         }

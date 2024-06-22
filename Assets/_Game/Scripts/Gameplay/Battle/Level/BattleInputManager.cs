@@ -1,10 +1,14 @@
 
+using _Base.Scripts.Shared;
 using _Game.Scripts.Entities;
 using _Game.Scripts.GameContext;
 using _Game.Scripts.Gameplay.Ship;
 using _Game.Scripts.Input;
+using Mono.Cecil.Cil;
 using System.Collections.Generic;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace _Game.Scripts
 {
@@ -30,19 +34,29 @@ namespace _Game.Scripts
         {
             if (UnityEngine.Input.GetMouseButtonDown(0))
             {
-                Vector3 mousePosition = _camera.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
-                RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero, Mathf.Infinity, layerMask);
-                if (hit.collider != null)
-                {
-                    if (hit.collider.TryGetComponent(out ItemClickDetector icd))
-                    {
-                        IGridItem gridItem = icd.Item.gameObject.GetComponent<IGridItem>();
-                        if (gridItem is Cannon)
-                        {
-                            selectingCannon = gridItem as Cannon;
 
-                            CreateBulletsMenu();
-                        }
+                Vector3 mousePosition = _camera.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
+                RaycastHit2D[] hits = Physics2D.RaycastAll(mousePosition, Vector2.zero, Mathf.Infinity, layerMask);
+
+                float closestDistance = Mathf.Infinity;
+                RaycastHit2D closestHit = new RaycastHit2D();
+
+                foreach (RaycastHit2D hit in hits)
+                {
+                    float distance = Vector2.Distance(hit.point, mousePosition);
+                    if (distance < closestDistance)
+                    {
+                        closestDistance = distance;
+                        closestHit = hit;
+                    }
+                }
+
+                if (closestHit.collider != null)
+                {
+                    if (closestHit.collider.TryGetComponent(out ItemClickDetector icd))
+                    {
+                        IWorkLocation workLocation = icd.Item.GetComponent<IWorkLocation>();
+                        workLocation.OnClick();
                     }
                 }
             }
@@ -86,7 +100,7 @@ namespace _Game.Scripts
         void CreateBulletsMenu()
         {
             canvas.SetActive(true);
-            bulletMenu.Setup(selectingCannon, shipSetup.bullets);
+            bulletMenu.Setup(selectingCannon, shipSetup.Bullets);
         }
 
     }

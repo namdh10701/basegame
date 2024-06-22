@@ -64,6 +64,7 @@ namespace _Game.Scripts.Entities
         public override void Die()
         {
             base.Die();
+            _stats.Poise.BaseValue = 0;
             StartCoroutine(AttackSequence());
         }
 
