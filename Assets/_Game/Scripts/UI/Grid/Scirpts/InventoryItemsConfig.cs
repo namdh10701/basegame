@@ -8,7 +8,7 @@ namespace _Base.Scripts.UI
     public class InventoryItemsConfig : ScriptableObject
     {
         public InventoryItem InventoryItem;
-        public List<InventoryItemInfo> inventoryItems = new List<InventoryItemInfo>();
+        public List<InventoryItemInfo> inventoryItemsInfo = new List<InventoryItemInfo>();
     }
 
     [Serializable]

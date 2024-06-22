@@ -15,11 +15,17 @@ public class InventoryItem : MonoBehaviour
         _icon.sprite = _inventoryItemData.sprite;
         _icon.SetNativeSize();
         _shape = Shape.ShapeDic[_inventoryItemData.shapeId];
+        this.transform.localPosition = _inventoryItemData.position;
     }
 
     public int[,] GetShape()
     {
         return _shape;
+    }
+
+    public void Setposition(Vector2 position)
+    {
+        _inventoryItemData.position = position;
     }
 
 }
