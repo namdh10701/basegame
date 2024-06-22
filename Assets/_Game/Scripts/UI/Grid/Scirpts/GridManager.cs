@@ -6,6 +6,8 @@ namespace _Base.Scripts.UI
     {
         [SerializeField] private GridConfig _gridConfig;
         [SerializeField] private List<RectTransform> _parentCells;
+        public List<InventoryItem> inventoryItems = new List<InventoryItem>();
+
 
         void Awake()
         {
@@ -18,34 +20,41 @@ namespace _Base.Scripts.UI
         {
             for (int i = 0; i < _gridConfig.grids.Count; i++)
             {
-                _gridConfig.grids[i].cells = new Cell[_gridConfig.grids[i].rows, _gridConfig.grids[i].cols];
-                for (int r = 0; r < _gridConfig.grids[i].rows; r++)
+                var grid = _gridConfig.grids[i];
+                grid.cells = new Cell[grid.rows, grid.cols];
+
+                for (int r = 0; r < grid.rows; r++)
                 {
-                    for (int c = 0; c < _gridConfig.grids[i].cols; c++)
+                    for (int c = 0; c < grid.cols; c++)
                     {
                         var cell = Instantiate<Cell>(_gridConfig.cell, _parentCells[i]);
                         cell.gameObject.name = $"Cell {r},{c}";
-                        var cellData = new CellData(StatusCell.Empty, new Vector2(r, c));
+
+                        // Tính toán vị trí cell với khoảng cách spacing
+                        float posX = c * (grid.cellSize.x + grid.spacing);
+                        float posY = r * (grid.cellSize.y + grid.spacing);
+                        cell.transform.localPosition = new Vector2(posX, posY);
+
+                        var cellData = new CellData(StatusCell.Empty, new Vector2(r, c), grid.cellSize);
                         cell.Setup(cellData);
-                        _gridConfig.grids[i].cells[r, c] = cell;
-                        _gridConfig.grids[i].parent = _parentCells[i];
+                        grid.cells[r, c] = cell;
                     }
                 }
-
             }
         }
 
         private void LoadInventoryItemsOnGrids()
         {
-            foreach (var grid in _gridConfig.grids)
+            for (int i = 0; i < _gridConfig.grids.Count; i++)
             {
+                var grid = _gridConfig.grids[i];
                 if (grid.inventoryItemsConfig.inventoryItems.Count == 0) continue;
 
                 foreach (var inventoryItem in grid.inventoryItemsConfig.inventoryItems)
                 {
-                    var item = Instantiate<InventoryItem>(grid.inventoryItemsConfig.InventoryItem, this.transform);
+                    var item = Instantiate<InventoryItem>(grid.inventoryItemsConfig.InventoryItem, _parentCells[i]);
                     item.Setup(inventoryItem.inventoryItemData);
-                    grid.inventoryItems.Add(item);
+                    // grid.inventoryItems.Add(item);
                 }
 
             }
@@ -53,18 +62,20 @@ namespace _Base.Scripts.UI
 
         private void LoadInventoryItemsOnStash()
         {
-            foreach (var grid in _gridConfig.grids)
+            for (int i = 0; i < _gridConfig.grids.Count; i++)
             {
+                var grid = _gridConfig.grids[i];
                 if (grid.id == "Stash")
                 {
                     foreach (var inventoryItem in grid.inventoryItemsConfig.inventoryItems)
                     {
-                        var item = Instantiate<InventoryItem>(grid.inventoryItemsConfig.InventoryItem, this.transform);
+                        var item = Instantiate<InventoryItem>(grid.inventoryItemsConfig.InventoryItem, _parentCells[i]);
+                        inventoryItem.inventoryItemData.gridID = grid.id;
                         item.Setup(inventoryItem.inventoryItemData);
-                        grid.inventoryItems.Add(item);
+                        inventoryItems.Add(item);
                     }
 
-                    PlaceAllItems(grid.inventoryItems, grid);
+                    PlaceAllItems(inventoryItems, grid);
                 }
             }
 
@@ -82,8 +93,7 @@ namespace _Base.Scripts.UI
                     {
                         if (CanPlaceItem(item.GetShape(), i, j, grid))
                         {
-                            // PlaceItem(item, i, j);
-                            item.gameObject.transform.position = GetPositionCell(i, j, grid.cells);
+                            PlaceItem(item, i, j, GetPositionCell(i, j, grid.cells), grid);
                             itemPlaced = true;
                         }
                     }
@@ -96,9 +106,9 @@ namespace _Base.Scripts.UI
             }
         }
 
-        private Vector3 GetPositionCell(int r, int c, Cell[,] cells)
+        private GameObject GetPositionCell(int r, int c, Cell[,] cells)
         {
-            return new Vector3(cells[r, c].transform.position.x, cells[r, c].transform.position.y, cells[r, c].transform.position.z);
+            return cells[r, c].gameObject;
         }
 
         private bool CanPlaceItem(int[,] shape, int startX, int startY, GridInfor grid)
@@ -126,23 +136,26 @@ namespace _Base.Scripts.UI
             return true;
         }
 
-        public void PlaceItem(int[,] item, int startX, int startY)
+        public void PlaceItem(InventoryItem inventoryItem, int startX, int startY, GameObject cell, GridInfor grid)
         {
-            int itemRows = item.GetLength(0);
-            int itemCols = item.GetLength(1);
+            int itemRows = inventoryItem.GetShape().GetLength(0);
+            int itemCols = inventoryItem.GetShape().GetLength(1);
 
             for (int i = 0; i < itemRows; i++)
             {
                 for (int j = 0; j < itemCols; j++)
                 {
-                    if (item[i, j] == 1)
+                    if (inventoryItem.GetShape()[i, j] == 1)
                     {
-                        // grid[startX + i, startY + j] = (int)StatusCell.Occupied;
+                        grid.cells[startX + i, startY + j].SetStatusCell(StatusCell.Occupied);
                     }
                 }
             }
-        }
+            Debug.Log("PlaceItem: " + cell.transform.localPosition);
 
+            inventoryItem.gameObject.transform.localPosition = cell.transform.localPosition;
+
+        }
 
 
     }

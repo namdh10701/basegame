@@ -7,6 +7,7 @@ namespace _Base.Scripts.UI
     public class InventoryItemData : ScriptableObject
     {
         public int shapeId;
+        public string gridID;
         public InventoryItemType inventoryItemType;
         public Vector2 position;
         public Sprite sprite;

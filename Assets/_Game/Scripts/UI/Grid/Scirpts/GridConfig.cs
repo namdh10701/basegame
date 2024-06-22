@@ -16,11 +16,10 @@ namespace _Base.Scripts.UI
         public string id;
         public int rows;
         public int cols;
+        public Vector2 cellSize;
         public float spacing;
         public Cell[,] cells;
-        public RectTransform parent;
         public InventoryItemsConfig inventoryItemsConfig;
-        public List<InventoryItem> inventoryItems = new List<InventoryItem>();
 
     }
 
@@ -29,11 +28,13 @@ namespace _Base.Scripts.UI
     {
         public StatusCell statusCell;
         public Vector2 position;
+        public Vector2 size;
 
-        public CellData(StatusCell statusCell, Vector2 position)
+        public CellData(StatusCell statusCell, Vector2 position, Vector2 size)
         {
             this.statusCell = statusCell;
             this.position = position;
+            this.size = size;
         }
     }
 

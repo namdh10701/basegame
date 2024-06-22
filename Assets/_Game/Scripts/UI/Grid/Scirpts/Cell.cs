@@ -8,11 +8,13 @@ namespace _Base.Scripts.UI
     {
         [SerializeField] private Image _backGround;
         [SerializeField] private TextMeshProUGUI _pos;
+        [SerializeField] private RectTransform _root;
         private CellData _cellData;
         public void Setup(CellData cellData)
         {
             _cellData = cellData;
             _pos.text = $"{_cellData.position.x}:{_cellData.position.y}";
+            _root.sizeDelta = _cellData.size;
         }
 
         // public void CheckCellEmty()
@@ -28,6 +30,11 @@ namespace _Base.Scripts.UI
             if (_cellData.statusCell == StatusCell.Empty)
                 return true;
             return false;
+        }
+
+        public void SetStatusCell(StatusCell statusCell)
+        {
+            _cellData.statusCell = statusCell;
         }
 
     }
