@@ -722,10 +722,55 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5114871279021324196, guid: c76e4099f480748868fb89f444044357, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7673909561975938357}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8301589732718376815, guid: c76e4099f480748868fb89f444044357, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1551869209948983991}
+    - targetCorrespondingSourceObject: {fileID: 8301589732718376815, guid: c76e4099f480748868fb89f444044357, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7213518587274410367}
   m_SourcePrefab: {fileID: 100100000, guid: c76e4099f480748868fb89f444044357, type: 3}
 --- !u!224 &5701809868899479008 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5114871279021324196, guid: c76e4099f480748868fb89f444044357, type: 3}
   m_PrefabInstance: {fileID: 710242222715968068}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &8858125720410221867 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8301589732718376815, guid: c76e4099f480748868fb89f444044357, type: 3}
+  m_PrefabInstance: {fileID: 710242222715968068}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1551869209948983991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8858125720410221867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b55573c4f32c4e20a1fea21dbc8a528d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7213518587274410367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8858125720410221867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1957390036, guid: e650e72e8be47794994495fc15c0ba63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  viewModelPropertyName: _Game.Features.WorldMap.WorldMapNodeSingle.IsSelected
+  viewEventName: UnityEngine.UI.Toggle.onValueChanged
+  viewPropertyName: UnityEngine.UI.Toggle.isOn
+  viewAdapterTypeName: 
+  viewAdapterOptions: {fileID: 0}
+  viewModelAdapterTypeName: 
+  viewModelAdapterOptions: {fileID: 0}
+  exceptionPropertyName: 
+  exceptionAdapterTypeName: 
+  exceptionAdapterOptions: {fileID: 0}

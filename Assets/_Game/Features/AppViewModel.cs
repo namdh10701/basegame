@@ -113,6 +113,8 @@ namespace _Game.Scripts.Gameplay
         // }
 
         #endregion
+        
+        private EquipmentViewModel _equipmentViewModel = new EquipmentViewModel();
 
         private WorldMapViewModel _WorldMapViewModel = new WorldMapViewModel();
 

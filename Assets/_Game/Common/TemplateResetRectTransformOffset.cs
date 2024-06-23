@@ -14,7 +14,6 @@ namespace _Game.Common
                 
                 rect.offsetMax = Vector2.zero;
                 rect.offsetMin = Vector2.zero;
-                child.gameObject.SetActive(false);
             }
         }
     }

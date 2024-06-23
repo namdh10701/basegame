@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using _Base.Scripts.UI.Managers;
+using _Game.Scripts.UI;
 using UnityEngine;
 using UnityWeld.Binding;
 
@@ -20,8 +22,10 @@ namespace _Game.Features.Inventory
         public ItemType ItemType;
     }
     [Binding]
-    public class InventoryItem : INotifyPropertyChanged
+    public class InventoryItem : SubViewModel
     {
+        public InventoryViewModel InventoryViewModel { get; set; }
+        
         [Binding]
         public string Id { get; set; }
         
@@ -77,24 +81,92 @@ namespace _Game.Features.Inventory
         
         [Binding]
         public Sprite Thumbnail => Resources.Load<Sprite>($"Images/Cannon/cannon_{Id}");
+        
+        #region Binding Prop: IsSelected
 
-        #region INotifyPropertyChanged
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        /// <summary>
+        /// IsSelected
+        /// </summary>
+        [Binding]
+        public bool IsSelected
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            get => _isSelected;
+            set
+            {
+                if (Equals(_isSelected, value))
+                {
+                    return;
+                }
+
+                _isSelected = value;
+                OnPropertyChanged(nameof(IsSelected));
+            }
         }
 
-        protected bool SetField<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
-        {
-            if (EqualityComparer<T>.Default.Equals(field, value)) return false;
-            field = value;
-            OnPropertyChanged(propertyName);
-            return true;
-        }
+        private bool _isSelected;
 
         #endregion
+
+        #region Binding Prop: IsEquipped
+
+        /// <summary>
+        /// IsEquipped
+        /// </summary>
+        [Binding]
+        public bool IsEquipped
+        {
+            get => _isEquipped;
+            set
+            {
+                if (Equals(_isEquipped, value))
+                {
+                    return;
+                }
+
+                _isEquipped = value;
+                OnPropertyChanged(nameof(IsEquipped));
+            }
+        }
+
+        private bool _isEquipped;
+
+        #endregion
+
+        #region Binding Prop: IsHighLight
+
+        /// <summary>
+        /// IsHighLight
+        /// </summary>
+        [Binding]
+        public bool IsHighLight
+        {
+            get => _isHighLight;
+            set
+            {
+                if (Equals(_isHighLight, value))
+                {
+                    return;
+                }
+
+                _isHighLight = value;
+                OnPropertyChanged(nameof(IsHighLight));
+            }
+        }
+
+        private bool _isHighLight;
+
+        #endregion
+
+        [Binding]
+        public void ShowItemDetail()
+        {
+            PopupManager.Instance.ShowPopup<GearInfoPopup>();
+        }
+
+        [Binding]
+        public void SetAsHighLightItem()
+        {
+            InventoryViewModel.HighlightItem = this;
+        }
     }
 }
