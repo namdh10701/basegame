@@ -8,7 +8,7 @@ using UnityWeld.Binding;
 namespace _Game.Features.Inventory
 {
     [Binding]
-    public class InventoryViewModel : SubViewModel
+    public class InventoryViewModel : RootViewModel
     {
         private List<InventoryItem> itemSource = new List<InventoryItem>();
         
@@ -131,7 +131,7 @@ namespace _Game.Features.Inventory
         //
         // }
 
-        protected override void InitializeInternal()
+        protected void InitializeInternal()
         {
             for (int i = 0; i < 3; i++)
             {
