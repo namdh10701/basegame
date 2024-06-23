@@ -17,12 +17,10 @@ namespace _Base.Scripts.UI
             _root.sizeDelta = _cellData.size;
         }
 
-        public void ChangeColor()
+        public void ChangeColor(Color color)
         {
-            if (_cellData.statusCell == StatusCell.Empty)
-                _backGround.color = Color.red;
-            else
-                _backGround.color = Color.green;
+            _backGround.color = color;
+
         }
 
         public bool CheckCellEmty()

@@ -28,4 +28,9 @@ public class InventoryItem : MonoBehaviour
         _inventoryItemData.position = position;
     }
 
+    public InventoryItemData GetInventorData()
+    {
+        return _inventoryItemData;
+    }
+
 }

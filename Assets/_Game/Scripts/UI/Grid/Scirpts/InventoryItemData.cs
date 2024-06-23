@@ -6,6 +6,8 @@ namespace _Base.Scripts.UI
     [CreateAssetMenu(menuName = "Scriptable Objects/Inventory Item Data")]
     public class InventoryItemData : ScriptableObject
     {
+        public int startX;
+        public int startY;
         public int shapeId;
         public string gridID;
         public InventoryItemType inventoryItemType;

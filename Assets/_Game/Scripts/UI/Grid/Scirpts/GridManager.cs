@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using _Game.Scripts;
+using Unity.VisualScripting;
 using UnityEngine;
 namespace _Base.Scripts.UI
 {
@@ -7,19 +8,27 @@ namespace _Base.Scripts.UI
     {
         [SerializeField] private GridConfig _gridConfig;
         [SerializeField] private List<RectTransform> _parentCells;
-
+        [SerializeField] private List<Transform> _startPos;
         [SerializeField] private InventoryItemsConfig _TestinventoryItemsConfig;
+        [SerializeField] public RectTransform m_rect;
         public List<InventoryItem> inventoryItems = new List<InventoryItem>();
-
-        private List<Cell> _gridStash = new List<Cell>();
-
 
         void Awake()
         {
             Initialize();
-            // LoadInventoryItemsOnGrids();
-            // LoadInventoryItemsOnStash();
-            GetInventoryItemInfo(_TestinventoryItemsConfig.inventoryItemsInfo);
+        }
+
+        void OnEnable()
+        {
+            var inventoryItems = AddInventoryItemsInfo(_TestinventoryItemsConfig.inventoryItemsInfo, _gridConfig.grids[1]);
+            if (inventoryItems != null)
+                LoadInventoryItemsOnStash(inventoryItems, _gridConfig.grids[1], _parentCells[1]);
+        }
+
+
+        void OnDisable()
+        {
+            RemoveInventoryItemsInfo(_TestinventoryItemsConfig.inventoryItemsInfo, _gridConfig.grids[1]);
         }
 
         private void Initialize()
@@ -38,15 +47,13 @@ namespace _Base.Scripts.UI
                             cell.gameObject.name = $"Cell {r},{c}";
 
                             // Tính toán vị trí cell với khoảng cách spacing
-                            float posX = c * (grid.cellSize.x + grid.spacing) + grid.cellSize.x / 2;
-                            float posY = r * (grid.cellSize.y + grid.spacing);
+                            float posX = _startPos[i].localPosition.x + c * (grid.cellSize.x + grid.spacing) + grid.cellSize.x / 2;
+                            float posY = _startPos[i].localPosition.y + r * (grid.cellSize.y + grid.spacing);
                             cell.transform.localPosition = new Vector2(posX, posY);
                             grid.cells[r, c] = cell;
-                            var cellData = new CellData(r, c, StatusCell.Empty, new Vector2(posX, posY), grid.cellSize);
-                            cell.Setup(cellData);
-                            _gridStash.Add(cell);
                         }
                     }
+                    LoadCellData(grid);
                 }
                 else
                 {
@@ -58,102 +65,81 @@ namespace _Base.Scripts.UI
                             cell.gameObject.name = $"Cell {r},{c}";
 
                             // Tính toán vị trí cell với khoảng cách spacing
-                            float posX = c * (grid.cellSize.x + grid.spacing) + grid.cellSize.x / 2;
-                            float posY = r * (grid.cellSize.y + grid.spacing);
+                            float posX = _startPos[i].localPosition.x + c * (grid.cellSize.x + grid.spacing) + grid.cellSize.x / 2;
+                            float posY = _startPos[i].localPosition.y + r * (grid.cellSize.y + grid.spacing);
                             cell.transform.localPosition = new Vector2(posX, posY);
                             grid.cells[r, c] = cell;
                             var cellData = new CellData(r, c, StatusCell.Empty, new Vector2(posX, posY), grid.cellSize);
                             grid.listCellsData.Add(cellData);
                             cell.Setup(cellData);
-                            _gridStash.Add(cell);
                         }
                     }
                 }
 
-                LoadCellData(grid);
             }
 
         }
 
         private void LoadCellData(GridInfor grid)
         {
-            if (grid.listCellsData.Count == 0) return;
-
             for (int i = 0; i < grid.listCellsData.Count; i++)
             {
-                _gridStash[i].Setup(grid.listCellsData[i]);
                 grid.cells[grid.listCellsData[i].r, grid.listCellsData[i].c].Setup(grid.listCellsData[i]);
             }
 
         }
 
-        // private void LoadInventoryItemsOnGrids()
-        // {
-        //     for (int i = 0; i < _gridConfig.grids.Count; i++)
-        //     {
-        //         var grid = _gridConfig.grids[i];
-        //         if (grid.inventoryItemsConfig.inventoryItemsInfo.Count == 0) continue;
-
-        //         foreach (var inventoryItem in grid.inventoryItemsConfig.inventoryItemsInfo)
-        //         {
-        //             var item = Instantiate<InventoryItem>(grid.inventoryItemsConfig.InventoryItem, _parentCells[i]);
-        //             item.Setup(inventoryItem.inventoryItemData);
-        //             // grid.inventoryItems.Add(item);
-        //         }
-
-        //     }
-        // }
-
-        private void GetInventoryItemInfo(List<InventoryItemInfo> inventoryItems)
+        public List<InventoryItemInfo> AddInventoryItemsInfo(List<InventoryItemInfo> inventoryItems, GridInfor grid)
         {
-            for (int i = 0; i < _gridConfig.grids.Count; i++)
+            var inventoryIntems = new List<InventoryItemInfo>();
+            foreach (var inventoryItem in inventoryItems)
             {
-                var grid = _gridConfig.grids[i];
-                if (grid.id == "Stash")
+                if (CheckPlaceItem(inventoryItem, grid))
                 {
-                    foreach (var inventoryItem in inventoryItems)
-                    {
-                        if (CheckPlaceItem(inventoryItem, grid))
-                        {
-                            grid.inventoryItemsConfig.inventoryItemsInfo.Add(inventoryItem);
-                        }
-                        else
-                        {
-                            Debug.Log("Can't insert item inventory");
-                        }
-                        continue;
-                    }
-
+                    grid.inventoryItemsConfig.inventoryItemsInfo.Add(inventoryItem);
+                    inventoryIntems.Add(inventoryItem);
                 }
-                for (int r = 0; r < grid.rows; r++)
+                else
                 {
-                    for (int c = 0; c < grid.cols; c++)
+                    Debug.Log("Can't insert item inventory");
+                }
+                continue;
+            }
+            return inventoryIntems;
+        }
+
+        public void RemoveInventoryItemsInfo(List<InventoryItemInfo> inventoryItems, GridInfor grid)
+        {
+            var itemsToRemove = new List<InventoryItemInfo>();
+
+            foreach (var inventoryItem in inventoryItems)
+            {
+                foreach (var inventoryItemInfo in grid.inventoryItemsConfig.inventoryItemsInfo)
+                {
+                    if (inventoryItem.inventoryItemData == inventoryItemInfo.inventoryItemData)
                     {
-                        grid.cells[r, c].ChangeColor();
+                        itemsToRemove.Add(inventoryItemInfo);
                     }
                 }
             }
 
+            foreach (var itemToRemove in itemsToRemove)
+            {
+                grid.inventoryItemsConfig.inventoryItemsInfo.Remove(itemToRemove);
+                ChangeStatusCell(itemToRemove.inventoryItemData, itemToRemove.inventoryItemData.startX, itemToRemove.inventoryItemData.startY, grid, StatusCell.Empty);
 
+            }
         }
 
-        [ContextMenu("LoadInventoryItemsOnStash")]
-        private void LoadInventoryItemsOnStash()
-        {
-            for (int i = 0; i < _gridConfig.grids.Count; i++)
-            {
-                var grid = _gridConfig.grids[i];
-                if (grid.id == "Stash")
-                {
-                    foreach (var inventoryItem in grid.inventoryItemsConfig.inventoryItemsInfo)
-                    {
-                        var item = Instantiate<InventoryItem>(grid.inventoryItemsConfig.InventoryItem, _parentCells[i]);
-                        inventoryItem.inventoryItemData.gridID = grid.id;
-                        item.Setup(inventoryItem.inventoryItemData);
-                        inventoryItems.Add(item);
 
-                    }
-                }
+        private void LoadInventoryItemsOnStash(List<InventoryItemInfo> inventoryItems, GridInfor grid, Transform parent)
+        {
+            foreach (var inventoryItem in inventoryItems)
+            {
+                inventoryItem.inventoryItemData.gridID = grid.id;
+                grid.inventoryItemsConfig.inventoryItemsInfo.Add(inventoryItem);
+                var item = Instantiate<InventoryItem>(grid.inventoryItemsConfig.InventoryItem, parent);
+                item.Setup(inventoryItem.inventoryItemData);
             }
         }
 
@@ -161,17 +147,21 @@ namespace _Base.Scripts.UI
         {
             bool itemPlaced = false;
 
-            for (int i = 0; i < grid.rows && !itemPlaced; i++)
+            for (int r = 0; r < grid.rows && !itemPlaced; r++)
             {
-                for (int j = 0; j < grid.cols && !itemPlaced; j++)
+                for (int c = 0; c < grid.cols && !itemPlaced; c++)
                 {
                     var shape = Shape.ShapeDic[inventoryItemInfo.inventoryItemData.shapeId];
-                    if (CanPlace(shape, i, j, grid))
+                    var result = CanPlace(shape, r, c, grid);
+                    if (result.canPlace)
                     {
-                        var pos = GetPositionCell(shape, i, j, grid.cells, grid);
+                        var pos = GetPositionCell(shape, r, c, grid.cells, grid);
                         inventoryItemInfo.inventoryItemData.position = pos;
-                        ChangeStatusCell(inventoryItemInfo.inventoryItemData, i, j, pos, grid);
+                        ChangeStatusCell(inventoryItemInfo.inventoryItemData, r, c, grid, StatusCell.Occupied);
                         itemPlaced = true;
+
+
+
                     }
                 }
             }
@@ -188,48 +178,192 @@ namespace _Base.Scripts.UI
         {
             int itemRows = shape.GetLength(0);
             int itemCols = shape.GetLength(1);
-            var rect = new Vector2(cells[r, c].gameObject.transform.localPosition.x + grid.cellSize.x / 2 * (itemCols - 1), cells[r, c].gameObject.transform.localPosition.y);
             return new Vector2(cells[r, c].gameObject.transform.localPosition.x + grid.cellSize.x / 2 * (itemCols - 1), cells[r, c].gameObject.transform.localPosition.y);
         }
 
-        private bool CanPlace(int[,] shape, int startX, int startY, GridInfor grid)
+        private (bool canPlace, List<Cell> blockedCells) CanPlace(int[,] shape, int startX, int startY, GridInfor grid, bool isStartDrag = false)
         {
             int itemRows = shape.GetLength(0);
             int itemCols = shape.GetLength(1);
 
-            // Kiểm tra xem item có vượt quá giới hạn của grid không
+            var cells = new List<Cell>();
+
             if (startX + itemRows > grid.rows || startY + itemCols > grid.cols)
             {
-                return false;
+                return (false, cells);
             }
 
-            // Kiểm tra xem vị trí đặt item có bị trùng lặp với các cell đã được đặt không
             for (int i = 0; i < itemRows; i++)
             {
                 for (int j = 0; j < itemCols; j++)
                 {
-                    if (shape[i, j] == 1 && !grid.cells[startX + i, startY + j].CheckCellEmty())
+                    if (!isStartDrag)
                     {
-                        return false;
+                        if (shape[i, j] == 1 && grid.cells[startX + i, startY + j].CheckCellEmty())
+                        {
+                            cells.Add(grid.cells[startX + i, startY + j]);
+                        }
+                        else if (shape[i, j] == 1)
+                        {
+                            return (false, new List<Cell>());
+                        }
+                    }
+                    else
+                    {
+                        cells.Add(grid.cells[startX + i, startY + j]);
                     }
                 }
             }
-            return true;
+
+            return (true, cells);
         }
 
-        public void ChangeStatusCell(InventoryItemData inventoryItemData, int startX, int startY, Vector2 pos, GridInfor grid)
+        public void ChangeStatusCell(InventoryItemData inventoryItemData, int startX, int startY, GridInfor grid, StatusCell statusCell)
         {
             var shape = Shape.ShapeDic[inventoryItemData.shapeId];
             int itemRows = shape.GetLength(0);
             int itemCols = shape.GetLength(1);
+            inventoryItemData.startX = startX;
+            inventoryItemData.startY = startY;
 
             for (int i = 0; i < itemRows; i++)
             {
                 for (int j = 0; j < itemCols; j++)
                 {
-                    grid.cells[startX + i, startY + j].SetStatusCell(StatusCell.Occupied);
+                    grid.cells[startX + i, startY + j].SetStatusCell(statusCell);
                 }
             }
+
+        }
+
+        public (List<Cell> cells, GridInfor grid) GetCellsByPosition(Vector2 mousePosition, Vector2 inventoryPositon, InventoryItem inventoryItem, bool startDrag = false)
+        {
+
+            Vector2 positionInGridManager;
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(m_rect, mousePosition, Camera.main, out positionInGridManager);
+
+            int index = -1;
+
+            foreach (var parent in _parentCells)
+            {
+                if (parent.localPosition.x < positionInGridManager.x &&
+                    positionInGridManager.x < parent.localPosition.x + parent.rect.width &&
+                    parent.localPosition.y < positionInGridManager.y &&
+                    positionInGridManager.y < parent.localPosition.y + parent.rect.height)
+
+                    if (parent.name == "Ship")
+                    {
+                        index = 0;
+                        break;
+                    }
+                    else if (parent.name == "Stash")
+                    {
+                        index = 1;
+                        break;
+                    }
+            }
+
+            // Nếu không tìm thấy chỉ mục hợp lệ, trả về null
+            if (index == -1)
+            {
+                return (new List<Cell>(), null);
+            }
+
+            var grid = _gridConfig.grids[index];
+            if (startDrag)
+            {
+                var cell = grid.cells[inventoryItem.GetInventorData().startX, inventoryItem.GetInventorData().startY];
+                var cellData = cell.GetCellData();
+                Debug.Log($"[GetCellByPosition]: {cellData.r}, {cellData.c}");
+                var result = CanPlace(inventoryItem.GetShape(), cellData.r, cellData.c, grid, true);
+                if (result.canPlace)
+                {
+                    for (int i = 0; i < result.blockedCells.Count; i++)
+                    {
+                        grid.cells[result.blockedCells[i].GetCellData().r, result.blockedCells[i].GetCellData().c].SetStatusCell(StatusCell.Empty);
+
+                    }
+
+                    return (result.blockedCells, grid);
+                }
+            }
+
+            for (int r = 0; r < grid.rows; r++)
+            {
+                for (int c = 0; c < grid.cols; c++)
+                {
+                    var cell = grid.cells[r, c];
+                    if (IsMouseOverCell(inventoryPositon, cell))
+                    {
+                        var cellData = cell.GetCellData();
+                        var result = CanPlace(inventoryItem.GetShape(), cellData.r, cellData.c, grid, true);
+                        if (result.canPlace)
+                            return (result.blockedCells, grid);
+                    }
+                    // return (new List<Cell>(), grid);
+                }
+            }
+            return (new List<Cell>(), grid);
+
+        }
+
+        private bool IsMouseOverCell(Vector2 position, Cell cell)
+        {
+            var cellData = cell.GetCellData();
+            var cellPosition = cellData.position;
+            var cellSize = cellData.size;
+
+            // Tính toán biên giới hạn của cell
+            float cellMinX = cellPosition.x - cellSize.x / 2;
+            float cellMaxX = cellPosition.x + cellSize.x / 2;
+            float cellMinY = cellPosition.y - cellSize.y / 2;
+            float cellMaxY = cellPosition.y + cellSize.y / 2;
+
+            // Kiểm tra nếu vị trí chuột nằm trong giới hạn của cell và vượt qua 1/2 cell kế bên
+            bool withinCellX = position.x > cellMinX &&
+                               position.x < cellMaxX;
+            bool withinCellY = position.y > cellMinY &&
+                               position.y < cellMaxY;
+
+            return withinCellX && withinCellY;
+        }
+
+        public void OnDragChangeColorCells(List<Cell> cells, GridInfor gridInfor, Color color, bool isPreviousCells = false)
+        {
+            if (isPreviousCells)
+            {
+                foreach (var grid in _gridConfig.grids)
+                {
+                    if (grid.id == gridInfor.id)
+                    {
+                        for (int i = 0; i < cells.Count; i++)
+                        {
+                            grid.cells[cells[i].GetCellData().r, cells[i].GetCellData().c].ChangeColor(color);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                foreach (var grid in _gridConfig.grids)
+                {
+                    if (grid.id == gridInfor.id)
+                    {
+                        for (int i = 0; i < cells.Count; i++)
+                        {
+                            if (grid.cells[cells[i].GetCellData().r, cells[i].GetCellData().c].GetStatusCell() == StatusCell.Empty)
+                            {
+                                grid.cells[cells[i].GetCellData().r, cells[i].GetCellData().c].ChangeColor(Color.green);
+                            }
+                            else
+                            {
+                                grid.cells[cells[i].GetCellData().r, cells[i].GetCellData().c].ChangeColor(Color.red);
+                            }
+                        }
+                    }
+                }
+            }
+
         }
 
 
