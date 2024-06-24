@@ -1,5 +1,41 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2357522381904059536
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5283610246392154572}
+  m_Layer: 5
+  m_Name: border_wrapper
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &5283610246392154572
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2357522381904059536}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 43277395245323265}
+  m_Father: {fileID: 61700493558767824}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &3729607765792097561
 GameObject:
   m_ObjectHideFlags: 0
@@ -10,11 +46,9 @@ GameObject:
   m_Component:
   - component: {fileID: 61700493558767824}
   - component: {fileID: 269468632666713704}
-  - component: {fileID: 7702914652128015818}
   - component: {fileID: 3496607984762317533}
-  - component: {fileID: 525651170158411984}
   m_Layer: 5
-  m_Name: InventoryItem_checkable
+  m_Name: InventoryItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32,7 +66,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 43277395245323265}
+  - {fileID: 5283610246392154572}
   - {fileID: 8191590699694303037}
   - {fileID: 1476939359629033819}
   m_Father: {fileID: 0}
@@ -50,19 +84,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3729607765792097561}
   m_CullTransparentMesh: 1
---- !u!114 &7702914652128015818
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3729607765792097561}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 526415227, guid: e650e72e8be47794994495fc15c0ba63, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  viewModelTypeName: _Game.Features.Inventory.InventoryItem
 --- !u!114 &3496607984762317533
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111,28 +132,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_IsOn: 0
---- !u!114 &525651170158411984
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3729607765792097561}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1957390036, guid: e650e72e8be47794994495fc15c0ba63, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  viewModelPropertyName: _Game.Features.Inventory.InventoryItem.IsSelected
-  viewEventName: UnityEngine.UI.Toggle.onValueChanged
-  viewPropertyName: UnityEngine.UI.Toggle.isOn
-  viewAdapterTypeName: 
-  viewAdapterOptions: {fileID: 0}
-  viewModelAdapterTypeName: 
-  viewModelAdapterOptions: {fileID: 0}
-  exceptionPropertyName: 
-  exceptionAdapterTypeName: 
-  exceptionAdapterOptions: {fileID: 0}
 --- !u!1 &3987349215865554575
 GameObject:
   m_ObjectHideFlags: 0
@@ -194,12 +193,12 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5172693101074230147}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 61700493558767824}
+  m_Father: {fileID: 5283610246392154572}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -331,7 +330,6 @@ GameObject:
   - component: {fileID: 6358512915997202661}
   - component: {fileID: 3491436462462729080}
   - component: {fileID: 6143699941769851491}
-  - component: {fileID: 5563106372440893118}
   m_Layer: 5
   m_Name: graphic
   m_TagString: Untagged
@@ -411,19 +409,3 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
   m_EffectDistance: {x: 1, y: -1}
   m_UseGraphicAlpha: 1
---- !u!114 &5563106372440893118
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7688588344107229541}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1670825535, guid: e650e72e8be47794994495fc15c0ba63, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  viewAdapterTypeName: 
-  viewAdapterOptions: {fileID: 0}
-  viewModelPropertyName: _Game.Features.Inventory.InventoryItem.Thumbnail
-  viewPropertyName: UnityEngine.UI.Image.sprite

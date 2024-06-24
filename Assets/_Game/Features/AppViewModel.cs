@@ -7,6 +7,7 @@ using _Game.Features.WorldMap;
 using _Game.Scripts.GD;
 using _Game.Scripts.UI;
 using UnityWeld.Binding;
+using ZBase.UnityScreenNavigator.Core.Screens;
 
 namespace _Game.Scripts.Gameplay
 {
@@ -93,7 +94,7 @@ namespace _Game.Scripts.Gameplay
         
         #region Binding: InventoryViewModel
 
-        private InventoryViewModel _inventoryViewModel = new InventoryViewModel();
+        // private InventoryViewModel _inventoryViewModel = new InventoryViewModel();
         
         // [Binding]
         // public InventoryViewModel InventoryViewModel
@@ -113,6 +114,8 @@ namespace _Game.Scripts.Gameplay
         // }
 
         #endregion
+        
+        private EquipmentViewModel _equipmentViewModel = new EquipmentViewModel();
 
         private WorldMapViewModel _WorldMapViewModel = new WorldMapViewModel();
 
@@ -126,7 +129,7 @@ namespace _Game.Scripts.Gameplay
                 // Lazy init
                 if (_activeTabContent == null)
                 {
-                    _activeTabContent = _homeViewModel;
+                    // _activeTabContent = _homeViewModel;
                 }
 
                 return _activeTabContent;
@@ -180,12 +183,12 @@ namespace _Game.Scripts.Gameplay
             var nav = (Nav)navIndex;
             switch (nav)
             {
-                case Nav.HOME:
-                    ActiveViewModel = _homeViewModel;
-                    break;
+                // case Nav.HOME:
+                //     ActiveViewModel = _homeViewModel;
+                //     break;
                 
                 case Nav.INVENTORY:
-                    ActiveViewModel = _inventoryViewModel;
+                    // ActiveViewModel = _inventoryViewModel;
                     break;
                 
                 case Nav.WORLD_MAP:
@@ -237,17 +240,17 @@ namespace _Game.Scripts.Gameplay
             NavTo(Nav.HOME);
         }
 
-        public void NavTo(Nav targetNav)
+        public async void NavTo(Nav targetNav)
         {
             _currentNav = targetNav;
             switch (targetNav)
             {
-                case Nav.HOME:
-                    ActiveViewModel = _homeViewModel;
-                    break;
+                // case Nav.HOME:
+                //     ActiveViewModel = _homeViewModel;
+                //     break;
                 
                 case Nav.INVENTORY:
-                    ActiveViewModel = _inventoryViewModel;
+                    // ActiveViewModel = _inventoryViewModel;
                     break;
                 
                 case Nav.WORLD_MAP:
@@ -255,10 +258,12 @@ namespace _Game.Scripts.Gameplay
                     break;
             }
             
-            if (!ActiveViewModel.IsInitialized)
+            if (ActiveViewModel != null && !ActiveViewModel.IsInitialized)
             {
                 ActiveViewModel.Initialize();
             }
+            
+            await ScreenContainer.Of(transform).PreloadAsync("HomeView");
             
             OnPropertyChanged(nameof(IsMainNavVisible));
         }
