@@ -115,9 +115,9 @@ namespace _Game.Scripts.Gameplay
 
         #endregion
         
-        private EquipmentViewModel _equipmentViewModel = new EquipmentViewModel();
+        // private EquipmentViewModel _equipmentViewModel = new EquipmentViewModel();
 
-        private WorldMapViewModel _WorldMapViewModel = new WorldMapViewModel();
+        // private WorldMapViewModel _WorldMapViewModel = new WorldMapViewModel();
 
         #region Binding: ActiveTabContentContent
 
@@ -192,7 +192,7 @@ namespace _Game.Scripts.Gameplay
                     break;
                 
                 case Nav.WORLD_MAP:
-                    ActiveViewModel = _WorldMapViewModel;
+                    // ActiveViewModel = _WorldMapViewModel;
                     break;
             }
             
@@ -254,7 +254,7 @@ namespace _Game.Scripts.Gameplay
                     break;
                 
                 case Nav.WORLD_MAP:
-                    ActiveViewModel = _WorldMapViewModel;
+                    // ActiveViewModel = _WorldMapViewModel;
                     break;
             }
             
