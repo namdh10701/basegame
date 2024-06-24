@@ -31,12 +31,17 @@ namespace _Game.Scripts.Entities
         {
             if (!isAttacking)
             {
+                MBTExecutor.enabled = false;
+                body.velocity = Vector2.zero;
+                _stats.Poise.BaseValue = 0;
+                Destroy(PufferFishMove);
                 isAttacking = true;
                 Animation.ChargeExplode();
                 yield return new WaitForSeconds(2);
-                Die();
+
                 Animation.PlayDie(() =>
                 {
+                    base.Die();
                     Destroy(gameObject);
                 });
 
@@ -51,7 +56,7 @@ namespace _Game.Scripts.Entities
 
         public override void Move()
         {
-            PufferFishMove.Move();
+            PufferFishMove?.Move();
         }
 
         public override IEnumerator StartActionCoroutine()
@@ -63,13 +68,16 @@ namespace _Game.Scripts.Entities
         }
         public override void Die()
         {
-            base.Die();
+            Destroy(PufferFishMove);
+            body.velocity = Vector2.zero;
             _stats.Poise.BaseValue = 0;
             StartCoroutine(AttackSequence());
         }
 
         public void DoAttack()
         {
+            pushCollider.gameObject.SetActive(false);
+            EffectTakerCollider.gameObject.SetActive(false);
             DamageArea da = Instantiate(DamageArea, transform.position, Quaternion.identity);
             da.SetDamage(_stats.AttackDamage.Value);
         }

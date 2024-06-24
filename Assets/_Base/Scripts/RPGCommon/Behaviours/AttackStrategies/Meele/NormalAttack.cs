@@ -15,7 +15,7 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
 
         }
 
-        public override void SetData(Entity shooter, Transform shootPosition, Entity projectilePrefab, FindTargetStrategy findTargetStrategy, Vector3 targetPosition)
+        public override void SetData(Entity shooter, Transform shootPosition, Entity projectilePrefab, Vector3 targetPosition)
         {
         }
     }

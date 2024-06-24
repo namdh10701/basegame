@@ -23,6 +23,12 @@ public class CrewMovement : MonoBehaviour
         yield return MoveByPath(path);
     }
 
+    public IEnumerator MoveCarry(Vector3 destination)
+    {
+        List<Vector3> path = crew.pathfinder.GetPath(crew.transform.position, destination);
+        yield return MoveByPathCarry(path);
+    }
+
     public IEnumerator MoveByPath(List<Vector3> path)
     {
         if (path == null)
@@ -81,7 +87,6 @@ public class CrewMovement : MonoBehaviour
             }
             crew.body.velocity = Vector3.zero;
         }
-        crew.Animation.PlayIdle();
         yield break;
     }
 }

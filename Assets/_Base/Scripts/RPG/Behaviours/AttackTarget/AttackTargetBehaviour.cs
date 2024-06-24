@@ -22,22 +22,12 @@ namespace _Base.Scripts.RPG.Behaviours.AttackTarget
             Assert.IsNotNull(aimTargetBehaviour);
             attackStrategy = (entity as IFighter).AttackStrategy;
             Animation.OnShoot += DoAttack;
+
         }
 
 
         public void DoAttack()
         {
-            attackStrategy.SetData(entity, shootPosition, projectilePrefab, aimTargetBehaviour.FollowTargetBehaviour.FindTargetBehaviour.Strategy, aimTargetBehaviour.LockedPosition);
-            attackStrategy.DoAttack();
-        }
-
-        public void Attack()
-        {
-            if (!aimTargetBehaviour.IsReadyToAttack)
-            {
-                return;
-            }
-
             if (entity != null)
             {
                 RangedStat Ammo = ((CannonStats)entity.Stats).Ammo;
@@ -45,6 +35,15 @@ namespace _Base.Scripts.RPG.Behaviours.AttackTarget
                     return;
                 Ammo.StatValue.BaseValue--;
             }
+            attackStrategy.SetData(entity, shootPosition, projectilePrefab, entity.transform.up);
+            attackStrategy.DoAttack();
+        }
+
+        public void Attack()
+        {
+            RangedStat Ammo = ((CannonStats)entity.Stats).Ammo;
+            if (Ammo.Value <= Ammo.MinValue)
+                return;
             PlayAttackAnimation();
         }
 

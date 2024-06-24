@@ -25,7 +25,7 @@ namespace _Base.Scripts.RPGCommon.Behaviours.FollowTargetStragegies
             if (findTargetBehaviour.MostTargets.Count == 0)
             {
                 RotateTarget.rotation = RotateSpeed > -1
-                    ? Quaternion.Slerp(RotateTarget.rotation, Quaternion.identity, RotateSpeed * Time.deltaTime)
+                    ? Quaternion.Slerp(RotateTarget.rotation, Quaternion.identity, 5 * Time.deltaTime)
                     : Rotation;
                 return false;
             }

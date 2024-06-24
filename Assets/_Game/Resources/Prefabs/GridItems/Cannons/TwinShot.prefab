@@ -95,6 +95,7 @@ MonoBehaviour:
   <FollowTargetBehaviour>k__BackingField: {fileID: 8677654997556511390}
   <IsReadyToAttack>k__BackingField: 0
   <LockedPosition>k__BackingField: {x: 0, y: 0, z: 0}
+  LockedTarget: {fileID: 0}
 --- !u!114 &1614122209195546930
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -129,7 +130,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4759703321050827762
 Transform:
   m_ObjectHideFlags: 0
@@ -230,7 +231,9 @@ MonoBehaviour:
   occupyingNodes: []
   FindTargetCollider: {fileID: 3998683235849372507}
   AttackTargetBehaviour: {fileID: 8192189898026933683}
+  FindTargetBehaviour: {fileID: 7147069703896698860}
   usingBullet: {fileID: 5909292734019790869, guid: f484edc2e211fba4abf6d10c45701042, type: 3}
+  Animation: {fileID: 2804382551067301591}
 --- !u!114 &-717564830529616064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -608,7 +611,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AttackTargetBehaviour: {fileID: 8192189898026933683}
+  AimTargetBehaviour: {fileID: 4089692241188050585}
   Cannon: {fileID: 94858937819000496}
+  timer: 0
 --- !u!114 &8192189898026933683
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -877,6 +882,7 @@ MonoBehaviour:
   <Strategy>k__BackingField: {fileID: 3671976682769814746}
   <FindTargetBehaviour>k__BackingField: {fileID: 7147069703896698860}
   <IsCaughtUp>k__BackingField: 0
+  <Target>k__BackingField: {fileID: 0}
 --- !u!114 &3671976682769814746
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -909,13 +915,17 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 1809550729498764034, guid: a7ee9c645d779cf4b8487147481b5950, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.005300004
+      objectReference: {fileID: 0}
     - target: {fileID: 3536942125324184676, guid: a7ee9c645d779cf4b8487147481b5950, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.0018000603
+      value: 0.005300004
       objectReference: {fileID: 0}
     - target: {fileID: 3536942125324184676, guid: a7ee9c645d779cf4b8487147481b5950, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.39899993
+      value: 0.39900002
       objectReference: {fileID: 0}
     - target: {fileID: 3987910668800093926, guid: a7ee9c645d779cf4b8487147481b5950, type: 3}
       propertyPath: m_Mesh
@@ -927,7 +937,7 @@ PrefabInstance:
       objectReference: {fileID: 4759703321050827762}
     - target: {fileID: 6734028109233292631, guid: a7ee9c645d779cf4b8487147481b5950, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.00000023841858
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6986900770318938753, guid: a7ee9c645d779cf4b8487147481b5950, type: 3}
       propertyPath: shootEvent

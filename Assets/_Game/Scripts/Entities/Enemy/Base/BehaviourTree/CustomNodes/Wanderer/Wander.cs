@@ -13,307 +13,312 @@ public enum State
 {
     MovingLeft, MovingRight
 }
-
-[MBTNode("Wanderer/Wander")]
-public class Wander : Leaf
+namespace _Game.Scripts.BehaviourTree
 {
-    public SpineAnimationEnemyHandler SpineAnimationEnemyHandler;
-
-    [Header("Detector")]
-    public AreaReference MoveableArea;
-    public OctaDirectionRay Detector;
-    public List<DirectionRay> RayToSelectDirection;
-
-    [Header("Movement")]
-    public Rigidbody2D Body;
-    public DeviableFloat Force;
-    public DeviableFloat MaxSpeed;
-
-
-    [Header("Direction")]
-    public State CurrentState;
-    public Vector2 CurrentDirection;
-    public Vector2 TargetDirection;
-    public float ChangeDirectionSpeed;
-
-
-    public float Timea;
-    float timer;
-
-
-
-    public DeviableFloat WanderTime;
-    float wanderTimer;
-    public bool IsTimeConstraint;
-    private void Awake()
+    [MBTNode("Wanderer/Wander")]
+    public class Wander : Leaf
     {
-        //Detector.OnChanged += UpdateDirection;
-    }
+        public SpineAnimationEnemyHandler SpineAnimationEnemyHandler;
 
-    bool isPlayed;
-    public override void OnEnter()
-    {
-        base.OnEnter();
-        if (IsTimeConstraint)
+        [Header("Detector")]
+        public AreaReference MoveableArea;
+        public OctaDirectionRay Detector;
+        public List<DirectionRay> RayToSelectDirection;
+
+        [Header("Movement")]
+        public Rigidbody2D Body;
+        public DeviableFloat Force;
+        public DeviableFloat MaxSpeed;
+
+
+        [Header("Direction")]
+        public State CurrentState;
+        public Vector2 CurrentDirection;
+        public Vector2 TargetDirection;
+        public float ChangeDirectionSpeed;
+
+
+        public float Timea;
+        float timer;
+
+
+
+        public DeviableFloat WanderTime;
+        float wanderTimer;
+        public bool IsTimeConstraint;
+        private void Awake()
         {
-            WanderTime.RefreshValue(); wanderTimer = 0;
+            //Detector.OnChanged += UpdateDirection;
         }
-        Detector.SetArea(MoveableArea.Value);
-        SpineAnimationEnemyHandler.PlayMove();
-    }
-    public override NodeResult Execute()
-    {
-        if (!isPlayed)
+
+        bool isPlayed;
+        public override void OnEnter()
         {
-            isPlayed = true;
-            WanderTime.RefreshValue();
-        }
-        wanderTimer += Time.fixedDeltaTime;
-        timer += Time.fixedDeltaTime;
-        if (Detector.IsInBounds)
-        {
-            if (timer > Timea)
+            base.OnEnter();
+            if (IsTimeConstraint)
             {
-                timer = 0;
-                UpdateTargetDirection(-50, 50);
+                WanderTime.RefreshValue(); wanderTimer = 0;
             }
+            Detector.SetArea(MoveableArea.Value);
+            SpineAnimationEnemyHandler.PlayMove();
         }
-        else
+        public override NodeResult Execute()
         {
-            FindWayToBounds();
-        }
-        CurrentDirection = Vector2.Lerp(CurrentDirection, TargetDirection, ChangeDirectionSpeed);
-        Move();
-        ClampVel();
-        Debug.DrawLine(Body.transform.position, (Vector3)CurrentDirection * 2 + Body.transform.position, Color.blue);
-        if (!IsTimeConstraint)
-        {
-            return NodeResult.success;
-        }
-        else
-        {
-            return wanderTimer < WanderTime.Value ? NodeResult.running : NodeResult.success;
-        }
-    }
-    bool needFindWay;
-    void FindWayToBounds()
-    {
-
-        TargetDirection = (MoveableArea.Value.transform.position - Body.transform.position).normalized;
-    }
-
-    void Move()
-    {
-        Body.AddForce(Force.Value * CurrentDirection);
-    }
-
-    void UpdateDirection()
-    {
-        Debug.Log("UPDATE");
-        if (MoveableArea.Value.bounds.Contains(Body.position))
-        {
-            //RayToSelectDirection = //Detector.ReverseIntersectingRays;
-            RayToSelectDirection = Detector.NotIntersectingRays;
-            if (CurrentState == State.MovingLeft)
+            if (!isPlayed)
             {
-                foreach (DirectionRay ray in RayToSelectDirection.ToArray())
+                isPlayed = true;
+                WanderTime.RefreshValue();
+            }
+            wanderTimer += Time.fixedDeltaTime;
+            timer += Time.fixedDeltaTime;
+            if (Detector.IsInBounds)
+            {
+                if (timer > Timea)
                 {
-                    if (ray.rayDirection.x >= 0)
-                    {
-                        RayToSelectDirection.Remove(ray);
-                    }
+                    timer = 0;
+                    UpdateTargetDirection(-50, 50);
                 }
             }
             else
             {
-                foreach (DirectionRay ray in RayToSelectDirection.ToArray())
-                {
-                    if (ray.rayDirection.x <= 0)
-                    {
-                        RayToSelectDirection.Remove(ray);
-                    }
-                }
+                FindWayToBounds();
+            }
+            CurrentDirection = Vector2.Lerp(CurrentDirection, TargetDirection, ChangeDirectionSpeed);
+            Move();
+            ClampVel();
+            Debug.DrawLine(Body.transform.position, (Vector3)CurrentDirection * 2 + Body.transform.position, Color.blue);
+            if (!IsTimeConstraint)
+            {
+                return NodeResult.success;
+            }
+            else
+            {
+                return wanderTimer < WanderTime.Value ? NodeResult.running : NodeResult.success;
             }
         }
-        else
+        bool needFindWay;
+        void FindWayToBounds()
         {
-            bool isAbove = false;
-            bool isLeft = false;
-            RayToSelectDirection = Detector.DirectionRay;
-            if (Body.position.y > MoveableArea.Value.bounds.max.y)
-            {
-                isAbove = true;
-            }
-            else
-            {
-                isAbove = false;
-            }
 
-            if (Body.position.x < MoveableArea.Value.bounds.max.x)
-            {
-                isLeft = true;
-            }
-            else
-            {
-                isLeft = false;
-            }
+            TargetDirection = (MoveableArea.Value.transform.position - Body.transform.position).normalized;
+        }
 
-            foreach (DirectionRay ray in RayToSelectDirection.ToArray())
+        void Move()
+        {
+            if (Body.velocity.magnitude < MaxSpeed.Value)
             {
-                if (isAbove)
+                Body.AddForce(Force.Value * CurrentDirection);
+            }
+        }
+
+        void UpdateDirection()
+        {
+            Debug.Log("UPDATE");
+            if (MoveableArea.Value.bounds.Contains(Body.position))
+            {
+                //RayToSelectDirection = //Detector.ReverseIntersectingRays;
+                RayToSelectDirection = Detector.NotIntersectingRays;
+                if (CurrentState == State.MovingLeft)
                 {
-                    if (ray.rayDirection.y > 0)
+                    foreach (DirectionRay ray in RayToSelectDirection.ToArray())
                     {
-                        RayToSelectDirection.Remove(ray);
+                        if (ray.rayDirection.x >= 0)
+                        {
+                            RayToSelectDirection.Remove(ray);
+                        }
                     }
                 }
                 else
                 {
-                    if (ray.rayDirection.y < 0)
+                    foreach (DirectionRay ray in RayToSelectDirection.ToArray())
                     {
-                        RayToSelectDirection.Remove(ray);
-                    }
-                }
-                if (isLeft)
-                {
-                    if (ray.rayDirection.x < 0)
-                    {
-                        RayToSelectDirection.Remove(ray);
-                    }
-                }
-                else
-                {
-                    if (ray.rayDirection.x > 0)
-                    {
-                        RayToSelectDirection.Remove(ray);
-                    }
-                }
-            }
-        }
-        //TargetDirection = GetRandom(RayToSelectDirection.ToArray());
-    }
-
-    float downangle = -20;
-    float upangle = 0;
-
-    public void ToLeft()
-    {
-        if (CurrentState != State.MovingRight)
-        {
-            CurrentState = State.MovingRight;
-            UpdateTargetDirection(-20, 20);
-        }
-    }
-
-    public void ToRight()
-    {
-        if (CurrentState != State.MovingLeft)
-        {
-            CurrentState = State.MovingLeft;
-            UpdateTargetDirection(-20, 20);
-        }
-    }
-
-
-
-    public bool isAbleToMoveUp;
-    public bool isAbleToMoveDown;
-
-
-
-    public void ToDown()
-    {
-        if (isAbleToMoveDown)
-        {
-            isAbleToMoveDown = false;
-            UpdateTargetDirection(-50f, 50f);
-        }
-    }
-
-    public void ToUp()
-    {
-        if (isAbleToMoveUp)
-        {
-            isAbleToMoveUp = false;
-            UpdateTargetDirection(-50f, 50f);
-        }
-    }
-
-    public void OutUp()
-    {
-        isAbleToMoveUp = true;
-    }
-
-    public void OutDown()
-    {
-        isAbleToMoveDown = true;
-
-    }
-
-
-    public void UpdateTargetDirection(float low, float high)
-    {
-        timer = 0;
-        Force.RefreshValue();
-        MaxSpeed.RefreshValue();
-        if (MoveableArea == null)
-        {
-            return;
-        }
-        if (MoveableArea.Value.bounds.Contains(Body.position))
-        {
-            //RayToSelectDirection = //Detector.ReverseIntersectingRays;
-            RayToSelectDirection = Detector.NotIntersectingRays;
-            if (CurrentState == State.MovingLeft)
-            {
-                foreach (DirectionRay ray in RayToSelectDirection.ToArray())
-                {
-                    if (ray.rayDirection.x > 0)
-                    {
-                        RayToSelectDirection.Remove(ray);
+                        if (ray.rayDirection.x <= 0)
+                        {
+                            RayToSelectDirection.Remove(ray);
+                        }
                     }
                 }
             }
             else
             {
+                bool isAbove = false;
+                bool isLeft = false;
+                RayToSelectDirection = Detector.DirectionRay;
+                if (Body.position.y > MoveableArea.Value.bounds.max.y)
+                {
+                    isAbove = true;
+                }
+                else
+                {
+                    isAbove = false;
+                }
+
+                if (Body.position.x < MoveableArea.Value.bounds.max.x)
+                {
+                    isLeft = true;
+                }
+                else
+                {
+                    isLeft = false;
+                }
+
                 foreach (DirectionRay ray in RayToSelectDirection.ToArray())
                 {
-                    if (ray.rayDirection.x < 0)
+                    if (isAbove)
                     {
-                        RayToSelectDirection.Remove(ray);
+                        if (ray.rayDirection.y > 0)
+                        {
+                            RayToSelectDirection.Remove(ray);
+                        }
+                    }
+                    else
+                    {
+                        if (ray.rayDirection.y < 0)
+                        {
+                            RayToSelectDirection.Remove(ray);
+                        }
+                    }
+                    if (isLeft)
+                    {
+                        if (ray.rayDirection.x < 0)
+                        {
+                            RayToSelectDirection.Remove(ray);
+                        }
+                    }
+                    else
+                    {
+                        if (ray.rayDirection.x > 0)
+                        {
+                            RayToSelectDirection.Remove(ray);
+                        }
                     }
                 }
+            }
+            //TargetDirection = GetRandom(RayToSelectDirection.ToArray());
+        }
+
+        float downangle = -20;
+        float upangle = 0;
+
+        public void ToLeft()
+        {
+            if (CurrentState != State.MovingRight)
+            {
+                CurrentState = State.MovingRight;
+                UpdateTargetDirection(-20, 20);
+            }
+        }
+
+        public void ToRight()
+        {
+            if (CurrentState != State.MovingLeft)
+            {
+                CurrentState = State.MovingLeft;
+                UpdateTargetDirection(-20, 20);
             }
         }
 
 
-        downangle = low;
-        upangle = high;
 
-        if (!isAbleToMoveDown)
+        public bool isAbleToMoveUp;
+        public bool isAbleToMoveDown;
+
+
+
+        public void ToDown()
         {
-            downangle = 0;
+            if (isAbleToMoveDown)
+            {
+                isAbleToMoveDown = false;
+                UpdateTargetDirection(-50f, 50f);
+            }
         }
-        if (!isAbleToMoveUp)
+
+        public void ToUp()
         {
-            upangle = 0;
+            if (isAbleToMoveUp)
+            {
+                isAbleToMoveUp = false;
+                UpdateTargetDirection(-50f, 50f);
+            }
         }
 
-
-        if (CurrentState == State.MovingRight)
+        public void OutUp()
         {
-
-            TargetDirection = Quaternion.Euler(0, 0, Random.Range(downangle, upangle)) * Vector2.right;
+            isAbleToMoveUp = true;
         }
-        else
+
+        public void OutDown()
         {
-            TargetDirection = Quaternion.Euler(0, 0, Random.Range(180 - upangle, 180 - downangle)) * Vector2.right;
+            isAbleToMoveDown = true;
+
         }
-    }
 
 
-    void ClampVel()
-    {
-        Body.velocity = Vector2.ClampMagnitude(Body.velocity, MaxSpeed.Value);
+        public void UpdateTargetDirection(float low, float high)
+        {
+            timer = 0;
+            Force.RefreshValue();
+            MaxSpeed.RefreshValue();
+            if (MoveableArea == null)
+            {
+                return;
+            }
+            if (MoveableArea.Value.bounds.Contains(Body.position))
+            {
+                //RayToSelectDirection = //Detector.ReverseIntersectingRays;
+                RayToSelectDirection = Detector.NotIntersectingRays;
+                if (CurrentState == State.MovingLeft)
+                {
+                    foreach (DirectionRay ray in RayToSelectDirection.ToArray())
+                    {
+                        if (ray.rayDirection.x > 0)
+                        {
+                            RayToSelectDirection.Remove(ray);
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (DirectionRay ray in RayToSelectDirection.ToArray())
+                    {
+                        if (ray.rayDirection.x < 0)
+                        {
+                            RayToSelectDirection.Remove(ray);
+                        }
+                    }
+                }
+            }
+
+
+            downangle = low;
+            upangle = high;
+
+            if (!isAbleToMoveDown)
+            {
+                downangle = 0;
+            }
+            if (!isAbleToMoveUp)
+            {
+                upangle = 0;
+            }
+
+
+            if (CurrentState == State.MovingRight)
+            {
+
+                TargetDirection = Quaternion.Euler(0, 0, Random.Range(downangle, upangle)) * Vector2.right;
+            }
+            else
+            {
+                TargetDirection = Quaternion.Euler(0, 0, Random.Range(180 - upangle, 180 - downangle)) * Vector2.right;
+            }
+        }
+
+
+        void ClampVel()
+        {
+            //Body.velocity = Vector2.ClampMagnitude(Body.velocity, MaxSpeed.Value);
+        }
     }
 }

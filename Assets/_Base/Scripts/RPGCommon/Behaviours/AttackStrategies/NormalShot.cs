@@ -19,13 +19,12 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
         protected Transform shootPosition;
         private Entity projectilePrefab;
         private Vector3 TargetPosition;
-        private FindTargetStrategy findTargetStrategy;
         private IShooter shooter;
         private void Awake()
         {
             Cannon = GetComponent<Cannon>();
         }
-        public override void SetData(Entity shooter, Transform shootPosition, Entity projectilePrefab, FindTargetStrategy findTargetStrategy, Vector3 TargetPosition)
+        public override void SetData(Entity shooter, Transform shootPosition, Entity projectilePrefab, Vector3 TargetPosition)
         {
             if (shooter is not IShooter fighter)
             {
@@ -35,7 +34,6 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
             this.shooter = fighter;
             this.shootPosition = shootPosition;
             this.projectilePrefab = projectilePrefab;
-            this.findTargetStrategy = findTargetStrategy;
             this.TargetPosition = TargetPosition;
         }
 

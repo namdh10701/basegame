@@ -19,6 +19,9 @@ namespace _Game.Scripts
         public List<Grid> Grids;
         public List<Bullet> Bullets { get; private set; } = new List<Bullet>();
         public List<Cannon> Cannons { get; private set; } = new List<Cannon>();
+
+        public CrewController CrewController;
+
         public List<IWorkLocation> WorkLocations { get; private set; } = new List<IWorkLocation>();
         public List<Cell> AllCells { get; private set; } = new List<Cell>();
 
@@ -93,9 +96,6 @@ namespace _Game.Scripts
                             }
                         }
                     }
-
-                    Debug.Log(spawned.name + " " + workLocation.WorkingSlots.Count);
-
                 }
             }
             spawnedItems.Clear();
@@ -138,6 +138,10 @@ namespace _Game.Scripts
             else if (gridItemData.Def.Type == GridItemType.Cannon)
             {
                 Cannons.Add(spawned.GetComponent<Cannon>());
+            }
+            else if (gridItemData.Def.Type == GridItemType.Crew)
+            {
+                CrewController.AddCrew(spawned.GetComponent<Crew>());
             }
 
             IGridItem gridItem = spawned.GetComponent<IGridItem>();

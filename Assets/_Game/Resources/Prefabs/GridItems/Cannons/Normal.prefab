@@ -95,6 +95,7 @@ MonoBehaviour:
   <FollowTargetBehaviour>k__BackingField: {fileID: 8677654997556511390}
   <IsReadyToAttack>k__BackingField: 0
   <LockedPosition>k__BackingField: {x: 0, y: 0, z: 0}
+  LockedTarget: {fileID: 0}
 --- !u!114 &1614122209195546930
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -107,7 +108,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 356e2ce489dd4ce19ce06ac89d676064, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <AimingTime>k__BackingField: 0.1
+  <AimingTime>k__BackingField: 0
 --- !u!1 &2506795332634619781
 GameObject:
   m_ObjectHideFlags: 0
@@ -230,7 +231,9 @@ MonoBehaviour:
   occupyingNodes: []
   FindTargetCollider: {fileID: 3998683235849372507}
   AttackTargetBehaviour: {fileID: 8192189898026933683}
+  FindTargetBehaviour: {fileID: 7147069703896698860}
   usingBullet: {fileID: 5909292734019790869, guid: f484edc2e211fba4abf6d10c45701042, type: 3}
+  Animation: {fileID: 2096826101554558456}
 --- !u!114 &-717564830529616064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -607,6 +610,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AttackTargetBehaviour: {fileID: 8192189898026933683}
+  AimTargetBehaviour: {fileID: 4089692241188050585}
   Cannon: {fileID: 94858937819000496}
 --- !u!114 &8192189898026933683
 MonoBehaviour:
@@ -840,6 +844,7 @@ MonoBehaviour:
   <Strategy>k__BackingField: {fileID: 3671976682769814746}
   <FindTargetBehaviour>k__BackingField: {fileID: 7147069703896698860}
   <IsCaughtUp>k__BackingField: 0
+  <Target>k__BackingField: {fileID: 0}
 --- !u!114 &3671976682769814746
 MonoBehaviour:
   m_ObjectHideFlags: 0

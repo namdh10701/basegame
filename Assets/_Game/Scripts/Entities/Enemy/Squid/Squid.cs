@@ -13,11 +13,9 @@ namespace _Game.Scripts
         protected override IEnumerator Start()
         {
             anim.OnAction.AddListener(DoAction);
-            CooldownBehaviour.SetCooldownTime(7f);
-            CooldownBehaviour.StartCooldown();
             MoveAreaController moveArea = FindAnyObjectByType<MoveAreaController>();
             Area area = moveArea.GetCloset(transform.position);
-            blackboard.GetVariable<AreaVariable>("MoveArea").Value = moveArea.GetArea(AreaType.Floor2Plus3);
+            blackboard.GetVariable<AreaVariable>("MoveArea").Value = area;
             yield return base.Start();
         }
         public override IEnumerator AttackSequence()
@@ -37,10 +35,31 @@ namespace _Game.Scripts
             throw new System.NotImplementedException();
         }
 
+        public BehaviourTree.Wander wander;
         public override IEnumerator StartActionCoroutine()
         {
-            anim.PlayIdle();
-            yield break;
+            wander = MBTExecutor.GetComponent<BehaviourTree.Wander>();
+
+            
+
+            pushCollider.enabled = false;
+            EffectTakerCollider.enabled = false;
+            anim.Appear();
+            yield return new WaitForSeconds(1.5f);
+            float rand = Random.Range(0, 1f);
+            if (rand < .5f)
+            {
+                wander.ToLeft();
+            }
+            else
+            {
+                wander.ToRight();
+            }
+            wander.UpdateTargetDirection(-50, 50);
+            pushCollider.enabled = true;
+            EffectTakerCollider.enabled = true;
+            CooldownBehaviour.SetCooldownTime(7);
+            CooldownBehaviour.StartCooldown();
         }
         public void DoAction()
         {

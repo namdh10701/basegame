@@ -12,6 +12,7 @@ public class JellyFishProjectile : MonoBehaviour
     public float speed;
     public float rotateSpeed;
     [SerializeField] ParticleSystem particle;
+    [SerializeField] ParticleSystem trail;
     public bool isLaunched;
     public void SetData(EnemyAttackData atkData, Vector2 startPos, float deviation)
     {
@@ -66,8 +67,9 @@ public class JellyFishProjectile : MonoBehaviour
     }
     void OnImpact()
     {
+        trail.transform.parent = null;
         Destroy(gameObject);
-        Instantiate(particle, transform.position, Quaternion.identity);
+        Instantiate(particle, atkData.CenterCell.transform.position, Quaternion.identity);
         GridAttackHandler attackHandler = FindAnyObjectByType<GridAttackHandler>();
         attackHandler.ProcessAttack(atkData.TargetCells, atkData.Effect);
     }

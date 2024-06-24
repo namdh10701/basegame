@@ -26,7 +26,7 @@ namespace _Game.Scripts
 
         [Header("EffectTaker")]
         public EffectHandler effectHandler;
-        public Transform Transform => transform;
+        public Transform Transform => EffectTakerCollider.transform;
 
         public EffectHandler EffectHandler => effectHandler;
 
@@ -49,34 +49,62 @@ namespace _Game.Scripts
         public List<Node> OccupyingNodes { get => occupiyingNodes; set => occupiyingNodes = value; }
         Idle idle;
         Wander wander;
+
+        public Bullet carryingBullet;
+        public Bullet CarryingBullet
+        {
+            get
+            {
+                return carryingBullet;
+            }
+
+            set
+            {
+                carryingBullet = value;
+                if (value != null)
+                    carryObject.sprite = value.Def.ProjectileImage;
+            }
+        }
         private void Start()
         {
+            EffectTakerCollider.Taker = this;
             Ship = FindAnyObjectByType<Ship>();
             pathfinder = Ship.PathfindingController;
             ActionHandler.OnFree += OnFree;
             idle = new Idle(this);
             wander = new Wander(this, MoveData);
-            EffectTakerCollider.Taker = this;
 
             ActionHandler.Act(idle);
         }
 
+        public bool IsAllowWander = false;
         void OnFree()
         {
+            if (crewController == null)
+            {
+                return;
+            }
             if (crewController.HasPendingJob)
             {
                 crewController.RegisterForNewJob(this);
             }
             else
             {
-                float rand = UnityEngine.Random.Range(0f, 1f);
-                if (rand < 0.35f)
+                if (!IsAllowWander)
                 {
                     ActionHandler.Act(new Idle(this));
                 }
                 else
                 {
-                    ActionHandler.Act(new Wander(this, MoveData));
+                    float rand = UnityEngine.Random.Range(0f, 1f);
+                    if (rand < 0.35f)
+                    {
+                        ActionHandler.Act(new Idle(this));
+                    }
+                    else
+                    {
+                        ActionHandler.Act(new Wander(this, MoveData));
+                    }
                 }
             }
         }
@@ -99,6 +127,9 @@ namespace _Game.Scripts
         {
             ActionHandler.Pause();
             Animation.PlayStun();
+            Debug.LogError("Stun");
+            body.velocity = Vector2.zero;
+            CancelInvoke();
             Invoke("OnAfterStun", duration);
         }
 
@@ -110,6 +141,7 @@ namespace _Game.Scripts
         public void Carry(Bullet bullet)
         {
             Animation.PlayCarry();
+            CarryingBullet = bullet;
             carryObject.gameObject.SetActive(true);
             carryObject.sprite = bullet.Def.Image;
         }
@@ -117,7 +149,18 @@ namespace _Game.Scripts
         public void StopCarry()
         {
             Animation.PlayIdle();
+            CarryingBullet = null;
             carryObject.gameObject.SetActive(false);
+        }
+
+        public void Deactivate()
+        {
+
+        }
+
+        public void OnFixed()
+        {
+
         }
     }
 }

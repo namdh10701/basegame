@@ -15,6 +15,7 @@ namespace _Game.Scripts.Gameplay
         public BattleInputManager BattleInputManager;
         private void Awake()
         {
+            BattleInputManager.gameObject.SetActive(false);
             EntityManager.SpawnShip(selectShipid, shipStartPos.position);
             LevelStartSequence.shipSpeed = EntityManager.Ship.ShipSpeed;
             BattleInputManager.shipSetup = EntityManager.Ship.ShipSetup;
@@ -25,6 +26,8 @@ namespace _Game.Scripts.Gameplay
         {
             yield return LevelStartSequence.Play();
             EnemyManager.StartLevel();
+            BattleInputManager.gameObject.SetActive(true);
+            EntityManager.Ship.ShipSetup.CrewController.ActivateCrews();
         }
     }
 }

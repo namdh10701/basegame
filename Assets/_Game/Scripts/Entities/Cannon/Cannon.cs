@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using _Base.Scripts.EventSystem;
 using _Base.Scripts.RPG;
 using _Base.Scripts.RPG.Behaviours.AttackTarget;
+using _Base.Scripts.RPG.Behaviours.FindTarget;
 using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.RPG.Entities;
 using _Base.Scripts.RPG.Stats;
@@ -66,12 +67,15 @@ namespace _Game.Scripts.Entities
 
         public ObjectCollisionDetector FindTargetCollider;
         public AttackTargetBehaviour AttackTargetBehaviour;
+        public FindTargetBehaviour FindTargetBehaviour;
 
         public Bullet usingBullet;
+        public SpineAnimationCannonHandler Animation;
         protected override void Awake()
         {
             base.Awake();
         }
+
         protected override void LoadStats()
         {
             if (GDConfigLoader.Instance != null)
@@ -101,25 +105,60 @@ namespace _Game.Scripts.Entities
         {
             AttackTargetBehaviour.projectilePrefab = projectile;
         }
-
-        public void OnOutOfAmmo()
-        {
-            GlobalEvent<Cannon, Bullet, int>.Send("Reload", this, usingBullet, 3);
-        }
-
         public void OnClick()
         {
             GlobalEvent<Cannon, Bullet, int>.Send("Reload", this, usingBullet, int.MaxValue);
         }
 
-        public void OnBroken()
+        bool isOutOfAmmo;
+        bool isBroken;
+        void UpdateVisual()
         {
-            FindTargetCollider.enabled = false;
+            if (isBroken)
+            {
+                Animation.PlayBroken();
+            }
+            if (!isOutOfAmmo && isBroken)
+            {
+                FindTargetBehaviour.Disable();
+            }
+            else
+            {
+                FindTargetBehaviour.Enable();
+            }
+        }
+
+        public void OnOutOfAmmo()
+        {
+            isOutOfAmmo = true;
+            GlobalEvent<Cannon, Bullet, int>.Send("Reload", this, usingBullet, 3);
+            UpdateVisual();
+        }
+
+        public void OnReloaded()
+        {
+            isOutOfAmmo = false;
+            UpdateVisual();
+        }
+
+        public void Deactivate()
+        {
+            isBroken = true;
+            UpdateVisual();
         }
 
         public void OnFixed()
         {
-            FindTargetCollider.enabled = true;
+            foreach (Cell cell in OccupyCells)
+            {
+                Debug.Log(cell.ToString() + " " + cell.stats.HealthPoint.IsFull);
+                if (cell.stats.HealthPoint.Value == cell.stats.HealthPoint.MinValue)
+                {
+                    return;
+                }
+            }
+            isBroken = false;
+            UpdateVisual();
         }
     }
 }

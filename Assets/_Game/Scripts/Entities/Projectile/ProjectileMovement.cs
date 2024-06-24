@@ -44,7 +44,7 @@ public class HomingMove : ProjectileMovement
         if (target != null)
         {
             Vector2 Direction = (Vector2)target.position - body.position;
-            body.velocity = Direction.normalized * 5;
+            body.velocity = Direction.normalized * MoveSpeed.Value;
             body.transform.up = Direction.normalized;
         }
     }

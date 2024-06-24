@@ -12,6 +12,7 @@ namespace _Game.Scripts
         MoveData moveData;
         public Wander(Crew crew, MoveData moveData)
         {
+            Name = "WANDER";
             this.crew = crew;
             this.moveData = moveData;
             this.Execute = DoExecute();
@@ -30,6 +31,12 @@ namespace _Game.Scripts
         {
             crew.CrewMovement.Velocity = Vector2.zero;
             yield break;
+        }
+         
+        public override void ReBuild(Crew crew)
+        {
+            this.Execute = DoExecute();
+            this.Interupt = DoInterupt();
         }
     }
 }

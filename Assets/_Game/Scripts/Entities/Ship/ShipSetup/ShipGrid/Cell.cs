@@ -77,10 +77,18 @@ namespace _Game.Scripts
         public void OnBroken()
         {
             GlobalEvent<Cell, int>.Send("Fix", this, 3);
+            if (GridItem != null)
+            {
+                GridItem.Deactivate();
+            }
         }
         public void OnFixed()
         {
             CellRenderer.OnFixed();
+            if (GridItem != null)
+            {
+                GridItem.OnFixed();
+            }
         }
 
         public void OnClick()

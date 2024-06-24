@@ -36,7 +36,7 @@ namespace _Game.Scripts
             {
 
                 Vector3 mousePosition = _camera.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
-                RaycastHit2D[] hits = Physics2D.RaycastAll(mousePosition, Vector2.zero, Mathf.Infinity, layerMask);
+                RaycastHit2D[] hits = Physics2D.CircleCastAll(mousePosition, 1, Vector2.zero, Mathf.Infinity, layerMask);
 
                 float closestDistance = Mathf.Infinity;
                 RaycastHit2D closestHit = new RaycastHit2D();

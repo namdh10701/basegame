@@ -30,10 +30,12 @@ namespace _Game.Scripts.Entities.CannonComponent
 
         public void OnOutOfAmmo()
         {
+            cannon.OnOutOfAmmo();
             cannonRenderer.Blink();
         }
         public void OnReloaded()
         {
+            cannon.OnReloaded();
             cannonRenderer.StopBlink();
         }
 

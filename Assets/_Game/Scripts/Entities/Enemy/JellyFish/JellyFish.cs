@@ -16,7 +16,8 @@ public class JellyFish : Enemy
     {
         base.Awake();
         MoveAreaController moveArea = FindAnyObjectByType<MoveAreaController>();
-        blackboard.GetVariable<AreaVariable>("MoveArea").Value = moveArea.GetArea(AreaType.Floor2Plus3);
+        Area area = moveArea.GetArea(AreaType.All);
+        blackboard.GetVariable<AreaVariable>("MoveArea").Value = area;
         anim.Attack.AddListener(Attack);
     }
     protected override IEnumerator Start()

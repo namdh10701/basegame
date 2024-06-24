@@ -31,8 +31,9 @@ namespace _Game.Scripts.Entities
 
         public DeviableVector2 direction;
 
-        public float playAnimTimer; 
-        public float timer;
+        public float playAnimTimer;
+        public DeviableFloat timer = new DeviableFloat(2.5f, 1);
+        public float animSync;
         private void Start()
         {
             direction.RefreshValue();
@@ -43,6 +44,7 @@ namespace _Game.Scripts.Entities
             normalForce.RefreshValue();
             slowdownTime.RefreshValue();
             slowdownSpeed.RefreshValue();
+            normalTime.RefreshValue();
         }
 
         public void Move()
@@ -69,13 +71,6 @@ namespace _Game.Scripts.Entities
             else if (!isAccelerate)
             {
                 normalMoveTimer += Time.fixedDeltaTime;
-
-                if (!animPlayed && normalMoveTimer > timer)
-                {
-                    pfa.PlayAnim("move_fast", false);
-                    animPlayed = true;
-                }
-
                 if (normalMoveTimer < normalTime.Value)
                 {
                     if (body.velocity.magnitude < normalSpeed.Value)
@@ -85,6 +80,7 @@ namespace _Game.Scripts.Entities
                 }
                 else
                 {
+                    pfa.PlayAnim("move_fast", false);
                     animPlayed = false;
                     isAccelerate = true;
                     isSlowdowned = false;
@@ -96,15 +92,19 @@ namespace _Game.Scripts.Entities
 
                 if (fastTimer < timeAccelerate.Value)
                 {
-
                     fastTimer += Time.fixedDeltaTime;
-                    body.AddForce(fastForce.Value * direction.Value);
+                    if (fastTimer > animSync)
+                    {
+
+                        body.AddForce(fastForce.Value * direction.Value);
+                    }
                 }
                 else
                 {
                     slowdownTimer = 0;
                     isAccelerate = false;
                     isSlowdowned = true;
+                    normalTime.RefreshValue();
                     direction.RefreshValue();
                     fastForce.RefreshValue();
                     maxFastSpeed.RefreshValue();

@@ -12,7 +12,7 @@ namespace _Game.Scripts
 
         [SpineAnimation] public string doAction;
         [HideInInspector] public UnityEvent OnAction;
-
+        public Renderer[] visuals;
         protected override void Start()
         {
             base.Start();
@@ -34,7 +34,16 @@ namespace _Game.Scripts
         {
             skeletonAnimation.AnimationState.SetAnimation(0, doAction, false);
         }
-       
+        public void Appear()
+        {
+/*            foreach (Renderer renderer in visuals)
+            {
+                renderer.enabled = true;
+            }*/
+            skeletonAnimation.AnimationState.AddAnimation(0, "dive_out", false, 0);
+            skeletonAnimation.AnimationState.AddAnimation(0, "idle", false, 0);
+
+        }
 
         private void Update()
         {

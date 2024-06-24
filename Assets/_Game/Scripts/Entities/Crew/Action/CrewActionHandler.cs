@@ -7,10 +7,12 @@ using UnityEngine;
 
 public class CrewActionHandler : MonoBehaviour
 {
+    public Crew crew;
     Coroutine actionCoroutine;
     public CrewAction CurrentAction;
     public Action OnFree;
     public bool isPaused;
+
     public void Act(CrewAction crewAction)
     {
         StartCoroutine(HandleAssignNewAction(crewAction));
@@ -25,7 +27,6 @@ public class CrewActionHandler : MonoBehaviour
         if (actionCoroutine != null)
         {
             StopCoroutine(actionCoroutine);
-           
             if (CurrentAction is not CrewJobAction)
             {
             }
@@ -50,6 +51,7 @@ public class CrewActionHandler : MonoBehaviour
         isPaused = true;
         if (actionCoroutine != null)
         {
+            StopCoroutine(CurrentAction.Execute);
             StopCoroutine(actionCoroutine);
         }
     }
@@ -59,7 +61,21 @@ public class CrewActionHandler : MonoBehaviour
         isPaused = false;
         if (CurrentAction != null)
         {
+            CurrentAction.ReBuild(crew);
             actionCoroutine = StartCoroutine(ActionCoroutine());
+        }
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            Pause();
+        }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Resume();
         }
     }
 

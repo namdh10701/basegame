@@ -7,6 +7,7 @@ using _Game.Scripts.Entities;
 using _Game.Scripts.GD;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ElectricEelProjectile : Projectile
@@ -21,7 +22,7 @@ public class ElectricEelProjectile : Projectile
     }
     protected override void ApplyStats()
     {
-        
+
     }
 
     public Transform startTransform;
@@ -35,7 +36,7 @@ public class ElectricEelProjectile : Projectile
         base.Awake();
         ProjectileMovement = new HomingMove(this, targetTransform);
         ProjectileCollisionHandler projectileCollisionHandler = (ProjectileCollisionHandler)CollisionHandler;
-        projectileCollisionHandler.Handlers.Add(new ElectricBounceHandler(3, 10, lightingFx));
+        projectileCollisionHandler.Handlers.Add(new ElectricBounceHandler(3, 20, lightingFx));
     }
 
     private void FixedUpdate()
@@ -50,7 +51,7 @@ public class ElectricBounceHandler : IHandler
     int maxBounce;
     float range;
     ElectricFx electricFxPrefab;
-
+    public LayerMask CrewLayer;
     public ElectricBounceHandler(int maxBounce, float range, ElectricFx electricFxPrefab)
     {
         this.maxBounce = maxBounce;
@@ -62,45 +63,38 @@ public class ElectricBounceHandler : IHandler
 
     public void Process(Projectile p, IEffectGiver mainEntity, IEffectTaker collidedEntity)
     {
-        List<Entity> inRangeEntities = new List<Entity>();
-        RaycastHit2D[] inRangeColliders = Physics2D.CircleCastAll(collidedEntity.Transform.position, range, Vector2.zero);
+        List<IEffectTaker> inRangeEntities = new List<IEffectTaker>();
+        RaycastHit2D[] inRangeColliders = Physics2D.CircleCastAll(collidedEntity.Transform.position, range, Vector2.zero, Mathf.Infinity, LayerMask.GetMask("Crew"));
+
         foreach (RaycastHit2D hit in inRangeColliders)
         {
-            if (hit.collider.TryGetComponent(out EffectCollisionDetector entityCollisionDetector))
+            if (hit.collider.TryGetComponent(out IEffectTakerCollider effectTakerCollider))
             {
-                Entity entity = entityCollisionDetector.GetComponent<EntityProvider>().Entity;
-
-
-                if (!((ProjectileCollisionHandler)p.CollisionHandler).IgnoreCollideEntities.Contains(collidedEntity))
+                if (!((ProjectileCollisionHandler)p.CollisionHandler).IgnoreCollideEntities.Contains(effectTakerCollider.Taker))
                 {
-                    if (entity is Entity && entity != p)
-                    {
-                        inRangeEntities.Add(entity);
-                    }
+                    inRangeEntities.Add(effectTakerCollider.Taker);
                 }
             }
         }
-
         if (inRangeEntities.Count > 0)
         {
-            Entity nextTarget = inRangeEntities[0];
+            IEffectTaker nextTarget = inRangeEntities[0];
             float minDistance = Mathf.Infinity;
-            foreach (Entity entity in inRangeEntities)
+            foreach (IEffectTaker entity in inRangeEntities)
             {
-                float distance = Vector2.Distance(mainEntity.Transform.position, entity.transform.position);
+                float distance = Vector2.Distance(mainEntity.Transform.position, entity.Transform.position);
                 if (distance < minDistance)
                 {
                     nextTarget = entity;
                     minDistance = distance;
                 }
             }
-
             bounceCount++;
-            ((HomingMove)p.ProjectileMovement).target = nextTarget.transform;
+            ((HomingMove)p.ProjectileMovement).target = nextTarget.Transform;
             ElectricFx nextProjectile = GameObject.Instantiate(electricFxPrefab);
             nextProjectile.transform.position = collidedEntity.Transform.position;
             nextProjectile.startTransform = collidedEntity.Transform;
-            nextProjectile.targetTransform = nextTarget.transform;
+            nextProjectile.targetTransform = nextTarget.Transform;
             nextProjectile.Play();
         }
         else

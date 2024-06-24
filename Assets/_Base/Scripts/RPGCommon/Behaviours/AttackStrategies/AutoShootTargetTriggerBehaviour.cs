@@ -4,7 +4,7 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
 {
     public class AutoShootTargetTriggerBehaviour : ManualShootTargetTriggerBehaviour
     {
-        float timer;
+        public float timer;
         protected override void Awake()
         {
             base.Awake();
@@ -13,11 +13,16 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
         private void Update()
         {
             timer += Time.deltaTime;
-            if (timer > fireRate.Value)
+            if (!AimTargetBehaviour.IsReadyToAttack)
+            {
+                timer = 0;
+            }
+            if (timer > fireRate.Value && AimTargetBehaviour.IsReadyToAttack)
             {
                 Pull();
                 timer = 0;
             }
+           
         }
     }
 }

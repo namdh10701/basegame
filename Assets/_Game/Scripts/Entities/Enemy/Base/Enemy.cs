@@ -42,10 +42,9 @@ namespace _Game.Scripts.Entities
         [Header("Behaviour")]
         [SerializeField] protected Blackboard blackboard;
         [SerializeField] protected Collider2D pushCollider;
-        [SerializeField] MBTExecutor MBTExecutor;
+        [SerializeField] protected MBTExecutor MBTExecutor;
         protected virtual IEnumerator Start()
         {
-            Debug.LogError(name);
             EffectTakerCollider.Taker = this;
             Ship ship = FindAnyObjectByType<Ship>();
             if (ship == null || blackboard == null)

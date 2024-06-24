@@ -202,6 +202,9 @@ MonoBehaviour:
     <EvadeChance>k__BackingField:
       statModifiers: []
       _baseValue: 0
+    <Poise>k__BackingField:
+      statModifiers: []
+      _baseValue: 1
   _statsTemplate: {fileID: 11400000, guid: 7b641c5f7ad3c493c9f6f71cb400fdee, type: 2}
   effectHandler: {fileID: 1517516598541746012}
   EffectTakerCollider: {fileID: 7997525620002543866}
@@ -228,7 +231,7 @@ MonoBehaviour:
   rightShootPos: {fileID: 2589825236078666943}
   projectilePrefab: {fileID: 1364860213531301939, guid: ec6d4d31d716e944f83b2a1a480051ab, type: 3}
   gridPicker: {fileID: 0}
-  AttackPatternProfile: {fileID: 11400000, guid: fa58f757626526441a9ea43019040351, type: 2}
+  AttackPatternProfile: {fileID: 11400000, guid: 58366f42f4411d84592c6c57915e0775, type: 2}
 --- !u!114 &1581707943620237759
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -847,6 +850,13 @@ MonoBehaviour:
     blackboard: {fileID: 2542956212317951686}
     key: Enemy
     constantValue: {fileID: 0}
+  abort: 0
+  isReadyToAttack:
+    useConstant: 0
+    mode: 0
+    blackboard: {fileID: 0}
+    key: 
+    constantValue: 0
 --- !u!114 &9020409159474815017
 MonoBehaviour:
   m_ObjectHideFlags: 0

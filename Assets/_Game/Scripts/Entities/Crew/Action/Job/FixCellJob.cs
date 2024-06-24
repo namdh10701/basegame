@@ -11,6 +11,7 @@ public class FixCellJob : CrewJob
     Node workingSlot;
     public FixCellJob(Cell cell) : base()
     {
+        Name = "FIX CELL " + cell.ToString();
         DefaultPiority = 3;
         Piority = 3;
         WorkLocation = cell.GetComponent<IWorkLocation>();
@@ -42,6 +43,7 @@ public class FixCellJob : CrewJob
 
     public override IEnumerator Interupt(Crew crew)
     {
+        crew.body.velocity = Vector3.zero;
         if (workingSlot != null)
         {
             workingSlot.State = WorkingSlotState.Free;
