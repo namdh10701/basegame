@@ -6,16 +6,16 @@ using UnityEngine.UI;
 public class InventoryItem : MonoBehaviour
 {
     [SerializeField] private Image _icon;
-    private InventoryItemData _inventoryItemData;
+    private InventoryItemInfo _inventoryItemInfo;
     private int[,] _shape;
 
-    public void Setup(InventoryItemData inventoryItemData)
+    public void Setup(InventoryItemInfo inventoryItemInfo)
     {
-        _inventoryItemData = inventoryItemData;
-        _icon.sprite = _inventoryItemData.sprite;
+        _inventoryItemInfo = inventoryItemInfo;
+        _icon.sprite = inventoryItemInfo.inventoryItemData.sprite;
         _icon.SetNativeSize();
-        _shape = Shape.ShapeDic[_inventoryItemData.shapeId];
-        this.transform.localPosition = _inventoryItemData.position;
+        _shape = Shape.ShapeDic[inventoryItemInfo.inventoryItemData.shapeId];
+        this.transform.localPosition = inventoryItemInfo.inventoryItemData.position;
     }
 
     public int[,] GetShape()
@@ -25,12 +25,18 @@ public class InventoryItem : MonoBehaviour
 
     public void Setposition(Vector2 position)
     {
-        _inventoryItemData.position = position;
+        _inventoryItemInfo.inventoryItemData.position = position;
     }
 
-    public InventoryItemData GetInventorData()
+    public InventoryItemInfo GetInventorInfo()
     {
-        return _inventoryItemData;
+        return _inventoryItemInfo;
+    }
+
+    public void UpdateInventoryItemInfo(InventoryItemInfo inventoryItemInfo)
+    {
+        _inventoryItemInfo = inventoryItemInfo;
+        this.transform.localPosition = inventoryItemInfo.inventoryItemData.position;
     }
 
 }

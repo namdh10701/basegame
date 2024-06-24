@@ -11,7 +11,6 @@ namespace _Base.Scripts.UI
         [SerializeField] private List<Transform> _startPos;
         [SerializeField] private InventoryItemsConfig _TestinventoryItemsConfig;
         [SerializeField] public RectTransform m_rect;
-        public List<InventoryItem> inventoryItems = new List<InventoryItem>();
 
         void Awake()
         {
@@ -20,9 +19,8 @@ namespace _Base.Scripts.UI
 
         void OnEnable()
         {
-            var inventoryItems = AddInventoryItemsInfo(_TestinventoryItemsConfig.inventoryItemsInfo, _gridConfig.grids[1]);
-            if (inventoryItems != null)
-                LoadInventoryItemsOnStash(inventoryItems, _gridConfig.grids[1], _parentCells[1]);
+            AddInventoryItemsInfo(_TestinventoryItemsConfig.inventoryItemsInfo, _gridConfig.grids[1]);
+            LoadInventoryItemsOnStash(_gridConfig.grids[1].inventoryItemsConfig.inventoryItemsInfo, _gridConfig.grids[1], _parentCells[1]);
         }
 
 
@@ -36,6 +34,7 @@ namespace _Base.Scripts.UI
             for (int i = 0; i < _gridConfig.grids.Count; i++)
             {
                 var grid = _gridConfig.grids[i];
+                grid.startPos = _startPos[i];
                 grid.cells = new Cell[grid.rows, grid.cols];
                 if (grid.listCellsData.Count > 0)
                 {
@@ -47,8 +46,8 @@ namespace _Base.Scripts.UI
                             cell.gameObject.name = $"Cell {r},{c}";
 
                             // Tính toán vị trí cell với khoảng cách spacing
-                            float posX = _startPos[i].localPosition.x + c * (grid.cellSize.x + grid.spacing) + grid.cellSize.x / 2;
-                            float posY = _startPos[i].localPosition.y + r * (grid.cellSize.y + grid.spacing);
+                            float posX = grid.startPos.localPosition.x + c * (grid.cellSize.x + grid.spacing) + grid.cellSize.x / 2;
+                            float posY = grid.startPos.localPosition.y + r * (grid.cellSize.y + grid.spacing);
                             cell.transform.localPosition = new Vector2(posX, posY);
                             grid.cells[r, c] = cell;
                         }
@@ -65,8 +64,8 @@ namespace _Base.Scripts.UI
                             cell.gameObject.name = $"Cell {r},{c}";
 
                             // Tính toán vị trí cell với khoảng cách spacing
-                            float posX = _startPos[i].localPosition.x + c * (grid.cellSize.x + grid.spacing) + grid.cellSize.x / 2;
-                            float posY = _startPos[i].localPosition.y + r * (grid.cellSize.y + grid.spacing);
+                            float posX = grid.startPos.localPosition.x + c * (grid.cellSize.x + grid.spacing) + grid.cellSize.x / 2;
+                            float posY = grid.startPos.localPosition.y + r * (grid.cellSize.y + grid.spacing);
                             cell.transform.localPosition = new Vector2(posX, posY);
                             grid.cells[r, c] = cell;
                             var cellData = new CellData(r, c, StatusCell.Empty, new Vector2(posX, posY), grid.cellSize);
@@ -89,7 +88,7 @@ namespace _Base.Scripts.UI
 
         }
 
-        public List<InventoryItemInfo> AddInventoryItemsInfo(List<InventoryItemInfo> inventoryItems, GridInfor grid)
+        public void AddInventoryItemsInfo(List<InventoryItemInfo> inventoryItems, GridInfor grid)
         {
             var inventoryIntems = new List<InventoryItemInfo>();
             foreach (var inventoryItem in inventoryItems)
@@ -105,7 +104,18 @@ namespace _Base.Scripts.UI
                 }
                 continue;
             }
-            return inventoryIntems;
+        }
+
+        public void AddInventoryItemsInfoEndDrag(InventoryItemInfo inventoryItemInfo, GridInfor gridInfor)
+        {
+            foreach (var grid in _gridConfig.grids)
+            {
+                if (grid.id == gridInfor.id)
+                {
+                    grid.inventoryItemsConfig.inventoryItemsInfo.Add(inventoryItemInfo);
+                }
+            }
+
         }
 
         public void RemoveInventoryItemsInfo(List<InventoryItemInfo> inventoryItems, GridInfor grid)
@@ -137,9 +147,8 @@ namespace _Base.Scripts.UI
             foreach (var inventoryItem in inventoryItems)
             {
                 inventoryItem.inventoryItemData.gridID = grid.id;
-                grid.inventoryItemsConfig.inventoryItemsInfo.Add(inventoryItem);
                 var item = Instantiate<InventoryItem>(grid.inventoryItemsConfig.InventoryItem, parent);
-                item.Setup(inventoryItem.inventoryItemData);
+                item.Setup(inventoryItem);
             }
         }
 
@@ -155,13 +164,10 @@ namespace _Base.Scripts.UI
                     var result = CanPlace(shape, r, c, grid);
                     if (result.canPlace)
                     {
-                        var pos = GetPositionCell(shape, r, c, grid.cells, grid);
+                        var pos = GetPositionCell(shape, r, c, grid);
                         inventoryItemInfo.inventoryItemData.position = pos;
                         ChangeStatusCell(inventoryItemInfo.inventoryItemData, r, c, grid, StatusCell.Occupied);
                         itemPlaced = true;
-
-
-
                     }
                 }
             }
@@ -174,11 +180,16 @@ namespace _Base.Scripts.UI
             return true;
         }
 
-        private Vector2 GetPositionCell(int[,] shape, int r, int c, Cell[,] cells, GridInfor grid)
+        public Vector2 GetPositionCell(int[,] shape, int r, int c, GridInfor grid)
         {
             int itemRows = shape.GetLength(0);
             int itemCols = shape.GetLength(1);
-            return new Vector2(cells[r, c].gameObject.transform.localPosition.x + grid.cellSize.x / 2 * (itemCols - 1), cells[r, c].gameObject.transform.localPosition.y);
+
+            var temp = new Vector2(grid.cells[r, c].gameObject.transform.localPosition.x + grid.cellSize.x / 2 * (itemCols - 1),
+             grid.cells[r, c].gameObject.transform.localPosition.y);
+
+            return new Vector2(grid.cells[r, c].gameObject.transform.localPosition.x + grid.cellSize.x / 2 * (itemCols - 1) + grid.spacing / 2 * (itemCols - 1),
+             grid.cells[r, c].gameObject.transform.localPosition.y);
         }
 
         private (bool canPlace, List<Cell> blockedCells) CanPlace(int[,] shape, int startX, int startY, GridInfor grid, bool isStartDrag = false)
@@ -225,6 +236,7 @@ namespace _Base.Scripts.UI
             int itemCols = shape.GetLength(1);
             inventoryItemData.startX = startX;
             inventoryItemData.startY = startY;
+            inventoryItemData.gridID = grid.id;
 
             for (int i = 0; i < itemRows; i++)
             {
@@ -236,7 +248,22 @@ namespace _Base.Scripts.UI
 
         }
 
-        public (List<Cell> cells, GridInfor grid) GetCellsByPosition(Vector2 mousePosition, Vector2 inventoryPositon, InventoryItem inventoryItem, bool startDrag = false)
+        public void ChangeStatusCellEndDrag(List<Cell> cells, GridInfor gridInfor, StatusCell statusCell)
+        {
+            foreach (var grid in _gridConfig.grids)
+            {
+                if (grid.id == gridInfor.id)
+                {
+                    for (int i = 0; i < cells.Count; i++)
+                    {
+                        grid.cells[cells[i].GetCellData().r, cells[i].GetCellData().c].GetCellData().statusCell = statusCell;
+                    }
+                }
+            }
+        }
+
+
+        public (List<Cell> cells, GridInfor grid) GetCellsByPosition(DragItemUIController dragItemUIController, Vector2 mousePosition, Vector2 inventoryPositon, InventoryItem inventoryItem, bool startDrag = false)
         {
 
             Vector2 positionInGridManager;
@@ -268,11 +295,12 @@ namespace _Base.Scripts.UI
             {
                 return (new List<Cell>(), null);
             }
-
+            
+            dragItemUIController.SetParent(_parentCells[index]);
             var grid = _gridConfig.grids[index];
             if (startDrag)
             {
-                var cell = grid.cells[inventoryItem.GetInventorData().startX, inventoryItem.GetInventorData().startY];
+                var cell = grid.cells[inventoryItem.GetInventorInfo().inventoryItemData.startX, inventoryItem.GetInventorInfo().inventoryItemData.startY];
                 var cellData = cell.GetCellData();
                 Debug.Log($"[GetCellByPosition]: {cellData.r}, {cellData.c}");
                 var result = CanPlace(inventoryItem.GetShape(), cellData.r, cellData.c, grid, true);
@@ -283,7 +311,6 @@ namespace _Base.Scripts.UI
                         grid.cells[result.blockedCells[i].GetCellData().r, result.blockedCells[i].GetCellData().c].SetStatusCell(StatusCell.Empty);
 
                     }
-
                     return (result.blockedCells, grid);
                 }
             }
@@ -293,12 +320,17 @@ namespace _Base.Scripts.UI
                 for (int c = 0; c < grid.cols; c++)
                 {
                     var cell = grid.cells[r, c];
-                    if (IsMouseOverCell(inventoryPositon, cell))
+                    var shape = Shape.ShapeDic[inventoryItem.GetInventorInfo().inventoryItemData.shapeId];
+                    if (IsMouseOverCell(inventoryPositon, cell, shape))
                     {
                         var cellData = cell.GetCellData();
                         var result = CanPlace(inventoryItem.GetShape(), cellData.r, cellData.c, grid, true);
                         if (result.canPlace)
+                        {
+                            inventoryItem.GetInventorInfo().inventoryItemData.startX = cellData.r;
+                            inventoryItem.GetInventorInfo().inventoryItemData.startY = cellData.c;
                             return (result.blockedCells, grid);
+                        }
                     }
                     // return (new List<Cell>(), grid);
                 }
@@ -307,28 +339,31 @@ namespace _Base.Scripts.UI
 
         }
 
-        private bool IsMouseOverCell(Vector2 position, Cell cell)
+        private bool IsMouseOverCell(Vector2 position, Cell cell, int[,] shape)
         {
+            int itemRows = shape.GetLength(0);
+            int itemCols = shape.GetLength(1);
+
             var cellData = cell.GetCellData();
             var cellPosition = cellData.position;
             var cellSize = cellData.size;
 
             // Tính toán biên giới hạn của cell
-            float cellMinX = cellPosition.x - cellSize.x / 2;
-            float cellMaxX = cellPosition.x + cellSize.x / 2;
-            float cellMinY = cellPosition.y - cellSize.y / 2;
-            float cellMaxY = cellPosition.y + cellSize.y / 2;
+            float cellMinX = cellPosition.x - cellSize.x * itemCols / 2;
+            float cellMaxX = cellPosition.x + cellSize.x * itemCols / 2;
+            float cellMinY = cellPosition.y;
+            float cellMaxY = cellPosition.y + cellSize.y;
 
             // Kiểm tra nếu vị trí chuột nằm trong giới hạn của cell và vượt qua 1/2 cell kế bên
-            bool withinCellX = position.x > cellMinX &&
-                               position.x < cellMaxX;
-            bool withinCellY = position.y > cellMinY &&
-                               position.y < cellMaxY;
+            bool withinCellX = position.x >= cellMinX &&
+                               position.x <= cellMaxX;
+            bool withinCellY = position.y >= cellMinY &&
+                               position.y <= cellMaxY;
 
             return withinCellX && withinCellY;
         }
 
-        public void OnDragChangeColorCells(List<Cell> cells, GridInfor gridInfor, Color color, bool isPreviousCells = false)
+        public void OnDragChangeColorCells(List<Cell> cells, GridInfor gridInfor, bool isPreviousCells = false)
         {
             if (isPreviousCells)
             {
@@ -338,7 +373,9 @@ namespace _Base.Scripts.UI
                     {
                         for (int i = 0; i < cells.Count; i++)
                         {
-                            grid.cells[cells[i].GetCellData().r, cells[i].GetCellData().c].ChangeColor(color);
+                            var c = Color.white;
+                            c.a = 0;
+                            grid.cells[cells[i].GetCellData().r, cells[i].GetCellData().c].ChangeColor(c);
                         }
                     }
                 }
@@ -353,10 +390,12 @@ namespace _Base.Scripts.UI
                         {
                             if (grid.cells[cells[i].GetCellData().r, cells[i].GetCellData().c].GetStatusCell() == StatusCell.Empty)
                             {
+                                Debug.Log("OnDragChangeColorCells: GREEB ");
                                 grid.cells[cells[i].GetCellData().r, cells[i].GetCellData().c].ChangeColor(Color.green);
                             }
                             else
                             {
+                                Debug.Log("OnDragChangeColorCells:RED ");
                                 grid.cells[cells[i].GetCellData().r, cells[i].GetCellData().c].ChangeColor(Color.red);
                             }
                         }
