@@ -18,8 +18,8 @@ namespace _Game.Features.Inventory
             // // Preload the "Shop" page prefab.
             // await ScreenContainer.Of(transform).PreloadAsync(ResourceKey.ShopScreenPrefab());
             // Simulate loading time.
-            ScreenContainer.Of(transform);
-            await UniTask.Delay(TimeSpan.FromSeconds(1));
+            // ScreenContainer.Of(transform);
+            // await UniTask.Delay(TimeSpan.FromSeconds(1));
         }
 
         public override void DidPushEnter(Memory<object> args)

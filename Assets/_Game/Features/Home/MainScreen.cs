@@ -6,7 +6,7 @@ using ZBase.UnityScreenNavigator.Core.Screens;
 
 namespace _Game.Features.Home
 {
-    public class HomeView : ZBase.UnityScreenNavigator.Core.Screens.Screen
+    public class MainScreen : ZBase.UnityScreenNavigator.Core.Screens.Screen
     {
         [SerializeField] private Button _settingButton;
         [SerializeField] private Button _shopButton;

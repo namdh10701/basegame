@@ -6,7 +6,7 @@ using ZBase.UnityScreenNavigator.Core.Views;
 namespace _Game.Features.Home
 {
     [Binding]
-    public class HomeViewModel : RootViewModel
+    public class WorldMapViewModel : RootViewModel
     {
         // protected override void InitializeInternal()
         // {
@@ -14,11 +14,12 @@ namespace _Game.Features.Home
         // }
 
         [Binding]
-        public async void NavToWoldMapScreen()
+        public async void NavBack()
         {
-            var options = new ViewOptions("WorldMapScreen", false, loadAsync: false);
+            // var options = new ViewOptions("MainScreen", false, loadAsync: false);
             
-            await ScreenContainer.Of(transform).PushAsync(options);
+            // await ScreenContainer.Of(transform).PushAsync(options);
+            await ScreenContainer.Of(transform).PopAsync(false);
             // await Launcher.ContainerManager.Find<ScreenContainer>(ContainerKey.Screens).PushAsync(options);
         }
     }

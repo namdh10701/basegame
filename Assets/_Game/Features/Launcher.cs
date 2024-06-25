@@ -24,7 +24,7 @@ namespace _Game.Features
 
         private async UniTaskVoid ShowTopPage()
         {
-            var options = new ViewOptions("HomeScreen", false, loadAsync: false);
+            var options = new ViewOptions("MainScreen", false, loadAsync: false);
             await ContainerManager.Find<ScreenContainer>(ContainerKey.Screens).PushAsync(options);
         }
     }

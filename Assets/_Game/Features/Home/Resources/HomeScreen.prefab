@@ -576,7 +576,7 @@ MonoBehaviour:
   m_Script: {fileID: -1360956885, guid: e650e72e8be47794994495fc15c0ba63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewModelMethodName: _Game.Scripts.Gameplay.AppViewModel.NavToWorldMap
+  viewModelMethodName: _Game.Features.Home.HomeViewModel.NavToWoldMapScreen
   viewEventName: UnityEngine.UI.Button.onClick
 --- !u!1 &751238246458924020
 GameObject:
@@ -3084,10 +3084,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3940718879570046258}
-  - component: {fileID: 3184026040546305735}
-  - component: {fileID: 6425469313269233505}
   - component: {fileID: 3431706963292305767}
-  - component: {fileID: 2286634155817440207}
   m_Layer: 5
   m_Name: HomeScreen
   m_TagString: Untagged
@@ -3115,46 +3112,6 @@ RectTransform:
   m_AnchoredPosition: {x: -3127, y: 800}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!225 &3184026040546305735
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3343435537392186217}
-  m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
---- !u!114 &6425469313269233505
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3343435537392186217}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b72205450c5e1b44929eb1e69732a1e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  viewType: 1
-  IsDestroyOnHide: 0
-  ViewState: 0
-  root: {fileID: 0}
-  originalPos: {x: 0, y: 0}
-  canvasGroup: {fileID: 0}
-  animator: {fileID: 0}
-  duration: 0.25
-  preBattleBtn: {fileID: 0}
-  craftingBtn: {fileID: 0}
-  rankingbtn: {fileID: 0}
-  crewBtn: {fileID: 0}
-  monsterPoolBtn: {fileID: 0}
-  shopBtn: {fileID: 0}
-  inventoryBtn: {fileID: 5529669832491937079}
-  farmBtn: {fileID: 0}
 --- !u!114 &3431706963292305767
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3167,31 +3124,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79332c0036a34f70830d9f5a7ce80b36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2286634155817440207
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3343435537392186217}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d91da61dd8c754d2388b24f05518ebb5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _dontAddCanvasGroupAutomatically: 0
-  _usePrefabNameAsIdentifier: 1
-  _identifier: HomeView
-  _rectTransform: {fileID: 0}
-  _canvasGroup: {fileID: 3184026040546305735}
-  _renderingOrder: 0
-  _animationContainer:
-    _pushEnterAnimations: []
-    _pushExitAnimations: []
-    _popEnterAnimations: []
-    _popExitAnimations: []
-  _settingButton: {fileID: 0}
-  _shopButton: {fileID: 0}
 --- !u!1 &3416597895591603517
 GameObject:
   m_ObjectHideFlags: 0
