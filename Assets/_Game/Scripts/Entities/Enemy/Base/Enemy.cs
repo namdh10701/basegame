@@ -9,6 +9,7 @@ using _Base.Scripts.RPGCommon.Entities;
 using _Game.Scripts.Attributes;
 using _Game.Scripts.Battle;
 using _Game.Scripts.Gameplay.Ship;
+using _Game.Scripts.GD;
 using MBT;
 using Mono.Collections.Generic;
 using Spine.Unity;
@@ -20,6 +21,8 @@ namespace _Game.Scripts.Entities
     public abstract class Enemy : Entity, IEffectTaker
     {
         [Header("Enemy")]
+
+        [SerializeField] string enemyId;
 
         [SerializeField]
         protected EnemyStats _stats;
@@ -68,7 +71,17 @@ namespace _Game.Scripts.Entities
 
         protected override void LoadStats()
         {
-            _statsTemplate.ApplyConfig(_stats);
+            if (GDConfigLoader.Instance == null)
+            {
+                _statsTemplate.ApplyConfig(_stats);
+            }
+            else
+            {
+                if (GDConfigLoader.Instance.Enemies.TryGetValue(enemyId, out EnemyConfig enemyConfig))
+                {
+                    enemyConfig.ApplyGDConfig(_stats);
+                }
+            }
         }
 
         protected override void ApplyStats()

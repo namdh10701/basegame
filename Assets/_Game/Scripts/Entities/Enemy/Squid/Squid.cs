@@ -40,9 +40,6 @@ namespace _Game.Scripts
         public override IEnumerator StartActionCoroutine()
         {
             wander = MBTExecutor.GetComponent<BehaviourTree.Wander>();
-
-
-
             pushCollider.enabled = false;
             EffectTakerCollider.enabled = false;
             anim.Appear();
@@ -62,9 +59,15 @@ namespace _Game.Scripts
             CooldownBehaviour.SetCooldownTime(7);
             CooldownBehaviour.StartCooldown();
         }
+        public override void Die()
+        {
+            base.Die();
+            anim.PlayDie(() => Destroy(gameObject));
+        }
         public void DoAction()
         {
-            Instantiate(EvasionBuffArea);
+            EvasionBuffArea buff = Instantiate(EvasionBuffArea);
+            buff.transform.position = transform.position;
         }
     }
 }

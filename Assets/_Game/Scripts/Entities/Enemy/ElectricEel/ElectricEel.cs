@@ -52,14 +52,15 @@ public class ElectricEel : Enemy
         }
         else
         {
-            target = FindTargetBehaviour.MostTargets.First().transform;
+            Crew crew = FindTargetBehaviour.MostTargets.First() as Crew;
+            target = crew.EffectTakerCollider.transform;
         }
         Animation.Charge();
         yield return new WaitForSeconds(2);
         Animation.PlayAttack();
         CooldownBehaviour.StartCooldown();
         yield break;
-        
+
     }
 
     void DoAttack()
@@ -70,7 +71,6 @@ public class ElectricEel : Enemy
     }
     private void Update()
     {
-        //boolVariable.Value = FindTargetBehaviour.MostTargets.Count > 0;
         if (attack)
         {
             timer += Time.deltaTime;

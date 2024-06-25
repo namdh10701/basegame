@@ -5,9 +5,9 @@ using UnityEngine.Serialization;
 
 namespace _Game.Scripts.GD
 {
-    [CreateAssetMenu(fileName = "Enemy_", menuName = "SO/Enemy", order = 1)] 
+    [CreateAssetMenu(fileName = "Enemy_", menuName = "SO/Enemy", order = 1)]
     [Serializable]
-    public class EnemyConfig: GDConfig
+    public class EnemyConfig : GDConfig
     {
         public string id;
         public string name;
@@ -20,7 +20,11 @@ namespace _Game.Scripts.GD
 
         public override void ApplyGDConfig(object stats)
         {
-            
+            EnemyStats enemyStats = (EnemyStats)stats;
+            enemyStats.HealthPoint.MaxStatValue.BaseValue = hp;
+            enemyStats.HealthPoint.StatValue.BaseValue = hp;
+            enemyStats.AttackDamage.BaseValue = attack;
+            enemyStats.BlockChance.BaseValue = block_chance;
         }
     }
 }

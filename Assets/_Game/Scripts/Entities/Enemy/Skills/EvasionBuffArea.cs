@@ -33,6 +33,7 @@ namespace _Game.Scripts
                     if (!buffedEnemy.Contains(enemy))
                     {
                         ((EnemyStats)enemy.Stats).EvadeChance.AddModifier(statModifier);
+                        buffedEnemy.Add(enemy);
                     }
                 }
             }
@@ -47,6 +48,7 @@ namespace _Game.Scripts
                     if (buffedEnemy.Contains(enemy))
                     {
                         ((EnemyStats)enemy.Stats).EvadeChance.RemoveModifier(statModifier);
+                        buffedEnemy.Remove(enemy);
                     }
                 }
             }
