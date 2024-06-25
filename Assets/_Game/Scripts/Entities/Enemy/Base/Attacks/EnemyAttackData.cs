@@ -8,5 +8,5 @@ public class EnemyAttackData
 {
     public List<Cell> TargetCells;
     public Cell CenterCell;
-    public Effect Effect;
+    public List<Effect> Effects;
 }

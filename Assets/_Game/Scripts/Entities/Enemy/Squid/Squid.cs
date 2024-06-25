@@ -10,6 +10,7 @@ namespace _Game.Scripts
     {
         public CooldownBehaviour CooldownBehaviour;
         public SquidAnimation anim;
+        public EvasionBuffArea EvasionBuffArea;
         protected override IEnumerator Start()
         {
             anim.OnAction.AddListener(DoAction);
@@ -40,7 +41,7 @@ namespace _Game.Scripts
         {
             wander = MBTExecutor.GetComponent<BehaviourTree.Wander>();
 
-            
+
 
             pushCollider.enabled = false;
             EffectTakerCollider.enabled = false;
@@ -63,7 +64,7 @@ namespace _Game.Scripts
         }
         public void DoAction()
         {
-
+            Instantiate(EvasionBuffArea);
         }
     }
 }

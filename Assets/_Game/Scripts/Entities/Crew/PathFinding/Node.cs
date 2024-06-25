@@ -7,7 +7,7 @@ namespace _Game.Scripts.PathFinding
 {
     public enum WorkingSlotState
     {
-         Occupied, Free
+        Occupied, Free, Disabled
     }
     public class Node : MonoBehaviour
     {

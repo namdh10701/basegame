@@ -95,7 +95,6 @@ MonoBehaviour:
   <FollowTargetBehaviour>k__BackingField: {fileID: 8677654997556511390}
   <IsReadyToAttack>k__BackingField: 0
   <LockedPosition>k__BackingField: {x: 0, y: 0, z: 0}
-  LockedTarget: {fileID: 0}
 --- !u!114 &1614122209195546930
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -611,6 +610,7 @@ MonoBehaviour:
   AttackTargetBehaviour: {fileID: 8192189898026933683}
   AimTargetBehaviour: {fileID: 4089692241188050585}
   Cannon: {fileID: 94858937819000496}
+  timer: 0
 --- !u!114 &8192189898026933683
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -727,8 +727,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetTypeNames:
-  - _Game.Scripts.Entities.RangedEnemy
-  - _Game.Scripts.Entities.MeeleEnemy
+  - 
+  - 
   - _Game.Scripts.Squid
   - ElectricEel
   - _Game.Scripts.Entities.PufferFish

@@ -15,15 +15,31 @@ public class Approach : Leaf
     public float Force;
     public BoolReference IsHasTarget;
     public FindTargetBehaviour FindTargetBehaviour;
+
+    float elapsedTime;
+    public float ChangeDirectionInterval;
+
+    OctaDirectionRay OctarDirectionRay;
+
     public override NodeResult Execute()
     {
+        elapsedTime += Time.deltaTime;
+        if (elapsedTime > ChangeDirectionInterval)
+        {
+            elapsedTime = 0;
+            UpdateTargetDirection();
+        }
+
+
         IsHasTarget.Value = FindTargetBehaviour.MostTargets.Count > 0;
         Vector2 direction = Ship.Value.transform.position - Enemy.Value.transform.position;
         Enemy.Value.body.AddForce(direction.normalized * Force);
         float distance = Vector2.Distance(Enemy.Value.transform.position, Ship.Value.Transform.position);
         return distance < 1 ? NodeResult.success : NodeResult.running;
     }
-    public override void OnAllowInterrupt()
+
+
+    void UpdateTargetDirection()
     {
 
     }

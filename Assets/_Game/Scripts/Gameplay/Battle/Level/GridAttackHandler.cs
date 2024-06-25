@@ -1,5 +1,5 @@
 using _Base.Scripts.RPG.Effects;
-using _Base.Scripts.RPG.Entities;
+using _Base.Scripts.UI;
 using _Game.Scripts.Entities;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,27 +16,16 @@ namespace _Game.Scripts
             PlayTargetingFx(cells);
         }
 
-        public void ProcessAttack(List<Cell> cells, Effect effect)
+        public void ProcessAttack(List<Cell> cells, List<Effect> effect)
         {
             List<IGridItem> placements = new List<IGridItem>();
             List<Cell> emptyCells = new List<Cell>();
-            foreach (Cell cell in cells.ToArray())
-            {
-                if (cell.GridItem != null)
-                {
-                    if (!placements.Contains(cell.GridItem))
-                    {
-                        placements.Add(cell.GridItem);
-                    }
-                }
-                else
-                {
-                    emptyCells.Add(cell);
-                }
-            }
 
-            ApplyEffect(placements, effect);
-            ApplyEffectEmptyCells(emptyCells, effect);
+            foreach (Effect ef in effect)
+            {
+                ApplyEffect(placements, ef);
+                ApplyEffectEmptyCells(cells, ef);
+            }
             PlayFx(cells);
         }
 

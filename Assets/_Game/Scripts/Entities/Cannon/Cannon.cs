@@ -15,6 +15,7 @@ using _Game.Scripts.PathFinding;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.UIElements;
 using YamlDotNet.Core.Tokens;
 
 namespace _Game.Scripts.Entities
@@ -118,7 +119,7 @@ namespace _Game.Scripts.Entities
             {
                 Animation.PlayBroken();
             }
-            if (!isOutOfAmmo && isBroken)
+            if (isOutOfAmmo || isBroken)
             {
                 FindTargetBehaviour.Disable();
             }
@@ -126,6 +127,72 @@ namespace _Game.Scripts.Entities
             {
                 FindTargetBehaviour.Enable();
             }
+            Cell[,] shape = ConvertOccupyCellsToShape();
+            NodeGraph nodeGraph = FindAnyObjectByType<NodeGraph>();
+            List<Cell> cells = GridHelper.GetCellsAroundShape(OccupyCells[0].Grid.Cells, OccupyCells);
+
+            foreach (Cell cell in cells)
+            {
+                foreach (Node node in nodeGraph.nodes)
+                {
+                    if (node.cell == cell)
+                    {
+                        disableWhenActive.Add(node);
+                        node.State = WorkingSlotState.Disabled;
+                    }
+                }
+            }
+
+            List<Cell> bottomCells = new List<Cell>();
+            for (int i = 0; i < shape.GetLength(1); i++)
+            {
+                bottomCells.Add(shape[0, i]);
+            }
+
+            List<Cell> canbeActive = GridHelper.GetCellsAroundShape(OccupyCells[0].Grid.Cells, bottomCells);
+            foreach (Cell cell in canbeActive)
+            {
+                foreach (Node node in nodeGraph.nodes)
+                {
+                    if (node.cell == cell)
+                    {
+                        disableWhenActive.Remove(node);
+                    }
+                }
+            }
+        }
+
+        List<Node> disableWhenActive;
+
+        Cell[,] ConvertOccupyCellsToShape()
+        {
+            // Determine the bounds (dimensions) of the shape array
+            int minX = int.MaxValue;
+            int maxX = int.MinValue;
+            int minY = int.MaxValue;
+            int maxY = int.MinValue;
+
+            foreach (Cell cell in OccupyCells)
+            {
+                if (cell.X < minX)
+                    minX = cell.X;
+                if (cell.X > maxX)
+                    maxX = cell.X;
+                if (cell.Y < minY)
+                    minY = cell.Y;
+                if (cell.Y > maxY)
+                    maxY = cell.Y;
+            }
+            int width = maxX - minX + 1;
+            int height = maxY - minY + 1;
+            Cell[,] shape = new Cell[height, width];
+            foreach (Cell cell in OccupyCells)
+            {
+                int x = cell.X - minX;
+                int y = cell.Y - minY;
+                shape[y, x] = cell;
+            }
+            return shape;
         }
 
         public void OnOutOfAmmo()
