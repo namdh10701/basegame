@@ -6,11 +6,13 @@ namespace _Base.Scripts.UI
 {
     public class GridManager : MonoBehaviour
     {
-        [SerializeField] private GridConfig _gridConfig;
-        [SerializeField] private List<RectTransform> _parentCells;
+        [SerializeField] public GridConfig GridConfig;
+        [SerializeField] public List<RectTransform> ParentCells;
         [SerializeField] private List<Transform> _startPos;
         [SerializeField] private InventoryItemsConfig _TestinventoryItemsConfig;
         [SerializeField] public RectTransform m_rect;
+
+        List<InventoryItem> _inventoryItems = new List<InventoryItem>();
 
         void Awake()
         {
@@ -19,21 +21,39 @@ namespace _Base.Scripts.UI
 
         void OnEnable()
         {
-            AddInventoryItemsInfo(_TestinventoryItemsConfig.inventoryItemsInfo, _gridConfig.grids[1]);
-            LoadInventoryItemsOnStash(_gridConfig.grids[1].inventoryItemsConfig.inventoryItemsInfo, _gridConfig.grids[1], _parentCells[1]);
+            AddInventoryItemsInfo(_TestinventoryItemsConfig.inventoryItemsInfo, GridConfig.grids[1]);
+            LoadInventoryItems();
+        }
+
+        private void LoadInventoryItems()
+        {
+            for (int i = 0; i < GridConfig.grids.Count; i++)
+            {
+                if (GridConfig.grids[i].inventoryItemsConfig.inventoryItemsInfo.Count > 0)
+                    LoadInventoryItemsOnGrid(GridConfig.grids[i].inventoryItemsConfig.inventoryItemsInfo, GridConfig.grids[i], ParentCells[i]);
+            }
+        }
+
+        [ContextMenu("Add item")]
+        public void AddItem()
+        {
+            RemoveAllInventoryItems();
+            AddInventoryItemsInfo(_TestinventoryItemsConfig.inventoryItemsInfo, GridConfig.grids[1]);
+            LoadInventoryItems();
         }
 
 
         void OnDisable()
         {
-            RemoveInventoryItemsInfo(_TestinventoryItemsConfig.inventoryItemsInfo, _gridConfig.grids[1]);
+            // RemoveInventoryItemsInfo(_TestinventoryItemsConfig.inventoryItemsInfo, GridConfig.grids[1]);
+            RemoveAllInventoryItems();
         }
 
         private void Initialize()
         {
-            for (int i = 0; i < _gridConfig.grids.Count; i++)
+            for (int i = 0; i < GridConfig.grids.Count; i++)
             {
-                var grid = _gridConfig.grids[i];
+                var grid = GridConfig.grids[i];
                 grid.startPos = _startPos[i];
                 grid.cells = new Cell[grid.rows, grid.cols];
                 if (grid.listCellsData.Count > 0)
@@ -42,7 +62,7 @@ namespace _Base.Scripts.UI
                     {
                         for (int c = 0; c < grid.cols; c++)
                         {
-                            var cell = Instantiate<Cell>(_gridConfig.cell, _parentCells[i]);
+                            var cell = Instantiate<Cell>(GridConfig.cell, ParentCells[i]);
                             cell.gameObject.name = $"Cell {r},{c}";
 
                             // Tính toán vị trí cell với khoảng cách spacing
@@ -60,7 +80,7 @@ namespace _Base.Scripts.UI
                     {
                         for (int c = 0; c < grid.cols; c++)
                         {
-                            var cell = Instantiate<Cell>(_gridConfig.cell, _parentCells[i]);
+                            var cell = Instantiate<Cell>(GridConfig.cell, ParentCells[i]);
                             cell.gameObject.name = $"Cell {r},{c}";
 
                             // Tính toán vị trí cell với khoảng cách spacing
@@ -108,7 +128,7 @@ namespace _Base.Scripts.UI
 
         public void AddInventoryItemsInfoEndDrag(InventoryItemInfo inventoryItemInfo, GridInfor gridInfor)
         {
-            foreach (var grid in _gridConfig.grids)
+            foreach (var grid in GridConfig.grids)
             {
                 if (grid.id == gridInfor.id)
                 {
@@ -142,14 +162,24 @@ namespace _Base.Scripts.UI
         }
 
 
-        private void LoadInventoryItemsOnStash(List<InventoryItemInfo> inventoryItems, GridInfor grid, Transform parent)
+        private void LoadInventoryItemsOnGrid(List<InventoryItemInfo> inventoryItems, GridInfor grid, Transform parent)
         {
             foreach (var inventoryItem in inventoryItems)
             {
                 inventoryItem.inventoryItemData.gridID = grid.id;
                 var item = Instantiate<InventoryItem>(grid.inventoryItemsConfig.InventoryItem, parent);
                 item.Setup(inventoryItem);
+                _inventoryItems.Add(item);
             }
+        }
+
+        private void RemoveAllInventoryItems()
+        {
+            foreach (var item in _inventoryItems)
+            {
+                Destroy(item.gameObject);
+            }
+            _inventoryItems.Clear();
         }
 
         public bool CheckPlaceItem(InventoryItemInfo inventoryItemInfo, GridInfor grid)
@@ -250,7 +280,7 @@ namespace _Base.Scripts.UI
 
         public void ChangeStatusCellEndDrag(List<Cell> cells, GridInfor gridInfor, StatusCell statusCell)
         {
-            foreach (var grid in _gridConfig.grids)
+            foreach (var grid in GridConfig.grids)
             {
                 if (grid.id == gridInfor.id)
                 {
@@ -262,16 +292,14 @@ namespace _Base.Scripts.UI
             }
         }
 
-
-        public (List<Cell> cells, GridInfor grid) GetCellsByPosition(DragItemUIController dragItemUIController, Vector2 mousePosition, Vector2 inventoryPositon, InventoryItem inventoryItem, bool startDrag = false)
+        public int GetParentIndex(Vector2 mousePosition)
         {
-
             Vector2 positionInGridManager;
             RectTransformUtility.ScreenPointToLocalPointInRectangle(m_rect, mousePosition, Camera.main, out positionInGridManager);
 
             int index = -1;
 
-            foreach (var parent in _parentCells)
+            foreach (var parent in ParentCells)
             {
                 if (parent.localPosition.x < positionInGridManager.x &&
                     positionInGridManager.x < parent.localPosition.x + parent.rect.width &&
@@ -289,15 +317,18 @@ namespace _Base.Scripts.UI
                         break;
                     }
             }
+            return index;
+        }
 
-            // Nếu không tìm thấy chỉ mục hợp lệ, trả về null
-            if (index == -1)
-            {
-                return (new List<Cell>(), null);
-            }
-            
-            dragItemUIController.SetParent(_parentCells[index]);
-            var grid = _gridConfig.grids[index];
+
+        public (List<Cell> cells, GridInfor grid) GetCellsByPosition(DragItemUIController dragItemUIController, int parentIndex, Vector2 mousePosition, Vector2 inventoryPositon, InventoryItem inventoryItem, bool startDrag = false)
+        {
+
+            Vector2 positionInGridManager;
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(m_rect, mousePosition, Camera.main, out positionInGridManager);
+
+            dragItemUIController.SetParent(ParentCells[parentIndex]);
+            var grid = GridConfig.grids[parentIndex];
             if (startDrag)
             {
                 var cell = grid.cells[inventoryItem.GetInventorInfo().inventoryItemData.startX, inventoryItem.GetInventorInfo().inventoryItemData.startY];
@@ -367,7 +398,7 @@ namespace _Base.Scripts.UI
         {
             if (isPreviousCells)
             {
-                foreach (var grid in _gridConfig.grids)
+                foreach (var grid in GridConfig.grids)
                 {
                     if (grid.id == gridInfor.id)
                     {
@@ -382,7 +413,7 @@ namespace _Base.Scripts.UI
             }
             else
             {
-                foreach (var grid in _gridConfig.grids)
+                foreach (var grid in GridConfig.grids)
                 {
                     if (grid.id == gridInfor.id)
                     {

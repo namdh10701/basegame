@@ -15,8 +15,11 @@ namespace _Base.Scripts.UI
         List<Cell> _previouCells = new List<Cell>();
         List<Cell> _nextCells = new List<Cell>();
         List<Cell> _curentCells = new List<Cell>();
-        GridInfor _previousGrid;
+        GridInfor _curentGrid;
         Vector2 _previousPosition;
+        int _previousParentIndex;
+        int _curentParentIndex = -1;
+
         void Start()
         {
             m_rect = this.gameObject.GetComponentInParent<RectTransform>();
@@ -29,6 +32,10 @@ namespace _Base.Scripts.UI
         public void SetParent(RectTransform parent)
         {
             _parent = parent;
+            this.gameObject.transform.SetParent(parent.transform);
+            Vector2 position;
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(_parent, Input.mousePosition, Camera.main, out position);
+            m_rect.anchoredPosition = position;
         }
 
         public void OnBeginDrag(PointerEventData eventData)
@@ -39,14 +46,30 @@ namespace _Base.Scripts.UI
 
         public void OnDrag(PointerEventData eventData)
         {
+            var parentIndex = _gridManager.GetParentIndex(Input.mousePosition);
+            if (parentIndex != _curentParentIndex && parentIndex != -1)
+            {
+                if (_curentParentIndex == -1)
+                {
+                    _previousParentIndex = parentIndex;
+                }
+                _curentParentIndex = parentIndex;
+            }
+            if (parentIndex == -1)
+                parentIndex = _previousParentIndex;
+
+            _curentGrid = _gridManager.GridConfig.grids[parentIndex];
+
+
+            Debug.Log("[OnDrag] _curentParentIndex: " + _curentParentIndex);
+            Debug.Log("[OnDrag] _previousParentIndex: " + _previousParentIndex);
             Vector2 position;
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(_parent, Input.mousePosition, Camera.main, out position);
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(_gridManager.ParentCells[parentIndex], Input.mousePosition, Camera.main, out position);
             m_rect.anchoredPosition = position;
-            var result = _gridManager.GetCellsByPosition(this, Input.mousePosition, position, _inventoryItem, _curentCells.Count == 0);
-            // if (result.cells.Count == 0 ) return;
+            var result = _gridManager.GetCellsByPosition(this, parentIndex, Input.mousePosition, position, _inventoryItem, _curentCells.Count == 0);
             if (result.grid == null || result.cells.Count == 0)
             {
-                _gridManager.OnDragChangeColorCells(_nextCells, _previousGrid, true);
+                _gridManager.OnDragChangeColorCells(_nextCells, _curentGrid, true);
             }
             else
                 ChangeColor(result.cells, result.grid);
@@ -65,7 +88,6 @@ namespace _Base.Scripts.UI
                 _nextCells = cells;
                 _gridManager.OnDragChangeColorCells(_nextCells, grid);
                 _previouCells = _nextCells;
-                _previousGrid = grid;
             }
 
 
@@ -75,36 +97,50 @@ namespace _Base.Scripts.UI
         {
             if (_nextCells.Count > 0 && CanMoveItem(_nextCells))
             {
-                _gridManager.ChangeStatusCellEndDrag(_nextCells, _previousGrid, StatusCell.Empty);
+                _gridManager.ChangeStatusCellEndDrag(_nextCells, _curentGrid, StatusCell.Empty);
 
                 var inventoryItemsInfoRemoveGrid = new List<InventoryItemInfo>();
                 inventoryItemsInfoRemoveGrid.Add(_inventoryItem.GetInventorInfo());
-                _gridManager.RemoveInventoryItemsInfo(inventoryItemsInfoRemoveGrid, _previousGrid);
+                _gridManager.RemoveInventoryItemsInfo(inventoryItemsInfoRemoveGrid, _curentGrid);
 
                 // Get pos 
                 _inventoryItem.GetInventorInfo().inventoryItemData.position = _nextCells[0].GetCellData().position;
-                _inventoryItem.GetInventorInfo().inventoryItemData.gridID = _previousGrid.id;
+                _inventoryItem.GetInventorInfo().inventoryItemData.gridID = _curentGrid.id;
                 var shape = Shape.ShapeDic[_inventoryItem.GetInventorInfo().inventoryItemData.shapeId];
                 var pos = _gridManager.GetPositionCell(shape, _inventoryItem.GetInventorInfo().inventoryItemData.startX,
-                _inventoryItem.GetInventorInfo().inventoryItemData.startY, _previousGrid);
+                _inventoryItem.GetInventorInfo().inventoryItemData.startY, _curentGrid);
 
                 m_rect.anchoredPosition = pos;
                 _previousPosition = m_rect.anchoredPosition;
-                _gridManager.OnDragChangeColorCells(_nextCells, _previousGrid, true);
+                _gridManager.OnDragChangeColorCells(_nextCells, _curentGrid, true);
 
-                _gridManager.AddInventoryItemsInfoEndDrag(_inventoryItem.GetInventorInfo(), _previousGrid);
-                _gridManager.ChangeStatusCellEndDrag(_nextCells, _previousGrid, StatusCell.Occupied);
+                _gridManager.AddInventoryItemsInfoEndDrag(_inventoryItem.GetInventorInfo(), _curentGrid);
+                _gridManager.ChangeStatusCellEndDrag(_nextCells, _curentGrid, StatusCell.Occupied);
+                _previousParentIndex = _curentParentIndex;
+                _curentParentIndex = -1;
 
             }
             else
             {
-                m_rect.anchoredPosition = _previousPosition;
-                _gridManager.OnDragChangeColorCells(_nextCells, _previousGrid, true);
-                _gridManager.ChangeStatusCellEndDrag(_curentCells, _previousGrid, StatusCell.Occupied);
-                _inventoryItem.GetInventorInfo().inventoryItemData.startX = _curentCells[0].GetCellData().r;
-                _inventoryItem.GetInventorInfo().inventoryItemData.startY = _curentCells[0].GetCellData().c;
+                foreach (var grid in _gridManager.GridConfig.grids)
+                {
+                    if (_previousParentIndex != _curentParentIndex)
+                    {
+                        _curentGrid = _gridManager.GridConfig.grids[_curentParentIndex];
+                        _gridManager.OnDragChangeColorCells(_nextCells, _curentGrid, true);
+
+                        _curentGrid = _gridManager.GridConfig.grids[_previousParentIndex];
+                        _parent = _gridManager.ParentCells[_previousParentIndex];
+                        this.gameObject.transform.SetParent(_parent.transform);
+                    }
+                    m_rect.anchoredPosition = _previousPosition;
+                    _gridManager.OnDragChangeColorCells(_nextCells, _curentGrid, true);
+                    _gridManager.ChangeStatusCellEndDrag(_curentCells, _curentGrid, StatusCell.Occupied);
+                    _inventoryItem.GetInventorInfo().inventoryItemData.startX = _curentCells[0].GetCellData().r;
+                    _inventoryItem.GetInventorInfo().inventoryItemData.startY = _curentCells[0].GetCellData().c;
 
 
+                }
             }
             _curentCells.Clear();
             _nextCells.Clear();
