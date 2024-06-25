@@ -28,7 +28,6 @@ public class ProjectileCollisionHandler : DefaultEffectCollisionHandler
         if (taker is Enemy enemy)
         {
             float evadeChance = ((EnemyStats)enemy.Stats).EvadeChance.Value;
-            Debug.Log(evadeChance);
             if (evadeChance > 0)
             {
                 if (Random.Range(0, 1f) < evadeChance)

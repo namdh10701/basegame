@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1773129454551935873}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,7 +43,8 @@ GameObject:
   - component: {fileID: 6350657736656936812}
   - component: {fileID: 6700891846555372940}
   - component: {fileID: 8707890794918017602}
-  m_Layer: 0
+  - component: {fileID: 7341662819393875602}
+  m_Layer: 13
   m_Name: EffectCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -122,6 +123,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 632092afc43eeec4fbac00b80ce9e41d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7341662819393875602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3851515435903282129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69b63fcec66342af9cc00f0e6ea683e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Entity: {fileID: 37263412830860456}
 --- !u!1 &4077323048244239376
 GameObject:
   m_ObjectHideFlags: 0
@@ -131,7 +145,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 544151990912997315}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Behaviour
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -168,7 +182,7 @@ GameObject:
   - component: {fileID: 1466956755648038636}
   - component: {fileID: 3941554842901566577}
   - component: {fileID: 8469707050344252408}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Captain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -227,12 +241,15 @@ MonoBehaviour:
     <EvadeChance>k__BackingField:
       statModifiers: []
       _baseValue: 0
+    <RepairSpeed>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
   _statTemplate: {fileID: 11400000, guid: 84fb51cf2123cca4894e08b24d356752, type: 2}
   Ship: {fileID: 0}
   pathfinder: {fileID: 0}
   Animation: {fileID: 4222250464283174331}
   effectHandler: {fileID: 1551171939735814577}
-  def: {fileID: 0}
+  def: {fileID: 11400000, guid: 62929b4d44d08404087bd1698c9de5e0, type: 2}
   behaviour: {fileID: 0}
   <OccupyCells>k__BackingField: []
   carryObject: {fileID: 8626451152845765806}
@@ -240,6 +257,8 @@ MonoBehaviour:
   MoveData: {fileID: 0}
   EffectTakerCollider: {fileID: 8707890794918017602}
   occupiyingNodes: []
+  carryingBullet: {fileID: 0}
+  IsAllowWander: 0
 --- !u!50 &1466956755648038636
 Rigidbody2D:
   serializedVersion: 4
@@ -279,6 +298,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05d67288bea2d6e4baaf96c00b0c7502, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  crew: {fileID: 37263412830860456}
   isPaused: 0
 --- !u!114 &8469707050344252408
 MonoBehaviour:
@@ -303,7 +323,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7475671448812303976}
   - component: {fileID: 1551171939735814577}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: EffectHandler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -359,6 +379,14 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 1578643735725536181, guid: f97d416e7588d084f9cbd27877ff14c3, type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 1979980038982539965, guid: f97d416e7588d084f9cbd27877ff14c3, type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
     - target: {fileID: 2179138304376510133, guid: f97d416e7588d084f9cbd27877ff14c3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -403,6 +431,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Captain
       objectReference: {fileID: 0}
+    - target: {fileID: 3167262179664498550, guid: f97d416e7588d084f9cbd27877ff14c3, type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
     - target: {fileID: 3438373871331298250, guid: f97d416e7588d084f9cbd27877ff14c3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.23055011
@@ -423,14 +455,42 @@ PrefabInstance:
       propertyPath: fix
       value: hammer
       objectReference: {fileID: 0}
+    - target: {fileID: 4760525295810047008, guid: f97d416e7588d084f9cbd27877ff14c3, type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 4971587765587976191, guid: f97d416e7588d084f9cbd27877ff14c3, type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
     - target: {fileID: 7035221109257857132, guid: f97d416e7588d084f9cbd27877ff14c3, type: 3}
       propertyPath: m_SortingOrder
-      value: 708
+      value: 694
       objectReference: {fileID: 0}
     - target: {fileID: 7035221109257857132, guid: f97d416e7588d084f9cbd27877ff14c3, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 33eb43e5b396ec84bb574dfdfb34692f, type: 2}
+    - target: {fileID: 8009697034682442990, guid: f97d416e7588d084f9cbd27877ff14c3, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8009697034682442990, guid: f97d416e7588d084f9cbd27877ff14c3, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8009697034682442990, guid: f97d416e7588d084f9cbd27877ff14c3, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8009697034682442990, guid: f97d416e7588d084f9cbd27877ff14c3, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.019
+      objectReference: {fileID: 0}
+    - target: {fileID: 8009697034682442990, guid: f97d416e7588d084f9cbd27877ff14c3, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.175
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

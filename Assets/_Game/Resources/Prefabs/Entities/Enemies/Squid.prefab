@@ -41,7 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3896745304591844391}
   - component: {fileID: 7379212253086196880}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: EffectHandler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -87,7 +87,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2389304212960537250}
   - component: {fileID: 1980536628549524330}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Ray   (0, -1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -167,7 +167,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6965855649326062882}
   - component: {fileID: 110929595377895312}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Ray  (-1, 0)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -237,7 +237,7 @@ GameObject:
   - component: {fileID: 7949188931529258734}
   - component: {fileID: 1010202736557736673}
   - component: {fileID: 3945846091911806246}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: EffectCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -253,7 +253,7 @@ Transform:
   m_GameObject: {fileID: 2108288691345765782}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.055, y: 0.37, z: 0}
+  m_LocalPosition: {x: 0.005, y: 0.367, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -329,7 +329,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5149995290519831894}
   - component: {fileID: 9055899620653946612}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Ray  (0, 1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -373,8 +373,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2439725888952280321}
-        m_TargetAssemblyTypeName: Wander, Assembly-CSharp
-        m_MethodName: ToDown
+        m_TargetAssemblyTypeName: _Game.Scripts.BehaviourTree.Wander, Assembly-CSharp
+        m_MethodName: ToUp
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -409,7 +409,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8965600723706263911}
   - component: {fileID: 4472235842493154642}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Ray (1, -1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -531,7 +531,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1303754956115312407}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Behaviour
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -578,7 +578,8 @@ GameObject:
   - component: {fileID: 2667218337027694206}
   - component: {fileID: 2651914818716957583}
   - component: {fileID: 1398462479390615626}
-  m_Layer: 0
+  - component: {fileID: 7984349400047426400}
+  m_Layer: 6
   m_Name: BehaviourTree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -617,6 +618,7 @@ MonoBehaviour:
   - {fileID: 3143742268251881798}
   - {fileID: 385540518426301459}
   - {fileID: 1398462479390615626}
+  - {fileID: 7984349400047426400}
   masterBlackboard: {fileID: 0}
 --- !u!114 &851421964308577174
 MonoBehaviour:
@@ -630,7 +632,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b25af8627659c6949b60949c3aa8d91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedEditorNode: {fileID: 2651914818716957583}
+  selectedEditorNode: {fileID: 2439725888952280321}
   repeatOnFinish: 1
   maxExecutionsPerTick: 1000
   parent: {fileID: 0}
@@ -715,8 +717,8 @@ MonoBehaviour:
   title: Wander
   rect:
     serializedVersion: 2
-    x: 607
-    y: 418
+    x: 437
+    y: 392
     width: 160
     height: 45
   parent: {fileID: 6411447790648082315}
@@ -735,10 +737,10 @@ MonoBehaviour:
   RayToSelectDirection: []
   Body: {fileID: 8505113706736554174}
   Force:
-    BaseValue: 5
+    BaseValue: 3
     Deviation: 0.5
   MaxSpeed:
-    BaseValue: 10
+    BaseValue: 5
     Deviation: 0.5
   CurrentState: 0
   CurrentDirection: {x: -1, y: 0}
@@ -809,6 +811,13 @@ MonoBehaviour:
     blackboard: {fileID: 5341758609630521839}
     key: Enemy
     constantValue: {fileID: 0}
+  abort: 0
+  isReadyToAttack:
+    useConstant: 0
+    mode: 0
+    blackboard: {fileID: 5341758609630521839}
+    key: IsReadyToAttack
+    constantValue: 0
 --- !u!114 &2651914818716957583
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -850,6 +859,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   key: Enemy
   val: {fileID: 8289297811835334095}
+--- !u!114 &7984349400047426400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5487576428607964545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ae15c5e6bcb1714080f2e8296c3d17a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: IsReadyToAttack
+  val: 0
 --- !u!1 &6029242624141832124
 GameObject:
   m_ObjectHideFlags: 0
@@ -860,7 +883,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7920420175567268649}
   - component: {fileID: 5654556774251307217}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Ray  (-1, 1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -996,7 +1019,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1129530089687362677}
   - component: {fileID: 7416552529909335836}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Ray  (1, 1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1052,7 +1075,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2461395218489100948}
   - component: {fileID: 4730385082281346567}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Ray (1, 0)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1120,7 +1143,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2517564911485915861}
   - component: {fileID: 1466308883178471792}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: 'Ray (-1, -1) '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1179,7 +1202,7 @@ GameObject:
   - component: {fileID: 8289297811835334095}
   - component: {fileID: 8631502049836452865}
   - component: {fileID: 5277049571435688989}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Squid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1217,8 +1240,8 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 3
-  m_LinearDrag: 3.5
+  m_Mass: 1
+  m_LinearDrag: 1.5
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -1245,6 +1268,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   body: {fileID: 8505113706736554174}
+  enemyId: 
   _stats:
     <HealthPoint>k__BackingField:
       _value:
@@ -1277,14 +1301,19 @@ MonoBehaviour:
     <EvadeChance>k__BackingField:
       statModifiers: []
       _baseValue: 0
-  _statsTemplate: {fileID: 11400000, guid: 7b641c5f7ad3c493c9f6f71cb400fdee, type: 2}
+    <Poise>k__BackingField:
+      statModifiers: []
+      _baseValue: 1
+  _statsTemplate: {fileID: 11400000, guid: 3c4145d76312eaa49bf2401ba0a86cbb, type: 2}
   effectHandler: {fileID: 7379212253086196880}
   EffectTakerCollider: {fileID: 3945846091911806246}
   blackboard: {fileID: 5341758609630521839}
-  pushCollider: {fileID: 0}
+  pushCollider: {fileID: 8353682512256452849}
   MBTExecutor: {fileID: 1623288628284439890}
   CooldownBehaviour: {fileID: 8631502049836452865}
   anim: {fileID: 243247705162881782}
+  EvasionBuffArea: {fileID: 0}
+  wander: {fileID: 0}
 --- !u!114 &8631502049836452865
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1320,7 +1349,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7310936986431149851}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Visuals
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1353,7 +1382,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3168308408918788988}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ShootPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1385,7 +1414,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4201845111507981478}
   - component: {fileID: 8739311852339724095}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Octa Direction Ray
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1460,6 +1489,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Trail
       objectReference: {fileID: 0}
+    - target: {fileID: 3500481587320970379, guid: 807c08b6e5252ae4dba62980dff94de3, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 5201555825134513242, guid: 807c08b6e5252ae4dba62980dff94de3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1522,9 +1555,25 @@ PrefabInstance:
       propertyPath: m_Name
       value: Squid - Spine
       objectReference: {fileID: 0}
+    - target: {fileID: 2947612624465916877, guid: a3526514ffce8c44ea8475ce8a2e4c70, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3095843118865810168, guid: a3526514ffce8c44ea8475ce8a2e4c70, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5552883155362123019, guid: a3526514ffce8c44ea8475ce8a2e4c70, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 5806828696693767030, guid: a3526514ffce8c44ea8475ce8a2e4c70, type: 3}
       propertyPath: m_SortingOrder
-      value: -335
+      value: -150
+      objectReference: {fileID: 0}
+    - target: {fileID: 8209862057937884952, guid: a3526514ffce8c44ea8475ce8a2e4c70, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8547352812536074042, guid: a3526514ffce8c44ea8475ce8a2e4c70, type: 3}
       propertyPath: m_LocalPosition.x

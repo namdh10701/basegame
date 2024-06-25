@@ -14,8 +14,9 @@ namespace _Game.Scripts
         public void ApplyConfig(EnemyStats enemyStats)
         {
             enemyStats.AttackDamage.BaseValue = Data.AttackDamage.BaseValue;
-
-            Debug.Log(enemyStats.AttackDamage.BaseValue + "APPLY");
+            enemyStats.AttackRange.BaseValue = Data.AttackRange.BaseValue;
+            enemyStats.HealthPoint.MaxStatValue.BaseValue = Data.HealthPoint.MaxStatValue.BaseValue;
+            enemyStats.HealthPoint.StatValue.BaseValue = Data.HealthPoint.StatValue.BaseValue;
         }
     }
 }

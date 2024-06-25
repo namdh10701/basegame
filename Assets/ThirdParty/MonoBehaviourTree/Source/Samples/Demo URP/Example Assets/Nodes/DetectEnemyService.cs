@@ -16,6 +16,7 @@ namespace MBTExample
 
         public override void Task()
         {
+            Debug.Log("Rung");
             // Find target in radius and feed blackboard variable with results
             Collider[] colliders = Physics.OverlapSphere(transform.position, range, mask, QueryTriggerInteraction.Ignore);
             if (colliders.Length > 0)

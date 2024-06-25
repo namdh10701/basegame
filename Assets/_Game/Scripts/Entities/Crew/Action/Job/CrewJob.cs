@@ -13,6 +13,7 @@ public enum JobStatus
 [Serializable]
 public abstract class CrewJob
 {
+    public string Name;
     public int DefaultPiority;
     public int Piority;
     public JobStatus Status = JobStatus.Free;

@@ -112,7 +112,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b25af8627659c6949b60949c3aa8d91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedEditorNode: {fileID: 4260380818238376302}
+  selectedEditorNode: {fileID: 2573902103097203444}
   repeatOnFinish: 0
   maxExecutionsPerTick: 6
   parent: {fileID: 0}
@@ -280,8 +280,8 @@ MonoBehaviour:
   title: Is Ready To Attack
   rect:
     serializedVersion: 2
-    x: 14
-    y: 278
+    x: 11
+    y: 281
     width: 160
     height: 45
   parent: {fileID: 6065938069518744946}
@@ -296,6 +296,13 @@ MonoBehaviour:
     blackboard: {fileID: 5194563963806863679}
     key: Enemy
     constantValue: {fileID: 0}
+  abort: 0
+  isReadyToAttack:
+    useConstant: 0
+    mode: 0
+    blackboard: {fileID: 5194563963806863679}
+    key: IsTriggered
+    constantValue: 0
 --- !u!114 &7687039662104936203
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -397,8 +404,8 @@ MonoBehaviour:
   title: Move
   rect:
     serializedVersion: 2
-    x: 258
-    y: 302
+    x: 284
+    y: 272
     width: 160
     height: 45
   parent: {fileID: 6065938069518744946}
@@ -490,8 +497,8 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 5
-  m_LinearDrag: 2
+  m_Mass: 1
+  m_LinearDrag: 1.5
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -549,21 +556,21 @@ MonoBehaviour:
   pfa: {fileID: 7789903315881788189}
   body: {fileID: 9081800915487468024}
   fastForce:
-    BaseValue: 250
+    BaseValue: 23
     Deviation: 5
   maxFastSpeed:
     BaseValue: 3
-    Deviation: 2
+    Deviation: 1
   timeAccelerate:
-    BaseValue: 0.15
-    Deviation: 0.05
+    BaseValue: 0.7
+    Deviation: 0.1
   isAccelerate: 0
   fastTimer: 0
   normalSpeed:
     BaseValue: 0.3
     Deviation: 0.1
   normalForce:
-    BaseValue: 50
+    BaseValue: 3
     Deviation: 0.3
   normalTime:
     BaseValue: 3
@@ -581,7 +588,10 @@ MonoBehaviour:
     BaseValue: {x: 0, y: -1}
     Deviation: {x: 0, y: 0}
   playAnimTimer: 2.5
-  timer: 2.5
+  timer:
+    BaseValue: 2.5
+    Deviation: 1
+  animSync: 0.5
 --- !u!114 &5255935956171750253
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -627,6 +637,9 @@ MonoBehaviour:
     <EvadeChance>k__BackingField:
       statModifiers: []
       _baseValue: 0
+    <Poise>k__BackingField:
+      statModifiers: []
+      _baseValue: 1
   _statsTemplate: {fileID: 11400000, guid: 9eafdaa630e9ff0429e1ff587ed34637, type: 2}
   effectHandler: {fileID: 6980205348978265785}
   EffectTakerCollider: {fileID: 397694424681592153}
@@ -777,7 +790,7 @@ Transform:
   m_GameObject: {fileID: 6880856187185135634}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.496, z: 0}
+  m_LocalPosition: {x: 0, y: -0.284, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -934,37 +947,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 632092afc43eeec4fbac00b80ce9e41d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &8152418313002540275
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2078310982718475398}
-  m_Layer: 6
-  m_Name: SortPivot
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2078310982718475398
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8152418313002540275}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.595, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2840733961665437198}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &4109166419433855438
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1057,7 +1039,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 471015614277371220, guid: d8077670f117daa4eba9f9ec9b37aaad, type: 3}
       propertyPath: m_SortingOrder
-      value: -1147
+      value: -930
       objectReference: {fileID: 0}
     - target: {fileID: 471015614277371220, guid: d8077670f117daa4eba9f9ec9b37aaad, type: 3}
       propertyPath: m_ReceiveShadows
@@ -1169,10 +1151,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 4987358678953636223, guid: d8077670f117daa4eba9f9ec9b37aaad, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2078310982718475398}
+    m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d8077670f117daa4eba9f9ec9b37aaad, type: 3}
 --- !u!4 &2840733961665437198 stripped

@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 8308213547917692982}
   - component: {fileID: 3797583696666110671}
   - component: {fileID: 8818864196946276441}
-  - component: {fileID: 7830742769403880199}
   m_Layer: 9
   m_Name: ShootTarget
   m_TagString: Untagged
@@ -47,7 +46,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AttackTargetBehaviour: {fileID: 8818864196946276441}
+  AimTargetBehaviour: {fileID: 2817264963645869955}
   Cannon: {fileID: 7230544241734426114}
+  timer: 0
 --- !u!114 &8818864196946276441
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65,22 +66,6 @@ MonoBehaviour:
   shootPosition: {fileID: 585281022002687167}
   projectilePrefab: {fileID: 9038214777133773486, guid: 5ca95de0050294232be82d462f376a92, type: 3}
   Animation: {fileID: 6864247153055890157}
---- !u!114 &7830742769403880199
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 349349972414893309}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 511f41dc487247f3887872cb320c724e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <Value>k__BackingField: 1.5
-  <MinValue>k__BackingField: 0
-  <MaxValue>k__BackingField: 0
-  <Modifiers>k__BackingField: []
 --- !u!1 &765863152523309877
 GameObject:
   m_ObjectHideFlags: 0
@@ -130,6 +115,7 @@ MonoBehaviour:
   <FollowTargetBehaviour>k__BackingField: {fileID: 5550966584359436881}
   <IsReadyToAttack>k__BackingField: 0
   <LockedPosition>k__BackingField: {x: 0, y: 0, z: 0}
+  LockedTarget: {fileID: 0}
 --- !u!114 &8953152418772538488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -410,7 +396,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &983449567079087377
 Transform:
   m_ObjectHideFlags: 0
@@ -511,7 +497,9 @@ MonoBehaviour:
   occupyingNodes: []
   FindTargetCollider: {fileID: 3152544984102912611}
   AttackTargetBehaviour: {fileID: 8818864196946276441}
+  FindTargetBehaviour: {fileID: 6103908589702467067}
   usingBullet: {fileID: 5909292734019790869, guid: f484edc2e211fba4abf6d10c45701042, type: 3}
+  Animation: {fileID: 0}
 --- !u!114 &3798245963770099852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -664,6 +652,7 @@ MonoBehaviour:
   <Strategy>k__BackingField: {fileID: 47887422928152508}
   <FindTargetBehaviour>k__BackingField: {fileID: 6103908589702467067}
   <IsCaughtUp>k__BackingField: 0
+  <Target>k__BackingField: {fileID: 0}
 --- !u!114 &47887422928152508
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -992,11 +981,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3202484138356462329, guid: 8526d30eeb5d74e4eb8d7cb93811146d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.021199942
+      value: 0.021200016
       objectReference: {fileID: 0}
     - target: {fileID: 3202484138356462329, guid: 8526d30eeb5d74e4eb8d7cb93811146d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.60719985
+      value: 0.60720015
       objectReference: {fileID: 0}
     - target: {fileID: 4539830182021676167, guid: 8526d30eeb5d74e4eb8d7cb93811146d, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1020,7 +1009,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5136839274860472885, guid: 8526d30eeb5d74e4eb8d7cb93811146d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.00000017881393
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6611897554376847247, guid: 8526d30eeb5d74e4eb8d7cb93811146d, type: 3}
       propertyPath: rotateTransform
@@ -1036,11 +1025,11 @@ PrefabInstance:
       objectReference: {fileID: 983449567079087377}
     - target: {fileID: 8595158877210297382, guid: 8526d30eeb5d74e4eb8d7cb93811146d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.021199942
+      value: 0.021200016
       objectReference: {fileID: 0}
     - target: {fileID: 8595158877210297382, guid: 8526d30eeb5d74e4eb8d7cb93811146d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.60719985
+      value: 0.60720015
       objectReference: {fileID: 0}
     - target: {fileID: 8816640359104004130, guid: 8526d30eeb5d74e4eb8d7cb93811146d, type: 3}
       propertyPath: m_Mesh

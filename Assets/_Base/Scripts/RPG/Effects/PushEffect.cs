@@ -13,6 +13,7 @@ public class PushEffect : OneShotEffect
 {
     public LayerMask affectLayer;
     public float force;
+    public bool isIgnorePoise;
     public PushEffect(float force)
     {
         this.force = force;
@@ -23,7 +24,15 @@ public class PushEffect : OneShotEffect
         {
             Vector2 direction = (entity.transform.position - transform.position).normalized;
             float poise = ((EnemyStats)enemy.Stats).Poise.Value;
-            entity.body.AddForceAtPosition(force * (1 - poise) * direction, transform.position);
+
+            if (isIgnorePoise)
+            {
+            }
+            else
+            {
+                force = force * (1 - poise);
+            }
+            entity.body.AddForceAtPosition(force * direction, transform.position);
         }
     }
 }

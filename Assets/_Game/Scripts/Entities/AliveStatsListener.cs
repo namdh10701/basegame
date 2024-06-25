@@ -28,7 +28,7 @@ public class AliveStatsListener : MonoBehaviour
         {
             OnReachZero.Invoke();
         }
-        if (hp.Value >= hp.MaxValue)
+        if (hp.IsFull)
         {
             OnReachFull.Invoke();
         }

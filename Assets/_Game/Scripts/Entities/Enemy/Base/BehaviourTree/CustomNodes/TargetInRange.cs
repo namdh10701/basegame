@@ -42,7 +42,6 @@ namespace _Game.Scripts.Battle
             {
                 return;
             }
-            Debug.Log(obj.name);
             if (TargetShip != null)
             {
                 if (entityBody.Entity.gameObject == TargetShip.gameObject)

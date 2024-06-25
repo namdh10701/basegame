@@ -69,6 +69,17 @@ namespace _Base.Scripts.RPG.Behaviours.FindTarget
             Targets.Remove(target);
         }
 
+        public void Disable()
+        {
+            ObjectCollisionDetector.gameObject.SetActive(false);
+            Targets.Clear();
+            MostTargets.Clear();
+        }
+        public void Enable()
+        {
+            ObjectCollisionDetector.gameObject.SetActive(true);
+        }
+
         void Update()
         {
             MostTargets = Strategy.FindTheMostTargets(Targets);

@@ -23,7 +23,9 @@ public class CellAttacker : EnemyAttackBehaviour, ICellAttacker
         enemyAttackData = new EnemyAttackData();
         enemyAttackData.TargetCells = gridPicker.PickCells(transform, AttackPatternProfile, out Cell centerCell);
         enemyAttackData.CenterCell = centerCell;
-        enemyAttackData.Effect = new DecreaseHealthEffect(2);
+        DecreaseHealthEffect decreaseHealthEffect = new GameObject("", typeof(DecreaseHealthEffect)).GetComponent<DecreaseHealthEffect>();
+        decreaseHealthEffect.Amount = 3; // TAKE FROM BOSS STATS
+        enemyAttackData.Effects = new List<Effect> { decreaseHealthEffect };
     }
 
     public override IEnumerator AttackSequence()

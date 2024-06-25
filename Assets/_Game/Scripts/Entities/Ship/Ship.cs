@@ -23,7 +23,6 @@ namespace _Game.Scripts.Gameplay.Ship
         public PathfindingController PathfindingController;
         public EffectTakerCollider EffectCollider;
         public ShipSpeed ShipSpeed;
-        public CrewController CrewController;
         public CrewJobData CrewJobData;
         protected override void Awake()
         {

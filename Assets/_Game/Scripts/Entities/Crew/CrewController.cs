@@ -10,24 +10,41 @@ using UnityEngine;
 public class CrewController : MonoBehaviour
 {
     public CrewJobData CrewJobData;
+    public MoveData MoveData;
     public bool HasPendingJob => CrewJobData.ActivateJobs.Count > 0;
     public List<Crew> crews = new List<Crew>();
     private void Awake()
     {
         CrewJobData.OnActivateJobsChanged += OnJobActivate;
     }
+
     public void AddCrew(Crew crew)
     {
         crews.Add(crew);
         crew.crewController = this;
+        crew.MoveData = MoveData;
     }
+
     void OnJobActivate(CrewJob crewJob)
     {
         if (crewJob.Piority == int.MaxValue)
         {
             Crew crew = GetMostSuitableCrewForJob(crewJob);
+
+            Debug.Log("HERE 1");
             if (crew != null)
             {
+                Debug.Log("HERE");
+                lastAssignCrew = crew;
+                AssignJob(crew, crewJob);
+            }
+        }
+        else
+        {
+            List<Crew> freeCrews = GetFreeCrews();
+            if (freeCrews.Count > 0)
+            {
+                Crew crew = GetClosetCrewToJob(crewJob, freeCrews);
                 AssignJob(crew, crewJob);
             }
         }
@@ -57,6 +74,7 @@ public class CrewController : MonoBehaviour
         CrewJob closestJob = null;
         foreach (CrewJob job in jobs)
         {
+            Debug.Log(job.Status + " " + job.Name);
             List<Node> workingSlots = job.WorkLocation.WorkingSlots;
 
             foreach (Node workingSlot in workingSlots)
@@ -79,12 +97,20 @@ public class CrewController : MonoBehaviour
         Crew closestFreeCrew = GetClosetCrewToJob(crewJob, ret);
         if (closestFreeCrew != null)
         {
+            Debug.Log("HERE 3");
             return closestFreeCrew;
         }
         else
         {
+            Debug.Log("HERE 6");
             List<Crew> lowerPriorityCrews = GetCrewsWithLowerJobPriority(crewJob);
-            if (lowerPriorityCrews.Count > 0)
+            if (lowerPriorityCrews.Count == 0)
+            {
+                Debug.Log("HERE 4");
+                return lastAssignCrew;
+
+            }
+            else
             {
                 Crew closetCrewWithLowerPriority = GetClosetCrewToJob(crewJob, lowerPriorityCrews);
                 return closetCrewWithLowerPriority;
@@ -92,6 +118,8 @@ public class CrewController : MonoBehaviour
         }
         return null;
     }
+    Crew lastAssignCrew;
+
 
     List<Crew> GetFreeCrews()
     {
@@ -101,8 +129,6 @@ public class CrewController : MonoBehaviour
         {
             if (crew.ActionHandler.CurrentAction is not CrewJobAction || crew.ActionHandler.CurrentAction == null)
             {
-                Debug.Log("FOUND FREE CREW " + crew.name + crew.ActionHandler.CurrentAction);
-                Debug.Log("DETAILS " + " " + (crew.ActionHandler.CurrentAction is not CrewJobAction) + " " + (crew.ActionHandler.CurrentAction == null));
                 freeCrews.Add(crew);
             }
         }
@@ -168,4 +194,11 @@ public class CrewController : MonoBehaviour
         crew.ActionHandler.Act(action);
     }
 
+    public void ActivateCrews()
+    {
+        foreach (Crew crew in crews)
+        {
+            crew.IsAllowWander = true;
+        }
+    }
 }

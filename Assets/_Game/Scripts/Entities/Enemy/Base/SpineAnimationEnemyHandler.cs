@@ -45,9 +45,9 @@ public abstract class SpineAnimationEnemyHandler : MonoBehaviour
         }
         if (!trackEntry.Loop && trackEntry.Next == null)
         {
-        PlayIdle();
+            PlayIdle();
         }
-           
+
     }
     public void PlayMove()
     {

@@ -10,6 +10,7 @@ using UnityEngine;
 public class CrewJobData : MonoBehaviour
 {
     public List<CrewJob> ActivateJobs = new List<CrewJob>();
+
     public Action<CrewJob> OnActivateJobsChanged;
 
     public ShipSetup ShipSetup;
@@ -33,7 +34,7 @@ public class CrewJobData : MonoBehaviour
 
         foreach (CrewJob crewJob in ActivateJobs)
         {
-            if (crewJob.Piority == highestPriority)
+            if (crewJob.Status != JobStatus.WorkingOn && crewJob.Piority == highestPriority)
             {
                 highestPriorityJobs.Add(crewJob);
             }
@@ -45,7 +46,6 @@ public class CrewJobData : MonoBehaviour
     //             click bullet -> deactivate the reload cannonjob -> activate reload cannon with clicked bullet job
     //case 2 crew: 
 
-    int crewNumber = 2;
     public void Initialize()
     {
         foreach (Cell cell in ShipSetup.AllCells)
@@ -66,8 +66,6 @@ public class CrewJobData : MonoBehaviour
             reloadCannonJob.OnJobInterupted += OnJobInterupted;
 
         }
-        Debug.Log(ReloadCannonJobsDic.Count + " Reload Cannon Job Count");
-        Debug.Log(FixCellJobDic.Count + " Fix Cell Job Count");
     }
 
     private void Awake()
@@ -89,10 +87,14 @@ public class CrewJobData : MonoBehaviour
         {
             reloadCannonJob.Piority = piority;
         }
-        if (!ActivateJobs.Contains(reloadCannonJob))
+        if (reloadCannonJob.Piority != int.MaxValue)
         {
-            ActivateJobs.Add(reloadCannonJob);
+            if (!ActivateJobs.Contains(reloadCannonJob))
+            {
+                ActivateJobs.Add(reloadCannonJob);
+            }
         }
+
         if (reloadCannonJob.bullet == bullet && reloadCannonJob.Status == JobStatus.WorkingOn)
         {
             Debug.Log(reloadCannonJob.Status);
@@ -102,7 +104,6 @@ public class CrewJobData : MonoBehaviour
         {
             reloadCannonJob.AssignBullet(bullet);
         }
-        Debug.Log(reloadCannonJob.Piority + " INVOKE");
         OnActivateJobsChanged.Invoke(reloadCannonJob);
 
     }

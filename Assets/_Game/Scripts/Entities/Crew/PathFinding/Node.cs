@@ -7,7 +7,7 @@ namespace _Game.Scripts.PathFinding
 {
     public enum WorkingSlotState
     {
-         Occupied, Free
+        Occupied, Free, Disabled
     }
     public class Node : MonoBehaviour
     {
@@ -26,11 +26,11 @@ namespace _Game.Scripts.PathFinding
             {
                 if (cell != null)
                 {
-                    return cell.GridItem == null;
+                    return cell.GridItem == null && State != WorkingSlotState.Disabled;
                 }
                 else
                 {
-                    return true;
+                    return true && State != WorkingSlotState.Disabled;
                 }
             }
         }

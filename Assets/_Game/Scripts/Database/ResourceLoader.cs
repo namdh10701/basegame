@@ -22,6 +22,7 @@ namespace _Game.Scripts
 
         static string cannonPrefabPath = "Prefabs/GridItems/Cannons";
         static string bulletPrefabPath = "Prefabs/GridItems/Bullets";
+        static string crewPrefabPath = "Prefabs/GridItems/Crews";
         public static Sprite LoadGearImage(Gear gear)
         {
             GearType gearType = gear.GearType;
@@ -62,6 +63,9 @@ namespace _Game.Scripts
                     break;
                 case GridItemType.Bullet:
                     path = bulletPrefabPath;
+                    break;
+                case GridItemType.Crew:
+                    path = crewPrefabPath;
                     break;
             }
             path += $"/{def.Name}";

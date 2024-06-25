@@ -9,8 +9,21 @@ namespace _Game.Scripts
 {
     public class EvasionBuffArea : MonoBehaviour
     {
-        StatModifier statModifier = new StatModifier(.33f, StatModType.Flat);
+        public StatModifier statModifier = new StatModifier(.33f, StatModType.Flat);
         List<Enemy> buffedEnemy = new List<Enemy>();
+
+        public float existTime;
+        float elapsedTime;
+
+        private void Update()
+        {
+            elapsedTime += Time.deltaTime;
+            if (elapsedTime > existTime)
+            {
+                Destroy(gameObject);
+            }
+        }
+
         private void OnTriggerEnter2D(Collider2D collision)
         {
             if (collision.TryGetComponent(out EntityProvider entityProvider))
@@ -20,6 +33,7 @@ namespace _Game.Scripts
                     if (!buffedEnemy.Contains(enemy))
                     {
                         ((EnemyStats)enemy.Stats).EvadeChance.AddModifier(statModifier);
+                        buffedEnemy.Add(enemy);
                     }
                 }
             }
@@ -34,6 +48,7 @@ namespace _Game.Scripts
                     if (buffedEnemy.Contains(enemy))
                     {
                         ((EnemyStats)enemy.Stats).EvadeChance.RemoveModifier(statModifier);
+                        buffedEnemy.Remove(enemy);
                     }
                 }
             }

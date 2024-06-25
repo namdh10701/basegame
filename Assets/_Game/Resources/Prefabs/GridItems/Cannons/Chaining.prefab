@@ -95,6 +95,7 @@ MonoBehaviour:
   <FollowTargetBehaviour>k__BackingField: {fileID: 8677654997556511390}
   <IsReadyToAttack>k__BackingField: 0
   <LockedPosition>k__BackingField: {x: 0, y: 0, z: 0}
+  LockedTarget: {fileID: 0}
 --- !u!114 &1614122209195546930
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -230,7 +231,9 @@ MonoBehaviour:
   occupyingNodes: []
   FindTargetCollider: {fileID: 3998683235849372507}
   AttackTargetBehaviour: {fileID: 8192189898026933683}
+  FindTargetBehaviour: {fileID: 7147069703896698860}
   usingBullet: {fileID: 5909292734019790869, guid: f484edc2e211fba4abf6d10c45701042, type: 3}
+  Animation: {fileID: 4787384145167691590}
 --- !u!114 &-717564830529616064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -544,8 +547,6 @@ GameObject:
   - component: {fileID: 6282739535309694796}
   - component: {fileID: 1346826863961692509}
   - component: {fileID: 8192189898026933683}
-  - component: {fileID: 4981277214533445627}
-  - component: {fileID: 6899684413066264699}
   m_Layer: 9
   m_Name: ShootTarget
   m_TagString: Untagged
@@ -581,7 +582,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AttackTargetBehaviour: {fileID: 8192189898026933683}
+  AimTargetBehaviour: {fileID: 4089692241188050585}
   Cannon: {fileID: 94858937819000496}
+  timer: 0
 --- !u!114 &8192189898026933683
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -599,38 +602,6 @@ MonoBehaviour:
   shootPosition: {fileID: 432856918238722239}
   projectilePrefab: {fileID: 9038214777133773486, guid: 5ca95de0050294232be82d462f376a92, type: 3}
   Animation: {fileID: 4787384145167691590}
---- !u!114 &4981277214533445627
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6040855809983312167}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 511f41dc487247f3887872cb320c724e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <Value>k__BackingField: 1
-  <MinValue>k__BackingField: 0
-  <MaxValue>k__BackingField: 0
-  <Modifiers>k__BackingField: []
---- !u!114 &6899684413066264699
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6040855809983312167}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 511f41dc487247f3887872cb320c724e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <Value>k__BackingField: 1
-  <MinValue>k__BackingField: 0
-  <MaxValue>k__BackingField: 0
-  <Modifiers>k__BackingField: []
 --- !u!1 &6325944138744424202
 GameObject:
   m_ObjectHideFlags: 0
@@ -913,6 +884,7 @@ MonoBehaviour:
   <Strategy>k__BackingField: {fileID: 3671976682769814746}
   <FindTargetBehaviour>k__BackingField: {fileID: 7147069703896698860}
   <IsCaughtUp>k__BackingField: 0
+  <Target>k__BackingField: {fileID: 0}
 --- !u!114 &3671976682769814746
 MonoBehaviour:
   m_ObjectHideFlags: 0

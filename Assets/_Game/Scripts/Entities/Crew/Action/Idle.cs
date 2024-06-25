@@ -8,8 +8,9 @@ public class Idle : CrewAction
     Crew crew;
     public Idle(Crew crew)
     {
+        Name = "IDLE";
         this.crew = crew;
-        this.Execute = DoExecute();
+        this.Execute =  DoExecute();
         this.Interupt = DoInterupt();
     }
     public IEnumerator DoExecute()
@@ -23,4 +24,9 @@ public class Idle : CrewAction
         yield break;
     }
 
+    public override void ReBuild(Crew crew)
+    {
+        this.Execute = DoExecute();
+        this.Interupt = DoInterupt();
+    }
 }

@@ -24,8 +24,10 @@ namespace BehaviorDesigner.Runtime.Tasks.Tutorials
             returnedObject.Value = WithinSight(targetObject.Value, fieldOfViewAngle.Value, viewDistance.Value);
             if (returnedObject.Value != null) {
                 // Return success if an object was found
+                Debug.Log("SUCCESS SEE");
                 return TaskStatus.Success;
             }
+            Debug.Log("Failed SEE");
             // An object is not within sight so return failure
             return TaskStatus.Failure;
         }

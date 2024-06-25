@@ -8,13 +8,13 @@ namespace _Base.Scripts.RPG.Behaviours.AttackTarget
 {
     public interface IAttackStrategy
     {
-        void SetData(Entity shooter, Transform shootPosition, Entity projectilePrefab, FindTargetStrategy findTargetStrategy, Vector3 targetPosition);
+        void SetData(Entity shooter, Transform shootPosition, Entity projectilePrefab, Vector3 shootDirection);
         void DoAttack();
     }
     [Serializable]
     public abstract class AttackStrategy : MonoBehaviour, IAttackStrategy
     {
-        public abstract void SetData(Entity shooter, Transform shootPosition, Entity projectilePrefab, FindTargetStrategy findTargetStrategy,
+        public abstract void SetData(Entity shooter, Transform shootPosition, Entity projectilePrefab,
             Vector3 targetPosition);
 
         public abstract void DoAttack();

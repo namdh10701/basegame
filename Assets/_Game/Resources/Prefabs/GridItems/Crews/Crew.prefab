@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 3547516095354855559}
   - component: {fileID: 5154970329997059248}
   - component: {fileID: 3125218877588862083}
-  m_Layer: 0
-  m_Name: Crew1
+  m_Layer: 13
+  m_Name: Crew
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -72,18 +72,24 @@ MonoBehaviour:
     <EvadeChance>k__BackingField:
       statModifiers: []
       _baseValue: 0
+    <RepairSpeed>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
   _statTemplate: {fileID: 11400000, guid: 84fb51cf2123cca4894e08b24d356752, type: 2}
   Ship: {fileID: 0}
   pathfinder: {fileID: 0}
   Animation: {fileID: 5057098962496586513}
   effectHandler: {fileID: 7046251937023846737}
-  def: {fileID: 0}
+  def: {fileID: 11400000, guid: d2c305b7d3078b946b4dc55bec6796f5, type: 2}
   behaviour: {fileID: 0}
   <OccupyCells>k__BackingField: []
   carryObject: {fileID: 4267490572488331614}
   crewController: {fileID: 0}
   MoveData: {fileID: 0}
+  EffectTakerCollider: {fileID: 7557830686970291313}
   occupiyingNodes: []
+  carryingBullet: {fileID: 0}
+  IsAllowWander: 0
 --- !u!50 &3547516095354855559
 Rigidbody2D:
   serializedVersion: 4
@@ -123,6 +129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05d67288bea2d6e4baaf96c00b0c7502, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  crew: {fileID: 4423691010520195521}
   isPaused: 0
 --- !u!114 &3125218877588862083
 MonoBehaviour:
@@ -148,7 +155,8 @@ GameObject:
   - component: {fileID: 8404357727143417207}
   - component: {fileID: 6948582678661731640}
   - component: {fileID: 7557830686970291313}
-  m_Layer: 0
+  - component: {fileID: 4480581246185991485}
+  m_Layer: 13
   m_Name: EffectCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -227,6 +235,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 632092afc43eeec4fbac00b80ce9e41d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4480581246185991485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1903941828349410014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69b63fcec66342af9cc00f0e6ea683e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Entity: {fileID: 4423691010520195521}
 --- !u!1 &5169727812624620049
 GameObject:
   m_ObjectHideFlags: 0
@@ -236,7 +257,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5465728304999097419}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -268,7 +289,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4643010733784724628}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Behaviour
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -302,7 +323,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7008845208885430269}
   - component: {fileID: 7046251937023846737}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: EffectHandler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -346,6 +367,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5465728304999097419}
     m_Modifications:
+    - target: {fileID: 281961704642216072, guid: d108d638eb1901e4aa441881acb17726, type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 2159011527597053009, guid: d108d638eb1901e4aa441881acb17726, type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 2645316610868215114, guid: d108d638eb1901e4aa441881acb17726, type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
     - target: {fileID: 3252420887108154683, guid: d108d638eb1901e4aa441881acb17726, type: 3}
       propertyPath: fix
       value: fix
@@ -406,17 +439,41 @@ PrefabInstance:
       propertyPath: m_Name
       value: Crew1
       objectReference: {fileID: 0}
+    - target: {fileID: 6152179237646050611, guid: d108d638eb1901e4aa441881acb17726, type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
     - target: {fileID: 6208264327265156139, guid: d108d638eb1901e4aa441881acb17726, type: 3}
       propertyPath: m_SortingOrder
-      value: 702
+      value: 690
+      objectReference: {fileID: 0}
+    - target: {fileID: 6903097208277004957, guid: d108d638eb1901e4aa441881acb17726, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6903097208277004957, guid: d108d638eb1901e4aa441881acb17726, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6903097208277004957, guid: d108d638eb1901e4aa441881acb17726, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6903097208277004957, guid: d108d638eb1901e4aa441881acb17726, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.364
+      value: -0.716
+      objectReference: {fileID: 0}
+    - target: {fileID: 6903097208277004957, guid: d108d638eb1901e4aa441881acb17726, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.159
       objectReference: {fileID: 0}
     - target: {fileID: 7509032601309316565, guid: d108d638eb1901e4aa441881acb17726, type: 3}
       propertyPath: m_Mesh
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7890606547710280896, guid: d108d638eb1901e4aa441881acb17726, type: 3}
+      propertyPath: m_Layer
+      value: 13
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class StunEffect : OneShotEffect
 {
-    public float StunDuration = 2;
+    public float StunDuration = 1;
 
     protected override void OnApply(Entity entity)
     {

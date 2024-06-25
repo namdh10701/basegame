@@ -18,14 +18,13 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
         Cannon Cannon;
         protected Transform shootPosition;
         private Entity projectilePrefab;
-        private Vector3 TargetPosition;
-        private FindTargetStrategy findTargetStrategy;
+        private Vector2 shootDirection;
         private IShooter shooter;
         private void Awake()
         {
             Cannon = GetComponent<Cannon>();
         }
-        public override void SetData(Entity shooter, Transform shootPosition, Entity projectilePrefab, FindTargetStrategy findTargetStrategy, Vector3 TargetPosition)
+        public override void SetData(Entity shooter, Transform shootPosition, Entity projectilePrefab, Vector3 shootDirection)
         {
             if (shooter is not IShooter fighter)
             {
@@ -35,8 +34,7 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
             this.shooter = fighter;
             this.shootPosition = shootPosition;
             this.projectilePrefab = projectilePrefab;
-            this.findTargetStrategy = findTargetStrategy;
-            this.TargetPosition = TargetPosition;
+            this.shootDirection = shootDirection;
         }
 
         public override void DoAttack()
@@ -61,20 +59,16 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
         {
             CannonStats cannonStats = (CannonStats)Cannon.Stats;
             projectile.AddCritChance(new StatModifier(cannonStats.CriticalChance.Value, StatModType.Flat, 1));
-            projectile.AddAccuaracy(new StatModifier(cannonStats.AttackAccuracy.Value, StatModType.Flat, 1));
             projectile.AddDamage(new StatModifier(cannonStats.AttackDamage.Value, StatModType.Flat, 1));
         }
 
         protected virtual Quaternion CalculateShootDirection()
         {
             float addAccuarcyFromProjectile = ((ProjectileStats)projectilePrefab.Stats).Accuracy.Value;
-            var attackAccuracy = shooter.FighterStats.AttackAccuracy;
-            var targetPosition = TargetPosition;
-            targetPosition.x += Random.Range(-attackAccuracy.Value - addAccuarcyFromProjectile, attackAccuracy.Value + addAccuarcyFromProjectile);
-            targetPosition.y += Random.Range(-attackAccuracy.Value - addAccuarcyFromProjectile, attackAccuracy.Value + addAccuarcyFromProjectile);
-
-            var direction = targetPosition - shootPosition.position;
-            var aimDirection = Quaternion.LookRotation(Vector3.forward, direction);
+            float shooterAccuracy = shooter.FighterStats.AttackAccuracy.Value;
+            float totalAccuaracy = addAccuarcyFromProjectile + shooterAccuracy;
+            Vector2 finalShootDirection = Quaternion.Euler(0, 0, Random.Range(-totalAccuaracy / 2, totalAccuaracy / 2)) * shootDirection;
+            var aimDirection = Quaternion.LookRotation(Vector3.forward, finalShootDirection);
             return aimDirection;
         }
     }
