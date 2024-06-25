@@ -18,31 +18,16 @@ namespace _Base.Scripts.RPG.Behaviours.AimTarget
 
         [field: SerializeField]
         public Vector3 LockedPosition { get; private set; }
-
-        public Transform LockedTarget;
         void Update()
         {
-            if (FollowTargetBehaviour.FindTargetBehaviour.MostTargets.Count == 0)
+            IsReadyToAttack = Strategy.Aim(FollowTargetBehaviour);
+            if (FollowTargetBehaviour.FindTargetBehaviour.MostTargets.Count > 0)
             {
-                IsReadyToAttack = false;
-                LockedTarget = null;
-                return;
+                LockedPosition = FollowTargetBehaviour.FindTargetBehaviour.MostTargets.First().transform.position;
             }
-            if (FollowTargetBehaviour.IsCaughtUp)
+            else
             {
-                LockedTarget = FollowTargetBehaviour.FindTargetBehaviour.MostTargets.First().transform;
-                IsReadyToAttack = true; 
-                LockedPosition = LockedTarget.position;
-                /* IsReadyToAttack = Strategy.Aim(FollowTargetBehaviour);
-                if (FollowTargetBehaviour.FindTargetBehaviour.MostTargets.Count > 0)
-                {
-                    LockedPosition = FollowTargetBehaviour.FindTargetBehaviour.MostTargets.First().transform.position;
-                }*/
-            }
-            if (FollowTargetBehaviour.FindTargetBehaviour.MostTargets.First().transform != LockedTarget)
-            {
-                LockedTarget = null;
-                IsReadyToAttack = false;
+                LockedPosition = Vector2.zero;
             }
         }
 
