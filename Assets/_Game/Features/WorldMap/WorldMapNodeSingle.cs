@@ -1,6 +1,8 @@
 using _Base.Scripts.UI.Managers;
 using _Game.Scripts.UI;
 using UnityWeld.Binding;
+using ZBase.UnityScreenNavigator.Core.Modals;
+using ZBase.UnityScreenNavigator.Core.Views;
 
 namespace _Game.Features.WorldMap
 {
@@ -85,7 +87,10 @@ namespace _Game.Features.WorldMap
 
         private void OnSelected()
         {
-            PopupManager.Instance.ShowPopup<SeaMapNodeInfoPopup.SeaMapNodeInfoPopup>();
+            // PopupManager.Instance.ShowPopup<SeaMapNodeInfoPopup.SeaMapNodeInfoPopup>();
+            
+            var options = new ViewOptions("FightNodeInfoModal", true);
+            ModalContainer.Find(ContainerKey.Modals).Push(options);
         }
 
         private bool _isSelected;
