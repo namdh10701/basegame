@@ -95,6 +95,11 @@ namespace _Game.Scripts
                                 }
                             }
                         }
+
+                        if (spawned.TryGetComponent(out Cannon cannon))
+                        {
+                            cannon.DisableWhenActive();
+                        }
                     }
                 }
             }

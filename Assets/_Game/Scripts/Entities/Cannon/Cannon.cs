@@ -76,6 +76,43 @@ namespace _Game.Scripts.Entities
         {
             base.Awake();
         }
+        public void DisableWhenActive()
+        {
+            Cell[,] shape = ConvertOccupyCellsToShape();
+            NodeGraph nodeGraph = FindAnyObjectByType<NodeGraph>();
+            List<Cell> cells = GridHelper.GetCellsAroundShape(OccupyCells[0].Grid.Cells, OccupyCells);
+
+            foreach (Cell cell in cells)
+            {
+                foreach (Node node in nodeGraph.nodes)
+                {
+                    if (node.cell == cell)
+                    {
+                        disableWhenActive.Add(node);
+                        node.State = WorkingSlotState.Disabled;
+                    }
+                }
+            }
+
+            List<Cell> bottomCells = new List<Cell>();
+            for (int i = 0; i < shape.GetLength(1); i++)
+            {
+                bottomCells.Add(shape[0, i]);
+            }
+
+            List<Cell> canbeActive = GridHelper.GetCellsAroundShape(OccupyCells[0].Grid.Cells, bottomCells);
+            foreach (Cell cell in canbeActive)
+            {
+                foreach (Node node in nodeGraph.nodes)
+                {
+                    if (node.cell == cell)
+                    {
+                        node.State = WorkingSlotState.Free;
+                        disableWhenActive.Remove(node);
+                    }
+                }
+            }
+        }
 
         protected override void LoadStats()
         {
@@ -122,47 +159,24 @@ namespace _Game.Scripts.Entities
             if (isOutOfAmmo || isBroken)
             {
                 FindTargetBehaviour.Disable();
+                foreach (Node node in disableWhenActive)
+                {
+                    node.State = WorkingSlotState.Disabled;
+                }
             }
             else
             {
+                foreach (Node node in disableWhenActive)
+                {
+                    node.State = WorkingSlotState.Free;
+                }
                 FindTargetBehaviour.Enable();
             }
-            Cell[,] shape = ConvertOccupyCellsToShape();
-            NodeGraph nodeGraph = FindAnyObjectByType<NodeGraph>();
-            List<Cell> cells = GridHelper.GetCellsAroundShape(OccupyCells[0].Grid.Cells, OccupyCells);
 
-            foreach (Cell cell in cells)
-            {
-                foreach (Node node in nodeGraph.nodes)
-                {
-                    if (node.cell == cell)
-                    {
-                        disableWhenActive.Add(node);
-                        node.State = WorkingSlotState.Disabled;
-                    }
-                }
-            }
 
-            List<Cell> bottomCells = new List<Cell>();
-            for (int i = 0; i < shape.GetLength(1); i++)
-            {
-                bottomCells.Add(shape[0, i]);
-            }
-
-            List<Cell> canbeActive = GridHelper.GetCellsAroundShape(OccupyCells[0].Grid.Cells, bottomCells);
-            foreach (Cell cell in canbeActive)
-            {
-                foreach (Node node in nodeGraph.nodes)
-                {
-                    if (node.cell == cell)
-                    {
-                        disableWhenActive.Remove(node);
-                    }
-                }
-            }
         }
 
-        List<Node> disableWhenActive;
+        List<Node> disableWhenActive = new List<Node>();
 
         Cell[,] ConvertOccupyCellsToShape()
         {

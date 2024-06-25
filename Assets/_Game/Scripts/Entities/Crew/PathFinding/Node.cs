@@ -26,11 +26,11 @@ namespace _Game.Scripts.PathFinding
             {
                 if (cell != null)
                 {
-                    return cell.GridItem == null;
+                    return cell.GridItem == null && State != WorkingSlotState.Disabled;
                 }
                 else
                 {
-                    return true;
+                    return true && State != WorkingSlotState.Disabled;
                 }
             }
         }

@@ -61,6 +61,9 @@ public class JellyFishAttack : MonoBehaviour
         decreaseHp.Amount = 3;// Take from boss stats;
 
         enemyAttackData.Effects = new List<Effect> { decreaseHp };
+
+        GridAttackHandler gridAttackHandler = FindAnyObjectByType<GridAttackHandler>();
+        gridAttackHandler.ProcessAttack(enemyAttackData.TargetCells, enemyAttackData.Effects);
     }
 
     public void DoRightMelleAttack()
@@ -72,5 +75,8 @@ public class JellyFishAttack : MonoBehaviour
         decreaseHp.Amount = 3;// Take from boss stats;
 
         enemyAttackData.Effects = new List<Effect> { decreaseHp };
+
+        GridAttackHandler gridAttackHandler = FindAnyObjectByType<GridAttackHandler>();
+        gridAttackHandler.ProcessAttack(enemyAttackData.TargetCells, enemyAttackData.Effects);
     }
 }

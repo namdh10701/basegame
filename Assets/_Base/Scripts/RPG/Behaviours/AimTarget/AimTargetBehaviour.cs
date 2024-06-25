@@ -20,13 +20,14 @@ namespace _Base.Scripts.RPG.Behaviours.AimTarget
         public Vector3 LockedPosition { get; private set; }
         void Update()
         {
-            IsReadyToAttack = Strategy.Aim(FollowTargetBehaviour);
             if (FollowTargetBehaviour.FindTargetBehaviour.MostTargets.Count > 0)
             {
+                IsReadyToAttack = Strategy.Aim(FollowTargetBehaviour);
                 LockedPosition = FollowTargetBehaviour.FindTargetBehaviour.MostTargets.First().transform.position;
             }
             else
             {
+                IsReadyToAttack = false;
                 LockedPosition = Vector2.zero;
             }
         }

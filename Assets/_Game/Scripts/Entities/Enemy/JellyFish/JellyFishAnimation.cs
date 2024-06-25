@@ -7,10 +7,12 @@ using UnityEngine.Events;
 
 public class JellyFishAnimation : SpineAnimationEnemyHandler
 {
-    [HideInInspector] public UnityEvent<Transform> Attack;
+    [HideInInspector] public UnityEvent Attack;
+    [HideInInspector] public UnityEvent AttackMeele;
     [HideInInspector] public UnityEvent AttackCharge;
 
     [SpineEvent] public string eventattack;
+    [SpineEvent] public string eventattackMelee;
     public Transform leftHandShootPos;
     public Transform rightHandShootPos;
 
@@ -62,7 +64,11 @@ public class JellyFishAnimation : SpineAnimationEnemyHandler
         Debug.Log(e.Data.Name);
         if (e.Data.Name == eventattack)
         {
-            Attack?.Invoke(leftHandShootPos);
+            Attack?.Invoke();
+        }
+        if (e.Data.Name == eventattackMelee)
+        {
+            AttackMeele?.Invoke();
         }
     }
 

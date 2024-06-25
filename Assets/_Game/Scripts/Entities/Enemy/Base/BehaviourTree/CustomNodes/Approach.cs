@@ -13,8 +13,6 @@ public class Approach : Leaf
     public EnemyReference Enemy;
     public ShipReference Ship;
     public float Force;
-    public BoolReference IsHasTarget;
-    public FindTargetBehaviour FindTargetBehaviour;
 
     float elapsedTime;
     public float ChangeDirectionInterval;
@@ -30,8 +28,6 @@ public class Approach : Leaf
             UpdateTargetDirection();
         }
 
-
-        IsHasTarget.Value = FindTargetBehaviour.MostTargets.Count > 0;
         Vector2 direction = Ship.Value.transform.position - Enemy.Value.transform.position;
         Enemy.Value.body.AddForce(direction.normalized * Force);
         float distance = Vector2.Distance(Enemy.Value.transform.position, Ship.Value.Transform.position);
