@@ -10,6 +10,31 @@ namespace _Game.Features.Shop
     [Binding]
     public class ShopViewModel : RootViewModel
     {
+        #region Binding Prop: ActiveNavIndex
+
+        private int _activeNavIndex = 0;
+
+        [Binding]
+        public int ActiveNavIndex
+        {
+            get => _activeNavIndex;
+            set
+            {
+                if (_activeNavIndex == value)
+                {
+                    return;
+                }
+
+                _activeNavIndex = value;
+
+                OnPropertyChanged(nameof(ActiveNavIndex));
+
+                // NavTo((Nav)value);
+            }
+        }
+
+        #endregion
+        
         private List<ShopItem> itemSource = new List<ShopItem>();
         
         #region Binding: Items
