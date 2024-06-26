@@ -20,7 +20,7 @@ namespace _Game.Scripts.GameStates
                 isFirstEnter = false;
                 GameObject.Destroy(GameObject.Find("SplashView").gameObject);
             }
-            ViewManager.Instance.Show<HomeView>();
+            //ViewManager.Instance.Show<HomeView>();
         }
         public override IEnumerator Execute()
         {

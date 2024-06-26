@@ -520,9 +520,9 @@ MonoBehaviour:
   - {fileID: 1042488329163595416}
   - {fileID: 2325476487583252807}
   - {fileID: 554376232903839699}
+  parent: {fileID: 0}
   gCost: 0
   hCost: 0
-  parent: {fileID: 0}
   cell: {fileID: 0}
 --- !u!1 &758740036154620955
 GameObject:
@@ -574,9 +574,9 @@ MonoBehaviour:
   - {fileID: 2173003297872074706}
   - {fileID: 6556819906652170214}
   - {fileID: 5227571490026940651}
+  parent: {fileID: 0}
   gCost: 0
   hCost: 0
-  parent: {fileID: 0}
   cell: {fileID: 0}
 --- !u!1 &798627188220227649
 GameObject:
@@ -627,9 +627,9 @@ MonoBehaviour:
   - {fileID: 1273215453856829026}
   - {fileID: 554376232903839699}
   - {fileID: 1042488329163595416}
+  parent: {fileID: 0}
   gCost: 0
   hCost: 0
-  parent: {fileID: 0}
   cell: {fileID: 0}
 --- !u!1 &841080836568297304
 GameObject:
@@ -857,9 +857,9 @@ MonoBehaviour:
   - {fileID: 6713542733123968466}
   - {fileID: 5227571490026940651}
   - {fileID: 3110607160333868877}
+  parent: {fileID: 0}
   gCost: 0
   hCost: 0
-  parent: {fileID: 0}
   cell: {fileID: 0}
 --- !u!1 &919712651347904188
 GameObject:
@@ -909,9 +909,9 @@ MonoBehaviour:
   neighbors:
   - {fileID: 7653759876862721265}
   - {fileID: 3760500999440122925}
+  parent: {fileID: 0}
   gCost: 0
   hCost: 0
-  parent: {fileID: 0}
   cell: {fileID: 0}
 --- !u!1 &960844324246964045
 GameObject:
@@ -950,8 +950,59 @@ Transform:
   - {fileID: 7269179856779519348}
   - {fileID: 4592972223470066370}
   - {fileID: 7632609916976078742}
+  - {fileID: 4375892372446765729}
   m_Father: {fileID: 4855274573248865927}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1009015550875088785
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4375892372446765729}
+  - component: {fileID: 1245667119726594703}
+  m_Layer: 0
+  m_Name: ShipArea
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4375892372446765729
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1009015550875088785}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.78, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5007353685330837738}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1245667119726594703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1009015550875088785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 034581729bcdf5449adf21c2053e91e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bounds:
+    m_Center: {x: 0, y: -0.78, z: 0}
+    m_Extent: {x: 3.63, y: 1.56, z: 0}
+  color: {r: 0, g: 0.53904295, b: 1, a: 1}
+  offset: {x: 0, y: 0}
+  isDrawGizmos: 1
 --- !u!1 &1059429381758925579
 GameObject:
   m_ObjectHideFlags: 0
@@ -1002,9 +1053,9 @@ MonoBehaviour:
   - {fileID: 1503963399190217484}
   - {fileID: 4173269744046727610}
   - {fileID: 8672740996699862391}
+  parent: {fileID: 0}
   gCost: 0
   hCost: 0
-  parent: {fileID: 0}
   cell: {fileID: 0}
 --- !u!1 &1325257600121463413
 GameObject:
@@ -1055,9 +1106,9 @@ MonoBehaviour:
   - {fileID: 3179974455180725270}
   - {fileID: 8951721849600869251}
   - {fileID: 1638929792324491238}
+  parent: {fileID: 0}
   gCost: 0
   hCost: 0
-  parent: {fileID: 0}
   cell: {fileID: 0}
 --- !u!1 &1326619775072484546
 GameObject:
@@ -1109,9 +1160,9 @@ MonoBehaviour:
   - {fileID: 3372386549902600988}
   - {fileID: 3204521566820566144}
   - {fileID: 7483584638269043113}
+  parent: {fileID: 0}
   gCost: 0
   hCost: 0
-  parent: {fileID: 0}
   cell: {fileID: 0}
 --- !u!1 &1547895160337527340
 GameObject:
@@ -1162,9 +1213,9 @@ MonoBehaviour:
   - {fileID: 2379559065537985606}
   - {fileID: 9096172345247362856}
   - {fileID: 6883572392635863117}
+  parent: {fileID: 0}
   gCost: 0
   hCost: 0
-  parent: {fileID: 0}
   cell: {fileID: 0}
 --- !u!1 &1559271711149015100
 GameObject:
@@ -1215,9 +1266,9 @@ MonoBehaviour:
   - {fileID: 4632750787677730813}
   - {fileID: 3110607160333868877}
   - {fileID: 1638929792324491238}
+  parent: {fileID: 0}
   gCost: 0
   hCost: 0
-  parent: {fileID: 0}
   cell: {fileID: 0}
 --- !u!1 &1661650003605505012
 GameObject:
@@ -1414,9 +1465,9 @@ MonoBehaviour:
   - {fileID: 1042488329163595416}
   - {fileID: 1503963399190217484}
   - {fileID: 1273215453856829026}
+  parent: {fileID: 0}
   gCost: 0
   hCost: 0
-  parent: {fileID: 0}
   cell: {fileID: 0}
 --- !u!1 &1770873401228282363
 GameObject:
@@ -1467,9 +1518,9 @@ MonoBehaviour:
   - {fileID: 8986519554090175132}
   - {fileID: 9096172345247362856}
   - {fileID: 891063800254130844}
+  parent: {fileID: 0}
   gCost: 0
   hCost: 0
-  parent: {fileID: 0}
   cell: {fileID: 0}
 --- !u!1 &1811572955278906806
 GameObject:
@@ -1520,9 +1571,9 @@ MonoBehaviour:
   - {fileID: 8951721849600869251}
   - {fileID: 1273215453856829026}
   - {fileID: 8672740996699862391}
+  parent: {fileID: 0}
   gCost: 0
   hCost: 0
-  parent: {fileID: 0}
   cell: {fileID: 0}
 --- !u!1 &2019623168102066363
 GameObject:
@@ -1636,6 +1687,7 @@ MonoBehaviour:
   effectHandler: {fileID: 7857274161767291091}
   PathfindingController: {fileID: 4344616237238542478}
   EffectCollider: {fileID: 4717154638384585547}
+  ShipArea: {fileID: 1245667119726594703}
   ShipSpeed: {fileID: 4664509178203161118}
   CrewJobData: {fileID: 5965300281763846854}
 --- !u!114 &4408094167755191158
@@ -1701,7 +1753,7 @@ MonoBehaviour:
   foam2: {fileID: 3990802452210739547}
   bigFoam: {fileID: 3710157731455552311}
   shipSpeed: 1
-  currentOffset: {x: 286.83545, y: 637.88446}
+  currentOffset: {x: 294.65375, y: 641.0108}
   direction: {x: 1, y: 1}
   scrollSpeed: {x: 0.25, y: 0.1}
 --- !u!114 &3846499980918795068
@@ -1887,7 +1939,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CrewJobData: {fileID: 5965300281763846854}
-  MoveData: {fileID: 4234412036565355677}
   crews: []
 --- !u!1 &2094399799821266711
 GameObject:
@@ -2228,9 +2279,9 @@ MonoBehaviour:
   - {fileID: 1248414486496624463}
   - {fileID: 6668051296170578768}
   - {fileID: 3578745261016045567}
+  parent: {fileID: 0}
   gCost: 0
   hCost: 0
-  parent: {fileID: 0}
   cell: {fileID: 2287936538292272878}
 --- !u!1 &2698959706271497508
 GameObject:
@@ -2572,9 +2623,9 @@ MonoBehaviour:
   - {fileID: 151928944357669043}
   - {fileID: 6668051296170578768}
   - {fileID: 5690739384442447514}
+  parent: {fileID: 0}
   gCost: 0
   hCost: 0
-  parent: {fileID: 0}
   cell: {fileID: 0}
 --- !u!1 &2907132851177466373
 GameObject:
@@ -2626,9 +2677,9 @@ MonoBehaviour:
   - {fileID: 3578745261016045567}
   - {fileID: 1248414486496624463}
   - {fileID: 3204521566820566144}
+  parent: {fileID: 0}
   gCost: 0
   hCost: 0
-  parent: {fileID: 0}
   cell: {fileID: 0}
 --- !u!1 &3080809430224710912
 GameObject:
@@ -3027,9 +3078,9 @@ MonoBehaviour:
   - {fileID: 8781396684585522732}
   - {fileID: 3886127485771250095}
   - {fileID: 3760500999440122925}
+  parent: {fileID: 0}
   gCost: 0
   hCost: 0
-  parent: {fileID: 0}
   cell: {fileID: 0}
 --- !u!1 &3323749664574836600
 GameObject:
@@ -3113,9 +3164,9 @@ MonoBehaviour:
   - {fileID: 9054222379917716558}
   - {fileID: 5518481492839915618}
   - {fileID: 2325476487583252807}
+  parent: {fileID: 0}
   gCost: 0
   hCost: 0
-  parent: {fileID: 0}
   cell: {fileID: 0}
 --- !u!1 &3441270110729959668
 GameObject:
@@ -3197,9 +3248,9 @@ MonoBehaviour:
   - {fileID: 6556819906652170214}
   - {fileID: 5179988051186168497}
   - {fileID: 2173003297872074706}
+  parent: {fileID: 0}
   gCost: 0
   hCost: 0
-  parent: {fileID: 0}
   cell: {fileID: 0}
 --- !u!1 &3630785090641555147
 GameObject:
@@ -3250,9 +3301,9 @@ MonoBehaviour:
   - {fileID: 2465956616775351273}
   - {fileID: 5518481492839915618}
   - {fileID: 9054222379917716558}
+  parent: {fileID: 0}
   gCost: 0
   hCost: 0
-  parent: {fileID: 0}
   cell: {fileID: 0}
 --- !u!1 &3759415628551933829
 GameObject:
@@ -3303,9 +3354,9 @@ MonoBehaviour:
   - {fileID: 5634046207203370596}
   - {fileID: 2194301265339351803}
   - {fileID: 4233024983193082658}
+  parent: {fileID: 0}
   gCost: 0
   hCost: 0
-  parent: {fileID: 0}
   cell: {fileID: 0}
 --- !u!1 &3967430531407234029
 GameObject:
@@ -3356,9 +3407,9 @@ MonoBehaviour:
   - {fileID: 7262597664273865368}
   - {fileID: 3179974455180725270}
   - {fileID: 268233954385337285}
+  parent: {fileID: 0}
   gCost: 0
   hCost: 0
-  parent: {fileID: 0}
   cell: {fileID: 0}
 --- !u!1 &3975657650795973479
 GameObject:
@@ -3461,9 +3512,9 @@ MonoBehaviour:
   - {fileID: 2032041333441060434}
   - {fileID: 1504729901720276814}
   - {fileID: 5634046207203370596}
+  parent: {fileID: 0}
   gCost: 0
   hCost: 0
-  parent: {fileID: 0}
   cell: {fileID: 0}
 --- !u!1 &4079190700700923826
 GameObject:
@@ -3515,9 +3566,9 @@ MonoBehaviour:
   - {fileID: 2325476487583252807}
   - {fileID: 9054222379917716558}
   - {fileID: 1042488329163595416}
+  parent: {fileID: 0}
   gCost: 0
   hCost: 0
-  parent: {fileID: 0}
   cell: {fileID: 0}
 --- !u!1 &4167487506035430073
 GameObject:
@@ -3892,9 +3943,9 @@ MonoBehaviour:
   - {fileID: 6668051296170578768}
   - {fileID: 6556819906652170214}
   - {fileID: 151928944357669043}
+  parent: {fileID: 0}
   gCost: 0
   hCost: 0
-  parent: {fileID: 0}
   cell: {fileID: 0}
 --- !u!1 &4704001391563861451
 GameObject:
@@ -4089,9 +4140,9 @@ MonoBehaviour:
   neighbors:
   - {fileID: 1504729901720276814}
   - {fileID: 2194301265339351803}
+  parent: {fileID: 0}
   gCost: 0
   hCost: 0
-  parent: {fileID: 0}
   cell: {fileID: 739993680032562912}
 --- !u!1 &4878878602399412071
 GameObject:
@@ -4225,9 +4276,9 @@ MonoBehaviour:
   neighbors:
   - {fileID: 7262597664273865368}
   - {fileID: 4233024983193082658}
+  parent: {fileID: 0}
   gCost: 0
   hCost: 0
-  parent: {fileID: 0}
   cell: {fileID: 0}
 --- !u!1 &4958917286659519963
 GameObject:
@@ -4279,9 +4330,9 @@ MonoBehaviour:
   - {fileID: 1638929792324491238}
   - {fileID: 6409788552623240434}
   - {fileID: 3179974455180725270}
+  parent: {fileID: 0}
   gCost: 0
   hCost: 0
-  parent: {fileID: 0}
   cell: {fileID: 0}
 --- !u!1 &5277004991564937533
 GameObject:
@@ -4559,9 +4610,9 @@ MonoBehaviour:
   - {fileID: 268233954385337285}
   - {fileID: 5634046207203370596}
   - {fileID: 7262597664273865368}
+  parent: {fileID: 0}
   gCost: 0
   hCost: 0
-  parent: {fileID: 0}
   cell: {fileID: 0}
 --- !u!1 &5703693757875891299
 GameObject:
@@ -4806,9 +4857,9 @@ MonoBehaviour:
   - {fileID: 5690739384442447514}
   - {fileID: 3578745261016045567}
   - {fileID: 3372386549902600988}
+  parent: {fileID: 0}
   gCost: 0
   hCost: 0
-  parent: {fileID: 0}
   cell: {fileID: 0}
 --- !u!1 &6343533687002342282
 GameObject:
@@ -4859,9 +4910,9 @@ MonoBehaviour:
   - {fileID: 7483584638269043113}
   - {fileID: 4632750787677730813}
   - {fileID: 3372386549902600988}
+  parent: {fileID: 0}
   gCost: 0
   hCost: 0
-  parent: {fileID: 0}
   cell: {fileID: 0}
 --- !u!1 &6555115850292557218
 GameObject:
@@ -4913,9 +4964,9 @@ MonoBehaviour:
   - {fileID: 8887369529523187269}
   - {fileID: 5690739384442447514}
   - {fileID: 4632750787677730813}
+  parent: {fileID: 0}
   gCost: 0
   hCost: 0
-  parent: {fileID: 0}
   cell: {fileID: 0}
 --- !u!1 &6625670683656026153
 GameObject:
@@ -4966,9 +5017,9 @@ MonoBehaviour:
   - {fileID: 6883572392635863117}
   - {fileID: 7483584638269043113}
   - {fileID: 2379559065537985606}
+  parent: {fileID: 0}
   gCost: 0
   hCost: 0
-  parent: {fileID: 0}
   cell: {fileID: 0}
 --- !u!1 &6697352746526642194
 GameObject:
@@ -5019,9 +5070,9 @@ MonoBehaviour:
   - {fileID: 1618269267687609}
   - {fileID: 8646213140280722021}
   - {fileID: 4401660197350980607}
+  parent: {fileID: 0}
   gCost: 0
   hCost: 0
-  parent: {fileID: 0}
   cell: {fileID: 0}
 --- !u!1 &6753913979309931831
 GameObject:
@@ -5073,9 +5124,9 @@ MonoBehaviour:
   - {fileID: 3886127485771250095}
   - {fileID: 5179988051186168497}
   - {fileID: 8781396684585522732}
+  parent: {fileID: 0}
   gCost: 0
   hCost: 0
-  parent: {fileID: 0}
   cell: {fileID: 0}
 --- !u!1 &6840101961131207402
 GameObject:
@@ -5127,9 +5178,9 @@ MonoBehaviour:
   - {fileID: 4401660197350980607}
   - {fileID: 1618269267687609}
   - {fileID: 6409788552623240434}
+  parent: {fileID: 0}
   gCost: 0
   hCost: 0
-  parent: {fileID: 0}
   cell: {fileID: 0}
 --- !u!1 &6858676694795961768
 GameObject:
@@ -5298,9 +5349,9 @@ MonoBehaviour:
   neighbors:
   - {fileID: 5179988051186168497}
   - {fileID: 3886127485771250095}
+  parent: {fileID: 0}
   gCost: 0
   hCost: 0
-  parent: {fileID: 0}
   cell: {fileID: 0}
 --- !u!1 &6966682431074062966
 GameObject:
@@ -5352,9 +5403,9 @@ MonoBehaviour:
   - {fileID: 545001745268658146}
   - {fileID: 4401660197350980607}
   - {fileID: 1638929792324491238}
+  parent: {fileID: 0}
   gCost: 0
   hCost: 0
-  parent: {fileID: 0}
   cell: {fileID: 0}
 --- !u!1 &7034649067509040282
 GameObject:
@@ -5406,9 +5457,9 @@ MonoBehaviour:
   - {fileID: 3204521566820566144}
   - {fileID: 8986519554090175132}
   - {fileID: 2379559065537985606}
+  parent: {fileID: 0}
   gCost: 0
   hCost: 0
-  parent: {fileID: 0}
   cell: {fileID: 0}
 --- !u!1 &7155501717293096898
 GameObject:
@@ -5459,9 +5510,9 @@ MonoBehaviour:
   - {fileID: 891063800254130844}
   - {fileID: 1248414486496624463}
   - {fileID: 8986519554090175132}
+  parent: {fileID: 0}
   gCost: 0
   hCost: 0
-  parent: {fileID: 0}
   cell: {fileID: 7618552546727292979}
 --- !u!1 &7277608181927112828
 GameObject:
@@ -5513,9 +5564,9 @@ MonoBehaviour:
   - {fileID: 6409788552623240434}
   - {fileID: 2032041333441060434}
   - {fileID: 268233954385337285}
+  parent: {fileID: 0}
   gCost: 0
   hCost: 0
-  parent: {fileID: 0}
   cell: {fileID: 0}
 --- !u!1 &7288085890426654005
 GameObject:
@@ -5567,9 +5618,9 @@ MonoBehaviour:
   - {fileID: 8672740996699862391}
   - {fileID: 545001745268658146}
   - {fileID: 8951721849600869251}
+  parent: {fileID: 0}
   gCost: 0
   hCost: 0
-  parent: {fileID: 0}
   cell: {fileID: 0}
 --- !u!1 &7328188403866943729
 GameObject:
@@ -5620,9 +5671,9 @@ MonoBehaviour:
   - {fileID: 1504729901720276814}
   - {fileID: 1618269267687609}
   - {fileID: 2032041333441060434}
+  parent: {fileID: 0}
   gCost: 0
   hCost: 0
-  parent: {fileID: 0}
   cell: {fileID: 8295710751785905607}
 --- !u!1 &7483783085999083870
 GameObject:
@@ -5819,9 +5870,9 @@ MonoBehaviour:
   - {fileID: 4173269744046727610}
   - {fileID: 8646213140280722021}
   - {fileID: 545001745268658146}
+  parent: {fileID: 0}
   gCost: 0
   hCost: 0
-  parent: {fileID: 0}
   cell: {fileID: 0}
 --- !u!1 &7511181120371648562
 GameObject:
@@ -5873,9 +5924,9 @@ MonoBehaviour:
   - {fileID: 3760500999440122925}
   - {fileID: 8781396684585522732}
   - {fileID: 7653759876862721265}
+  parent: {fileID: 0}
   gCost: 0
   hCost: 0
-  parent: {fileID: 0}
   cell: {fileID: 0}
 --- !u!1 &7601468462294060311
 GameObject:
@@ -5926,9 +5977,9 @@ MonoBehaviour:
   - {fileID: 3110607160333868877}
   - {fileID: 7653759876862721265}
   - {fileID: 6713542733123968466}
+  parent: {fileID: 0}
   gCost: 0
   hCost: 0
-  parent: {fileID: 0}
   cell: {fileID: 0}
 --- !u!1 &8006959626315607652
 GameObject:
@@ -6170,9 +6221,9 @@ MonoBehaviour:
   - {fileID: 8781396684585522732}
   - {fileID: 2173003297872074706}
   - {fileID: 6713542733123968466}
+  parent: {fileID: 0}
   gCost: 0
   hCost: 0
-  parent: {fileID: 0}
   cell: {fileID: 0}
 --- !u!1 &8112579733189971456
 GameObject:
@@ -6223,9 +6274,9 @@ MonoBehaviour:
   - {fileID: 8646213140280722021}
   - {fileID: 2465956616775351273}
   - {fileID: 4173269744046727610}
+  parent: {fileID: 0}
   gCost: 0
   hCost: 0
-  parent: {fileID: 0}
   cell: {fileID: 0}
 --- !u!1 &8386820808637928138
 GameObject:
@@ -6506,9 +6557,9 @@ MonoBehaviour:
   - {fileID: 5227571490026940651}
   - {fileID: 151928944357669043}
   - {fileID: 8887369529523187269}
+  parent: {fileID: 0}
   gCost: 0
   hCost: 0
-  parent: {fileID: 0}
   cell: {fileID: 0}
 --- !u!1 &8813505133490860738
 GameObject:
@@ -6955,9 +7006,9 @@ MonoBehaviour:
   - {fileID: 9054222379917716558}
   - {fileID: 2465956616775351273}
   - {fileID: 1503963399190217484}
+  parent: {fileID: 0}
   gCost: 0
   hCost: 0
-  parent: {fileID: 0}
   cell: {fileID: 0}
 --- !u!1001 &9514775179834065
 PrefabInstance:
@@ -11748,6 +11799,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7314073177617055451, guid: 10b5644253cc8b2498769adf3747cf4d, type: 3}
+      propertyPath: Handler
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 7657294052203973244, guid: 10b5644253cc8b2498769adf3747cf4d, type: 3}
       propertyPath: m_SortingOrder
       value: 95
@@ -11782,7 +11837,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   crew: {fileID: 0}
-  isPaused: 0
 --- !u!114 &6574449360095983131
 MonoBehaviour:
   m_ObjectHideFlags: 0

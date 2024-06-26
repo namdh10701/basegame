@@ -51,6 +51,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   body: {fileID: 3547516095354855559}
+  Animation: {fileID: 5057098962496586513}
+  CrewMovement: {fileID: 3125218877588862083}
+  CrewAction: {fileID: 6031859851334405460}
   stats:
     <HealthPoint>k__BackingField:
       _value:
@@ -75,14 +78,11 @@ MonoBehaviour:
       statModifiers: []
       _baseValue: 0
   _statTemplate: {fileID: 11400000, guid: 84fb51cf2123cca4894e08b24d356752, type: 2}
-  Animation: {fileID: 5057098962496586513}
-  CrewMovement: {fileID: 3125218877588862083}
-  CrewAction: {fileID: 6031859851334405460}
-  effectHandler: {fileID: 7046251937023846737}
   def: {fileID: 11400000, guid: d2c305b7d3078b946b4dc55bec6796f5, type: 2}
   behaviour: {fileID: 0}
-  <OccupyCells>k__BackingField: []
   EffectTakerCollider: {fileID: 7557830686970291313}
+  effectHandler: {fileID: 7046251937023846737}
+  <OccupyCells>k__BackingField: []
   occupiyingNodes: []
 --- !u!50 &3547516095354855559
 Rigidbody2D:
@@ -150,6 +150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   crew: {fileID: 4423691010520195521}
+  Handler: {fileID: 5154970329997059248}
   carryObject: {fileID: 4267490572488331614}
 --- !u!1 &1903941828349410014
 GameObject:
