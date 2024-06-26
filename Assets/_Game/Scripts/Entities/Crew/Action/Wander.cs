@@ -20,6 +20,7 @@ namespace _Game.Scripts
         }
         public IEnumerator DoExecute()
         {
+            Debug.Log("EXECUTE");
             Node node = moveData.GetFreeNode();
             crew.OccupyingNodes.Clear();
             crew.OccupyingNodes.Add(node);
@@ -32,7 +33,7 @@ namespace _Game.Scripts
             crew.CrewMovement.Velocity = Vector2.zero;
             yield break;
         }
-         
+
         public override void ReBuild(Crew crew)
         {
             this.Execute = DoExecute();

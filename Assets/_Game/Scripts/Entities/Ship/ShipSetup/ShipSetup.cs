@@ -13,6 +13,7 @@ namespace _Game.Scripts
     public class ShipSetup : MonoBehaviour
     {
         public static List<GridItemData> GridItemDatas = new List<GridItemData>();
+
         public ShipSetupMockup ShipSetupMockup;
         public GridItemReferenceHolder ItemReferenceHolder;
         public ShipGridProfile ShipGridProfile;

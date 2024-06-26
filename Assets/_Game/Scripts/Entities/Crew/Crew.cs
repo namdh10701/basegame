@@ -13,19 +13,19 @@ namespace _Game.Scripts
     public class Crew : Entity, IGridItem, INodeOccupier, IEffectTaker, IStunable
     {
         [Header("Crew")]
-        public CrewAniamtionHandler             Animation;
-        public CrewMovement                     CrewMovement;
-        public CrewAction                       CrewAction;
-        public CrewStats                        stats;
-        public CrewStatsTemplate                _statTemplate;
+        public CrewAniamtionHandler Animation;
+        public CrewMovement CrewMovement;
+        public CrewAction CrewAction;
+        public CrewStats stats;
+        public CrewStatsTemplate _statTemplate;
 
         [Header("GridItem")]
-        [SerializeField] GridItemDef            def;
-        [SerializeField] Transform              behaviour;
+        [SerializeField] GridItemDef def;
+        [SerializeField] Transform behaviour;
 
         [Header("EffectTaker")]
-        public EffectTakerCollider              EffectTakerCollider;
-        [SerializeField] EffectHandler          effectHandler;
+        public EffectTakerCollider EffectTakerCollider;
+        [SerializeField] EffectHandler effectHandler;
         public override Stats Stats => stats;
         public EffectHandler EffectHandler => effectHandler;
         public Transform Transform => EffectTakerCollider.transform;
@@ -58,6 +58,7 @@ namespace _Game.Scripts
 
         public void OnStun(float duration)
         {
+            Debug.Log("Stun " + name);
             CrewAction.Pause();
             Animation.PlayStun();
             body.velocity = Vector2.zero;

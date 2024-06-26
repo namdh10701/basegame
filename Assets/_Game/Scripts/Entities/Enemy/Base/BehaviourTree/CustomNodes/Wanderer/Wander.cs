@@ -89,12 +89,10 @@ namespace _Game.Scripts.BehaviourTree
             Debug.DrawLine(Body.transform.position, (Vector3)CurrentDirection * 2 + Body.transform.position, Color.blue);
             if (!IsTimeConstraint)
             {
-                Debug.Log("HERE 1");
                 return NodeResult.success;
             }
             else
             {
-                Debug.Log("HERE");
                 return wanderTimer < WanderTime.Value ? NodeResult.running : NodeResult.success;
             }
         }
@@ -115,7 +113,6 @@ namespace _Game.Scripts.BehaviourTree
 
         void UpdateDirection()
         {
-            Debug.Log("UPDATE");
             if (MoveableArea.Value.bounds.Contains(Body.position))
             {
                 //RayToSelectDirection = //Detector.ReverseIntersectingRays;

@@ -32,7 +32,7 @@ namespace _Game.Scripts.Entities
             decreaseHpEffect.Amount = _stats.Damage.Value;
             PushEffect pushEffect = gameObject.AddComponent<PushEffect>();
             pushEffect.force = 200;
-
+            pushEffect.body = body;
             outGoingEffects = new List<Effect>() {
                 decreaseHpEffect,
                 pushEffect

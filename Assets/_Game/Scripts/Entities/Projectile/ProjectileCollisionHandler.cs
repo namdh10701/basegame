@@ -23,7 +23,7 @@ public class ProjectileCollisionHandler : DefaultEffectCollisionHandler
         this.projectile = projectile;
     }
 
-    public override void Process( IEffectGiver giver, IEffectTaker taker)
+    public override void Process(IEffectGiver giver, IEffectTaker taker)
     {
         if (taker is Enemy enemy)
         {
@@ -52,6 +52,7 @@ public class ProjectileCollisionHandler : DefaultEffectCollisionHandler
             handler.Process(projectile, giver, taker);
             if (handler.IsCompleted)
             {
+                Debug.Log("completed");
                 Handlers.Remove(handler);
             }
         }

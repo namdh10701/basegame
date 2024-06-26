@@ -90,6 +90,9 @@ public class ElectricBounceHandler : IHandler
                 }
             }
             bounceCount++;
+
+            Debug.Log(bounceCount + " " + maxBounce);
+            Debug.Log(IsCompleted);
             ((HomingMove)p.ProjectileMovement).target = nextTarget.Transform;
             ElectricFx nextProjectile = GameObject.Instantiate(electricFxPrefab);
             nextProjectile.transform.position = collidedEntity.Transform.position;
@@ -99,6 +102,7 @@ public class ElectricBounceHandler : IHandler
         }
         else
         {
+            Debug.Log("FIND NONE");
             bounceCount = maxBounce;
         }
 

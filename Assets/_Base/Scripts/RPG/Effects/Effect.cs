@@ -16,7 +16,10 @@ namespace _Base.Scripts.RPG.Effects
         protected virtual void OnStart(Entity entity) { }
         protected virtual void OnEnd(Entity entity)
         {
-            Destroy(gameObject);
+            if (gameObject.name == "")
+            {
+                Destroy(gameObject);
+            }
         }
 
         public virtual bool CanEffect(Entity entity) => true;

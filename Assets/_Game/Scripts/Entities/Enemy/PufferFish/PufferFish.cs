@@ -31,7 +31,7 @@ namespace _Game.Scripts.Entities
             {
                 MBTExecutor.enabled = false;
                 body.velocity = Vector2.zero;
-                _stats.Poise.BaseValue = 0;
+                Invoke("ReducePoise", .3f);
                 Destroy(PufferFishMove);
                 isAttacking = true;
                 Animation.ChargeExplode();
@@ -44,6 +44,11 @@ namespace _Game.Scripts.Entities
                 });
 
             }
+        }
+
+        void ReducePoise()
+        {
+            _stats.Poise.BaseValue = 0;
         }
 
 
@@ -68,7 +73,6 @@ namespace _Game.Scripts.Entities
         {
             Destroy(PufferFishMove);
             body.velocity = Vector2.zero;
-            _stats.Poise.BaseValue = 0;
             StartCoroutine(AttackSequence());
         }
 

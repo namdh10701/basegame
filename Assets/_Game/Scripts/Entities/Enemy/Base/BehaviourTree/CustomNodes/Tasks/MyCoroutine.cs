@@ -26,7 +26,6 @@ public class MyCoroutine
 
     IEnumerator Coroutine()
     {
-        Debug.Log("STArt here");
         yield return monoBehaviour.StartCoroutine(coroutineName, value);
         onCompleted.Invoke();
     }

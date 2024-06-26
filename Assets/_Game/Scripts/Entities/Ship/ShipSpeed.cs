@@ -1,38 +1,40 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace _Game.Scripts
 {
-    [ExecuteAlways]
     public class ShipSpeed : MonoBehaviour
     {
-        public Renderer foam1;
-        public Renderer foam2;
-        public Renderer bigFoam;
+        public Renderer[] foams;
 
-
-        Material foam1Mat;
-        Material foam2Mat;
-        Material bigFoamMat;
-        public float shipSpeed;
+        Material[] foamMats;
         [SerializeField] Vector2 currentOffset;
-        public Vector2 direction;
-        public Vector2 scrollSpeed;
+        public Vector2 direction = new Vector2(1, 1);
+        public Vector2 scrollSpeed = new Vector2(.25f, 1);
 
         private void OnEnable()
         {
-            foam1Mat = foam1.sharedMaterial;
-            foam2Mat = foam2.sharedMaterial;
-            bigFoamMat = bigFoam.sharedMaterial;
+            foamMats = new Material[foams.Length];
+            for (int i = 0; i < foams.Length; i++)
+            {
+                foamMats[i] = foams[i].material;
+            }
         }
 
         private void Update()
         {
             currentOffset += scrollSpeed * Time.deltaTime * direction;
-            foam1Mat.SetVector("_Offset", currentOffset);
-            bigFoamMat.SetVector("_Offset", currentOffset);
+            if (foamMats == null)
+            {
+                return;
+            }
+            foreach (Material mat in foamMats)
+            {
+                mat.SetVector("_Offset", currentOffset);
+            }
         }
 
         public void AdjustSpeed(Vector2 newSpeed, float duration)

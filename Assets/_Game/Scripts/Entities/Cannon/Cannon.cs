@@ -152,26 +152,26 @@ namespace _Game.Scripts.Entities
         bool isBroken;
         void UpdateVisual()
         {
-            // if (isBroken)
-            // {
-            //     Animation.PlayBroken();
-            // }
-            // if (isOutOfAmmo || isBroken)
-            // {
-            //     FindTargetBehaviour.Disable();
-            //     foreach (Node node in disableWhenActive)
-            //     {
-            //         node.State = WorkingSlotState.Disabled;
-            //     }
-            // }
-            // else
-            // {
-            //     foreach (Node node in disableWhenActive)
-            //     {
-            //         node.State = WorkingSlotState.Free;
-            //     }
-            //     FindTargetBehaviour.Enable();
-            // }
+            if (isBroken)
+            {
+                Animation.PlayBroken();
+            }
+            if (isOutOfAmmo || isBroken)
+            {
+                FindTargetBehaviour.Disable();
+                foreach (Node node in disableWhenActive)
+                {
+                    node.State = NodeState.Free;
+                }
+            }
+            else
+            {
+                foreach (Node node in disableWhenActive)
+                {
+                    node.State = NodeState.Disabled;
+                }
+                FindTargetBehaviour.Enable();
+            }
 
 
         }
