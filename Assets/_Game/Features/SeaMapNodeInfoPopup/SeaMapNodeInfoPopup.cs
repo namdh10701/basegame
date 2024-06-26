@@ -1,6 +1,7 @@
 ﻿using _Base.Scripts.UI;
 using _Game.Features.Inventory;
 using UnityWeld.Binding;
+using InventoryItem = _Game.Features.Inventory.InventoryItem;
 
 namespace _Game.Features.SeaMapNodeInfoPopup
 {

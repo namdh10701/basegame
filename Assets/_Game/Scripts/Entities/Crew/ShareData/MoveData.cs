@@ -20,13 +20,13 @@ namespace _Game.Scripts.PathFinding
             {
                 foreach (Node slot in workLocation.WorkingSlots)
                 {
-                    if (slot.State == WorkingSlotState.Occupied)
-                    {
-                        if (freeCells.Contains(slot))
-                        {
-                            freeCells.Remove(slot);
-                        }
-                    }
+                    // if (slot.State == WorkingSlotState.Occupied)
+                    // {
+                    //     if (freeCells.Contains(slot))
+                    //     {
+                    //         freeCells.Remove(slot);
+                    //     }
+                    // }
                 }
             }
             foreach (Crew crew in crews)

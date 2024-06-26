@@ -2,41 +2,43 @@ using _Base.Scripts.UI;
 using _Game.Scripts;
 using UnityEngine;
 using UnityEngine.UI;
-
-public class InventoryItem : MonoBehaviour
+namespace _Base.Scripts.UI
 {
-    [SerializeField] private Image _icon;
-    private InventoryItemInfo _inventoryItemInfo;
-    private int[,] _shape;
-
-    public void Setup(InventoryItemInfo inventoryItemInfo)
+    public class InventoryItem : MonoBehaviour
     {
-        _inventoryItemInfo = inventoryItemInfo;
-        _icon.sprite = inventoryItemInfo.inventoryItemData.sprite;
-        _icon.SetNativeSize();
-        _shape = Shape.ShapeDic[inventoryItemInfo.inventoryItemData.shapeId];
-        this.transform.localPosition = inventoryItemInfo.inventoryItemData.position;
-    }
+        [SerializeField] private Image _icon;
+        private InventoryItemInfo _inventoryItemInfo;
+        private int[,] _shape;
 
-    public int[,] GetShape()
-    {
-        return _shape;
-    }
+        public void Setup(InventoryItemInfo inventoryItemInfo)
+        {
+            _inventoryItemInfo = inventoryItemInfo;
+            _icon.sprite = inventoryItemInfo.inventoryItemData.sprite;
+            _icon.SetNativeSize();
+            _shape = Shape.ShapeDic[inventoryItemInfo.inventoryItemData.shapeId];
+            this.transform.localPosition = inventoryItemInfo.inventoryItemData.position;
+        }
 
-    public void Setposition(Vector2 position)
-    {
-        _inventoryItemInfo.inventoryItemData.position = position;
-    }
+        public int[,] GetShape()
+        {
+            return _shape;
+        }
 
-    public InventoryItemInfo GetInventorInfo()
-    {
-        return _inventoryItemInfo;
-    }
+        public void Setposition(Vector2 position)
+        {
+            _inventoryItemInfo.inventoryItemData.position = position;
+        }
 
-    public void UpdateInventoryItemInfo(InventoryItemInfo inventoryItemInfo)
-    {
-        _inventoryItemInfo = inventoryItemInfo;
-        this.transform.localPosition = inventoryItemInfo.inventoryItemData.position;
-    }
+        public InventoryItemInfo GetInventorInfo()
+        {
+            return _inventoryItemInfo;
+        }
 
+        public void UpdateInventoryItemInfo(InventoryItemInfo inventoryItemInfo)
+        {
+            _inventoryItemInfo = inventoryItemInfo;
+            this.transform.localPosition = inventoryItemInfo.inventoryItemData.position;
+        }
+
+    }
 }

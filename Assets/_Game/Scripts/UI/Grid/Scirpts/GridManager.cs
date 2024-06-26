@@ -306,7 +306,7 @@ namespace _Base.Scripts.UI
                     parent.localPosition.y < positionInGridManager.y &&
                     positionInGridManager.y < parent.localPosition.y + parent.rect.height)
 
-                    if (parent.name == "Ship")
+                    if (parent.name == "Grid")
                     {
                         index = 0;
                         break;
