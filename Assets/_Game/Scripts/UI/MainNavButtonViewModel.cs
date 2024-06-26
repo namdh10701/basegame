@@ -3,7 +3,7 @@ using UnityWeld.Binding;
 namespace _Game.Scripts.UI
 {
     [Binding]
-    public class MainNavButtonViewModel: ViewModel
+    public class MainNavButtonViewModel: RootViewModel
     {
         #region Binding Prop: IsActive
 
@@ -27,7 +27,7 @@ namespace _Game.Scripts.UI
         #region Binding Prop: FlexibleWidth
 
         [Binding]
-        public float FlexibleWidth => IsActive ? 1.5f : 1f;
+        public float FlexibleWidth => IsActive ? 1.25f : 1f;
 
         #endregion
     }

@@ -4,6 +4,7 @@ using _Game.Scripts.UI;
 using System.Collections;
 using _Game.Scripts.GD;
 using UnityEngine;
+
 namespace _Game.Scripts.GameStates
 {
     public class HomeState : AbstractState
