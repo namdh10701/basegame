@@ -9,7 +9,7 @@ public class CrewAction : MonoBehaviour
 {
     [SerializeField] Crew crew;
     CrewController crewController;
-    CrewActionHandler Handler;
+    [SerializeField] CrewActionHandler Handler;
     Idle idle;
     Wander wander;
     bool isActive;
@@ -27,7 +27,7 @@ public class CrewAction : MonoBehaviour
             carryingBullet = value;
             if (value != null)
                 carryObject.sprite = value.Def.ProjectileImage;
-            carryingBullet.gameObject.SetActive(value != null);
+            carryObject.gameObject.SetActive(value != null);
         }
     }
     public CrewActionBase CurrentAction => Handler.CurrentAction;

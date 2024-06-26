@@ -20,10 +20,10 @@ public class FixCellJob : CrewJob
     public override IEnumerator Execute(Crew crew)
     {
         List<Node> availableWorkingSlots = WorkLocation.WorkingSlots
-             .Where(slot => slot.State == WorkingSlotState.Free)
+             .Where(slot => slot.State == NodeState.Free)
              .ToList();
         workingSlot = DistanceHelper.GetClosestToPosition(availableWorkingSlots.ToArray(), (slot) => slot, crew.transform.position);
-        workingSlot.State = WorkingSlotState.Occupied;
+        workingSlot.State = NodeState.Occupied;
         yield return crew.CrewMovement.MoveTo(workingSlot.transform.position);
         if (crew.transform.position.x < workingSlot.transform.position.x)
         {
@@ -35,7 +35,7 @@ public class FixCellJob : CrewJob
         }
         crew.Animation.PlayFix();
         yield return new WaitForSeconds(3);
-        workingSlot.State = WorkingSlotState.Free;
+        workingSlot.State = NodeState.Free;
         cell.stats.HealthPoint.StatValue.BaseValue = cell.stats.HealthPoint.MaxValue;
         crew.Animation.PlayIdle();
         yield break;
@@ -46,7 +46,7 @@ public class FixCellJob : CrewJob
         crew.body.velocity = Vector3.zero;
         if (workingSlot != null)
         {
-            workingSlot.State = WorkingSlotState.Free;
+            workingSlot.State = NodeState.Free;
         }
         yield break;
     }

@@ -89,7 +89,7 @@ namespace _Game.Scripts.Entities
                     if (node.cell == cell)
                     {
                         disableWhenActive.Add(node);
-                        node.State = WorkingSlotState.Disabled;
+                        node.State = NodeState.Disabled;
                     }
                 }
             }
@@ -107,7 +107,7 @@ namespace _Game.Scripts.Entities
                 {
                     if (node.cell == cell)
                     {
-                        node.State = WorkingSlotState.Free;
+                        node.State = NodeState.Free;
                         disableWhenActive.Remove(node);
                     }
                 }
@@ -161,14 +161,14 @@ namespace _Game.Scripts.Entities
                 FindTargetBehaviour.Disable();
                 foreach (Node node in disableWhenActive)
                 {
-                    node.State = WorkingSlotState.Disabled;
+                    node.State = NodeState.Disabled;
                 }
             }
             else
             {
                 foreach (Node node in disableWhenActive)
                 {
-                    node.State = WorkingSlotState.Free;
+                    node.State = NodeState.Free;
                 }
                 FindTargetBehaviour.Enable();
             }

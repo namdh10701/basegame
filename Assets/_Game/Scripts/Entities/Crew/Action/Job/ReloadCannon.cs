@@ -32,17 +32,17 @@ public class ReloadCannonJob : CrewJob
         if (crew.CrewAction.CarryingBullet == null || crew.CrewAction.CarryingBullet != bullet)
         {
             List<Node> availableWorkingSlots = WorkLocation.WorkingSlots
-           .Where(slot => slot.State == WorkingSlotState.Free)
+           .Where(slot => slot.State == NodeState.Free)
            .ToList();
             workingSlot = DistanceHelper.GetClosestToPosition(availableWorkingSlots.ToArray(), (slot) => slot, crew.transform.position);
-            workingSlot.State = WorkingSlotState.Occupied;
+            workingSlot.State = NodeState.Occupied;
             yield return crew.CrewMovement.MoveTo(workingSlot.transform.position);
             yield return new WaitForSeconds(0.5f);
-            workingSlot.State = WorkingSlotState.Free;
+            workingSlot.State = NodeState.Free;
             crew.Carry(bullet);
         }
         List<Node> availableCannonWorkingSlots = cannon.GetComponent<IWorkLocation>().WorkingSlots
-          .Where(slot => slot.State == WorkingSlotState.Free)
+          .Where(slot => slot.State == NodeState.Free)
           .ToList();
         cannonWorkingSlot = DistanceHelper.GetClosestToPosition(availableCannonWorkingSlots.ToArray(), (slot) => slot, crew.transform.position);
         yield return crew.CrewMovement.MoveCarry(cannonWorkingSlot.transform.position);
@@ -56,11 +56,11 @@ public class ReloadCannonJob : CrewJob
         crew.body.velocity = Vector3.zero;
         if (workingSlot != null)
         {
-            workingSlot.State = WorkingSlotState.Free;
+            workingSlot.State = NodeState.Free;
         }
         if (cannonWorkingSlot != null)
         {
-            cannonWorkingSlot.State = WorkingSlotState.Free;
+            cannonWorkingSlot.State = NodeState.Free;
         }
         crew.StopCarry();
         yield break;

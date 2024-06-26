@@ -20,7 +20,7 @@ namespace _Game.Scripts.PathFinding
             {
                 foreach (Node slot in workLocation.WorkingSlots)
                 {
-                    if (slot.State == WorkingSlotState.Occupied)
+                    if (slot.State == NodeState.Occupied)
                     {
                         if (freeCells.Contains(slot))
                         {
