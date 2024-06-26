@@ -11,14 +11,15 @@ public class JellyFishAttack : MonoBehaviour
     public Transform rightShootPos;
     public JellyFishProjectile projectilePrefab;
     public EnemyAttackData enemyAttackData;
-    public GridPicker gridPicker;
+
     public AttackPatternProfile AttackPatternProfile;
     public AttackPatternProfile meeleAttackProfile;
 
-    public Transform leftMeleeHit;
-    public Transform rightMeleeHit;
-    private void Awake()
+    GridAttackHandler gridAttackHandler;
+    GridPicker gridPicker;
+    private void Start()
     {
+        gridAttackHandler = FindAnyObjectByType<GridAttackHandler>();
         gridPicker = FindAnyObjectByType<GridPicker>();
 
     }
@@ -54,29 +55,26 @@ public class JellyFishAttack : MonoBehaviour
     public void DoLeftMeleeAttack()
     {
         enemyAttackData = new EnemyAttackData();
-        enemyAttackData.TargetCells = gridPicker.PickCells(leftMeleeHit, meeleAttackProfile, out Cell centerCell);
+        enemyAttackData.TargetCells = gridPicker.PickCells(leftShootPos, meeleAttackProfile, out Cell centerCell);
         enemyAttackData.CenterCell = centerCell;
 
         DecreaseHealthEffect decreaseHp = new GameObject("", typeof(DecreaseHealthEffect)).GetComponent<DecreaseHealthEffect>();
         decreaseHp.Amount = 3;// Take from boss stats;
-
         enemyAttackData.Effects = new List<Effect> { decreaseHp };
 
-        GridAttackHandler gridAttackHandler = FindAnyObjectByType<GridAttackHandler>();
-        gridAttackHandler.ProcessAttack(enemyAttackData.TargetCells, enemyAttackData.Effects);
+        gridAttackHandler.ProcessAttack(enemyAttackData);
     }
 
     public void DoRightMelleAttack()
     {
         enemyAttackData = new EnemyAttackData();
-        enemyAttackData.TargetCells = gridPicker.PickCells(leftMeleeHit, meeleAttackProfile, out Cell centerCell);
+        enemyAttackData.TargetCells = gridPicker.PickCells(rightShootPos, meeleAttackProfile, out Cell centerCell);
         enemyAttackData.CenterCell = centerCell;
         DecreaseHealthEffect decreaseHp = new GameObject("", typeof(DecreaseHealthEffect)).GetComponent<DecreaseHealthEffect>();
         decreaseHp.Amount = 3;// Take from boss stats;
 
         enemyAttackData.Effects = new List<Effect> { decreaseHp };
 
-        GridAttackHandler gridAttackHandler = FindAnyObjectByType<GridAttackHandler>();
-        gridAttackHandler.ProcessAttack(enemyAttackData.TargetCells, enemyAttackData.Effects);
+        gridAttackHandler.ProcessAttack(enemyAttackData);
     }
 }

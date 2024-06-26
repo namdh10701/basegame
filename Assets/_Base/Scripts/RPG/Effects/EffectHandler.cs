@@ -6,13 +6,13 @@ using UnityEngine;
 namespace _Base.Scripts.RPG.Effects
 {
     [Serializable]
-    public class EffectHandler: MonoBehaviour
+    public class EffectHandler : MonoBehaviour
     {
         // public List<StatModifier> StatModifiers;
         [SerializeField]
         private Entity entity;
 
-        public List<Effect> effects = new List<Effect>();
+        [HideInInspector] public List<Effect> effects = new List<Effect>();
 
         public virtual void Apply(Effect effect)
         {

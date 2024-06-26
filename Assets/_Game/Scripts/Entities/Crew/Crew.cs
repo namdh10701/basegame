@@ -12,101 +12,34 @@ namespace _Game.Scripts
 {
     public class Crew : Entity, IGridItem, INodeOccupier, IEffectTaker, IStunable
     {
-        public CrewActionHandler ActionHandler;
-        public CrewMovement CrewMovement;
-
-        public CrewStats stats;
-        public override Stats Stats => stats;
-        public CrewStatsTemplate _statTemplate;
-
         [Header("Crew")]
-        public Ship Ship;
-        public PathfindingController pathfinder;
-        public CrewAniamtionHandler Animation;
-
-        [Header("EffectTaker")]
-        public EffectHandler effectHandler;
-        public Transform Transform => EffectTakerCollider.transform;
-
-        public EffectHandler EffectHandler => effectHandler;
-
+        public CrewAniamtionHandler             Animation;
+        public CrewMovement                     CrewMovement;
+        public CrewAction                       CrewAction;
+        public CrewStats                        stats;
+        public CrewStatsTemplate                _statTemplate;
 
         [Header("GridItem")]
-        public GridItemDef def;
-        public Transform behaviour;
+        [SerializeField] GridItemDef            def;
+        [SerializeField] Transform              behaviour;
+
+        [Header("EffectTaker")]
+        public EffectTakerCollider              EffectTakerCollider;
+        [SerializeField] EffectHandler          effectHandler;
+        public override Stats Stats => stats;
+        public EffectHandler EffectHandler => effectHandler;
+        public Transform Transform => EffectTakerCollider.transform;
         [field: SerializeField]
         public List<Cell> OccupyCells { get; set; }
         public GridItemDef Def { get => def; set => def = value; }
         public Transform Behaviour { get => behaviour; }
         public string GridId { get; set; }
-
-        public SpriteRenderer carryObject;
-        public CrewController crewController;
-        public MoveData MoveData;
-        public EffectTakerCollider EffectTakerCollider;
-
         public List<Node> occupiyingNodes = new List<Node>();
         public List<Node> OccupyingNodes { get => occupiyingNodes; set => occupiyingNodes = value; }
-        Idle idle;
-        Wander wander;
 
-        public Bullet carryingBullet;
-        public Bullet CarryingBullet
-        {
-            get
-            {
-                return carryingBullet;
-            }
-
-            set
-            {
-                carryingBullet = value;
-                if (value != null)
-                    carryObject.sprite = value.Def.ProjectileImage;
-            }
-        }
         private void Start()
         {
             EffectTakerCollider.Taker = this;
-            Ship = FindAnyObjectByType<Ship>();
-            pathfinder = Ship.PathfindingController;
-            ActionHandler.OnFree += OnFree;
-            idle = new Idle(this);
-            wander = new Wander(this, MoveData);
-
-            ActionHandler.Act(idle);
-        }
-
-        public bool IsAllowWander = false;
-        void OnFree()
-        {
-            if (crewController == null)
-            {
-                return;
-            }
-            if (crewController.HasPendingJob)
-            {
-                crewController.RegisterForNewJob(this);
-            }
-            else
-            {
-                if (!IsAllowWander)
-                {
-                    ActionHandler.Act(new Idle(this));
-                }
-                else
-                {
-                    float rand = UnityEngine.Random.Range(0f, 1f);
-                    if (rand < 0.35f)
-                    {
-                        ActionHandler.Act(new Idle(this));
-                    }
-                    else
-                    {
-                        ActionHandler.Act(new Wander(this, MoveData));
-                    }
-                }
-            }
         }
 
         protected override void ApplyStats()
@@ -125,9 +58,8 @@ namespace _Game.Scripts
 
         public void OnStun(float duration)
         {
-            ActionHandler.Pause();
+            CrewAction.Pause();
             Animation.PlayStun();
-            Debug.LogError("Stun");
             body.velocity = Vector2.zero;
             CancelInvoke();
             Invoke("OnAfterStun", duration);
@@ -135,22 +67,19 @@ namespace _Game.Scripts
 
         public void OnAfterStun()
         {
-            ActionHandler.Resume();
+            CrewAction.Resume();
         }
 
         public void Carry(Bullet bullet)
         {
             Animation.PlayCarry();
-            CarryingBullet = bullet;
-            carryObject.gameObject.SetActive(true);
-            carryObject.sprite = bullet.Def.Image;
+            CrewAction.CarryingBullet = bullet;
         }
 
         public void StopCarry()
         {
             Animation.PlayIdle();
-            CarryingBullet = null;
-            carryObject.gameObject.SetActive(false);
+            CrewAction.CarryingBullet = null;
         }
 
         public void Deactivate()

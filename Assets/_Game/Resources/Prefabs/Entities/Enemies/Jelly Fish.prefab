@@ -100,7 +100,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2388446250967025661
 Transform:
   m_ObjectHideFlags: 0
@@ -170,6 +170,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   body: {fileID: 5622699148522565298}
+  enemyId: 
   _stats:
     <HealthPoint>k__BackingField:
       _value:
@@ -205,16 +206,15 @@ MonoBehaviour:
     <Poise>k__BackingField:
       statModifiers: []
       _baseValue: 1
-  _statsTemplate: {fileID: 11400000, guid: 7b641c5f7ad3c493c9f6f71cb400fdee, type: 2}
-  effectHandler: {fileID: 1517516598541746012}
+  _statsTemplate: {fileID: 11400000, guid: c1d618045a490e34d935f3eeba8c4d01, type: 2}
   EffectTakerCollider: {fileID: 7997525620002543866}
-  blackboard: {fileID: 2542956212317951686}
+  effectHandler: {fileID: 1517516598541746012}
   pushCollider: {fileID: 1071861742469022370}
+  blackboard: {fileID: 2542956212317951686}
   MBTExecutor: {fileID: 6764331205060662260}
   attack: {fileID: 5408430181070719296}
   CooldownBehaviour: {fileID: 6667219895640718775}
   anim: {fileID: 1581404908438099686}
-  targetInRange: {fileID: 0}
 --- !u!114 &5408430181070719296
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -231,11 +231,8 @@ MonoBehaviour:
   leftShootPos: {fileID: 2324791113131924790}
   rightShootPos: {fileID: 2589825236078666943}
   projectilePrefab: {fileID: 1364860213531301939, guid: ec6d4d31d716e944f83b2a1a480051ab, type: 3}
-  gridPicker: {fileID: 0}
   AttackPatternProfile: {fileID: 11400000, guid: 58366f42f4411d84592c6c57915e0775, type: 2}
-  meeleAttackProfile: {fileID: 11400000, guid: 75f74ddab4c2cf0419fcb1cabf83e168, type: 2}
-  leftMeleeHit: {fileID: 2324791113131924790}
-  rightMeleeHit: {fileID: 2589825236078666943}
+  meeleAttackProfile: {fileID: 11400000, guid: b49bf91977863c045a41f7baf9c2f44d, type: 2}
 --- !u!114 &1581707943620237759
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -250,6 +247,39 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Enemy: {fileID: 7234317534750435984}
   SpineAnimationEnemyHandler: {fileID: 1581404908438099686}
+--- !u!1 &948089325419232472
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6242101564741246218}
+  m_Layer: 0
+  m_Name: FindTarget
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6242101564741246218
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 948089325419232472}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 5671559049522401526}
+  - {fileID: 7696209531386463537}
+  m_Father: {fileID: 1449877546113031730}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1756101369543701571
 GameObject:
   m_ObjectHideFlags: 0
@@ -373,6 +403,39 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 1.1739649, y: 0.602296}
   m_Direction: 1
+--- !u!1 &2982639297902806262
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6989771216378873928}
+  m_Layer: 0
+  m_Name: AttackRanges
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6989771216378873928
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2982639297902806262}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1117508287059950154}
+  - {fileID: 7976002522536403422}
+  m_Father: {fileID: 1449877546113031730}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3788531969070675693
 GameObject:
   m_ObjectHideFlags: 0
@@ -404,7 +467,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1449877546113031730}
+  m_Father: {fileID: 6989771216378873928}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!58 &3698421643304643130
 CircleCollider2D:
@@ -484,7 +547,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1449877546113031730}
+  m_Father: {fileID: 6989771216378873928}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!58 &2607068604217813674
 CircleCollider2D:
@@ -639,12 +702,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6668513925208349495}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 8550407455300958683}
+  m_Father: {fileID: 6242101564741246218}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &284485116231291230
 MonoBehaviour:
@@ -703,12 +766,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6687086109505464030}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 8550407455300958683}
+  m_Father: {fileID: 6242101564741246218}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6148797155671868749
 MonoBehaviour:
@@ -868,8 +931,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5671559049522401526}
-  - {fileID: 7696209531386463537}
   - {fileID: 2460663415821079044}
   m_Father: {fileID: 1449877546113031730}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -989,8 +1050,8 @@ MonoBehaviour:
   title: Wander
   rect:
     serializedVersion: 2
-    x: 492
-    y: 502
+    x: 500
+    y: 500
     width: 160
     height: 45
   parent: {fileID: 0}
@@ -1212,8 +1273,8 @@ MonoBehaviour:
   title: Selector
   rect:
     serializedVersion: 2
-    x: 17
-    y: 483
+    x: 20
+    y: 480
     width: 160
     height: 45
   parent: {fileID: 8167999231743153404}
@@ -1312,8 +1373,8 @@ MonoBehaviour:
   title: Update Ready To Attack
   rect:
     serializedVersion: 2
-    x: 492
-    y: 422
+    x: 500
+    y: 400
     width: 160
     height: 45
   parent: {fileID: 1236007246801334522}
@@ -1576,8 +1637,8 @@ MonoBehaviour:
   title: Is Has Target
   rect:
     serializedVersion: 2
-    x: 93
-    y: 676
+    x: 100
+    y: 680
     width: 160
     height: 45
   parent: {fileID: 5842808753855686244}
@@ -1636,8 +1697,8 @@ MonoBehaviour:
   title: Update Target In Range
   rect:
     serializedVersion: 2
-    x: 388
-    y: 718
+    x: 380
+    y: 700
     width: 160
     height: 45
   parent: {fileID: 5842808753855686244}
@@ -2083,10 +2144,10 @@ Transform:
   m_Children:
   - {fileID: 6476598556361278802}
   - {fileID: 8550407455300958683}
-  - {fileID: 1117508287059950154}
-  - {fileID: 7976002522536403422}
   - {fileID: 3314733833326130738}
   - {fileID: 437653741656224638}
+  - {fileID: 6989771216378873928}
+  - {fileID: 6242101564741246218}
   m_Father: {fileID: 2388446250967025661}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8424802352802150216
@@ -2283,6 +2344,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3313385019475395675}
     m_Modifications:
+    - target: {fileID: 731438699079128055, guid: 46f21a2cea182034aa9ef095cd474d50, type: 3}
+      propertyPath: meshRenderer
+      value: 
+      objectReference: {fileID: 7515424669651617539}
     - target: {fileID: 3087664226200851723, guid: 46f21a2cea182034aa9ef095cd474d50, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2323,6 +2388,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5392517042907898983, guid: 46f21a2cea182034aa9ef095cd474d50, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7935441606453301843, guid: 46f21a2cea182034aa9ef095cd474d50, type: 3}
       propertyPath: m_Name
       value: Jelly Fish - Spine
@@ -2356,5 +2425,10 @@ Transform:
 --- !u!4 &3822789434130354202 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3087664226200851723, guid: 46f21a2cea182034aa9ef095cd474d50, type: 3}
+  m_PrefabInstance: {fileID: 2293687898170901777}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &7515424669651617539 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 8617908463585722898, guid: 46f21a2cea182034aa9ef095cd474d50, type: 3}
   m_PrefabInstance: {fileID: 2293687898170901777}
   m_PrefabAsset: {fileID: 0}

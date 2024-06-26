@@ -7,9 +7,9 @@ using UnityEngine;
 
 public class JellyFish : Enemy
 {
-    public JellyFishAttack attack;
-    public CooldownBehaviour CooldownBehaviour;
-    public JellyFishAnimation anim;
+    [SerializeField] JellyFishAttack attack;
+    [SerializeField] CooldownBehaviour CooldownBehaviour;
+    [SerializeField] JellyFishAnimation anim;
     bool isCurrentAttackLeftHand;
 
     protected override void Awake()
@@ -53,11 +53,6 @@ public class JellyFish : Enemy
     public override bool IsReadyToAttack()
     {
         return !CooldownBehaviour.IsInCooldown;
-    }
-    public TargetInRange targetInRange;
-    public bool IsReadyMelleAttack()
-    {
-        return targetInRange.IsMet;
     }
 
     public override void Die()

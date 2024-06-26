@@ -5,19 +5,20 @@ using UnityEngine;
 
 namespace _Game.Scripts.PathFinding
 {
-    public enum WorkingSlotState
+    public enum NodeState
     {
         Occupied, Free, Disabled
     }
     public class Node : MonoBehaviour
     {
-        public WorkingSlotState State;
+        public NodeState State;
         public Vector2 position => transform.position;
         public List<Node> neighbors;
-        public float gCost;
-        public float hCost;
+
+        [HideInInspector] public Node parent;
+        [HideInInspector] public float gCost;
+        [HideInInspector] public float hCost;
         public float fCost { get { return gCost + hCost; } }
-        public Node parent;
 
         public Cell cell;
         public bool Walkable
@@ -26,11 +27,11 @@ namespace _Game.Scripts.PathFinding
             {
                 if (cell != null)
                 {
-                    return cell.GridItem == null && State != WorkingSlotState.Disabled;
+                    return cell.GridItem == null && State != NodeState.Disabled;
                 }
                 else
                 {
-                    return true && State != WorkingSlotState.Disabled;
+                    return State != NodeState.Disabled;
                 }
             }
         }

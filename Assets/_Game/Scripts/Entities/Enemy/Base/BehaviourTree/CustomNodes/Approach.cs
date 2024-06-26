@@ -15,9 +15,15 @@ public class Approach : Leaf
     public float Force;
 
     float elapsedTime;
-    public float ChangeDirectionInterval;
+    public float ChangeDirectionInterval = 1;
+    Vector2 direction;
 
     OctaDirectionRay OctarDirectionRay;
+    public override void OnEnter()
+    {
+        base.OnEnter();
+        UpdateTargetDirection();
+    }
 
     public override NodeResult Execute()
     {
@@ -28,7 +34,6 @@ public class Approach : Leaf
             UpdateTargetDirection();
         }
 
-        Vector2 direction = Ship.Value.transform.position - Enemy.Value.transform.position;
         Enemy.Value.body.AddForce(direction.normalized * Force);
         float distance = Vector2.Distance(Enemy.Value.transform.position, Ship.Value.Transform.position);
         return distance < 1 ? NodeResult.success : NodeResult.running;
@@ -37,6 +42,7 @@ public class Approach : Leaf
 
     void UpdateTargetDirection()
     {
-
+        Vector3 targetPos = Ship.Value.ShipArea.SamplePoint();
+        direction = targetPos - Enemy.Value.transform.position;
     }
 }

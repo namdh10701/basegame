@@ -21,31 +21,21 @@ namespace _Game.Scripts.Entities
     public abstract class Enemy : Entity, IEffectTaker
     {
         [Header("Enemy")]
+        [SerializeField] string                         enemyId;
+        [SerializeField] protected EnemyStats           _stats;
+        [SerializeField] private EnemyStatsTemplate     _statsTemplate;
 
-        [SerializeField] string enemyId;
+        [Header("Behaviour")]
+        [SerializeField] protected EffectTakerCollider  EffectTakerCollider;
+        [SerializeField] protected EffectHandler        effectHandler;
+        [SerializeField] protected Collider2D           pushCollider;
+        [SerializeField] protected Blackboard           blackboard;
+        [SerializeField] protected MBTExecutor          MBTExecutor;
 
-        [SerializeField]
-        protected EnemyStats _stats;
-
-        [SerializeField]
-        private EnemyStatsTemplate _statsTemplate;
         public override Stats Stats => _stats;
-
-        public HealthPoint HealthPoint { get; set; }
-        public IFighterStats FighterStats { get; set; }
-        public List<Effect> BulletEffects { get; set; }
-
-        public EffectHandler effectHandler;
-
         public Transform Transform => transform;
-
         public EffectHandler EffectHandler => effectHandler;
 
-        public EffectTakerCollider EffectTakerCollider;
-        [Header("Behaviour")]
-        [SerializeField] protected Blackboard blackboard;
-        [SerializeField] protected Collider2D pushCollider;
-        [SerializeField] protected MBTExecutor MBTExecutor;
         protected virtual IEnumerator Start()
         {
             EffectTakerCollider.Taker = this;

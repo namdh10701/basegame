@@ -8,6 +8,8 @@ namespace _Game.Scripts
 {
     public class Squid : Enemy
     {
+        [Header("Squid")]
+        [Space]
         public CooldownBehaviour CooldownBehaviour;
         public SquidAnimation anim;
         public EvasionBuffArea EvasionBuffArea;

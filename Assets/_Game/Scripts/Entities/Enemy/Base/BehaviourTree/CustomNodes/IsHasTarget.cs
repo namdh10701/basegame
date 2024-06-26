@@ -14,7 +14,6 @@ public class IsHasTarget : Condition
 
     public override bool Check()
     {
-        Debug.Log("CHECK");
         isHasTarget.Value = FindTargetBehaviour.MostTargets.Count > 0;
         return isHasTarget.Value;
     }

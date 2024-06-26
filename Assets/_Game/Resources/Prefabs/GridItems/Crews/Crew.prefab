@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3547516095354855559}
   - component: {fileID: 5154970329997059248}
   - component: {fileID: 3125218877588862083}
+  - component: {fileID: 6031859851334405460}
   m_Layer: 13
   m_Name: Crew
   m_TagString: Untagged
@@ -50,8 +51,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   body: {fileID: 3547516095354855559}
-  ActionHandler: {fileID: 5154970329997059248}
-  CrewMovement: {fileID: 3125218877588862083}
   stats:
     <HealthPoint>k__BackingField:
       _value:
@@ -76,20 +75,15 @@ MonoBehaviour:
       statModifiers: []
       _baseValue: 0
   _statTemplate: {fileID: 11400000, guid: 84fb51cf2123cca4894e08b24d356752, type: 2}
-  Ship: {fileID: 0}
-  pathfinder: {fileID: 0}
   Animation: {fileID: 5057098962496586513}
+  CrewMovement: {fileID: 3125218877588862083}
+  CrewAction: {fileID: 6031859851334405460}
   effectHandler: {fileID: 7046251937023846737}
   def: {fileID: 11400000, guid: d2c305b7d3078b946b4dc55bec6796f5, type: 2}
   behaviour: {fileID: 0}
   <OccupyCells>k__BackingField: []
-  carryObject: {fileID: 4267490572488331614}
-  crewController: {fileID: 0}
-  MoveData: {fileID: 0}
   EffectTakerCollider: {fileID: 7557830686970291313}
   occupiyingNodes: []
-  carryingBullet: {fileID: 0}
-  IsAllowWander: 0
 --- !u!50 &3547516095354855559
 Rigidbody2D:
   serializedVersion: 4
@@ -130,7 +124,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   crew: {fileID: 4423691010520195521}
-  isPaused: 0
 --- !u!114 &3125218877588862083
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -144,6 +137,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   crew: {fileID: 4423691010520195521}
+--- !u!114 &6031859851334405460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 154046937988417403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20479386624795540b685eff00a172db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crew: {fileID: 4423691010520195521}
+  carryObject: {fileID: 4267490572488331614}
 --- !u!1 &1903941828349410014
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Idle : CrewAction
+public class Idle : CrewActionBase
 {
     Crew crew;
     public Idle(Crew crew)

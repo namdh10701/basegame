@@ -1,5 +1,6 @@
 ﻿using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.RPG.Entities;
+using _Game.Scripts.Battle;
 using _Game.Scripts.GD;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -22,6 +23,7 @@ namespace _Game.Scripts.Gameplay.Ship
         public EffectHandler EffectHandler => effectHandler;
         public PathfindingController PathfindingController;
         public EffectTakerCollider EffectCollider;
+        public Area ShipArea;
         public ShipSpeed ShipSpeed;
         public CrewJobData CrewJobData;
         protected override void Awake()

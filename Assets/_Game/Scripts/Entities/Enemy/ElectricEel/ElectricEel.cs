@@ -13,28 +13,22 @@ public class ElectricEel : Enemy
 {
     [Header("Electric Eel")]
 
-    public ElectricEelAnimation Animation;
-    public ElectricFx electricFx;
-    public ElectricEelProjectile Projectile;
-    public Transform target;
-    public CooldownBehaviour CooldownBehaviour;
+    [SerializeField] ElectricEelAnimation Animation;
+    [SerializeField] ElectricFx electricFx;
+    [SerializeField] ElectricEelProjectile Projectile;
+    [SerializeField] Transform target;
+    [SerializeField] CooldownBehaviour CooldownBehaviour;
+    [SerializeField] FindTargetBehaviour FindTargetBehaviour;
+
     [Header("Sycn Animation")]
-
-    public float delayTime;
-    public float delayTime2;
-    public float timer;
-    public float timer2;
-    bool attack;
-    public FindTargetBehaviour FindTargetBehaviour;
-
-    BoolVariable boolVariable;
+    [SerializeField] float syncAnimationPlayFxTime = .5f;
+    [SerializeField] float syncAnimationSpawnProjectileTime = .8f;
     protected override IEnumerator Start()
     {
         Animation.Attack.AddListener(DoAttack);
         Animation.OnHide += OnHide;
         MoveAreaController moveArea = FindAnyObjectByType<MoveAreaController>();
         blackboard.GetVariable<AreaVariable>("MoveArea").Value = moveArea.GetArea(AreaType.All);
-        boolVariable = blackboard.GetVariable<BoolVariable>("IsHasTarget");
         yield return base.Start();
     }
 
@@ -65,25 +59,14 @@ public class ElectricEel : Enemy
 
     void DoAttack()
     {
-        attack = true;
-        timer = 0;
-        timer2 = 0;
+        Invoke("PlayAttackFx", syncAnimationPlayFxTime);
+        Invoke("SpawnProjectile", syncAnimationSpawnProjectileTime);
     }
-    private void Update()
+
+    void PlayAttackFx()
     {
-        if (attack)
-        {
-            timer += Time.deltaTime;
-            if (timer > delayTime)
-            {
-
-                electricFx.targetTransform = target;
-                electricFx.Play();
-                Invoke("SpawnProjectile", delayTime2);
-                attack = false;
-
-            }
-        }
+        electricFx.targetTransform = target;
+        electricFx.Play();
     }
 
     void SpawnProjectile()
@@ -109,7 +92,7 @@ public class ElectricEel : Enemy
     {
         base.Die();
         StopAllCoroutines();
-        attack = false;
+        CancelInvoke();
         Animation.PlayDie(() => { Destroy(gameObject); });
     }
     public override IEnumerator StartActionCoroutine()
