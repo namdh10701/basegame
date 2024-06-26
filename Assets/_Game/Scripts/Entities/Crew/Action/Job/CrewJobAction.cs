@@ -1,6 +1,6 @@
 using _Game.Scripts;
 using System.Collections;
-public class CrewJobAction : CrewAction
+public class CrewJobAction : CrewActionBase
 {
     public CrewJob CrewJob;
 

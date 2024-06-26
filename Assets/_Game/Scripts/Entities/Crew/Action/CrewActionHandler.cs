@@ -9,16 +9,16 @@ public class CrewActionHandler : MonoBehaviour
 {
     public Crew crew;
     Coroutine actionCoroutine;
-    public CrewAction CurrentAction;
+    public CrewActionBase CurrentAction;
     public Action OnFree;
-    public bool isPaused;
+    bool isPaused;
 
-    public void Act(CrewAction crewAction)
+    public void Act(CrewActionBase crewAction)
     {
         StartCoroutine(HandleAssignNewAction(crewAction));
     }
 
-    IEnumerator HandleAssignNewAction(CrewAction crewAction)
+    IEnumerator HandleAssignNewAction(CrewActionBase crewAction)
     {
         if (isPaused)
         {
@@ -65,18 +65,4 @@ public class CrewActionHandler : MonoBehaviour
             actionCoroutine = StartCoroutine(ActionCoroutine());
         }
     }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            Pause();
-        }
-
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            Resume();
-        }
-    }
-
 }

@@ -11,45 +11,25 @@ namespace _Game.Scripts
         public Fx fxPrefab;
         public Fx fxATKPrefab;
         public _Game.Scripts.Gameplay.Ship.Ship ship;
-        public void ProcessTargeting(List<Cell> cells)
+        public void ProcessAttack(EnemyAttackData enemyAttackData)
         {
-            PlayTargetingFx(cells);
+            ProcessAttack(enemyAttackData.TargetCells, enemyAttackData.Effects);
         }
 
-        public void ProcessAttack(List<Cell> cells, List<Effect> effect)
+        void ProcessAttack(List<Cell> cells, List<Effect> effects)
         {
-            List<IGridItem> placements = new List<IGridItem>();
-            List<Cell> emptyCells = new List<Cell>();
-
-            foreach (Effect ef in effect)
+            foreach (Effect effect in effects)
             {
-                ApplyEffect(placements, ef);
-                ApplyEffectEmptyCells(cells, ef);
+                ship.EffectHandler.Apply(effect);
+                foreach (Cell cell in cells)
+                {
+                    cell.EffectHandler.Apply(effect);
+                }
             }
             PlayFx(cells);
         }
 
-        public void ApplyEffectEmptyCells(List<Cell> cells, Effect effect)
-        {
-            foreach (Cell cell in cells)
-            {
-                ship.EffectHandler.Apply(effect);
-            }
-        }
-
-        public void ApplyEffect(List<IGridItem> placements, Effect effect)
-        {
-            foreach (IEffectTaker placement in placements)
-            {
-                placement.EffectHandler.Apply(effect);
-            }
-        }
-        public void ApplyEffect(IEffectTaker placement, Effect effect)
-        {
-            placement.EffectHandler.Apply(effect);
-        }
-
-        public void PlayFx(List<Cell> cells)
+        void PlayFx(List<Cell> cells)
         {
             if (fxATKPrefab == null)
             {
@@ -58,15 +38,6 @@ namespace _Game.Scripts
             foreach (Cell cell in cells)
             {
                 Fx go = Instantiate(fxATKPrefab, null);
-                go.transform.position = cell.transform.position;
-            }
-        }
-
-        public void PlayTargetingFx(List<Cell> cells)
-        {
-            foreach (Cell cell in cells)
-            {
-                Fx go = Instantiate(fxPrefab, null);
                 go.transform.position = cell.transform.position;
             }
         }

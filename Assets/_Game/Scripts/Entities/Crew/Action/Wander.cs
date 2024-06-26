@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace _Game.Scripts
 {
-    public class Wander : CrewAction
+    public class Wander : CrewActionBase
     {
         Crew crew;
         MoveData moveData;

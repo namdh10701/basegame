@@ -14,14 +14,12 @@ namespace _Game.Scripts.Entities
         [Header("Puffer Fish")]
         [Space]
         public PufferFishAnimation Animation;
-        public TargetInRange TargetInRange;
         public PufferFishMove PufferFishMove;
         public DamageArea DamageArea;
         protected override IEnumerator Start()
         {
             Animation.OnAttack.AddListener(DoAttack);
             Ship Ship = FindAnyObjectByType<Ship>();
-            TargetInRange.TargetShip = Ship;
             Vector2 targetPos = Ship.EffectCollider.GetComponent<Collider2D>().ClosestPoint(transform.position);
             PufferFishMove.direction.BaseValue = (targetPos - (Vector2)transform.position).normalized;
             yield return base.Start();
@@ -51,7 +49,7 @@ namespace _Game.Scripts.Entities
 
         public override bool IsReadyToAttack()
         {
-            return true && TargetInRange.IsMet;
+            return true;
         }
 
         public override void Move()

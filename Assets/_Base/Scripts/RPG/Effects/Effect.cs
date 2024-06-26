@@ -14,7 +14,10 @@ namespace _Base.Scripts.RPG.Effects
 
 
         protected virtual void OnStart(Entity entity) { }
-        protected virtual void OnEnd(Entity entity) { }
+        protected virtual void OnEnd(Entity entity)
+        {
+            Destroy(gameObject);
+        }
 
         public virtual bool CanEffect(Entity entity) => true;
         public virtual bool CanEffect(IEffectTaker entity) => true;

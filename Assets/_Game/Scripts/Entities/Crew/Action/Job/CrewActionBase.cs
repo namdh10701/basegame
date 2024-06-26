@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public abstract class CrewAction
+public abstract class CrewActionBase
 {
     public string Name;
     public IEnumerator Execute;

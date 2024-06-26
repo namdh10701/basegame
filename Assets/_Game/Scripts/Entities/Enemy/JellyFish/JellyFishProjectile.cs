@@ -71,6 +71,6 @@ public class JellyFishProjectile : MonoBehaviour
         Destroy(gameObject);
         Instantiate(particle, atkData.CenterCell.transform.position, Quaternion.identity);
         GridAttackHandler attackHandler = FindAnyObjectByType<GridAttackHandler>();
-        attackHandler.ProcessAttack(atkData.TargetCells, atkData.Effects);
+        attackHandler.ProcessAttack(atkData);
     }
 }

@@ -1,4 +1,5 @@
 using _Game.Scripts;
+using _Game.Scripts.Gameplay.Ship;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,13 @@ using UnityEngine;
 public class CrewMovement : MonoBehaviour
 {
     public Crew crew;
+    PathfindingController pathfinder;
+
+    private void Start()
+    {
+        pathfinder = FindAnyObjectByType<Ship>().PathfindingController;
+    }
+
     public Vector2 Velocity
     {
         get
@@ -19,13 +27,13 @@ public class CrewMovement : MonoBehaviour
     }
     public IEnumerator MoveTo(Vector3 destination)
     {
-        List<Vector3> path = crew.pathfinder.GetPath(crew.transform.position, destination);
+        List<Vector3> path = pathfinder.GetPath(crew.transform.position, destination);
         yield return MoveByPath(path);
     }
 
     public IEnumerator MoveCarry(Vector3 destination)
     {
-        List<Vector3> path = crew.pathfinder.GetPath(crew.transform.position, destination);
+        List<Vector3> path = pathfinder.GetPath(crew.transform.position, destination);
         yield return MoveByPathCarry(path);
     }
 

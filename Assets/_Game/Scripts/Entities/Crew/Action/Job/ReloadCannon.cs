@@ -29,7 +29,7 @@ public class ReloadCannonJob : CrewJob
     }
     public override IEnumerator Execute(Crew crew)
     {
-        if (crew.CarryingBullet == null || crew.CarryingBullet != bullet)
+        if (crew.CrewAction.CarryingBullet == null || crew.CrewAction.CarryingBullet != bullet)
         {
             List<Node> availableWorkingSlots = WorkLocation.WorkingSlots
            .Where(slot => slot.State == WorkingSlotState.Free)

@@ -10,7 +10,6 @@ using UnityEngine;
 public class CrewController : MonoBehaviour
 {
     public CrewJobData CrewJobData;
-    public MoveData MoveData;
     public bool HasPendingJob => CrewJobData.ActivateJobs.Count > 0;
     public List<Crew> crews = new List<Crew>();
     private void Awake()
@@ -21,8 +20,6 @@ public class CrewController : MonoBehaviour
     public void AddCrew(Crew crew)
     {
         crews.Add(crew);
-        crew.crewController = this;
-        crew.MoveData = MoveData;
     }
 
     void OnJobActivate(CrewJob crewJob)
@@ -30,11 +27,8 @@ public class CrewController : MonoBehaviour
         if (crewJob.Piority == int.MaxValue)
         {
             Crew crew = GetMostSuitableCrewForJob(crewJob);
-
-            Debug.Log("HERE 1");
             if (crew != null)
             {
-                Debug.Log("HERE");
                 lastAssignCrew = crew;
                 AssignJob(crew, crewJob);
             }
@@ -116,7 +110,6 @@ public class CrewController : MonoBehaviour
                 return closetCrewWithLowerPriority;
             }
         }
-        return null;
     }
     Crew lastAssignCrew;
 
@@ -127,7 +120,7 @@ public class CrewController : MonoBehaviour
 
         foreach (Crew crew in crews)
         {
-            if (crew.ActionHandler.CurrentAction is not CrewJobAction || crew.ActionHandler.CurrentAction == null)
+            if (crew.CrewAction.CurrentAction is not CrewJobAction || crew.CrewAction.CurrentAction == null)
             {
                 freeCrews.Add(crew);
             }
@@ -138,7 +131,7 @@ public class CrewController : MonoBehaviour
     {
         foreach (Crew crew in crews)
         {
-            if (crew.ActionHandler.CurrentAction is CrewJobAction action)
+            if (crew.CrewAction.CurrentAction is CrewJobAction action)
             {
                 if (action.CrewJob.Piority < crewJob.Piority)
                 {
@@ -175,7 +168,7 @@ public class CrewController : MonoBehaviour
         List<Crew> ret = new List<Crew>();
         foreach (Crew crew in crews)
         {
-            if (crew.ActionHandler.CurrentAction is CrewJobAction crewJobAction)
+            if (crew.CrewAction.CurrentAction is CrewJobAction crewJobAction)
             {
                 if (crewJobAction.CrewJob.Piority < crewjob.Piority)
                 {
@@ -191,14 +184,14 @@ public class CrewController : MonoBehaviour
     {
         Debug.Log("ASSIGNED TO " + crew.name);
         CrewJobAction action = crewJob.BuildCrewAction(crew);
-        crew.ActionHandler.Act(action);
+        crew.CrewAction.DoJob(action);
     }
 
     public void ActivateCrews()
     {
         foreach (Crew crew in crews)
         {
-            crew.IsAllowWander = true;
+            crew.CrewAction.Activate();
         }
     }
 }
