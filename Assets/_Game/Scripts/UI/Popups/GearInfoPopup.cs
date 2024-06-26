@@ -24,12 +24,12 @@ namespace _Game.Scripts.UI
         }
         private void OnEnable()
         {
-            equipBtn.onClick.AddListener(OnEquipClick);
+            // equipBtn.onClick.AddListener(OnEquipClick);
         }
 
         private void OnDisable()
         {
-            equipBtn.onClick.RemoveListener(OnEquipClick);
+            // equipBtn.onClick.RemoveListener(OnEquipClick);
         }
 
         void OnEquipClick()

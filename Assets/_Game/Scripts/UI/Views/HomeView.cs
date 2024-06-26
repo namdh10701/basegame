@@ -18,7 +18,7 @@ namespace _Game.Scripts.UI
         [SerializeField] Button farmBtn;
         private void OnEnable()
         {
-            preBattleBtn.onClick.AddListener(OnPrebattleClick);
+            // preBattleBtn.onClick.AddListener(OnPrebattleClick);
             // craftingBtn.onClick.AddListener(OnCraftingClick);
             // rankingbtn.onClick.AddListener(OnRankingClick);
             // crewBtn.onClick.AddListener(OnCrewClick);
@@ -30,7 +30,7 @@ namespace _Game.Scripts.UI
 
         private void OnDisable()
         {
-            preBattleBtn.onClick.RemoveListener(OnPrebattleClick);
+            // preBattleBtn.onClick.RemoveListener(OnPrebattleClick);
         }
 
         void OnPrebattleClick()
