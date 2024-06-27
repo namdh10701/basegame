@@ -1365,7 +1365,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   config: {fileID: 11400000, guid: 19bf411c79e522b4b8e54f82b0140314, type: 2}
-  view: {fileID: 1683643851}
 --- !u!114 &1683643851
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1378,7 +1377,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55a26af7a53f4de7b8984f4e4cda1492, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapManager: {fileID: 0}
+  mapManager: {fileID: 1683643850}
   orientation: 0
   allMapConfigs:
   - {fileID: 11400000, guid: 19bf411c79e522b4b8e54f82b0140314, type: 2}
@@ -1425,12 +1424,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   viewType: 1
+  IsDestroyOnHide: 0
   ViewState: 0
   root: {fileID: 0}
   originalPos: {x: 0, y: 0}
   canvasGroup: {fileID: 0}
   animator: {fileID: 0}
   duration: 0
+  abandoneRunBtn: {fileID: 0}
 --- !u!225 &1683643853
 CanvasGroup:
   m_ObjectHideFlags: 0

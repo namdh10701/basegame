@@ -2,9 +2,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using _Game.Features;
 using _Game.Scripts.GD;
 using UnityEngine;
 using UnityWeld.Binding;
+using ZBase.UnityScreenNavigator.Core.Screens;
+using ZBase.UnityScreenNavigator.Core.Views;
 
 namespace _Game.Scripts.Gameplay.TalentTree
 {
@@ -84,6 +87,12 @@ namespace _Game.Scripts.Gameplay.TalentTree
                 }
             }
 
+        }
+        
+        [Binding]
+        public async void NavBack()
+        {
+            await ScreenContainer.Find(ContainerKey.Screens).PopAsync(false);
         }
     }
 }

@@ -2,6 +2,7 @@ using _Base.Scripts.UI.Managers;
 using _Game.Scripts.UI;
 using UnityWeld.Binding;
 using ZBase.UnityScreenNavigator.Core.Modals;
+using ZBase.UnityScreenNavigator.Core.Screens;
 using ZBase.UnityScreenNavigator.Core.Views;
 
 namespace _Game.Features.WorldMap
@@ -85,12 +86,13 @@ namespace _Game.Features.WorldMap
             }
         }
 
-        private void OnSelected()
+        private async void OnSelected()
         {
-            // PopupManager.Instance.ShowPopup<SeaMapNodeInfoPopup.SeaMapNodeInfoPopup>();
+            PopupManager.Instance.ShowPopup<SeaMapNodeInfoPopup.SeaMapNodeInfoPopup>();
             
-            var options = new ViewOptions("FightNodeInfoModal", true);
-            ModalContainer.Find(ContainerKey.Modals).Push(options);
+            // var options = new ViewOptions("SeaMapScreen", true);
+            // await ScreenContainer.Find(ContainerKey.Screens).PushAsync(options);
+            // ModalContainer.Find(ContainerKey.Modals).Push(options);
         }
 
         private bool _isSelected;

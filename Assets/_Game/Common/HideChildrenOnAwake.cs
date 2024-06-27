@@ -3,7 +3,7 @@
 namespace _Game.Common
 {
     [DefaultExecutionOrder(-500)]
-    public class TemplateBindingHider: MonoBehaviour
+    public class HideChildrenOnAwake: MonoBehaviour
     {
         private void Awake()
         {
