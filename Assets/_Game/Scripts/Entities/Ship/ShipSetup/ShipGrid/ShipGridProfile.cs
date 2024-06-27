@@ -13,10 +13,14 @@ namespace _Game.Scripts
     [System.Serializable]
     public struct GridDefinition
     {
-        public string Id;
-        public Vector2 rootPosition;
+        [Space]
+        [Header("Required")]
         public int Col;
         public int Row;
+        public Vector2Int[] MissingCells;
+        [Space]
+        public string Id;
+        public Vector2 rootPosition;
         public Vector2 CellSize;
         public Vector2 Spaces;
         public Cell CellPrefab;

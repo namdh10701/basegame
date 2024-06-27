@@ -4,6 +4,7 @@ using _Game.Scripts.PathFinding;
 using Fusion;
 using Map;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Scripting;
@@ -35,13 +36,17 @@ namespace _Game.Scripts
             {
                 Grids[i].Initialize(ShipGridProfile.GridDefinitions[i]);
             }
-            foreach (Grid grid in Grids)
+            Vector2Int missingCell = Vector2Int.zero;
+            for (int gridIndex = 0; gridIndex < Grids.Count; gridIndex++)
             {
-                for (int i = 0; i < grid.Row; i++)
+                for (int i = 0; i < ShipGridProfile.GridDefinitions[gridIndex].Row; i++)
                 {
-                    for (int j = 0; j < grid.Col; j++)
+                    for (int j = 0; j < ShipGridProfile.GridDefinitions[gridIndex].Col; j++)
                     {
-                        AllCells.Add(grid.Cells[i, j]);
+                        missingCell.x = j;
+                        missingCell.y = i;
+                        if (!ShipGridProfile.GridDefinitions[gridIndex].MissingCells.Contains(missingCell))
+                            AllCells.Add(Grids[gridIndex].Cells[i, j]);
                     }
                 }
             }

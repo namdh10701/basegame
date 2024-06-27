@@ -13,6 +13,7 @@ namespace _Game.Scripts
         public int Row => Cells.GetLength(0);
         public Transform CellRoot;
         public Transform GridItemRoot;
+        public GridDefinition GridDefinition;
         public List<GridItemData> GridItemDatas = new List<GridItemData>();
 
         public void Initialize(GridDefinition gridDefinition)
