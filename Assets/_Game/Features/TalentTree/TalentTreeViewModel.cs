@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using _Game.Features;
 using _Game.Scripts.GD;
 using UnityEngine;
 using UnityWeld.Binding;
@@ -91,7 +92,7 @@ namespace _Game.Scripts.Gameplay.TalentTree
         [Binding]
         public async void NavBack()
         {
-            await ScreenContainer.Of(transform).PopAsync(false);
+            await ScreenContainer.Find(ContainerKey.Screens).PopAsync(false);
         }
     }
 }
