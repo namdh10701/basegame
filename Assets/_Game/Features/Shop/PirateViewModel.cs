@@ -30,6 +30,7 @@ namespace _Game.Features.Shop
                 OnPropertyChanged(nameof(ActiveNavIndex));
 
                 // NavTo((Nav)value);
+
             }
         }
 
@@ -87,12 +88,12 @@ namespace _Game.Features.Shop
         }
         private PirateItem _highlightItem;
 
-        // #region Binding Prop: FilterItemType
-        //
-        // [Binding]
-        // public ShopItem.ItemType FilterItemType => (ShopItem.ItemType)_filterItemTypeIndex;
-        //
-        // #endregion
+        #region Binding Prop: FilterItemType
+
+        [Binding]
+        public PirateItemType FilterItemType => (PirateItemType)_filterItemTypeIndex;
+
+        #endregion
 
         #region Binding Prop: FilterItemTypeIndex
 
@@ -136,7 +137,7 @@ namespace _Game.Features.Shop
         {
             for (int i = 0; i < 3; i++)
             {
-                itemSource.Add(new PirateItem { Id = "1", PirateViewModel = this, Type = PirateItemType.GOLD, Price = 100 * i,Name = "Rocket ammo" });
+                itemSource.Add(new PirateItem { Id = "1", PirateViewModel = this, Type = PirateItemType.GOLD, Price = 100 * i, Name = "Rocket ammo" });
             }
 
 
