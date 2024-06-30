@@ -34,9 +34,9 @@ namespace _Game.Features.Shop
         }
 
         #endregion
-        
+
         private List<PirateItem> itemSource = new List<PirateItem>();
-        
+
         #region Binding: Items
 
         private ObservableList<PirateItem> items = new ObservableList<PirateItem>();
@@ -127,25 +127,30 @@ namespace _Game.Features.Shop
             Items.AddRange(itemSource.Where(v => v.Type == itemType));
         }
 
+        void Awake()
+        {
+            InitializeInternal();
+        }
+
         protected void InitializeInternal()
         {
             for (int i = 0; i < 3; i++)
             {
-                itemSource.Add(new PirateItem {  PirateViewModel = this, Type = PirateItemType.GOLD });
+                itemSource.Add(new PirateItem { Id = "1", PirateViewModel = this, Type = PirateItemType.GOLD, Price = 100 * i,Name = "Rocket ammo" });
             }
-            
-           
-            
+
+
+
             for (int i = 0; i < 30; i++)
             {
-                itemSource.Add(new PirateItem {  PirateViewModel = this, Type = PirateItemType.GEM });
+                itemSource.Add(new PirateItem { Id = "1", PirateViewModel = this, Type = PirateItemType.GEM, Price = 100 * i, Name = "Rocket ammo" });
             }
-            
+
             DoFilter();
         }
-        
-        
-        
+
+
+
         [Binding]
         public void OnEquipSelectedItems()
         {
@@ -154,7 +159,7 @@ namespace _Game.Features.Shop
                 item.IsEquipped = true;
             }
         }
-        
+
         [Binding]
         public void ToggleMultiSelect()
         {
