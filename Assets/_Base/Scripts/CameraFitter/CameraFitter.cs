@@ -12,10 +12,12 @@ public class CameraFitter : MonoBehaviour
     [SerializeField] private FitType fitType;
     private Camera mainCam;
     private Camera uiCam;
+    public Camera cam;
 
     private void Awake()
     {
         instance = this;
+        ResizeCamera(cam);
     }
 
     public static CameraFitter Instance => instance;

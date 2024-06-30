@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using _Game.Scripts;
 using UnityEngine;
 namespace _Base.Scripts.UI
 {
@@ -8,11 +9,10 @@ namespace _Base.Scripts.UI
     {
         public int startX;
         public int startY;
-        public int shapeId;
         public string gridID;
-        public InventoryItemType inventoryItemType;
         public Vector2 position;
         public Sprite sprite;
+        public GridItemDef gridItemDef;
     }
 
     public enum InventoryItemType

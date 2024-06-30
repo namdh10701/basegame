@@ -15,6 +15,10 @@ namespace _Game.Scripts.Entities
                 {
                     cannonConfig.ApplyGDConfig(_stats);
                 }
+                else
+                {
+                    _statsTemplate.ApplyConfig(_stats);
+                }
             }
             else
             {

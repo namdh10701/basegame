@@ -20,9 +20,7 @@ public class ShipStatsTemplate : ScriptableObject
         shipStats.HealthRegenerationRate.MaxStatValue.BaseValue = Data.HealthPoint.MaxStatValue.BaseValue;
         shipStats.HealthRegenerationRate.StatValue.BaseValue = Data.HealthPoint.StatValue.BaseValue;
 
-        shipStats.ManaRegenerationRate.MinStatValue.BaseValue = Data.ManaRegenerationRate.MinStatValue.BaseValue;
-        shipStats.ManaRegenerationRate.MaxStatValue.BaseValue = Data.ManaRegenerationRate.MaxStatValue.BaseValue;
-        shipStats.ManaRegenerationRate.StatValue.BaseValue = Data.ManaRegenerationRate.StatValue.BaseValue;
+        shipStats.ManaRegenerationRate.BaseValue = Data.ManaRegenerationRate.BaseValue;
 
         shipStats.ManaPoint.MinStatValue.BaseValue = Data.ManaPoint.MinStatValue.BaseValue;
         shipStats.ManaPoint.MaxStatValue.BaseValue = Data.ManaPoint.MaxStatValue.BaseValue;

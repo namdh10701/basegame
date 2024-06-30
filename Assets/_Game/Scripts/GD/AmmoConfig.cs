@@ -7,7 +7,7 @@ namespace _Game.Scripts.GD
 {
     [CreateAssetMenu(fileName = "Ammo_", menuName = "SO/Ammo", order = 1)]
     [Serializable]
-    public class AmmoConfig: GDConfig
+    public class AmmoConfig : GDConfig
     {
         public string id;
         public string name;
@@ -42,18 +42,19 @@ namespace _Game.Scripts.GD
             //     }
             //     fieldInfo.SetValue(this, value);
             // }
-            
-            
 
-            // var cannonSt = (stats as AmmoStats)!;
-            // cannonSt.HealthPoint.StatValue.BaseValue = HP;
-            // cannonSt.HealthPoint.MaxStatValue.BaseValue = HP;
-            // cannonSt.AttackDamage.BaseValue = attack;
-            // cannonSt.AttackDamage.BaseValue = attack_speed;
-            // cannonSt.AttackAccuracy.BaseValue = accuracy;
-            // cannonSt.CriticalChance.BaseValue = crit_chance;
-            // cannonSt.CriticalDamage.BaseValue = crit_damage;
-            // cannonSt.AttackRange.BaseValue = range;
+
+
+            var cannonSt = (stats as ProjectileStats)!;
+            cannonSt.Damage.BaseValue = ammo_attack;
+            cannonSt.CritDamage.BaseValue = ammo_crit_damage;
+            cannonSt.CritChance.BaseValue = ammo_crit_chance;
+            cannonSt.Accuracy.BaseValue = ammo_accuracy;
+            cannonSt.ArmorPenetrate.BaseValue = armor_pen;
+            cannonSt.AttackAOE.BaseValue = attack_aoe;
+            cannonSt.Speed.BaseValue = 20;
+
+            cannonSt.Piercing.BaseValue = pierc_count;
         }
     }
 }

@@ -5,9 +5,9 @@ using UnityEngine.Serialization;
 
 namespace _Game.Scripts.GD
 {
-    [CreateAssetMenu(fileName = "Cannon_", menuName = "SO/Cannon", order = 1)] 
+    [CreateAssetMenu(fileName = "Cannon_", menuName = "SO/Cannon", order = 1)]
     [Serializable]
-    public class CannonConfig: GDConfig
+    public class CannonConfig : GDConfig
     {
         public string id;
         public string name;
@@ -44,7 +44,10 @@ namespace _Game.Scripts.GD
             cannonSt.AttackAccuracy.BaseValue = accuracy;
             cannonSt.CriticalChance.BaseValue = crit_chance;
             cannonSt.CriticalDamage.BaseValue = crit_damage;
+            cannonSt.AttackSpeed.BaseValue = attack_speed;
             cannonSt.AttackRange.BaseValue = range;
+            cannonSt.Ammo.MaxStatValue.BaseValue = 10;
+            cannonSt.Ammo.StatValue.BaseValue = 10;
         }
     }
 }
