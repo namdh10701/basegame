@@ -25,11 +25,11 @@ public class FixCellJob : CrewJob
         workingSlot = DistanceHelper.GetClosestToPosition(availableWorkingSlots.ToArray(), (slot) => slot, crew.transform.position);
         workingSlot.State = NodeState.Occupied;
         yield return crew.CrewMovement.MoveTo(workingSlot.transform.position);
-        if (crew.transform.position.x < workingSlot.transform.position.x)
+        if (crew.transform.position.x < cell.transform.position.x)
         {
             crew.Animation.Flip(Direction.Right);
         }
-        else if (crew.transform.position.x > workingSlot.transform.position.x)
+        else if (crew.transform.position.x > cell.transform.position.x)
         {
             crew.Animation.Flip(Direction.Left);
         }

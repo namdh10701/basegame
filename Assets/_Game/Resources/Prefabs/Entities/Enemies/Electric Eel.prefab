@@ -145,7 +145,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   body: {fileID: 4714609694109140471}
-  enemyId: 
+  enemyId: 0002
   _stats:
     <HealthPoint>k__BackingField:
       _value:
@@ -182,21 +182,19 @@ MonoBehaviour:
       statModifiers: []
       _baseValue: 1
   _statsTemplate: {fileID: 11400000, guid: 7b641c5f7ad3c493c9f6f71cb400fdee, type: 2}
-  effectHandler: {fileID: 961302212376726107}
   EffectTakerCollider: {fileID: 2464650525156154373}
-  blackboard: {fileID: 291860766914543287}
+  effectHandler: {fileID: 961302212376726107}
   pushCollider: {fileID: 8959591976242257430}
+  blackboard: {fileID: 291860766914543287}
   MBTExecutor: {fileID: 6092494332393929708}
   Animation: {fileID: 5696707011990469512}
   electricFx: {fileID: 1285242852396960929}
   Projectile: {fileID: 326042506130949033, guid: f0e08edf84664b0478d53a2dffe30f52, type: 3}
   target: {fileID: 0}
   CooldownBehaviour: {fileID: 1637006819063413915}
-  delayTime: 0.5
-  delayTime2: 0.3
-  timer: 0
-  timer2: 0
   FindTargetBehaviour: {fileID: 7770344797633873571}
+  syncAnimationPlayFxTime: 0.5
+  syncAnimationSpawnProjectileTime: 0.8
 --- !u!114 &169621131979774700
 MonoBehaviour:
   m_ObjectHideFlags: 0

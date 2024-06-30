@@ -27,6 +27,7 @@ public class CrewActionHandler : MonoBehaviour
         if (actionCoroutine != null)
         {
             StopCoroutine(actionCoroutine);
+            crew.CrewMovement.Velocity = Vector2.zero;
             if (CurrentAction is not CrewJobAction)
             {
             }

@@ -40,7 +40,12 @@ public class ReloadCannonJob : CrewJob
             yield return crew.CrewMovement.MoveTo(workingSlot.transform.position);
             yield return new WaitForSeconds(0.5f);
             workingSlot.State = NodeState.Free;
+            if (bullet.IsBroken)
+            {
+                yield break;
+            }
             crew.Carry(bullet);
+
         }
         List<Node> availableCannonWorkingSlots = cannon.GetComponent<IWorkLocation>().WorkingSlots
           .Where(slot => slot.State == NodeState.Free)

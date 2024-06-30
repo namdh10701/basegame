@@ -62,6 +62,7 @@ namespace _Game.Scripts.Entities
         public Rarity Rarity { get => rarity; set => rarity = value; }
         public List<Node> WorkingSlots { get => workingSlots; set => workingSlots = value; }
         public List<Node> OccupyingNodes { get => occupyingNodes; set => occupyingNodes = value; }
+        public bool IsBroken { get => isBrokenn; set => isBrokenn = value; }
 
         public List<Node> workingSlots = new List<Node>();
         public List<Node> occupyingNodes = new List<Node>();
@@ -72,6 +73,8 @@ namespace _Game.Scripts.Entities
 
         public Bullet usingBullet;
         public SpineAnimationCannonHandler Animation;
+        public bool isBrokenn;
+
         protected override void Awake()
         {
             base.Awake();

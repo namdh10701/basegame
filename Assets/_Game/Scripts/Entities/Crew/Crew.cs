@@ -36,6 +36,7 @@ namespace _Game.Scripts
         public string GridId { get; set; }
         public List<Node> occupiyingNodes = new List<Node>();
         public List<Node> OccupyingNodes { get => occupiyingNodes; set => occupiyingNodes = value; }
+        public bool IsBroken { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
         private void Start()
         {

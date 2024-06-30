@@ -18,7 +18,6 @@ namespace _Game.Features
         protected override void OnPostCreateContainers()
         {
             UnityScreenNavigatorSettings.Initialize();
-
             ShowTopPage().Forget();
         }
 

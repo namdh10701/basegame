@@ -15,5 +15,7 @@ namespace _Game.Scripts.Entities
 
         public void Deactivate();
         public void OnFixed();
+
+        public bool IsBroken { get; set; }
     }
 }
