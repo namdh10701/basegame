@@ -70,8 +70,16 @@ namespace _Game.Scripts
         public void OnAfterStun()
         {
             CrewAction.Resume();
+            Animation.StopStun();
         }
 
+        private void Update()
+        {
+            if (UnityEngine.Input.GetKeyDown(KeyCode.V))
+            {
+                OnStun(2);
+            }
+        }
         public void Carry(Bullet bullet)
         {
             Animation.PlayCarry();
@@ -80,9 +88,15 @@ namespace _Game.Scripts
 
         public void StopCarry()
         {
-            Animation.PlayIdle();
+            Animation.StopCarry();
             CrewAction.CarryingBullet = null;
         }
+
+        public void Dropdown()
+        {
+            Animation.PlayDropDown();
+        }
+
 
         public void Deactivate()
         {

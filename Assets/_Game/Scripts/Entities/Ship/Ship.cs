@@ -1,5 +1,6 @@
 ﻿using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.RPG.Entities;
+using _Game.Features.Battle;
 using _Game.Scripts.Battle;
 using _Game.Scripts.GD;
 using JetBrains.Annotations;
@@ -26,6 +27,7 @@ namespace _Game.Scripts.Gameplay.Ship
         public Area ShipArea;
         public ShipSpeed ShipSpeed;
         public CrewJobData CrewJobData;
+        public BattleViewModel BattleViewModel;
         protected override void Awake()
         {
             base.Awake();
@@ -35,6 +37,8 @@ namespace _Game.Scripts.Gameplay.Ship
         {
             ShipSetup.LoadShipItems();
             CrewJobData.Initialize();
+            BattleViewModel = GameObject.Find("BattleScreen(Clone)").GetComponent<BattleViewModel>();
+
         }
         protected override void LoadStats()
         {
@@ -65,7 +69,19 @@ namespace _Game.Scripts.Gameplay.Ship
         private void Update()
         {
             RegenMP();
-            RegenHP();
+            //RegenHP();
+            UpdateBattleView();
+        }
+
+        void UpdateBattleView()
+        {
+            if (BattleViewModel != null)
+            {
+                BattleViewModel.HP = stats.HealthPoint.Value;
+                BattleViewModel.MaxHP = stats.HealthPoint.MaxValue;
+                BattleViewModel.MP = stats.ManaPoint.Value;
+                BattleViewModel.MaxMP = stats.ManaPoint.MaxValue;
+            }
         }
 
         void RegenMP()

@@ -24,6 +24,11 @@ namespace _Game.Scripts
         [SerializeField]
         [SpineAnimation]
         string fix;
+        [SerializeField]
+        [SpineAnimation]
+        string dropdown;
+
+        [SerializeField] StunFx stunFx;
         public void PlayFix()
         {
             skeletonAnimation.AnimationState.SetAnimation(0, fix, true);
@@ -38,12 +43,32 @@ namespace _Game.Scripts
         }
         public void PlayCarry()
         {
-            skeletonAnimation.AnimationState.SetAnimation(0, carry, true);
+            skeletonAnimation.AnimationState.SetAnimation(0, move, true);
+            skeletonAnimation.AnimationState.SetAnimation(1, carry, true);
+        }
+
+        public void StopCarry()
+        {
+
+            skeletonAnimation.AnimationState.SetAnimation(0, idle, true);
+            skeletonAnimation.AnimationState.AddEmptyAnimation(1, 0, 0);
         }
 
         public void PlayStun()
         {
-            skeletonAnimation.AnimationState.ClearTracks();
+            PlayIdle();
+            stunFx.Play();
+        }
+
+        public void StopStun()
+        {
+            stunFx.Stop();
+        }
+
+        public void PlayDropDown()
+        {
+            skeletonAnimation.AnimationState.SetEmptyAnimation(1, 0);
+            skeletonAnimation.AnimationState.SetAnimation(0, dropdown, true);
         }
 
         public void AddIdle()
