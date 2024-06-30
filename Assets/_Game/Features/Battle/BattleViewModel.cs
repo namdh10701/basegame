@@ -242,9 +242,14 @@ namespace _Game.Features.Battle
         }
         
         [Binding]
-        public void PauseGame()
+        public async void PauseGame()
         {
             IsPause = !IsPause;
+
+            if (!IsPause) return;
+            
+            var options = new ModalOptions("GamePauseModal");
+            await ModalContainer.Find(ContainerKey.Modals).PushAsync(options);
         }
 
         private readonly int _minSpeedUpRate = 1;
