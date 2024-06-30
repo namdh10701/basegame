@@ -16,7 +16,7 @@ namespace _Game.Features.SeaMap
         {
             await ScreenContainer.Find(ContainerKey.Screens).PopAsync(false);
         }
-        
+
         [Binding]
         public async void ShowNormalFightPopupInfo()
         {
@@ -26,15 +26,22 @@ namespace _Game.Features.SeaMap
 
             int[] array = { 1, 2, 3, 4, 5 };
             var args = new object[] { array }.AsMemory();
-            
+
             await ModalContainer.Find(ContainerKey.Modals).PushAsync(options, args);
         }
-        
+
         [Binding]
         public async void ShowBossFightPopupInfo()
         {
             var options = new ViewOptions("FightNodeInfoModal", true);
             await ModalContainer.Find(ContainerKey.Modals).PushAsync(options);
+        }
+
+        [Binding]
+        public async void NavBattleScene()
+        {
+            var options = new ViewOptions("BattleScreen", true);
+            await ScreenContainer.Find(ContainerKey.Screens).PushAsync(options);
         }
     }
 }

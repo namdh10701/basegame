@@ -15,7 +15,7 @@ namespace _Game.Scripts.Gameplay
         public BattleInputManager BattleInputManager;
         public GridAttackHandler GridAttackHandler;
         public GridPicker GridPicker;
-        private void Awake()
+        public void Initnialize()
         {
             BattleInputManager.gameObject.SetActive(false);
             EntityManager.SpawnShip(selectShipid, shipStartPos.position);
@@ -32,6 +32,13 @@ namespace _Game.Scripts.Gameplay
             EnemyManager.StartLevel();
             BattleInputManager.gameObject.SetActive(true);
             EntityManager.Ship.ShipSetup.CrewController.ActivateCrews();
+        }
+
+
+        public void CleanUp()
+        {
+            //EntityManager.CleanUp();
+
         }
     }
 }

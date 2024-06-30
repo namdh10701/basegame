@@ -22,6 +22,7 @@ namespace _Game.Scripts.Entities
             Ship Ship = FindAnyObjectByType<Ship>();
             Vector2 targetPos = Ship.EffectCollider.GetComponent<Collider2D>().ClosestPoint(transform.position);
             PufferFishMove.direction.BaseValue = (targetPos - (Vector2)transform.position).normalized;
+            PufferFishMove.direction.RefreshValue();
             yield return base.Start();
         }
         bool isAttacking;
