@@ -6,15 +6,15 @@ namespace _Base.Scripts.UI
 {
     public class InventoryItem : MonoBehaviour
     {
-        [SerializeField] private Image _icon;
+        [SerializeField] public Image Icon;
         private InventoryItemInfo _inventoryItemInfo;
         private int[,] _shape;
 
         public void Setup(InventoryItemInfo inventoryItemInfo)
         {
             _inventoryItemInfo = inventoryItemInfo;
-            _icon.sprite = inventoryItemInfo.inventoryItemData.sprite;
-            _icon.SetNativeSize();
+            Icon.sprite = inventoryItemInfo.inventoryItemData.gridItemDef.Image;
+            Icon.SetNativeSize();
             _shape = Shape.ShapeDic[inventoryItemInfo.inventoryItemData.gridItemDef.ShapeId];
             this.transform.localPosition = inventoryItemInfo.inventoryItemData.position;
         }

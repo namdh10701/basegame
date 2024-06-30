@@ -11,7 +11,6 @@ namespace _Base.Scripts.UI
         public int startY;
         public string gridID;
         public Vector2 position;
-        public Sprite sprite;
         public GridItemDef gridItemDef;
     }
 

@@ -12,27 +12,43 @@ namespace _Base.Scripts.UI
         [SerializeField] private InventoryItemsConfig _TestinventoryItemsConfig;
         [SerializeField] public RectTransform m_rect;
 
-        List<InventoryItem> _inventoryItems = new List<InventoryItem>();
+        [SerializeField] GameObject _tash;
+        [SerializeField] GameObject _gridImage;
 
-        void Awake()
-        {
-            Initialize();
-        }
+        public List<InventoryItem> InventoryItems = new List<InventoryItem>();
+
+        // void Awake()
+        // {
+        //     Initialize();
+        // }
 
         void OnEnable()
         {
-            AddInventoryItemsInfo(_TestinventoryItemsConfig.inventoryItemsInfo, GridConfig.grids[1]);
-            LoadInventoryItems();
+            // AddInventoryItemsInfo(_TestinventoryItemsConfig.inventoryItemsInfo, GridConfig.grids[1]);
+            // LoadInventoryItems();
         }
 
 
-        private void LoadInventoryItems()
+
+        public void LoadInventoryItems()
         {
+            // AddInventoryItemsInfo(_TestinventoryItemsConfig.inventoryItemsInfo, GridConfig.grids[1]);
             for (int i = 0; i < GridConfig.grids.Count; i++)
             {
                 if (GridConfig.grids[i].inventoryItemsConfig.inventoryItemsInfo.Count > 0)
                     LoadInventoryItemsOnGrid(GridConfig.grids[i].inventoryItemsConfig.inventoryItemsInfo, GridConfig.grids[i], ParentCells[i]);
             }
+        }
+
+        public void EnableDragItem(bool enable)
+        {
+            foreach (var item in InventoryItems)
+            {
+                item.Icon.raycastTarget = enable;
+            }
+            _tash.SetActive(enable);
+            _gridImage.SetActive(enable);
+
         }
 
         [ContextMenu("Add item")]
@@ -63,7 +79,7 @@ namespace _Base.Scripts.UI
             Debug.Log(count);
         }
 
-        private void Initialize()
+        public void Initialize()
         {
             for (int i = 0; i < GridConfig.grids.Count; i++)
             {
@@ -152,6 +168,18 @@ namespace _Base.Scripts.UI
 
         }
 
+        public void RemoveInventoryItemsInfoEndDrag(InventoryItemInfo inventoryItemInfo, GridInfor gridInfor)
+        {
+            foreach (var grid in GridConfig.grids)
+            {
+                if (grid.id == gridInfor.id)
+                {
+                    grid.inventoryItemsConfig.inventoryItemsInfo.Remove(inventoryItemInfo);
+                }
+            }
+
+        }
+
         public void RemoveInventoryItemsInfo(List<InventoryItemInfo> inventoryItems, GridInfor grid)
         {
             var itemsToRemove = new List<InventoryItemInfo>();
@@ -183,17 +211,17 @@ namespace _Base.Scripts.UI
                 inventoryItem.inventoryItemData.gridID = grid.id;
                 var item = Instantiate<InventoryItem>(grid.inventoryItemsConfig.InventoryItem, parent);
                 item.Setup(inventoryItem);
-                _inventoryItems.Add(item);
+                InventoryItems.Add(item);
             }
         }
 
         private void RemoveAllInventoryItems()
         {
-            foreach (var item in _inventoryItems)
+            foreach (var item in InventoryItems)
             {
                 Destroy(item.gameObject);
             }
-            _inventoryItems.Clear();
+            InventoryItems.Clear();
         }
 
         public bool CheckPlaceItem(InventoryItemInfo inventoryItemInfo, GridInfor grid)
