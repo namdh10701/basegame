@@ -14,7 +14,6 @@ namespace _Base.Scripts.UI
     [Serializable]
     public class InventoryItemInfo
     {
-        public string id;
         public InventoryItemData inventoryItemData;
     }
 }

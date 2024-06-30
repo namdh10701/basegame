@@ -30,13 +30,14 @@ namespace _Game.Features.Shop
                 OnPropertyChanged(nameof(ActiveNavIndex));
 
                 // NavTo((Nav)value);
+
             }
         }
 
         #endregion
-        
+
         private List<PirateItem> itemSource = new List<PirateItem>();
-        
+
         #region Binding: Items
 
         private ObservableList<PirateItem> items = new ObservableList<PirateItem>();
@@ -87,12 +88,12 @@ namespace _Game.Features.Shop
         }
         private PirateItem _highlightItem;
 
-        // #region Binding Prop: FilterItemType
-        //
-        // [Binding]
-        // public ShopItem.ItemType FilterItemType => (ShopItem.ItemType)_filterItemTypeIndex;
-        //
-        // #endregion
+        #region Binding Prop: FilterItemType
+
+        [Binding]
+        public PirateItemType FilterItemType => (PirateItemType)_filterItemTypeIndex;
+
+        #endregion
 
         #region Binding Prop: FilterItemTypeIndex
 
@@ -127,25 +128,30 @@ namespace _Game.Features.Shop
             Items.AddRange(itemSource.Where(v => v.Type == itemType));
         }
 
+        void Awake()
+        {
+            InitializeInternal();
+        }
+
         protected void InitializeInternal()
         {
             for (int i = 0; i < 3; i++)
             {
-                itemSource.Add(new PirateItem {  PirateViewModel = this, Type = PirateItemType.GOLD });
+                itemSource.Add(new PirateItem { Id = "1", PirateViewModel = this, Type = PirateItemType.GOLD, Price = 100 * i, Name = "Rocket ammo" });
             }
-            
-           
-            
+
+
+
             for (int i = 0; i < 30; i++)
             {
-                itemSource.Add(new PirateItem {  PirateViewModel = this, Type = PirateItemType.GEM });
+                itemSource.Add(new PirateItem { Id = "1", PirateViewModel = this, Type = PirateItemType.GEM, Price = 100 * i, Name = "Rocket ammo" });
             }
-            
+
             DoFilter();
         }
-        
-        
-        
+
+
+
         [Binding]
         public void OnEquipSelectedItems()
         {
@@ -154,7 +160,7 @@ namespace _Game.Features.Shop
                 item.IsEquipped = true;
             }
         }
-        
+
         [Binding]
         public void ToggleMultiSelect()
         {

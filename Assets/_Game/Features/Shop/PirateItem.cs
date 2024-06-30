@@ -13,8 +13,8 @@ namespace _Game.Features.Shop
 
     public enum PirateItemType
     {
-        GOLD,
         GEM,
+        GOLD
     }
     public class InventoryPirateItemDto
     {
@@ -76,9 +76,13 @@ namespace _Game.Features.Shop
             }
         }
 
-        private float m_price;
+        private float m_price = 0;
 
         #endregion
+        [Binding]
+        public string PriceText => m_price.ToString();
+
+
 
         #region Binding Prop: ItemType
 
@@ -106,7 +110,10 @@ namespace _Game.Features.Shop
         #endregion
 
         [Binding]
-        public Sprite Thumbnail => Resources.Load<Sprite>($"Images/Cannon/cannon_{Id}");
+        public Sprite Thumbnail => Resources.Load<Sprite>($"PirateItems/{m_type.ToString()}_{Id}");
+
+        [Binding]
+        public Sprite IconButton => Resources.Load<Sprite>($"img_pirate_iconItem_{m_type.ToString()}");
 
         #region Binding Prop: IsSelected
 
