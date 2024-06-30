@@ -88,10 +88,10 @@ namespace _Game.Features.WorldMap
 
         private async void OnSelected()
         {
-            PopupManager.Instance.ShowPopup<SeaMapNodeInfoPopup.SeaMapNodeInfoPopup>();
+            // PopupManager.Instance.ShowPopup<SeaMapNodeInfoPopup.SeaMapNodeInfoPopup>();
             
-            // var options = new ViewOptions("SeaMapScreen", true);
-            // await ScreenContainer.Find(ContainerKey.Screens).PushAsync(options);
+            var options = new ViewOptions("SeaMapScreen", true);
+            await ScreenContainer.Find(ContainerKey.Screens).PushAsync(options);
             // ModalContainer.Find(ContainerKey.Modals).Push(options);
         }
 
