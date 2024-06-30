@@ -611,7 +611,6 @@ GameObject:
   - component: {fileID: 7184793534916592738}
   - component: {fileID: 504985864507731759}
   - component: {fileID: 5627523394059015418}
-  - component: {fileID: 5737192135733204502}
   m_Layer: 5
   m_Name: Btn_Ship_Selection
   m_TagString: Untagged
@@ -747,20 +746,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Selected: {fileID: 3060225420648086006}
---- !u!114 &5737192135733204502
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1522812242894771437}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1360956885, guid: e650e72e8be47794994495fc15c0ba63, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  viewModelMethodName: _Game.Features.Home.MyShipScreen.NavToShipSelection
-  viewEventName: UnityEngine.UI.Button.onClick
 --- !u!1 &1619744587948849750
 GameObject:
   m_ObjectHideFlags: 0
@@ -931,7 +916,7 @@ GameObject:
   - component: {fileID: 1759113652078528882}
   - component: {fileID: 6173679909808395278}
   m_Layer: 5
-  m_Name: MyShipScreen
+  m_Name: CScreen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -971,9 +956,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _shipsConfig: {fileID: 11400000, guid: 85cc12feb1e2e73449fe687ba245cd94, type: 2}
   _tabEditShip: {fileID: 5132751141569520713}
+  _tash: {fileID: 6144540514421195350}
+  _grid: {fileID: 1834603571281036656}
+  _gridImage: {fileID: 2561912756852696508}
   _btnShipSelection: {fileID: 504985864507731759}
   _btnShipEdit: {fileID: 6048830126635808228}
   _parentShip: {fileID: 2358346327671926375}
+  _gridManager: {fileID: 1621520643833441177}
 --- !u!1 &2709362948565813283
 GameObject:
   m_ObjectHideFlags: 0
@@ -4336,6 +4325,32 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1dc23d20872b7184097fafd86367d715, type: 3}
+--- !u!114 &1621520643833441177 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2774396938400249788, guid: 1dc23d20872b7184097fafd86367d715, type: 3}
+  m_PrefabInstance: {fileID: 3458886833832762405}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41294fb2947f30b4ab83fc7990e59b00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &1834603571281036656 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2987501759171008853, guid: 1dc23d20872b7184097fafd86367d715, type: 3}
+  m_PrefabInstance: {fileID: 3458886833832762405}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2561912756852696508 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1409012245100214681, guid: 1dc23d20872b7184097fafd86367d715, type: 3}
+  m_PrefabInstance: {fileID: 3458886833832762405}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6144540514421195350 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7297419319685865075, guid: 1dc23d20872b7184097fafd86367d715, type: 3}
+  m_PrefabInstance: {fileID: 3458886833832762405}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &7365064817024462657 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6212038740032418660, guid: 1dc23d20872b7184097fafd86367d715, type: 3}

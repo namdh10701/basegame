@@ -22,7 +22,7 @@ namespace _Game.Features.Home
 
         void Awake()
         {
-            Initialize("0003");
+            Initialize("0001");
         }
 
         void OnEnable()
@@ -75,9 +75,9 @@ namespace _Game.Features.Home
 
 
         [Binding]
-        public async void NavToWoldMapScreen()
+        public async void NavToShipSelection()
         {
-            var options = new ViewOptions("WorldMapScreen", false, loadAsync: false);
+            var options = new ViewOptions("ShipSelectionScreen", false, loadAsync: false);
 
             await ScreenContainer.Of(transform).PushAsync(options);
             // await Launcher.ContainerManager.Find<ScreenContainer>(ContainerKey.Screens).PushAsync(options);
