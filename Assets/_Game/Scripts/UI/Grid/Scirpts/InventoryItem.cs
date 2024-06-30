@@ -15,7 +15,7 @@ namespace _Base.Scripts.UI
             _inventoryItemInfo = inventoryItemInfo;
             _icon.sprite = inventoryItemInfo.inventoryItemData.sprite;
             _icon.SetNativeSize();
-            _shape = Shape.ShapeDic[inventoryItemInfo.inventoryItemData.shapeId];
+            _shape = Shape.ShapeDic[inventoryItemInfo.inventoryItemData.gridItemDef.ShapeId];
             this.transform.localPosition = inventoryItemInfo.inventoryItemData.position;
         }
 
