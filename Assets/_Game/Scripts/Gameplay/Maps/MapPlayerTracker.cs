@@ -2,17 +2,20 @@
 using System.Linq;
 using _Base.Scripts.UI;
 using _Base.Scripts.UI.Managers;
+using _Game.Features;
 using _Game.Scripts.Managers;
 using _Game.Scripts.UI;
 using DG.Tweening;
 using UnityEngine;
+using ZBase.UnityScreenNavigator.Core.Modals;
+using ZBase.UnityScreenNavigator.Core.Views;
 
 namespace Map
 {
     public class MapPlayerTracker : MonoBehaviour
     {
         public bool lockAfterSelecting = false;
-        public float enterNodeDelay = 1f;
+        public float enterNodeDelay = 0f;
         public MapManager mapManager;
         public MapView view;
 
@@ -67,9 +70,10 @@ namespace Map
                     {
                         if (mapNode.Node == currentNode)
                         {
-                            LevelInfoPopup levelInfoPopup = PopupManager.Instance.GetPopup<LevelInfoPopup>();
-                            levelInfoPopup.SetData(mapNode);
-                            PopupManager.Instance.ShowPopup(levelInfoPopup);
+                            // LevelInfoPopup levelInfoPopup = PopupManager.Instance.GetPopup<LevelInfoPopup>();
+                            // levelInfoPopup.SetData(mapNode);
+                            // PopupManager.Instance.ShowPopup(levelInfoPopup);
+                            ShowInfoPopup(mapNode.Node);
                         }
                     }
                 }
@@ -97,9 +101,10 @@ namespace Map
                     {
                         if (mapNode.Node == currentNode)
                         {
-                            LevelInfoPopup levelInfoPopup = PopupManager.Instance.GetPopup<LevelInfoPopup>();
-                            levelInfoPopup.SetData(mapNode);
-                            PopupManager.Instance.ShowPopup(levelInfoPopup);
+                            // LevelInfoPopup levelInfoPopup = PopupManager.Instance.GetPopup<LevelInfoPopup>();
+                            // levelInfoPopup.SetData(mapNode);
+                            // PopupManager.Instance.ShowPopup(levelInfoPopup);
+                            ShowInfoPopup(mapNode.Node);
                         }
                     }
 
@@ -109,6 +114,7 @@ namespace Map
 
         private void SendPlayerToNode(MapNode mapNode)
         {
+            Debug.Log("SendPlayerToNode");
             Locked = lockAfterSelecting;
             if (mapManager.CurrentMap.path.Count > 0)
             {
@@ -127,9 +133,16 @@ namespace Map
             mapManager.SaveMap();
             view.SetAttainableNodes();
             view.SetLineColors();
-            mapNode.ShowSwirlAnimation();
+            // mapNode.ShowSwirlAnimation();
 
-            DOTween.Sequence().AppendInterval(enterNodeDelay).OnComplete(() => EnterNode(mapNode));
+            if (enterNodeDelay > 0)
+            {
+                DOTween.Sequence().AppendInterval(enterNodeDelay).OnComplete(() => EnterNode(mapNode));
+            }
+            else
+            {
+                EnterNode(mapNode);
+            }
         }
 
         private static void EnterNode(MapNode mapNode)
@@ -151,9 +164,11 @@ namespace Map
                     throw new ArgumentOutOfRangeException();
             }
 
-            LevelInfoPopup levelInfoPopup = PopupManager.Instance.GetPopup<LevelInfoPopup>();
-            levelInfoPopup.SetData(mapNode);
-            PopupManager.Instance.ShowPopup(levelInfoPopup);
+            // LevelInfoPopup levelInfoPopup = PopupManager.Instance.GetPopup<LevelInfoPopup>();
+            // levelInfoPopup.SetData(mapNode);
+            // PopupManager.Instance.ShowPopup(levelInfoPopup);
+            
+            ShowInfoPopup(mapNode.Node);
         }
 
         private void PlayWarningThatNodeCannotBeAccessed()
@@ -178,6 +193,15 @@ namespace Map
             view.SetAttainableNodes();
             view.SetLineColors();
 
+        }
+
+        static async void ShowInfoPopup(Node mapNode)
+        {
+            var options = new ViewOptions("FightNodeInfoModal", true);
+            
+            var args = new object[] { mapNode }.AsMemory();
+            
+            await ModalContainer.Find(ContainerKey.Modals).PushAsync(options, args);
         }
     }
 }
