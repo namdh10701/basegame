@@ -278,6 +278,8 @@ GameObject:
   - component: {fileID: 4082930100035404540}
   - component: {fileID: -3119687737808314467}
   - component: {fileID: -7255165818853529643}
+  - component: {fileID: 4353844542100523617}
+  - component: {fileID: 6559459998068029524}
   m_Layer: 5
   m_Name: FightNodeInfoModal
   m_TagString: Untagged
@@ -345,6 +347,33 @@ MonoBehaviour:
   _animationContainer:
     _enterAnimations: []
     _exitAnimations: []
+  ViewModel: {fileID: 4353844542100523617}
+--- !u!114 &4353844542100523617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1814889502892698750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15a5d6c323a141feb48c35c6c18af5bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6559459998068029524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1814889502892698750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1360956885, guid: e650e72e8be47794994495fc15c0ba63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  viewModelMethodName: 
+  viewEventName: 
 --- !u!1 &1953317564139321077
 GameObject:
   m_ObjectHideFlags: 0
@@ -603,7 +632,7 @@ MonoBehaviour:
   m_Script: {fileID: 1223786303, guid: e650e72e8be47794994495fc15c0ba63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewModelPropertyName: _Game.Features.SeaMapNodeInfoPopup.SeaMapNodeInfoPopup.Items
+  viewModelPropertyName: _Game.Features.FightNodeInfo.FightNodeInfoViewModel.Items
   templatesRoot: {fileID: 2074317476927365731}
 --- !u!114 &664595479594077159
 MonoBehaviour:
@@ -1344,13 +1373,35 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5372131827885761618, guid: 1988fb203afe08b4885857f0926e10ba, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3845122866970129053}
   m_SourcePrefab: {fileID: 100100000, guid: 1988fb203afe08b4885857f0926e10ba, type: 3}
 --- !u!224 &481762631698809873 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 21921443318712800, guid: 1988fb203afe08b4885857f0926e10ba, type: 3}
   m_PrefabInstance: {fileID: 496084117487537649}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &5507854580584393123 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5372131827885761618, guid: 1988fb203afe08b4885857f0926e10ba, type: 3}
+  m_PrefabInstance: {fileID: 496084117487537649}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3845122866970129053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5507854580584393123}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1360956885, guid: e650e72e8be47794994495fc15c0ba63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  viewModelMethodName: _Game.Features.FightNodeInfo.FightNodeInfoViewModel.NavToBattle
+  viewEventName: UnityEngine.UI.Button.onClick
 --- !u!1001 &2283170903863069224
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1707,8 +1758,30 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5372131827885761618, guid: 83c4c442d2c70481f9acb8191509a049, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1031568863347537004}
   m_SourcePrefab: {fileID: 100100000, guid: 83c4c442d2c70481f9acb8191509a049, type: 3}
+--- !u!1 &3836390224185599176 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5372131827885761618, guid: 83c4c442d2c70481f9acb8191509a049, type: 3}
+  m_PrefabInstance: {fileID: 9200922184614035610}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1031568863347537004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3836390224185599176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1360956885, guid: e650e72e8be47794994495fc15c0ba63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  viewModelMethodName: _Game.Features.FightNodeInfo.FightNodeInfoViewModel.NavToMyShip
+  viewEventName: UnityEngine.UI.Button.onClick
 --- !u!224 &9222770147420768634 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 21921443318712800, guid: 83c4c442d2c70481f9acb8191509a049, type: 3}
