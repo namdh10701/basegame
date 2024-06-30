@@ -2,18 +2,30 @@ using Spine.Unity;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 [ExecuteAlways]
 public class SortOrderByYPos : MonoBehaviour
 {
     MeshRenderer partRenderer;
+    SortingGroup sortingGroup;
     public Transform sortPivot;
     private void Start()
     {
         partRenderer = GetComponent<MeshRenderer>();
+        sortingGroup = GetComponent<SortingGroup>();
     }
     private void Update()
     {
-        partRenderer.sortingOrder = Mathf.RoundToInt(sortPivot.position.y * -100);
+        if (partRenderer != null)
+        {
+
+            partRenderer.sortingOrder = Mathf.RoundToInt(sortPivot.position.y * -100);
+        }
+        else
+        {
+            sortingGroup.sortingOrder = Mathf.RoundToInt(sortPivot.position.y * -100);
+        }
+
     }
 }

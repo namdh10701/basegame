@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &207835774230460153
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8020530898178280059}
+  m_Layer: 0
+  m_Name: SortPivot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8020530898178280059
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 207835774230460153}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.907, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8689133667658834045}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1077647784472003814
 GameObject:
   m_ObjectHideFlags: 0
@@ -810,6 +841,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7458280539013136319}
+  - component: {fileID: 3745554619079497107}
+  - component: {fileID: 695447657152825564}
   m_Layer: 0
   m_Name: Shadow
   m_TagString: Untagged
@@ -834,6 +867,34 @@ Transform:
   - {fileID: 4587481753060151014}
   m_Father: {fileID: 8689133667658834045}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!210 &3745554619079497107
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6319056841585611780}
+  m_Enabled: 1
+  m_SortingLayerID: -285313645
+  m_SortingLayer: 3
+  m_SortingOrder: -92
+  m_SortAtRoot: 0
+--- !u!114 &695447657152825564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6319056841585611780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a8baf7ece5389d4191bc1d7d033fd15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TargetSortingGroup: {fileID: 518257654960625859}
+  sortGroup: {fileID: 0}
+  offset: -1
+  sortingGroup: {fileID: 3745554619079497107}
 --- !u!1 &6368443215575121631
 GameObject:
   m_ObjectHideFlags: 0
@@ -1075,6 +1136,7 @@ GameObject:
   - component: {fileID: 5423925770446772828}
   - component: {fileID: -3935172170144460802}
   - component: {fileID: 8496046813067209035}
+  - component: {fileID: 7179617302357387444}
   m_Layer: 0
   m_Name: Gun 1(Normal) - Slow
   m_TagString: Untagged
@@ -1098,6 +1160,7 @@ Transform:
   - {fileID: 2001584058685656113}
   - {fileID: 7458280539013136319}
   - {fileID: 5906205920612652647}
+  - {fileID: 8020530898178280059}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &330195023236793017
@@ -1128,7 +1191,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: c61c8b004bb6ea342983ac205d16459a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1148,7 +1211,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -285313645
   m_SortingLayer: 3
-  m_SortingOrder: 1
+  m_SortingOrder: -91
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &5423925770446772828
 MonoBehaviour:
@@ -1224,6 +1287,19 @@ MonoBehaviour:
   maxSize: 10
   poolObjectPrefab: {fileID: 7730889870333997432}
   root: {fileID: 8214250931276031745}
+--- !u!114 &7179617302357387444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7582196007244772607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1127a87bf506384ea4d67e8ee452513, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortPivot: {fileID: 8020530898178280059}
 --- !u!1 &7677837427824990878
 GameObject:
   m_ObjectHideFlags: 0

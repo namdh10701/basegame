@@ -13,12 +13,16 @@ namespace _Game.Scripts.Gameplay
         public LevelStartSequence LevelStartSequence;
         public EnemyManager EnemyManager;
         public BattleInputManager BattleInputManager;
+        public GridAttackHandler GridAttackHandler;
+        public GridPicker GridPicker;
         private void Awake()
         {
             BattleInputManager.gameObject.SetActive(false);
             EntityManager.SpawnShip(selectShipid, shipStartPos.position);
             LevelStartSequence.shipSpeed = EntityManager.Ship.ShipSpeed;
             BattleInputManager.shipSetup = EntityManager.Ship.ShipSetup;
+            GridAttackHandler.ship = EntityManager.Ship;
+            GridPicker.ShipGrid = EntityManager.Ship.ShipSetup;
             StartCoroutine(LevelEntryCoroutine());
         }
 

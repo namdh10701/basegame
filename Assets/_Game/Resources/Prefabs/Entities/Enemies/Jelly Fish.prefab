@@ -100,7 +100,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2388446250967025661
 Transform:
   m_ObjectHideFlags: 0
@@ -233,6 +233,12 @@ MonoBehaviour:
   projectilePrefab: {fileID: 1364860213531301939, guid: ec6d4d31d716e944f83b2a1a480051ab, type: 3}
   AttackPatternProfile: {fileID: 11400000, guid: 58366f42f4411d84592c6c57915e0775, type: 2}
   meeleAttackProfile: {fileID: 11400000, guid: b49bf91977863c045a41f7baf9c2f44d, type: 2}
+  gridAttackHandler: {fileID: 0}
+  gridPicker: {fileID: 0}
+  AttackDamage:
+    statModifiers: []
+    _baseValue: 0
+  JellyFish: {fileID: 7234317534750435984}
 --- !u!114 &1581707943620237759
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1183,7 +1189,7 @@ MonoBehaviour:
     mode: 0
     blackboard: {fileID: 0}
     key: 
-    constantValue: 3
+    constantValue: 1
   randomDeviation: 0.5
   continueOnRestart: 0
 --- !u!114 &5301471771998810803
@@ -1328,7 +1334,7 @@ MonoBehaviour:
   rect:
     serializedVersion: 2
     x: -496
-    y: 1027
+    y: 1015
     width: 160
     height: 45
   parent: {fileID: 2292212727985725049}
@@ -1342,7 +1348,7 @@ MonoBehaviour:
     blackboard: {fileID: 0}
     key: 
     constantValue: 1
-  randomDeviation: 0
+  randomDeviation: 0.5
   continueOnRestart: 0
 --- !u!114 &2424270011897663428
 MonoBehaviour:
@@ -1564,8 +1570,8 @@ MonoBehaviour:
   title: Approach
   rect:
     serializedVersion: 2
-    x: -304
-    y: 985
+    x: -283
+    y: 976
     width: 160
     height: 45
   parent: {fileID: 4980967081634445799}
@@ -1602,8 +1608,8 @@ MonoBehaviour:
   title: Update Target In Range
   rect:
     serializedVersion: 2
-    x: -303
-    y: 890
+    x: -283
+    y: 859
     width: 160
     height: 45
   parent: {fileID: 8215015249262891172}
@@ -2347,7 +2353,7 @@ PrefabInstance:
     - target: {fileID: 731438699079128055, guid: 46f21a2cea182034aa9ef095cd474d50, type: 3}
       propertyPath: meshRenderer
       value: 
-      objectReference: {fileID: 7515424669651617539}
+      objectReference: {fileID: 232230559458106920}
     - target: {fileID: 3087664226200851723, guid: 46f21a2cea182034aa9ef095cd474d50, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2390,7 +2396,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5392517042907898983, guid: 46f21a2cea182034aa9ef095cd474d50, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7935441606453301843, guid: 46f21a2cea182034aa9ef095cd474d50, type: 3}
       propertyPath: m_Name
@@ -2401,6 +2407,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46f21a2cea182034aa9ef095cd474d50, type: 3}
+--- !u!23 &232230559458106920 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2084564692342889273, guid: 46f21a2cea182034aa9ef095cd474d50, type: 3}
+  m_PrefabInstance: {fileID: 2293687898170901777}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1581404908438099686 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 731438699079128055, guid: 46f21a2cea182034aa9ef095cd474d50, type: 3}
@@ -2425,10 +2436,5 @@ Transform:
 --- !u!4 &3822789434130354202 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3087664226200851723, guid: 46f21a2cea182034aa9ef095cd474d50, type: 3}
-  m_PrefabInstance: {fileID: 2293687898170901777}
-  m_PrefabAsset: {fileID: 0}
---- !u!23 &7515424669651617539 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 8617908463585722898, guid: 46f21a2cea182034aa9ef095cd474d50, type: 3}
   m_PrefabInstance: {fileID: 2293687898170901777}
   m_PrefabAsset: {fileID: 0}

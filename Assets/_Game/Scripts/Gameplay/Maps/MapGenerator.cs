@@ -11,7 +11,7 @@ namespace Map
         private static MapConfig config;
 
         private static readonly List<NodeType> RandomNodes = new List<NodeType>
-        {NodeType.Armory, NodeType.Shop, NodeType.Relic, NodeType.MinorEnemy, NodeType.RestSite};
+        {NodeType.Armory, NodeType.Mystery, NodeType.Treasure, NodeType.MinorEnemy, NodeType.MiniBoss};
 
         private static List<float> layerDistances;
         private static List<List<Point>> paths;

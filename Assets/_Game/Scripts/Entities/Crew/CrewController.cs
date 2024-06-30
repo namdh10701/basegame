@@ -39,7 +39,10 @@ public class CrewController : MonoBehaviour
             if (freeCrews.Count > 0)
             {
                 Crew crew = GetClosetCrewToJob(crewJob, freeCrews);
-                AssignJob(crew, crewJob);
+                if (crew != null)
+                {
+                    AssignJob(crew, crewJob);
+                }
             }
         }
     }
@@ -87,6 +90,21 @@ public class CrewController : MonoBehaviour
 
     Crew GetMostSuitableCrewForJob(CrewJob crewJob)
     {
+        foreach (Crew crew in crews)
+        {
+            if (crew.CrewAction.CurrentAction != null && crew.CrewAction.CurrentAction is CrewJobAction crewJobaction)
+            {
+                if (crewJobaction.CrewJob == crewJob)
+                {
+                    return crew;
+                }
+            }
+        }
+        Debug.Log("GEt Suitable crew job");
+        if (crewJob.WorkLocation.WorkingSlots.Count == 0)
+        {
+            return null;
+        }
         List<Crew> ret = GetFreeCrews();
         Crew closestFreeCrew = GetClosetCrewToJob(crewJob, ret);
         if (closestFreeCrew != null)

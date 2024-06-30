@@ -1,5 +1,6 @@
 using _Game.Scripts;
 using _Game.Scripts.Battle;
+using _Game.Scripts.BehaviourTree;
 using _Game.Scripts.Entities;
 using System.Collections;
 using System.Collections.Generic;
@@ -59,6 +60,7 @@ public class JellyFish : Enemy
     {
         base.Die();
         anim.PlayDie(() => Destroy(gameObject));
+        StopAllCoroutines();
     }
     public override void Move()
     {
@@ -66,8 +68,21 @@ public class JellyFish : Enemy
 
     public override IEnumerator StartActionCoroutine()
     {
-        anim.Appear();
+        anim.Appear(); CameraShake.Shake(Camera.main, 3f, .1f);
+        _Game.Scripts.BehaviourTree.Wander wander = MBTExecutor.GetComponent<_Game.Scripts.BehaviourTree.Wander>();
+        EffectTakerCollider.gameObject.SetActive(false);
         yield return new WaitForSeconds(4.5f);
+        EffectTakerCollider.gameObject.SetActive(true); 
+        float rand = Random.Range(0, 1f);
+        if (rand < .5f)
+        {
+            wander.ToLeft();
+        }
+        else
+        {
+            wander.ToRight();
+        }
+        wander.UpdateTargetDirection(-50,50);
     }
 
     public void Attack()

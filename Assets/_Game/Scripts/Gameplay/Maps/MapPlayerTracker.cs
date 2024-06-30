@@ -143,14 +143,6 @@ namespace Map
             {
                 case NodeType.MinorEnemy:
                     break;
-                case NodeType.EliteEnemy:
-                    break;
-                case NodeType.RestSite:
-                    break;
-                case NodeType.Relic:
-                    break;
-                case NodeType.Shop:
-                    break;
                 case NodeType.Boss:
                     break;
                 case NodeType.Armory:

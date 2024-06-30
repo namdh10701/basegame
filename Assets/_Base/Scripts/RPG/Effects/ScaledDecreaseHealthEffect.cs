@@ -37,7 +37,14 @@ public class ScaledDecreaseHealthEffect : OneShotEffect
         if (entity is Ship || entity is Crew || entity is Cannon || entity is Cell)
         {
             finalAmount = PlayerAmount;
+
+            if (entity is Ship)
+            {
+                blockChance = ((ShipStats)entity.Stats).BlockChance.Value;
+                finalAmount = PlayerAmount / 100 * (1 - blockChance);
+            }
         }
+
         else
         {
             finalAmount = EnemyAmount;

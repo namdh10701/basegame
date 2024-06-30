@@ -5,12 +5,11 @@ namespace Map
     public enum NodeType
     {
         MinorEnemy,
-        EliteEnemy,
-        RestSite,
-        Relic,
-        Shop,
+        MiniBoss,
+        Treasure,
         Boss,
-        Armory
+        Armory,
+        Mystery
     }
 }
 

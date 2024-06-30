@@ -1,4 +1,5 @@
 using _Base.Scripts.RPG.Effects;
+using _Base.Scripts.RPG.Stats;
 using _Game.Scripts;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,12 +16,15 @@ public class JellyFishAttack : MonoBehaviour
     public AttackPatternProfile AttackPatternProfile;
     public AttackPatternProfile meeleAttackProfile;
 
-    GridAttackHandler gridAttackHandler;
-    GridPicker gridPicker;
+    public GridAttackHandler gridAttackHandler;
+    public GridPicker gridPicker;
+    public Stat AttackDamage;
+    public JellyFish JellyFish;
     private void Start()
     {
         gridAttackHandler = FindAnyObjectByType<GridAttackHandler>();
         gridPicker = FindAnyObjectByType<GridPicker>();
+        AttackDamage = ((EnemyStats)JellyFish.Stats).AttackDamage;
 
     }
     public void DoLeftAttack()
@@ -28,7 +32,7 @@ public class JellyFishAttack : MonoBehaviour
         IsLeftHandAttack = false;
         SelectCells();
         JellyFishProjectile projectile = Instantiate(projectilePrefab);
-        projectile.SetData(enemyAttackData, leftShootPos.transform.position, 30);
+        projectile.SetData(enemyAttackData, leftShootPos.transform.position, 15);
         projectile.Launch();
     }
 
@@ -37,7 +41,7 @@ public class JellyFishAttack : MonoBehaviour
         IsLeftHandAttack = true;
         SelectCells();
         JellyFishProjectile projectile = Instantiate(projectilePrefab);
-        projectile.SetData(enemyAttackData, rightShootPos.transform.position, -30);
+        projectile.SetData(enemyAttackData, rightShootPos.transform.position, -15);
         projectile.Launch();
     }
 
@@ -47,7 +51,7 @@ public class JellyFishAttack : MonoBehaviour
         enemyAttackData.TargetCells = gridPicker.PickCells(transform, AttackPatternProfile, out Cell centerCell);
         enemyAttackData.CenterCell = centerCell;
         DecreaseHealthEffect decreaseHp = new GameObject("", typeof(DecreaseHealthEffect)).GetComponent<DecreaseHealthEffect>();
-        decreaseHp.Amount = 3;// Take from boss stats;
+        decreaseHp.Amount = AttackDamage.Value;// Take from boss stats;
         enemyAttackData.Effects = new List<Effect> { decreaseHp };
     }
 
@@ -59,10 +63,11 @@ public class JellyFishAttack : MonoBehaviour
         enemyAttackData.CenterCell = centerCell;
 
         DecreaseHealthEffect decreaseHp = new GameObject("", typeof(DecreaseHealthEffect)).GetComponent<DecreaseHealthEffect>();
-        decreaseHp.Amount = 3;// Take from boss stats;
+        decreaseHp.Amount = AttackDamage.Value;// Take from boss stats;
         enemyAttackData.Effects = new List<Effect> { decreaseHp };
 
         gridAttackHandler.ProcessAttack(enemyAttackData);
+        CameraShake.Shake(Camera.main, .2f, .1f);
     }
 
     public void DoRightMelleAttack()
@@ -71,10 +76,11 @@ public class JellyFishAttack : MonoBehaviour
         enemyAttackData.TargetCells = gridPicker.PickCells(rightShootPos, meeleAttackProfile, out Cell centerCell);
         enemyAttackData.CenterCell = centerCell;
         DecreaseHealthEffect decreaseHp = new GameObject("", typeof(DecreaseHealthEffect)).GetComponent<DecreaseHealthEffect>();
-        decreaseHp.Amount = 3;// Take from boss stats;
+        decreaseHp.Amount = AttackDamage.Value;// Take from boss stats;
 
         enemyAttackData.Effects = new List<Effect> { decreaseHp };
 
         gridAttackHandler.ProcessAttack(enemyAttackData);
+        CameraShake.Shake(Camera.main, .2f, .1f);
     }
 }

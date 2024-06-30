@@ -36,6 +36,7 @@ namespace _Game.Scripts
         {
             base.Awake();
             EffectCollider.Taker = this;
+            InitWorkingSlot();
         }
 
         public void InitWorkingSlot()
