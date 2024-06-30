@@ -13,7 +13,6 @@ namespace _Game.Features.Battle
         public override void DidPopEnter(Memory<object> args)
         {
             base.DidPopEnter(args);
-            Debug.Log("Enter ");
         }
         public override UniTask Initialize(Memory<object> args)
         {

@@ -23,10 +23,10 @@ namespace _Game.Scripts
 
         [field: SerializeField]
         public RangedStat ManaPoint { get; set; } = new(0, 0, 150);
-        
+
         [field: SerializeField]
-        public RangedStat ManaRegenerationRate { get; set; } = new(5, 0, 10);
-        
+        public Stat ManaRegenerationRate { get; set; } = new(1);
+
         [field: SerializeField]
         public RangedStat HealthRegenerationRate { get; set; } = new(1, 0, 10);
 

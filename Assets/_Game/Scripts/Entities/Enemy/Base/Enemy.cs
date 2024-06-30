@@ -71,6 +71,10 @@ namespace _Game.Scripts.Entities
                 {
                     enemyConfig.ApplyGDConfig(_stats);
                 }
+                else
+                {
+                    _statsTemplate.ApplyConfig(_stats);
+                }
             }
         }
 

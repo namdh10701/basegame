@@ -30,7 +30,7 @@ namespace _Game.Scripts
         public List<Node> workingSlots;
         public EffectTakerCollider EffectCollider;
         public NodeGraph nodeGraph;
-
+        
 
         protected override void Awake()
         {
