@@ -21,6 +21,7 @@ public abstract class CrewJob
     public bool IsJobActivated;
     public Action<CrewJob> OnJobCompleted;
     public Action<CrewJob> OnJobInterupted;
+    Crew crew;
     public CrewJob()
     {
         IsJobActivated = false;
@@ -28,9 +29,9 @@ public abstract class CrewJob
     }
     public CrewJobAction BuildCrewAction(Crew crew)
     {
+        this.crew = crew;
         IEnumerator executeCoroutine = DoExecute(crew);
-        IEnumerator interuptCoroutine = DoInterupt(crew);
-        CrewJobAction crewJobAction = new CrewJobAction(this, executeCoroutine, interuptCoroutine);
+        CrewJobAction crewJobAction = new CrewJobAction(this, executeCoroutine);
         return crewJobAction;
     }
 
@@ -41,14 +42,14 @@ public abstract class CrewJob
         OnJobCompleted.Invoke(this);
         Status = JobStatus.Completed;
     }
-    public IEnumerator DoInterupt(Crew crew)
+    public void DoInterupt()
     {
         OnJobInterupted.Invoke(this);
         Status = JobStatus.Interupting;
-        yield return Interupt(crew);
+        Interupt(crew);
         Status = JobStatus.Free;
     }
 
     public abstract IEnumerator Execute(Crew crew);
-    public abstract IEnumerator Interupt(Crew crew);
+    public abstract void Interupt(Crew crew);
 }

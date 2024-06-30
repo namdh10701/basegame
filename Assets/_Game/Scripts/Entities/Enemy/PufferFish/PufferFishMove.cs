@@ -36,7 +36,6 @@ namespace _Game.Scripts.Entities
         public float animSync;
         private void Start()
         {
-            direction.RefreshValue();
             fastForce.RefreshValue();
             maxFastSpeed.RefreshValue();
             timeAccelerate.RefreshValue();

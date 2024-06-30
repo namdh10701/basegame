@@ -32,7 +32,7 @@ public class CrewActionHandler : MonoBehaviour
             }
             else
             {
-                yield return CurrentAction.Interupt;
+                CurrentAction.Interupt();
             }
         }
         CurrentAction = crewAction;
@@ -61,8 +61,13 @@ public class CrewActionHandler : MonoBehaviour
         isPaused = false;
         if (CurrentAction != null)
         {
+            CurrentAction.Interupt();
             CurrentAction.ReBuild(crew);
             actionCoroutine = StartCoroutine(ActionCoroutine());
+        }
+        else
+        {
+            OnFree?.Invoke();
         }
     }
 }

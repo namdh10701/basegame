@@ -40,6 +40,7 @@ namespace _Game.Scripts.Battle
 
         }
 
+
         private void MaxHealthPoint_OnValueChanged(RangedStat newStat, Entity alive)
         {
             if (newStat.Value <= 0)

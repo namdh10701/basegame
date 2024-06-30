@@ -17,12 +17,12 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
             {
                 timer = 0;
             }
-            if (timer > fireRate.Value && AimTargetBehaviour.IsReadyToAttack)
+            if (timer > (1 / fireRate.Value) && AimTargetBehaviour.IsReadyToAttack)
             {
                 Pull();
                 timer = 0;
             }
-           
+
         }
     }
 }

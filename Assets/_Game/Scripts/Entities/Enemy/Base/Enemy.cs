@@ -21,16 +21,16 @@ namespace _Game.Scripts.Entities
     public abstract class Enemy : Entity, IEffectTaker
     {
         [Header("Enemy")]
-        [SerializeField] string                         enemyId;
-        [SerializeField] protected EnemyStats           _stats;
-        [SerializeField] private EnemyStatsTemplate     _statsTemplate;
+        [SerializeField] string enemyId;
+        [SerializeField] protected EnemyStats _stats;
+        [SerializeField] private EnemyStatsTemplate _statsTemplate;
 
         [Header("Behaviour")]
-        [SerializeField] protected EffectTakerCollider  EffectTakerCollider;
-        [SerializeField] protected EffectHandler        effectHandler;
-        [SerializeField] protected Collider2D           pushCollider;
-        [SerializeField] protected Blackboard           blackboard;
-        [SerializeField] protected MBTExecutor          MBTExecutor;
+        [SerializeField] public EffectTakerCollider EffectTakerCollider;
+        [SerializeField] protected EffectHandler effectHandler;
+        [SerializeField] protected Collider2D pushCollider;
+        [SerializeField] protected Blackboard blackboard;
+        [SerializeField] protected MBTExecutor MBTExecutor;
 
         public override Stats Stats => _stats;
         public Transform Transform => transform;
@@ -50,7 +50,7 @@ namespace _Game.Scripts.Entities
         public virtual void Die()
         {
             pushCollider.enabled = false;
-            EffectTakerCollider.GetComponent<Collider2D>().enabled = false;
+            EffectTakerCollider.gameObject.SetActive(false);
             MBTExecutor.gameObject.SetActive(false);
         }
 

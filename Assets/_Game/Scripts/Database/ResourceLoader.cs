@@ -112,7 +112,7 @@ namespace _Game.Scripts
         static string enemyPath = "Prefabs/Entities/Enemies/";
         public static Ship LoadShip(string id)
         {
-            return Resources.Load<Ship>($"{shipPath}{id}");
+            return Resources.Load<Ship>($"Prefabs/Entities/Ship/Ship_{id}/Ship_{id}");
         }
 
         public static Enemy LoadEnemy(string id)
@@ -124,7 +124,8 @@ namespace _Game.Scripts
         {
             { "0001", "Puffer Fish"},
             { "0002", "Electric Eel"},
-            { "0003","Squid"}
+            { "0003","Squid"},
+            {"0004","Jelly Fish" }
         };
     }
 }

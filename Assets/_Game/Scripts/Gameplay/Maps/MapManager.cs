@@ -1,6 +1,7 @@
 ﻿using _Base.Scripts.EventSystem;
 using _Base.Scripts.Shared;
 using _Game.Scripts.Managers;
+using _Game.Scripts.UI;
 using System.Linq;
 using UnityEngine;
 
@@ -12,7 +13,7 @@ namespace Map
 
         public Map CurrentMap { get; private set; }
 
-        private void Start()
+        private void Awake()
         {
             if (PlayerPrefs.HasKey("Map"))
             {
@@ -55,6 +56,7 @@ namespace Map
         {
             SaveMap();
         }
+        public MapViewUI mapView;
         public void OnGamePassed()
         {
             CurrentMap.IsLastNodeLocked = false;
@@ -64,11 +66,15 @@ namespace Map
                 GenerateNewMap();
             }
             SaveMap();
+            mapView.UpdateVisual();
         }
         public void OnGameStart()
         {
             CurrentMap.IsLastNodeLocked = true;
             SaveMap();
+
+            mapView.UpdateVisual();
         }
+
     }
 }

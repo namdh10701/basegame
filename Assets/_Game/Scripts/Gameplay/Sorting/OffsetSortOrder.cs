@@ -9,8 +9,16 @@ public class OffsetSortOrder : MonoBehaviour
     public MeshRenderer TargetSortingGroup;
     public Renderer sortGroup;
     public int offset;
+    public SortingGroup sortingGroup;
     private void Update()
     {
-        sortGroup.sortingOrder = TargetSortingGroup.sortingOrder + offset;
+        if (sortGroup != null)
+        {
+            sortGroup.sortingOrder = TargetSortingGroup.sortingOrder + offset;
+        }
+        else
+        {
+            sortingGroup.sortingOrder = TargetSortingGroup.sortingOrder + offset;
+        }
     }
 }
