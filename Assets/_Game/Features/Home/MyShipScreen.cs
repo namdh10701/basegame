@@ -17,7 +17,16 @@ namespace _Game.Features.Home
         public async void NavToWoldMapScreen()
         {
             var options = new ViewOptions("WorldMapScreen", false, loadAsync: false);
-            
+
+            await ScreenContainer.Of(transform).PushAsync(options);
+            // await Launcher.ContainerManager.Find<ScreenContainer>(ContainerKey.Screens).PushAsync(options);
+        }
+
+        [Binding]
+        public async void NavToEquipmentScreen()
+        {
+            var options = new ViewOptions("EquipmentScreen", false, loadAsync: false);
+
             await ScreenContainer.Of(transform).PushAsync(options);
             // await Launcher.ContainerManager.Find<ScreenContainer>(ContainerKey.Screens).PushAsync(options);
         }
