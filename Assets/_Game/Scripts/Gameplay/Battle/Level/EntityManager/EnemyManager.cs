@@ -14,6 +14,7 @@ namespace _Game.Scripts.Battle
         [SerializeField] Area pufferFishSpawnArea;
         [SerializeField] Area electricEelSpawnArea;
         [SerializeField] Area squidSpawnArea;
+        [SerializeField] Vector3 jellyFishSpawnPoint;
 
         [SerializeField] Timer enemySpawnTimer;
         private void Awake()
@@ -29,7 +30,7 @@ namespace _Game.Scripts.Battle
         {
             foreach (var spawnData in _enemySpawnData)
             {
-                foreach(var sd in spawnData.EnemySpawnDatas)
+                foreach (var sd in spawnData.EnemySpawnDatas)
                 {
                     TimedEvent timedEvent = new TimedEvent(sd.Time, () => SpawnEnemy(sd.EnemyId));
                     enemySpawnTimer.RegisterEvent(timedEvent);
@@ -52,11 +53,15 @@ namespace _Game.Scripts.Battle
                 case "0003":
                     position = squidSpawnArea.SamplePoint();
                     break;
+                case "0004":
+                    position = jellyFishSpawnPoint;
+                    break;
             }
 
             entityManager.SpawnEnemy(id, position);
 
         }
+
 
 
 

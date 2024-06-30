@@ -15,7 +15,7 @@ public class CrewJobData : MonoBehaviour
 
     public ShipSetup ShipSetup;
 
-    // public Dictionary<Cell, FixCellJob> FixCellJobDic = new Dictionary<Cell, FixCellJob>();
+    public Dictionary<Cell, FixCellJob> FixCellJobDic = new Dictionary<Cell, FixCellJob>();
 
     public Dictionary<Cannon, ReloadCannonJob> ReloadCannonJobsDic = new Dictionary<Cannon, ReloadCannonJob>();
 
@@ -50,10 +50,10 @@ public class CrewJobData : MonoBehaviour
     {
         foreach (Cell cell in ShipSetup.AllCells)
         {
-            // FixCellJob fixCellJob = new FixCellJob(cell);
-            // FixCellJobDic.Add(cell, fixCellJob);
-            // fixCellJob.OnJobCompleted += OnJobCompleted;
-            // fixCellJob.OnJobInterupted += OnJobInterupted;
+            FixCellJob fixCellJob = new FixCellJob(cell);
+            FixCellJobDic.Add(cell, fixCellJob);
+            fixCellJob.OnJobCompleted += OnJobCompleted;
+            fixCellJob.OnJobInterupted += OnJobInterupted;
         }
         foreach (Cannon cannon in ShipSetup.Cannons)
         {
@@ -66,6 +66,9 @@ public class CrewJobData : MonoBehaviour
             reloadCannonJob.OnJobInterupted += OnJobInterupted;
 
         }
+
+        Debug.Log(FixCellJobDic.Count + " FIX CELL");
+        Debug.Log(ReloadCannonJobsDic.Count + " RELOAD CANNON");
     }
 
     private void Awake()
@@ -102,6 +105,7 @@ public class CrewJobData : MonoBehaviour
         }
         else if (reloadCannonJob.bullet == null || reloadCannonJob.bullet != bullet)
         {
+            Debug.Log("asign new bullet to job ");
             reloadCannonJob.AssignBullet(bullet);
         }
         OnActivateJobsChanged.Invoke(reloadCannonJob);
@@ -109,24 +113,24 @@ public class CrewJobData : MonoBehaviour
     }
     void ActivateFixCellJob(Cell cell, int piority)
     {
-        // FixCellJob fixCellJob = FixCellJobDic[cell];
-        // if (piority == 0)
-        // {
-        //     fixCellJob.Piority = fixCellJob.DefaultPiority;
-        // }
-        // else
-        // {
-        //     fixCellJob.Piority = piority;
-        // }
-        // if (!ActivateJobs.Contains(fixCellJob))
-        // {
-        //     ActivateJobs.Add(fixCellJob);
-        // }
-        // if (fixCellJob.Status == JobStatus.WorkingOn)
-        // {
-        //     return;
-        // }
-        // OnActivateJobsChanged?.Invoke(fixCellJob);
+        FixCellJob fixCellJob = FixCellJobDic[cell];
+        if (piority == 0)
+        {
+            fixCellJob.Piority = fixCellJob.DefaultPiority;
+        }
+        else
+        {
+            fixCellJob.Piority = piority;
+        }
+        if (!ActivateJobs.Contains(fixCellJob))
+        {
+            ActivateJobs.Add(fixCellJob);
+        }
+        if (fixCellJob.Status == JobStatus.WorkingOn)
+        {
+            return;
+        }
+        OnActivateJobsChanged?.Invoke(fixCellJob);
 
     }
 

@@ -1,14 +1,8 @@
 
-using _Base.Scripts.Shared;
 using _Game.Scripts.Entities;
-using _Game.Scripts.GameContext;
-using _Game.Scripts.Gameplay.Ship;
 using _Game.Scripts.Input;
-using Mono.Cecil.Cil;
-using System.Collections.Generic;
-using Unity.Burst.CompilerServices;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 namespace _Game.Scripts
 {
@@ -20,6 +14,8 @@ namespace _Game.Scripts
         Cannon selectingCannon;
         public BulletsMenu bulletMenu;
         public GameObject canvas;
+        public Image selectCannon;
+
 
         private void Update()
         {
@@ -57,8 +53,20 @@ namespace _Game.Scripts
                     {
                         IWorkLocation workLocation = icd.Item.GetComponent<IWorkLocation>();
                         workLocation.OnClick();
+                        IGridItem gridItem = icd.Item.GetComponent<IGridItem>();
+                        if (gridItem != null)
+                        {
+                            if (gridItem.Def.Type == GridItemType.Cannon)
+                            {
+                                selectingCannon = gridItem as Cannon;
+                                selectCannon.sprite = gridItem.Def.Image;
+                                CreateBulletsMenu();
+                            }
+                        }
+
                     }
                 }
+
             }
         }
 

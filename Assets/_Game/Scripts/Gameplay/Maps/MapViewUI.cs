@@ -12,8 +12,6 @@ namespace Map
     public class MapViewUI : MapView
     {
         [Header("UI Map Settings")]
-        [Tooltip("ScrollRect that will be used for orientations: Left To Right, Right To Left")]
-        [SerializeField] private ScrollRect scrollRectHorizontal;
         [Tooltip("ScrollRect that will be used for orientations: Top To Bottom, Bottom To Top")]
         [SerializeField] private ScrollRect scrollRectVertical;
         [Tooltip("Multiplier to compensate for larger distances in UI pixels on the canvas compared to distances in world units")]
@@ -29,29 +27,28 @@ namespace Map
 
         private void Start()
         {
-            if (GameManager.Instance != null)
-            {
-                mapManager = GameManager.Instance.MapManager;
-            }
+            ShowMap(mapManager.CurrentMap);
+            GlobalEvent.Register(GlobalData.MAP_CHANGED, ShowMapAgain);
+        }
+        public void ShowMapAgain()
+        {
             ShowMap(mapManager.CurrentMap);
         }
 
-        private void OnEnable()
+        private void OnDestroy()
         {
-            if (mapManager != null)
-            {
-                ShowMap(mapManager.CurrentMap);
-            }
+            GlobalEvent.Unregister(GlobalData.MAP_CHANGED, ShowMapAgain);
         }
+
 
         protected override void ClearMap()
         {
-            scrollRectHorizontal.gameObject.SetActive(false);
             scrollRectVertical.gameObject.SetActive(false);
 
-            foreach (var scrollRect in new[] { scrollRectHorizontal, scrollRectVertical })
-                foreach (Transform t in scrollRect.content)
+            foreach (var scrollRect in new[] { scrollRectVertical })
+                foreach (Transform t in mapParent.transform)
                     Destroy(t.gameObject);
+
 
             MapNodes.Clear();
             lineConnections.Clear();
@@ -59,9 +56,7 @@ namespace Map
 
         private ScrollRect GetScrollRectForMap()
         {
-            return orientation == MapOrientation.LeftToRight || orientation == MapOrientation.RightToLeft
-                ? scrollRectHorizontal
-                : scrollRectVertical;
+            return scrollRectVertical;
         }
 
         protected override void CreateMapParent()
@@ -69,32 +64,20 @@ namespace Map
             var scrollRect = GetScrollRectForMap();
             scrollRect.gameObject.SetActive(true);
 
-            firstParent = new GameObject("OuterMapParent");
-            firstParent.transform.SetParent(scrollRect.content);
-            firstParent.transform.localScale = Vector3.one;
-            var fprt = firstParent.AddComponent<RectTransform>();
-            Stretch(fprt);
-
-            mapParent = new GameObject("MapParentWithAScroll");
-            mapParent.transform.SetParent(firstParent.transform);
-            mapParent.transform.localScale = Vector3.one;
-            var mprt = mapParent.AddComponent<RectTransform>();
-            Stretch(mprt);
-
             SetMapLength();
             ScrollToOrigin();
         }
 
         private void SetMapLength()
         {
-            var rt = GetScrollRectForMap().content;
+            /*var rt = GetScrollRectForMap().content;
             var sizeDelta = rt.sizeDelta;
             var length = padding + Map.DistanceBetweenFirstAndLastLayers() * unitsToPixelsMultiplier;
             if (orientation == MapOrientation.LeftToRight || orientation == MapOrientation.RightToLeft)
                 sizeDelta.x = length;
             else
                 sizeDelta.y = length;
-            rt.sizeDelta = sizeDelta;
+            rt.sizeDelta = sizeDelta;*/
         }
 
         private void ScrollToOrigin()
@@ -107,24 +90,9 @@ namespace Map
                 case MapOrientation.TopToBottom:
                     scrollRectVertical.normalizedPosition = new Vector2(0, 1);
                     break;
-                case MapOrientation.RightToLeft:
-                    scrollRectHorizontal.normalizedPosition = new Vector2(1, 0);
-                    break;
-                case MapOrientation.LeftToRight:
-                    scrollRectHorizontal.normalizedPosition = Vector2.zero;
-                    break;
                 default:
                     break;
             }
-        }
-
-        private static void Stretch(RectTransform tr)
-        {
-            tr.localPosition = Vector3.zero;
-            tr.anchorMin = Vector2.zero;
-            tr.anchorMax = Vector2.one;
-            tr.sizeDelta = Vector2.zero;
-            tr.anchoredPosition = Vector2.zero;
         }
 
         protected override MapNode CreateMapNode(Node node)
@@ -170,19 +138,19 @@ namespace Map
 
         protected override void CreateMapBackground(Map m)
         {
-            var backgroundObject = new GameObject("Background");
-            backgroundObject.transform.SetParent(mapParent.transform);
-            backgroundObject.transform.localScale = Vector3.one;
-            var rt = backgroundObject.AddComponent<RectTransform>();
-            Stretch(rt);
-            rt.SetAsFirstSibling();
-            rt.sizeDelta = backgroundPadding;
+            /* var backgroundObject = new GameObject("Background");
+             backgroundObject.transform.SetParent(mapParent.transform);
+             backgroundObject.transform.localScale = Vector3.one;
+             var rt = backgroundObject.AddComponent<RectTransform>();
+             Stretch(rt);
+             rt.SetAsFirstSibling();
+             rt.sizeDelta = backgroundPadding;
 
-            var image = backgroundObject.AddComponent<Image>();
-            image.color = backgroundColor;
-            image.type = Image.Type.Sliced;
-            image.sprite = background;
-            image.pixelsPerUnitMultiplier = backgroundPPUMultiplier;
+             var image = backgroundObject.AddComponent<Image>();
+             image.color = backgroundColor;
+             image.type = Image.Type.Sliced;
+             image.sprite = background;
+             image.pixelsPerUnitMultiplier = backgroundPPUMultiplier;*/
         }
 
         protected override void AddLineConnection(MapNode from, MapNode to)
@@ -216,8 +184,8 @@ namespace Map
 
             lineRenderer.Points = list.ToArray();
 
-            var dottedLine = lineRenderer.GetComponent<DottedLineRenderer>();
-            if (dottedLine != null) dottedLine.ScaleMaterial();
+            /*var dottedLine = lineRenderer.GetComponent<DottedLineRenderer>();
+            if (dottedLine != null) dottedLine.ScaleMaterial();*/
 
             lineConnections.Add(new LineConnection(null, lineRenderer, from, to));
         }

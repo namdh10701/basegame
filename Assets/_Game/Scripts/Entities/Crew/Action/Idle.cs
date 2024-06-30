@@ -11,22 +11,19 @@ public class Idle : CrewActionBase
         Name = "IDLE";
         this.crew = crew;
         this.Execute =  DoExecute();
-        this.Interupt = DoInterupt();
     }
     public IEnumerator DoExecute()
     {
         crew.Animation.AddIdle();
         yield return new WaitForSeconds(2);
     }
-
-    public IEnumerator DoInterupt()
+    public override void Interupt()
     {
-        yield break;
+       
     }
 
     public override void ReBuild(Crew crew)
     {
         this.Execute = DoExecute();
-        this.Interupt = DoInterupt();
     }
 }

@@ -26,16 +26,11 @@ namespace Map
         public GameObject nodePrefab;
         [Tooltip("Offset of the start/end nodes of the map from the edges of the screen")]
         public float orientationOffset;
-        [Header("Background Settings")]
-        [Tooltip("If the background sprite is null, background will not be shown")]
-        public Sprite background;
-        public Color32 backgroundColor = Color.white;
-        public float xSize;
-        public float yOffset;
+
         [Header("Line Settings")]
         public GameObject linePrefab;
         [Tooltip("Line point count should be > 2 to get smooth color gradients")]
-        [Range(3, 10)]
+        [Range(2, 10)]
         public int linePointsCount = 10;
         [Tooltip("Distance from the node till the line starting point")]
         public float offsetFromNodes = 0.5f;
@@ -49,8 +44,7 @@ namespace Map
         [Tooltip("Unavailable path color")]
         public Color32 lineLockedColor = Color.gray;
 
-        protected GameObject firstParent;
-        protected GameObject mapParent;
+        public GameObject mapParent;
         private List<List<Point>> paths;
         private Camera cam;
         // ALL nodes:
@@ -69,8 +63,8 @@ namespace Map
 
         protected virtual void ClearMap()
         {
-            if (firstParent != null)
-                Destroy(firstParent);
+            if (mapParent != null)
+                Destroy(mapParent);
 
             MapNodes.Clear();
             lineConnections.Clear();
@@ -94,8 +88,6 @@ namespace Map
 
             DrawLines();
 
-            //SetOrientation();
-
             ResetNodesRotation();
 
             SetAttainableNodes();
@@ -105,9 +97,18 @@ namespace Map
             CreateMapBackground(m);
         }
 
+        public void UpdateVisual()
+        {
+            ResetNodesRotation();
+
+            SetAttainableNodes();
+
+            SetLineColors();
+        }
+
         protected virtual void CreateMapBackground(Map m)
         {
-            if (background == null) return;
+            /*//if (background == null) return;
 
             var backgroundObject = new GameObject("Background");
             backgroundObject.transform.SetParent(mapParent.transform);
@@ -119,14 +120,11 @@ namespace Map
             sr.color = backgroundColor;
             sr.drawMode = SpriteDrawMode.Sliced;
             sr.sprite = background;
-            sr.size = new Vector2(xSize, span + yOffset * 2f);
+            sr.size = new Vector2(xSize, span + yOffset * 2f);*/
         }
 
         protected virtual void CreateMapParent()
         {
-            firstParent = new GameObject("OuterMapParent");
-            mapParent = new GameObject("MapParentWithAScroll");
-            mapParent.transform.SetParent(firstParent.transform);
             var scrollNonUi = mapParent.AddComponent<ScrollNonUI>();
             scrollNonUi.freezeX = orientation == MapOrientation.BottomToTop || orientation == MapOrientation.TopToBottom;
             scrollNonUi.freezeY = orientation == MapOrientation.LeftToRight || orientation == MapOrientation.RightToLeft;
@@ -169,8 +167,6 @@ namespace Map
             {
                 if (mapManager.CurrentMap.path.Count == 1)
                 {
-
-
                     foreach (var point in mapManager.CurrentMap.path)
                     {
                         var mapNode = GetNode(point);
@@ -293,58 +289,58 @@ namespace Map
 
         protected virtual void SetOrientation()
         {
-            var scrollNonUi = mapParent.GetComponent<ScrollNonUI>();
-            var span = mapManager.CurrentMap.DistanceBetweenFirstAndLastLayers();
-            var bossNode = MapNodes.FirstOrDefault(node => node.Node.nodeType == NodeType.Boss);
-            Debug.Log("Map span in set orientation: " + span + " camera aspect: " + cam.aspect);
+            /* var scrollNonUi = mapParent.GetComponent<ScrollNonUI>();
+             var span = mapManager.CurrentMap.DistanceBetweenFirstAndLastLayers();
+             var bossNode = MapNodes.FirstOrDefault(node => node.Node.nodeType == NodeType.Boss);
+             Debug.Log("Map span in set orientation: " + span + " camera aspect: " + cam.aspect);
 
-            // setting first parent to be right in front of the camera first:
-            firstParent.transform.position = new Vector3(cam.transform.position.x, cam.transform.position.y, 0f);
-            var offset = orientationOffset;
-            switch (orientation)
-            {
-                case MapOrientation.BottomToTop:
-                    if (scrollNonUi != null)
-                    {
-                        scrollNonUi.yConstraints.max = 0;
-                        scrollNonUi.yConstraints.min = -(span + 2f * offset);
-                    }
-                    firstParent.transform.localPosition += new Vector3(0, offset, 0);
-                    break;
-                case MapOrientation.TopToBottom:
-                    mapParent.transform.eulerAngles = new Vector3(0, 0, 180);
-                    if (scrollNonUi != null)
-                    {
-                        scrollNonUi.yConstraints.min = 0;
-                        scrollNonUi.yConstraints.max = span + 2f * offset;
-                    }
-                    // factor in map span:
-                    firstParent.transform.localPosition += new Vector3(0, -offset, 0);
-                    break;
-                case MapOrientation.RightToLeft:
-                    offset *= cam.aspect;
-                    mapParent.transform.eulerAngles = new Vector3(0, 0, 90);
-                    // factor in map span:
-                    firstParent.transform.localPosition -= new Vector3(offset, bossNode.transform.position.y, 0);
-                    if (scrollNonUi != null)
-                    {
-                        scrollNonUi.xConstraints.max = span + 2f * offset;
-                        scrollNonUi.xConstraints.min = 0;
-                    }
-                    break;
-                case MapOrientation.LeftToRight:
-                    offset *= cam.aspect;
-                    mapParent.transform.eulerAngles = new Vector3(0, 0, -90);
-                    firstParent.transform.localPosition += new Vector3(offset, -bossNode.transform.position.y, 0);
-                    if (scrollNonUi != null)
-                    {
-                        scrollNonUi.xConstraints.max = 0;
-                        scrollNonUi.xConstraints.min = -(span + 2f * offset);
-                    }
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+             // setting first parent to be right in front of the camera first:
+             firstParent.transform.position = new Vector3(cam.transform.position.x, cam.transform.position.y, 0f);
+             var offset = orientationOffset;
+             switch (orientation)
+             {
+                 case MapOrientation.BottomToTop:
+                     if (scrollNonUi != null)
+                     {
+                         scrollNonUi.yConstraints.max = 0;
+                         scrollNonUi.yConstraints.min = -(span + 2f * offset);
+                     }
+                     firstParent.transform.localPosition += new Vector3(0, offset, 0);
+                     break;
+                 case MapOrientation.TopToBottom:
+                     mapParent.transform.eulerAngles = new Vector3(0, 0, 180);
+                     if (scrollNonUi != null)
+                     {
+                         scrollNonUi.yConstraints.min = 0;
+                         scrollNonUi.yConstraints.max = span + 2f * offset;
+                     }
+                     // factor in map span:
+                     firstParent.transform.localPosition += new Vector3(0, -offset, 0);
+                     break;
+                 case MapOrientation.RightToLeft:
+                     offset *= cam.aspect;
+                     mapParent.transform.eulerAngles = new Vector3(0, 0, 90);
+                     // factor in map span:
+                     firstParent.transform.localPosition -= new Vector3(offset, bossNode.transform.position.y, 0);
+                     if (scrollNonUi != null)
+                     {
+                         scrollNonUi.xConstraints.max = span + 2f * offset;
+                         scrollNonUi.xConstraints.min = 0;
+                     }
+                     break;
+                 case MapOrientation.LeftToRight:
+                     offset *= cam.aspect;
+                     mapParent.transform.eulerAngles = new Vector3(0, 0, -90);
+                     firstParent.transform.localPosition += new Vector3(offset, -bossNode.transform.position.y, 0);
+                     if (scrollNonUi != null)
+                     {
+                         scrollNonUi.xConstraints.max = 0;
+                         scrollNonUi.xConstraints.min = -(span + 2f * offset);
+                     }
+                     break;
+                 default:
+                     throw new ArgumentOutOfRangeException();
+             }*/
         }
 
         private void DrawLines()

@@ -26,6 +26,7 @@ public class AliveStatsListener : MonoBehaviour
     {
         if (hp.Value <= hp.MinValue)
         {
+            Debug.Log("REACH");
             OnReachZero.Invoke();
         }
         if (hp.IsFull)

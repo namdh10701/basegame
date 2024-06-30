@@ -1,6 +1,7 @@
 using System.Linq;
 using _Base.Scripts.RPG.Behaviours.FindTarget;
 using _Base.Scripts.RPG.Behaviours.FollowTarget;
+using _Game.Scripts.Entities;
 using UnityEngine;
 
 namespace _Base.Scripts.RPGCommon.Behaviours.FollowTargetStragegies
@@ -20,6 +21,8 @@ namespace _Base.Scripts.RPGCommon.Behaviours.FollowTargetStragegies
         [field: SerializeField]
         public Quaternion Rotation { get; private set; }
 
+        public float changeTargetTime = 2;
+        public float changeTargetTimer = 0;
         public override bool Follow(FindTargetBehaviour findTargetBehaviour)
         {
             if (findTargetBehaviour.MostTargets.Count == 0)
@@ -30,9 +33,32 @@ namespace _Base.Scripts.RPGCommon.Behaviours.FollowTargetStragegies
                 return false;
             }
 
-            var targetTransform = findTargetBehaviour.MostTargets.First().transform;
-            _targetTransform = targetTransform;
-            Direction = targetTransform.position - RotateTarget.position;
+            if (_targetTransform == null)
+            {
+
+                _targetTransform = findTargetBehaviour.MostTargets.First().transform.GetComponent<Enemy>();
+                changeTargetTimer = 0;
+            }
+            else
+            {
+                if (!_targetTransform.EffectTakerCollider.gameObject.activeSelf)
+                {
+                    _targetTransform = null;
+                    return false;
+                }
+                if (_targetTransform.transform != findTargetBehaviour.MostTargets.First().transform)
+                {
+                    changeTargetTimer += Time.deltaTime;
+                    if (changeTargetTimer > changeTargetTime)
+                    {
+                        _targetTransform = findTargetBehaviour.MostTargets.First().transform.GetComponent<Enemy>();
+                        changeTargetTimer = 0;
+                    }
+                }
+
+            }
+
+            Direction = _targetTransform.transform.position - RotateTarget.position;
             Rotation = Quaternion.LookRotation(Vector3.forward, Direction);
 
             RotateTarget.rotation = RotateSpeed > -1
@@ -44,7 +70,8 @@ namespace _Base.Scripts.RPGCommon.Behaviours.FollowTargetStragegies
             return angle < 2f;
         }
 
-        private Transform _targetTransform;
+
+        public Enemy _targetTransform;
         private void OnDrawGizmos()
         {
             if (_targetTransform != null)

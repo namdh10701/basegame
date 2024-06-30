@@ -17,10 +17,22 @@ public class BulletsMenu : MonoBehaviour
 
      float distance;*/
 
-    public Button[] buttons;
+    public BulletButton[] buttons;
     Cannon cannon;
+    public CrewJobData jobdata;
+    private void Awake()
+    {
+        GlobalEvent.Register("ReloadCompleted", OnReloadComplete);
+    }
+
+    void OnReloadComplete()
+    {
+        gameObject.SetActive(false);
+    }
+
     public void Setup(Cannon cannon, List<Bullet> gridItemDatas)
     {
+        jobdata = FindAnyObjectByType<CrewJobData>();
         this.cannon = cannon;
         for (int i = 0; i < buttons.Length; i++)
         {
@@ -30,14 +42,30 @@ public class BulletsMenu : MonoBehaviour
         {
             Bullet bullet = gridItemDatas[i];
             buttons[i].gameObject.SetActive(true);
-            buttons[i].GetComponent<Image>().sprite = gridItemDatas[i].Def.Image;
+            buttons[i].Init(bullet);
             buttons[i].onClick.AddListener(() => Reload(bullet));
+
         }
+
+        foreach (BulletButton bb in buttons)
+        {
+            if (bb.bullet == jobdata.ReloadCannonJobsDic[cannon].bullet)
+            {
+                bb.selector.gameObject.SetActive(true);
+            }
+            else
+            {
+                bb.selector.gameObject.SetActive(false);
+            }
+        }
+
+
     }
 
     void Reload(Bullet bullet)
     {
-        GlobalEvent<Cannon, Bullet>.Send("Reload", cannon, bullet);
+        Debug.Log("BULLET + " + cannon + " " + bullet + " ");
+        GlobalEvent<Cannon, Bullet, int>.Send("Reload", cannon, bullet, int.MaxValue);
         Close();
     }
 

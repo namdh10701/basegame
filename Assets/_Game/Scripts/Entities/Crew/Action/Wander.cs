@@ -10,34 +10,33 @@ namespace _Game.Scripts
     {
         Crew crew;
         MoveData moveData;
+        Node targetNode;
         public Wander(Crew crew, MoveData moveData)
         {
             Name = "WANDER";
             this.crew = crew;
             this.moveData = moveData;
             this.Execute = DoExecute();
-            this.Interupt = DoInterupt();
         }
         public IEnumerator DoExecute()
         {
-            Debug.Log("EXECUTE");
-            Node node = moveData.GetFreeNode();
+            targetNode = moveData.GetFreeNode();
             crew.OccupyingNodes.Clear();
-            crew.OccupyingNodes.Add(node);
-            yield return crew.CrewMovement.MoveTo(node.transform.position);
+            crew.OccupyingNodes.Add(targetNode);
+            yield return crew.CrewMovement.MoveTo(targetNode.transform.position);
             yield return new WaitForSeconds(2);
         }
 
-        public IEnumerator DoInterupt()
+        public override void Interupt()
         {
+            targetNode.State = NodeState.Free;
             crew.CrewMovement.Velocity = Vector2.zero;
-            yield break;
         }
+
 
         public override void ReBuild(Crew crew)
         {
             this.Execute = DoExecute();
-            this.Interupt = DoInterupt();
         }
     }
 }

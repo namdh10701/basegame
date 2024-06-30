@@ -8,7 +8,6 @@ namespace _Game.Scripts
 {
     public class GridAttackHandler : MonoBehaviour
     {
-        public Fx fxPrefab;
         public Fx fxATKPrefab;
         public _Game.Scripts.Gameplay.Ship.Ship ship;
         public void ProcessAttack(EnemyAttackData enemyAttackData)
@@ -23,7 +22,11 @@ namespace _Game.Scripts
                 ship.EffectHandler.Apply(effect);
                 foreach (Cell cell in cells)
                 {
-                    cell.EffectHandler.Apply(effect);
+                    if (cell != null)
+                    {
+                        Debug.Log(cell.ToString());
+                        cell.EffectHandler.Apply(effect);
+                    }
                 }
             }
             PlayFx(cells);

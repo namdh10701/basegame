@@ -9,6 +9,6 @@ public abstract class CrewActionBase
 {
     public string Name;
     public IEnumerator Execute;
-    public IEnumerator Interupt;
+    public abstract void Interupt();
     public abstract void ReBuild(Crew crew);
 }
