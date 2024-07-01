@@ -115,6 +115,8 @@ namespace _Base.Scripts.UI
                 _gridManager.OnDragChangeColorCells(_nextCells, _curentGrid, true);
 
                 _gridManager.AddInventoryItemsInfoEndDrag(_inventoryItem.GetInventorInfo(), _curentGrid);
+                if (_previousParentIndex != _curentParentIndex)
+                    _gridManager.RemoveInventoryItemsInfoEndDrag(_inventoryItem.GetInventorInfo(), _gridManager.GridConfig.grids[_previousParentIndex]);
                 _gridManager.ChangeStatusCellEndDrag(_nextCells, _curentGrid, StatusCell.Occupied);
                 _previousParentIndex = _curentParentIndex;
                 _curentParentIndex = -1;

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using _Base.Scripts.EventSystem;
 using _Game.Features.Inventory;
 using _Game.Scripts.UI;
 using Cysharp.Threading.Tasks;
@@ -25,18 +26,17 @@ namespace _Game.Features.Battle
             get => _hp;
             set
             {
-                if (Equals(_hp, value))
+                /*if (Equals(_hp, value))
                 {
                     return;
-                }
-
+                }*/
                 _hp = value;
                 OnPropertyChanged(nameof(HP));
                 OnPropertyChanged(nameof(HPText));
             }
         }
 
-        private float _hp;
+        private float _hp = -1;
 
         #endregion
 
@@ -51,10 +51,10 @@ namespace _Game.Features.Battle
             get => _maxHP;
             set
             {
-                if (Equals(_maxHP, value))
+                /*if (Equals(_maxHP, value))
                 {
                     return;
-                }
+                }*/
 
                 _maxHP = value;
                 OnPropertyChanged(nameof(MaxHP));
@@ -62,7 +62,7 @@ namespace _Game.Features.Battle
             }
         }
 
-        private float _maxHP;
+        private float _maxHP = -1;
 
         #endregion
 
@@ -77,10 +77,10 @@ namespace _Game.Features.Battle
             get => _mp;
             set
             {
-                if (Equals(_mp, value))
+                /*if (Equals(_mp, value))
                 {
                     return;
-                }
+                }*/
 
                 _mp = value;
                 OnPropertyChanged(nameof(MP));
@@ -88,7 +88,7 @@ namespace _Game.Features.Battle
             }
         }
 
-        private float _mp;
+        private float _mp = -1;
 
         #endregion
 
@@ -103,10 +103,10 @@ namespace _Game.Features.Battle
             get => _maxMP;
             set
             {
-                if (Equals(_maxMP, value))
+                /*if (Equals(_maxMP, value))
                 {
                     return;
-                }
+                }*/
 
                 _maxMP = value;
                 OnPropertyChanged(nameof(MaxMP));
@@ -114,7 +114,7 @@ namespace _Game.Features.Battle
             }
         }
 
-        private float _maxMP;
+        private float _maxMP = -1;
 
         #endregion
 
@@ -250,6 +250,7 @@ namespace _Game.Features.Battle
             
             var options = new ModalOptions("GamePauseModal");
             await ModalContainer.Find(ContainerKey.Modals).PushAsync(options);
+            GlobalEvent.Send("GAMEPLAY_PAUSED");
         }
 
         private readonly int _minSpeedUpRate = 1;
