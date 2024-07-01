@@ -32,7 +32,7 @@ namespace _Base.Scripts.UI
 
         public void LoadInventoryItems()
         {
-            // AddInventoryItemsInfo(_TestinventoryItemsConfig.inventoryItemsInfo, GridConfig.grids[1]);
+            AddInventoryItemsInfo(_TestinventoryItemsConfig.inventoryItemsInfo, GridConfig.grids[1]);
             for (int i = 0; i < GridConfig.grids.Count; i++)
             {
                 if (GridConfig.grids[i].inventoryItemsConfig.inventoryItemsInfo.Count > 0)
@@ -140,13 +140,11 @@ namespace _Base.Scripts.UI
 
         public void AddInventoryItemsInfo(List<InventoryItemInfo> inventoryItems, GridInfor grid)
         {
-            var inventoryIntems = new List<InventoryItemInfo>();
             foreach (var inventoryItem in inventoryItems)
             {
                 if (CheckPlaceItem(inventoryItem, grid))
                 {
                     grid.inventoryItemsConfig.inventoryItemsInfo.Add(inventoryItem);
-                    inventoryIntems.Add(inventoryItem);
                 }
                 else
                 {

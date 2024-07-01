@@ -22,7 +22,7 @@ namespace _Game.Features.Home
 
         void Awake()
         {
-            Initialize("0001");
+            Initialize("0003");
         }
 
         void OnEnable()
