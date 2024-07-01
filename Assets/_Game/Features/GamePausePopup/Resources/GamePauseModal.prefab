@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1132183267538446185}
   - component: {fileID: 6817300333989813373}
   - component: {fileID: 217098720166959940}
+  - component: {fileID: 6108297739894673983}
   m_Layer: 5
   m_Name: CloseBtn
   m_TagString: Untagged
@@ -158,6 +159,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _containerName: Modals
   _playAnimation: 1
+--- !u!114 &6108297739894673983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 203014004942347876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1360956885, guid: e650e72e8be47794994495fc15c0ba63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  viewModelMethodName: _Game.Features.GamePause.GamePauseModal.Close
+  viewEventName: UnityEngine.UI.Button.onClick
 --- !u!1 &507327957703394250
 GameObject:
   m_ObjectHideFlags: 0
@@ -300,7 +315,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2454989631147361628}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 82.520546}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
