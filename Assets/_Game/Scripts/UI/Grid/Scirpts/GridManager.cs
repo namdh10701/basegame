@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using _Game.Scripts;
-using Unity.VisualScripting;
 using UnityEngine;
 namespace _Base.Scripts.UI
 {
@@ -17,10 +16,14 @@ namespace _Base.Scripts.UI
 
         public List<InventoryItem> InventoryItems = new List<InventoryItem>();
 
-        // void Awake()
-        // {
-        //     Initialize();
-        // }
+        public ShipData shipData;
+
+        void Awake()
+        {
+            shipData = new ShipData();
+            shipData.backstash_items = new List<StashItem>();
+            shipData.ship_items = new List<GridItem>();
+        }
 
         void OnEnable()
         {
@@ -32,12 +35,11 @@ namespace _Base.Scripts.UI
 
         public void LoadInventoryItems()
         {
-            AddInventoryItemsInfo(_TestinventoryItemsConfig.inventoryItemsInfo, GridConfig.grids[1]);
-            for (int i = 0; i < GridConfig.grids.Count; i++)
-            {
-                if (GridConfig.grids[i].inventoryItemsConfig.inventoryItemsInfo.Count > 0)
-                    LoadInventoryItemsOnGrid(GridConfig.grids[i].inventoryItemsConfig.inventoryItemsInfo, GridConfig.grids[i], ParentCells[i]);
-            }
+            // AddInventoryItemsInfo(_TestinventoryItemsConfig.inventoryItemsInfo, GridConfig.grids[1]);
+
+            LoadInventoryItemsOnGrid(shipData.backstash_items, GridConfig.grids[0], ParentCells[0]);
+            // LoadInventoryItemsOnGrid(shipData.backstash_items, GridConfig.grids[0], ParentCells[0]);
+
         }
 
         public void EnableDragItem(bool enable)
@@ -202,8 +204,20 @@ namespace _Base.Scripts.UI
         }
 
 
-        private void LoadInventoryItemsOnGrid(List<InventoryItemInfo> inventoryItems, GridInfor grid, Transform parent)
+        private void LoadInventoryItemsOnGrid(List<StashItem> stashItems, GridInfor grid, Transform parent)
         {
+            var inventoryItems = new List<InventoryItemInfo>();
+            foreach (var item in stashItems)
+            {
+                var inventoryItem = new InventoryItemInfo();
+                inventoryItem.inventoryItemData.gridItemDef = item.gridItemDef;
+                inventoryItem.inventoryItemData.startX = item.startX;
+                inventoryItem.inventoryItemData.startY = item.startY;
+                inventoryItem.inventoryItemData.gridID = grid.id;
+
+                inventoryItems.Add(inventoryItem);
+            }
+
             foreach (var inventoryItem in inventoryItems)
             {
                 inventoryItem.inventoryItemData.gridID = grid.id;
@@ -234,6 +248,8 @@ namespace _Base.Scripts.UI
                     var result = CanPlace(shape, r, c, grid);
                     if (result.canPlace)
                     {
+                        StashItem stashItem = new StashItem(r, c, inventoryItemInfo.inventoryItemData.gridItemDef);
+                        shipData.backstash_items.Add(stashItem);
                         var pos = GetPositionCell(shape, r, c, grid);
                         inventoryItemInfo.inventoryItemData.position = pos;
                         ChangeStatusCell(inventoryItemInfo.inventoryItemData, r, c, grid, StatusCell.Occupied);
