@@ -776,21 +776,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35adf9631cb3c2a41b2839eede7311e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemySpawnData:
-  - EnemySpawnDatas:
-    - EnemyId: 0001
-      Time: 0
-    - EnemyId: 0001
-      Time: 2
-    - EnemyId: 0001
-      Time: 4
-  - EnemySpawnDatas:
-    - EnemyId: 0002
-      Time: 10
-    - EnemyId: 0002
-      Time: 15
-    - EnemyId: 0002
-      Time: 20
+  levelDesignConfigs: []
   entityManager: {fileID: 994032579}
   pufferFishSpawnArea: {fileID: 1050574662}
   electricEelSpawnArea: {fileID: 705811573}
@@ -5466,6 +5452,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2030268058}
   - component: {fileID: 2030268057}
+  - component: {fileID: 2030268059}
   m_Layer: 0
   m_Name: GDConfigLoader
   m_TagString: Untagged
@@ -5502,6 +5489,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2030268059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2030268056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b012ec1e3d94d6f4c96196c64795d44a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  KEY: AIzaSyAgCbSrEuvfjkYcPUtQN9hYv4TzNtgOS8A
+  DOC_ID: 16zvsN6iALnKVByPfI9BGuvyW44DHVhBZVg07CDoUyOY
+  LevelDesignConfigs: []
 --- !u!1001 &2051301304
 PrefabInstance:
   m_ObjectHideFlags: 0

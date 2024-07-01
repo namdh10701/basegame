@@ -5,7 +5,7 @@ using UnityEngine;
 namespace _Game.Scripts.GD
 {
     [System.Serializable]
-    public class LevelDesignConfig
+    public struct LevelDesignConfig
     {
         public string stage;
         public float time_offset;

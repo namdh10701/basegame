@@ -133,6 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 620560522}
   - component: {fileID: 620560521}
+  - component: {fileID: 620560523}
   m_Layer: 0
   m_Name: Circle (5)
   m_TagString: Untagged
@@ -207,6 +208,34 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &620560523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 620560520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35adf9631cb3c2a41b2839eede7311e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelDesignConfigs:
+  - stage: 
+    time_offset: 0
+    enemy_id: 
+  - stage: 
+    time_offset: 0
+    enemy_id: 
+  - stage: 
+    time_offset: 0
+    enemy_id: 
+  entityManager: {fileID: 0}
+  pufferFishSpawnArea: {fileID: 0}
+  electricEelSpawnArea: {fileID: 0}
+  squidSpawnArea: {fileID: 0}
+  jellyFishSpawnPoint: {x: 0, y: 0, z: 0}
+  enemySpawnTimer: {fileID: 0}
 --- !u!1 &704262163
 GameObject:
   m_ObjectHideFlags: 0
@@ -386,6 +415,7 @@ GameObject:
   - component: {fileID: 1250495541}
   - component: {fileID: 1250495540}
   - component: {fileID: 1250495542}
+  - component: {fileID: 1250495543}
   m_Layer: 0
   m_Name: Circle (6)
   m_TagString: Untagged
@@ -474,6 +504,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   KEY: AIzaSyAgCbSrEuvfjkYcPUtQN9hYv4TzNtgOS8A
   DOC_ID: 16zvsN6iALnKVByPfI9BGuvyW44DHVhBZVg07CDoUyOY
+  LevelDesignConfigs: []
+--- !u!114 &1250495543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1250495539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4a8daae5874454c86c81617184df970, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  KEY: AIzaSyAgCbSrEuvfjkYcPUtQN9hYv4TzNtgOS8A
+  DOC_ID: 1M91hXkFM9BvP5SsfMKz-oDndDaOx-hJLfFTE39kfEJM
 --- !u!1 &1283837008
 GameObject:
   m_ObjectHideFlags: 0

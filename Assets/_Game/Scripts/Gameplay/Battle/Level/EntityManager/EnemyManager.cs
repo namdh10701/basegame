@@ -9,7 +9,7 @@ namespace _Game.Scripts.Battle
 {
     public class EnemyManager : MonoBehaviour
     {
-        [SerializeField] GroupEnemySpawnData _enemySpawnData;
+        [SerializeField] List<LevelDesignConfig> levelDesignConfigs;
         [SerializeField] EntityManager entityManager;
 
         [SerializeField] Area pufferFishSpawnArea;
@@ -27,16 +27,16 @@ namespace _Game.Scripts.Battle
 
         void LoadLevelEnemyData()
         {
-            if (GDConfigLoader.Instance != null)
+            if (LevelDesignConfigLoader.Instance != null)
             {
-                //_enemySpawnData = GDConfigLoader.Instance
+                levelDesignConfigs = LevelDesignConfigLoader.Instance.LevelDesignConfigs;
             }
         }
         public void StartLevel()
         {
-            foreach (var spawnData in _enemySpawnData.EnemySpawnDatas)
+            foreach (var spawnData in levelDesignConfigs)
             {
-                TimedEvent timedEvent = new TimedEvent(spawnData.Time, () => SpawnEnemy(spawnData.EnemyId));
+                TimedEvent timedEvent = new TimedEvent(spawnData.time_offset, () => SpawnEnemy(spawnData.enemy_id));
                 enemySpawnTimer.RegisterEvent(timedEvent);
             }
             enemySpawnTimer.StartTimer();

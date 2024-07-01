@@ -17,7 +17,7 @@ namespace _Game.Scripts.GD
         public event Action OnLoaded;
         public string KEY = "AIzaSyAgCbSrEuvfjkYcPUtQN9hYv4TzNtgOS8A";
         public string DOC_ID = "16zvsN6iALnKVByPfI9BGuvyW44DHVhBZVg07CDoUyOY";
-        private List<LevelDesignConfig> LevelDesignMap { get; set; }
+        [HideInInspector] public List<LevelDesignConfig> LevelDesignConfigs;
 
         private async void Awake()
         {
@@ -25,10 +25,10 @@ namespace _Game.Scripts.GD
         }
         public async Task Load()
         {
-            LevelDesignMap = await GetConfigMap(getSheetData("level_design"));
+            LevelDesignConfigs = await GetConfigMap(getSheetData("level_design"));
             OnLoaded?.Invoke();
             Debug.Log("Loaded Level Design: ");
-            foreach (LevelDesignConfig config in LevelDesignMap)
+            foreach (LevelDesignConfig config in LevelDesignConfigs)
             {
                 Debug.Log(config.ToString());
             }
@@ -81,7 +81,7 @@ namespace _Game.Scripts.GD
             }
             return null;
         }
-       
+
         async Task<string> GetHttpResponse(string url)
         {
             return (await UnityWebRequest.Get(url).SendWebRequest()).downloadHandler.text;
