@@ -8,7 +8,7 @@ namespace _Game.Features.Battle
     public class BattleScreen : ZBase.UnityScreenNavigator.Core.Screens.Screen
     {
         public GameObject GameplayRoot;
-        public BattleManager BattleManager;
+        public BattleViewModel BattleViewModel;
 
         public override void DidPopEnter(Memory<object> args)
         {
@@ -18,15 +18,15 @@ namespace _Game.Features.Battle
         {
             GameplayRoot = GameObject.Find("Gameplay").transform.GetChild(0).gameObject;
             GameplayRoot.SetActive(true);
-            BattleManager = GameObject.Find("BattleManager").GetComponent<BattleManager>();
-            BattleManager.Initnialize();
+            BattleManager.Instance.Initialize(BattleViewModel);
             return base.Initialize(args);
         }
 
         public override UniTask WillPushExit(Memory<object> args)
         {
+            Debug.Log(" EXIT ");
             GameplayRoot.SetActive(false);
-            BattleManager.CleanUp();
+            BattleManager.Instance.CleanUp();
             return base.WillPushExit(args);
         }
     }

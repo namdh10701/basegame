@@ -1,6 +1,7 @@
 using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.RPG.Stats;
 using _Game.Scripts;
+using _Game.Scripts.Utils;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,6 +21,7 @@ public class JellyFishAttack : MonoBehaviour
     public GridPicker gridPicker;
     public Stat AttackDamage;
     public JellyFish JellyFish;
+    public CameraShake cameraShake;
     private void Start()
     {
         gridAttackHandler = FindAnyObjectByType<GridAttackHandler>();
@@ -67,7 +69,7 @@ public class JellyFishAttack : MonoBehaviour
         enemyAttackData.Effects = new List<Effect> { decreaseHp };
 
         gridAttackHandler.ProcessAttack(enemyAttackData);
-        CameraShake.Shake(Camera.main, .2f, .1f);
+        cameraShake.Shake(.2f);
     }
 
     public void DoRightMelleAttack()
@@ -81,6 +83,6 @@ public class JellyFishAttack : MonoBehaviour
         enemyAttackData.Effects = new List<Effect> { decreaseHp };
 
         gridAttackHandler.ProcessAttack(enemyAttackData);
-        CameraShake.Shake(Camera.main, .2f, .1f);
+        cameraShake.Shake(.2f);
     }
 }

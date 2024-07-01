@@ -115,7 +115,6 @@ MonoBehaviour:
   <FollowTargetBehaviour>k__BackingField: {fileID: 5550966584359436881}
   <IsReadyToAttack>k__BackingField: 0
   <LockedPosition>k__BackingField: {x: 0, y: 0, z: 0}
-  LockedTarget: {fileID: 0}
 --- !u!114 &8953152418772538488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -281,10 +280,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetTypeNames:
-  - _Game.Scripts.Entities.RangedEnemy
-  - _Game.Scripts.Entities.MeeleEnemy
   - JellyFish
   - _Game.Scripts.Squid
+  - _Game.Scripts.Entities.PufferFish
+  - ElectricEel
   closestTo: {fileID: 870496088559109320}
 --- !u!114 &3152544984102912611
 MonoBehaviour:
@@ -500,6 +499,7 @@ MonoBehaviour:
   FindTargetBehaviour: {fileID: 6103908589702467067}
   usingBullet: {fileID: 5909292734019790869, guid: f484edc2e211fba4abf6d10c45701042, type: 3}
   Animation: {fileID: 0}
+  isBrokenn: 0
 --- !u!114 &3798245963770099852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -567,6 +567,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d59bfa6dd7c2164d8f5506415d17d93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  defaultNumOfProjectile: 1
   angle: 15
   amount: 3
 --- !u!1 &6593716251318637534
@@ -669,6 +670,9 @@ MonoBehaviour:
   <RotateTarget>k__BackingField: {fileID: 6472357837835627961}
   <Direction>k__BackingField: {x: 0, y: 0, z: 0}
   <Rotation>k__BackingField: {x: 0, y: 0, z: 0, w: 0}
+  changeTargetTime: 2
+  changeTargetTimer: 0
+  _targetTransform: {fileID: 0}
 --- !u!1 &7302981967243712113
 GameObject:
   m_ObjectHideFlags: 0

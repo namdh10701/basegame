@@ -32,11 +32,11 @@ namespace _Game.Scripts.Gameplay.Ship
         {
             base.Awake();
             EffectCollider.Taker = this;
+            ShipSetup.Initialize();
+            CrewJobData.Initialize();
         }
         private void Start()
         {
-            ShipSetup.LoadShipItems();
-            CrewJobData.Initialize();
             BattleViewModel = GameObject.Find("BattleScreen(Clone)").GetComponent<BattleViewModel>();
 
         }
@@ -62,7 +62,11 @@ namespace _Game.Scripts.Gameplay.Ship
 
         protected override void ApplyStats()
         {
-
+            foreach (Cell cell in ShipSetup.AllCells)
+            {
+                cell.stats.HealthPoint.MaxStatValue.BaseValue = stats.HealthPoint.MaxStatValue.Value / ShipSetup.AllCells.Count;
+                cell.stats.HealthPoint.StatValue.BaseValue = cell.stats.HealthPoint.MaxStatValue.BaseValue;
+            }
         }
 
 

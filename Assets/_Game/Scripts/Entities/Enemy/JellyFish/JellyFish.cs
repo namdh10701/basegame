@@ -1,9 +1,8 @@
 using _Game.Scripts;
 using _Game.Scripts.Battle;
-using _Game.Scripts.BehaviourTree;
 using _Game.Scripts.Entities;
+using _Game.Scripts.Utils;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class JellyFish : Enemy
@@ -12,6 +11,7 @@ public class JellyFish : Enemy
     [SerializeField] CooldownBehaviour CooldownBehaviour;
     [SerializeField] JellyFishAnimation anim;
     bool isCurrentAttackLeftHand;
+    public CameraShake cameraShake;
 
     protected override void Awake()
     {
@@ -68,7 +68,8 @@ public class JellyFish : Enemy
 
     public override IEnumerator StartActionCoroutine()
     {
-        anim.Appear(); CameraShake.Shake(Camera.main, 3f, .1f);
+        anim.Appear(); 
+        cameraShake.Shake(3f);
         _Game.Scripts.BehaviourTree.Wander wander = MBTExecutor.GetComponent<_Game.Scripts.BehaviourTree.Wander>();
         EffectTakerCollider.gameObject.SetActive(false);
         yield return new WaitForSeconds(4.5f);

@@ -30,7 +30,8 @@ namespace _Game.Scripts
         public NodeGraph NodeGraph;
 
         public List<GameObject> spawnedItems = new List<GameObject>();
-        private void Awake()
+
+        public void Initialize()
         {
             for (int i = 0; i < Grids.Count; i++)
             {
@@ -52,7 +53,9 @@ namespace _Game.Scripts
             }
             GridItemDatas = ShipSetupMockup.Datas;
 
+            LoadShipItems();
         }
+
         public void LoadShipItems()
         {
             foreach (GridItemData gridItemData in GridItemDatas)

@@ -7,14 +7,13 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
     public class TwinShot : NormalShot
     {
         public float gap = 100f;
-        public int amount = 3;
 
         public override void DoAttack()
         {
             var centerDirection = CalculateShootDirection();
 
-            var mostLeftX = amount / 2 * gap;
-            if (amount % 2 == 0)
+            var mostLeftX = NumOfProjectile / 2 * gap;
+            if (NumOfProjectile % 2 == 0)
             {
                 mostLeftX -= gap / 2;
             }
@@ -23,7 +22,7 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
 
             var mostLeftDirection = centerDirection * centerDirection.Rotate(-90);
 
-            for (var idx = 0; idx < amount; idx++)
+            for (var idx = 0; idx < NumOfProjectile; idx++)
             {
                 var projectile = SpawnProjectile(centerDirection, shootPosition);
                 projectile.transform.Translate(projectile.transform.right * (-mostLeftX + gap * idx), Space.World);

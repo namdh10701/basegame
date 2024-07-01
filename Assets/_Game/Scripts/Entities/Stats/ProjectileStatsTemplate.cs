@@ -18,5 +18,7 @@ public class ProjectileStatsTemplate : ScriptableObject
         stats.ArmorPenetrate.BaseValue = Data.ArmorPenetrate.BaseValue;
         stats.Damage.BaseValue = Data.Damage.BaseValue;
         stats.Speed.BaseValue = Data.Speed.BaseValue;
+        stats.MagazineSize.BaseValue = Data.MagazineSize.BaseValue;
+        stats.EnergyCost.BaseValue = Data.EnergyCost.BaseValue;
     }
 }

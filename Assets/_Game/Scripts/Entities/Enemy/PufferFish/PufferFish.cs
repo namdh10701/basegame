@@ -82,7 +82,7 @@ namespace _Game.Scripts.Entities
             pushCollider.gameObject.SetActive(false);
             EffectTakerCollider.gameObject.SetActive(false);
             DamageArea da = Instantiate(DamageArea, transform.position, Quaternion.identity);
-            da.SetDamage(_stats.AttackDamage.Value);
+            da.SetDamage(_stats.AttackDamage.Value, 0);
         }
     }
 }

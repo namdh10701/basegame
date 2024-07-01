@@ -12,6 +12,7 @@ namespace _Game.Scripts
     {
         public CircleCollider2D collider;
         public float forceApply;
+        public LayerMask affectLayers;
         public List<Entity> ignoreEntity = new List<Entity>();
         bool isActivated;
 
@@ -19,16 +20,21 @@ namespace _Game.Scripts
         public Transform Transform => transform;
         public List<Effect> OutGoingEffects { get => outGoingEffects; set => outGoingEffects = value; }
 
-        public void SetDamage(float damage)
+        public void SetDamage(float damage, float armoPenetrate)
         {
             foreach (Effect effect in OutGoingEffects)
             {
-                if (effect is ScaledDecreaseHealthEffect decreaseHealthEffect)
+                if (effect is DecreaseHealthEffect decreaseHealthEffect)
                 {
-                    decreaseHealthEffect.PlayerAmount = damage;
-                    decreaseHealthEffect.EnemyAmount = damage;
+                    decreaseHealthEffect.Amount = damage;
+                    decreaseHealthEffect.AmmoPenetrate = armoPenetrate;
                 }
             }
+        }
+
+        public void SetRange(float range)
+        {
+            collider.radius = range;
         }
     }
 }

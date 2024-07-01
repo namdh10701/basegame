@@ -1,7 +1,7 @@
 
 using _Base.Scripts.Utils.Extensions;
 using _Game.Scripts.Entities;
-using _Game.Scripts.Input;
+using _Game.Scripts;
 using System;
 using System.Collections.Generic;
 

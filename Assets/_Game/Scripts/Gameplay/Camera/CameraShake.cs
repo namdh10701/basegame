@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace _Game.Scripts
 {
-    public static class CameraShake
+    public static class CameraShakea
     {
         public static void Shake(Camera camera, float duration, float magnitude)
         {

@@ -1,5 +1,6 @@
 using _Base.Scripts.RPG.Entities;
 using _Base.Scripts.RPGCommon.Entities;
+using _Game.Scripts.GD;
 using _Game.Scripts.PathFinding;
 using System.Collections;
 using System.Collections.Generic;
@@ -24,10 +25,31 @@ namespace _Game.Scripts.Entities
         public List<Node> OccupyingNodes { get => occupyingNodes; set => occupyingNodes = value; }
         public bool IsBroken { get => isBroken; set => isBroken = value; }
 
+
+        public ProjectileStats Stats;
+        public ProjectileStatsTemplate projectileStatsTemplate;
+
+
         public SpriteRenderer sprite;
         public Color broken;
         public Color norm;
         bool isBroken;
+
+        private void Awake()
+        {
+            if (GDConfigLoader.Instance != null)
+            {
+                if (GDConfigLoader.Instance.Ammos.TryGetValue(Projectile.Id, out AmmoConfig value))
+                {
+                    value.ApplyGDConfig(Stats);
+                }
+                else
+                {
+                    projectileStatsTemplate.ApplyConfig(Stats);
+                }
+            
+            }
+        }
 
         public void OnClick()
         {

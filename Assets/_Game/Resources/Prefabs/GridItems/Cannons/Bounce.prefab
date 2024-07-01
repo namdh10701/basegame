@@ -233,6 +233,7 @@ MonoBehaviour:
   FindTargetBehaviour: {fileID: 7147069703896698860}
   usingBullet: {fileID: 5909292734019790869, guid: f484edc2e211fba4abf6d10c45701042, type: 3}
   Animation: {fileID: 2096826101554558456}
+  isBrokenn: 0
 --- !u!114 &-717564830529616064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -300,6 +301,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b296f66e694a42d2af2ee4a01ec0a872, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  defaultNumOfProjectile: 1
   lookupRange: 5
   bounceTimes: 5
   damageScale: 0
@@ -577,7 +579,6 @@ GameObject:
   - component: {fileID: 6282739535309694796}
   - component: {fileID: 1346826863961692509}
   - component: {fileID: 8192189898026933683}
-  - component: {fileID: 8001904707631479453}
   m_Layer: 9
   m_Name: ShootTarget
   m_TagString: Untagged
@@ -633,22 +634,6 @@ MonoBehaviour:
   shootPosition: {fileID: 5745774953931699767}
   projectilePrefab: {fileID: 9038214777133773486, guid: 5ca7b1284ed851c40bc873d897263848, type: 3}
   Animation: {fileID: 2096826101554558456}
---- !u!114 &8001904707631479453
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6040855809983312167}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 511f41dc487247f3887872cb320c724e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <Value>k__BackingField: 1
-  <MinValue>k__BackingField: 0
-  <MaxValue>k__BackingField: 0
-  <Modifiers>k__BackingField: []
 --- !u!1 &6325944138744424202
 GameObject:
   m_ObjectHideFlags: 0
@@ -748,10 +733,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetTypeNames:
-  - _Game.Scripts.Entities.RangedEnemy
-  - _Game.Scripts.Entities.MeeleEnemy
   - JellyFish
   - _Game.Scripts.Squid
+  - ElectricEel
   - _Game.Scripts.Entities.PufferFish
   closestTo: {fileID: 575761695595097317}
 --- !u!114 &3998683235849372507
@@ -866,6 +850,8 @@ MonoBehaviour:
   <Direction>k__BackingField: {x: 0, y: 0, z: 0}
   <Rotation>k__BackingField: {x: 0, y: 0, z: 0, w: 0}
   changeTargetTime: 2
+  changeTargetTimer: 0
+  _targetTransform: {fileID: 0}
 --- !u!1001 &6087206401005091334
 PrefabInstance:
   m_ObjectHideFlags: 0

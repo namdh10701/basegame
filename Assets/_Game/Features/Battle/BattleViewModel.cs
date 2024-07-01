@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using _Base.Scripts.EventSystem;
 using _Game.Features.Inventory;
+using _Game.Scripts.Gameplay;
 using _Game.Scripts.UI;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -188,7 +189,6 @@ namespace _Game.Features.Battle
 
                 _isPause = value;
                 OnPropertyChanged(nameof(IsPause));
-                UpdateTimeScale();
             }
         }
 
@@ -215,8 +215,6 @@ namespace _Game.Features.Battle
                 _speedUpRate = value;
                 OnPropertyChanged(nameof(SpeedUpRate));
                 OnPropertyChanged(nameof(SpeedUpRateText));
-                
-                UpdateTimeScale();
             }
         }
 
@@ -229,60 +227,37 @@ namespace _Game.Features.Battle
         [Binding] public string MPText => $"{MP}/{MaxMP}";
         [Binding] public string FeverText => $"{Fever}/{MaxFever}";
 
-        private void UpdateTimeScale()
-        {
-            var timeScale = _speedUpRate;
-
-            if (IsPause)
-            {
-                timeScale = 0;
-            }
-
-            Time.timeScale = timeScale;
-        }
-        
         [Binding]
         public async void PauseGame()
         {
-            IsPause = !IsPause;
-
-            if (!IsPause) return;
-            
+            IsPause = true;
+            GlobalEvent<bool>.Send("TOGGLE_PAUSE", true);
             var options = new ModalOptions("GamePauseModal");
             await ModalContainer.Find(ContainerKey.Modals).PushAsync(options);
-            GlobalEvent.Send("GAMEPLAY_PAUSED");
+            
         }
 
-        private readonly int _minSpeedUpRate = 1;
-        private readonly int _maxSpeedUpRate = 3;
-        private readonly int _speedUpRateStep = 1;
-        
+
         [Binding]
         public void SpeedUpGame()
         {
-            var rate = _speedUpRate + _speedUpRateStep;
-            if (rate > _maxSpeedUpRate)
-            {
-                rate = _minSpeedUpRate;
-            }
-
-            SpeedUpRate = rate;
+            BattleManager.Instance.SpeedUp();
         }
-        
+
         [Binding]
         public async void NavToBattle()
         {
             await ModalContainer.Find(ContainerKey.Modals).PopAsync(true);
-            
+
             var options = new ScreenOptions("BattleLoadingScreen", true, stack: false);
             await ScreenContainer.Find(ContainerKey.Screens).PushAsync(options);
             await UniTask.Delay(500);
-        
+
             options = new ScreenOptions("BattleScreen", true, stack: false);
             await ScreenContainer.Find(ContainerKey.Screens).PushAsync(options);
 
         }
-        
+
         [Binding]
         public async void NavToMyShip()
         {

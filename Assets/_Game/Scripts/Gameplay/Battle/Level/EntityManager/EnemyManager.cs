@@ -1,4 +1,5 @@
 using _Game.Scripts.Entities;
+using _Game.Scripts.GD;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +9,7 @@ namespace _Game.Scripts.Battle
 {
     public class EnemyManager : MonoBehaviour
     {
-        [SerializeField] GroupEnemySpawnData[] _enemySpawnData;
+        [SerializeField] List<LevelDesignConfig> levelDesignConfigs;
         [SerializeField] EntityManager entityManager;
 
         [SerializeField] Area pufferFishSpawnArea;
@@ -17,6 +18,8 @@ namespace _Game.Scripts.Battle
         [SerializeField] Vector3 jellyFishSpawnPoint;
 
         [SerializeField] Timer enemySpawnTimer;
+
+
         private void Awake()
         {
             LoadLevelEnemyData();
@@ -24,17 +27,17 @@ namespace _Game.Scripts.Battle
 
         void LoadLevelEnemyData()
         {
-
+            if (LevelDesignConfigLoader.Instance != null)
+            {
+                levelDesignConfigs = LevelDesignConfigLoader.Instance.LevelDesignConfigs;
+            }
         }
         public void StartLevel()
         {
-            foreach (var spawnData in _enemySpawnData)
+            foreach (var spawnData in levelDesignConfigs)
             {
-                foreach (var sd in spawnData.EnemySpawnDatas)
-                {
-                    TimedEvent timedEvent = new TimedEvent(sd.Time, () => SpawnEnemy(sd.EnemyId));
-                    enemySpawnTimer.RegisterEvent(timedEvent);
-                }
+                TimedEvent timedEvent = new TimedEvent(spawnData.time_offset, () => SpawnEnemy(spawnData.enemy_id));
+                enemySpawnTimer.RegisterEvent(timedEvent);
             }
             enemySpawnTimer.StartTimer();
         }
