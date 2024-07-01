@@ -32,10 +32,16 @@ namespace _Game.Scripts.Entities
         }
         protected override void ApplyStats()
         {
+
+        }
+
+        protected virtual void Start()
+        {
             DecreaseHealthEffect decreaseHpEffect = gameObject.AddComponent<DecreaseHealthEffect>();
             decreaseHpEffect.Amount = _stats.Damage.Value;
+            decreaseHpEffect.AmmoPenetrate = _stats.Damage.Value;
             PushEffect pushEffect = gameObject.AddComponent<PushEffect>();
-            pushEffect.force = 200;
+            pushEffect.force = 150;
             pushEffect.body = body;
             outGoingEffects = new List<Effect>() {
                 decreaseHpEffect,

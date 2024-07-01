@@ -41,10 +41,6 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
         {
             var shootDirection = CalculateShootDirection();
             var projectile = SpawnProjectile(shootDirection, shootPosition);
-            if (transform.gameObject.name == "slow")
-            {
-                projectile.transform.localScale = Vector3.one * 1.5f;
-            }
         }
 
         protected virtual Projectile SpawnProjectile(Quaternion shootDirection, Transform ShootPosition = null)
@@ -59,7 +55,29 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
         {
             CannonStats cannonStats = (CannonStats)Cannon.Stats;
             projectile.AddCritChance(new StatModifier(cannonStats.CriticalChance.Value, StatModType.Flat, 1));
-            projectile.AddDamage(new StatModifier(cannonStats.AttackDamage.Value, StatModType.Flat, 1));
+
+            float addCritChanceFromProjectile = ((ProjectileStats)projectilePrefab.Stats).Accuracy.Value;
+            float totalCritChance = addCritChanceFromProjectile + shooter.FighterStats.CriticalChance.Value;
+            float addCritDmgFromProjectile = ((ProjectileStats)projectilePrefab.Stats).CritDamage.Value;
+            float totalCritDmg = addCritDmgFromProjectile + shooter.FighterStats.CriticalDamage.Value;
+            float addDmg = ((ProjectileStats)projectilePrefab.Stats).Damage.Value;
+            float totalDmg = addDmg + shooter.FighterStats.AttackDamage.Value;
+
+            float finalDmg = 0;
+
+            bool isCrit = UnityEngine.Random.Range(0f, 1f) < totalCritChance;
+            if (isCrit)
+            {
+                finalDmg = totalDmg * (totalCritDmg + 1);
+            }
+            else
+            {
+                finalDmg = totalDmg;
+            }
+
+            projectile.SetDamage(finalDmg, isCrit);
+
+
         }
 
         protected virtual Quaternion CalculateShootDirection()
@@ -67,9 +85,24 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
             float addAccuarcyFromProjectile = ((ProjectileStats)projectilePrefab.Stats).Accuracy.Value;
             float shooterAccuracy = shooter.FighterStats.AttackAccuracy.Value;
             float totalAccuaracy = addAccuarcyFromProjectile + shooterAccuracy;
-            Vector2 finalShootDirection = Quaternion.Euler(0, 0, Random.Range(-totalAccuaracy / 2, totalAccuaracy / 2)) * shootDirection;
+            Vector2 finalShootDirection = Quaternion.Euler(0, 0, Random.Range(-totalAccuaracy, totalAccuaracy)) * shootDirection;
             var aimDirection = Quaternion.LookRotation(Vector3.forward, finalShootDirection);
             return aimDirection;
+        }
+
+        public override void Consume(RangedStat ammo)
+        {
+            int numOfProjectileWant = DefaultNumOfProjectile;
+            int numOfProjectileCanProvide = (int)ammo.Value;
+
+            if (numOfProjectileCanProvide < numOfProjectileWant)
+            {
+                NumOfProjectile = numOfProjectileCanProvide;
+            }
+            else
+            {
+                NumOfProjectile = DefaultNumOfProjectile;
+            }
         }
     }
 }

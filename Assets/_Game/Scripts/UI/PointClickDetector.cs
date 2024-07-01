@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using _Game.Scripts;
 using _Game.Scripts.Entities;
 using _Game.Scripts.GameContext;
-using _Game.Scripts.Input;
 using UnityEngine;
 
 public class PointClickDetector : MonoBehaviour

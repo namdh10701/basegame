@@ -233,6 +233,7 @@ MonoBehaviour:
   FindTargetBehaviour: {fileID: 7147069703896698860}
   usingBullet: {fileID: 5909292734019790869, guid: f484edc2e211fba4abf6d10c45701042, type: 3}
   Animation: {fileID: 2096826101554558456}
+  isBrokenn: 0
 --- !u!114 &-717564830529616064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -300,6 +301,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b296f66e694a42d2af2ee4a01ec0a872, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  defaultNumOfProjectile: 1
   lookupRange: 5
   bounceTimes: 5
   damageScale: 0
@@ -866,6 +868,8 @@ MonoBehaviour:
   <Direction>k__BackingField: {x: 0, y: 0, z: 0}
   <Rotation>k__BackingField: {x: 0, y: 0, z: 0, w: 0}
   changeTargetTime: 2
+  changeTargetTimer: 0
+  _targetTransform: {fileID: 0}
 --- !u!1001 &6087206401005091334
 PrefabInstance:
   m_ObjectHideFlags: 0

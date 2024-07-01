@@ -33,6 +33,8 @@ namespace _Base.Scripts.RPGCommon.Entities
 
         public EffectCollisionHandler CollisionHandler;
 
+        public bool isCrit;
+
         protected override void Awake()
         {
             base.Awake();
@@ -75,6 +77,12 @@ namespace _Base.Scripts.RPGCommon.Entities
         public void AddAccuaracy(StatModifier statModifier)
         {
             _stats.Accuracy.AddModifier(statModifier);
+        }
+
+        public void SetDamage(float dmg, bool isCrit)
+        {
+            _stats.Damage.BaseValue = dmg;
+            this.isCrit = isCrit;
         }
 
         private void OnBecameInvisible()

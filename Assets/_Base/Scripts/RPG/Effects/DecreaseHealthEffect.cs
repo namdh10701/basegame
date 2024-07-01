@@ -14,6 +14,9 @@ namespace _Base.Scripts.RPG.Effects
         [field: SerializeField]
         public float Amount { get; set; }
 
+        [field: SerializeField]
+        public float AmmoPenetrate { get; set; }
+
         public DecreaseHealthEffect(float amount)
         {
             Amount = amount;
@@ -30,17 +33,20 @@ namespace _Base.Scripts.RPG.Effects
                 return;
             }
             float finalAmount = Amount;
-            float blockChance;
+            float blockChance = 0;
 
             if (entity.Stats is EnemyStats enemyStats)
             {
-
+                blockChance = enemyStats.BlockChance.Value;
             }
 
-            if (entity.Stats is CannonStats cannonStats)
+            if (entity.Stats is ShipStats shipStats)
             {
-
+                blockChance = shipStats.BlockChance.Value;
             }
+            blockChance -= AmmoPenetrate;
+            blockChance = Mathf.Clamp01(blockChance);
+            finalAmount = finalAmount * (1 - blockChance);
 
             alive.HealthPoint.StatValue.BaseValue -= finalAmount;
         }

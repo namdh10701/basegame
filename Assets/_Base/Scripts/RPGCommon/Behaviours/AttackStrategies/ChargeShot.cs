@@ -12,11 +12,10 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
         public float maxAngle = 20f;
         public float minSpeedBulletModifier = -1;
         public float maxSpeedBulletModifier = -10;
-        public int amount = 3;
 
         public override void DoAttack()
         {
-            for (var idx = 0; idx < amount; idx++)
+            for (var idx = 0; idx < NumOfProjectile; idx++)
             {
                 float randomAngle = Random.Range(minAngle, maxAngle);
                 var shootDirection = transform.rotation.Rotate(randomAngle);
