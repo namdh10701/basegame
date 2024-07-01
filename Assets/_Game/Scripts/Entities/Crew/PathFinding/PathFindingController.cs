@@ -12,7 +12,7 @@ namespace _Game.Scripts
 
         public List<Cell> cells;
         public List<Node> nodes;
-        private void Awake()
+        public void Initialize()
         {
             for (int i = 0; i < cells.Count; i++)
             {

@@ -214,7 +214,6 @@ namespace _Game.Scripts.Entities
         {
             foreach (Cell cell in OccupyCells)
             {
-                Debug.Log(cell.ToString() + " " + cell.stats.HealthPoint.IsFull);
                 if (cell.stats.HealthPoint.Value == cell.stats.HealthPoint.MinValue)
                 {
                     return;

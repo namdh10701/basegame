@@ -103,6 +103,7 @@ public class CrewController : MonoBehaviour
         Debug.Log("GEt Suitable crew job");
         if (crewJob.WorkLocation.WorkingSlots.Count == 0)
         {
+            Debug.Log("PKPK");
             return null;
         }
         List<Crew> ret = GetFreeCrews();

@@ -103,6 +103,7 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
             {
                 NumOfProjectile = DefaultNumOfProjectile;
             }
+            ammo.StatValue.BaseValue -= NumOfProjectile;
         }
     }
 }

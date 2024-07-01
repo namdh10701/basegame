@@ -53,9 +53,7 @@ public class ReloadCannonJob : CrewJob
         cannonWorkingSlot = DistanceHelper.GetClosestToPosition(availableCannonWorkingSlots.ToArray(), (slot) => slot, crew.transform.position);
         yield return crew.CrewMovement.MoveCarry(cannonWorkingSlot.transform.position);
         crew.Dropdown();
-        yield return new WaitForSeconds(.35f);
-        yield return new WaitForSeconds(.25f);
-
+        yield return new WaitForSeconds(.5f);
         cannon.Reloader.Reload(bullet);
         crew.CrewAction.CarryingBullet = null;
         GlobalEvent.Send("ReloadCompleted");

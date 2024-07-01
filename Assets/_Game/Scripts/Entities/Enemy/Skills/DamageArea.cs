@@ -34,6 +34,10 @@ namespace _Game.Scripts
 
         public void SetRange(float range)
         {
+            if (range <= 0)
+            {
+                range = 1;
+            }
             collider.radius = range;
         }
     }

@@ -81,10 +81,12 @@ namespace _Game.Scripts.Gameplay
             Debug.Log("TOGGLE PAUSE " + isPause);
             if (isPause)
             {
+                BattleInputManager.enabled = false;
                 Time.timeScale = 0;
             }
             else
             {
+                BattleInputManager.enabled = true;
                 Time.timeScale = currentRate;
             }
         }

@@ -32,6 +32,7 @@ namespace _Game.Scripts.Gameplay.Ship
         {
             base.Awake();
             EffectCollider.Taker = this;
+            PathfindingController.Initialize();
             ShipSetup.Initialize();
             CrewJobData.Initialize();
         }

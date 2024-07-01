@@ -89,7 +89,6 @@ namespace _Game.Scripts
         public void StopCarry()
         {
             Animation.StopCarry();
-            CrewAction.CarryingBullet = null;
         }
 
         public void Dropdown()
