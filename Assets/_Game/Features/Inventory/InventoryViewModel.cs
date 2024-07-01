@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using _Game.Scripts.GD;
@@ -130,6 +131,11 @@ namespace _Game.Features.Inventory
         //     }
         //
         // }
+
+        private void Awake()
+        {
+            InitializeInternal();
+        }
 
         protected void InitializeInternal()
         {

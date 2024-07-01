@@ -17,11 +17,7 @@ namespace _Game.Features.Home
         [Binding]
         public async void NavBack()
         {
-            // var options = new ViewOptions("MainScreen", false, loadAsync: false);
-            
-            // await ScreenContainer.Of(transform).PushAsync(options);
-            await ScreenContainer.Of(transform).PopAsync(false);
-            // await Launcher.ContainerManager.Find<ScreenContainer>(ContainerKey.Screens).PushAsync(options);
+            await ScreenContainer.Find(ContainerKey.Screens).PopAsync(true);
         }
         
         [Binding]

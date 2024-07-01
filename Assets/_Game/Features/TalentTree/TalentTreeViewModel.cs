@@ -92,7 +92,7 @@ namespace _Game.Scripts.Gameplay.TalentTree
         [Binding]
         public async void NavBack()
         {
-            await ScreenContainer.Find(ContainerKey.Screens).PopAsync(false);
+            await ScreenContainer.Find(ContainerKey.Screens).PopAsync(true);
         }
     }
 }

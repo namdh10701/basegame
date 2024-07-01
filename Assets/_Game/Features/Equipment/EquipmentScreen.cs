@@ -1,10 +1,9 @@
-using System;
-using Cysharp.Threading.Tasks;
+using UnityWeld.Binding;
 using ZBase.UnityScreenNavigator.Core.Screens;
 
 namespace _Game.Features.Equipment
 {
-    public class EquipmentScreen : ZBase.UnityScreenNavigator.Core.Screens.Screen
+    public class EquipmentScreen : Screen
     {
 
         
