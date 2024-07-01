@@ -3,6 +3,7 @@ using System.Linq;
 using _Game.Features.Inventory;
 using UnityWeld.Binding;
 using ZBase.UnityScreenNavigator.Core.Screens;
+using ZBase.UnityScreenNavigator.Core.Sheets;
 
 namespace _Game.Features.Equipment
 {
@@ -15,6 +16,8 @@ namespace _Game.Features.Equipment
             var items = Items.Where(v => v.IsSelected).ToList();
             var args = new object[] { items }.AsMemory();
             await ScreenContainer.Find(ContainerKey.Screens).PopAsync(true, args);
+            
+            // new SheetContainer().show
         }
         
         [Binding]

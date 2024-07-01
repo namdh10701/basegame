@@ -8,11 +8,12 @@ using UnityEngine.UI;
 using UnityWeld.Binding;
 using ZBase.UnityScreenNavigator.Core.Screens;
 using ZBase.UnityScreenNavigator.Core.Views;
+using Screen = ZBase.UnityScreenNavigator.Core.Screens.Screen;
 
 namespace _Game.Features.Home
 {
     [Binding]
-    public class ShipSelectionScreen : RootViewModel
+    public class ShipSelectionScreen : Screen
     {
         [SerializeField] Button _btnNext;
         [SerializeField] Button _btnPrevious;
