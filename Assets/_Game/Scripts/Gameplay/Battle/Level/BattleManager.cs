@@ -8,6 +8,7 @@ namespace _Game.Scripts.Gameplay
     public class BattleManager : MonoBehaviour
     {
         public string selectShipid = "0001";
+        public static string StageId;
         public Transform shipStartPos;
         public EntityManager EntityManager;
         public LevelStartSequence LevelStartSequence;
