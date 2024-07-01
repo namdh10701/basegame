@@ -18,6 +18,9 @@ namespace _Base.Scripts.RPGCommon.Entities
         public ProjectileStats _stats;
         public ProjectileStatsTemplate _statsTemplate;
         public ProjectileMovement ProjectileMovement;
+        public Transform trail;
+
+
         public override Stats Stats => _stats;
 
         public Rarity rarity;

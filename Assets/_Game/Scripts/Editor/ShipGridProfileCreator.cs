@@ -128,7 +128,6 @@ namespace _Game.Scripts.Editor
                 Debug.LogError("Profile name cannot be empty.");
                 return;
             }
-
             // Create a new instance of ShipGridProfile
             ShipGridProfile newProfile = ScriptableObject.CreateInstance<ShipGridProfile>();
             newProfile.name = profileName;

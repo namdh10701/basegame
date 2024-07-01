@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using _Base.Scripts.Utils.Extensions;
 using _Game.Scripts;
+using _Game.Scripts.Entities;
 using UnityEngine;
 
 namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
@@ -8,15 +9,22 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
     [AddComponentMenu("[Attack Strategy] ChargeShot")]
     public class ChargeShot : NormalShot
     {
-        public float minAngle = -20f;
-        public float maxAngle = 20f;
+        public Cannon Cannon;
         public float minSpeedBulletModifier = -1;
         public float maxSpeedBulletModifier = -10;
 
         public override void DoAttack()
         {
+
             for (var idx = 0; idx < NumOfProjectile; idx++)
             {
+                CannonProjectile cannonProjectile = projectilePrefab as CannonProjectile;
+                float projectileAcc = cannonProjectile._stats.Accuracy.Value;
+                float totalAccuaracy = ((CannonStats)Cannon.Stats).AttackAccuracy.Value + projectileAcc;
+
+                float minAngle = -totalAccuaracy;
+                float maxAngle = +totalAccuaracy;
+
                 float randomAngle = Random.Range(minAngle, maxAngle);
                 var shootDirection = transform.rotation.Rotate(randomAngle);
                 var projectile = SpawnProjectile(shootDirection, shootPosition);

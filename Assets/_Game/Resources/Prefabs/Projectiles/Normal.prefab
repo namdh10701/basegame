@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7188977587407966902}
   - component: {fileID: 292029460558565649}
   - component: {fileID: 7660929151667435978}
+  - component: {fileID: 5223750145245582982}
   m_Layer: 7
   m_Name: Sprite
   m_TagString: Untagged
@@ -98,6 +99,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotateSpeed: 1080
+--- !u!114 &5223750145245582982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 894044787491279002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e5c1a2381f52a344a55a0e202479409, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &977592330736677613
 GameObject:
   m_ObjectHideFlags: 0
@@ -128,7 +141,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7691449450847267648}
+  m_Father: {fileID: 4442994418334333028}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!96 &8034738838345602208
 TrailRenderer:
@@ -273,7 +286,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7691449450847267648}
+  m_Father: {fileID: 4442994418334333028}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!96 &3236910729955543521
 TrailRenderer:
@@ -517,8 +530,7 @@ Transform:
   - {fileID: 7188977587407966902}
   - {fileID: 6595177705596107890}
   - {fileID: 5498933391540071804}
-  - {fileID: 8095549035428341980}
-  - {fileID: 7684357309414057846}
+  - {fileID: 4442994418334333028}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &9038214777133773486
@@ -564,10 +576,18 @@ MonoBehaviour:
     <CritDamage>k__BackingField:
       statModifiers: []
       _baseValue: 0
+    <MagazineSize>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <EnergyCost>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
   _statsTemplate: {fileID: 11400000, guid: 1ef6ab080ed668d47bfaa43b43978cf3, type: 2}
+  trail: {fileID: 4442994418334333028}
   rarity: 0
   outGoingEffects: []
   collisionListener: {fileID: 318803717019137845}
+  isCrit: 0
 --- !u!50 &1933465007915484115
 Rigidbody2D:
   serializedVersion: 4
@@ -608,6 +628,39 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EffectCollisionDetector: {fileID: 7581715947928714615}
+--- !u!1 &7552188455482857825
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4442994418334333028}
+  m_Layer: 7
+  m_Name: Trail
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4442994418334333028
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7552188455482857825}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 8095549035428341980}
+  - {fileID: 7684357309414057846}
+  m_Father: {fileID: 7691449450847267648}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &603067967104134390
 PrefabInstance:
   m_ObjectHideFlags: 0

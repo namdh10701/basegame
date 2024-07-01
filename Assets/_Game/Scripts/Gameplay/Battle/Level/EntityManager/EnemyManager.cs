@@ -18,8 +18,9 @@ namespace _Game.Scripts.Battle
         [SerializeField] Vector3 jellyFishSpawnPoint;
 
         [SerializeField] Timer enemySpawnTimer;
-
-
+        bool isStart;
+        float delayTime = 5;
+        float delayElapsedTime = 0;
         private void Awake()
         {
             LoadLevelEnemyData();
@@ -34,6 +35,7 @@ namespace _Game.Scripts.Battle
         }
         public void StartLevel()
         {
+            isStart = true;
             foreach (var spawnData in levelDesignConfigs)
             {
                 TimedEvent timedEvent = new TimedEvent(spawnData.time_offset, () => SpawnEnemy(spawnData.enemy_id));
@@ -41,6 +43,15 @@ namespace _Game.Scripts.Battle
             }
             enemySpawnTimer.StartTimer();
         }
+
+        public bool IsLevelDone { get => enemySpawnTimer.timedEvents.Count == 0; }
+
+        public void CleanUp()
+        {
+            isStart = false;
+            enemySpawnTimer.Clear();
+        }
+
 
         public void SpawnEnemy(string id)
         {

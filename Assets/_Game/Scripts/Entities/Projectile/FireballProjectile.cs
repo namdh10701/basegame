@@ -1,6 +1,7 @@
 using _Base.Scripts.RPGCommon.Entities;
 using _Game.Scripts.Entities;
 using _Game.Scripts;
+using UnityEngine;
 
 public class FireballProjectile : CannonProjectile
 {
@@ -39,8 +40,8 @@ public class FireballProjectile : CannonProjectile
         void IHandler.Process(Projectile p, IEffectGiver mainEntity, IEffectTaker collidedEntity)
         {
             isCompleted = true;
-            damageArea.transform.parent = null;
-            damageArea.gameObject.SetActive(true);
+            DamageArea da = Instantiate(damageArea, p.transform.position, Quaternion.identity, null);
+            da.gameObject.SetActive(true);
         }
     }
 }

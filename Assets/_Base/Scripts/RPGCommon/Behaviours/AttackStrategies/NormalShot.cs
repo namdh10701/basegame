@@ -17,7 +17,7 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
     {
         Cannon Cannon;
         protected Transform shootPosition;
-        private Entity projectilePrefab;
+        protected Entity projectilePrefab;
         private Vector2 shootDirection;
         private IShooter shooter;
         private void Awake()
@@ -55,20 +55,20 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
         {
             CannonStats cannonStats = (CannonStats)Cannon.Stats;
             projectile.AddCritChance(new StatModifier(cannonStats.CriticalChance.Value, StatModType.Flat, 1));
-
-            float addCritChanceFromProjectile = ((ProjectileStats)projectilePrefab.Stats).Accuracy.Value;
+            ProjectileStats pStats = (ProjectileStats)Cannon.usingBullet.Stats;
+            float addCritChanceFromProjectile = pStats.CritChance.Value;
             float totalCritChance = addCritChanceFromProjectile + shooter.FighterStats.CriticalChance.Value;
-            float addCritDmgFromProjectile = ((ProjectileStats)projectilePrefab.Stats).CritDamage.Value;
+            float addCritDmgFromProjectile = pStats.CritDamage.Value;
             float totalCritDmg = addCritDmgFromProjectile + shooter.FighterStats.CriticalDamage.Value;
-            float addDmg = ((ProjectileStats)projectilePrefab.Stats).Damage.Value;
+            float addDmg = pStats.Damage.Value;
             float totalDmg = addDmg + shooter.FighterStats.AttackDamage.Value;
-
+            Debug.Log(addDmg);
             float finalDmg = 0;
 
             bool isCrit = UnityEngine.Random.Range(0f, 1f) < totalCritChance;
             if (isCrit)
             {
-                finalDmg = totalDmg * (totalCritDmg + 1);
+                finalDmg = totalDmg * (totalCritDmg);
             }
             else
             {

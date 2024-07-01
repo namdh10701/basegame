@@ -1,4 +1,5 @@
 using _Game.Scripts.Battle;
+using _Game.Scripts.Gameplay.Ship;
 using MBT;
 using UnityEngine;
 
@@ -6,6 +7,7 @@ namespace _Game.Scripts.Entities
 {
     public class PufferFishMove : MonoBehaviour
     {
+        public Ship Ship;
         public PufferFishAnimation pfa;
         public Rigidbody2D body;
 
@@ -36,6 +38,7 @@ namespace _Game.Scripts.Entities
         public float animSync;
         private void Start()
         {
+            Ship = FindAnyObjectByType<Ship>(FindObjectsInactive.Exclude);
             fastForce.RefreshValue();
             maxFastSpeed.RefreshValue();
             timeAccelerate.RefreshValue();
@@ -44,6 +47,10 @@ namespace _Game.Scripts.Entities
             slowdownTime.RefreshValue();
             slowdownSpeed.RefreshValue();
             normalTime.RefreshValue();
+
+            Vector2 targetPos = Ship.ShipArea.SamplePoint();
+            direction.BaseValue = (targetPos - (Vector2)transform.position).normalized;
+            direction.RefreshValue();
         }
 
         public void Move()

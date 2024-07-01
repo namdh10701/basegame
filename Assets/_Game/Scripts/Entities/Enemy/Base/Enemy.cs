@@ -49,6 +49,7 @@ namespace _Game.Scripts.Entities
         }
         public virtual void Die()
         {
+            body.velocity = Vector3.zero;
             pushCollider.enabled = false;
             EffectTakerCollider.gameObject.SetActive(false);
             MBTExecutor.gameObject.SetActive(false);

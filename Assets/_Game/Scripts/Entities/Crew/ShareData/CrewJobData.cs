@@ -79,6 +79,14 @@ public class CrewJobData : MonoBehaviour
         GlobalEvent<Cell, int>.Register("Fix", ActivateFixCellJob);
     }
 
+    private void OnDestroy()
+    {
+        GlobalEvent<Cannon, Bullet, int>.Unregister("Reload", ActivateReloadCannonJob);
+     
+     
+        GlobalEvent<Cell, int>.Unregister("Fix", ActivateFixCellJob);
+    }
+
     void ActivateReloadCannonJob(Cannon cannon, Bullet bullet, int piority = 0)
     {
         ReloadCannonJob reloadCannonJob = ReloadCannonJobsDic[cannon];

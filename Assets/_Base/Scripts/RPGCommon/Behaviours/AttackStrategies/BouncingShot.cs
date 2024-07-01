@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using _Base.Scripts.RPG;
 using _Base.Scripts.RPG.Behaviours.FindTarget;
 using _Base.Scripts.RPG.Entities;
@@ -24,7 +25,7 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
             var shootDirection = CalculateShootDirection();
             var projectile = SpawnProjectile(shootDirection, shootPosition);
             ((ProjectileCollisionHandler)projectile.CollisionHandler).Handlers.Add(new BouncingHandler(bounceTimes, lookupRange));
-            projectile.ProjectileMovement = new HomingMove(projectile, targetBehaviour.MostTargets[0].transform);
+            projectile.ProjectileMovement = new StraightMove(projectile);
         }
 
         public class BouncingHandler : IHandler
@@ -45,20 +46,30 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
             void IHandler.Process(Projectile p, IEffectGiver mainEntity, IEffectTaker collidedEntity)
             {
                 List<Entity> inRangeEntities = new List<Entity>();
-                RaycastHit2D[] inRangeColliders = Physics2D.CircleCastAll(collidedEntity.Transform.position, range, Vector2.zero);
+                RaycastHit2D[] inRangeColliders = Physics2D.CircleCastAll(collidedEntity.Transform.position, range, Vector2.zero,LayerMask.NameToLayer("Enemy"));
                 foreach (RaycastHit2D hit in inRangeColliders)
                 {
-                    if (hit.collider.TryGetComponent(out EffectCollisionDetector entityCollisionDetector))
+                    if (hit.collider.TryGetComponent(out EffectTakerCollider entityCollisionDetector))
                     {
+                        Debug.Log(hit.collider);
                         Entity entity = entityCollisionDetector.GetComponent<EntityProvider>().Entity;
+                        IEffectTaker taker = entity.GetComponent<IEffectTaker>();
 
-
-                        if (!((ProjectileCollisionHandler)p.CollisionHandler).IgnoreCollideEntities.Contains(collidedEntity))
+                        if (!((ProjectileCollisionHandler)p.CollisionHandler).IgnoreCollideEntities.Contains(taker))
                         {
                             if (entity is Enemy)
                             {
+                                Debug.Log("add");
                                 inRangeEntities.Add(entity);
                             }
+                            else
+                            {
+                                Debug.Log("K PHAI DAU");
+                            }
+                        }
+                        else
+                        {
+                            Debug.Log("ignore ngay");
                         }
                     }
                 }
@@ -78,7 +89,7 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
                     }
 
                     bounceCount++;
-                    ((HomingMove)p.ProjectileMovement).target = nextTarget.transform;
+                    p.ProjectileMovement = new HomingMove(p, nextTarget.transform);
                     Debug.Log(nextTarget.name);
                 }
                 else

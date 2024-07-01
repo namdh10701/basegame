@@ -46,7 +46,11 @@ namespace _Game.Scripts
                     {
                         missingCell.x = j;
                         missingCell.y = i;
-                        if (!ShipGridProfile.GridDefinitions[gridIndex].MissingCells.Contains(missingCell))
+                        if (ShipGridProfile.GridDefinitions[gridIndex].MissingCells != null)
+                        {
+                            AllCells.Add(Grids[gridIndex].Cells[i, j]);
+                        }
+                        else if (!ShipGridProfile.GridDefinitions[gridIndex].MissingCells.Contains(missingCell))
                             AllCells.Add(Grids[gridIndex].Cells[i, j]);
                     }
                 }

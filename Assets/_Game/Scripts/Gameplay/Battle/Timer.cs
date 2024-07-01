@@ -56,7 +56,10 @@ public class Timer : MonoBehaviour
     {
         elapsedTime = time;
     }
-
+    public void Clear()
+    {
+        timedEvents.Clear();
+    }
 
     public void RegisterEvent(TimedEvent timedEvent)
     {

@@ -40,7 +40,7 @@ namespace _Game.Scripts
         public void PlayIdle()
         {
             skeletonAnimation.AnimationState.SetAnimation(0, idle, true);
-        
+
         }
         public void PlayCarry()
         {
@@ -69,7 +69,7 @@ namespace _Game.Scripts
         public void PlayDropDown()
         {
             skeletonAnimation.AnimationState.SetEmptyAnimation(1, 0);
-            skeletonAnimation.AnimationState.SetAnimation(0, dropdown, true);
+            skeletonAnimation.AnimationState.SetAnimation(0, dropdown, false);
         }
 
         public void AddIdle()

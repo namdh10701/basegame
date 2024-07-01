@@ -1,9 +1,13 @@
 using _Base.Scripts.EventSystem;
+using _Game.Features;
 using _Game.Features.Battle;
 using _Game.Scripts.Battle;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ZBase.UnityScreenNavigator.Core.Modals;
+using ZBase.UnityScreenNavigator.Core.Screens;
+using ZBase.UnityScreenNavigator.Core.Views;
 
 namespace _Game.Scripts.Gameplay
 {
@@ -49,13 +53,42 @@ namespace _Game.Scripts.Gameplay
             EnemyManager.StartLevel();
             BattleInputManager.gameObject.SetActive(true);
             EntityManager.Ship.ShipSetup.CrewController.ActivateCrews();
+            StartCoroutine(CheckLevelDone());
+        }
+
+        IEnumerator CheckLevelDone()
+        {
+            while (true)
+            {
+                yield return new WaitForSeconds(1);
+                if (EnemyManager.IsLevelDone && EntityManager.aliveEntities.Count == 0)
+                {
+                    Debug.Log("Win");
+                    Win();
+                }
+                else
+                {
+
+                    Debug.Log("Win M");
+                }
+            }
+        }
+
+        async void Win()
+        {
+            //CleanUp();
+            var options = new ViewOptions("BattleVictory1Screen", false, loadAsync: false);
+
+            await ScreenContainer.Find(ContainerKey.Screens).PushAsync(options);
         }
 
 
         public void CleanUp()
         {
+            Time.timeScale = 1;
             GlobalEvent<bool>.Unregister("TOGGLE_PAUSE", TogglePause);
-            //EntityManager.CleanUp();
+            currentRate = 1;
+            EntityManager.CleanUp();
         }
 
         private readonly int _minSpeedUpRate = 1;
@@ -81,12 +114,12 @@ namespace _Game.Scripts.Gameplay
             Debug.Log("TOGGLE PAUSE " + isPause);
             if (isPause)
             {
-                BattleInputManager.enabled = false;
+                BattleInputManager.gameObject.SetActive(false);
                 Time.timeScale = 0;
             }
             else
             {
-                BattleInputManager.enabled = true;
+                BattleInputManager.gameObject.SetActive(true);
                 Time.timeScale = currentRate;
             }
         }

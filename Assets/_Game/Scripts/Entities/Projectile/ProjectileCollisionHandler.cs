@@ -5,6 +5,7 @@ using _Game.Scripts;
 using _Game.Scripts.Entities;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 public interface IHandler
 {
@@ -58,8 +59,18 @@ public class ProjectileCollisionHandler : DefaultEffectCollisionHandler
         }
         if (Handlers.Count == 0)
         {
-            Object.Destroy(projectile.gameObject);
+            FinalAct();
         }
+    }
+
+    public void FinalAct()
+    {
+        if (projectile.trail != null)
+        {
+            projectile.trail.parent = null;
+            projectile.trail.AddComponent<DestroyAfterEnabled>();
+        }
+        Object.Destroy(projectile.gameObject);
     }
 }
 

@@ -25,6 +25,7 @@ namespace _Game.Scripts.Battle
         {
             Enemy enemy = ResourceLoader.LoadEnemy(id);
             Enemy spawned = Instantiate(enemy, position, Quaternion.identity, enemyRoot);
+            aliveEntities.Add(spawned);
         }
 
         public Entity SpawnEntity(Entity entity, Vector3 position, Quaternion rotation, Transform parent)
@@ -48,6 +49,17 @@ namespace _Game.Scripts.Battle
                 aliveEntities.Remove(alive);
                 GlobalEvent<Entity>.Send("EntityDied", alive);
             }
+        }
+
+        public void CleanUp()
+        {
+            Destroy(Ship.gameObject);
+            foreach (Entity e in aliveEntities)
+            {
+                if (e != null)
+                    Destroy(e.gameObject);
+            }
+            aliveEntities.Clear();
         }
     }
 }

@@ -14,7 +14,6 @@ namespace MBT
 
         public override void Task()
         {
-            Debug.Log("UPDAte");
             IsReadyToAttack.Value = Enemy.Value.IsReadyToAttack();
         }
     }

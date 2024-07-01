@@ -40,7 +40,6 @@ namespace _Game.Scripts.GD
             cannonSt.HealthPoint.StatValue.BaseValue = hp;
             cannonSt.HealthPoint.MaxStatValue.BaseValue = hp;
             cannonSt.AttackDamage.BaseValue = attack;
-            cannonSt.AttackDamage.BaseValue = attack_speed;
             cannonSt.AttackAccuracy.BaseValue = accuracy;
             cannonSt.CriticalChance.BaseValue = crit_chance;
             cannonSt.CriticalDamage.BaseValue = crit_damage;
