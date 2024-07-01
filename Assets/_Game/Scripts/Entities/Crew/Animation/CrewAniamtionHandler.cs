@@ -40,6 +40,7 @@ namespace _Game.Scripts
         public void PlayIdle()
         {
             skeletonAnimation.AnimationState.SetAnimation(0, idle, true);
+        
         }
         public void PlayCarry()
         {

@@ -27,7 +27,7 @@ public class BulletsMenu : MonoBehaviour
 
     void OnReloadComplete()
     {
-        gameObject.SetActive(false);
+        transform.parent.gameObject.SetActive(false);
     }
 
     public void Setup(Cannon cannon, List<Bullet> gridItemDatas)

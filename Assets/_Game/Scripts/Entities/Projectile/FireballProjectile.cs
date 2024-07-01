@@ -39,6 +39,7 @@ public class FireballProjectile : CannonProjectile
         void IHandler.Process(Projectile p, IEffectGiver mainEntity, IEffectTaker collidedEntity)
         {
             isCompleted = true;
+            damageArea.transform.parent = null;
             damageArea.gameObject.SetActive(true);
         }
     }
