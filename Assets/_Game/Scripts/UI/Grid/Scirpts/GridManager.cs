@@ -8,7 +8,7 @@ namespace _Base.Scripts.UI
         [SerializeField] public GridConfig GridConfig;
         [SerializeField] public List<RectTransform> ParentCells;
         [SerializeField] private List<Transform> _startPos;
-        [SerializeField] private InventoryItemsConfig _TestinventoryItemsConfig;
+        [SerializeField] public InventoryItemsConfig InventoryReceived;
         [SerializeField] public RectTransform m_rect;
 
         [SerializeField] GameObject _tash;
@@ -35,11 +35,10 @@ namespace _Base.Scripts.UI
 
         public void LoadInventoryItems()
         {
-            // AddInventoryItemsInfo(_TestinventoryItemsConfig.inventoryItemsInfo, GridConfig.grids[1]);
-
-            LoadInventoryItemsOnGrid(shipData.backstash_items, GridConfig.grids[0], ParentCells[0]);
-            // LoadInventoryItemsOnGrid(shipData.backstash_items, GridConfig.grids[0], ParentCells[0]);
-
+            for (int i = 0; i < GridConfig.grids.Count; i++)
+            {
+                LoadInventoryItemsOnGrid(GridConfig.grids[i].inventoryItemsConfig.inventoryItemsInfo, GridConfig.grids[i], ParentCells[i]);
+            }
         }
 
         public void EnableDragItem(bool enable)
@@ -53,18 +52,8 @@ namespace _Base.Scripts.UI
 
         }
 
-        [ContextMenu("Add item")]
-        public void AddItem()
-        {
-            RemoveAllInventoryItems();
-            AddInventoryItemsInfo(_TestinventoryItemsConfig.inventoryItemsInfo, GridConfig.grids[1]);
-            LoadInventoryItems();
-        }
-
-
         void OnDisable()
         {
-            // RemoveInventoryItemsInfo(_TestinventoryItemsConfig.inventoryItemsInfo, GridConfig.grids[1]);
             RemoveAllInventoryItems();
 
             foreach (var item in GridConfig.grids[0].inventoryItemsConfig.inventoryItemsInfo)
@@ -140,13 +129,13 @@ namespace _Base.Scripts.UI
 
         }
 
-        public void AddInventoryItemsInfo(List<InventoryItemInfo> inventoryItems, GridInfor grid)
+        public void AddInventoryItemsInfo(List<InventoryItemInfo> inventoryItems)
         {
             foreach (var inventoryItem in inventoryItems)
             {
-                if (CheckPlaceItem(inventoryItem, grid))
+                if (CheckPlaceItem(inventoryItem, GridConfig.grids[1]))
                 {
-                    grid.inventoryItemsConfig.inventoryItemsInfo.Add(inventoryItem);
+                    GridConfig.grids[1].inventoryItemsConfig.inventoryItemsInfo.Add(inventoryItem);
                 }
                 else
                 {
@@ -204,20 +193,8 @@ namespace _Base.Scripts.UI
         }
 
 
-        private void LoadInventoryItemsOnGrid(List<StashItem> stashItems, GridInfor grid, Transform parent)
+        private void LoadInventoryItemsOnGrid(List<InventoryItemInfo> inventoryItems, GridInfor grid, Transform parent)
         {
-            var inventoryItems = new List<InventoryItemInfo>();
-            foreach (var item in stashItems)
-            {
-                var inventoryItem = new InventoryItemInfo();
-                inventoryItem.inventoryItemData.gridItemDef = item.gridItemDef;
-                inventoryItem.inventoryItemData.startX = item.startX;
-                inventoryItem.inventoryItemData.startY = item.startY;
-                inventoryItem.inventoryItemData.gridID = grid.id;
-
-                inventoryItems.Add(inventoryItem);
-            }
-
             foreach (var inventoryItem in inventoryItems)
             {
                 inventoryItem.inventoryItemData.gridID = grid.id;
@@ -255,6 +232,7 @@ namespace _Base.Scripts.UI
                         ChangeStatusCell(inventoryItemInfo.inventoryItemData, r, c, grid, StatusCell.Occupied);
                         itemPlaced = true;
                     }
+
                 }
             }
 

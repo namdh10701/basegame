@@ -12,6 +12,8 @@ public struct GridItemData
 {
     public string GridId;
     public Vector3 position;
+    public int startX;
+    public int startY;
     public GridItemDef Def;
     public List<Vector2Int> OccupyCells;
 }

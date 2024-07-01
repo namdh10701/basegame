@@ -9,6 +9,13 @@ namespace _Game.Scripts
         public static Dictionary<int, int[,]> ShapeDic = new Dictionary<int, int[,]>()
         {
             {
+                0,
+                    new int[,]
+                    {
+                        { 1 }
+                    }
+            },
+            {
                 1,
                     new int[,]
                     {
