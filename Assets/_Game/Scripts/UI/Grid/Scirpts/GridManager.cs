@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using _Game.Scripts;
 using UnityEngine;
 namespace _Base.Scripts.UI
@@ -14,8 +15,9 @@ namespace _Base.Scripts.UI
         [SerializeField] GameObject _gridImage;
         [SerializeField] InventoryItem _prefabInventoryItem;
 
-        public List<InventoryItem> InventoryItemsOnStash = new List<InventoryItem>();
+        public List<InventoryItem> InventoryItems = new List<InventoryItem>();
         public List<InventoryItem> InventoryItemsOnGrid = new List<InventoryItem>();
+        public List<InventoryItem> InventoryItemsOnStash = new List<InventoryItem>();
         private string _shipID;
 
         void Awake()
@@ -35,7 +37,7 @@ namespace _Base.Scripts.UI
 
         public void EnableDragItem(bool enable)
         {
-            foreach (var item in InventoryItemsOnStash)
+            foreach (var item in InventoryItems)
             {
                 item.Icon.raycastTarget = enable;
             }
@@ -44,9 +46,10 @@ namespace _Base.Scripts.UI
 
         }
 
-        void OnDisable()
+        public void FillInventoryItems()
         {
-            InventoryItemsOnStash.RemoveAll(item => item.GetInventorInfo().gridID == "Ship_1");
+            InventoryItemsOnGrid = InventoryItems.Where(item => item.GetInventorInfo().gridID == "Ship_1").ToList();
+            InventoryItemsOnStash = InventoryItems.Where(item => item.GetInventorInfo().gridID == "Stash").ToList();
         }
 
         public void Initialize(string shipID)
@@ -138,7 +141,7 @@ namespace _Base.Scripts.UI
             }
         }
 
-       public void SubmitItemInventorToGamePlay()
+        public void SubmitItemInventorToGamePlay()
         {
             var GridItemDatas = new List<GridItemData>();
             foreach (var item in GridConfig.grids[0].ItemsReceived.InventoryItemsData)
@@ -220,27 +223,76 @@ namespace _Base.Scripts.UI
                 inventoryItem.gridID = grid.id;
                 var item = Instantiate<InventoryItem>(_prefabInventoryItem, parent);
                 item.Setup(inventoryItem);
-                InventoryItemsOnStash.Add(item);
+                InventoryItems.Add(item);
             }
+
+            FillInventoryItems();
         }
 
         private void RemoveAllInventoryItemsOnStash()
         {
+            List<GameObject> itemsToDestroy = new List<GameObject>();
+
+            // Kiểm tra và thêm vào danh sách tạm thời chỉ khi đối tượng chưa bị hủy
             foreach (var item in InventoryItemsOnStash)
             {
-                Destroy(item.gameObject);
+                if (item != null && item.gameObject != null)
+                {
+                    itemsToDestroy.Add(item.gameObject);
+                }
             }
+
+            // Hủy tất cả các đối tượng trong danh sách tạm thời
+            foreach (var item in itemsToDestroy)
+            {
+                Destroy(item);
+            }
+
+            // Xóa các tham chiếu khỏi danh sách gốc
             InventoryItemsOnStash.Clear();
         }
 
+
         public void RemoveAllInventoryItems()
         {
+            // Create temporary lists to hold the items to be destroyed
+            List<GameObject> itemsToDestroy = new List<GameObject>();
+
+            foreach (var item in InventoryItemsOnGrid)
+            {
+                if (item != null)
+                {
+                    itemsToDestroy.Add(item.gameObject);
+                }
+            }
+
+            foreach (var item in InventoryItemsOnStash)
+            {
+                if (item != null)
+                {
+                    itemsToDestroy.Add(item.gameObject);
+                }
+            }
+
+            // Destroy all items in the temporary list
+            foreach (var item in itemsToDestroy)
+            {
+                Destroy(item);
+            }
+
+            // Clear the original lists to remove references to destroyed objects
+            InventoryItemsOnGrid.Clear();
+            InventoryItemsOnStash.Clear();
+
+            // Clear all grid items and cells data
             foreach (var grid in GridConfig.grids)
             {
                 grid.ItemsReceived.InventoryItemsData.Clear();
                 grid.listCellsData.Clear();
             }
+            Initialize(_shipID);
         }
+
 
         public bool CheckPlaceItem(InventoryItemData inventoryItemData, GridInfor grid)
         {

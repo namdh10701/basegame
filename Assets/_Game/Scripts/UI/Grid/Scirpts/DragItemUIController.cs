@@ -148,6 +148,7 @@ namespace _Base.Scripts.UI
             _nextCells.Clear();
             _previouCells.Clear();
             _gridManager.SubmitItemInventorToGamePlay();
+            _gridManager.FillInventoryItems();
         }
 
         private bool CanMoveItem(List<Cell> cells)
