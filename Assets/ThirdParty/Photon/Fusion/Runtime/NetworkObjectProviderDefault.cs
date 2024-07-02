@@ -1,9 +1,5 @@
 namespace Fusion {
   using System;
-  using System.Collections.Generic;
-  using UnityEngine;
-  using UnityEngine.SceneManagement;
-  using UnityEngine.Serialization;
 
   public class NetworkObjectProviderDefault : Fusion.Behaviour, INetworkObjectProvider {
     /// <summary>

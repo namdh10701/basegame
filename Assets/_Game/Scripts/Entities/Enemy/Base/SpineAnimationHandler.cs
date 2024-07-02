@@ -1,6 +1,6 @@
 using UnityEngine;
 using Spine.Unity;
-using Spine;
+
 namespace _Game.Scripts
 {
     public class SpineAnimationHandler : MonoBehaviour

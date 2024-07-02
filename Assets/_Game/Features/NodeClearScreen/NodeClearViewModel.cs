@@ -1,10 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using _Game.Features.Inventory;
 using _Game.Scripts.UI;
-using Cysharp.Threading.Tasks;
-using UnityEngine;
 using UnityWeld.Binding;
 using ZBase.UnityScreenNavigator.Core.Modals;
 using ZBase.UnityScreenNavigator.Core.Screens;

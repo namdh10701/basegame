@@ -1,6 +1,4 @@
-using _Game.Scripts.Entities;
 using _Game.Scripts.InventorySystem;
-using System;
 using System.Collections.Generic;
 
 public enum CannonType

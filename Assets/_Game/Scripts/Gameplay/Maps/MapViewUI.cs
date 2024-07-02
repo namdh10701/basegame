@@ -1,7 +1,5 @@
 using _Base.Scripts.EventSystem;
 using _Base.Scripts.Shared;
-using _Game.Scripts.Managers;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;

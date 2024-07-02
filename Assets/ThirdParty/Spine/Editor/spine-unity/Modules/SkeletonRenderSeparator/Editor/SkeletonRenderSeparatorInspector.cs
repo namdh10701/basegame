@@ -31,7 +31,6 @@
 #define NEW_PREFAB_SYSTEM
 #endif
 
-using Spine.Unity;
 using Spine.Unity.Editor;
 using System.Collections.Generic;
 using UnityEditor;

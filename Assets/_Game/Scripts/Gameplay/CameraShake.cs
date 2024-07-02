@@ -1,6 +1,3 @@
-using _Game.Scripts;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using static CartoonFX.CFXR_Effect;
 

@@ -6,7 +6,6 @@
 
 namespace Slash.Unity.DataBind.Examples.TwoWayBinding
 {
-    using System;
     using Slash.Unity.DataBind.Core.Presentation;
     using UnityEngine;
     using Random = UnityEngine.Random;

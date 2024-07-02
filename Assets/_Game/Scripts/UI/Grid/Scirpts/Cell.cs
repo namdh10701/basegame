@@ -1,5 +1,3 @@
-
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 namespace _Base.Scripts.UI

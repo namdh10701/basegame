@@ -1,10 +1,6 @@
 using _Game.Scripts;
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using _Game.Scripts.Entities;
-using UnityEngine;
-using System.Linq;
 
 public enum JobStatus
 {

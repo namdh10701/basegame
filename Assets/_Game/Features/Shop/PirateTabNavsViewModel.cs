@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using _Game.Scripts.UI;
 using UnityEngine;
 using UnityWeld.Binding;

@@ -1,8 +1,5 @@
 using UnityEditor;
 using UnityEngine;
-using _Game.Scripts;
-using MBT;
-using static UnityEngine.Rendering.DebugUI.Table;
 
 namespace _Game.Scripts.Editor
 {

@@ -1,5 +1,3 @@
-
-using _Game.Scripts.Battle;
 using MBT;
 using UnityEngine;
 

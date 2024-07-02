@@ -1,5 +1,3 @@
-
-using _Game.Scripts.Gameplay.Ship;
 using MBT;
 using UnityEngine;
 

@@ -1,9 +1,6 @@
-using System;
 using System.Collections.Generic;
 using _Base.Scripts.RPG.Entities;
-using JetBrains.Annotations;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace _Base.Scripts.RPG.Behaviours.FindTarget
 {

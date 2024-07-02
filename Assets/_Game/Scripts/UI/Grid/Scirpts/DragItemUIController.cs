@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using _Game.Scripts;
 using UnityEngine;
 using UnityEngine.EventSystems;
 

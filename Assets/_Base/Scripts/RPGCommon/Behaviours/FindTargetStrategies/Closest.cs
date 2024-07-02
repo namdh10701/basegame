@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using _Base.Scripts.RPG.Behaviours.FindTarget;
 using _Base.Scripts.RPG.Entities;
@@ -6,7 +5,6 @@ using _Base.Scripts.Unity.EditorUsedAttributes;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.Serialization;
 
 namespace _Base.Scripts.RPGCommon.Behaviours.FindTargetStrategies
 {

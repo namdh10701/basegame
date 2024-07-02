@@ -1,9 +1,7 @@
-using _Base.Scripts.RPG.Behaviours.FindTarget;
 using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.RPG.Entities;
 using _Base.Scripts.RPG.Stats;
 using _Game.Scripts;
-using _Game.Scripts.GD;
 using _Game.Scripts.InventorySystem;
 using System.Collections.Generic;
 using UnityEngine;

@@ -1,6 +1,3 @@
-using _Game.Scripts.InventorySystem;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ElectricFx : MonoBehaviour

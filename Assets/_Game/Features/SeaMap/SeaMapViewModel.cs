@@ -1,8 +1,6 @@
 using System;
-using System.Collections.Generic;
 using _Game.Features.Battle;
 using _Game.Features.FightNodeInfoPopup;
-using _Game.Features.Home;
 using _Game.Features.Quest;
 using _Game.Scripts.UI;
 using UnityWeld.Binding;
@@ -51,15 +49,18 @@ namespace _Game.Features.SeaMap
         [Binding]
         public async void NavToWorldMap()
         {
-            var options = new ViewOptions(nameof(WorldMapScreen));
-            await ScreenContainer.Find(ContainerKey.Screens).PushAsync(options);
+            // var options = new ViewOptions(nameof(WorldMapScreen));
+            // await ScreenContainer.Find(ContainerKey.Screens).PushAsync(options);
+            
+            await ScreenContainer.Find(ContainerKey.Screens).PopAsync(true);
         }
         
         [Binding]
         public async void NavToHome()
         {
-            var options = new ViewOptions(nameof(MainScreen));
-            await ScreenContainer.Find(ContainerKey.Screens).PushAsync(options);
+            // var options = new ViewOptions(nameof(MainScreen));
+            await ScreenContainer.Find(ContainerKey.Screens).PopAsync(false);
+            await ScreenContainer.Find(ContainerKey.Screens).PopAsync(true);
         }
 
         [Binding]

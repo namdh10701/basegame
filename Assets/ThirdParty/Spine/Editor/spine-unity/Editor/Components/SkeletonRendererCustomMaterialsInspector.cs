@@ -31,7 +31,6 @@
 
 // Contributed by: Lost Polygon
 
-using Spine.Unity.Examples;
 using System;
 using System.Collections.Generic;
 using System.Linq;

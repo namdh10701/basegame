@@ -1,11 +1,8 @@
-using _Base.Scripts.RPG;
 using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.RPG.Entities;
 using _Game.Scripts;
 using _Game.Scripts.Entities;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]

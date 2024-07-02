@@ -1,5 +1,4 @@
-﻿using Slash.Unity.GestureInput.Gestures;
-using UnityEngine.EventSystems;
+﻿using UnityEngine.EventSystems;
 
 namespace Slash.Unity.GestureInput.Sources
 {

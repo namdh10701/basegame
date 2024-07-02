@@ -1,10 +1,6 @@
-
-using _Base.Scripts.Utils.Extensions;
 using _Game.Scripts;
 using _Game.Scripts.PathFinding;
-using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class CrewController : MonoBehaviour

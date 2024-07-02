@@ -1,6 +1,5 @@
 using System;
 using Cysharp.Threading.Tasks;
-using ZBase.UnityScreenNavigator.Core.Screens;
 
 namespace _Game.Features.Inventory
 {

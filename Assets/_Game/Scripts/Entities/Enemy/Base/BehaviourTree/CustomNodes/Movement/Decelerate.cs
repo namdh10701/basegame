@@ -1,7 +1,4 @@
-using _Game.Scripts.Battle;
 using MBT;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [MBTNode("My Node/Decelerate")]

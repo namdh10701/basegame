@@ -35,7 +35,6 @@
 #define PUBLIC_SET_ICON_FOR_OBJECT
 #endif
 
-using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 

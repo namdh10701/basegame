@@ -35,7 +35,6 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Reflection;
 
 #if WINDOWS_STOREAPP
 using System.Threading.Tasks;

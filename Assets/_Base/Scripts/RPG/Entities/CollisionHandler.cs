@@ -1,6 +1,3 @@
-using _Game.Scripts;
-using UnityEngine;
-
 namespace _Base.Scripts.RPG.Entities
 {
     /*    public interface ICollisionHandler

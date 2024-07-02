@@ -5,7 +5,6 @@ using _Game.Scripts.Bootstrap;
 using _Game.Scripts.GD;
 using _Game.Scripts.SaveLoad;
 using Cysharp.Threading.Tasks;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace _Game.Scripts.GameStates

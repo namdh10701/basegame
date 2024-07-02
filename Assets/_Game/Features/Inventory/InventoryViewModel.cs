@@ -4,7 +4,6 @@ using System.Linq;
 using _Game.Scripts.GD;
 using _Game.Scripts.UI;
 using Unity.VisualScripting;
-using UnityEngine.Events;
 using UnityWeld.Binding;
 
 namespace _Game.Features.Inventory
@@ -180,13 +179,13 @@ namespace _Game.Features.Inventory
             foreach (var (id, conf) in GDConfigLoader.Instance.Cannons)
             {
                 Enum.TryParse(conf.rarity, true, out Rarity rarity);
-                dataSource.Add(new InventoryItem { InventoryViewModel = this, Type = ItemType.CANNON, Id = id, Rarity = rarity, OperationType = conf.operation_type });
+                dataSource.Add(new InventoryItem { InventoryViewModel = this, Type = ItemType.CANNON, Id = id, Rarity = rarity, RarityLevel = conf.rarity_level, OperationType = conf.operation_type });
             }
             
             foreach (var (id, conf) in GDConfigLoader.Instance.Ammos)
             {
                 Enum.TryParse(conf.rarity, true, out  Rarity rarity);
-                dataSource.Add(new InventoryItem { InventoryViewModel = this, Type = ItemType.AMMO, Id = id, Rarity = rarity, OperationType = conf.operation_type });
+                dataSource.Add(new InventoryItem { InventoryViewModel = this, Type = ItemType.AMMO, Id = id, Rarity = rarity, RarityLevel = conf.rarity_level, OperationType = conf.operation_type });
             }
 
             var crewNo = 1;
@@ -195,7 +194,7 @@ namespace _Game.Features.Inventory
                 var rarities = Enum.GetValues(typeof(Rarity)).Cast<Rarity>();
                 foreach (var rarity in rarities)
                 {
-                    dataSource.Add(new InventoryItem {  InventoryViewModel = this, Type = ItemType.CREW, Id = $"000{crewNo++}", Rarity = rarity, OperationType = $"{i}" });
+                    dataSource.Add(new InventoryItem {  InventoryViewModel = this, Type = ItemType.CREW, Id = $"{(crewNo++).ToString().PadLeft(4, '0')}", Rarity = rarity, OperationType = $"{i}" });
                 }
             }
             

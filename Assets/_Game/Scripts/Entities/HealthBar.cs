@@ -1,7 +1,5 @@
-using System;
 using _Base.Scripts.RPG.Entities;
 using _Base.Scripts.RPGCommon.Entities;
-using _Game.Scripts.Attributes;
 using UnityEngine;
 
 namespace _Game.Scripts.Entities

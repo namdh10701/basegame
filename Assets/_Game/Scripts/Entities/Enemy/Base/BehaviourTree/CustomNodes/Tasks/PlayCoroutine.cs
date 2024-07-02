@@ -1,11 +1,7 @@
-using _Base.Scripts.RPG.Entities;
 using _Base.Scripts.Unity.EditorUsedAttributes;
 using MBT;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace _Game.Scripts.Battle
 {

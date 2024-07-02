@@ -27,7 +27,6 @@
  * SPINE RUNTIMES, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *****************************************************************************/
 
-using System.Collections;
 using UnityEditor;
 using UnityEngine;
 

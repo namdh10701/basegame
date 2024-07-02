@@ -289,11 +289,7 @@ namespace Fusion {
 namespace Fusion {
   using System;
 #if UNITY_EDITOR
-  using UnityEditor;
 #endif
-  using UnityEngine;
-  using UnityEngine.Serialization;
-  using Object = UnityEngine.Object;
 
   [Serializable]
   public partial class NetworkAssetSourceStatic<T> where T : UnityEngine.Object {
@@ -346,11 +342,8 @@ namespace Fusion {
 namespace Fusion {
   using System;
 #if UNITY_EDITOR
-  using UnityEditor;
 #endif
   using UnityEngine;
-  using UnityEngine.Serialization;
-  using Object = UnityEngine.Object;
 
   [Serializable]
   public partial class NetworkAssetSourceStaticLazy<T> where T : UnityEngine.Object {
@@ -415,7 +408,6 @@ namespace Fusion {
 
 ﻿
 namespace Fusion {
-  using UnityEngine;
   using System;
   using System.Collections;
   using System.Runtime.ExceptionServices;
@@ -1353,7 +1345,6 @@ namespace Fusion.StatsInternal
   using System.Collections.Generic;
   using UnityEngine;
   using System;
-  using System.ComponentModel;
   using System.Reflection;
   
   // [Flags]
@@ -1491,7 +1482,6 @@ namespace Fusion {
   using UnityEngine;
   using UI = UnityEngine.UI;
   using StatsInternal;
-  using UnityEngine.Serialization;
 
   [ScriptHelp(BackColor = ScriptHeaderBackColor.Olive)]
   public abstract class FusionStatsGraphBase : Fusion.Behaviour, IFusionStatsView {
@@ -2171,16 +2161,10 @@ namespace Fusion.StatsInternal {
 
 namespace Fusion {
   using System;
-  using System.Collections;
-  using System.Collections.Generic;
-  using System.Runtime.CompilerServices;
   using System.Runtime.ExceptionServices;
   using System.Text;
   using System.Threading;
-  using UnityEditor;
   using UnityEngine;
-  using UnityEngine.Serialization;
-  using Object = UnityEngine.Object;
 
   [Serializable]
   public partial class FusionUnityLogger : Fusion.ILogger {
@@ -2515,11 +2499,9 @@ namespace Fusion {
   using System.Collections.Generic;
   using System.Linq;
   using System.Text;
-  using System.Threading.Tasks;
   using UnityEngine;
 
 #if UNITY_EDITOR
-  using UnityEditor;
 #endif
 
   public class NetworkObjectBaker {
@@ -2920,7 +2902,6 @@ namespace Fusion {
 
 ﻿namespace Fusion {
   using System;
-  using Object = UnityEngine.Object;
 
   [Serializable]
   public class NetworkPrefabSourceStatic : NetworkAssetSourceStatic<NetworkObject>, INetworkPrefabSource {
@@ -2955,7 +2936,6 @@ namespace Fusion {
 #region Assets/Photon/Fusion/Runtime/Utilities/FusionScalableIMGUI.cs
 
 namespace Fusion {
-  using System.Reflection;
   using UnityEngine;
 
   /// <summary>
@@ -3045,11 +3025,9 @@ namespace Fusion {
 #region Assets/Photon/Fusion/Runtime/Utilities/FusionUnitySceneManagerUtils.cs
 
 ﻿namespace Fusion {
-  using System;
   using System.Collections.Generic;
   using System.Linq;
   using System.Text;
-  using System.Threading.Tasks;
   using UnityEditor;
   using UnityEngine;
   using UnityEngine.SceneManagement;

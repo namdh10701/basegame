@@ -1,16 +1,11 @@
-using _Base.Scripts.Utils.Extensions;
 using _Game.Scripts.DB;
 using _Game.Scripts.Entities;
 using _Game.Scripts.Gameplay.Ship;
 using _Game.Scripts.PathFinding;
-using Fusion;
-using Map;
 using System.Collections.Generic;
 using System.Linq;
 using _Game.Features.Inventory;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Scripting;
 
 namespace _Game.Scripts
 {
@@ -95,7 +90,8 @@ namespace _Game.Scripts
         {
             foreach (Cannon cannon in Cannons)
             {
-                cannon.Reloader.Reload(Bullets[0]);
+                if (Bullets.Count > 0)
+                    cannon.Reloader.Reload(Bullets[0]);
             }
         }
 
@@ -215,15 +211,26 @@ namespace _Game.Scripts
             }*/
         }
 
-        void InitOccupyCell(IGridItem gridItem, GridItemData data, Grid grid)
+        void InitOccupyCell(string id, ItemType type, IGridItem gridItem, GridItemData data, Grid grid)
         {
             gridItem.GridId = data.GridId;
-            List<Cell> occupyCells = gridItem.OccupyCells;
-            foreach (Vector2Int cell in data.OccupyCells)
+            gridItem.OccupyCells =
+                GridHelper.GetCoveredCellsIfPutShapeAtCell(
+                    Database.GetShapeByTypeAndOperationType(id, type), grid.Cells[data.startY, data.startX]
+                    );
+
+            foreach (Cell cell in gridItem.OccupyCells.ToArray())
             {
-                grid.Cells[cell.y, cell.x].GridItem = gridItem;
-                occupyCells.Add(grid.Cells[cell.y, cell.x]);
+                if (cell == null)
+                {
+                    gridItem.OccupyCells.Remove(cell);
+                }
+                else
+                {
+                    cell.GridItem = gridItem;
+                }
             }
+
         }
 
         void InitOccupyNode(IGridItem gridItem, INodeOccupier nodeOccupier)
@@ -246,10 +253,13 @@ namespace _Game.Scripts
             Cannon spawned = Instantiate(cannonPrefab, grid.GridItemRoot);
             spawned.Id = data.Id;
             spawned.InitStats();
+
             Cannons.Add(spawned);
             spawned.Def.Type = ItemType.CANNON;
+
+
             IGridItem gridItem = spawned.GetComponent<IGridItem>();
-            InitOccupyCell(gridItem, data, grid);
+            InitOccupyCell(spawned.Id, ItemType.CANNON, gridItem, data, grid);
 
             float scale = Vector3.one.x / spawned.transform.parent.lossyScale.x;
             spawned.transform.localScale = new Vector3(scale, scale, scale);
@@ -271,7 +281,7 @@ namespace _Game.Scripts
             spawned.InitStats();
 
             IGridItem gridItem = spawned.GetComponent<IGridItem>();
-            InitOccupyCell(gridItem, data, grid);
+            InitOccupyCell(spawned.id, ItemType.AMMO, gridItem, data, grid);
 
             float scale = Vector3.one.x / spawned.transform.parent.lossyScale.x;
             spawned.transform.localScale = new Vector3(scale, scale, scale);

@@ -1,5 +1,3 @@
-using _Base.Scripts.RPG.Effects;
-using _Game.Scripts.Entities;
 using UnityEngine;
 
     namespace _Game.Scripts

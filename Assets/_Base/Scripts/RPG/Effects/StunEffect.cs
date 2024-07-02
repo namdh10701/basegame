@@ -1,8 +1,5 @@
 using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.RPG.Entities;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public class StunEffect : OneShotEffect
 {

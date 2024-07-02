@@ -27,14 +27,10 @@
  * SPINE RUNTIMES, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *****************************************************************************/
 
-using System.Collections;
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
 namespace Spine.Unity.Editor {
-
-	using Editor = UnityEditor.Editor;
 	using Icons = SpineEditorUtilities.Icons;
 
 	public class SpriteAtlasImportWindow : EditorWindow {

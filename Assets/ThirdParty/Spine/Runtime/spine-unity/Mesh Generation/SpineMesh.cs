@@ -31,8 +31,6 @@
 #define SPINE_TRIANGLECHECK // Avoid calling SetTriangles at the cost of checking for mesh differences (vertex counts, memberwise attachment list compare) every frame.
 //#define SPINE_DEBUG
 
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Spine.Unity {

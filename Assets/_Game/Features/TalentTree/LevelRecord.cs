@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using Slash.Unity.DataBind.Core.Data;
-using UnityEngine;
 using UnityWeld.Binding;
 
 namespace _Game.Scripts.Gameplay.TalentTree

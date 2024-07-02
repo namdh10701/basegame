@@ -2,7 +2,6 @@ using System;
 using _Base.Scripts.UI.Managers;
 using _Game.Scripts.UI;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityWeld.Binding;
 
 namespace _Game.Features.Inventory

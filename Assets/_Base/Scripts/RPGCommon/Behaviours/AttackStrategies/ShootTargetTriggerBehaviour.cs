@@ -1,6 +1,5 @@
 using _Base.Scripts.RPG.Behaviours.AimTarget;
 using _Base.Scripts.RPG.Behaviours.AttackTarget;
-using _Base.Scripts.RPG.Behaviours.FollowTarget;
 using _Base.Scripts.RPG.Stats;
 using _Game.Scripts;
 using _Game.Scripts.Entities;

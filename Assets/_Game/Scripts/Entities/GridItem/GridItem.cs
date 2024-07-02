@@ -1,6 +1,3 @@
-using _Base.Scripts.RPG.Entities;
-using _Base.Scripts.RPG.Stats;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

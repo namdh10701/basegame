@@ -5,7 +5,6 @@ using System.Text;
 using Xunit.Abstractions;
 
 using UnityEngine;
-using UnityEngine.Serialization;
 
 #if UNITY_EDITOR
 using UnityEditor;

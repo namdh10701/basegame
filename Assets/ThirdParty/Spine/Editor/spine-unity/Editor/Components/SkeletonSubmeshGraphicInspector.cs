@@ -30,8 +30,6 @@
 using UnityEditor;
 
 namespace Spine.Unity.Editor {
-	using Icons = SpineEditorUtilities.Icons;
-
 	[CustomEditor(typeof(SkeletonSubmeshGraphic))]
 	[CanEditMultipleObjects]
 	public class SkeletonGraphicSubmeshInspector : UnityEditor.Editor {

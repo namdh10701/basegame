@@ -5,18 +5,12 @@ using _Base.Scripts.RPG.Behaviours.AttackTarget;
 using _Base.Scripts.RPG.Behaviours.FindTarget;
 using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.RPG.Entities;
-using _Base.Scripts.RPG.Stats;
 using _Base.Scripts.RPGCommon.Entities;
-using _Base.Scripts.Shared;
 using _Game.Scripts.Entities.CannonComponent;
 using _Game.Scripts.GD;
 using _Game.Scripts.InventorySystem;
 using _Game.Scripts.PathFinding;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
-using UnityEngine.Assertions;
-using UnityEngine.UIElements;
-using YamlDotNet.Core.Tokens;
 
 namespace _Game.Scripts.Entities
 {
@@ -81,7 +75,7 @@ namespace _Game.Scripts.Entities
         {
             if (GDConfigLoader.Instance != null)
             {
-                if (GDConfigLoader.Instance.Cannons.TryGetValue(def.Id, out CannonConfig cannonConfig))
+                if (GDConfigLoader.Instance.Cannons.TryGetValue(Id, out CannonConfig cannonConfig))
                 {
                     cannonConfig.ApplyGDConfig(_stats);
                 }

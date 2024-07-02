@@ -1,6 +1,5 @@
 
 using _Game.Scripts.Entities;
-using _Game.Scripts;
 using UnityEngine;
 using UnityEngine.UI;
 using _Game.Features.Inventory;
@@ -87,19 +86,41 @@ namespace _Game.Scripts
                         if (isClick)
                         {
                             Vector3 mousePosition = _camera.ScreenToWorldPoint(touch.position);
-                            RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero, Mathf.Infinity, layerMask);
-                            if (hit.collider != null)
+                            RaycastHit2D[] hits = Physics2D.CircleCastAll(mousePosition, 1, Vector2.zero, Mathf.Infinity, layerMask);
+
+                            float closestDistance = Mathf.Infinity;
+                            RaycastHit2D closestHit = new RaycastHit2D();
+
+                            foreach (RaycastHit2D hit in hits)
                             {
-                                if (hit.collider.TryGetComponent(out ItemClickDetector icd))
+                                float distance = Vector2.Distance(hit.point, mousePosition);
+                                if (distance < closestDistance)
                                 {
-                                    IGridItem gridItem = icd.Item.gameObject.GetComponent<IGridItem>();
-                                    if (gridItem is Cannon)
-                                    {
-                                        selectingCannon = gridItem as Cannon;
-                                        CreateBulletsMenu();
-                                    }
+                                    closestDistance = distance;
+                                    closestHit = hit;
                                 }
                             }
+
+                            if (closestHit.collider != null)
+                            {
+                                if (closestHit.collider.TryGetComponent(out ItemClickDetector icd))
+                                {
+                                    IWorkLocation workLocation = icd.Item.GetComponent<IWorkLocation>();
+                                    workLocation.OnClick();
+                                    IGridItem gridItem = icd.Item.GetComponent<IGridItem>();
+                                    if (gridItem != null)
+                                    {
+                                        if (gridItem.Def.Type == ItemType.CANNON)
+                                        {
+                                            selectingCannon = gridItem as Cannon;
+                                            selectCannon.sprite = Database.GetCannonImage(selectingCannon.Id);
+                                            CreateBulletsMenu();
+                                        }
+                                    }
+
+                                }
+                            }
+
                             isClick = false;
                         }
                         break;
