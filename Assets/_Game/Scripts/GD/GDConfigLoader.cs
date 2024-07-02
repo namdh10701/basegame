@@ -76,14 +76,81 @@ namespace _Game.Scripts.GD
             LoadAll();
         }
 
+        // [ContextMenu("LoadAll")]
+        // private void LoadAll()
+        // {
+        //     // Load cannon config
+        //     foreach (var (key, properties) in GDConfigLoader.Instance.CannonMap)
+        //     {
+        //         var so = Resources.Load<CannonConfig>($"Configs/Cannon/Cannon_{key}");
+        //         if (!so) continue;
+        //         Load(so, properties);
+        //
+        //         Cannons[key] = so;
+        //     }
+        //
+        //     // Load ammo config
+        //     foreach (var (key, properties) in GDConfigLoader.Instance.AmmoMap)
+        //     {
+        //         var so = Resources.Load<AmmoConfig>($"Configs/Ammo/Ammo_{key}");
+        //         if (!so) continue;
+        //         Load(so, properties);
+        //
+        //         Ammos[key] = so;
+        //     }
+        //
+        //     // Load enemy config
+        //     foreach (var (key, properties) in GDConfigLoader.Instance.EnemyMap)
+        //     {
+        //         var so = Resources.Load<EnemyConfig>($"Configs/Enemy/Enemy_{key}");
+        //         if (!so) continue;
+        //         Load(so, properties);
+        //
+        //         Enemies[key] = so;
+        //     }
+        //
+        //     // Load ship config
+        //     foreach (var (key, properties) in GDConfigLoader.Instance.ShipMap)
+        //     {
+        //         var so = Resources.Load<ShipConfig>($"Configs/Ship/Ship_{key}");
+        //         if (!so) continue;
+        //         Load(so, properties);
+        //
+        //         Ships[key] = so;
+        //     }
+        //
+        //     // talent tree normal
+        //     foreach (var (key, properties) in GDConfigLoader.Instance.TalentTreeNormalMap)
+        //     {
+        //         var so = Resources.Load<TalentTreeNormalConfig>($"Configs/TalentTreeNormal/TalentTreeNormal_{key}");
+        //         if (!so) continue;
+        //         Load(so, properties);
+        //
+        //         TalentTreeNormals[key] = so;
+        //     }
+        //
+        //     // talent tree pre
+        //     foreach (var (key, properties) in GDConfigLoader.Instance.TalentTreePreMap)
+        //     {
+        //         var so = Resources.Load<TalentTreePreConfig>($"Configs/TalentTreePre/TalentTreePre_{key}");
+        //         if (!so) continue;
+        //         Load(so, properties);
+        //
+        //         TalentTreePres[key] = so;
+        //     }
+        //
+        // }
+        
         [ContextMenu("LoadAll")]
         private void LoadAll()
         {
             // Load cannon config
             foreach (var (key, properties) in GDConfigLoader.Instance.CannonMap)
             {
-                var so = Resources.Load<CannonConfig>($"Configs/Cannon/Cannon_{key}");
-                if (!so) continue;
+                // var so = Resources.Load<CannonConfig>($"Configs/Cannon/Cannon_{key}");
+                // if (!so) continue;
+
+                var so = ScriptableObject.CreateInstance<CannonConfig>();
                 Load(so, properties);
 
                 Cannons[key] = so;
@@ -92,8 +159,10 @@ namespace _Game.Scripts.GD
             // Load ammo config
             foreach (var (key, properties) in GDConfigLoader.Instance.AmmoMap)
             {
-                var so = Resources.Load<AmmoConfig>($"Configs/Ammo/Ammo_{key}");
-                if (!so) continue;
+                // var so = Resources.Load<AmmoConfig>($"Configs/Ammo/Ammo_{key}");
+                // if (!so) continue;
+                
+                var so = ScriptableObject.CreateInstance<AmmoConfig>();
                 Load(so, properties);
 
                 Ammos[key] = so;
@@ -102,8 +171,10 @@ namespace _Game.Scripts.GD
             // Load enemy config
             foreach (var (key, properties) in GDConfigLoader.Instance.EnemyMap)
             {
-                var so = Resources.Load<EnemyConfig>($"Configs/Enemy/Enemy_{key}");
-                if (!so) continue;
+                // var so = Resources.Load<EnemyConfig>($"Configs/Enemy/Enemy_{key}");
+                // if (!so) continue;
+                
+                var so = ScriptableObject.CreateInstance<EnemyConfig>();
                 Load(so, properties);
 
                 Enemies[key] = so;
@@ -112,8 +183,10 @@ namespace _Game.Scripts.GD
             // Load ship config
             foreach (var (key, properties) in GDConfigLoader.Instance.ShipMap)
             {
-                var so = Resources.Load<ShipConfig>($"Configs/Ship/Ship_{key}");
-                if (!so) continue;
+                // var so = Resources.Load<ShipConfig>($"Configs/Ship/Ship_{key}");
+                // if (!so) continue;
+                
+                var so = ScriptableObject.CreateInstance<ShipConfig>();
                 Load(so, properties);
 
                 Ships[key] = so;
@@ -122,8 +195,10 @@ namespace _Game.Scripts.GD
             // talent tree normal
             foreach (var (key, properties) in GDConfigLoader.Instance.TalentTreeNormalMap)
             {
-                var so = Resources.Load<TalentTreeNormalConfig>($"Configs/TalentTreeNormal/TalentTreeNormal_{key}");
-                if (!so) continue;
+                // var so = Resources.Load<TalentTreeNormalConfig>($"Configs/TalentTreeNormal/TalentTreeNormal_{key}");
+                // if (!so) continue;
+                
+                var so = ScriptableObject.CreateInstance<TalentTreeNormalConfig>();
                 Load(so, properties);
 
                 TalentTreeNormals[key] = so;
@@ -132,8 +207,10 @@ namespace _Game.Scripts.GD
             // talent tree pre
             foreach (var (key, properties) in GDConfigLoader.Instance.TalentTreePreMap)
             {
-                var so = Resources.Load<TalentTreePreConfig>($"Configs/TalentTreePre/TalentTreePre_{key}");
-                if (!so) continue;
+                // var so = Resources.Load<TalentTreePreConfig>($"Configs/TalentTreePre/TalentTreePre_{key}");
+                // if (!so) continue;
+                
+                var so = ScriptableObject.CreateInstance<TalentTreePreConfig>();
                 Load(so, properties);
 
                 TalentTreePres[key] = so;
