@@ -35,13 +35,15 @@ namespace _Game.Features.MyShip
         [SerializeField] Toggle _btnShipEdit;
         [SerializeField] Transform _parentShip;
 
+        [SerializeField] Button _btnRemoveAll;
+
         GridManager _gridManager;
         GameObject _ship;
 
         public override UniTask Initialize(Memory<object> args)
         {
             _btnShipEdit.onValueChanged.AddListener(OnShipEditClick);
-
+            _btnRemoveAll.onClick.AddListener(OnRemoveAllClick);
             Initialize(_shipsConfig.currentShipId);
             return UniTask.CompletedTask;
         }
@@ -70,7 +72,7 @@ namespace _Game.Features.MyShip
         public override UniTask Cleanup(Memory<object> args)
         {
             _btnShipEdit.onValueChanged.RemoveListener(OnShipEditClick);
-
+            _btnRemoveAll.onClick.RemoveListener(OnRemoveAllClick);
             return UniTask.CompletedTask;
         }
 
@@ -83,6 +85,11 @@ namespace _Game.Features.MyShip
         private void OnShipEditClick(bool enable)
         {
             EnableDragItem(enable);
+        }
+
+        private void OnRemoveAllClick()
+        {
+            _gridManager.RemoveAllInventoryItems();
         }
 
         public override UniTask WillEnter(Memory<object> args)
