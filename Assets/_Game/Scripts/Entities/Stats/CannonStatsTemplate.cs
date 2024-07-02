@@ -22,6 +22,7 @@ namespace _Game.Scripts
             stats.AttackRange.BaseValue = Data.AttackRange.BaseValue;
             stats.CriticalDamage.BaseValue = Data.CriticalDamage.BaseValue;
             stats.AttackType = Data.AttackType;
+
         }
     }
 }

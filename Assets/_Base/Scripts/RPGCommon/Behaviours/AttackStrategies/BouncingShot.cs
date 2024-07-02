@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using _Base.Scripts.RPG.Behaviours.FindTarget;
 using _Base.Scripts.RPG.Entities;
 using _Base.Scripts.RPGCommon.Entities;
+using _Game.Scripts;
 using _Game.Scripts.Entities;
 using UnityEngine;
 
@@ -17,6 +18,8 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
         public FindTargetBehaviour targetBehaviour;
         public override void DoAttack()
         {
+            bounceTimes = (int)((CannonStats)Cannon.Stats).ProjectileCount.BaseValue;
+            Debug.Log(bounceTimes);
             var shootDirection = CalculateShootDirection();
             var projectile = SpawnProjectile(shootDirection, shootPosition);
             ((ProjectileCollisionHandler)projectile.CollisionHandler).Handlers.Add(new BouncingHandler(bounceTimes, lookupRange));
@@ -41,7 +44,7 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
             void IHandler.Process(Projectile p, IEffectGiver mainEntity, IEffectTaker collidedEntity)
             {
                 List<Entity> inRangeEntities = new List<Entity>();
-                RaycastHit2D[] inRangeColliders = Physics2D.CircleCastAll(collidedEntity.Transform.position, range, Vector2.zero,LayerMask.NameToLayer("Enemy"));
+                RaycastHit2D[] inRangeColliders = Physics2D.CircleCastAll(collidedEntity.Transform.position, range, Vector2.zero, LayerMask.NameToLayer("Enemy"));
                 foreach (RaycastHit2D hit in inRangeColliders)
                 {
                     if (hit.collider.TryGetComponent(out EffectTakerCollider entityCollisionDetector))

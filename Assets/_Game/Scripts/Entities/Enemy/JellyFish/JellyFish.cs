@@ -24,8 +24,6 @@ public class JellyFish : Enemy
     }
     protected override IEnumerator Start()
     {
-        CooldownBehaviour.SetCooldownTime(7f);
-        CooldownBehaviour.StartCooldown();
         yield return base.Start();
     }
     public override IEnumerator AttackSequence()
@@ -83,6 +81,8 @@ public class JellyFish : Enemy
         {
             wander.ToRight();
         }
+        CooldownBehaviour.SetCooldownTime(_stats.ActionSequenceInterval.Value);
+        CooldownBehaviour.StartCooldown();
         wander.UpdateTargetDirection(-50,50);
     }
 

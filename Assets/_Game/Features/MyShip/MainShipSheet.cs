@@ -33,6 +33,7 @@ namespace _Game.Features.MyShip
         [SerializeField] Transform _parentShip;
 
         [SerializeField] Button _btnRemoveAll;
+        [SerializeField] Button _btnRemove;
 
         GridManager _gridManager;
         GameObject _ship;
@@ -41,6 +42,8 @@ namespace _Game.Features.MyShip
         {
             _btnShipEdit.onValueChanged.AddListener(OnShipEditClick);
             _btnRemoveAll.onClick.AddListener(OnRemoveAllClick);
+            _btnRemove.onClick.AddListener(OnRemoveClick);
+
             Initialize(_shipsConfig.currentShipId);
             return UniTask.CompletedTask;
         }
@@ -70,6 +73,8 @@ namespace _Game.Features.MyShip
         {
             _btnShipEdit.onValueChanged.RemoveListener(OnShipEditClick);
             _btnRemoveAll.onClick.RemoveListener(OnRemoveAllClick);
+            _btnRemove.onClick.RemoveListener(OnRemoveClick);
+
             return UniTask.CompletedTask;
         }
 
@@ -81,13 +86,48 @@ namespace _Game.Features.MyShip
 
         private void OnShipEditClick(bool enable)
         {
+            if (!enable)
+                OnRemoveClick();
             EnableDragItem(enable);
         }
 
         private void OnRemoveAllClick()
         {
+            OnRemoveClick();
             _gridManager.RemoveAllInventoryItems();
         }
+
+        private void OnRemoveClick()
+        {
+
+            foreach (var item in _gridManager.InventoryItemsOnGrid)
+            {
+                item.EnableButtonClose(() =>
+                {
+                    var list = new List<InventoryItemData>();
+                    list.Add(item.GetInventorInfo());
+                    _gridManager.RemoveInventoryItemsInfo(list, _gridManager.GridConfig.grids[0]);
+                    _gridManager.InventoryItemsOnGrid.Remove(item);
+                    Destroy(item.gameObject);
+                });
+            }
+
+            foreach (var item in _gridManager.InventoryItemsOnStash)
+            {
+                item.EnableButtonClose(() =>
+                {
+                    var list = new List<InventoryItemData>();
+                    list.Add(item.GetInventorInfo());
+                    _gridManager.RemoveInventoryItemsInfo(list, _gridManager.GridConfig.grids[1]);
+                    _gridManager.InventoryItemsOnStash.Remove(item);
+                    Destroy(item.gameObject);
+                    Debug.Log("_gridManager.InventoryItemsOnStash: " + _gridManager.InventoryItemsOnStash.Count);
+                    Debug.Log("_gridManager.InventoryItemsOnStash: " + _gridManager.InventoryItemsOnStash.Count);
+
+                });
+            }
+        }
+
 
         public override UniTask WillEnter(Memory<object> args)
         {
@@ -158,6 +198,7 @@ namespace _Game.Features.MyShip
         [Binding]
         public async void NavToShipSelectionSheet()
         {
+            OnRemoveClick();
             await MyShipScreen.Instance.ShowSheet(Sheets.ShipSelectionSheet, _shipsConfig.currentShipId);
         }
 
@@ -165,6 +206,7 @@ namespace _Game.Features.MyShip
         public async void NavToEquipmentScreen()
         {
             var itemList = GetCurrentInventoryItemList();
+            OnRemoveClick();
             await MyShipScreen.Instance.ShowSheet(Sheets.EquipmentSheet, itemList);
         }
 

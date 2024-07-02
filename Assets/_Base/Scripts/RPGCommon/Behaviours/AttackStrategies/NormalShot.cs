@@ -23,6 +23,7 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
         }
         public override void SetData(Entity shooter, Transform shootPosition, Entity projectilePrefab, Vector3 shootDirection)
         {
+
             this.shootPosition = shootPosition;
             this.projectilePrefab = projectilePrefab;
             this.shootDirection = shootDirection;
@@ -83,6 +84,15 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
 
         public override void Consume(RangedStat ammo)
         {
+            if (((CannonStats)Cannon.Stats).ProjectileCount.BaseValue == 0)
+            {
+                defaultNumOfProjectile = 1;
+            }
+            else
+            {
+                defaultNumOfProjectile = (int)((CannonStats)Cannon.Stats).ProjectileCount.BaseValue;
+            }
+
             int numOfProjectileWant = DefaultNumOfProjectile;
             int numOfProjectileCanProvide = (int)ammo.Value;
 
@@ -94,6 +104,7 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
             {
                 NumOfProjectile = DefaultNumOfProjectile;
             }
+            Debug.Log("num" + NumOfProjectile);
             ammo.StatValue.BaseValue -= NumOfProjectile;
         }
     }
