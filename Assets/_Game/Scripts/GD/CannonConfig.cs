@@ -21,6 +21,7 @@ namespace _Game.Scripts.GD
         public float crit_damage;
         public float range;
         public float skill;
+        public float project_count;
 
         public string OperationType { get => operation_type; set => operation_type = value; }
 
@@ -50,6 +51,7 @@ namespace _Game.Scripts.GD
             cannonSt.AttackRange.BaseValue = range;
             cannonSt.Ammo.MaxStatValue.BaseValue = 10;
             cannonSt.Ammo.StatValue.BaseValue = 10;
+            cannonSt.ProjectileCount.BaseValue = project_count;
         }
     }
 }

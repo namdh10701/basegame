@@ -57,7 +57,7 @@ namespace _Game.Scripts
             wander.UpdateTargetDirection(-50, 50);
             pushCollider.enabled = true;
             EffectTakerCollider.enabled = true;
-            CooldownBehaviour.SetCooldownTime(7);
+            CooldownBehaviour.SetCooldownTime(_stats.ActionSequenceInterval.Value);
             CooldownBehaviour.StartCooldown();
         }
         public override void Die()

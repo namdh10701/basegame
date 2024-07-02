@@ -38,5 +38,8 @@ namespace _Game.Scripts
 
         [field: SerializeField]
         public Stat EnergyCost { get; set; } = new();
+
+        [field: SerializeField]
+        public Stat ProjectileCount { get; set; } = new();
     }
 }

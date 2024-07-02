@@ -97,7 +97,7 @@ public class ElectricEel : Enemy
         pushCollider.enabled = false;
         Animation.Appear();
         yield return new WaitForSeconds(1.5f);
-        CooldownBehaviour.SetCooldownTime(7);
+        CooldownBehaviour.SetCooldownTime(_stats.ActionSequenceInterval.Value);
         CooldownBehaviour.StartCooldown();
         effectHandler.enabled = true;
         pushCollider.enabled = true;

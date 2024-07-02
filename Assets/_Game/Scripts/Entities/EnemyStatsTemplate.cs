@@ -14,6 +14,7 @@ namespace _Game.Scripts
             enemyStats.AttackRange.BaseValue = Data.AttackRange.BaseValue;
             enemyStats.HealthPoint.MaxStatValue.BaseValue = Data.HealthPoint.MaxStatValue.BaseValue;
             enemyStats.HealthPoint.StatValue.BaseValue = Data.HealthPoint.StatValue.BaseValue;
+            enemyStats.ActionSequenceInterval.BaseValue = Data.ActionSequenceInterval.Value;
         }
     }
 }

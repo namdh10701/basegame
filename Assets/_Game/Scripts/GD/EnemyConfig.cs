@@ -23,6 +23,7 @@ namespace _Game.Scripts.GD
             enemyStats.HealthPoint.StatValue.BaseValue = hp;
             enemyStats.AttackDamage.BaseValue = attack;
             enemyStats.BlockChance.BaseValue = block_chance;
+            enemyStats.ActionSequenceInterval.BaseValue = attack_speed;
         }
     }
 }
