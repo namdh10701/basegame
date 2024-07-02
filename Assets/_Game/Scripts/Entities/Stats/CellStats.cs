@@ -9,6 +9,6 @@ namespace _Game.Scripts
     public class CellStats : Stats, IAliveStats
     {
         [field: SerializeField]
-        public RangedStat HealthPoint { get; set; } = new(500, 0, 500);
+        public RangedStat HealthPoint { get; set; } = new(200, 0, 200);
     }
 }

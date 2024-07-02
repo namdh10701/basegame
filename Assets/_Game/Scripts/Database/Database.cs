@@ -148,7 +148,7 @@ namespace _Game.Scripts.DB
             CannonOffsetDic.Add(new KeyValuePair<string, string>("charge", "0001"), new Vector3(0.575f, 0.653f, 0));
             CannonOffsetDic.Add(new KeyValuePair<string, string>("twin", "0001"), new Vector3(0.575f, 0.33f, 0));
             CannonOffsetDic.Add(new KeyValuePair<string, string>("chaining", "0001"), new Vector3(0, 0.27f, 0));
-            CannonOffsetDic.Add(new KeyValuePair<string, string>("far", "0001"), new Vector3(0.543f, 0.44f, 0));
+            CannonOffsetDic.Add(new KeyValuePair<string, string>("far", "0001"), new Vector3(0.48f, 0.38f, 0));
 
             BulletOffsetDic.Add(new KeyValuePair<string, string>("arrow", "0001"), new Vector3(0, -0.576f, 0));
             BulletOffsetDic.Add(new KeyValuePair<string, string>("burning_egg", "0001"), new Vector3(0, -0.576f, 0));
