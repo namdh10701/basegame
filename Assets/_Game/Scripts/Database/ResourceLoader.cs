@@ -2,6 +2,7 @@ using _Game.Scripts.Entities;
 using _Game.Scripts.Gameplay.Ship;
 using _Game.Scripts.InventorySystem;
 using System.Collections.Generic;
+using _Game.Features.Inventory;
 using UnityEngine;
 
 namespace _Game.Scripts
@@ -58,13 +59,13 @@ namespace _Game.Scripts
             string path = "";
             switch (def.Type)
             {
-                case GridItemType.Cannon:
+                case ItemType.CANNON:
                     path = cannonPrefabPath;
                     break;
-                case GridItemType.Bullet:
+                case ItemType.AMMO:
                     path = bulletPrefabPath;
                     break;
-                case GridItemType.Crew:
+                case ItemType.CREW:
                     path = crewPrefabPath;
                     break;
             }
@@ -77,10 +78,10 @@ namespace _Game.Scripts
             string path = "";
             switch (def.Type)
             {
-                case GridItemType.Cannon:
+                case ItemType.CANNON:
                     path = cannonImagePath;
                     break;
-                case GridItemType.Bullet:
+                case ItemType.AMMO:
                     path = bulletImagePath;
                     break;
             }

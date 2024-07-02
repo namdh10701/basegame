@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using _Game.Features.Inventory;
 using _Game.Scripts;
 using _Game.Scripts.Entities;
 using UnityEngine;
@@ -31,7 +32,7 @@ public class StashManager : MonoBehaviour
     {
         GameObject prefab = ResourceLoader.LoadGridItemPrefab(gridItemData.Def);
         GameObject spawned = Instantiate(prefab, grid.GridItemRoot);
-        if (gridItemData.Def.Type == GridItemType.Bullet)
+        if (gridItemData.Def.Type == ItemType.AMMO)
         {
             bullets.Add(spawned.GetComponent<Bullet>());
         }

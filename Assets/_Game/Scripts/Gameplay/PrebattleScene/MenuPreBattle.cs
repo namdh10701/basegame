@@ -3,6 +3,7 @@ using _Game.Scripts;
 using _Game.Scripts.Entities;
 using System.Collections.Generic;
 using System.Linq;
+using _Game.Features.Inventory;
 using _Game.Scripts.GD;
 using UnityEngine;
 
@@ -117,7 +118,7 @@ public class MenuPreBattle : MonoBehaviour
             itemList[i] = new GridItemDef()
             {
                 Id = cannons.Values.ElementAt(i).id,
-                Type = GridItemType.Cannon,
+                Type = ItemType.CANNON,
                 ShapeId = shapeId,
                 Name = cannons.Values.ElementAt(i).name
             };

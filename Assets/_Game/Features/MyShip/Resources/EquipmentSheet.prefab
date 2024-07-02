@@ -526,6 +526,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df9f5c111b6e440ab1bfce251a71fabb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IgnoreIdList: []
 --- !u!114 &3634237115317002439
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -674,7 +675,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   viewAdapterTypeName: UnityWeld.Binding.Adapters.BoolInversionAdapter
   viewAdapterOptions: {fileID: 0}
-  viewModelPropertyName: _Game.Features.Inventory.InventoryViewModel.IsMultiSelect
+  viewModelPropertyName: _Game.Features.Equipment.EquipmentViewModel.IsMultiSelect
 --- !u!1 &5370748549759243549
 GameObject:
   m_ObjectHideFlags: 0
@@ -1613,7 +1614,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7618973848632272061, guid: 3fb28f9f3dee840d7adfb78258981139, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7618973848632272061, guid: 3fb28f9f3dee840d7adfb78258981139, type: 3}
       propertyPath: m_AnchorMin.x
@@ -1621,15 +1622,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7618973848632272061, guid: 3fb28f9f3dee840d7adfb78258981139, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7618973848632272061, guid: 3fb28f9f3dee840d7adfb78258981139, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 228.04
       objectReference: {fileID: 0}
     - target: {fileID: 7618973848632272061, guid: 3fb28f9f3dee840d7adfb78258981139, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 225
       objectReference: {fileID: 0}
     - target: {fileID: 7618973848632272061, guid: 3fb28f9f3dee840d7adfb78258981139, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1661,11 +1662,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7618973848632272061, guid: 3fb28f9f3dee840d7adfb78258981139, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 114.02
       objectReference: {fileID: 0}
     - target: {fileID: 7618973848632272061, guid: 3fb28f9f3dee840d7adfb78258981139, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -112.5
       objectReference: {fileID: 0}
     - target: {fileID: 7618973848632272061, guid: 3fb28f9f3dee840d7adfb78258981139, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -2690,7 +2691,7 @@ MonoBehaviour:
   m_Script: {fileID: -1360956885, guid: e650e72e8be47794994495fc15c0ba63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewModelMethodName: _Game.Features.Inventory.InventoryViewModel.OnEquipSelectedItems
+  viewModelMethodName: _Game.Features.MyShip.EquipmentSheet.ShowInfo
   viewEventName: UnityEngine.UI.Button.onClick
 --- !u!224 &4708022878232098927 stripped
 RectTransform:
@@ -3862,7 +3863,7 @@ MonoBehaviour:
   m_Script: {fileID: -1957390036, guid: e650e72e8be47794994495fc15c0ba63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewModelPropertyName: _Game.Features.Inventory.InventoryViewModel.IsMultiSelect
+  viewModelPropertyName: _Game.Features.Equipment.EquipmentViewModel.IsMultiSelect
   viewEventName: UnityEngine.UI.Toggle.onValueChanged
   viewPropertyName: UnityEngine.UI.Toggle.isOn
   viewAdapterTypeName: 

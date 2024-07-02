@@ -150,7 +150,7 @@ namespace _Game.Features.MyShip
         private void AddInventoryItems(InventoryItem item)
         {
             var cannon = GDConfigLoader.Instance.Cannons[item.Id];
-            _Base.Scripts.UI.InventoryItemInfo inventoryItemInfo = new InventoryItemInfo();
+            _Base.Scripts.UI.InventoryItemInfo inventoryItemInfo = new _Base.Scripts.UI.InventoryItemInfo();
             inventoryItemInfo.inventoryItemData.gridItemDef.Id = item.Id;
             inventoryItemInfo.inventoryItemData.gridItemDef.Type = item.Type;
             inventoryItemInfo.inventoryItemData.gridItemDef.Name = cannon.name;

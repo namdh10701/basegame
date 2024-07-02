@@ -152,13 +152,14 @@ namespace _Game.Features.Inventory
                 Enum.TryParse(conf.rarity, true, out  Rarity rarity);
                 dataSource.Add(new InventoryItem { InventoryViewModel = this, Type = ItemType.AMMO, Id = id, Rarity = rarity, OperationType = conf.operation_type });
             }
-            
+
+            var crewNo = 1;
             for (int i = 1; i <= 2; i++)
             {
                 var rarities = Enum.GetValues(typeof(Rarity)).Cast<Rarity>();
                 foreach (var rarity in rarities)
                 {
-                    dataSource.Add(new InventoryItem {  InventoryViewModel = this, Type = ItemType.CREW, Id = $"000{i}", Rarity = rarity, OperationType = $"{i}" });
+                    dataSource.Add(new InventoryItem {  InventoryViewModel = this, Type = ItemType.CREW, Id = $"000{crewNo++}", Rarity = rarity, OperationType = $"{i}" });
                 }
             }
             //
