@@ -18,6 +18,9 @@ namespace _Game.Scripts
     {
         public static List<GridItemData> GridItemDatas = new List<GridItemData>();
         public static List<GridItemData> GridItemDatas_Id2 = new List<GridItemData>();
+
+        public List<GridItemData> UsingGridItemDatas = new List<GridItemData>();
+
         public Ship Ship;
         public ShipSetupMockup ShipSetupMockup;
         public GridItemReferenceHolder ItemReferenceHolder;
@@ -63,12 +66,21 @@ namespace _Game.Scripts
             }
             GridItemDatas = ShipSetupMockup.Datas;
 
+            if (Ship.Id == "0001")
+            {
+                UsingGridItemDatas = GridItemDatas;
+            }
+            else if (Ship.Id == "0002")
+            {
+                UsingGridItemDatas = GridItemDatas_Id2;
+            }
+
             LoadShipItems();
         }
 
         public void LoadShipItems()
         {
-            foreach (GridItemData gridItemData in GridItemDatas)
+            foreach (GridItemData gridItemData in UsingGridItemDatas)
             {
                 Debug.Log(gridItemData.Id);
                 Grid itemGridTransform = GetGridTransformById(gridItemData.GridId);
