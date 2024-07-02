@@ -8,7 +8,7 @@ namespace _Base.Scripts.UI
         [SerializeField] public GridConfig GridConfig;
         [SerializeField] public List<RectTransform> ParentCells;
         [SerializeField] private List<Transform> _startPos;
-        [SerializeField] public InventoryItemsConfig InventoryReceived;
+        [SerializeField] public InventoryItemsReceivedDef InventoryItemsReceivedDef;
         [SerializeField] public RectTransform m_rect;
 
         [SerializeField] GameObject _tash;
@@ -20,9 +20,6 @@ namespace _Base.Scripts.UI
 
         void Awake()
         {
-            shipData = new ShipData();
-            shipData.backstash_items = new List<StashItem>();
-            shipData.ship_items = new List<GridItem>();
         }
 
         void OnEnable()
@@ -198,7 +195,7 @@ namespace _Base.Scripts.UI
             foreach (var inventoryItem in inventoryItems)
             {
                 inventoryItem.inventoryItemData.gridID = grid.id;
-                var item = Instantiate<InventoryItem>(grid.inventoryItemsConfig.InventoryItem, parent);
+                var item = Instantiate<InventoryItem>(InventoryItemsReceivedDef.InventoryItem, parent);
                 item.Setup(inventoryItem);
                 InventoryItems.Add(item);
             }

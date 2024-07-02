@@ -1,13 +1,8 @@
-using System;
 using System.Collections.Generic;
-using _Base.Scripts.UI;
-using _Game.Scripts.UI;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityWeld.Binding;
-using ZBase.UnityScreenNavigator.Core.Screens;
-using ZBase.UnityScreenNavigator.Core.Views;
 using Screen = ZBase.UnityScreenNavigator.Core.Screens.Screen;
 
 namespace _Game.Features.Home

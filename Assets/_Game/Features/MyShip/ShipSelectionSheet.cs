@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using _Base.Scripts.UI;
 using _Game.Features.Home;
 using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityWeld.Binding;
-using ZBase.UnityScreenNavigator.Core.Sheets;
 
 namespace _Game.Features.MyShip
 {
@@ -23,8 +23,8 @@ namespace _Game.Features.MyShip
         [SerializeField] List<GameObject> _ships;
         [SerializeField] Transform _parentShip;
         [SerializeField] GameObject _iconApprove;
+        public ShipSelectionInfoConfig ShipSelectionInfoConfig;
         GameObject _ship;
-        Dictionary<string, bool> ships = new Dictionary<string, bool>();
 
         public string ShipID;
 
@@ -35,13 +35,7 @@ namespace _Game.Features.MyShip
             _btnNext.onClick.AddListener(OnNextClick);
             _btnPrevious.onClick.AddListener(OnPreviousClick);
             _btnEquip.onClick.AddListener(OnEquip);
-            ships.Add("0001", false);
-            ships.Add("0002", false);
-            ships.Add("0003", false);
 
-            // char character = ShipID[3];
-            // _currentIndex = int.Parse(character.ToString());
-            // LoadShip(_currentIndex);
             return UniTask.CompletedTask;
         }
 
@@ -54,9 +48,8 @@ namespace _Game.Features.MyShip
             _ship.transform.SetParent(_parentShip);
             _ship.transform.localScale = Vector3.one;
             _ship.transform.localPosition = Vector3.zero;
+            _iconApprove.SetActive(ShipSelectionInfoConfig.shipSelectionInfo[_currentIndex].isApprove);
             _page.text = $"{_currentIndex + 1}/{_ships.Count}";
-            var id = $"000{_currentIndex + 1}";
-            _iconApprove.SetActive(ships[id]);
 
         }
 
@@ -80,15 +73,17 @@ namespace _Game.Features.MyShip
 
         public void OnEquip()
         {
-            ShipID = $"000{(_currentIndex + 1).ToString()}";
-            ships[ShipID] = true;
+            ShipID = ShipSelectionInfoConfig.shipSelectionInfo[_currentIndex].id;
+            ShipSelectionInfoConfig.shipSelectionInfo[_currentIndex].isApprove = true;
             _iconApprove.SetActive(true);
         }
 
-        void OnDisable()
+
+        public override UniTask Cleanup(Memory<object> args)
         {
             _btnNext.onClick.RemoveListener(OnNextClick);
             _btnPrevious.onClick.RemoveListener(OnPreviousClick);
+            return UniTask.CompletedTask;
         }
 
         public class ShipSelectionSheetOutputData : MainShipSheet.InputData<string>

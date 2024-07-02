@@ -32,16 +32,13 @@ namespace _Game.Features.MyShip
 
         GridManager _gridManager;
 
-
-        private string _currentShipId = "0001";
-
         public override UniTask Initialize(Memory<object> args)
         {
             _btnShipSelection.onClick.AddListener(OnShipSelectionClick);
             _btnShipEdit.onClick.AddListener(OnShipEditClick);
 
 
-            Initialize(_currentShipId);
+            Initialize(_shipsConfig.currentShipId);
             return UniTask.CompletedTask;
         }
 
@@ -114,8 +111,8 @@ namespace _Game.Features.MyShip
 
         private void OnShipIdReceived(string shipId)
         {
-            _currentShipId = shipId;
-            Debug.Log("Selected ship ID: " + _currentShipId);
+            _shipsConfig.currentShipId = shipId;
+            Debug.Log("Selected ship ID: " + _shipsConfig.currentShipId);
         }
 
         private void OnEquipmentItemsReceived(List<InventoryItem> items)
@@ -132,12 +129,17 @@ namespace _Game.Features.MyShip
         private void AddInventoryItems(InventoryItem item)
         {
             var inventoryItems = new List<_Base.Scripts.UI.InventoryItemInfo>();
-
-            foreach (var inventoryItem in _gridManager.InventoryReceived.inventoryItemsInfo)
+            foreach (var inventoryItem in _gridManager.InventoryItemsReceivedDef.inventoryItemsReceived)
             {
-                if (item.Id == inventoryItem.inventoryItemData.gridItemDef.Id)
+                if (item.Type == inventoryItem.Type)
                 {
-                    inventoryItems.Add(inventoryItem);
+                    foreach (var itemReceived in inventoryItem.inventoryItemsInfo)
+                    {
+                        if (itemReceived.inventoryItemData.gridItemDef.Id == item.Id)
+                        {
+                            inventoryItems.Add(itemReceived);
+                        }
+                    }
                 }
 
             }
@@ -148,7 +150,7 @@ namespace _Game.Features.MyShip
         [Binding]
         public async void NavToShipSelectionSheet()
         {
-            await MyShipScreen.Instance.ShowSheet(Sheets.ShipSelectionSheet, _currentShipId);
+            await MyShipScreen.Instance.ShowSheet(Sheets.ShipSelectionSheet, _shipsConfig.currentShipId);
         }
 
         [Binding]
