@@ -10,10 +10,14 @@ public enum GridItemType
 [System.Serializable]
 public struct GridItemData
 {
-    public string GridId;
     public Vector3 position;
+    public GridItemDef Def;
+    //New Required
+    public string GridId;
+    public string Id;
+    public GridItemType GridItemType;
+    public List<Vector2Int> OccupyCells;
     public int startX;
     public int startY;
-    public GridItemDef Def;
-    public List<Vector2Int> OccupyCells;
+
 }

@@ -502,8 +502,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7353757506474118328}
   - component: {fileID: 1746831254784654740}
-  - component: {fileID: 8044348357772288053}
   - component: {fileID: 2136882661866091720}
+  - component: {fileID: 3466333974160395340}
   m_Layer: 5
   m_Name: BattleVictory1Screen
   m_TagString: Untagged
@@ -543,29 +543,6 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!114 &8044348357772288053
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7588008196998835242}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 976d3bc8ae574e869680b19f44fe118e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _dontAddCanvasGroupAutomatically: 0
-  _usePrefabNameAsIdentifier: 1
-  _identifier: 
-  _rectTransform: {fileID: 0}
-  _canvasGroup: {fileID: 1746831254784654740}
-  _renderingOrder: 0
-  _animationContainer:
-    _pushEnterAnimations: []
-    _pushExitAnimations: []
-    _popEnterAnimations: []
-    _popExitAnimations: []
 --- !u!114 &2136882661866091720
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -578,6 +555,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d408169597ca4694a735944fd2e5ec90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3466333974160395340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7588008196998835242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72032b12fe1cd864cbd6288ddcea730f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dontAddCanvasGroupAutomatically: 0
+  _usePrefabNameAsIdentifier: 1
+  _identifier: 
+  _rectTransform: {fileID: 0}
+  _canvasGroup: {fileID: 1746831254784654740}
+  _animationContainer:
+    _enterAnimations: []
+    _exitAnimations: []
 --- !u!1 &9105656030307547265
 GameObject:
   m_ObjectHideFlags: 0
@@ -1154,7 +1151,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5372131827885761618, guid: f7c445ffd1cac8e49938cf8445b24bb5, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8000604607370067518, guid: f7c445ffd1cac8e49938cf8445b24bb5, type: 3}
       propertyPath: m_Sprite
@@ -1185,7 +1182,7 @@ MonoBehaviour:
   m_Script: {fileID: -1360956885, guid: e650e72e8be47794994495fc15c0ba63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewModelMethodName: _Game.Features.Battle.NodeClearViewModel.Quit
+  viewModelMethodName: _Game.Features.NodeClear.NodeClearViewModel.Quit
   viewEventName: UnityEngine.UI.Button.onClick
 --- !u!224 &4611830163760056559 stripped
 RectTransform:

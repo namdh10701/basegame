@@ -43,7 +43,7 @@ public class ProjectileCollisionHandler : DefaultEffectCollisionHandler
             return;
         }
         IgnoreCollideEntities.Add(taker);
-        base.Process(giver, taker);
+
         foreach (IHandler handler in LoopHandlers.ToArray())
         {
             handler.Process(projectile, giver, taker);
@@ -61,6 +61,7 @@ public class ProjectileCollisionHandler : DefaultEffectCollisionHandler
         {
             FinalAct();
         }
+        base.Process(giver, taker);
     }
 
     public void FinalAct()

@@ -486,8 +486,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2530034898195303699}
   - component: {fileID: 9025870732862676753}
-  - component: {fileID: 318053576699710657}
   - component: {fileID: 1566066021044238926}
+  - component: {fileID: 2933496727048030918}
   m_Layer: 5
   m_Name: BattleVictory2Screen
   m_TagString: Untagged
@@ -502,7 +502,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8334984439849816468}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 82.520546}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -527,29 +527,6 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!114 &318053576699710657
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8334984439849816468}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 976d3bc8ae574e869680b19f44fe118e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _dontAddCanvasGroupAutomatically: 0
-  _usePrefabNameAsIdentifier: 1
-  _identifier: 
-  _rectTransform: {fileID: 0}
-  _canvasGroup: {fileID: 9025870732862676753}
-  _renderingOrder: 0
-  _animationContainer:
-    _pushEnterAnimations: []
-    _pushExitAnimations: []
-    _popEnterAnimations: []
-    _popExitAnimations: []
 --- !u!114 &1566066021044238926
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -562,6 +539,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d408169597ca4694a735944fd2e5ec90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2933496727048030918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8334984439849816468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72032b12fe1cd864cbd6288ddcea730f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dontAddCanvasGroupAutomatically: 0
+  _usePrefabNameAsIdentifier: 1
+  _identifier: 
+  _rectTransform: {fileID: 0}
+  _canvasGroup: {fileID: 9025870732862676753}
+  _animationContainer:
+    _enterAnimations: []
+    _exitAnimations: []
 --- !u!1 &8440264754444784594
 GameObject:
   m_ObjectHideFlags: 0

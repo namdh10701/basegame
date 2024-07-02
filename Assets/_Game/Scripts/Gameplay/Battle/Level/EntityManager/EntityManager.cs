@@ -25,22 +25,13 @@ namespace _Game.Scripts.Battle
         {
             Enemy enemy = ResourceLoader.LoadEnemy(id);
             Enemy spawned = Instantiate(enemy, position, Quaternion.identity, enemyRoot);
-            aliveEntities.Add(spawned);
-        }
 
-        public Entity SpawnEntity(Entity entity, Vector3 position, Quaternion rotation, Transform parent)
-        {
-            Entity spawnedEntity = Instantiate(entity, position, rotation, parent);
-            if (spawnedEntity.Stats is IAliveStats alive)
+            if (spawned.Stats is IAliveStats alive)
             {
-                aliveEntities.Add(spawnedEntity);
-
-                alive.HealthPoint.OnValueChanged += (newStat) => MaxHealthPoint_OnValueChanged(newStat, spawnedEntity);
+                aliveEntities.Add(spawned);
+                alive.HealthPoint.OnValueChanged += (newStat) => MaxHealthPoint_OnValueChanged(newStat, spawned);
             }
-            return spawnedEntity;
-
         }
-
 
         private void MaxHealthPoint_OnValueChanged(RangedStat newStat, Entity alive)
         {

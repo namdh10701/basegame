@@ -38,6 +38,7 @@ namespace _Game.Features.NodeClear
         [Binding]
         public async void Quit()
         {
+            await ModalContainer.Find(ContainerKey.Modals).PopAsync(true);
             var options = new ScreenOptions("MainScreen", true, stack:false);
             await ScreenContainer.Find(ContainerKey.Screens).PushAsync(options);
         }

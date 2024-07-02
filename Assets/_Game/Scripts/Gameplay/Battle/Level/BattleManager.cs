@@ -60,16 +60,14 @@ namespace _Game.Scripts.Gameplay
         {
             while (true)
             {
-                yield return new WaitForSeconds(1);
+                yield return new WaitForSeconds(5);
                 if (EnemyManager.IsLevelDone && EntityManager.aliveEntities.Count == 0)
                 {
-                    Debug.Log("Win");
                     Win();
+                    yield break;
                 }
                 else
                 {
-
-                    Debug.Log("Win M");
                 }
             }
         }
@@ -77,9 +75,9 @@ namespace _Game.Scripts.Gameplay
         async void Win()
         {
             //CleanUp();
-            var options = new ViewOptions("BattleVictory1Screen", false, loadAsync: false);
+            var options = new ModalOptions("BattleVictory1Screen", true, loadAsync: false);
 
-            await ScreenContainer.Find(ContainerKey.Screens).PushAsync(options);
+            await ModalContainer.Find(ContainerKey.Modals).PushAsync(options);
         }
 
 

@@ -35,7 +35,7 @@ namespace _Game.Features.FightNodeInfo
         [Binding]
         public async void NavToBattle()
         {
-            await ModalContainer.Find(ContainerKey.Modals).PopAsync(true);
+            await ModalContainer.Find(ContainerKey.Modals).PopAsync(true);  
 
             var options = new ScreenOptions("BattleLoadingScreen", true, stack: false);
             await ScreenContainer.Find(ContainerKey.Screens).PushAsync(options);
