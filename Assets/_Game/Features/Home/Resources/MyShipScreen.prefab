@@ -148,14 +148,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6a10845b96f2b84bb05acc2349fc9c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _shipsConfig: {fileID: 11400000, guid: 85cc12feb1e2e73449fe687ba245cd94, type: 2}
-  _tabEditShip: {fileID: 5132751141569520713}
-  _btnShipSelection: {fileID: 504985864507731759}
-  _btnShipEdit: {fileID: 6048830126635808228}
-  _parentShip: {fileID: 2358346327671926375}
-  MainShipTransform: {fileID: 435951184484062393}
-  ShipSelectionTransform: {fileID: 4404729729594856815}
-  EquipmentTransform: {fileID: 5516986868200951649}
   SheetContainer: {fileID: 1418390607983503979}
 --- !u!1 &6939841184320156779
 GameObject:
@@ -598,38 +590,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1199885401817470218, guid: 806ad71d42fd44a03a92754a8bcc9592, type: 3}
   m_PrefabInstance: {fileID: 1633142143853035955}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &504985864507731759 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1272275516183228060, guid: 806ad71d42fd44a03a92754a8bcc9592, type: 3}
-  m_PrefabInstance: {fileID: 1633142143853035955}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!224 &2358346327671926375 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 3895773510155366356, guid: 806ad71d42fd44a03a92754a8bcc9592, type: 3}
-  m_PrefabInstance: {fileID: 1633142143853035955}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &5132751141569520713 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5877522799671633402, guid: 806ad71d42fd44a03a92754a8bcc9592, type: 3}
-  m_PrefabInstance: {fileID: 1633142143853035955}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &6048830126635808228 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4997822215087617111, guid: 806ad71d42fd44a03a92754a8bcc9592, type: 3}
-  m_PrefabInstance: {fileID: 1633142143853035955}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &3077837533442109530
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -830,7 +790,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2651462712919406259, guid: b7bf32d18b3204d6ebc947c07e2fad22, type: 3}
       propertyPath: m_Name
-      value: EquipmentModal
+      value: EquipmentSheet
       objectReference: {fileID: 0}
     - target: {fileID: 2651462712919406259, guid: b7bf32d18b3204d6ebc947c07e2fad22, type: 3}
       propertyPath: m_IsActive

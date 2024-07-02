@@ -50,26 +50,6 @@ namespace _Base.Scripts.UI
         void OnDisable()
         {
             InventoryItems.RemoveAll(item => item.GetInventorInfo().gridID == "Ship_1");
-
-            foreach (var item in GridConfig.grids[0].ItemsReceived.InventoryItemsData)
-            {
-                var GridItemData = new GridItemData();
-                GridItemData.Id = item.Id;
-                GridItemData.GridId = "1";
-                GridItemData.position = Vector3.zero;
-                GridItemData.OccupyCells = new List<Vector2Int>();
-                GridItemData.startX = item.startX;
-                GridItemData.startY = item.startY;
-
-                if (_shipID == "0001")
-                {
-                    ShipSetup.GridItemDatas.Add(GridItemData);
-                }
-                if (_shipID == "0002")
-                {
-                    ShipSetup.GridItemDatas_Id2.Add(GridItemData);
-                }
-            }
         }
 
         public void Initialize(string shipID)
@@ -158,6 +138,30 @@ namespace _Base.Scripts.UI
                 {
                     grid.ItemsReceived.InventoryItemsData.Add(inventoryItemData);
                 }
+            }
+            SubmitItemInventorToGamePlay();
+        }
+
+        void SubmitItemInventorToGamePlay()
+        {
+            var GridItemDatas = new List<GridItemData>();
+            foreach (var item in GridConfig.grids[0].ItemsReceived.InventoryItemsData)
+            {
+                var GridItemData = new GridItemData();
+                GridItemData.Id = item.Id;
+                GridItemData.GridId = "1";
+                GridItemData.position = Vector3.zero;
+                GridItemData.OccupyCells = new List<Vector2Int>();
+                GridItemData.startX = item.startX;
+                GridItemData.startY = item.startY;
+            }
+            if (_shipID == "0001")
+            {
+                ShipSetup.GridItemDatas = GridItemDatas;
+            }
+            if (_shipID == "0002")
+            {
+                ShipSetup.GridItemDatas_Id2 = GridItemDatas;
             }
 
         }
