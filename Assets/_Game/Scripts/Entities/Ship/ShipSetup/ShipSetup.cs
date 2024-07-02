@@ -17,7 +17,7 @@ namespace _Game.Scripts
     public class ShipSetup : MonoBehaviour
     {
         public static List<GridItemData> GridItemDatas = new List<GridItemData>();
-
+        public static List<GridItemData> GridItemDatas_Id2 = new List<GridItemData>();
         public Ship Ship;
         public ShipSetupMockup ShipSetupMockup;
         public GridItemReferenceHolder ItemReferenceHolder;
@@ -113,11 +113,6 @@ namespace _Game.Scripts
                                     }
                                 }
                             }
-                        }
-
-                        if (spawned.TryGetComponent(out Cannon cannon))
-                        {
-                            cannon.DisableWhenActive();
                         }
                     }
                 }

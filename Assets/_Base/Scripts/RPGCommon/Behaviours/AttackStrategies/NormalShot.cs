@@ -19,19 +19,12 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
         protected Transform shootPosition;
         protected Entity projectilePrefab;
         private Vector2 shootDirection;
-        private IShooter shooter;
         private void Awake()
         {
             Cannon = GetComponent<Cannon>();
         }
         public override void SetData(Entity shooter, Transform shootPosition, Entity projectilePrefab, Vector3 shootDirection)
         {
-            if (shooter is not IShooter fighter)
-            {
-                throw new Exception("IShooter not found");
-            }
-
-            this.shooter = fighter;
             this.shootPosition = shootPosition;
             this.projectilePrefab = projectilePrefab;
             this.shootDirection = shootDirection;
@@ -57,11 +50,11 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
             projectile.AddCritChance(new StatModifier(cannonStats.CriticalChance.Value, StatModType.Flat, 1));
             ProjectileStats pStats = (ProjectileStats)Cannon.usingBullet.Stats;
             float addCritChanceFromProjectile = pStats.CritChance.Value;
-            float totalCritChance = addCritChanceFromProjectile + shooter.FighterStats.CriticalChance.Value;
+            float totalCritChance = addCritChanceFromProjectile + Cannon.FighterStats.CriticalChance.Value;
             float addCritDmgFromProjectile = pStats.CritDamage.Value;
-            float totalCritDmg = addCritDmgFromProjectile + shooter.FighterStats.CriticalDamage.Value;
+            float totalCritDmg = addCritDmgFromProjectile + Cannon.FighterStats.CriticalDamage.Value;
             float addDmg = pStats.Damage.Value;
-            float totalDmg = addDmg + shooter.FighterStats.AttackDamage.Value;
+            float totalDmg = addDmg + Cannon.FighterStats.AttackDamage.Value;
             Debug.Log(addDmg);
             float finalDmg = 0;
 
@@ -83,7 +76,7 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
         protected virtual Quaternion CalculateShootDirection()
         {
             float addAccuarcyFromProjectile = ((ProjectileStats)projectilePrefab.Stats).Accuracy.Value;
-            float shooterAccuracy = shooter.FighterStats.AttackAccuracy.Value;
+            float shooterAccuracy = Cannon.FighterStats.AttackAccuracy.Value;
             float totalAccuaracy = addAccuarcyFromProjectile + shooterAccuracy;
             Vector2 finalShootDirection = Quaternion.Euler(0, 0, Random.Range(-totalAccuaracy, totalAccuaracy)) * shootDirection;
             var aimDirection = Quaternion.LookRotation(Vector3.forward, finalShootDirection);

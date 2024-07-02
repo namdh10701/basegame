@@ -20,7 +20,7 @@ using YamlDotNet.Core.Tokens;
 
 namespace _Game.Scripts.Entities
 {
-    public class Cannon : Entity, IGridItem, IShooter, IUpgradeable, IWorkLocation, INodeOccupier
+    public class Cannon : Entity, IGridItem, IUpgradeable, IWorkLocation, INodeOccupier
     {
         [Header("Cannon")]
         [field: SerializeField]
@@ -47,10 +47,6 @@ namespace _Game.Scripts.Entities
 
         [field: SerializeReference]
         public AttackStrategy AttackStrategy { get; set; }
-
-        [field: SerializeField]
-        public List<Effect> BulletEffects { get; set; } = new();
-
         public Transform behaviour;
         [field: SerializeField]
         public List<Cell> OccupyCells { get; set; }
@@ -78,22 +74,6 @@ namespace _Game.Scripts.Entities
         protected override void Awake()
         {
             base.Awake();
-        }
-        public void DisableWhenActive()
-        {
-            /*Cell[,] shape = ConvertOccupyCellsToShape();
-            NodeGraph nodeGraph = FindAnyObjectByType<NodeGraph>();
-            List<Cell> cells = GridHelper.GetCellsAroundShape(OccupyCells[0].Grid.Cells, OccupyCells);
-
-
-            List<Cell> bottomCells = new List<Cell>();
-            for (int i = 0; i < shape.GetLength(1); i++)
-            {
-                bottomCells.Add(shape[0, i]);
-            }
-
-            List<Cell> canbeActive = GridHelper.GetCellsAroundShape(OccupyCells[0].Grid.Cells, bottomCells);*/
-
         }
 
         protected override void LoadStats()
@@ -154,8 +134,6 @@ namespace _Game.Scripts.Entities
                 }
                 FindTargetBehaviour.Enable();
             }
-
-
         }
 
         List<Node> disableWhenActive = new List<Node>();
