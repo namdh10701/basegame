@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using _Game.Features.Home;
 using _Game.Features.Inventory;
+using _Game.Scripts.Gameplay;
 using _Game.Scripts.UI;
 using Cysharp.Threading.Tasks;
 using UnityWeld.Binding;
@@ -48,8 +50,9 @@ namespace _Game.Features.FightNodeInfo
         [Binding]
         public async void NavToMyShip()
         {
-            var options = new ScreenOptions("MyShipScreen", true);
-            await ScreenContainer.Find(ContainerKey.Screens).PushAsync(options);
+            ScreenContainer.Find(ContainerKey.Screens).PushAsync(new ScreenOptions(nameof(MainScreen), false));
+            MainViewModel.Instance.ActiveMainNavIndex = (int)MainViewModel.Nav.SHIP;
+            await ModalContainer.Find(ContainerKey.Modals).PopAsync(true);
         }
     }
 }

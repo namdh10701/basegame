@@ -1,3 +1,4 @@
+using _Game.Features.Quest;
 using _Game.Scripts.UI;
 using UnityWeld.Binding;
 using ZBase.UnityScreenNavigator.Core.Modals;
@@ -17,23 +18,21 @@ namespace _Game.Features.Home
         [Binding]
         public async void NavToWoldMapScreen()
         {
-            var options = new ViewOptions("WorldMapScreen", false, loadAsync: false);
-            
+            var options = new ViewOptions(nameof(WorldMapScreen));
             await ScreenContainer.Find(ContainerKey.Screens).PushAsync(options);
-            // await Launcher.ContainerManager.Find<ScreenContainer>(ContainerKey.Screens).PushAsync(options);
         }
         
         [Binding]
         public async void ShowQuestPopup()
         {
-            var options = new ViewOptions("QuestModal", true);
+            var options = new ViewOptions(nameof(QuestModal));
             await ModalContainer.Find(ContainerKey.Modals).PushAsync(options);
         }
         
         [Binding]
         public async void ShowSettingPopup()
         {
-            var options = new ViewOptions("SettingModal", true);
+            var options = new ViewOptions("SettingModal");
             await ModalContainer.Find(ContainerKey.Modals).PushAsync(options);
         }
     }
