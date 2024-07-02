@@ -10,6 +10,7 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
     {
         public override void DoAttack()
         {
+            Debug.Log("Far shot attack");
             var shootDirection = CalculateShootDirection();
             var projectile = SpawnProjectile(shootDirection, shootPosition);
             IncreaseDmgOverTime modifier = projectile.gameObject.AddComponent<IncreaseDmgOverTime>();

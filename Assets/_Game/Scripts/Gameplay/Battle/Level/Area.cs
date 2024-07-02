@@ -56,5 +56,22 @@ namespace _Game.Scripts.Battle
             point += offset;
             return point;
         }
+
+        public Vector2 ClosetPointTo(Vector2 pos)
+        {
+            Vector2 closestPointInBounds = bounds.ClosestPoint(pos);
+
+            // Calculate the direction from the position pos to the closest point inside the bounds
+            Vector2 direction = closestPointInBounds - pos;
+
+            // Normalize direction and scale it by bounds extents to find the point on the boundary
+            direction.Normalize();
+            Vector2 closestPointOnBoundary = closestPointInBounds + direction * bounds.extents.magnitude;
+
+            // Apply offset
+            closestPointOnBoundary += (Vector2)offset;
+
+            return closestPointInBounds;
+        }
     }
 }

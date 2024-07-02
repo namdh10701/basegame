@@ -188,6 +188,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04a2db7fd60a46c9ad717e4290795b41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Id: 
   body: {fileID: 0}
   def: {fileID: 11400000, guid: 8495fccf9da1d99408065a67352d60ec, type: 2}
   _stats:
@@ -235,7 +236,6 @@ MonoBehaviour:
   _statsTemplate: {fileID: 11400000, guid: 0c8271029c7ca5a4784a48e1f5956d29, type: 2}
   _cannonReloader: {fileID: 7017139140184525039}
   <AttackStrategy>k__BackingField: {fileID: 4798552602386086590}
-  <BulletEffects>k__BackingField: []
   behaviour: {fileID: 8427063930449867751}
   <OccupyCells>k__BackingField: []
   rarity: 0
@@ -627,7 +627,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aimTargetBehaviour: {fileID: 4089692241188050585}
   entity: {fileID: 94858937819000496}
-  shootPosition: {fileID: 0}
+  shootPosition: {fileID: 8013658354109649413}
   projectilePrefab: {fileID: 9038214777133773486, guid: 5ca95de0050294232be82d462f376a92, type: 3}
   Animation: {fileID: 4065583088557786199}
 --- !u!1 &6325944138744424202
@@ -933,6 +933,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ab12ab0ee735df4fb72658716092777, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &8013658354109649413 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4867781954721716507, guid: 8526d30eeb5d74e4eb8d7cb93811146d, type: 3}
+  m_PrefabInstance: {fileID: 3223431870573349662}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &8181815318633177620 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6714950177121659146, guid: 8526d30eeb5d74e4eb8d7cb93811146d, type: 3}

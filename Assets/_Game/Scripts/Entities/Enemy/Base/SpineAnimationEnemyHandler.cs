@@ -65,6 +65,7 @@ public abstract class SpineAnimationEnemyHandler : MonoBehaviour
     public void PlayDie(Action onAnimCompleted = null)
     {
         onDead = onAnimCompleted;
+        skeletonAnimation.AnimationState.ClearTracks();
         skeletonAnimation.AnimationState.SetAnimation(0, dead, false);
     }
 

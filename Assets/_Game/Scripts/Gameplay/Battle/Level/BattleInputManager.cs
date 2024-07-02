@@ -4,6 +4,7 @@ using _Game.Scripts;
 using UnityEngine;
 using UnityEngine.UI;
 using _Game.Features.Inventory;
+using _Game.Scripts.DB;
 
 namespace _Game.Scripts
 {
@@ -60,7 +61,7 @@ namespace _Game.Scripts
                             if (gridItem.Def.Type == ItemType.CANNON)
                             {
                                 selectingCannon = gridItem as Cannon;
-                                selectCannon.sprite = gridItem.Def.Image;
+                                selectCannon.sprite = Database.GetCannonImage(selectingCannon.Id);
                                 CreateBulletsMenu();
                             }
                         }

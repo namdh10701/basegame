@@ -48,7 +48,7 @@ namespace _Game.Scripts.Entities
             slowdownSpeed.RefreshValue();
             normalTime.RefreshValue();
 
-            Vector2 targetPos = Ship.ShipArea.SamplePoint();
+            Vector2 targetPos = Ship.ShipArea.ClosetPointTo(transform.position);
             direction.BaseValue = (targetPos - (Vector2)transform.position).normalized;
             direction.RefreshValue();
         }
