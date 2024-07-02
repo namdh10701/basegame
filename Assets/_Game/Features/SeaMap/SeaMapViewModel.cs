@@ -51,15 +51,18 @@ namespace _Game.Features.SeaMap
         [Binding]
         public async void NavToWorldMap()
         {
-            var options = new ViewOptions(nameof(WorldMapScreen));
-            await ScreenContainer.Find(ContainerKey.Screens).PushAsync(options);
+            // var options = new ViewOptions(nameof(WorldMapScreen));
+            // await ScreenContainer.Find(ContainerKey.Screens).PushAsync(options);
+            
+            await ScreenContainer.Find(ContainerKey.Screens).PopAsync(true);
         }
         
         [Binding]
         public async void NavToHome()
         {
-            var options = new ViewOptions(nameof(MainScreen));
-            await ScreenContainer.Find(ContainerKey.Screens).PushAsync(options);
+            // var options = new ViewOptions(nameof(MainScreen));
+            await ScreenContainer.Find(ContainerKey.Screens).PopAsync(false);
+            await ScreenContainer.Find(ContainerKey.Screens).PopAsync(true);
         }
 
         [Binding]
