@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using _Game.Features.Inventory;
 using _Game.Scripts;
 using UnityEngine;
 namespace _Base.Scripts.UI
@@ -11,18 +12,9 @@ namespace _Base.Scripts.UI
         public int startY;
         public string gridID;
         public Vector2 position;
-        public GridItemDef gridItemDef;
-    }
-
-    public enum OperationType
-    {
-        None = 0,
-        bullet = 0,
-        crew = 0,
-        normal = 1,
-        bouncing = 1,
-        charge = 1,
-        fast = 2,
-        twin = 3
+        public string Id;
+        public ItemType Type;
+        public int[,] Shape;
+        public Sprite Image;
     }
 }

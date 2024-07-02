@@ -5,6 +5,7 @@ using _Base.Scripts.UI;
 using _Game.Features.Home;
 using _Game.Features.Inventory;
 using _Game.Scripts;
+using _Game.Scripts.DB;
 using _Game.Scripts.GD;
 using Cysharp.Threading.Tasks;
 using UnityEditor;
@@ -132,34 +133,13 @@ namespace _Game.Features.MyShip
 
         private InventoryItemData AddInventoryItems(InventoryItem item)
         {
-            GDConfig config = null;
             InventoryItemData inventoryItemData = new InventoryItemData
             {
-                gridItemDef = new GridItemDef
-                {
-                    Id = item.Id,
-                    Type = item.Type
-                }
+                Id = item.Id,
+                Type = item.Type,
+                Shape = Database.GetShapeByTypeAndOperationType(item.Id, item.Type),
+                Image = Database.GetCannonImage(item.Id)
             };
-
-            switch (item.Type)
-            {
-                case ItemType.CANNON:
-                    config = GDConfigLoader.Instance.Cannons[item.Id];
-                    break;
-                case ItemType.AMMO:
-                    config = GDConfigLoader.Instance.Ammos[item.Id];
-                    inventoryItemData.gridItemDef.ShapeId = 0;
-                    break;
-            }
-
-            if (config is IOperationConfig op)
-            {
-                inventoryItemData.gridItemDef.Name = op.OperationType;
-                inventoryItemData.gridItemDef.ShapeId = item.Type == ItemType.CANNON ? (int)(OperationType)Enum.Parse(typeof(OperationType), op.OperationType, true) : 0;
-                inventoryItemData.gridItemDef.Path = $"Database/GridItem/{item.Type}/{op.OperationType}";
-            }
-
             return inventoryItemData;
         }
 

@@ -10,14 +10,10 @@ namespace _Game.Scripts
     {
         public string Id;
         public ItemType Type;
-        public int ShapeId;
+        public int[,] Shape;
         public string Name;
         public string Path;
         public Sprite Image;
         public Sprite ProjectileImage;
-        public override string ToString()
-        {
-            return Id + " " + Type.ToString() + " " + ShapeId;
-        }
     }
 }
