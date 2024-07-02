@@ -36,7 +36,8 @@ namespace _Game.Features.Quest
                 _filterItemTypeIndex = value;
 
                 OnPropertyChanged(nameof(FilterItemTypeIndex));
-                OnPropertyChanged(nameof(Items));
+                // OnPropertyChanged(nameof(Items));
+                DoFilter();
             }
         }
 
