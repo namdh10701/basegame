@@ -6,6 +6,7 @@ namespace _Base.Scripts.UI
     [CreateAssetMenu(menuName = "Scriptable Objects/Ship Info")]
     public class ShipConfig : ScriptableObject
     {
+        public string currentShipId;
         public List<ShipInfor> ships = new List<ShipInfor>();
     }
 
