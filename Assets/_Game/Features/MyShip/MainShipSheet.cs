@@ -117,55 +117,50 @@ namespace _Game.Features.MyShip
 
         private void OnEquipmentItemsReceived(List<InventoryItem> items)
         {
+            var inventoryItemsData = new List<InventoryItemData>();
             foreach (var inventoryItemData in items)
             {
-                AddInventoryItems(inventoryItemData);
+                inventoryItemsData.Add(AddInventoryItems(inventoryItemData));
                 Debug.Log("Received: " + inventoryItemData.Id);
             }
-            // _gridManager.Initialize();
-            // _gridManager.LoadInventoryItems();
-            // EnableDragItem(false);
+
+            _gridManager.Initialize();
+            _gridManager.AddInventoryItemsInfo(inventoryItemsData);
+            _gridManager.LoadInventoryItems();
+            EnableDragItem(false);
         }
 
-        // private void AddInventoryItems(InventoryItem item)
-        // {
-        //     var inventoryItems = new List<_Base.Scripts.UI.InventoryItemInfo>();
-        //     foreach (var inventoryItem in _gridManager.InventoryItemsReceivedDef.inventoryItemsReceived)
-        //     {
-        //         if (item.Type == inventoryItem.Type)
-        //         {
-        //             foreach (var itemReceived in inventoryItem.inventoryItemsInfo)
-        //             {
-        //                 if (itemReceived.inventoryItemData.gridItemDef.Id == item.Id)
-        //                 {
-        //                     inventoryItems.Add(itemReceived);
-        //                 }
-        //             }
-        //         }
-
-        //     }
-        //     _gridManager.AddInventoryItemsInfo(inventoryItems);
-
-        // }
-
-        private void AddInventoryItems(InventoryItem item)
+        private InventoryItemData AddInventoryItems(InventoryItem item)
         {
-            var cannon = GDConfigLoader.Instance.Cannons[item.Id];
-            _Base.Scripts.UI.InventoryItemInfo inventoryItemInfo = new _Base.Scripts.UI.InventoryItemInfo();
-            var inventoryItemData = new InventoryItemData();
-            inventoryItemData.gridItemDef = new GridItemDef();
-            inventoryItemData.gridItemDef.Id = item.Id;
-            inventoryItemData.gridItemDef.Type = item.Type;
-            inventoryItemData.gridItemDef.Name = cannon.name;
-            inventoryItemData.gridItemDef.ShapeId = (int)(OperationType)Enum.Parse(typeof(OperationType), cannon.operation_type, true);
-            inventoryItemData.gridItemDef.Path = $"/Database/GridItem/Cannons/{cannon.operation_type}";
-            inventoryItemInfo.inventoryItemData = inventoryItemData;
+            GDConfig config = null;
+            InventoryItemData inventoryItemData = new InventoryItemData
+            {
+                gridItemDef = new GridItemDef
+                {
+                    Id = item.Id,
+                    Type = item.Type
+                }
+            };
 
-            var inventoryItems = new List<_Base.Scripts.UI.InventoryItemInfo>();
-            inventoryItems.Add(inventoryItemInfo);
+            switch (item.Type)
+            {
+                case ItemType.CANNON:
+                    config = GDConfigLoader.Instance.Cannons[item.Id];
+                    break;
+                case ItemType.AMMO:
+                    config = GDConfigLoader.Instance.Ammos[item.Id];
+                    inventoryItemData.gridItemDef.ShapeId = 0;
+                    break;
+            }
 
-            _gridManager.AddInventoryItemsInfo(inventoryItems);
+            if (config is IOperationConfig op)
+            {
+                inventoryItemData.gridItemDef.Name = op.OperationType;
+                inventoryItemData.gridItemDef.ShapeId = item.Type == ItemType.CANNON ? (int)(OperationType)Enum.Parse(typeof(OperationType), op.OperationType, true) : 0;
+                inventoryItemData.gridItemDef.Path = $"Database/GridItem/{item.Type}/{op.OperationType}";
+            }
 
+            return inventoryItemData;
         }
 
         [Binding]

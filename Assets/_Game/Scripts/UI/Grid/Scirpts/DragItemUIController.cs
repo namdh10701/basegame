@@ -99,16 +99,16 @@ namespace _Base.Scripts.UI
             {
                 _gridManager.ChangeStatusCellEndDrag(_nextCells, _curentGrid, StatusCell.Empty);
 
-                var inventoryItemsInfoRemoveGrid = new List<InventoryItemInfo>();
+                var inventoryItemsInfoRemoveGrid = new List<InventoryItemData>();
                 inventoryItemsInfoRemoveGrid.Add(_inventoryItem.GetInventorInfo());
                 _gridManager.RemoveInventoryItemsInfo(inventoryItemsInfoRemoveGrid, _curentGrid);
 
                 // Get pos 
-                _inventoryItem.GetInventorInfo().inventoryItemData.position = _nextCells[0].GetCellData().position;
-                _inventoryItem.GetInventorInfo().inventoryItemData.gridID = _curentGrid.id;
-                var shape = Shape.ShapeDic[_inventoryItem.GetInventorInfo().inventoryItemData.gridItemDef.ShapeId];
-                var pos = _gridManager.GetPositionCell(shape, _inventoryItem.GetInventorInfo().inventoryItemData.startX,
-                _inventoryItem.GetInventorInfo().inventoryItemData.startY, _curentGrid);
+                _inventoryItem.GetInventorInfo().position = _nextCells[0].GetCellData().position;
+                _inventoryItem.GetInventorInfo().gridID = _curentGrid.id;
+                var shape = Shape.ShapeDic[_inventoryItem.GetInventorInfo().gridItemDef.ShapeId];
+                var pos = _gridManager.GetPositionCell(shape, _inventoryItem.GetInventorInfo().startX,
+                _inventoryItem.GetInventorInfo().startY, _curentGrid);
 
                 m_rect.anchoredPosition = pos;
                 _previousPosition = m_rect.anchoredPosition;
@@ -138,8 +138,8 @@ namespace _Base.Scripts.UI
                     m_rect.anchoredPosition = _previousPosition;
                     _gridManager.OnDragChangeColorCells(_nextCells, _curentGrid, true);
                     _gridManager.ChangeStatusCellEndDrag(_curentCells, _curentGrid, StatusCell.Occupied);
-                    _inventoryItem.GetInventorInfo().inventoryItemData.startX = _curentCells[0].GetCellData().r;
-                    _inventoryItem.GetInventorInfo().inventoryItemData.startY = _curentCells[0].GetCellData().c;
+                    _inventoryItem.GetInventorInfo().startX = _curentCells[0].GetCellData().r;
+                    _inventoryItem.GetInventorInfo().startY = _curentCells[0].GetCellData().c;
 
 
                 }

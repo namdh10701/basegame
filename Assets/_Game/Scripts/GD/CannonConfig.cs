@@ -7,7 +7,7 @@ namespace _Game.Scripts.GD
 {
     [CreateAssetMenu(fileName = "Cannon_", menuName = "SO/Cannon", order = 1)]
     [Serializable]
-    public class CannonConfig : GDConfig
+    public class CannonConfig : GDConfig, IOperationConfig
     {
         public string id;
         public string operation_type;
@@ -23,6 +23,8 @@ namespace _Game.Scripts.GD
         public float crit_damage;
         public float range;
         public float skill;
+
+        public string OperationType { get => operation_type; set => operation_type = value; }
 
         public override string GetId() => id;
 

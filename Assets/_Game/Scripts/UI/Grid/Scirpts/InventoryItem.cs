@@ -7,17 +7,17 @@ namespace _Base.Scripts.UI
     public class InventoryItem : MonoBehaviour
     {
         [SerializeField] public Image Icon;
-        private InventoryItemInfo _inventoryItemInfo;
+        private InventoryItemData _inventoryItemData;
         private int[,] _shape;
 
-        public void Setup(InventoryItemInfo inventoryItemInfo)
+        public void Setup(InventoryItemData inventoryItemData)
         {
-            _inventoryItemInfo = inventoryItemInfo;
+            _inventoryItemData = inventoryItemData;
             // Icon.sprite = inventoryItemInfo.inventoryItemData.gridItemDef.Image;
-            Icon.sprite = Resources.Load<Sprite>(inventoryItemInfo.inventoryItemData.gridItemDef.Path);
+            Icon.sprite = Resources.Load<Sprite>(inventoryItemData.gridItemDef.Path);
             Icon.SetNativeSize();
-            _shape = Shape.ShapeDic[inventoryItemInfo.inventoryItemData.gridItemDef.ShapeId];
-            this.transform.localPosition = inventoryItemInfo.inventoryItemData.position;
+            _shape = Shape.ShapeDic[inventoryItemData.gridItemDef.ShapeId];
+            this.transform.localPosition = inventoryItemData.position;
         }
 
         public int[,] GetShape()
@@ -27,18 +27,18 @@ namespace _Base.Scripts.UI
 
         public void Setposition(Vector2 position)
         {
-            _inventoryItemInfo.inventoryItemData.position = position;
+            _inventoryItemData.position = position;
         }
 
-        public InventoryItemInfo GetInventorInfo()
+        public InventoryItemData GetInventorInfo()
         {
-            return _inventoryItemInfo;
+            return _inventoryItemData;
         }
 
-        public void UpdateInventoryItemInfo(InventoryItemInfo inventoryItemInfo)
+        public void UpdateInventoryItemInfo(InventoryItemData inventoryItemData)
         {
-            _inventoryItemInfo = inventoryItemInfo;
-            this.transform.localPosition = inventoryItemInfo.inventoryItemData.position;
+            this._inventoryItemData = inventoryItemData;
+            this.transform.localPosition = inventoryItemData.position;
         }
 
     }

@@ -19,6 +19,10 @@ namespace _Game.Scripts.GD
 
         string GetId();
     }
+
+    public interface IOperationConfig {
+        string OperationType { get; set; }
+    }
     
     public abstract class GDConfig: ScriptableObject, IGDConfig
     {

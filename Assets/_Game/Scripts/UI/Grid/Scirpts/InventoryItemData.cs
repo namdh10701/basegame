@@ -17,6 +17,8 @@ namespace _Base.Scripts.UI
     public enum OperationType
     {
         None = 0,
+        bullet = 0,
+        crew = 0,
         normal = 1,
         bouncing = 1,
         charge = 1,

@@ -7,7 +7,7 @@ namespace _Game.Scripts.GD
 {
     [CreateAssetMenu(fileName = "Ammo_", menuName = "SO/Ammo", order = 1)]
     [Serializable]
-    public class AmmoConfig : GDConfig
+    public class AmmoConfig : GDConfig, IOperationConfig
     {
         public string id;
         public string operation_type;
@@ -31,6 +31,8 @@ namespace _Game.Scripts.GD
         public float dps;
         public float pierc_count;
         public float hp_threshold;
+
+        public string OperationType { get => operation_type; set => operation_type = value; }
 
         public override string GetId() => id;
         public override void ApplyGDConfig(object stats)

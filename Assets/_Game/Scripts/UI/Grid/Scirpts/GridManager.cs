@@ -21,7 +21,8 @@ namespace _Base.Scripts.UI
         {
             for (int i = 0; i < GridConfig.grids.Count; i++)
             {
-                LoadInventoryItemsOnGrid(GridConfig.grids[i].ItemsReceived.inventoryItemsInfo, GridConfig.grids[i], ParentCells[i]);
+                if (GridConfig.grids[i].ItemsReceived.InventoryItemsData.Count > 0)
+                    LoadInventoryItemsOnGrid(GridConfig.grids[i].ItemsReceived.InventoryItemsData, GridConfig.grids[i], ParentCells[i]);
             }
         }
 
@@ -40,11 +41,11 @@ namespace _Base.Scripts.UI
         {
             RemoveAllInventoryItems();
 
-            foreach (var item in GridConfig.grids[0].ItemsReceived.inventoryItemsInfo)
+            foreach (var item in GridConfig.grids[0].ItemsReceived.InventoryItemsData)
             {
                 var GridItemData = new GridItemData();
                 GridItemData.GridId = "1";
-                GridItemData.Def = item.inventoryItemData.gridItemDef;
+                GridItemData.Def = item.gridItemDef;
                 GridItemData.position = Vector3.zero;
                 GridItemData.OccupyCells = new List<Vector2Int>();
                 ShipSetup.GridItemDatas.Add(GridItemData);
@@ -113,13 +114,14 @@ namespace _Base.Scripts.UI
 
         }
 
-        public void AddInventoryItemsInfo(List<InventoryItemInfo> inventoryItems)
+        public void AddInventoryItemsInfo(List<InventoryItemData> inventoryItems)
         {
             foreach (var inventoryItem in inventoryItems)
             {
                 if (CheckPlaceItem(inventoryItem, GridConfig.grids[1]))
                 {
-                    GridConfig.grids[1].ItemsReceived.inventoryItemsInfo.Add(inventoryItem);
+                    InventoryItemData inventoryItemData = Instantiate(inventoryItem);
+                    GridConfig.grids[1].ItemsReceived.InventoryItemsData.Add(inventoryItemData);
                 }
                 else
                 {
@@ -129,59 +131,58 @@ namespace _Base.Scripts.UI
             }
         }
 
-        public void AddInventoryItemsInfoEndDrag(InventoryItemInfo inventoryItemInfo, GridInfor gridInfor)
+        public void AddInventoryItemsInfoEndDrag(InventoryItemData inventoryItemData, GridInfor gridInfor)
         {
             foreach (var grid in GridConfig.grids)
             {
                 if (grid.id == gridInfor.id)
                 {
-                    grid.ItemsReceived.inventoryItemsInfo.Add(inventoryItemInfo);
+                    grid.ItemsReceived.InventoryItemsData.Add(inventoryItemData);
                 }
             }
 
         }
 
-        public void RemoveInventoryItemsInfoEndDrag(InventoryItemInfo inventoryItemInfo, GridInfor gridInfor)
+        public void RemoveInventoryItemsInfoEndDrag(InventoryItemData inventoryItemData, GridInfor gridInfor)
         {
             foreach (var grid in GridConfig.grids)
             {
                 if (grid.id == gridInfor.id)
                 {
-                    grid.ItemsReceived.inventoryItemsInfo.Remove(inventoryItemInfo);
+                    grid.ItemsReceived.InventoryItemsData.Remove(inventoryItemData);
                 }
             }
 
         }
 
-        public void RemoveInventoryItemsInfo(List<InventoryItemInfo> inventoryItems, GridInfor grid)
+        public void RemoveInventoryItemsInfo(List<InventoryItemData> InventoryItemsData, GridInfor grid)
         {
-            var itemsToRemove = new List<InventoryItemInfo>();
+            var itemsToRemove = new List<InventoryItemData>();
 
-            foreach (var inventoryItem in inventoryItems)
+            foreach (var inventoryItem in InventoryItemsData)
             {
-                foreach (var inventoryItemInfo in grid.ItemsReceived.inventoryItemsInfo)
+                foreach (var inventoryItemData in grid.ItemsReceived.InventoryItemsData)
                 {
-                    if (inventoryItem.inventoryItemData == inventoryItemInfo.inventoryItemData)
+                    if (inventoryItem == inventoryItemData)
                     {
-                        itemsToRemove.Add(inventoryItemInfo);
+                        itemsToRemove.Add(inventoryItemData);
                     }
                 }
             }
 
             foreach (var itemToRemove in itemsToRemove)
             {
-                grid.ItemsReceived.inventoryItemsInfo.Remove(itemToRemove);
-                ChangeStatusCell(itemToRemove.inventoryItemData, itemToRemove.inventoryItemData.startX, itemToRemove.inventoryItemData.startY, grid, StatusCell.Empty);
-
+                grid.ItemsReceived.InventoryItemsData.Remove(itemToRemove);
+                ChangeStatusCell(itemToRemove, itemToRemove.startX, itemToRemove.startY, grid, StatusCell.Empty);
             }
         }
 
 
-        private void LoadInventoryItemsOnGrid(List<InventoryItemInfo> inventoryItems, GridInfor grid, Transform parent)
+        private void LoadInventoryItemsOnGrid(List<InventoryItemData> InventoryItemsData, GridInfor grid, Transform parent)
         {
-            foreach (var inventoryItem in inventoryItems)
+            foreach (var inventoryItem in InventoryItemsData)
             {
-                inventoryItem.inventoryItemData.gridID = grid.id;
+                inventoryItem.gridID = grid.id;
                 var item = Instantiate<InventoryItem>(InventoryItemsReceivedDef.InventoryItem, parent);
                 item.Setup(inventoryItem);
                 InventoryItems.Add(item);
@@ -197,7 +198,7 @@ namespace _Base.Scripts.UI
             InventoryItems.Clear();
         }
 
-        public bool CheckPlaceItem(InventoryItemInfo inventoryItemInfo, GridInfor grid)
+        public bool CheckPlaceItem(InventoryItemData inventoryItemData, GridInfor grid)
         {
             bool itemPlaced = false;
 
@@ -205,13 +206,13 @@ namespace _Base.Scripts.UI
             {
                 for (int c = 0; c < grid.cols && !itemPlaced; c++)
                 {
-                    var shape = Shape.ShapeDic[inventoryItemInfo.inventoryItemData.gridItemDef.ShapeId];
+                    var shape = Shape.ShapeDic[inventoryItemData.gridItemDef.ShapeId];
                     var result = CanPlace(shape, r, c, grid);
                     if (result.canPlace)
                     {
                         var pos = GetPositionCell(shape, r, c, grid);
-                        inventoryItemInfo.inventoryItemData.position = pos;
-                        ChangeStatusCell(inventoryItemInfo.inventoryItemData, r, c, grid, StatusCell.Occupied);
+                        inventoryItemData.position = pos;
+                        ChangeStatusCell(inventoryItemData, r, c, grid, StatusCell.Occupied);
                         itemPlaced = true;
                     }
 
@@ -347,7 +348,7 @@ namespace _Base.Scripts.UI
             var grid = GridConfig.grids[parentIndex];
             if (startDrag)
             {
-                var cell = grid.cells[inventoryItem.GetInventorInfo().inventoryItemData.startX, inventoryItem.GetInventorInfo().inventoryItemData.startY];
+                var cell = grid.cells[inventoryItem.GetInventorInfo().startX, inventoryItem.GetInventorInfo().startY];
                 var cellData = cell.GetCellData();
                 Debug.Log($"[GetCellByPosition]: {cellData.r}, {cellData.c}");
                 var result = CanPlace(inventoryItem.GetShape(), cellData.r, cellData.c, grid, true);
@@ -367,15 +368,15 @@ namespace _Base.Scripts.UI
                 for (int c = 0; c < grid.cols; c++)
                 {
                     var cell = grid.cells[r, c];
-                    var shape = Shape.ShapeDic[inventoryItem.GetInventorInfo().inventoryItemData.gridItemDef.ShapeId];
+                    var shape = Shape.ShapeDic[inventoryItem.GetInventorInfo().gridItemDef.ShapeId];
                     if (IsMouseOverCell(inventoryPositon, cell, shape))
                     {
                         var cellData = cell.GetCellData();
                         var result = CanPlace(inventoryItem.GetShape(), cellData.r, cellData.c, grid, true);
                         if (result.canPlace)
                         {
-                            inventoryItem.GetInventorInfo().inventoryItemData.startX = cellData.r;
-                            inventoryItem.GetInventorInfo().inventoryItemData.startY = cellData.c;
+                            inventoryItem.GetInventorInfo().startX = cellData.r;
+                            inventoryItem.GetInventorInfo().startY = cellData.c;
                             return (result.blockedCells, grid);
                         }
                     }
