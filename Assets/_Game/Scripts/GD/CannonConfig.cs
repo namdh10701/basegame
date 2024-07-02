@@ -10,6 +10,9 @@ namespace _Game.Scripts.GD
     public class CannonConfig : GDConfig
     {
         public string id;
+        public string type;
+        public string rarity;
+        public string rarity_level;
         public string name;
         public string default_rarity;
         public float hp;
