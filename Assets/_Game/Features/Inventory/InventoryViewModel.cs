@@ -4,6 +4,7 @@ using System.Linq;
 using _Game.Scripts.GD;
 using _Game.Scripts.UI;
 using Unity.VisualScripting;
+using UnityEngine.Events;
 using UnityWeld.Binding;
 
 namespace _Game.Features.Inventory
@@ -42,6 +43,29 @@ namespace _Game.Features.Inventory
 
                 _isMultiSelect = value;
                 OnPropertyChanged(nameof(IsMultiSelect));
+
+                OnMultiSelectModeChanged(value);
+            }
+        }
+
+        private void OnMultiSelectModeChanged(bool isEnabled)
+        {
+            if (isEnabled)
+            {
+                return;
+            }
+
+            DeselectAll();
+        }
+
+        private void DeselectAll(InventoryItem ignoreItem = null)
+        {
+            foreach (var inventoryItem in Items.Where(v => v.IsSelected))
+            {
+                if (inventoryItem != ignoreItem)
+                {
+                    inventoryItem.IsSelected = false;
+                }
             }
         }
 
@@ -159,8 +183,13 @@ namespace _Game.Features.Inventory
                 var rarities = Enum.GetValues(typeof(Rarity)).Cast<Rarity>();
                 foreach (var rarity in rarities)
                 {
-                    dataSource.Add(new InventoryItem {  InventoryViewModel = this, Type = ItemType.CREW, Id = $"000{crewNo++}", Rarity = rarity, OperationType = $"{i}" });
+                    dataSource.Add(new InventoryItem {  InventoryViewModel = this, Type = ItemType.CREW, Id = $"{crewNo++}", Rarity = rarity, OperationType = $"{i}" });
                 }
+            }
+            
+            foreach (var inventoryItem in dataSource)
+            {
+                inventoryItem.SelectionStateChanged += OnSelectionStateChanged;
             }
             //
             // // for (int i = 0; i < 5; i++)
@@ -216,9 +245,16 @@ namespace _Game.Features.Inventory
             dataSource = dataSource.Where(v => v.Thumbnail != null).ToList();
             DoFilter();
         }
-        
-        
-        
+
+        private void OnSelectionStateChanged(InventoryItem inventoryItem)
+        {
+            if (!IsMultiSelect && inventoryItem.IsSelected)
+            {
+                DeselectAll(inventoryItem);
+            }
+        }
+
+
         [Binding]
         public void OnEquipSelectedItems()
         {

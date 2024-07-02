@@ -1,6 +1,8 @@
+using System;
 using _Base.Scripts.UI.Managers;
 using _Game.Scripts.UI;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityWeld.Binding;
 
 namespace _Game.Features.Inventory
@@ -173,6 +175,9 @@ namespace _Game.Features.Inventory
             }
         }
         
+        public event Action<InventoryItem> SelectionStateChanged;
+
+        
         #region Binding Prop: IsSelected
 
         /// <summary>
@@ -191,13 +196,15 @@ namespace _Game.Features.Inventory
 
                 _isSelected = value;
                 OnPropertyChanged(nameof(IsSelected));
+                
+                SelectionStateChanged?.Invoke(this);
             }
         }
 
         private bool _isSelected;
 
         #endregion
-
+        
         #region Binding Prop: IsEquipped
 
         /// <summary>

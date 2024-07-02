@@ -265,7 +265,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   viewAdapterTypeName: UnityWeld.Binding.Adapters.BoolInversionAdapter
   viewAdapterOptions: {fileID: 0}
-  viewModelPropertyName: _Game.Features.SeaMapNodeInfoPopup.SeaMapNodeInfoPopup.IsBossStyle
+  viewModelPropertyName: _Game.Features.FightNodeInfo.FightNodeInfoViewModel.IsBossStyle
 --- !u!1 &1814889502892698750
 GameObject:
   m_ObjectHideFlags: 0
@@ -279,7 +279,6 @@ GameObject:
   - component: {fileID: -3119687737808314467}
   - component: {fileID: -7255165818853529643}
   - component: {fileID: 4353844542100523617}
-  - component: {fileID: 6559459998068029524}
   m_Layer: 5
   m_Name: FightNodeInfoModal
   m_TagString: Untagged
@@ -360,20 +359,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15a5d6c323a141feb48c35c6c18af5bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6559459998068029524
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1814889502892698750}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1360956885, guid: e650e72e8be47794994495fc15c0ba63, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  viewModelMethodName: 
-  viewEventName: 
+  style: 0
 --- !u!1 &1953317564139321077
 GameObject:
   m_ObjectHideFlags: 0
@@ -500,7 +486,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   viewAdapterTypeName: 
   viewAdapterOptions: {fileID: 0}
-  viewModelPropertyName: _Game.Features.SeaMapNodeInfoPopup.SeaMapNodeInfoPopup.IsBossStyle
+  viewModelPropertyName: _Game.Features.FightNodeInfo.FightNodeInfoViewModel.IsBossStyle
 --- !u!1 &2940550922352772751
 GameObject:
   m_ObjectHideFlags: 0

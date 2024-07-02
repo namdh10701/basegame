@@ -97,8 +97,11 @@ namespace _Game.Scripts.Gameplay
             // // }
         }
 
+        public static MainViewModel Instance;
+
         private async void Awake()
         {
+            Instance = this;
             // IOC.Register(this);
             // // GDConfigLoader.Instance.OnLoaded += Init;
             // await GDConfigLoader.Instance.Load();
