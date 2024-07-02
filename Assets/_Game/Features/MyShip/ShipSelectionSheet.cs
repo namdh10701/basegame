@@ -50,6 +50,7 @@ namespace _Game.Features.MyShip
             _ship.transform.localPosition = Vector3.zero;
             _iconApprove.SetActive(ShipSelectionInfoConfig.shipSelectionInfo[_currentIndex].isApprove);
             _page.text = $"{_currentIndex + 1}/{_ships.Count}";
+            ShipID = ShipSelectionInfoConfig.shipSelectionInfo[_currentIndex].id;
 
         }
 
@@ -73,7 +74,6 @@ namespace _Game.Features.MyShip
 
         public void OnEquip()
         {
-            ShipID = ShipSelectionInfoConfig.shipSelectionInfo[_currentIndex].id;
             ShipSelectionInfoConfig.shipSelectionInfo[_currentIndex].isApprove = true;
             _iconApprove.SetActive(true);
         }
