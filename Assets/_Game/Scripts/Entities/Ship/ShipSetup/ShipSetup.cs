@@ -66,11 +66,11 @@ namespace _Game.Scripts
             }
             // GridItemDatas = ShipSetupMockup.Datas;
 
-            if (Ship.Id == "0001")
+            if (Ship.Id == "0003")
             {
                 UsingGridItemDatas = GridItemDatas;
             }
-            else if (Ship.Id == "0002")
+            else if (Ship.Id == "0001")
             {
                 UsingGridItemDatas = GridItemDatas_Id2;
             }
@@ -288,7 +288,7 @@ namespace _Game.Scripts
             Crew crewPrefab = Database.GetCrew(data.Id);
             Crew spawned = Instantiate(crewPrefab, grid.GridItemRoot);
             CrewController.AddCrew(spawned);
-
+            spawned.Id = data.Id;
             float scale = Vector3.one.x / spawned.transform.parent.lossyScale.x;
             spawned.transform.localScale = new Vector3(scale, scale, scale);
             spawned.transform.localPosition = data.position;
