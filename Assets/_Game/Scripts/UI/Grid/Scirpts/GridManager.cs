@@ -16,7 +16,15 @@ namespace _Base.Scripts.UI
 
         public List<InventoryItem> InventoryItems = new List<InventoryItem>();
 
-        public ShipData shipData;
+        void Awake()
+        {
+            foreach (var grid in GridConfig.grids)
+            {
+                grid.ItemsReceived.InventoryItemsData.Clear();
+            }
+        }
+
+
         public void LoadInventoryItems()
         {
             for (int i = 0; i < GridConfig.grids.Count; i++)
@@ -45,7 +53,6 @@ namespace _Base.Scripts.UI
             {
                 var GridItemData = new GridItemData();
                 GridItemData.GridId = "1";
-                GridItemData.Def = item.gridItemDef;
                 GridItemData.position = Vector3.zero;
                 GridItemData.OccupyCells = new List<Vector2Int>();
                 ShipSetup.GridItemDatas.Add(GridItemData);
@@ -120,8 +127,8 @@ namespace _Base.Scripts.UI
             {
                 if (CheckPlaceItem(inventoryItem, GridConfig.grids[1]))
                 {
-                    InventoryItemData inventoryItemData = Instantiate(inventoryItem);
-                    GridConfig.grids[1].ItemsReceived.InventoryItemsData.Add(inventoryItemData);
+                    inventoryItem.gridID = GridConfig.grids[1].id;
+                    GridConfig.grids[1].ItemsReceived.InventoryItemsData.Add(inventoryItem);
                 }
                 else
                 {
@@ -206,7 +213,7 @@ namespace _Base.Scripts.UI
             {
                 for (int c = 0; c < grid.cols && !itemPlaced; c++)
                 {
-                    var shape = Shape.ShapeDic[inventoryItemData.gridItemDef.ShapeId];
+                    var shape = inventoryItemData.Shape;
                     var result = CanPlace(shape, r, c, grid);
                     if (result.canPlace)
                     {
@@ -278,7 +285,7 @@ namespace _Base.Scripts.UI
 
         public void ChangeStatusCell(InventoryItemData inventoryItemData, int startX, int startY, GridInfor grid, StatusCell statusCell)
         {
-            var shape = Shape.ShapeDic[inventoryItemData.gridItemDef.ShapeId];
+            var shape = inventoryItemData.Shape;
             int itemRows = shape.GetLength(0);
             int itemCols = shape.GetLength(1);
             inventoryItemData.startX = startX;
@@ -368,7 +375,7 @@ namespace _Base.Scripts.UI
                 for (int c = 0; c < grid.cols; c++)
                 {
                     var cell = grid.cells[r, c];
-                    var shape = Shape.ShapeDic[inventoryItem.GetInventorInfo().gridItemDef.ShapeId];
+                    var shape = inventoryItem.GetInventorInfo().Shape;
                     if (IsMouseOverCell(inventoryPositon, cell, shape))
                     {
                         var cellData = cell.GetCellData();

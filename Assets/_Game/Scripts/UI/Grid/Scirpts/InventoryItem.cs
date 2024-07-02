@@ -13,10 +13,10 @@ namespace _Base.Scripts.UI
         public void Setup(InventoryItemData inventoryItemData)
         {
             _inventoryItemData = inventoryItemData;
-            // Icon.sprite = inventoryItemInfo.inventoryItemData.gridItemDef.Image;
-            Icon.sprite = Resources.Load<Sprite>(inventoryItemData.gridItemDef.Path);
+            Icon.sprite = inventoryItemData.Image;
+            // Icon.sprite = Resources.Load<Sprite>(inventoryItemData.gridItemDef.Image);
             Icon.SetNativeSize();
-            _shape = Shape.ShapeDic[inventoryItemData.gridItemDef.ShapeId];
+            _shape = inventoryItemData.Shape;
             this.transform.localPosition = inventoryItemData.position;
         }
 
