@@ -37,7 +37,8 @@ namespace _Game.Features.MyShip
 
         GridManager _gridManager;
         GameObject _ship;
-        const string directory = "Assets/_Game/Scriptable Objects/ShipGridProfiles/";
+        bool _isEnableTabEditShip = true;
+
         public override UniTask Initialize(Memory<object> args)
         {
             _btnShipEdit.onClick.AddListener(OnShipEditClick);
@@ -70,6 +71,7 @@ namespace _Game.Features.MyShip
         public override UniTask Cleanup(Memory<object> args)
         {
             _btnShipEdit.onClick.RemoveListener(OnShipEditClick);
+
             return UniTask.CompletedTask;
         }
 
@@ -81,7 +83,8 @@ namespace _Game.Features.MyShip
 
         private void OnShipEditClick()
         {
-            EnableDragItem(true);
+            EnableDragItem(_isEnableTabEditShip);
+            _isEnableTabEditShip = !_isEnableTabEditShip;
         }
 
         public override UniTask WillEnter(Memory<object> args)
@@ -117,16 +120,16 @@ namespace _Game.Features.MyShip
 
         private void OnEquipmentItemsReceived(List<InventoryItem> items)
         {
+            EnableDragItem(false);
+
             var inventoryItemsData = new List<InventoryItemData>();
             foreach (var inventoryItemData in items)
             {
                 inventoryItemsData.Add(AddInventoryItems(inventoryItemData));
             }
 
-            // _gridManager.Initialize(_shipsConfig.currentShipId);
             _gridManager.AddInventoryItemsInfo(inventoryItemsData);
             _gridManager.LoadInventoryItemsOnGrid(_gridManager.GridConfig.grids[1].ItemsReceived.InventoryItemsData, _gridManager.GridConfig.grids[1], _gridManager.ParentCells[1]);
-            EnableDragItem(false);
         }
 
         private InventoryItemData AddInventoryItems(InventoryItem item)
@@ -167,6 +170,7 @@ namespace _Game.Features.MyShip
 
         private List<InventoryItemData> GetCurrentInventoryItemList()
         {
+            _isEnableTabEditShip = true;
             return _gridManager.GridConfig.grids[1].ItemsReceived.InventoryItemsData;
         }
     }
