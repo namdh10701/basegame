@@ -1,15 +1,9 @@
-using _Base.Scripts;
 using _Base.Scripts.Bootstrap;
-using _Base.Scripts.EventSystem;
-using _Base.Scripts.Shared;
 using _Base.Scripts.StateMachine;
 using _Base.Scripts.UI.Managers;
 using _Game.Scripts.GameStates;
 using _Game.Scripts.UI;
-using Fusion;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace _Game.Scripts.Managers
 {

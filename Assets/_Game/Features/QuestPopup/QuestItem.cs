@@ -1,4 +1,3 @@
-using _Base.Scripts.UI.Managers;
 using _Game.Scripts.UI;
 using UnityEngine;
 using UnityWeld.Binding;

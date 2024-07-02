@@ -1,6 +1,5 @@
 
 using _Game.Scripts.Entities;
-using _Game.Scripts;
 using UnityEngine;
 using UnityEngine.UI;
 using _Game.Features.Inventory;

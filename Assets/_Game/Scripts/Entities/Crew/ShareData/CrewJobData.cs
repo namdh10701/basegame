@@ -1,9 +1,7 @@
 using _Base.Scripts.EventSystem;
-using _Base.Scripts.Utils.Extensions;
 using _Game.Scripts;
 using _Game.Scripts.Entities;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

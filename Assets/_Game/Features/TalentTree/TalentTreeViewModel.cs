@@ -7,7 +7,6 @@ using _Game.Scripts.GD;
 using UnityEngine;
 using UnityWeld.Binding;
 using ZBase.UnityScreenNavigator.Core.Screens;
-using ZBase.UnityScreenNavigator.Core.Views;
 
 namespace _Game.Scripts.Gameplay.TalentTree
 {

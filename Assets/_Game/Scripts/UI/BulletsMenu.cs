@@ -1,12 +1,7 @@
 using _Base.Scripts.EventSystem;
-using _Game.Scripts;
 using _Game.Scripts.Entities;
-using _Game.Scripts.Gameplay.Ship;
-using JetBrains.Annotations;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class BulletsMenu : MonoBehaviour
 {

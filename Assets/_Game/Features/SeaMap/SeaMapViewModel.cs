@@ -1,8 +1,6 @@
 using System;
-using System.Collections.Generic;
 using _Game.Features.Battle;
 using _Game.Features.FightNodeInfoPopup;
-using _Game.Features.Home;
 using _Game.Features.Quest;
 using _Game.Scripts.UI;
 using UnityWeld.Binding;

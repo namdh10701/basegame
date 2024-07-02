@@ -1,7 +1,4 @@
 using _Base.Scripts.RPG.Behaviours.FindTarget;
-using _Game.Scripts;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace MBT

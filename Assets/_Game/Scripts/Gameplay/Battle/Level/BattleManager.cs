@@ -3,11 +3,8 @@ using _Game.Features;
 using _Game.Features.Battle;
 using _Game.Scripts.Battle;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using ZBase.UnityScreenNavigator.Core.Modals;
-using ZBase.UnityScreenNavigator.Core.Screens;
-using ZBase.UnityScreenNavigator.Core.Views;
 
 namespace _Game.Scripts.Gameplay
 {

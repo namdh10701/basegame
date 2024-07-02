@@ -33,7 +33,6 @@
 #define HINGE_JOINT_NEW_BEHAVIOUR
 #endif
 
-using Spine;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;

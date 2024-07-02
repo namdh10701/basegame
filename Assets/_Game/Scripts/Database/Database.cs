@@ -1,10 +1,6 @@
-using _Base.Scripts.Database;
 using _Game.Features.Inventory;
 using _Game.Scripts.Entities;
-using _Game.Scripts.Gameplay.Ship;
 using _Game.Scripts.GD;
-using _Game.Scripts.InventorySystem;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;

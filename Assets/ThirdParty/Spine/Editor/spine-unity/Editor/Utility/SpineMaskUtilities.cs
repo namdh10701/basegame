@@ -49,12 +49,6 @@
 
 #if BUILT_IN_SPRITE_MASK_COMPONENT
 
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using UnityEditor;
 using UnityEngine;
 
 namespace Spine.Unity.Editor {

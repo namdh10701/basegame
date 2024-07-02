@@ -1,13 +1,8 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using _Base.Scripts.RPG;
 using _Base.Scripts.RPG.Behaviours.FindTarget;
 using _Base.Scripts.RPG.Entities;
-using _Base.Scripts.RPGCommon.Behaviours.FindTargetStrategies;
 using _Base.Scripts.RPGCommon.Entities;
 using _Game.Scripts.Entities;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies

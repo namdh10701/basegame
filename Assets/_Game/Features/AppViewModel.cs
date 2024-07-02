@@ -1,13 +1,9 @@
 using System.Threading.Tasks;
-using _Base.Scripts.UI.Managers;
 using _Base.Scripts.Utils;
 using _Game.Features.Home;
-using _Game.Features.Inventory;
-using _Game.Features.WorldMap;
 using _Game.Scripts.DB;
 using _Game.Scripts.GD;
 using _Game.Scripts.UI;
-using UnityEngine;
 using UnityWeld.Binding;
 using ZBase.UnityScreenNavigator.Core.Screens;
 

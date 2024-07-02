@@ -1,5 +1,4 @@
 ﻿namespace Fusion {
-  using System.Collections.Generic;
   using UnityEngine;
 
 #if FUSION_ENABLE_ADDRESSABLES && !FUSION_DISABLE_ADDRESSABLES

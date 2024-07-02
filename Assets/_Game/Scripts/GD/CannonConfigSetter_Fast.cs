@@ -1,6 +1,5 @@
 using _Game.Scripts.Entities;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace _Game.Scripts.GD
 {

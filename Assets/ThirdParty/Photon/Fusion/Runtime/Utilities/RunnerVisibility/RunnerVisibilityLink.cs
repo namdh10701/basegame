@@ -1,9 +1,6 @@
 
 namespace Fusion {
-
-  using System;
   using System.Collections.Generic;
-  using Fusion.Analyzer;
   using UnityEngine;
 
   /// <summary>

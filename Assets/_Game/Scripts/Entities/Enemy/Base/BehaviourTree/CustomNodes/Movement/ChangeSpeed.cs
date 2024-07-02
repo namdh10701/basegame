@@ -1,7 +1,5 @@
 using _Game.Scripts;
 using MBT;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 [MBTNode("My Node/Change Speed")]
 public class ChangeSpeed : Leaf

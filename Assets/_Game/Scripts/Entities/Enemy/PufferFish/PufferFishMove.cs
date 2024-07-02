@@ -1,6 +1,4 @@
-using _Game.Scripts.Battle;
 using _Game.Scripts.Gameplay.Ship;
-using MBT;
 using UnityEngine;
 
 namespace _Game.Scripts.Entities

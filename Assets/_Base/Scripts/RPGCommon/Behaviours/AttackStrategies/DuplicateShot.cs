@@ -1,9 +1,6 @@
-using _Base.Scripts.RPG.Entities;
 using _Base.Scripts.RPGCommon.Entities;
 using _Base.Scripts.Utils.Extensions;
-using System.Collections.Generic;
 using UnityEngine;
-using static _Base.Scripts.RPGCommon.Behaviours.AttackStrategies.BouncingShot;
 
 namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
 {

@@ -27,9 +27,6 @@
  * SPINE RUNTIMES, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *****************************************************************************/
 
-using System;
-using System.Text;
-
 namespace Spine {
 	public interface IHasTextureRegion {
 		/// <summary>The name used to find the <see cref="Region"/></summary>

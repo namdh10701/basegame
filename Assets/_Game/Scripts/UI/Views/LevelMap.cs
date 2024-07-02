@@ -1,7 +1,6 @@
 using _Base.Scripts.UI;
 using _Base.Scripts.UI.Managers;
 using _Game.Scripts.Managers;
-using Map;
 using UnityEngine;
 using UnityEngine.UI;
 namespace _Game.Scripts.UI

@@ -1,9 +1,6 @@
-using _Game.Scripts.Entities;
 using _Game.Scripts.GD;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace _Game.Scripts.Battle
 {

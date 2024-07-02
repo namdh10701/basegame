@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Slash.Unity.GestureInput.Gestures;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;

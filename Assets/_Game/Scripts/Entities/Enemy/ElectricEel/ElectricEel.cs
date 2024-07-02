@@ -1,12 +1,8 @@
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using _Base.Scripts.RPG.Behaviours.FindTarget;
-using _Base.Scripts.RPGCommon.Entities;
 using _Game.Scripts;
-using _Game.Scripts.Battle;
 using _Game.Scripts.Entities;
-using MBT;
 using UnityEngine;
 
 public class ElectricEel : Enemy

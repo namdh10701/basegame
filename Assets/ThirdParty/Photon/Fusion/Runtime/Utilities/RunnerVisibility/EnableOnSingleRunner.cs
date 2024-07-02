@@ -6,8 +6,7 @@ using UnityEngine;
 namespace Fusion {
   
   #if UNITY_EDITOR
-  using UnityEditor;
-  #endif
+#endif
 
 
   /// <summary>

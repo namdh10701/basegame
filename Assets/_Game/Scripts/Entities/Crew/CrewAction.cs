@@ -1,8 +1,6 @@
 using _Game.Scripts;
 using _Game.Scripts.Entities;
 using _Game.Scripts.PathFinding;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CrewAction : MonoBehaviour

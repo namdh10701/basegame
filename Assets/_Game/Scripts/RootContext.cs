@@ -1,4 +1,3 @@
-using _Game.Scripts.Attributes;
 using Slash.Unity.DataBind.Core.Data;
 
 namespace _Game.Scripts

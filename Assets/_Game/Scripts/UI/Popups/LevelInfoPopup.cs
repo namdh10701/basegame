@@ -1,6 +1,4 @@
-using _Base.Scripts.StateMachine;
 using _Base.Scripts.UI;
-using _Game.Scripts;
 using Map;
 using UnityEngine;
 using UnityEngine.UI;

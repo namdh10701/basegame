@@ -10,8 +10,6 @@ namespace Slash.Unity.DataBind.Editor.PropertyDrawers
     using System.Reflection;
 
     using Slash.Unity.DataBind.Core.Utils;
-    using Slash.Unity.DataBind.Editor.Utils;
-
     using UnityEditor;
 
     using UnityEngine;

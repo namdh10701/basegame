@@ -28,7 +28,6 @@
  *****************************************************************************/
 
 using System;
-using System.Collections;
 using UnityEngine;
 
 namespace Spine.Unity {

@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace MBT
+﻿namespace MBT
 {
     public abstract class Leaf : Node, IChildrenNode
     {

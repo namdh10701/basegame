@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using static Fusion.Sockets.NetBitBuffer;
 
 namespace _Game.Scripts.Battle
 {

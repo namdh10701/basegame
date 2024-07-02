@@ -1,7 +1,5 @@
 using _Game.Scripts;
 using MBT;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [AddComponentMenu("")]

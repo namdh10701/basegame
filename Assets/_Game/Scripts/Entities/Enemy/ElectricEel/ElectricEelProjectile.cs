@@ -1,13 +1,5 @@
-using _Base.Scripts.RPG;
-using _Base.Scripts.RPG.Behaviours.FindTarget;
-using _Base.Scripts.RPG.Entities;
 using _Base.Scripts.RPGCommon.Entities;
-using _Game.Scripts;
-using _Game.Scripts.Entities;
-using _Game.Scripts.GD;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class ElectricEelProjectile : Projectile

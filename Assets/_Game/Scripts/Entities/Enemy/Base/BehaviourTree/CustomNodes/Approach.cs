@@ -1,9 +1,5 @@
-using _Base.Scripts.RPG.Behaviours.FindTarget;
 using _Game.Scripts;
 using MBT;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 [AddComponentMenu("")]

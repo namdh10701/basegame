@@ -1,20 +1,10 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using _Base.Scripts.RPG;
-using _Base.Scripts.RPG.Behaviours.AttackTarget;
 using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.RPG.Entities;
-using _Base.Scripts.RPGCommon.Entities;
-using _Game.Scripts.Attributes;
-using _Game.Scripts.Battle;
 using _Game.Scripts.Gameplay.Ship;
 using _Game.Scripts.GD;
 using MBT;
-using Mono.Collections.Generic;
-using Spine.Unity;
 using UnityEngine;
-using static UnityEngine.EventSystems.EventTrigger;
 
 namespace _Game.Scripts.Entities
 {

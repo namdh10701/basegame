@@ -3,7 +3,6 @@ using _Game.Features.Inventory;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
-using ZBase.UnityScreenNavigator.Core.Screens;
 using ZBase.UnityScreenNavigator.Core.Sheets;
 
 namespace _Game.Features.Home

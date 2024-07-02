@@ -27,9 +27,6 @@
  * SPINE RUNTIMES, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *****************************************************************************/
 
-using System;
-using System.Collections.Generic;
-
 namespace Spine {
 	/// <summary>Stores the setup pose for an IkConstraint.</summary>
 	public class IkConstraintData : ConstraintData {

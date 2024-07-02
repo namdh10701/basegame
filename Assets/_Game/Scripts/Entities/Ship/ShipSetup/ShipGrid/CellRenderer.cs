@@ -1,8 +1,4 @@
-using _Base.Scripts.EventSystem;
-using _Game.Scripts;
 using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public enum HighlightType

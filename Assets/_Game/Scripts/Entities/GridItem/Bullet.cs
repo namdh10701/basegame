@@ -1,8 +1,6 @@
-using _Base.Scripts.RPG.Entities;
 using _Base.Scripts.RPGCommon.Entities;
 using _Game.Scripts.GD;
 using _Game.Scripts.PathFinding;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
