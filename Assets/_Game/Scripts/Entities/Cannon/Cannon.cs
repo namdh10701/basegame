@@ -20,7 +20,7 @@ using YamlDotNet.Core.Tokens;
 
 namespace _Game.Scripts.Entities
 {
-    public class Cannon : Entity, IGridItem, IUpgradeable, IWorkLocation, INodeOccupier
+    public class Cannon : Entity,IShooter, IGridItem, IUpgradeable, IWorkLocation, INodeOccupier
     {
         [Header("Cannon")]
         [field: SerializeField]
@@ -59,6 +59,7 @@ namespace _Game.Scripts.Entities
         public List<Node> WorkingSlots { get => workingSlots; set => workingSlots = value; }
         public List<Node> OccupyingNodes { get => occupyingNodes; set => occupyingNodes = value; }
         public bool IsBroken { get => isBrokenn; set => isBrokenn = value; }
+        public List<Effect> BulletEffects { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
         public List<Node> workingSlots = new List<Node>();
         public List<Node> occupyingNodes = new List<Node>();
