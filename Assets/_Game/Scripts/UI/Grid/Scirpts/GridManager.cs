@@ -8,22 +8,18 @@ namespace _Base.Scripts.UI
         [SerializeField] public GridConfig GridConfig;
         [SerializeField] public List<RectTransform> ParentCells;
         [SerializeField] private List<Transform> _startPos;
-        [SerializeField] public InventoryItemsReceivedDef InventoryItemsReceivedDef;
         [SerializeField] public RectTransform m_rect;
 
         [SerializeField] GameObject _tash;
         [SerializeField] GameObject _gridImage;
+        [SerializeField] InventoryItem _prefabInventoryItem;
 
-        public List<InventoryItem> InventoryItems = new List<InventoryItem>();
+        public List<InventoryItem> InventoryItemsOnStash = new List<InventoryItem>();
         private string _shipID;
 
         void Awake()
         {
-            foreach (var grid in GridConfig.grids)
-            {
-                grid.ItemsReceived.InventoryItemsData.Clear();
-                grid.listCellsData.Clear();
-            }
+            RemoveAllInventoryItems();
         }
 
 
@@ -38,7 +34,7 @@ namespace _Base.Scripts.UI
 
         public void EnableDragItem(bool enable)
         {
-            foreach (var item in InventoryItems)
+            foreach (var item in InventoryItemsOnStash)
             {
                 item.Icon.raycastTarget = enable;
             }
@@ -49,7 +45,7 @@ namespace _Base.Scripts.UI
 
         void OnDisable()
         {
-            InventoryItems.RemoveAll(item => item.GetInventorInfo().gridID == "Ship_1");
+            InventoryItemsOnStash.RemoveAll(item => item.GetInventorInfo().gridID == "Ship_1");
         }
 
         public void Initialize(string shipID)
@@ -204,23 +200,32 @@ namespace _Base.Scripts.UI
 
         public void LoadInventoryItemsOnGrid(List<InventoryItemData> InventoryItemsData, GridInfor grid, Transform parent)
         {
-            RemoveAllInventoryItems();
+            RemoveAllInventoryItemsOnStash();
             foreach (var inventoryItem in InventoryItemsData)
             {
                 inventoryItem.gridID = grid.id;
-                var item = Instantiate<InventoryItem>(InventoryItemsReceivedDef.InventoryItem, parent);
+                var item = Instantiate<InventoryItem>(_prefabInventoryItem, parent);
                 item.Setup(inventoryItem);
-                InventoryItems.Add(item);
+                InventoryItemsOnStash.Add(item);
             }
         }
 
-        private void RemoveAllInventoryItems()
+        private void RemoveAllInventoryItemsOnStash()
         {
-            foreach (var item in InventoryItems)
+            foreach (var item in InventoryItemsOnStash)
             {
                 Destroy(item.gameObject);
             }
-            InventoryItems.Clear();
+            InventoryItemsOnStash.Clear();
+        }
+
+        public void RemoveAllInventoryItems()
+        {
+            foreach (var grid in GridConfig.grids)
+            {
+                grid.ItemsReceived.InventoryItemsData.Clear();
+                grid.listCellsData.Clear();
+            }
         }
 
         public bool CheckPlaceItem(InventoryItemData inventoryItemData, GridInfor grid)
