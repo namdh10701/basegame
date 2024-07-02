@@ -12,6 +12,15 @@ namespace _Game.Features.Inventory
         CANNON,
         AMMO,
     }
+    
+    public enum Rarity
+    {
+        Common,
+        Good,
+        Rare,
+        Epic,
+        Legend,
+    }
     public class InventoryItemDto
     {
         public string Id;
@@ -75,9 +84,94 @@ namespace _Game.Features.Inventory
         private ItemType m_type;
 
         #endregion
-        
+
+        #region Binding Prop: ItemOperationType
+
+        /// <summary>
+        /// OperationType
+        /// </summary>
         [Binding]
-        public Sprite Thumbnail => Resources.Load<Sprite>($"Images/Cannon/cannon_{Id}");
+        public string OperationType
+        {
+            get => _operationType;
+            set
+            {
+                if (Equals(_operationType, value))
+                {
+                    return;
+                }
+
+                _operationType = value;
+                OnPropertyChanged(nameof(OperationType));
+            }
+        }
+
+        private string _operationType;
+
+        #endregion
+
+        #region Binding Prop: Rarity
+
+        /// <summary>
+        /// Rarity
+        /// </summary>
+        [Binding]
+        public Rarity Rarity
+        {
+            get => _rarity;
+            set
+            {
+                if (Equals(_rarity, value))
+                {
+                    return;
+                }
+
+                _rarity = value;
+                OnPropertyChanged(nameof(Rarity));
+            }
+        }
+
+        private Rarity _rarity;
+
+        #endregion
+
+        #region Binding Prop: RarityLevel
+
+        /// <summary>
+        /// RarityLevel
+        /// </summary>
+        [Binding]
+        public string RarityLevel
+        {
+            get => _rarityLevel;
+            set
+            {
+                if (Equals(_rarityLevel, value))
+                {
+                    return;
+                }
+
+                _rarityLevel = value;
+                OnPropertyChanged(nameof(RarityLevel));
+            }
+        }
+
+        private string _rarityLevel;
+
+        #endregion
+
+        [Binding]
+        public Sprite Thumbnail
+        {
+            get
+            {
+                var itemType = Type.ToString().ToLower();
+                var itemOperationType = OperationType.ToLower();
+                var itemRarity = Rarity.ToString().ToLower();
+                var path = $"Items/item_{itemType}_{itemOperationType}_{itemRarity}";
+                return Resources.Load<Sprite>(path);
+            }
+        }
         
         #region Binding Prop: IsSelected
 

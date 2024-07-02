@@ -11,7 +11,9 @@ namespace _Game.Features.Inventory
     [Binding]
     public class InventoryViewModel : RootViewModel
     {
-        private List<InventoryItem> itemSource = new List<InventoryItem>();
+        private List<InventoryItem> dataSource = new List<InventoryItem>();
+        
+        public List<string> IgnoreIdList = new List<string>();
         
         #region Binding: Items
 
@@ -100,7 +102,7 @@ namespace _Game.Features.Inventory
         {
             var itemType = (ItemType)_filterItemTypeIndex;
             Items.Clear();
-            Items.AddRange(itemSource.Where(v => v.Type == itemType));
+            Items.AddRange(dataSource.Where(v => v.Type == itemType && IgnoreIdList.All(i => i == v.Id )));
         }
         //
         // private void Awake()
@@ -139,19 +141,25 @@ namespace _Game.Features.Inventory
 
         protected void InitializeInternal()
         {
-            foreach (var (cannonId, cannonConfig) in GDConfigLoader.Instance.Cannons)
+            foreach (var (id, conf) in GDConfigLoader.Instance.Cannons)
             {
-                itemSource.Add(new InventoryItem { InventoryViewModel = this, Type = ItemType.CANNON, Id = cannonId});
+                Enum.TryParse(conf.rarity, true, out Rarity rarity);
+                dataSource.Add(new InventoryItem { InventoryViewModel = this, Type = ItemType.CANNON, Id = id, Rarity = rarity, OperationType = conf.operation_type });
             }
             
-            foreach (var (ammoId, ammoConfig) in GDConfigLoader.Instance.Ammos)
+            foreach (var (id, conf) in GDConfigLoader.Instance.Ammos)
             {
-                itemSource.Add(new InventoryItem { InventoryViewModel = this, Type = ItemType.AMMO, Id = ammoId});
+                Enum.TryParse(conf.rarity, true, out  Rarity rarity);
+                dataSource.Add(new InventoryItem { InventoryViewModel = this, Type = ItemType.AMMO, Id = id, Rarity = rarity, OperationType = conf.operation_type });
             }
             
-            for (int i = 0; i < 3; i++)
+            for (int i = 1; i <= 2; i++)
             {
-                itemSource.Add(new InventoryItem {  InventoryViewModel = this, Type = ItemType.CREW });
+                var rarities = Enum.GetValues(typeof(Rarity)).Cast<Rarity>();
+                foreach (var rarity in rarities)
+                {
+                    dataSource.Add(new InventoryItem {  InventoryViewModel = this, Type = ItemType.CREW, Id = $"000{i}", Rarity = rarity, OperationType = $"{i}" });
+                }
             }
             //
             // // for (int i = 0; i < 5; i++)
@@ -203,6 +211,8 @@ namespace _Game.Features.Inventory
             //     itemSource.Add(new InventoryItem {  InventoryViewModel = this, Type = ItemType.AMMO });
             // }
             //
+
+            dataSource = dataSource.Where(v => v.Thumbnail != null).ToList();
             DoFilter();
         }
         

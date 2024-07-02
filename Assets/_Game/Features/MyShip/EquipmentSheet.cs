@@ -38,13 +38,19 @@ namespace _Game.Features.MyShip
             
             await MyShipScreen.Instance.ShowSheet(Sheets.MainShipSheet, output);
         }
-
-        private List<InventoryItemData> inputInventoryItemList;
         
         public override UniTask WillEnter(Memory<object> args)
         {
-            inputInventoryItemList = args.ToArray().FirstOrDefault() as List<InventoryItemData>;
+            var inputInventoryItemList = args.ToArray().FirstOrDefault() as List<InventoryItemData>;
             Debug.Log("inventoryItemList: " + inputInventoryItemList?.Count);
+
+            if (inputInventoryItemList == null)
+            {
+                return UniTask.CompletedTask;
+            }
+            
+            EquipmentViewModel.IgnoreIdList.Clear();
+            EquipmentViewModel.IgnoreIdList.AddRange(inputInventoryItemList.Select(v => v.gridItemDef.Id));
             return UniTask.CompletedTask;
         }
     }

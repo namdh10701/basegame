@@ -10,6 +10,9 @@ namespace _Game.Scripts.GD
     public class AmmoConfig : GDConfig
     {
         public string id;
+        public string operation_type;
+        public string rarity;
+        public string rarity_level;
         public string name;
         public string default_rarity;
         public float energy_cost;
