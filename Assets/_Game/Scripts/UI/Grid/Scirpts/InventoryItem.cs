@@ -7,9 +7,10 @@ namespace _Base.Scripts.UI
     public class InventoryItem : MonoBehaviour
     {
         [SerializeField] public Image Icon;
+        [SerializeField] public Button BtnClose;
         private InventoryItemData _inventoryItemData;
         private int[,] _shape;
-
+        private bool _isActive = true;
         public void Setup(InventoryItemData inventoryItemData)
         {
             _inventoryItemData = inventoryItemData;
@@ -39,6 +40,13 @@ namespace _Base.Scripts.UI
         {
             this._inventoryItemData = inventoryItemData;
             this.transform.localPosition = inventoryItemData.position;
+        }
+
+        public void EnableButtonClose(System.Action cb)
+        {
+            BtnClose.gameObject.SetActive(_isActive);
+            BtnClose.onClick.AddListener(() => cb?.Invoke());
+            _isActive = !_isActive;
         }
 
     }

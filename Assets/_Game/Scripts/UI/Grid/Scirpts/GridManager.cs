@@ -48,8 +48,8 @@ namespace _Base.Scripts.UI
 
         public void FillInventoryItems()
         {
-            InventoryItemsOnGrid = InventoryItems.Where(item => item.GetInventorInfo().gridID == "Ship_1").ToList();
-            InventoryItemsOnStash = InventoryItems.Where(item => item.GetInventorInfo().gridID == "Stash").ToList();
+            InventoryItemsOnGrid = InventoryItems.Where(item => item != null && item.GetInventorInfo().gridID == "Ship_1").ToList();
+            InventoryItemsOnStash = InventoryItems.Where(item => item != null && item.GetInventorInfo().gridID == "Stash").ToList();
         }
 
         public void Initialize(string shipID)
@@ -223,34 +223,44 @@ namespace _Base.Scripts.UI
                 inventoryItem.gridID = grid.id;
                 var item = Instantiate<InventoryItem>(_prefabInventoryItem, parent);
                 item.Setup(inventoryItem);
+                if (grid.id == "Ship_1")
+                    InventoryItemsOnGrid.Add(item);
+                else
+                    InventoryItemsOnStash.Add(item);
+
+            }
+            foreach (var item in InventoryItemsOnGrid)
+            {
                 InventoryItems.Add(item);
             }
-
-            FillInventoryItems();
+            foreach (var item in InventoryItemsOnStash)
+            {
+                InventoryItems.Add(item);
+            }
         }
 
         private void RemoveAllInventoryItemsOnStash()
         {
-            List<GameObject> itemsToDestroy = new List<GameObject>();
+            // Dùng danh sách tạm thời để lưu các mục sẽ bị hủy
+            List<InventoryItem> itemsToRemove = new List<InventoryItem>();
 
             // Kiểm tra và thêm vào danh sách tạm thời chỉ khi đối tượng chưa bị hủy
             foreach (var item in InventoryItemsOnStash)
             {
                 if (item != null && item.gameObject != null)
                 {
-                    itemsToDestroy.Add(item.gameObject);
+                    itemsToRemove.Add(item);
                 }
             }
 
-            // Hủy tất cả các đối tượng trong danh sách tạm thời
-            foreach (var item in itemsToDestroy)
+            // Hủy tất cả các đối tượng trong danh sách tạm thời và xóa chúng khỏi danh sách gốc
+            foreach (var item in itemsToRemove)
             {
-                Destroy(item);
+                InventoryItemsOnStash.Remove(item);
+                Destroy(item.gameObject);
             }
-
-            // Xóa các tham chiếu khỏi danh sách gốc
-            InventoryItemsOnStash.Clear();
         }
+
 
 
         public void RemoveAllInventoryItems()
