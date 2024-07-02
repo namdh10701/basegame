@@ -1,6 +1,5 @@
 using _Base.Scripts.RPG.Stats;
 using _Base.Scripts.RPGCommon.Entities;
-using _Game.Scripts;
 using System;
 using UnityEngine;
 namespace _Game.Scripts

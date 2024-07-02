@@ -1,6 +1,4 @@
 using _Base.Scripts.RPG.Entities;
-using _Base.Scripts.RPGCommon.Entities;
-using _Game.Scripts.Attributes;
 
 namespace _Base.Scripts.RPGCommon
 {

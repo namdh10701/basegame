@@ -1,9 +1,6 @@
-using _Base.Scripts.RPG.Attributes;
 using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.RPG.Entities;
-using _Base.Scripts.StateMachine;
 using _Game.Scripts.Entities;
-using _Game.Scripts.Gameplay.Ship;
 using _Game.Scripts.PathFinding;
 using System.Collections.Generic;
 using UnityEngine;

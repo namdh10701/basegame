@@ -1,7 +1,5 @@
 using _Base.Scripts.RPG.Behaviours.FindTarget;
 using MBT;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [AddComponentMenu("")]

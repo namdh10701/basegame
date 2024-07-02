@@ -13,8 +13,6 @@
 namespace Fusion.CodeGen {
   using System;
   using System.Collections.Generic;
-  using System.Linq;
-  using System.Reflection;
   using Mono.Cecil;
   using Mono.Cecil.Cil;
   using Mono.Cecil.Rocks;
@@ -2216,7 +2214,6 @@ namespace Fusion.CodeGen {
   using MethodAttributes = Mono.Cecil.MethodAttributes;
 
 #if UNITY_EDITOR
-  using UnityEngine;
   using UnityEngine.Scripting;
 #endif
 
@@ -5281,7 +5278,6 @@ namespace Fusion.CodeGen {
 
 #if FUSION_WEAVER && FUSION_HAS_MONO_CECIL
 namespace Fusion.CodeGen {
-  using System.Reflection;
   using Mono.Cecil;
   using Mono.Cecil.Cil;
   using MethodBody = Mono.Cecil.Cil.MethodBody;
@@ -5710,7 +5706,6 @@ namespace Fusion.CodeGen {
   using Mono.Cecil;
   using Mono.Cecil.Cil;
   using Mono.Cecil.Rocks;
-  using UnityEditor;
   using ICustomAttributeProvider = Mono.Cecil.ICustomAttributeProvider;
   using MethodAttributes = Mono.Cecil.MethodAttributes;
   using MethodBody = Mono.Cecil.Cil.MethodBody;
@@ -6228,7 +6223,6 @@ namespace Fusion.CodeGen {
 #if FUSION_WEAVER && FUSION_HAS_MONO_CECIL
 namespace Fusion.CodeGen {
   using System;
-  using System.Linq;
   using Mono.Cecil;
   using Mono.Cecil.Cil;
   using static ILWeaverOpCodes;
@@ -6460,7 +6454,6 @@ namespace Fusion.CodeGen {
   using System;
   using System.Collections.Generic;
   using System.Linq;
-  using System.Reflection;
   using Mono.Cecil;
   using Mono.Cecil.Cil;
   using Mono.Cecil.Rocks;
@@ -6470,7 +6463,6 @@ namespace Fusion.CodeGen {
 #endif
 
   using static ILWeaverOpCodes;
-  using Behaviour = Fusion.Behaviour;
   using FieldAttributes = Mono.Cecil.FieldAttributes;
   using ICustomAttributeProvider = Mono.Cecil.ICustomAttributeProvider;
 

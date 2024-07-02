@@ -1,6 +1,4 @@
 using _Game.Scripts.Battle;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public enum AreaType

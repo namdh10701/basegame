@@ -1,7 +1,5 @@
-using _Base.Scripts.Database;
 using _Base.Scripts.UI.Managers;
 using _Game.Scripts.InventorySystem;
-using BehaviorDesigner.Runtime.Tasks.Unity.UnityInput;
 using UnityEngine;
 using UnityEngine.UI;
 

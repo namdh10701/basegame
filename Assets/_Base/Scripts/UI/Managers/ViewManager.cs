@@ -1,13 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using _Base.Scripts.Utils;
-using _Base.Scripts.UI;
 using UnityEngine;
-using _Base.Scripts.Shared;
-using System.Collections;
-using UnityEngine.SceneManagement;
-using _Game.Scripts.UI;
 
 namespace _Base.Scripts.UI.Managers
 {

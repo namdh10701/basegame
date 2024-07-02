@@ -1,6 +1,4 @@
 using _Base.Scripts.RPG.Effects;
-using _Base.Scripts.UI;
-using _Game.Scripts.Entities;
 using System.Collections.Generic;
 using UnityEngine;
 

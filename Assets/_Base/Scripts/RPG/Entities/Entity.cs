@@ -1,11 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using _Base.Scripts.RPG.Attributes;
-using _Base.Scripts.RPG.Effects;
 using UnityEngine;
-using UnityEngine.Serialization;
-using Attribute = _Base.Scripts.RPG.Attributes.Attribute;
 
 namespace _Base.Scripts.RPG.Entities
 {

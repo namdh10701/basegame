@@ -41,7 +41,6 @@ using UnityEditor.AnimatedValues;
 using UnityEngine;
 
 namespace Spine.Unity.Editor {
-	using Editor = UnityEditor.Editor;
 	using Icons = SpineEditorUtilities.Icons;
 
 	public class SkeletonDebugWindow : EditorWindow {

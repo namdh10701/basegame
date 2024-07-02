@@ -1,10 +1,6 @@
-using _Base.Scripts.EventSystem;
 using _Base.Scripts.UI;
 using _Game.Scripts.GameContext;
-using _Game.Scripts.Gameplay.Ship;
 using Slash.Unity.DataBind.Core.Presentation;
-using TMPro;
-using UnityEngine;
 using UnityEngine.UI;
 namespace _Game.Scripts.UI
 {

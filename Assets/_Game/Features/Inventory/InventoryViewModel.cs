@@ -4,7 +4,6 @@ using System.Linq;
 using _Game.Scripts.GD;
 using _Game.Scripts.UI;
 using Unity.VisualScripting;
-using UnityEngine.Events;
 using UnityWeld.Binding;
 
 namespace _Game.Features.Inventory

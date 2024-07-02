@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using _Base.Scripts.UI.Managers;
 using _Game.Scripts.UI;
 using UnityEngine;

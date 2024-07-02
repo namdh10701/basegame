@@ -1,11 +1,6 @@
-using _Base.Scripts;
 using _Base.Scripts.StateMachine;
 using _Base.Scripts.UI.Managers;
-using _Base.Scripts.Utils;
-using _Game.Scripts.Managers;
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.SceneManagement;
 namespace _Game.Scripts.GameStates
 {

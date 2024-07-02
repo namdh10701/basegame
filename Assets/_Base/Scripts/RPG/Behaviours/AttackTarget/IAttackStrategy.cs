@@ -1,5 +1,4 @@
 using System;
-using _Base.Scripts.RPG.Behaviours.FindTarget;
 using _Base.Scripts.RPG.Entities;
 using _Base.Scripts.RPG.Stats;
 using UnityEngine;

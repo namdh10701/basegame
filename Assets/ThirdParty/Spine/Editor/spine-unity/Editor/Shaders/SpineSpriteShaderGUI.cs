@@ -30,7 +30,6 @@
 using Spine.Unity;
 using UnityEditor;
 using UnityEngine;
-using SpineInspectorUtility = Spine.Unity.Editor.SpineInspectorUtility;
 
 public class SpineSpriteShaderGUI : SpineShaderWithOutlineGUI {
 	static readonly string kShaderVertexLit = "Spine/Sprite/Vertex Lit";

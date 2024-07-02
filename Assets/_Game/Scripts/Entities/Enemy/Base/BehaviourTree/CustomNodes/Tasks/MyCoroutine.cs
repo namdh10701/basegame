@@ -1,7 +1,6 @@
 using _Base.Scripts.Utils;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MyCoroutine

@@ -1,8 +1,5 @@
-
-using _Game.Scripts.Battle;
 using _Game.Scripts.Gameplay.Ship;
 using DG.Tweening;
-using System;
 using System.Collections;
 using UnityEngine;
 

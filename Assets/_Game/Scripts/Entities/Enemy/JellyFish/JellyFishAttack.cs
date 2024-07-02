@@ -2,7 +2,6 @@ using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.RPG.Stats;
 using _Game.Scripts;
 using _Game.Scripts.Utils;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

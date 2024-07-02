@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using MBT;
-using TMPro;
 
 namespace _Game.Scripts.Battle
 {

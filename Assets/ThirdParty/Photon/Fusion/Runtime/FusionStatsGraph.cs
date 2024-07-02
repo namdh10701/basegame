@@ -3,7 +3,6 @@ namespace Fusion {
   using UnityEngine;
   using UI = UnityEngine.UI;
   using StatsInternal;
-  using System.Collections.Generic;
 
 #if UNITY_EDITOR
   using UnityEditor;

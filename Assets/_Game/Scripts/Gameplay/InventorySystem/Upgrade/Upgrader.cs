@@ -1,6 +1,4 @@
-﻿using _Game.Scripts.SaveLoad;
-
-namespace _Game.Scripts.InventorySystem
+﻿namespace _Game.Scripts.InventorySystem
 {
     public class Upgrader
     {

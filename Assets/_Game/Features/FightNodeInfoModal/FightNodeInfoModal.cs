@@ -1,11 +1,7 @@
 using System;
 using _Game.Features.FightNodeInfo;
 using Cysharp.Threading.Tasks;
-using UnityEngine;
-using UnityEngine.UI;
 using ZBase.UnityScreenNavigator.Core.Modals;
-using ZBase.UnityScreenNavigator.Core.Sheets;
-using ZBase.UnityScreenNavigator.Core.Views;
 
 namespace _Game.Features.FightNodeInfoPopup
 {

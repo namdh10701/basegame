@@ -1,7 +1,5 @@
 using _Base.Scripts.Utils.Extensions;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace _Game.Scripts.PathFinding

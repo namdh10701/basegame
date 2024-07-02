@@ -1,4 +1,3 @@
-using _Game.Scripts;
 using _Game.Scripts.CrewSystem;
 using UnityEngine;
 using UnityEngine.UI;

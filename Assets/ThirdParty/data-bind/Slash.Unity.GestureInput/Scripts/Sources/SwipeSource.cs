@@ -1,5 +1,4 @@
 ﻿using System;
-using Slash.Unity.GestureInput.Gestures;
 using UnityEngine;
 using UnityEngine.Events;
 

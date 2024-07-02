@@ -1,6 +1,5 @@
 using System;
 using _Base.Scripts.UI.Viewx;
-using strange.extensions.mediation.impl;
 using UnityEngine;
 
 namespace _Base.Scripts.UI

@@ -2,7 +2,6 @@ namespace Fusion.Editor {
 
   using System;
   using System.IO;
-  using System.Linq;
   using UnityEditor;
   using UnityEditor.AssetImporters;
   using UnityEngine;

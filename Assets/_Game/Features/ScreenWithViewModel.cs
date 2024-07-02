@@ -1,9 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using ZBase.UnityScreenNavigator.Core.Modals;
 using ZBase.UnityScreenNavigator.Core.Screens;
-using ZBase.UnityScreenNavigator.Core.Sheets;
 
 namespace _Game.Features
 {

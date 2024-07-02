@@ -1,11 +1,4 @@
-using _Base.Scripts.RPG.Effects;
-using _Base.Scripts.RPG.Entities;
 using _Base.Scripts.Utils.Extensions;
-using _Game.Scripts;
-using _Game.Scripts.Entities;
-using _Game.Scripts.Gameplay;
-using _Game.Scripts.Gameplay.Ship;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

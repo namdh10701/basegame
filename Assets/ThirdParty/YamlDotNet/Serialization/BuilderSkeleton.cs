@@ -24,7 +24,6 @@ using System.Collections.Generic;
 using YamlDotNet.Core;
 using YamlDotNet.Serialization.Converters;
 using YamlDotNet.Serialization.NamingConventions;
-using YamlDotNet.Serialization.TypeInspectors;
 
 namespace YamlDotNet.Serialization
 {

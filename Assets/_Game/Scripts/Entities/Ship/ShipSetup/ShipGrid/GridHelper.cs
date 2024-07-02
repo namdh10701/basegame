@@ -1,8 +1,6 @@
-using BehaviorDesigner.Runtime.Tasks.Unity.UnityBoxCollider;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace _Game.Scripts
 {

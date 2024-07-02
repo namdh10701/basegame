@@ -1,6 +1,3 @@
-using _Base.Scripts.RPG.Stats;
-using _Game.Scripts;
-
 namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
 {
     public class ManualShootTargetTriggerBehaviour : ShootTargetTriggerBehaviour

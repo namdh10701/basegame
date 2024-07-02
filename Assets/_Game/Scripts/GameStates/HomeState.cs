@@ -1,8 +1,5 @@
 using _Base.Scripts.StateMachine;
-using _Base.Scripts.UI.Managers;
-using _Game.Scripts.UI;
 using System.Collections;
-using _Game.Scripts.GD;
 using UnityEngine;
 
 namespace _Game.Scripts.GameStates

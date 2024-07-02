@@ -1,16 +1,11 @@
-using _Base.Scripts.Utils.Extensions;
 using _Game.Scripts.DB;
 using _Game.Scripts.Entities;
 using _Game.Scripts.Gameplay.Ship;
 using _Game.Scripts.PathFinding;
-using Fusion;
-using Map;
 using System.Collections.Generic;
 using System.Linq;
 using _Game.Features.Inventory;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Scripting;
 
 namespace _Game.Scripts
 {

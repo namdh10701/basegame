@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using UnityEngine;
 using UnityWeld.Binding;
 
 namespace _Game.Scripts.Gameplay.TalentTree

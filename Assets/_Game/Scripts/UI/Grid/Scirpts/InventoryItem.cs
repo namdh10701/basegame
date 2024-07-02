@@ -1,5 +1,3 @@
-using _Base.Scripts.UI;
-using _Game.Scripts;
 using UnityEngine;
 using UnityEngine.UI;
 namespace _Base.Scripts.UI

@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEditor;
-using UnityEngine;
 
-    [CustomEditor(typeof(SceneRef), true)]
+[CustomEditor(typeof(SceneRef), true)]
     public class ScenePickerEditor : Editor
     {
         const string k_PropertyName = "m_ScenePath";

@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace _Base.Scripts.RPG.Stats
 {

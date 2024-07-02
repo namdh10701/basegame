@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using _Game.Features.Inventory;
-using _Game.Scripts;
 using UnityEngine;
 namespace _Base.Scripts.UI
 {

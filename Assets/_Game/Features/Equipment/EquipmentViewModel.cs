@@ -3,7 +3,6 @@ using System.Linq;
 using _Game.Features.Inventory;
 using UnityWeld.Binding;
 using ZBase.UnityScreenNavigator.Core.Screens;
-using ZBase.UnityScreenNavigator.Core.Sheets;
 
 namespace _Game.Features.Equipment
 {

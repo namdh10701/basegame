@@ -1,6 +1,5 @@
 using _Base.Scripts.RPG.Behaviours.AttackTarget;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ChargeAttack : AttackTargetBehaviour

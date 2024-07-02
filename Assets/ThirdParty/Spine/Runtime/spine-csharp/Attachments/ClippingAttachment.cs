@@ -27,8 +27,6 @@
  * SPINE RUNTIMES, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *****************************************************************************/
 
-using System;
-
 namespace Spine {
 	public class ClippingAttachment : VertexAttachment {
 		internal SlotData endSlot;

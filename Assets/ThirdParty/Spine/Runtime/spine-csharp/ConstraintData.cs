@@ -28,7 +28,6 @@
  *****************************************************************************/
 
 using System;
-using System.Collections.Generic;
 
 namespace Spine {
 	/// <summary>The base class for all constraint datas.</summary>

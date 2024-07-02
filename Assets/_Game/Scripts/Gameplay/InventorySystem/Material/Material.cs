@@ -1,10 +1,4 @@
-﻿using _Base.Scripts.RPG.Stats;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using UnityEngine;
-
-namespace _Game.Scripts.InventorySystem
+﻿namespace _Game.Scripts.InventorySystem
 {
     public class Material : IInventoryItem, IUpgradeable, IStackable
     {
