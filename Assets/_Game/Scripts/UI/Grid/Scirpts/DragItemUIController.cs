@@ -147,7 +147,7 @@ namespace _Base.Scripts.UI
             _curentCells.Clear();
             _nextCells.Clear();
             _previouCells.Clear();
-
+            _gridManager.SubmitItemInventorToGamePlay();
         }
 
         private bool CanMoveItem(List<Cell> cells)

@@ -136,10 +136,9 @@ namespace _Base.Scripts.UI
                     grid.ItemsReceived.InventoryItemsData.Add(inventoryItemData);
                 }
             }
-            SubmitItemInventorToGamePlay();
         }
 
-        void SubmitItemInventorToGamePlay()
+       public void SubmitItemInventorToGamePlay()
         {
             var GridItemDatas = new List<GridItemData>();
             foreach (var item in GridConfig.grids[0].ItemsReceived.InventoryItemsData)
