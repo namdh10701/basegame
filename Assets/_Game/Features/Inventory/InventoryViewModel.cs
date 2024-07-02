@@ -15,6 +15,8 @@ namespace _Game.Features.Inventory
         private List<InventoryItem> dataSource = new List<InventoryItem>();
         
         public List<string> IgnoreIdList = new List<string>();
+
+        public List<InventoryItem> SelectedItems => dataSource.Where(v => v.IsSelected).ToList();
         
         #region Binding: Items
 
@@ -122,11 +124,21 @@ namespace _Game.Features.Inventory
 
         #endregion
 
-        private void DoFilter()
+        public void DoFilter(bool clearSelection = false)
         {
+            if (clearSelection)
+            {
+                foreach (var inventoryItem in dataSource)
+                {
+                    inventoryItem.IsSelected = false;
+                }
+            }
+            
             var itemType = (ItemType)_filterItemTypeIndex;
             Items.Clear();
-            Items.AddRange(dataSource.Where(v => v.Type == itemType && IgnoreIdList.All(i => i == v.Id )));
+            Items.AddRange(dataSource.Where(v => v.Type == itemType && IgnoreIdList.All(ignoredKey => ignoredKey !=
+                (v.Type + v.Id) )));
+            // Items.AddRange(dataSource.Where(v => v.Type == itemType));
         }
         //
         // private void Awake()
@@ -183,7 +195,7 @@ namespace _Game.Features.Inventory
                 var rarities = Enum.GetValues(typeof(Rarity)).Cast<Rarity>();
                 foreach (var rarity in rarities)
                 {
-                    dataSource.Add(new InventoryItem {  InventoryViewModel = this, Type = ItemType.CREW, Id = $"{crewNo++}", Rarity = rarity, OperationType = $"{i}" });
+                    dataSource.Add(new InventoryItem {  InventoryViewModel = this, Type = ItemType.CREW, Id = $"000{crewNo++}", Rarity = rarity, OperationType = $"{i}" });
                 }
             }
             
@@ -191,57 +203,7 @@ namespace _Game.Features.Inventory
             {
                 inventoryItem.SelectionStateChanged += OnSelectionStateChanged;
             }
-            //
-            // // for (int i = 0; i < 5; i++)
-            // // {
-            // //     itemSource.Add(new InventoryItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0001"});
-            // // }
-            // // GDConfigLoader.Instance.Cannons["0001"];
-            // itemSource.Add(new InventoryItem { InventoryViewModel = this, Type = ItemType.CANNON, Id = "0001"});
-            // itemSource.Add(new InventoryItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            // itemSource.Add(new InventoryItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            // itemSource.Add(new InventoryItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            // itemSource.Add(new InventoryItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            // itemSource.Add(new InventoryItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            // itemSource.Add(new InventoryItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            // itemSource.Add(new InventoryItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            // itemSource.Add(new InventoryItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            // itemSource.Add(new InventoryItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            // itemSource.Add(new InventoryItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            // itemSource.Add(new InventoryItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            // itemSource.Add(new InventoryItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            // itemSource.Add(new InventoryItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            // itemSource.Add(new InventoryItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            // itemSource.Add(new InventoryItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            // itemSource.Add(new InventoryItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            // itemSource.Add(new InventoryItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            // itemSource.Add(new InventoryItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            // itemSource.Add(new InventoryItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            // itemSource.Add(new InventoryItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            // itemSource.Add(new InventoryItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            // itemSource.Add(new InventoryItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            // itemSource.Add(new InventoryItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            // itemSource.Add(new InventoryItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            // itemSource.Add(new InventoryItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            // itemSource.Add(new InventoryItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            // itemSource.Add(new InventoryItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            // itemSource.Add(new InventoryItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            // itemSource.Add(new InventoryItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            // itemSource.Add(new InventoryItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            // itemSource.Add(new InventoryItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            // itemSource.Add(new InventoryItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            // itemSource.Add(new InventoryItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            // itemSource.Add(new InventoryItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            // itemSource.Add(new InventoryItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            // itemSource.Add(new InventoryItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            // itemSource.Add(new InventoryItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            //
-            // for (int i = 0; i < 30; i++)
-            // {
-            //     itemSource.Add(new InventoryItem {  InventoryViewModel = this, Type = ItemType.AMMO });
-            // }
-            //
-
+            
             dataSource = dataSource.Where(v => v.Thumbnail != null).ToList();
             DoFilter();
         }
