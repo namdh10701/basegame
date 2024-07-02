@@ -38,7 +38,7 @@ namespace _Game.Features.MyShip
         [Binding]
         public async void NavBackWithParams()
         {
-            var selectedItems = EquipmentViewModel.Items.Where(v => v.IsSelected).ToList();
+            var selectedItems = EquipmentViewModel.SelectedItems;
             var output = new EquipmentSheetOutputData(selectedItems);
 
             await MyShipScreen.Instance.ShowSheet(Sheets.MainShipSheet, output);
@@ -47,12 +47,13 @@ namespace _Game.Features.MyShip
         [Binding]
         public async void ShowInfo()
         {
-            var selectedItems = EquipmentViewModel.Items.Where(v => v.IsSelected).ToList();
-            await ModalContainer.Find(ContainerKey.Modals).PushAsync(nameof(InventoryItemInfoModal), selectedItems.FirstOrDefault());
+            var selectedItems = EquipmentViewModel.SelectedItems.ToList();
+            await ModalContainer.Find(ContainerKey.Modals).PushAsync(nameof(InventoryItemInfoModal), selectedItems.LastOrDefault());
         }
 
         public override UniTask WillEnter(Memory<object> args)
         {
+            // clear selected items
             var inputInventoryItemList = args.ToArray().FirstOrDefault() as List<InventoryItemData>;
             Debug.Log("inventoryItemList: " + inputInventoryItemList?.Count);
 
@@ -62,7 +63,8 @@ namespace _Game.Features.MyShip
             }
 
             EquipmentViewModel.IgnoreIdList.Clear();
-            EquipmentViewModel.IgnoreIdList.AddRange(inputInventoryItemList.Select(v => v.Id));
+            EquipmentViewModel.IgnoreIdList.AddRange(inputInventoryItemList.Select(v => (v.Type + v.Id)));
+            EquipmentViewModel.DoFilter(true);
             return UniTask.CompletedTask;
         }
     }
