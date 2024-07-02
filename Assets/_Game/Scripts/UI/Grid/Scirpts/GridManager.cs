@@ -149,15 +149,29 @@ namespace _Base.Scripts.UI
                 GridItemData.GridId = "1";
                 GridItemData.position = Vector3.zero;
                 GridItemData.OccupyCells = new List<Vector2Int>();
-                GridItemData.startX = item.startX;
-                GridItemData.startY = item.startY;
+                GridItemData.startX = item.startY;
+                GridItemData.startY = item.startX;
+
+
+                switch (item.Type)
+                {
+                    case _Game.Features.Inventory.ItemType.CREW:
+                        GridItemData.GridItemType = GridItemType.Crew;
+                        break;
+                    case _Game.Features.Inventory.ItemType.CANNON:
+                        GridItemData.GridItemType = GridItemType.Cannon;
+                        break;
+                    case _Game.Features.Inventory.ItemType.AMMO:
+                        GridItemData.GridItemType = GridItemType.Bullet;
+                        break;
+                }
                 GridItemDatas.Add(GridItemData);
             }
-            if (_shipID == "0001")
+            if (_shipID == "0003")
             {
                 ShipSetup.GridItemDatas = GridItemDatas;
             }
-            if (_shipID == "0002")
+            if (_shipID == "0001")
             {
                 ShipSetup.GridItemDatas_Id2 = GridItemDatas;
             }
