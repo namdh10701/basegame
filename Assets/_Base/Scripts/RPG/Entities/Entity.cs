@@ -21,18 +21,24 @@ namespace _Base.Scripts.RPG.Entities
     [DisallowMultipleComponent]
     public abstract class Entity : MonoBehaviour
     {
+        public string Id;
         [Header("Entity")]
         public Rigidbody2D body;
         public abstract _Game.Scripts.Stats Stats { get; }
 
         protected virtual void Awake()
         {
-            LoadStats();
-            LoadModifiers();
-            ApplyStats();
+            InitStats();
         }
         protected abstract void LoadStats();
         protected abstract void LoadModifiers();
         protected abstract void ApplyStats();
+
+        public void InitStats()
+        {
+            LoadStats();
+            LoadModifiers();
+            ApplyStats();
+        }
     }
 }

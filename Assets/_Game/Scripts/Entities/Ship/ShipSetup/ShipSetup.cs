@@ -1,5 +1,7 @@
 using _Base.Scripts.Utils.Extensions;
+using _Game.Scripts.DB;
 using _Game.Scripts.Entities;
+using _Game.Scripts.Gameplay.Ship;
 using _Game.Scripts.PathFinding;
 using Fusion;
 using Map;
@@ -15,6 +17,7 @@ namespace _Game.Scripts
     {
         public static List<GridItemData> GridItemDatas = new List<GridItemData>();
 
+        public Ship Ship;
         public ShipSetupMockup ShipSetupMockup;
         public GridItemReferenceHolder ItemReferenceHolder;
         public ShipGridProfile ShipGridProfile;
@@ -46,12 +49,14 @@ namespace _Game.Scripts
                     {
                         missingCell.x = j;
                         missingCell.y = i;
-                        if (ShipGridProfile.GridDefinitions[gridIndex].MissingCells != null)
+                        if (ShipGridProfile.GridDefinitions[gridIndex].MissingCells == null)
                         {
                             AllCells.Add(Grids[gridIndex].Cells[i, j]);
                         }
                         else if (!ShipGridProfile.GridDefinitions[gridIndex].MissingCells.Contains(missingCell))
+                        {
                             AllCells.Add(Grids[gridIndex].Cells[i, j]);
+                        }
                     }
                 }
             }
@@ -64,7 +69,7 @@ namespace _Game.Scripts
         {
             foreach (GridItemData gridItemData in GridItemDatas)
             {
-                Debug.Log(gridItemData.Def.Id);
+                Debug.Log(gridItemData.Id);
                 Grid itemGridTransform = GetGridTransformById(gridItemData.GridId);
                 SpawnItems(gridItemData, itemGridTransform);
             }
@@ -147,7 +152,19 @@ namespace _Game.Scripts
 
         void SpawnItems(GridItemData gridItemData, Grid grid)
         {
-            GameObject prefab = ResourceLoader.LoadGridItemPrefab(gridItemData.Def);
+            switch (gridItemData.GridItemType)
+            {
+                case GridItemType.Cannon:
+                    SpawnCannon(gridItemData, grid);
+                    break;
+                case GridItemType.Bullet:
+                    SpawnBullet(gridItemData, grid);
+                    break;
+                case GridItemType.Crew:
+                    SpawnCrew(gridItemData, grid);
+                    break;
+            }
+            /*GameObject prefab = Database.(gridItemData.Def);
             GameObject spawned = Instantiate(prefab, grid.GridItemRoot);
             if (gridItemData.Def.Type == GridItemType.Bullet)
             {
@@ -187,7 +204,87 @@ namespace _Game.Scripts
                         }
                     }
                 }
+            }*/
+        }
+
+        void InitOccupyCell(IGridItem gridItem, GridItemData data, Grid grid)
+        {
+            gridItem.GridId = data.GridId;
+            List<Cell> occupyCells = gridItem.OccupyCells;
+            foreach (Vector2Int cell in data.OccupyCells)
+            {
+                grid.Cells[cell.y, cell.x].GridItem = gridItem;
+                occupyCells.Add(grid.Cells[cell.y, cell.x]);
             }
+        }
+
+        void InitOccupyNode(IGridItem gridItem, INodeOccupier nodeOccupier)
+        {
+            foreach (Cell cell in gridItem.OccupyCells)
+            {
+                foreach (var node in NodeGraph.nodes)
+                {
+                    if (node.cell != null && node.cell == cell)
+                    {
+                        nodeOccupier.OccupyingNodes.Add(node);
+                    }
+                }
+            }
+        }
+
+        public void SpawnCannon(GridItemData data, Grid grid)
+        {
+            Cannon cannonPrefab = Database.GetCannon(data.Id);
+            Cannon spawned = Instantiate(cannonPrefab, grid.GridItemRoot);
+            spawned.Id = data.Id;
+            spawned.InitStats();
+            Cannons.Add(spawned);
+
+            IGridItem gridItem = spawned.GetComponent<IGridItem>();
+            InitOccupyCell(gridItem, data, grid);
+
+            float scale = Vector3.one.x / spawned.transform.parent.lossyScale.x;
+            spawned.transform.localScale = new Vector3(scale, scale, scale);
+            spawned.transform.position =
+            grid.Cells[data.startX, data.startY].transform.position + Database.GetOffsetCannonWithStartCell(spawned.Id, Ship.Id);
+            spawnedItems.Add(spawned.gameObject);
+
+            INodeOccupier nodeOccupier = spawned.GetComponent<INodeOccupier>();
+            InitOccupyNode(gridItem, nodeOccupier);
+
+        }
+
+        public void SpawnBullet(GridItemData data, Grid grid)
+        {
+            Bullet bulletPrefab = Database.GetBullet(data.Id);
+            Bullet spawned = Instantiate(bulletPrefab, grid.GridItemRoot);
+            Bullets.Add(spawned);
+            spawned.SetId(data.Id);
+            spawned.InitStats();
+
+            IGridItem gridItem = spawned.GetComponent<IGridItem>();
+            InitOccupyCell(gridItem, data, grid);
+
+            float scale = Vector3.one.x / spawned.transform.parent.lossyScale.x;
+            spawned.transform.localScale = new Vector3(scale, scale, scale);
+            spawned.transform.localPosition = data.position;
+            spawnedItems.Add(spawned.gameObject);
+
+            INodeOccupier nodeOccupier = spawned.GetComponent<INodeOccupier>();
+            InitOccupyNode(gridItem, nodeOccupier);
+        }
+
+        public void SpawnCrew(GridItemData data, Grid grid)
+        {
+            Crew crewPrefab = Database.GetCrew(data.Id);
+            Crew spawned = Instantiate(crewPrefab, grid.GridItemRoot);
+            CrewController.AddCrew(spawned);
+
+            float scale = Vector3.one.x / spawned.transform.parent.lossyScale.x;
+            spawned.transform.localScale = new Vector3(scale, scale, scale);
+            spawned.transform.localPosition = data.position;
+            spawnedItems.Add(spawned.gameObject);
+
         }
 
         public void AddNewGridItem(GridItemData gridItemData)
