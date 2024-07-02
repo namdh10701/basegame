@@ -32,16 +32,15 @@ namespace _Game.Features.MyShip
         [SerializeField] _Base.Scripts.UI.ShipConfig _shipsConfig;
         [SerializeField] GameObject _tabEditShip;
         [SerializeField] Button _btnShipSelection;
-        [SerializeField] Button _btnShipEdit;
+        [SerializeField] Toggle _btnShipEdit;
         [SerializeField] Transform _parentShip;
 
         GridManager _gridManager;
         GameObject _ship;
-        bool _isEnableTabEditShip = true;
 
         public override UniTask Initialize(Memory<object> args)
         {
-            _btnShipEdit.onClick.AddListener(OnShipEditClick);
+            _btnShipEdit.onValueChanged.AddListener(OnShipEditClick);
 
             Initialize(_shipsConfig.currentShipId);
             return UniTask.CompletedTask;
@@ -70,7 +69,7 @@ namespace _Game.Features.MyShip
 
         public override UniTask Cleanup(Memory<object> args)
         {
-            _btnShipEdit.onClick.RemoveListener(OnShipEditClick);
+            _btnShipEdit.onValueChanged.RemoveListener(OnShipEditClick);
 
             return UniTask.CompletedTask;
         }
@@ -81,10 +80,9 @@ namespace _Game.Features.MyShip
             _tabEditShip.SetActive(enable);
         }
 
-        private void OnShipEditClick()
+        private void OnShipEditClick(bool enable)
         {
-            EnableDragItem(_isEnableTabEditShip);
-            _isEnableTabEditShip = !_isEnableTabEditShip;
+            EnableDragItem(enable);
         }
 
         public override UniTask WillEnter(Memory<object> args)
@@ -120,8 +118,6 @@ namespace _Game.Features.MyShip
 
         private void OnEquipmentItemsReceived(List<InventoryItem> items)
         {
-            EnableDragItem(false);
-
             var inventoryItemsData = new List<InventoryItemData>();
             foreach (var inventoryItemData in items)
             {
@@ -170,7 +166,6 @@ namespace _Game.Features.MyShip
 
         private List<InventoryItemData> GetCurrentInventoryItemList()
         {
-            _isEnableTabEditShip = true;
             return _gridManager.GridConfig.grids[1].ItemsReceived.InventoryItemsData;
         }
     }
