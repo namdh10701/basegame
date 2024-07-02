@@ -48,8 +48,8 @@ namespace _Game.Features.MyShip
             _ship.transform.SetParent(_parentShip);
             _ship.transform.localScale = Vector3.one;
             _ship.transform.localPosition = Vector3.zero;
-            _page.text = $"{_currentIndex + 1}/{_ships.Count}";
             _iconApprove.SetActive(ShipSelectionInfoConfig.shipSelectionInfo[_currentIndex].isApprove);
+            _page.text = $"{_currentIndex + 1}/{_ships.Count}";
 
         }
 
