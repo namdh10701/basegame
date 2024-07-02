@@ -15,6 +15,7 @@ namespace _Base.Scripts.UI
         [SerializeField] InventoryItem _prefabInventoryItem;
 
         public List<InventoryItem> InventoryItemsOnStash = new List<InventoryItem>();
+        public List<InventoryItem> InventoryItemsOnGrid = new List<InventoryItem>();
         private string _shipID;
 
         void Awake()
