@@ -62,7 +62,7 @@ namespace _Game.Features.MyShip
                 }
             }
 
-            _gridManager.Initialize();
+            _gridManager.Initialize(_shipsConfig.currentShipId);
             _gridManager.LoadInventoryItems();
             EnableDragItem(false);
         }
@@ -113,7 +113,6 @@ namespace _Game.Features.MyShip
         {
             _shipsConfig.currentShipId = shipId;
             Initialize(_shipsConfig.currentShipId);
-            Debug.Log("Selected ship ID: " + _shipsConfig.currentShipId);
         }
 
         private void OnEquipmentItemsReceived(List<InventoryItem> items)
@@ -122,24 +121,34 @@ namespace _Game.Features.MyShip
             foreach (var inventoryItemData in items)
             {
                 inventoryItemsData.Add(AddInventoryItems(inventoryItemData));
-                Debug.Log("Received: " + inventoryItemData.Id);
             }
 
-            _gridManager.Initialize();
+            // _gridManager.Initialize(_shipsConfig.currentShipId);
             _gridManager.AddInventoryItemsInfo(inventoryItemsData);
-            _gridManager.LoadInventoryItems();
+            _gridManager.LoadInventoryItemsOnGrid(_gridManager.GridConfig.grids[1].ItemsReceived.InventoryItemsData, _gridManager.GridConfig.grids[1], _gridManager.ParentCells[1]);
             EnableDragItem(false);
         }
 
         private InventoryItemData AddInventoryItems(InventoryItem item)
         {
-            InventoryItemData inventoryItemData = new InventoryItemData
+            InventoryItemData inventoryItemData = new InventoryItemData();
+            inventoryItemData.Id = item.Id;
+            inventoryItemData.Type = item.Type;
+            inventoryItemData.Shape = Database.GetShapeByTypeAndOperationType(item.Id, item.Type);
+            switch (item.Type)
             {
-                Id = item.Id,
-                Type = item.Type,
-                Shape = Database.GetShapeByTypeAndOperationType(item.Id, item.Type),
-                Image = Database.GetCannonImage(item.Id)
-            };
+                case ItemType.CANNON:
+                    inventoryItemData.Image = Database.GetCannonImage(item.Id);
+                    break;
+                case ItemType.CREW:
+                    inventoryItemData.Image = Database.GetCrewImage(item.Id);
+                    break;
+                case ItemType.AMMO:
+                    inventoryItemData.Image = Database.GetAmmoImage(item.Id);
+                    break;
+
+            }
+
             return inventoryItemData;
         }
 
@@ -158,7 +167,7 @@ namespace _Game.Features.MyShip
 
         private List<InventoryItemData> GetCurrentInventoryItemList()
         {
-            return new List<InventoryItemData>();
+            return _gridManager.GridConfig.grids[1].ItemsReceived.InventoryItemsData;
         }
     }
 }

@@ -15,12 +15,14 @@ namespace _Base.Scripts.UI
         [SerializeField] GameObject _gridImage;
 
         public List<InventoryItem> InventoryItems = new List<InventoryItem>();
+        private string _shipID;
 
         void Awake()
         {
             foreach (var grid in GridConfig.grids)
             {
                 grid.ItemsReceived.InventoryItemsData.Clear();
+                grid.listCellsData.Clear();
             }
         }
 
@@ -47,23 +49,33 @@ namespace _Base.Scripts.UI
 
         void OnDisable()
         {
-            RemoveAllInventoryItems();
+            InventoryItems.RemoveAll(item => item.GetInventorInfo().gridID == "Ship_1");
 
             foreach (var item in GridConfig.grids[0].ItemsReceived.InventoryItemsData)
             {
                 var GridItemData = new GridItemData();
+                GridItemData.Id = item.Id;
                 GridItemData.GridId = "1";
                 GridItemData.position = Vector3.zero;
                 GridItemData.OccupyCells = new List<Vector2Int>();
-                ShipSetup.GridItemDatas.Add(GridItemData);
+                GridItemData.startX = item.startX;
+                GridItemData.startY = item.startY;
 
+                if (_shipID == "0001")
+                {
+                    ShipSetup.GridItemDatas.Add(GridItemData);
+                }
+                if (_shipID == "0002")
+                {
+                    ShipSetup.GridItemDatas_Id2.Add(GridItemData);
+                }
             }
-            var count = ShipSetup.GridItemDatas.Count;
-            Debug.Log(count);
         }
 
-        public void Initialize()
+        public void Initialize(string shipID)
         {
+            _shipID = shipID;
+
             for (int i = 0; i < GridConfig.grids.Count; i++)
             {
                 var grid = GridConfig.grids[i];
@@ -185,8 +197,9 @@ namespace _Base.Scripts.UI
         }
 
 
-        private void LoadInventoryItemsOnGrid(List<InventoryItemData> InventoryItemsData, GridInfor grid, Transform parent)
+        public void LoadInventoryItemsOnGrid(List<InventoryItemData> InventoryItemsData, GridInfor grid, Transform parent)
         {
+            RemoveAllInventoryItems();
             foreach (var inventoryItem in InventoryItemsData)
             {
                 inventoryItem.gridID = grid.id;
