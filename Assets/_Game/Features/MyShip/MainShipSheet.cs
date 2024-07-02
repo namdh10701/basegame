@@ -4,6 +4,7 @@ using System.Linq;
 using _Base.Scripts.UI;
 using _Game.Features.Home;
 using Cysharp.Threading.Tasks;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityWeld.Binding;
@@ -31,12 +32,10 @@ namespace _Game.Features.MyShip
         [SerializeField] Transform _parentShip;
 
         GridManager _gridManager;
-
+        const string directory = "Assets/_Game/Scriptable Objects/ShipGridProfiles/";
         public override UniTask Initialize(Memory<object> args)
         {
-            _btnShipSelection.onClick.AddListener(OnShipSelectionClick);
             _btnShipEdit.onClick.AddListener(OnShipEditClick);
-
 
             Initialize(_shipsConfig.currentShipId);
             return UniTask.CompletedTask;
@@ -61,7 +60,6 @@ namespace _Game.Features.MyShip
 
         public override UniTask Cleanup(Memory<object> args)
         {
-            _btnShipSelection.onClick.RemoveListener(OnShipSelectionClick);
             _btnShipEdit.onClick.RemoveListener(OnShipEditClick);
             return UniTask.CompletedTask;
         }
@@ -75,13 +73,6 @@ namespace _Game.Features.MyShip
         private void OnShipEditClick()
         {
             EnableDragItem(true);
-        }
-
-        private void OnShipSelectionClick()
-        {
-            // _tabEditShip.SetActive(false);
-            // _gridImage.SetActive(false);
-            // _tash.SetActive(false);
         }
 
         public override UniTask WillEnter(Memory<object> args)
