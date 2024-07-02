@@ -99,6 +99,8 @@ public class ElectricEel : Enemy
         yield return new WaitForSeconds(1.5f);
         CooldownBehaviour.SetCooldownTime(7);
         CooldownBehaviour.StartCooldown();
+        effectHandler.enabled = true;
+        pushCollider.enabled = true;
     }
 
     public void Hide()

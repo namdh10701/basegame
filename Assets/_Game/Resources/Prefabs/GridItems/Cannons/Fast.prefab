@@ -188,6 +188,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04a2db7fd60a46c9ad717e4290795b41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Id: 
   body: {fileID: 0}
   def: {fileID: 11400000, guid: 8495fccf9da1d99408065a67352d60ec, type: 2}
   _stats:
@@ -235,7 +236,6 @@ MonoBehaviour:
   _statsTemplate: {fileID: 11400000, guid: 0c8271029c7ca5a4784a48e1f5956d29, type: 2}
   _cannonReloader: {fileID: 7017139140184525039}
   <AttackStrategy>k__BackingField: {fileID: 8787947234298913926}
-  <BulletEffects>k__BackingField: []
   behaviour: {fileID: 8427063930449867751}
   <OccupyCells>k__BackingField: []
   rarity: 0
@@ -882,7 +882,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 60198527dec7c0448be14fc81c8e04b2, type: 2}
     - target: {fileID: 2430915663214208657, guid: 43d5a83be21f15a4d888b9fa004a0da5, type: 3}
       propertyPath: m_SortingOrder
-      value: -104
+      value: -7
       objectReference: {fileID: 0}
     - target: {fileID: 2430915663214208657, guid: 43d5a83be21f15a4d888b9fa004a0da5, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -1008,9 +1008,13 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0
       objectReference: {fileID: 0}
+    - target: {fileID: 8520509830400651042, guid: 43d5a83be21f15a4d888b9fa004a0da5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.068
+      objectReference: {fileID: 0}
     - target: {fileID: 8529626311556485575, guid: 43d5a83be21f15a4d888b9fa004a0da5, type: 3}
       propertyPath: m_SortingOrder
-      value: -105
+      value: -8
       objectReference: {fileID: 0}
     - target: {fileID: 9155767185086675010, guid: 43d5a83be21f15a4d888b9fa004a0da5, type: 3}
       propertyPath: m_SortingOrder

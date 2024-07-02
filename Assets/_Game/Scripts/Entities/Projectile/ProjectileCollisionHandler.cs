@@ -99,7 +99,7 @@ public class PiercingHandler : IHandler
         this.maxPiercing = maxPiercing;
     }
 
-    public bool IsCompleted => piercingCount >= maxPiercing;
+    public bool IsCompleted => piercingCount >= maxPiercing + 1;
 
     void IHandler.Process(Projectile p, IEffectGiver mainEntity, IEffectTaker collidedEntity)
     {

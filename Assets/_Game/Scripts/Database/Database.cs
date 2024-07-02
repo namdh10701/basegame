@@ -43,11 +43,12 @@ namespace _Game.Scripts.DB
         static void CreateShapeDic()
         {
             ShapeIdDic.Add(new KeyValuePair<ItemType, string>(ItemType.AMMO, "arrow"), Shape.ShapeDic[0]);
-            ShapeIdDic.Add(new KeyValuePair<ItemType, string>(ItemType.AMMO, "burning_egg"), Shape.ShapeDic[0]);
+            ShapeIdDic.Add(new KeyValuePair<ItemType, string>(ItemType.AMMO, "burning"), Shape.ShapeDic[0]);
             ShapeIdDic.Add(new KeyValuePair<ItemType, string>(ItemType.AMMO, "normal"), Shape.ShapeDic[0]);
             ShapeIdDic.Add(new KeyValuePair<ItemType, string>(ItemType.AMMO, "icy"), Shape.ShapeDic[0]);
             ShapeIdDic.Add(new KeyValuePair<ItemType, string>(ItemType.AMMO, "culling"), Shape.ShapeDic[0]);
             ShapeIdDic.Add(new KeyValuePair<ItemType, string>(ItemType.AMMO, "boom"), Shape.ShapeDic[0]);
+            ShapeIdDic.Add(new KeyValuePair<ItemType, string>(ItemType.AMMO, "whirlpool"), Shape.ShapeDic[0]);
 
             ShapeIdDic.Add(new KeyValuePair<ItemType, string>(ItemType.CANNON, "fast"), Shape.ShapeDic[2]);
             ShapeIdDic.Add(new KeyValuePair<ItemType, string>(ItemType.CANNON, "charge"), Shape.ShapeDic[4]);
@@ -132,22 +133,44 @@ namespace _Game.Scripts.DB
         {
             Crew crew = Resources.Load<Crew>($"Prefabs/GridItems/Crews/Captain");
             CrewDic.Add("0001", crew);
-
+            CrewDic.Add("0002", crew);
+            CrewDic.Add("0003", crew);
+            CrewDic.Add("0004", crew);
+            CrewDic.Add("0005", crew);
             Crew crew1 = Resources.Load<Crew>($"Prefabs/GridItems/Crews/Crew");
             CrewDic.Add("0006", crew1);
+            CrewDic.Add("0007", crew1);
+            CrewDic.Add("0008", crew1);
+            CrewDic.Add("0009", crew1);
+            CrewDic.Add("0010", crew1);
         }
 
         static void CreateOffsetDic()
         {
             CannonOffsetDic.Add(new KeyValuePair<string, string>("normal", "0001"), new Vector3(0, 0.41f, 0));
             CannonOffsetDic.Add(new KeyValuePair<string, string>("fast", "0001"), new Vector3(0, 0.45f, 0));
-            CannonOffsetDic.Add(new KeyValuePair<string, string>("charge", "0001"), new Vector3(0.575f, 0.653f, 0));
-            CannonOffsetDic.Add(new KeyValuePair<string, string>("twin", "0001"), new Vector3(0.575f, 0.33f, 0));
+            CannonOffsetDic.Add(new KeyValuePair<string, string>("charge", "0001"), new Vector3(0.52f, 0.653f, 0));
+            CannonOffsetDic.Add(new KeyValuePair<string, string>("twin", "0001"), new Vector3(0.52f, 0.33f, 0));
             CannonOffsetDic.Add(new KeyValuePair<string, string>("chaining", "0001"), new Vector3(0, 0.27f, 0));
             CannonOffsetDic.Add(new KeyValuePair<string, string>("far", "0001"), new Vector3(0.48f, 0.38f, 0));
 
+            CannonOffsetDic.Add(new KeyValuePair<string, string>("normal", "0002"), new Vector3(0, 0.41f, 0));
+            CannonOffsetDic.Add(new KeyValuePair<string, string>("fast", "0002"), new Vector3(0, 0.45f, 0));
+            CannonOffsetDic.Add(new KeyValuePair<string, string>("charge", "0002"), new Vector3(0.52f, 0.653f, 0));
+            CannonOffsetDic.Add(new KeyValuePair<string, string>("twin", "0002"), new Vector3(0.52f, 0.33f, 0));
+            CannonOffsetDic.Add(new KeyValuePair<string, string>("chaining", "0002"), new Vector3(0, 0.27f, 0));
+            CannonOffsetDic.Add(new KeyValuePair<string, string>("far", "0002"), new Vector3(0.48f, 0.38f, 0));
+
+            CannonOffsetDic.Add(new KeyValuePair<string, string>("normal", "0003"), new Vector3(0, 0.41f, 0));
+            CannonOffsetDic.Add(new KeyValuePair<string, string>("fast", "0003"), new Vector3(0, 0.45f, 0));
+            CannonOffsetDic.Add(new KeyValuePair<string, string>("charge", "0003"), new Vector3(0.52f, 0.653f, 0));
+            CannonOffsetDic.Add(new KeyValuePair<string, string>("twin", "0003"), new Vector3(0.52f, 0.33f, 0));
+            CannonOffsetDic.Add(new KeyValuePair<string, string>("chaining", "0003"), new Vector3(0, 0.27f, 0));
+            CannonOffsetDic.Add(new KeyValuePair<string, string>("far", "0003"), new Vector3(0.48f, 0.38f, 0));
+
+
             BulletOffsetDic.Add(new KeyValuePair<string, string>("arrow", "0001"), new Vector3(0, -0.576f, 0));
-            BulletOffsetDic.Add(new KeyValuePair<string, string>("burning_egg", "0001"), new Vector3(0, -0.576f, 0));
+            BulletOffsetDic.Add(new KeyValuePair<string, string>("burning", "0001"), new Vector3(0, -0.576f, 0));
             BulletOffsetDic.Add(new KeyValuePair<string, string>("normal", "0001"), new Vector3(0, -0.576f, 0));
             BulletOffsetDic.Add(new KeyValuePair<string, string>("icy", "0001"), new Vector3(0, -0.576f, 0));
             BulletOffsetDic.Add(new KeyValuePair<string, string>("culling", "0001"), new Vector3(0, -0.576f, 0));
@@ -155,12 +178,20 @@ namespace _Game.Scripts.DB
             BulletOffsetDic.Add(new KeyValuePair<string, string>("whirlpool", "0001"), new Vector3(0, -0.576f, 0));
 
             BulletOffsetDic.Add(new KeyValuePair<string, string>("arrow", "0002"), new Vector3(0, -0.576f, 0));
-            BulletOffsetDic.Add(new KeyValuePair<string, string>("burning_egg", "0002"), new Vector3(0, -0.576f, 0));
+            BulletOffsetDic.Add(new KeyValuePair<string, string>("burning", "0002"), new Vector3(0, -0.576f, 0));
             BulletOffsetDic.Add(new KeyValuePair<string, string>("normal", "0002"), new Vector3(0, -0.576f, 0));
             BulletOffsetDic.Add(new KeyValuePair<string, string>("icy", "0002"), new Vector3(0, -0.576f, 0));
             BulletOffsetDic.Add(new KeyValuePair<string, string>("culling", "0002"), new Vector3(0, -0.576f, 0));
             BulletOffsetDic.Add(new KeyValuePair<string, string>("boom", "0002"), new Vector3(0, -0.576f, 0));
             BulletOffsetDic.Add(new KeyValuePair<string, string>("whirlpool", "0002"), new Vector3(0, -0.576f, 0));
+
+            BulletOffsetDic.Add(new KeyValuePair<string, string>("arrow", "0003"), new Vector3(0, -0.576f, 0));
+            BulletOffsetDic.Add(new KeyValuePair<string, string>("burning", "0003"), new Vector3(0, -0.576f, 0));
+            BulletOffsetDic.Add(new KeyValuePair<string, string>("normal", "0003"), new Vector3(0, -0.576f, 0));
+            BulletOffsetDic.Add(new KeyValuePair<string, string>("icy", "0003"), new Vector3(0, -0.576f, 0));
+            BulletOffsetDic.Add(new KeyValuePair<string, string>("culling", "0003"), new Vector3(0, -0.576f, 0));
+            BulletOffsetDic.Add(new KeyValuePair<string, string>("boom", "0003"), new Vector3(0, -0.576f, 0));
+            BulletOffsetDic.Add(new KeyValuePair<string, string>("whirlpool", "0003"), new Vector3(0, -0.576f, 0));
 
         }
 
