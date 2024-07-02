@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using _Game.Features.Inventory;
 using UnityEngine;
 
 namespace _Game.Scripts
@@ -8,9 +9,10 @@ namespace _Game.Scripts
     public class GridItemDef : ScriptableObject
     {
         public string Id;
-        public GridItemType Type;
+        public ItemType Type;
         public int ShapeId;
         public string Name;
+        public string Path;
         public Sprite Image;
         public Sprite ProjectileImage;
         public override string ToString()

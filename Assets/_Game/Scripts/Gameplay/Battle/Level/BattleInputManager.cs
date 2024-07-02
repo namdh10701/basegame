@@ -3,6 +3,7 @@ using _Game.Scripts.Entities;
 using _Game.Scripts;
 using UnityEngine;
 using UnityEngine.UI;
+using _Game.Features.Inventory;
 
 namespace _Game.Scripts
 {
@@ -56,7 +57,7 @@ namespace _Game.Scripts
                         IGridItem gridItem = icd.Item.GetComponent<IGridItem>();
                         if (gridItem != null)
                         {
-                            if (gridItem.Def.Type == GridItemType.Cannon)
+                            if (gridItem.Def.Type == ItemType.CANNON)
                             {
                                 selectingCannon = gridItem as Cannon;
                                 selectCannon.sprite = gridItem.Def.Image;
