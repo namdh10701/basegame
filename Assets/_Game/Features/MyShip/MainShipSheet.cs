@@ -4,6 +4,7 @@ using System.Linq;
 using _Base.Scripts.UI;
 using _Game.Features.Home;
 using _Game.Features.Inventory;
+using _Game.Scripts;
 using _Game.Scripts.GD;
 using Cysharp.Threading.Tasks;
 using UnityEditor;
@@ -151,12 +152,14 @@ namespace _Game.Features.MyShip
         {
             var cannon = GDConfigLoader.Instance.Cannons[item.Id];
             _Base.Scripts.UI.InventoryItemInfo inventoryItemInfo = new _Base.Scripts.UI.InventoryItemInfo();
-            inventoryItemInfo.inventoryItemData.gridItemDef.Id = item.Id;
-            inventoryItemInfo.inventoryItemData.gridItemDef.Type = item.Type;
-            inventoryItemInfo.inventoryItemData.gridItemDef.Name = cannon.name;
-            inventoryItemInfo.inventoryItemData.gridItemDef.ShapeId = (int)(OperationType)Enum.Parse(typeof(OperationType), cannon.operation_type, true);
-            inventoryItemInfo.inventoryItemData.gridItemDef.Path = $"/Database/GridItem/Cannons/{cannon.name}";
-
+            var inventoryItemData = new InventoryItemData();
+            inventoryItemData.gridItemDef = new GridItemDef();
+            inventoryItemData.gridItemDef.Id = item.Id;
+            inventoryItemData.gridItemDef.Type = item.Type;
+            inventoryItemData.gridItemDef.Name = cannon.name;
+            inventoryItemData.gridItemDef.ShapeId = (int)(OperationType)Enum.Parse(typeof(OperationType), cannon.operation_type, true);
+            inventoryItemData.gridItemDef.Path = $"/Database/GridItem/Cannons/{cannon.operation_type}";
+            inventoryItemInfo.inventoryItemData = inventoryItemData;
 
             var inventoryItems = new List<_Base.Scripts.UI.InventoryItemInfo>();
             inventoryItems.Add(inventoryItemInfo);
