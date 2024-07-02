@@ -154,6 +154,7 @@ namespace _Base.Scripts.UI
                 GridItemData.OccupyCells = new List<Vector2Int>();
                 GridItemData.startX = item.startX;
                 GridItemData.startY = item.startY;
+                GridItemDatas.Add(GridItemData);
             }
             if (_shipID == "0001")
             {

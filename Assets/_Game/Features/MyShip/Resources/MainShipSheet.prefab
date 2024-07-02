@@ -319,7 +319,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 254466066905781598}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e7382c33cfa59cd4c9f7886974f478fb, type: 3}
   m_Name: 
@@ -448,7 +448,7 @@ MonoBehaviour:
   _shipsConfig: {fileID: 11400000, guid: 85cc12feb1e2e73449fe687ba245cd94, type: 2}
   _tabEditShip: {fileID: 5877522799671633402}
   _btnShipSelection: {fileID: 1272275516183228060}
-  _btnShipEdit: {fileID: 4997822215087617111}
+  _btnShipEdit: {fileID: 2789479984106714273}
   _parentShip: {fileID: 3895773510155366356}
 --- !u!225 &9187558221147693927
 CanvasGroup:
@@ -1193,7 +1193,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2716805647545482598}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e7382c33cfa59cd4c9f7886974f478fb, type: 3}
   m_Name: 
@@ -1210,8 +1210,8 @@ GameObject:
   - component: {fileID: 3195700668871316667}
   - component: {fileID: 2642250123180498873}
   - component: {fileID: 6952608675913227733}
-  - component: {fileID: 4997822215087617111}
   - component: {fileID: 4666853352775222268}
+  - component: {fileID: 2789479984106714273}
   m_Layer: 5
   m_Name: Btn_Edit_Ship
   m_TagString: Untagged
@@ -1278,7 +1278,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4997822215087617111
+--- !u!114 &4666853352775222268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2994792331578460244}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7382c33cfa59cd4c9f7886974f478fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Selected: {fileID: 4063465758809573866}
+--- !u!114 &2789479984106714273
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1287,7 +1300,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2994792331578460244}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 9085046f02f69544eb97fd06b6048fe2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -1319,34 +1332,13 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 1
   m_TargetGraphic: {fileID: 6952608675913227733}
-  m_OnClick:
+  toggleTransition: 1
+  graphic: {fileID: 4063465758809573866}
+  m_Group: {fileID: 0}
+  onValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 4666853352775222268}
-        m_TargetAssemblyTypeName: StatusButton, Assembly-CSharp
-        m_MethodName: EnableImage
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &4666853352775222268
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2994792331578460244}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7382c33cfa59cd4c9f7886974f478fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Selected: {fileID: 4063465758809573866}
+      m_Calls: []
+  m_IsOn: 0
 --- !u!1 &3016370964225848669
 GameObject:
   m_ObjectHideFlags: 0
@@ -2399,7 +2391,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4647294756859002889}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -3176,7 +3168,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7813828562375938110}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
