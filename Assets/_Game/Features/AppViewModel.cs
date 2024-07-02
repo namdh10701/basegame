@@ -220,19 +220,6 @@ namespace _Game.Scripts.Gameplay
             await Task.WhenAll(levelDesignLoadTask, gdConfigLoadTask);
             Database.Load();
 
-            Debug.Log(Database.GetCrewImage("0001"));
-            Debug.Log(Database.GetCrewImage("0002"));
-
-
-            foreach (string id in GDConfigLoader.Instance.Ammos.Keys)
-            {
-                Debug.Log(Database.GetAmmoImage(id));
-            }
-
-            foreach (string id in GDConfigLoader.Instance.Cannons.Keys)
-            {
-                Debug.Log(Database.GetCannonImage(id));
-            }
         }
 
         // private void Init()

@@ -24,6 +24,7 @@ namespace _Game.Scripts.DB
 
         private static Dictionary<string, string> CannonOperatorDic = new Dictionary<string, string>();
         private static Dictionary<string, string> BulletOperatorDic = new Dictionary<string, string>();
+        private static Dictionary<string, string> CrewOperatorDic = new Dictionary<string, string>();
 
         private static Dictionary<KeyValuePair<string, string>, Vector3> CannonOffsetDic = new Dictionary<KeyValuePair<string, string>, Vector3>();
         private static Dictionary<KeyValuePair<string, string>, Vector3> BulletOffsetDic = new Dictionary<KeyValuePair<string, string>, Vector3>();
@@ -37,6 +38,10 @@ namespace _Game.Scripts.DB
             CreateCrewDic();
             CreateOffsetDic();
             CreateShapeDic();
+
+
+            Debug.Log(GetShapeByTypeAndOperationType("0001", ItemType.CREW) == Shape.ShapeDic[1]);
+            Debug.Log(GetShapeByTypeAndOperationType("0001", ItemType.CANNON) == Shape.ShapeDic[2]);
         }
 
         static void CreateShapeDic()
@@ -54,6 +59,9 @@ namespace _Game.Scripts.DB
             ShapeIdDic.Add(new KeyValuePair<ItemType, string>(ItemType.CANNON, "twin"), Shape.ShapeDic[3]);
             ShapeIdDic.Add(new KeyValuePair<ItemType, string>(ItemType.CANNON, "chaining"), Shape.ShapeDic[1]);
             ShapeIdDic.Add(new KeyValuePair<ItemType, string>(ItemType.CANNON, "far"), Shape.ShapeDic[3]);
+
+            ShapeIdDic.Add(new KeyValuePair<ItemType, string>(ItemType.CREW, "captain"), Shape.ShapeDic[1]);
+            ShapeIdDic.Add(new KeyValuePair<ItemType, string>(ItemType.CREW, "crew"), Shape.ShapeDic[1]);
         }
 
         static void CreateImageDic()
@@ -83,14 +91,16 @@ namespace _Game.Scripts.DB
             for (int i = 0; i <= 1; i++)
             {
                 var rarities = Enum.GetValues(typeof(Features.Inventory.Rarity)).Cast<Features.Inventory.Rarity>();
-                for (int j = 1; j < rarities.Count(); j++)
+                for (int j = 1; j < rarities.Count()+1; j++)
                 {
                     ItemType Type = ItemType.CREW;
-                    string Id = $"000{i * rarities.Count() + j}";
+                    string Id = (i * rarities.Count() + j).ToString("D4");
                     var itemType = Type.ToString().ToLower();
                     string operationType = i == 0 ? "Captain" : "Crew";
                     var itemOperationType = operationType.ToLower();
-                    var path = $"Database/{itemType}/{itemOperationType}";
+
+                    CrewOperatorDic.Add(Id, itemOperationType);
+                    var path = $"Database/GridItem/{itemType}/{itemOperationType}";
                     Sprite sprite = Resources.Load<Sprite>(path);
                     CrewImageDic.Add(Id, sprite);
                 }
@@ -190,9 +200,22 @@ namespace _Game.Scripts.DB
             return BulletOffsetDic[new KeyValuePair<string, string>(opeartor, shipId)];
         }
 
-        public static int[,] GetShapeByTypeAndOperationType(string operation_type, ItemType itemType)
+        public static int[,] GetShapeByTypeAndOperationType(string id, ItemType itemType)
         {
-            return ShapeIdDic[new KeyValuePair<ItemType, string>(itemType, operation_type)];
+            string operationType = "";
+            switch (itemType)
+            {
+                case ItemType.AMMO:
+                    operationType = BulletOperatorDic[id];
+                    break;
+                case ItemType.CANNON:
+                    operationType = CannonOperatorDic[id];
+                    break;
+                case ItemType.CREW:
+                    operationType = CrewOperatorDic[id];
+                    break;
+            }
+            return ShapeIdDic[new KeyValuePair<ItemType, string>(itemType, operationType)];
         }
     }
 }
