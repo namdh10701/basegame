@@ -57,10 +57,11 @@ namespace _Game.Scripts.GD
             cannonSt.Accuracy.BaseValue = ammo_accuracy;
             cannonSt.ArmorPenetrate.BaseValue = armor_pen;
             cannonSt.AttackAOE.BaseValue = attack_aoe;
-            cannonSt.Speed.BaseValue = 20;
+            cannonSt.Speed.BaseValue = project_speed;
             cannonSt.ArmorPenetrate.BaseValue = armor_pen;
-            cannonSt.Piercing.BaseValue = pierc_count;
+            cannonSt.Piercing.BaseValue = project_piercing;
             cannonSt.MagazineSize.BaseValue = magazine_size;
+
         }
     }
 }

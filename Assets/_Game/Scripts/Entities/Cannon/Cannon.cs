@@ -81,7 +81,7 @@ namespace _Game.Scripts.Entities
         {
             if (GDConfigLoader.Instance != null)
             {
-                if (GDConfigLoader.Instance.Cannons.TryGetValue(def.Id, out CannonConfig cannonConfig))
+                if (GDConfigLoader.Instance.Cannons.TryGetValue(Id, out CannonConfig cannonConfig))
                 {
                     cannonConfig.ApplyGDConfig(_stats);
                 }

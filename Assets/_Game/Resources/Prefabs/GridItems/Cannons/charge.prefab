@@ -175,6 +175,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04a2db7fd60a46c9ad717e4290795b41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Id: 
   body: {fileID: 0}
   def: {fileID: 11400000, guid: f7ee00368f0114948b652824bdad44ed, type: 2}
   _stats:
@@ -222,7 +223,6 @@ MonoBehaviour:
   _statsTemplate: {fileID: 11400000, guid: b0ac1bfaee0266045a54bd209e9ff5d7, type: 2}
   _cannonReloader: {fileID: 1570808234364923535}
   <AttackStrategy>k__BackingField: {fileID: 3014231783961799318}
-  <BulletEffects>k__BackingField: []
   behaviour: {fileID: 8427063930449867751}
   <OccupyCells>k__BackingField: []
   rarity: 0
@@ -302,7 +302,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultNumOfProjectile: 5
-  Cannon: {fileID: 94858937819000496}
   minSpeedBulletModifier: -5
   maxSpeedBulletModifier: -10
 --- !u!1 &2738015328258581795
@@ -990,6 +989,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4324507476589060706, guid: ebaa462a55bff614e872b57eedff75ea, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.086
+      objectReference: {fileID: 0}
+    - target: {fileID: 5195636385221916247, guid: ebaa462a55bff614e872b57eedff75ea, type: 3}
+      propertyPath: m_SortingOrder
+      value: -9
+      objectReference: {fileID: 0}
     - target: {fileID: 5394255174483057536, guid: ebaa462a55bff614e872b57eedff75ea, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.012700002
@@ -1025,6 +1032,10 @@ PrefabInstance:
     - target: {fileID: 8332969265366852943, guid: ebaa462a55bff614e872b57eedff75ea, type: 3}
       propertyPath: m_LocalPosition.y
       value: 1.7261
+      objectReference: {fileID: 0}
+    - target: {fileID: 8620421146434930455, guid: ebaa462a55bff614e872b57eedff75ea, type: 3}
+      propertyPath: m_SortingOrder
+      value: -10
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 9205354397409906689, guid: ebaa462a55bff614e872b57eedff75ea, type: 3}
