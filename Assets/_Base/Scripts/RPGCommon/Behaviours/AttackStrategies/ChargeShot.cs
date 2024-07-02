@@ -9,7 +9,6 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
     [AddComponentMenu("[Attack Strategy] ChargeShot")]
     public class ChargeShot : NormalShot
     {
-        public Cannon Cannon;
         public float minSpeedBulletModifier = -1;
         public float maxSpeedBulletModifier = -10;
 

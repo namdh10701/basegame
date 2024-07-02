@@ -12,7 +12,6 @@ namespace _Game.Scripts.Gameplay.Ship
     {
         [Space]
         [Header("Ship")]
-        public string Id;
         public ShipStats stats;
         public ShipSetup ShipSetup;
         public override Stats Stats => stats;

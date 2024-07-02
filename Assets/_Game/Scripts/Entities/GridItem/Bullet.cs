@@ -10,6 +10,7 @@ namespace _Game.Scripts.Entities
 {
     public class Bullet : MonoBehaviour, IGridItem, IWorkLocation, INodeOccupier
     {
+        public string id;
         public Projectile Projectile;
 
         [SerializeField] private GridItemDef def;
@@ -35,11 +36,17 @@ namespace _Game.Scripts.Entities
         public Color norm;
         bool isBroken;
 
-        private void Awake()
+        public void SetId(string id)
+        {
+            this.id = id;
+            Projectile.Id = id;
+        }
+
+        public void InitStats()
         {
             if (GDConfigLoader.Instance != null)
             {
-                if (GDConfigLoader.Instance.Ammos.TryGetValue(Projectile.Id, out AmmoConfig value))
+                if (GDConfigLoader.Instance.Ammos.TryGetValue(id, out AmmoConfig value))
                 {
                     value.ApplyGDConfig(Stats);
                 }
@@ -47,7 +54,7 @@ namespace _Game.Scripts.Entities
                 {
                     projectileStatsTemplate.ApplyConfig(Stats);
                 }
-            
+
             }
         }
 

@@ -12,6 +12,7 @@ public struct GridItemData
 {
     public Vector3 position;
     public GridItemDef Def;
+
     //New Required
     public string GridId;
     public string Id;

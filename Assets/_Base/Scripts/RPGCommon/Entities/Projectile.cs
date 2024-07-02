@@ -13,7 +13,6 @@ namespace _Base.Scripts.RPGCommon.Entities
     public abstract class Projectile : Entity, IUpgradeable, IEffectGiver
     {
         [Header("Projectile")]
-        public string Id;
         public ParticleSystem onHitParticle;
         public ProjectileStats _stats;
         public ProjectileStatsTemplate _statsTemplate;

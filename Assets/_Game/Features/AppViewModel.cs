@@ -4,15 +4,17 @@ using _Base.Scripts.Utils;
 using _Game.Features.Home;
 using _Game.Features.Inventory;
 using _Game.Features.WorldMap;
+using _Game.Scripts.DB;
 using _Game.Scripts.GD;
 using _Game.Scripts.UI;
+using UnityEngine;
 using UnityWeld.Binding;
 using ZBase.UnityScreenNavigator.Core.Screens;
 
 namespace _Game.Scripts.Gameplay
 {
     [Binding]
-    public class AppViewModel: RootViewModel 
+    public class AppViewModel : RootViewModel
     {
         public enum Nav
         {
@@ -21,11 +23,11 @@ namespace _Game.Scripts.Gameplay
             SHIP,
             INVENTORY,
             RUG,
-            
+
             WORLD_MAP,
             SEA_MAP,
         }
-        
+
         #region Binding Prop: CanvasGroupAlpha
 
         private float _canvasGroupAlpha = 1f;
@@ -43,7 +45,7 @@ namespace _Game.Scripts.Gameplay
         }
 
         #endregion
-        
+
         #region Binding Prop: ActiveMainNavIndex
 
         private int _activeMainNavIndex = 0;
@@ -72,7 +74,7 @@ namespace _Game.Scripts.Gameplay
         #region Binding: HomeViewModel
 
         private HomeViewModel _homeViewModel = new HomeViewModel();
-        
+
         // [Binding]
         // public HomeViewModel HomeViewModel
         // {
@@ -91,11 +93,11 @@ namespace _Game.Scripts.Gameplay
         // }
 
         #endregion
-        
+
         #region Binding: InventoryViewModel
 
         // private InventoryViewModel _inventoryViewModel = new InventoryViewModel();
-        
+
         // [Binding]
         // public InventoryViewModel InventoryViewModel
         // {
@@ -114,7 +116,7 @@ namespace _Game.Scripts.Gameplay
         // }
 
         #endregion
-        
+
         // private EquipmentViewModel _equipmentViewModel = new EquipmentViewModel();
 
         // private WorldMapViewModel _WorldMapViewModel = new WorldMapViewModel();
@@ -177,7 +179,7 @@ namespace _Game.Scripts.Gameplay
         // private bool m_isMainNavVisible;
 
         #endregion
-        
+
         private void OnActiveMainNavIndexChanged(int navIndex)
         {
             var nav = (Nav)navIndex;
@@ -186,21 +188,21 @@ namespace _Game.Scripts.Gameplay
                 // case Nav.HOME:
                 //     ActiveViewModel = _homeViewModel;
                 //     break;
-                
+
                 case Nav.INVENTORY:
                     // ActiveViewModel = _inventoryViewModel;
                     break;
-                
+
                 case Nav.WORLD_MAP:
                     // ActiveViewModel = _WorldMapViewModel;
                     break;
             }
-            
+
             if (!ActiveViewModel.IsInitialized)
             {
                 ActiveViewModel.Initialize();
             }
-            
+
             OnPropertyChanged(nameof(IsMainNavVisible));
 
             // if (nav > Nav.RUG)
@@ -216,6 +218,8 @@ namespace _Game.Scripts.Gameplay
             Task levelDesignLoadTask = LevelDesignConfigLoader.Instance.Load();
             Task gdConfigLoadTask = GDConfigLoader.Instance.Load();
             await Task.WhenAll(levelDesignLoadTask, gdConfigLoadTask);
+            Database.Load();
+
         }
 
         // private void Init()
@@ -229,13 +233,13 @@ namespace _Game.Scripts.Gameplay
             // PopupManager.Instance.ShowPopup<GearInfoPopup>();
             NavTo(Nav.WORLD_MAP);
         }
-        
+
         [Binding]
         public void NavToSeaMap()
         {
             NavTo(Nav.SEA_MAP);
         }
-        
+
         [Binding]
         public void NavToHome()
         {
@@ -250,23 +254,23 @@ namespace _Game.Scripts.Gameplay
                 // case Nav.HOME:
                 //     ActiveViewModel = _homeViewModel;
                 //     break;
-                
+
                 case Nav.INVENTORY:
                     // ActiveViewModel = _inventoryViewModel;
                     break;
-                
+
                 case Nav.WORLD_MAP:
                     // ActiveViewModel = _WorldMapViewModel;
                     break;
             }
-            
+
             if (ActiveViewModel != null && !ActiveViewModel.IsInitialized)
             {
                 ActiveViewModel.Initialize();
             }
-            
+
             await ScreenContainer.Of(transform).PreloadAsync("HomeView");
-            
+
             OnPropertyChanged(nameof(IsMainNavVisible));
         }
     }

@@ -15,7 +15,7 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
     [AddComponentMenu("[Attack Strategy] NormalShot")]
     public class NormalShot : AttackStrategy
     {
-        Cannon Cannon;
+        protected Cannon Cannon;
         protected Transform shootPosition;
         protected Entity projectilePrefab;
         private Vector2 shootDirection;
