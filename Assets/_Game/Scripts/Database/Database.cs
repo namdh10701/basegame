@@ -189,5 +189,10 @@ namespace _Game.Scripts.DB
             string opeartor = BulletOperatorDic[bulletId];
             return BulletOffsetDic[new KeyValuePair<string, string>(opeartor, shipId)];
         }
+
+        public static int[,] GetShapeByTypeAndOperationType(string operation_type, ItemType itemType)
+        {
+            return ShapeIdDic[new KeyValuePair<ItemType, string>(itemType, operation_type)];
+        }
     }
 }
