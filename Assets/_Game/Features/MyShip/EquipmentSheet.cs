@@ -2,12 +2,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using _Base.Scripts.UI;
+using _Base.Scripts.UI.Managers;
 using _Game.Features.Equipment;
 using _Game.Features.Home;
 using _Game.Features.Inventory;
+using _Game.Features.InventoryItemInfo;
+using _Game.Scripts.GD;
+using _Game.Scripts.UI;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityWeld.Binding;
+using ZBase.UnityScreenNavigator.Core.Modals;
 using InventoryItem = _Game.Features.Inventory.InventoryItem;
 
 namespace _Game.Features.MyShip
@@ -37,6 +42,13 @@ namespace _Game.Features.MyShip
             var output = new EquipmentSheetOutputData(selectedItems);
             
             await MyShipScreen.Instance.ShowSheet(Sheets.MainShipSheet, output);
+        }
+        
+        [Binding]
+        public async void ShowInfo()
+        {
+            var selectedItems = EquipmentViewModel.Items.Where(v => v.IsSelected).ToList();
+            await ModalContainer.Find(ContainerKey.Modals).PushAsync(nameof(InventoryItemInfoModal), selectedItems.FirstOrDefault());
         }
         
         public override UniTask WillEnter(Memory<object> args)

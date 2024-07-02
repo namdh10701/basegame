@@ -13,7 +13,8 @@ namespace _Base.Scripts.UI
         public void Setup(InventoryItemInfo inventoryItemInfo)
         {
             _inventoryItemInfo = inventoryItemInfo;
-            Icon.sprite = inventoryItemInfo.inventoryItemData.gridItemDef.Image;
+            // Icon.sprite = inventoryItemInfo.inventoryItemData.gridItemDef.Image;
+            Icon.sprite = Resources.Load<Sprite>(inventoryItemInfo.inventoryItemData.gridItemDef.Path);
             Icon.SetNativeSize();
             _shape = Shape.ShapeDic[inventoryItemInfo.inventoryItemData.gridItemDef.ShapeId];
             this.transform.localPosition = inventoryItemInfo.inventoryItemData.position;

@@ -7,6 +7,7 @@ using Fusion;
 using Map;
 using System.Collections.Generic;
 using System.Linq;
+using _Game.Features.Inventory;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Scripting;
@@ -166,15 +167,15 @@ namespace _Game.Scripts
             }
             /*GameObject prefab = Database.(gridItemData.Def);
             GameObject spawned = Instantiate(prefab, grid.GridItemRoot);
-            if (gridItemData.Def.Type == GridItemType.Bullet)
+            if (gridItemData.Def.Type == ItemType.AMMO)
             {
                 Bullets.Add(spawned.GetComponent<Bullet>());
             }
-            else if (gridItemData.Def.Type == GridItemType.Cannon)
+            else if (gridItemData.Def.Type == ItemType.CANNON)
             {
                 Cannons.Add(spawned.GetComponent<Cannon>());
             }
-            else if (gridItemData.Def.Type == GridItemType.Crew)
+            else if (gridItemData.Def.Type == ItemType.CREW)
             {
                 CrewController.AddCrew(spawned.GetComponent<Crew>());
             }

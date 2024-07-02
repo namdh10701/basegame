@@ -14,11 +14,13 @@ namespace _Base.Scripts.UI
         public GridItemDef gridItemDef;
     }
 
-    public enum InventoryItemType
+    public enum OperationType
     {
         None = 0,
-        Gun = 1,
-        Bullet = 2,
-        Crew
+        normal = 1,
+        bouncing = 1,
+        charge = 1,
+        fast = 2,
+        twin = 3
     }
 }
