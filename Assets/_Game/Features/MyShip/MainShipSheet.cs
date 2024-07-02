@@ -32,6 +32,7 @@ namespace _Game.Features.MyShip
         [SerializeField] Transform _parentShip;
 
         GridManager _gridManager;
+        GameObject _ship;
         const string directory = "Assets/_Game/Scriptable Objects/ShipGridProfiles/";
         public override UniTask Initialize(Memory<object> args)
         {
@@ -47,9 +48,13 @@ namespace _Game.Features.MyShip
             {
                 if (ship.id == shipID)
                 {
-                    var shipObject = Instantiate(ship.ship);
-                    shipObject.transform.SetParent(_parentShip, false);
-                    _gridManager = shipObject.GetComponentInChildren<GridManager>();
+                    if (_ship != null)
+                    {
+                        Destroy(_ship);
+                    }
+                    _ship = Instantiate(ship.ship);
+                    _ship.transform.SetParent(_parentShip, false);
+                    _gridManager = _ship.GetComponentInChildren<GridManager>();
                 }
             }
 
@@ -103,6 +108,7 @@ namespace _Game.Features.MyShip
         private void OnShipIdReceived(string shipId)
         {
             _shipsConfig.currentShipId = shipId;
+            Initialize(_shipsConfig.currentShipId);
             Debug.Log("Selected ship ID: " + _shipsConfig.currentShipId);
         }
 
