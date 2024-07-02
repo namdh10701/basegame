@@ -183,7 +183,7 @@ namespace _Game.Features.Inventory
                 var rarities = Enum.GetValues(typeof(Rarity)).Cast<Rarity>();
                 foreach (var rarity in rarities)
                 {
-                    dataSource.Add(new InventoryItem {  InventoryViewModel = this, Type = ItemType.CREW, Id = $"000{crewNo++}", Rarity = rarity, OperationType = $"{i}" });
+                    dataSource.Add(new InventoryItem {  InventoryViewModel = this, Type = ItemType.CREW, Id = $"{crewNo++}", Rarity = rarity, OperationType = $"{i}" });
                 }
             }
             

@@ -15,6 +15,17 @@ namespace _Game.Features.FightNodeInfo
     [Binding]
     public class FightNodeInfoViewModel : RootViewModel
     {
+        public enum Style
+        {
+            Normal,
+            Boss
+        }
+
+        public Style style = Style.Normal;
+
+        [Binding] 
+        public bool IsBossStyle => style == Style.Boss;
+        
         #region Binding: Items
 
         private ObservableList<InventoryItem> items = new ObservableList<InventoryItem>();

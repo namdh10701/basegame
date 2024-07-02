@@ -52,7 +52,14 @@ namespace _Game.Features.SeaMap
         public async void NavToWorldMap()
         {
             var options = new ViewOptions(nameof(WorldMapScreen));
-            await ModalContainer.Find(ContainerKey.Modals).PushAsync(options);
+            await ScreenContainer.Find(ContainerKey.Screens).PushAsync(options);
+        }
+        
+        [Binding]
+        public async void NavToHome()
+        {
+            var options = new ViewOptions(nameof(MainScreen));
+            await ScreenContainer.Find(ContainerKey.Screens).PushAsync(options);
         }
 
         [Binding]
