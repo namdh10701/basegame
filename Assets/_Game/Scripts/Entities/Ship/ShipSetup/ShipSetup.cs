@@ -254,7 +254,7 @@ namespace _Game.Scripts
             float scale = Vector3.one.x / spawned.transform.parent.lossyScale.x;
             spawned.transform.localScale = new Vector3(scale, scale, scale);
             spawned.transform.position =
-            grid.Cells[data.startX, data.startY].transform.position + Database.GetOffsetCannonWithStartCell(spawned.Id, Ship.Id);
+            grid.Cells[data.startY, data.startX].transform.position + Database.GetOffsetCannonWithStartCell(spawned.Id, Ship.Id);
             spawnedItems.Add(spawned.gameObject);
 
             INodeOccupier nodeOccupier = spawned.GetComponent<INodeOccupier>();
@@ -275,7 +275,8 @@ namespace _Game.Scripts
 
             float scale = Vector3.one.x / spawned.transform.parent.lossyScale.x;
             spawned.transform.localScale = new Vector3(scale, scale, scale);
-            spawned.transform.localPosition = data.position;
+            spawned.transform.position =
+             grid.Cells[data.startY, data.startX].transform.position + Database.GetOffsetBulletWithStartCell(spawned.id, Ship.Id);
             spawnedItems.Add(spawned.gameObject);
 
             INodeOccupier nodeOccupier = spawned.GetComponent<INodeOccupier>();
@@ -291,7 +292,9 @@ namespace _Game.Scripts
             float scale = Vector3.one.x / spawned.transform.parent.lossyScale.x;
             spawned.transform.localScale = new Vector3(scale, scale, scale);
             spawned.transform.localPosition = data.position;
-            spawnedItems.Add(spawned.gameObject);
+            spawnedItems.Add(spawned.gameObject); 
+            spawned.transform.position =
+            grid.Cells[data.startY, data.startX].transform.position;
 
         }
 

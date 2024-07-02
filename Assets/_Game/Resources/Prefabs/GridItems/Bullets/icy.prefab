@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 2196496888201420371}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.478, z: 0}
+  m_LocalPosition: {x: 0, y: 0.53999996, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -164,8 +164,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -285313645
   m_SortingLayer: 3
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: d2f0e59757767434abaf48b8473de997, type: 3}
+  m_SortingOrder: 5
+  m_Sprite: {fileID: 21300000, guid: 21190bcd43920a042a3633b369208346, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -187,7 +187,7 @@ GameObject:
   - component: {fileID: 528517828048701709}
   - component: {fileID: 5927501447640042736}
   m_Layer: 0
-  m_Name: Bullet Fire
+  m_Name: icy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -223,9 +223,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e7c75d22ca6fbd49812b0f5a8f9aa61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Projectile: {fileID: 2342970395553311547, guid: 4588bd9e642073746af5ea4e6b5fa1c8, type: 3}
-  def: {fileID: 11400000, guid: 8e30b24f0d761b74099148893bedb3d2, type: 2}
-  <OccupyCells>k__BackingField: []
+  Projectile: {fileID: 1138419619119243829, guid: 7a821d956315a7849bf1dcd66f52d636, type: 3}
+  def: {fileID: 11400000, guid: 59419c5e2f8bdcb4bb47e65d649550c9, type: 2}
+  <OccupyCells>k__BackingField:
+  - {fileID: 0}
   workingSlots: []
   occupyingNodes: []
   Stats:
@@ -262,9 +263,9 @@ MonoBehaviour:
     <EnergyCost>k__BackingField:
       statModifiers: []
       _baseValue: 0
-  projectileStatsTemplate: {fileID: 11400000, guid: f126b524c45be054c9bc8e146046a69d, type: 2}
-  sprite: {fileID: 4469434035626341655}
-  broken: {r: 0.5943396, g: 0.5943396, b: 0.5943396, a: 1}
+  projectileStatsTemplate: {fileID: 11400000, guid: 599004154fef6ff439591cab02cb63d5, type: 2}
+  sprite: {fileID: 0}
+  broken: {r: 0.6415094, g: 0.6415094, b: 0.6415094, a: 1}
   norm: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &8348072679632945211
 GameObject:
@@ -291,7 +292,7 @@ Transform:
   m_GameObject: {fileID: 8348072679632945211}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.375, y: 0.03, z: 0}
+  m_LocalPosition: {x: -0.375, y: -0.497, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

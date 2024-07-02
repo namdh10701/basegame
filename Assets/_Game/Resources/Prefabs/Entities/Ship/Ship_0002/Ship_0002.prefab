@@ -512,8 +512,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 368025709d8d477488e54dd5c9c78d15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  body: {fileID: 0}
   Id: 0002
+  body: {fileID: 0}
   stats:
     <HealthPoint>k__BackingField:
       _value:
@@ -545,15 +545,8 @@ MonoBehaviour:
         statModifiers: []
         _baseValue: 150
     <ManaRegenerationRate>k__BackingField:
-      _value:
-        statModifiers: []
-        _baseValue: 5
-      _minValue:
-        statModifiers: []
-        _baseValue: 0
-      _maxValue:
-        statModifiers: []
-        _baseValue: 10
+      statModifiers: []
+      _baseValue: 1
     <HealthRegenerationRate>k__BackingField:
       _value:
         statModifiers: []
@@ -572,6 +565,7 @@ MonoBehaviour:
   ShipArea: {fileID: 1019742506738545521}
   ShipSpeed: {fileID: 5817357046448799332}
   CrewJobData: {fileID: 7873234573730837184}
+  BattleViewModel: {fileID: 0}
 --- !u!114 &4408094167755191158
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -584,6 +578,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a9917901d6ba2e46b26157f4dd17e8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UsingGridItemDatas: []
+  Ship: {fileID: 2628608560081248010}
   ShipSetupMockup: {fileID: 11400000, guid: a703312802ae80046a67d66f8d7e3667, type: 2}
   ItemReferenceHolder: {fileID: 11400000, guid: 6215da2706b40c8458d3923b27c5984b, type: 2}
   ShipGridProfile: {fileID: 11400000, guid: 2fd1a10d24a9bba42a4c8ddf67ed25d3, type: 2}
@@ -4283,6 +4279,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 5762265653594198859}
     m_Modifications:
     - target: {fileID: 564312464658420448, guid: 10b5644253cc8b2498769adf3747cf4d, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2701245820808454533, guid: 10b5644253cc8b2498769adf3747cf4d, type: 3}
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}

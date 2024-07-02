@@ -24,7 +24,6 @@ namespace _Game.Scripts
                 {
                     if (cell != null)
                     {
-                        Debug.Log(cell.ToString());
                         cell.EffectHandler.Apply(effect);
                     }
                 }
