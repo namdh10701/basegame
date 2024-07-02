@@ -46,6 +46,7 @@ namespace _Game.Scripts.GD
         private async void Awake()
         {
             Instance = this;
+            DontDestroyOnLoad(this);
         }
         public async Task Load()
         {
@@ -140,7 +141,7 @@ namespace _Game.Scripts.GD
         //     }
         //
         // }
-        
+
         [ContextMenu("LoadAll")]
         private void LoadAll()
         {
@@ -161,7 +162,7 @@ namespace _Game.Scripts.GD
             {
                 // var so = Resources.Load<AmmoConfig>($"Configs/Ammo/Ammo_{key}");
                 // if (!so) continue;
-                
+
                 var so = ScriptableObject.CreateInstance<AmmoConfig>();
                 Load(so, properties);
 
@@ -173,7 +174,7 @@ namespace _Game.Scripts.GD
             {
                 // var so = Resources.Load<EnemyConfig>($"Configs/Enemy/Enemy_{key}");
                 // if (!so) continue;
-                
+
                 var so = ScriptableObject.CreateInstance<EnemyConfig>();
                 Load(so, properties);
 
@@ -185,7 +186,7 @@ namespace _Game.Scripts.GD
             {
                 // var so = Resources.Load<ShipConfig>($"Configs/Ship/Ship_{key}");
                 // if (!so) continue;
-                
+
                 var so = ScriptableObject.CreateInstance<ShipConfig>();
                 Load(so, properties);
 
@@ -197,7 +198,7 @@ namespace _Game.Scripts.GD
             {
                 // var so = Resources.Load<TalentTreeNormalConfig>($"Configs/TalentTreeNormal/TalentTreeNormal_{key}");
                 // if (!so) continue;
-                
+
                 var so = ScriptableObject.CreateInstance<TalentTreeNormalConfig>();
                 Load(so, properties);
 
@@ -209,7 +210,7 @@ namespace _Game.Scripts.GD
             {
                 // var so = Resources.Load<TalentTreePreConfig>($"Configs/TalentTreePre/TalentTreePre_{key}");
                 // if (!so) continue;
-                
+
                 var so = ScriptableObject.CreateInstance<TalentTreePreConfig>();
                 Load(so, properties);
 

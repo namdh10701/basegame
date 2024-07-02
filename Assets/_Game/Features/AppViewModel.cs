@@ -211,10 +211,10 @@ namespace _Game.Scripts.Gameplay
         {
             IOC.Register(this);
             // GDConfigLoader.Instance.OnLoaded += Init;
-            Task levelDesignLoadTask = LevelDesignConfigLoader.Instance.Load();
+           /* Task levelDesignLoadTask = LevelDesignConfigLoader.Instance.Load();
             Task gdConfigLoadTask = GDConfigLoader.Instance.Load();
-            await Task.WhenAll(levelDesignLoadTask, gdConfigLoadTask);
-            Database.Load();
+            await Task.WhenAll(levelDesignLoadTask, gdConfigLoadTask);*/
+            //Database.Load();
 
         }
 

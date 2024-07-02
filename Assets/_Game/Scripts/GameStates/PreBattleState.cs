@@ -13,14 +13,7 @@ namespace _Game.Scripts.GameStates
         public override void Enter()
         {
             base.Enter();
-            if (GameManager.Instance.MapManager.CurrentMap.path.Count > 0)
-            {
-                ViewManager.Instance.Show<MapView>();
-            }
-            else
-            {
-                ViewManager.Instance.Show<PreBattleView>();
-            }
+            
 
         }
         public override IEnumerator Execute()
@@ -37,7 +30,6 @@ namespace _Game.Scripts.GameStates
              playerContext.HealthPoint = 1000;*/
             GlobalContext.PlayerContext = playerContext;
             //
-            GameManager.Instance.MapManager.OnGameStart();
         }
     }
 }

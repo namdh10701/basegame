@@ -22,7 +22,6 @@ namespace _Game.Scripts.UI
         void OnAbadoneRunClick()
         {
             ViewManager.Instance.Show<PreBattleView>();
-            GameManager.Instance.MapManager.GenerateNewMap();
         }
     }
 }

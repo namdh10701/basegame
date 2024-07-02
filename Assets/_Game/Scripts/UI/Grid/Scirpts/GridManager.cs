@@ -39,7 +39,8 @@ namespace _Base.Scripts.UI
         {
             foreach (var item in InventoryItems)
             {
-                item.Icon.raycastTarget = enable;
+                if (item != null)
+                    item.Icon.raycastTarget = enable;
             }
             _tash.SetActive(enable);
             _gridImage.SetActive(enable);

@@ -20,10 +20,11 @@ namespace _Game.Scripts.GD
 
         private async void Awake()
         {
-            Instance = this;
+            Instance = this; DontDestroyOnLoad(this);
         }
         public async Task Load()
         {
+            Debug.Log("Loaded Level Design: 1");
             LevelDesignConfigs = await GetConfigMap(getSheetData("level_design"));
             OnLoaded?.Invoke();
             Debug.Log("Loaded Level Design: ");

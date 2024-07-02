@@ -23,8 +23,6 @@ namespace Map
         private void Awake()
         {
             Instance = this;
-            if (GameManager.Instance != null)
-                mapManager = GameManager.Instance.MapManager;
         }
 
         public void SelectNode(MapNode mapNode)

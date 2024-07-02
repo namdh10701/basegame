@@ -51,7 +51,7 @@ namespace _Game.Scripts.Managers
 
             initState.AddLink(new Link(transit_SpashToHome));
             transit_SpashToHome.AddLink(new Link(homeState));
-            homeState.AddLink(new EventLink(LinkEvents.Click_PreBattle, transit_HomeToPrebattle));
+            /*homeState.AddLink(new EventLink(LinkEvents.Click_PreBattle, transit_HomeToPrebattle));
             transit_HomeToPrebattle.AddLink(new Link(preBattleState));
             preBattleState.AddLink(new EventLink(LinkEvents.Click_Back, transit_PreBattleToHome));
             preBattleState.AddLink(new EventLink(LinkEvents.Click_Play, transit_PreBattleToBattle));
@@ -60,7 +60,7 @@ namespace _Game.Scripts.Managers
 
             battleState.AddLink(new EventLink(LinkEvents.End_Battle, endBattleState));
             endBattleState.AddLink(new EventLink(LinkEvents.Click_PreBattle, transit_BattleToPreBattle));
-            transit_BattleToPreBattle.AddLink(new Link(preBattleState));
+            transit_BattleToPreBattle.AddLink(new Link(preBattleState));*/
 
             gameStateMachine.Run(initState);
 

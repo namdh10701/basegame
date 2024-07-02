@@ -159,8 +159,10 @@ namespace Map
 
         public void OnPointerUp(PointerEventData data)
         {
+            Debug.Log("POINTER UP");
             if (Time.time - mouseDownTime < MaxClickDuration)
             {
+                Debug.Log("POINTER UP 1");
                 // user clicked on this node:
                 MapPlayerTracker.Instance.SelectNode(this);
             }

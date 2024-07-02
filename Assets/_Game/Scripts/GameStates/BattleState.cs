@@ -26,7 +26,6 @@ namespace _Game.Scripts.GameStates
         {
             base.Exit();
 
-            GameManager.Instance.MapManager.OnGamePassed();
         }
     }
 }

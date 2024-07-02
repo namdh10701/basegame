@@ -37,10 +37,7 @@ namespace _Base.Scripts.RPG.Stats
         {
             get
             {
-                if (Application.isEditor)
-                {
-                    UpdateValue();
-                }
+                UpdateValue();
                 return _value;
             }
         }

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using _Base.Scripts.StateMachine;
 using _Game.Scripts.Bootstrap;
+using _Game.Scripts.DB;
 using _Game.Scripts.GD;
 using _Game.Scripts.SaveLoad;
 using Cysharp.Threading.Tasks;
@@ -21,18 +22,25 @@ namespace _Game.Scripts.GameStates
             Game.Instance.AssetLoader.Load();
             Game.Instance.GameManager.LoadDatabase();
             SaveSystem.LoadSave();
-            
+
             // yield return new WaitForSeconds(10.0f);
-            
+            Application.targetFrameRate = 120;
+            Debug.unityLogger.logEnabled = false;
             var asyncInitFunc = UniTask.RunOnThreadPool(async () => await AsyncInitFunc());
             yield return new WaitUntil(() => asyncInitFunc.Status.IsCompleted());
+            Database.Load();
         }
 
         private async Task AsyncInitFunc()
         {
             // await UniTask.Delay(10000);
+
+
             await UniTask.SwitchToMainThread();
-            await GDConfigLoader.Instance.Load();
+            
+            Task levelDesignLoadTask = LevelDesignConfigLoader.Instance.Load();
+            Task gdConfigLoadTask = GDConfigLoader.Instance.Load();
+            await Task.WhenAll(levelDesignLoadTask, gdConfigLoadTask);
         }
 
         public override void Exit()
