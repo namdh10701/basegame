@@ -25,7 +25,6 @@ namespace _Game.Scripts.GameStates
 
             // yield return new WaitForSeconds(10.0f);
             Application.targetFrameRate = 120;
-            Debug.unityLogger.logEnabled = false;
             var asyncInitFunc = UniTask.RunOnThreadPool(async () => await AsyncInitFunc());
             yield return new WaitUntil(() => asyncInitFunc.Status.IsCompleted());
             Database.Load();

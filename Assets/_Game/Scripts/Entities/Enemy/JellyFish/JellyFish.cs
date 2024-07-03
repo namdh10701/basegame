@@ -7,15 +7,18 @@ using UnityEngine;
 
 public class JellyFish : Enemy
 {
+    [Header("Jelly Fish")]
+    [Space]
     [SerializeField] JellyFishAttack attack;
     [SerializeField] CooldownBehaviour CooldownBehaviour;
-    [SerializeField] JellyFishAnimation anim;
+    JellyFishAnimation anim;
     bool isCurrentAttackLeftHand;
     public CameraShake cameraShake;
 
     protected override void Awake()
     {
         base.Awake();
+        anim = (JellyFishAnimation)spineAnimationEnemyHandler;
         MoveAreaController moveArea = FindAnyObjectByType<MoveAreaController>();
         Area area = moveArea.GetArea(AreaType.All);
         blackboard.GetVariable<AreaVariable>("MoveArea").Value = area;
@@ -66,12 +69,12 @@ public class JellyFish : Enemy
 
     public override IEnumerator StartActionCoroutine()
     {
-        anim.Appear(); 
+        anim.Appear();
         cameraShake.Shake(3f);
         _Game.Scripts.BehaviourTree.Wander wander = MBTExecutor.GetComponent<_Game.Scripts.BehaviourTree.Wander>();
         EffectTakerCollider.gameObject.SetActive(false);
         yield return new WaitForSeconds(4.5f);
-        EffectTakerCollider.gameObject.SetActive(true); 
+        EffectTakerCollider.gameObject.SetActive(true);
         float rand = Random.Range(0, 1f);
         if (rand < .5f)
         {
@@ -83,7 +86,7 @@ public class JellyFish : Enemy
         }
         CooldownBehaviour.SetCooldownTime(_stats.ActionSequenceInterval.Value);
         CooldownBehaviour.StartCooldown();
-        wander.UpdateTargetDirection(-50,50);
+        wander.UpdateTargetDirection(-50, 50);
     }
 
     public void Attack()

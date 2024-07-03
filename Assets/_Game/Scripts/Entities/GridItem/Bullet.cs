@@ -1,3 +1,5 @@
+using _Base.Scripts.RPG.Effects;
+using _Base.Scripts.RPG.Entities;
 using _Base.Scripts.RPGCommon.Entities;
 using _Game.Scripts.GD;
 using _Game.Scripts.PathFinding;
@@ -6,7 +8,7 @@ using UnityEngine;
 
 namespace _Game.Scripts.Entities
 {
-    public class Bullet : MonoBehaviour, IGridItem, IWorkLocation, INodeOccupier
+    public class Bullet : Entity, IGridItem, IWorkLocation, INodeOccupier
     {
         public string id;
         public Projectile Projectile;
@@ -24,8 +26,12 @@ namespace _Game.Scripts.Entities
         public List<Node> OccupyingNodes { get => occupyingNodes; set => occupyingNodes = value; }
         public bool IsBroken { get => isBroken; set => isBroken = value; }
 
+        public EffectHandler effectHandler;
+        public EffectHandler EffectHandler => effectHandler;
 
-        public ProjectileStats Stats;
+        public override Stats Stats => stats;
+
+        public ProjectileStats stats;
         public ProjectileStatsTemplate projectileStatsTemplate;
 
 
@@ -40,21 +46,6 @@ namespace _Game.Scripts.Entities
             Projectile.Id = id;
         }
 
-        public void InitStats()
-        {
-            if (GDConfigLoader.Instance != null)
-            {
-                if (GDConfigLoader.Instance.Ammos.TryGetValue(id, out AmmoConfig value))
-                {
-                    value.ApplyGDConfig(Stats);
-                }
-                else
-                {
-                    projectileStatsTemplate.ApplyConfig(Stats);
-                }
-
-            }
-        }
 
         public void OnClick()
         {
@@ -71,6 +62,32 @@ namespace _Game.Scripts.Entities
         {
             sprite.color = norm;
             IsBroken = false;
+        }
+
+        protected override void LoadStats()
+        {
+            if (GDConfigLoader.Instance != null)
+            {
+                if (GDConfigLoader.Instance.Ammos.TryGetValue(id, out AmmoConfig value))
+                {
+                    value.ApplyGDConfig(Stats);
+                }
+                else
+                {
+                    projectileStatsTemplate.ApplyConfig(stats);
+                }
+
+            }
+        }
+
+        protected override void LoadModifiers()
+        {
+            
+        }
+
+        protected override void ApplyStats()
+        {
+            
         }
     }
 }

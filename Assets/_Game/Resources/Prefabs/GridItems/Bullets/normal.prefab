@@ -125,6 +125,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3631717930882101554}
   - component: {fileID: 7212550019625025344}
+  - component: {fileID: 8442923680814121705}
   m_Layer: 0
   m_Name: normal
   m_TagString: Untagged
@@ -162,12 +163,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e7c75d22ca6fbd49812b0f5a8f9aa61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Id: 
+  body: {fileID: 0}
+  id: 
   Projectile: {fileID: 9038214777133773486, guid: b5dc049af9c50164982e0e33810ad805, type: 3}
   def: {fileID: 11400000, guid: e43dfc0a777e0e44fa91c9f369670ee3, type: 2}
   <OccupyCells>k__BackingField: []
   workingSlots: []
   occupyingNodes: []
-  Stats:
+  effectHandler: {fileID: 8442923680814121705}
+  stats:
     <Damage>k__BackingField:
       statModifiers: []
       _baseValue: 0
@@ -201,10 +206,27 @@ MonoBehaviour:
     <EnergyCost>k__BackingField:
       statModifiers: []
       _baseValue: 0
+    <ProjectileCount>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
   projectileStatsTemplate: {fileID: 11400000, guid: 1ef6ab080ed668d47bfaa43b43978cf3, type: 2}
   sprite: {fileID: 7022197012839004030}
   broken: {r: 0.6415094, g: 0.6415094, b: 0.6415094, a: 1}
   norm: {r: 1, g: 1, b: 1, a: 1}
+--- !u!114 &8442923680814121705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2162315026005442531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01bfda76cc6a4e3080de930ff8b94a3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  entity: {fileID: 7212550019625025344}
+  effects: []
 --- !u!1 &3094031656628898356
 GameObject:
   m_ObjectHideFlags: 0

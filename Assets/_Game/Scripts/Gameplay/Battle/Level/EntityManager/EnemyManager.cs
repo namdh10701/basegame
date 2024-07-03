@@ -1,3 +1,4 @@
+using _Game.Scripts.DB;
 using _Game.Scripts.GD;
 using System.Collections.Generic;
 using UnityEngine;
@@ -35,7 +36,7 @@ namespace _Game.Scripts.Battle
             isStart = true;
             foreach (var spawnData in levelDesignConfigs)
             {
-                TimedEvent timedEvent = new TimedEvent(spawnData.time_offset, () => SpawnEnemy(spawnData.enemy_id));
+                TimedEvent timedEvent = new TimedEvent(spawnData.time_offset, () => SpawnEnemy(spawnData.enemy_ids.ToArray(), spawnData.total_power));
                 enemySpawnTimer.RegisterEvent(timedEvent);
             }
             enemySpawnTimer.StartTimer();
@@ -50,27 +51,34 @@ namespace _Game.Scripts.Battle
         }
 
 
-        public void SpawnEnemy(string id)
+        public void SpawnEnemy(string[] idPool, int total_power)
         {
-            Vector3 position = Vector3.zero;
-            switch (id)
+            float currentPower = 0;
+
+            while (currentPower < total_power)
             {
-                case "0001":
-                    position = pufferFishSpawnArea.SamplePoint();
-                    break;
-                case "0002":
-                    position = electricEelSpawnArea.SamplePoint();
-                    break;
-                case "0003":
-                    position = squidSpawnArea.SamplePoint();
-                    break;
-                case "0004":
-                    position = jellyFishSpawnPoint;
-                    break;
+                string id = idPool[Random.Range(0, idPool.Length)];
+                float enemyPower = Database.GetEnemyPower(id);
+                currentPower += enemyPower;
+                Vector3 position = Vector3.zero;
+                switch (id)
+                {
+                    case "0001":
+                        position = pufferFishSpawnArea.SamplePoint();
+                        break;
+                    case "0002":
+                        position = electricEelSpawnArea.SamplePoint();
+                        break;
+                    case "0003":
+                        position = squidSpawnArea.SamplePoint();
+                        break;
+                    case "0004":
+                        position = jellyFishSpawnPoint;
+                        break;
+                }
+
+                entityManager.SpawnEnemy(id, position);
             }
-
-            entityManager.SpawnEnemy(id, position);
-
         }
 
 

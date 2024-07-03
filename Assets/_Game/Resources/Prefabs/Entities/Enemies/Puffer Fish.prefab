@@ -623,13 +623,16 @@ MonoBehaviour:
     <Poise>k__BackingField:
       statModifiers: []
       _baseValue: 1
+    <MoveSpeed>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
   _statsTemplate: {fileID: 11400000, guid: 9eafdaa630e9ff0429e1ff587ed34637, type: 2}
   EffectTakerCollider: {fileID: 397694424681592153}
   effectHandler: {fileID: 6980205348978265785}
   pushCollider: {fileID: 129813338327264512}
   blackboard: {fileID: 5194563963806863679}
   MBTExecutor: {fileID: 688278576719588910}
-  Animation: {fileID: 7789903315881788189}
+  spineAnimationEnemyHandler: {fileID: 7789903315881788189}
   PufferFishMove: {fileID: 3347196295145259414}
   DamageArea: {fileID: 3365400120013340572, guid: 23da74e46d94dd94da3e561b1e3a003e, type: 3}
 --- !u!1 &6435896889800693050
@@ -1102,6 +1105,10 @@ PrefabInstance:
     - target: {fileID: 3387052645833027010, guid: d8077670f117daa4eba9f9ec9b37aaad, type: 3}
       propertyPath: m_Name
       value: Puffer Fish
+      objectReference: {fileID: 0}
+    - target: {fileID: 4784376482324135150, guid: d8077670f117daa4eba9f9ec9b37aaad, type: 3}
+      propertyPath: _animationName
+      value: idle_move
       objectReference: {fileID: 0}
     - target: {fileID: 4987358678953636223, guid: d8077670f117daa4eba9f9ec9b37aaad, type: 3}
       propertyPath: m_LocalPosition.x

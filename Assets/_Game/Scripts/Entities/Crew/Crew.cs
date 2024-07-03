@@ -1,6 +1,7 @@
 using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.RPG.Entities;
 using _Game.Scripts.Entities;
+using _Game.Scripts.GD;
 using _Game.Scripts.PathFinding;
 using System.Collections.Generic;
 using UnityEngine;
@@ -51,7 +52,21 @@ namespace _Game.Scripts
 
         protected override void LoadStats()
         {
-            _statTemplate.ApplyConfig(stats);
+            if (GDConfigLoader.Instance == null)
+            {
+                _statTemplate.ApplyConfig(stats);
+            }
+            else
+            {
+                if (GDConfigLoader.Instance.Crews.TryGetValue(Id, out CrewConfig enemyConfig))
+                {
+                    enemyConfig.ApplyGDConfig(stats);
+                }
+                else
+                {
+                    _statTemplate.ApplyConfig(stats);
+                }
+            }
         }
 
         public void OnStun(float duration)

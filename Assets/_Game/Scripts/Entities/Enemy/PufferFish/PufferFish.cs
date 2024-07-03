@@ -10,14 +10,14 @@ namespace _Game.Scripts.Entities
     {
         [Header("Puffer Fish")]
         [Space]
-        public PufferFishAnimation Animation;
+
+        PufferFishAnimation Animation;
         public PufferFishMove PufferFishMove;
         public DamageArea DamageArea;
         protected override IEnumerator Start()
         {
+            Animation = (PufferFishAnimation)spineAnimationEnemyHandler;
             Animation.OnAttack.AddListener(DoAttack);
-            Ship Ship = FindAnyObjectByType<Ship>();
-            
             yield return base.Start();
         }
         bool isAttacking;

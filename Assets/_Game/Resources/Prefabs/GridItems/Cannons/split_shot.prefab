@@ -441,6 +441,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04a2db7fd60a46c9ad717e4290795b41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Id: 
   body: {fileID: 0}
   def: {fileID: 11400000, guid: 9b32df294375f80449a42cb87c642e70, type: 2}
   _stats:
@@ -485,13 +486,16 @@ MonoBehaviour:
     <AttackSpeed>k__BackingField:
       statModifiers: []
       _baseValue: 0
+    <ProjectileCount>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
   _statsTemplate: {fileID: 11400000, guid: 14077db5de1824e3abe122b6685a11ce, type: 2}
   _cannonReloader: {fileID: 2630867745230066010}
   <AttackStrategy>k__BackingField: {fileID: 2088882076843486254}
-  <BulletEffects>k__BackingField: []
   behaviour: {fileID: 2461236567741450463}
   <OccupyCells>k__BackingField: []
   rarity: 0
+  effectHandler: {fileID: 3817214019478983037}
   workingSlots: []
   occupyingNodes: []
   FindTargetCollider: {fileID: 3152544984102912611}
@@ -991,6 +995,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0.60720015
       objectReference: {fileID: 0}
+    - target: {fileID: 4454543753091823212, guid: 8526d30eeb5d74e4eb8d7cb93811146d, type: 3}
+      propertyPath: m_SortingOrder
+      value: 676
+      objectReference: {fileID: 0}
     - target: {fileID: 4539830182021676167, guid: 8526d30eeb5d74e4eb8d7cb93811146d, type: 3}
       propertyPath: m_LocalPosition.y
       value: -0.127
@@ -1006,6 +1014,10 @@ PrefabInstance:
     - target: {fileID: 4891134903049493234, guid: 8526d30eeb5d74e4eb8d7cb93811146d, type: 3}
       propertyPath: m_SortingLayerID
       value: -285313645
+      objectReference: {fileID: 0}
+    - target: {fileID: 5022497625863009003, guid: 8526d30eeb5d74e4eb8d7cb93811146d, type: 3}
+      propertyPath: m_SortingOrder
+      value: 677
       objectReference: {fileID: 0}
     - target: {fileID: 5136839274860472885, guid: 8526d30eeb5d74e4eb8d7cb93811146d, type: 3}
       propertyPath: m_LocalPosition.x

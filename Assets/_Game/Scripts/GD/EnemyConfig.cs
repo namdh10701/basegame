@@ -11,8 +11,10 @@ namespace _Game.Scripts.GD
         public string name;
         public float attack;
         public float attack_speed;
+        public float power_number;
         public float hp;
         public float block_chance;
+        public float attack_range;
 
         public override string GetId() => id;
 
@@ -24,6 +26,7 @@ namespace _Game.Scripts.GD
             enemyStats.AttackDamage.BaseValue = attack;
             enemyStats.BlockChance.BaseValue = block_chance;
             enemyStats.ActionSequenceInterval.BaseValue = attack_speed;
+            enemyStats.AttackRange.BaseValue = attack_range;
         }
     }
 }

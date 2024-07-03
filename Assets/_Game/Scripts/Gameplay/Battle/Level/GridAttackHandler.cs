@@ -6,7 +6,6 @@ namespace _Game.Scripts
 {
     public class GridAttackHandler : MonoBehaviour
     {
-        public Fx fxATKPrefab;
         public _Game.Scripts.Gameplay.Ship.Ship ship;
         public void ProcessAttack(EnemyAttackData enemyAttackData)
         {
@@ -20,25 +19,11 @@ namespace _Game.Scripts
                 ship.EffectHandler.Apply(effect);
                 foreach (Cell cell in cells)
                 {
-                    if (cell != null)
+                    if (cell.GridItem != null)
                     {
-                        cell.EffectHandler.Apply(effect);
+                        cell.GridItem.EffectHandler.Apply(effect);
                     }
                 }
-            }
-            PlayFx(cells);
-        }
-
-        void PlayFx(List<Cell> cells)
-        {
-            if (fxATKPrefab == null)
-            {
-                return;
-            }
-            foreach (Cell cell in cells)
-            {
-                Fx go = Instantiate(fxATKPrefab, null);
-                go.transform.position = cell.transform.position;
             }
         }
     }
