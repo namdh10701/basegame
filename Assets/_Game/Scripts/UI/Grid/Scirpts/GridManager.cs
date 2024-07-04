@@ -112,8 +112,8 @@ namespace _Base.Scripts.UI
                         item.statusCell = StatusCell.Occupied;
                     }
                 }
-                GridConfig.grids[1].cells[0, 3].SetStatusCell(StatusCell.Occupied);
-                GridConfig.grids[1].cells[2, 3].SetStatusCell(StatusCell.Occupied);
+                GridConfig.grids[0].cells[0, 3].SetStatusCell(StatusCell.Occupied);
+                GridConfig.grids[0].cells[2, 3].SetStatusCell(StatusCell.Occupied);
             }
 
         }
