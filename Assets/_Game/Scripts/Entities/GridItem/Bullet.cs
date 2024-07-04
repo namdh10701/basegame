@@ -25,7 +25,7 @@ namespace _Game.Scripts.Entities
         public List<Node> occupyingNodes = new List<Node>();
         public List<Node> OccupyingNodes { get => occupyingNodes; set => occupyingNodes = value; }
         public bool IsBroken { get => isBroken; set => isBroken = value; }
-
+        public bool IsAbleToTakeHit { get => stats.HealthPoint.Value > stats.HealthPoint.MaxValue; }
         public EffectHandler effectHandler;
         public EffectHandler EffectHandler => effectHandler;
 

@@ -59,6 +59,8 @@ namespace _Game.Scripts.Entities
 
         public Transform Transform => transform;
 
+        public bool IsAbleToTakeHit { get => _stats.HealthPoint.Value > _stats.HealthPoint.MaxValue;}
+
         public List<Node> workingSlots = new List<Node>();
         public List<Node> occupyingNodes = new List<Node>();
 

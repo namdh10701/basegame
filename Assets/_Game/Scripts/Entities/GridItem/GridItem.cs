@@ -17,5 +17,7 @@ namespace _Game.Scripts.Entities
         public bool IsBroken { get; set; }
 
         public EffectHandler EffectHandler { get; }
+
+        public bool IsAbleToTakeHit { get;}
     }
 }

@@ -16,14 +16,34 @@ namespace _Game.Scripts
         {
             foreach (Effect effect in effects)
             {
-                ship.EffectHandler.Apply(effect);
                 foreach (Cell cell in cells)
                 {
+                    if (effect is DecreaseHealthEffect decrease)
+                    {
+                        if (cell.GridItem != null)
+                        {
+                            if (cell.GridItem.IsAbleToTakeHit)
+                            {
+                                cell.GridItem.EffectHandler.Apply(effect);
+                            }
+                            else
+                            {
+                                ship.EffectHandler.Apply(effect);
+                            }
+                        }
+                        continue;
+                    }
+
                     if (cell.GridItem != null)
                     {
                         cell.GridItem.EffectHandler.Apply(effect);
                     }
+                    else
+                    {
+                        ship.EffectHandler.Apply(effect);
+                    }
                 }
+
             }
         }
     }

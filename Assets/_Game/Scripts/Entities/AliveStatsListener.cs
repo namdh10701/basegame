@@ -9,10 +9,11 @@ public class AliveStatsListener : MonoBehaviour
     public UnityEvent OnReachFull = new UnityEvent();
     public UnityEvent OnDecreased = new UnityEvent();
     public UnityEvent OnIncreased = new UnityEvent();
+    public IAliveStats aliveStats;
     float lastValue;
-    private void Awake()
+    protected virtual void Awake()
     {
-        IAliveStats aliveStats = (IAliveStats)GetComponent<Entity>().Stats;
+        aliveStats = (IAliveStats)GetComponent<Entity>().Stats;
         aliveStats.HealthPoint.OnValueChanged += HealthPoint_OnValueChanged;
         lastValue = aliveStats.HealthPoint.Value;
     }
@@ -37,5 +38,10 @@ public class AliveStatsListener : MonoBehaviour
             OnIncreased.Invoke();
         }
         lastValue = hp.Value;
+    }
+
+    protected virtual void OnDestroy()
+    {
+        aliveStats.HealthPoint.OnValueChanged -= HealthPoint_OnValueChanged;
     }
 }

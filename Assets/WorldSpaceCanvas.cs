@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WorldSpaceCamera : MonoBehaviour
+public class WorldSpaceCanvas : MonoBehaviour
 {
     public Canvas canvas;
 

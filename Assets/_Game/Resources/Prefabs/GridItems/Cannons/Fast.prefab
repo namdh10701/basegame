@@ -123,8 +123,9 @@ GameObject:
   - component: {fileID: 8787947234298913926}
   - component: {fileID: 7017139140184525039}
   - component: {fileID: 6161222882180319943}
+  - component: {fileID: 8403393140890275260}
   m_Layer: 9
-  m_Name: fast
+  m_Name: Fast
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -305,6 +306,58 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &8403393140890275260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2506795332634619781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d32b25d12c98904092b3bd619327604, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnReachZero:
+    m_PersistentCalls:
+      m_Calls: []
+  OnReachFull:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDecreased:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3203743624694535973}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnIncreased:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3203743624694535973}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  BrokenThreshold: 0.5
+  OnBelowBrokenThreshold:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &2738015328258581795
 GameObject:
   m_ObjectHideFlags: 0
@@ -468,6 +521,7 @@ GameObject:
   - component: {fileID: 2846995313331127537}
   - component: {fileID: 5432833227851990399}
   - component: {fileID: 9027113810586695995}
+  - component: {fileID: 2309434359517163897}
   m_Layer: 9
   m_Name: Hp
   m_TagString: Untagged
@@ -533,6 +587,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2309434359517163897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3203743624694535973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a35778d404630a4792ecb6f6dc877fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3757412315884335324
 GameObject:
   m_ObjectHideFlags: 0
@@ -1155,11 +1221,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1873359162549729432, guid: 43d5a83be21f15a4d888b9fa004a0da5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.004999995
+      value: -0.004999971
       objectReference: {fileID: 0}
     - target: {fileID: 1873359162549729432, guid: 43d5a83be21f15a4d888b9fa004a0da5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.1799998
+      value: 1.18
       objectReference: {fileID: 0}
     - target: {fileID: 2292654427300422193, guid: 43d5a83be21f15a4d888b9fa004a0da5, type: 3}
       propertyPath: _animationName
@@ -1171,7 +1237,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 60198527dec7c0448be14fc81c8e04b2, type: 2}
     - target: {fileID: 2430915663214208657, guid: 43d5a83be21f15a4d888b9fa004a0da5, type: 3}
       propertyPath: m_SortingOrder
-      value: 410
+      value: -7
       objectReference: {fileID: 0}
     - target: {fileID: 2430915663214208657, guid: 43d5a83be21f15a4d888b9fa004a0da5, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -1283,11 +1349,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7991765012408374175, guid: 43d5a83be21f15a4d888b9fa004a0da5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.0019999743
+      value: -0.001999997
       objectReference: {fileID: 0}
     - target: {fileID: 7991765012408374175, guid: 43d5a83be21f15a4d888b9fa004a0da5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.24539995
+      value: 0.2454
       objectReference: {fileID: 0}
     - target: {fileID: 7991765012408374175, guid: 43d5a83be21f15a4d888b9fa004a0da5, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1303,7 +1369,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8529626311556485575, guid: 43d5a83be21f15a4d888b9fa004a0da5, type: 3}
       propertyPath: m_SortingOrder
-      value: 409
+      value: -8
       objectReference: {fileID: 0}
     - target: {fileID: 9155767185086675010, guid: 43d5a83be21f15a4d888b9fa004a0da5, type: 3}
       propertyPath: m_SortingOrder
