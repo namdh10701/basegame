@@ -150,6 +150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d5da867c3fc92145bd69948fdd04acc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Id: 
   body: {fileID: 1601047746594518166}
   CellRenderer: {fileID: 7066386118732076852}
   X: 0
@@ -203,58 +204,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   OnReachZero:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7066386118732076852}
-        m_TargetAssemblyTypeName: CellRenderer, Assembly-CSharp
-        m_MethodName: OnBroken
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 6880831251077919418}
-        m_TargetAssemblyTypeName: _Game.Scripts.Cell, Assembly-CSharp
-        m_MethodName: OnBroken
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   OnReachFull:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7066386118732076852}
-        m_TargetAssemblyTypeName: CellRenderer, Assembly-CSharp
-        m_MethodName: OnFixed
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 6880831251077919418}
-        m_TargetAssemblyTypeName: _Game.Scripts.Cell, Assembly-CSharp
-        m_MethodName: OnFixed
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   OnDecreased:
     m_PersistentCalls:
       m_Calls:

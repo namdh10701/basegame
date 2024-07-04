@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -33,12 +34,16 @@ namespace _Game.Scripts.GD
         private Dictionary<string, Dictionary<string, string>> AmmoMap { get; set; }
         private Dictionary<string, Dictionary<string, string>> EnemyMap { get; set; }
         private Dictionary<string, Dictionary<string, string>> ShipMap { get; set; }
+        private Dictionary<string, Dictionary<string, string>> CrewMap { get; set; }
         private Dictionary<string, Dictionary<string, string>> TalentTreeNormalMap { get; set; }
         private Dictionary<string, Dictionary<string, string>> TalentTreePreMap { get; set; }
 
         public Dictionary<string, CannonConfig> Cannons { get; } = new();
         public Dictionary<string, AmmoConfig> Ammos { get; } = new();
         public Dictionary<string, EnemyConfig> Enemies { get; } = new();
+
+        public Dictionary<string, CrewConfig> Crews { get; } = new();
+
         public Dictionary<string, ShipConfig> Ships { get; } = new();
         public Dictionary<string, TalentTreeNormalConfig> TalentTreeNormals { get; } = new();
         public Dictionary<string, TalentTreePreConfig> TalentTreePres { get; } = new();
@@ -57,6 +62,8 @@ namespace _Game.Scripts.GD
             AmmoMap = await GetConfigMap(getSheetData("Ammo"));
             EnemyMap = await GetConfigMap(getSheetData("Monster"));
             ShipMap = await GetConfigMap(getSheetData("Ship"));
+
+            CrewMap = await GetConfigMap(getSheetData("Crew"));
             TalentTreeNormalMap = await GetConfigMap(getSheetData("Normal Level"));
             TalentTreePreMap = await GetConfigMap(getSheetData("Pre Level"));
 
@@ -157,6 +164,17 @@ namespace _Game.Scripts.GD
                 Cannons[key] = so;
             }
 
+            foreach (var (key, properties) in GDConfigLoader.Instance.CrewMap)
+            {
+                // var so = Resources.Load<CannonConfig>($"Configs/Cannon/Cannon_{key}");
+                // if (!so) continue;
+
+                var so = ScriptableObject.CreateInstance<CrewConfig>();
+                Load(so, properties);
+
+                Crews[key] = so;
+            }
+
             // Load ammo config
             foreach (var (key, properties) in GDConfigLoader.Instance.AmmoMap)
             {
@@ -228,7 +246,8 @@ namespace _Game.Scripts.GD
                 if (fieldInfo.FieldType == typeof(float))
                 {
                     value ??= "0";
-                    value = float.Parse(value.ToString());
+                    Debug.Log(value.ToString());
+                    value = float.Parse(value.ToString(), CultureInfo.InvariantCulture);
                 }
                 fieldInfo.SetValue(so, value);
             }
@@ -310,7 +329,7 @@ namespace _Game.Scripts.GD
 
                     if (fieldInfo.FieldType == typeof(float))
                     {
-                        value = float.Parse(value.ToString());
+                        value = float.Parse(value.ToString(), CultureInfo.InvariantCulture);
                     }
 
                     fieldInfo.SetValue(dict[list[0]], value);

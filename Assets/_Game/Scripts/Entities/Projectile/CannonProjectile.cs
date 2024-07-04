@@ -40,6 +40,7 @@ namespace _Game.Scripts.Entities
             DecreaseHealthEffect decreaseHpEffect = gameObject.AddComponent<DecreaseHealthEffect>();
             decreaseHpEffect.Amount = _stats.Damage.Value;
             decreaseHpEffect.AmmoPenetrate = _stats.Damage.Value;
+            decreaseHpEffect.IsCrit = isCrit;
             PushEffect pushEffect = gameObject.AddComponent<PushEffect>();
             pushEffect.force = 150;
             pushEffect.body = body;

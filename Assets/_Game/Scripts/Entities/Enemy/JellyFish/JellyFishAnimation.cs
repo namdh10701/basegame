@@ -74,38 +74,4 @@ public class JellyFishAnimation : SpineAnimationEnemyHandler
     {
         base.AnimationState_Complete(trackEntry);
     }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            Appear();
-        }
-
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            PlayAttackLeftHand();
-        }
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            PlayIdleToAttackLoopLeftHand();
-        }
-
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            PlayAttackRightHand();
-        }
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            PlayIdleToAttackLoopRightHand();
-        }
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            PlayAttackMeeleLeftHand();
-        }
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            PlayAttackMeeleRightHand();
-        }
-    }
 }

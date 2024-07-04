@@ -1,11 +1,12 @@
 using _Base.Scripts.RPG.Stats;
+using _Base.Scripts.RPGCommon.Entities;
 using System;
 using UnityEngine;
 
 namespace _Game.Scripts
 {
     [Serializable]
-    public class ProjectileStats : Stats
+    public class ProjectileStats : Stats, IAliveStats
     {
         [field: SerializeField]
         public Stat Damage { get; set; } = new();
@@ -41,5 +42,7 @@ namespace _Game.Scripts
 
         [field: SerializeField]
         public Stat ProjectileCount { get; set; } = new();
+        [field: SerializeField]
+        public RangedStat HealthPoint { get; set; }
     }
 }

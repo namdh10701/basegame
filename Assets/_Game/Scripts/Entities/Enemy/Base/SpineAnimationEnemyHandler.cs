@@ -24,13 +24,16 @@ public abstract class SpineAnimationEnemyHandler : MonoBehaviour
 
 
     [Header("Renderer")]
+    MaterialPropertyBlock mpb;
     public MeshRenderer meshRenderer;
-    public Color onHitColor = new Color(180, 180, 180);
+    public static Color onHitColor = new Color(0.6f, 0.6f, 0.6f);
+    public static Color slowedDownColor = new Color(0, 0, 1);
     public float onHitduration = 0.1f;
     Coroutine blinkCoroutine;
 
     protected virtual void Start()
     {
+        mpb = new MaterialPropertyBlock();
         skeletonAnimation.AnimationState.Event += AnimationState_Event;
         skeletonAnimation.AnimationState.Complete += AnimationState_Complete;
     }
@@ -90,11 +93,23 @@ public abstract class SpineAnimationEnemyHandler : MonoBehaviour
 
     IEnumerator BlinkCoroutine()
     {
-        MaterialPropertyBlock mpb = new MaterialPropertyBlock();
         mpb.SetColor("_Black", onHitColor);
         meshRenderer.SetPropertyBlock(mpb);
         yield return new WaitForSeconds(onHitduration);
         mpb.SetColor("_Black", Color.black);
         meshRenderer.SetPropertyBlock(mpb);
     }
+
+    public void OnSlowedDown()
+    {
+        mpb.SetColor("_Black", slowedDownColor);
+        meshRenderer.SetPropertyBlock(mpb);
+    }
+
+    public void OnSlowEnded()
+    {
+        mpb.SetColor("_Black", Color.black);
+        meshRenderer.SetPropertyBlock(mpb);
+    }
+
 }

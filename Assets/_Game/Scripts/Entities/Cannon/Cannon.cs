@@ -14,7 +14,7 @@ using UnityEngine;
 
 namespace _Game.Scripts.Entities
 {
-    public class Cannon : Entity,IShooter, IGridItem, IUpgradeable, IWorkLocation, INodeOccupier
+    public class Cannon : Entity, IShooter, IGridItem, IUpgradeable, IWorkLocation, INodeOccupier, IEffectTaker
     {
         [Header("Cannon")]
         [field: SerializeField]
@@ -54,6 +54,10 @@ namespace _Game.Scripts.Entities
         public List<Node> OccupyingNodes { get => occupyingNodes; set => occupyingNodes = value; }
         public bool IsBroken { get => isBrokenn; set => isBrokenn = value; }
         public List<Effect> BulletEffects { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+        public EffectHandler effectHandler;
+        public EffectHandler EffectHandler { get => effectHandler; }
+
+        public Transform Transform => transform;
 
         public List<Node> workingSlots = new List<Node>();
         public List<Node> occupyingNodes = new List<Node>();

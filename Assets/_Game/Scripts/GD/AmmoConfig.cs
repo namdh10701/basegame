@@ -13,6 +13,7 @@ namespace _Game.Scripts.GD
         public string rarity_level;
         public string name;
         public string default_rarity;
+        public float hp;
         public float energy_cost;
         public float magazine_size;
         public float ammo_attack;
@@ -49,6 +50,8 @@ namespace _Game.Scripts.GD
 
 
             var cannonSt = (stats as ProjectileStats)!;
+            cannonSt.HealthPoint.MaxStatValue.BaseValue = hp;
+            cannonSt.HealthPoint.StatValue.BaseValue = hp;
             cannonSt.Damage.BaseValue = ammo_attack;
             cannonSt.CritDamage.BaseValue = ammo_crit_damage;
             cannonSt.CritChance.BaseValue = ammo_crit_chance;

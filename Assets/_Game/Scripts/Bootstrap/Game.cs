@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using _Base.Scripts.Bootstrap;
 using Newtonsoft.Json;
@@ -171,7 +172,7 @@ values: [
 
                         if (fieldInfo.FieldType == typeof(float))
                         {
-                            value = float.Parse(value.ToString());
+                            value = float.Parse(value.ToString(), CultureInfo.InvariantCulture);
                         }
 
                         fieldInfo.SetValue(dict[list[0]], value);

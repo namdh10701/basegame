@@ -186,6 +186,7 @@ GameObject:
   m_Component:
   - component: {fileID: 528517828048701709}
   - component: {fileID: 5927501447640042736}
+  - component: {fileID: 8578450006246838374}
   m_Layer: 0
   m_Name: Bullet Rocket
   m_TagString: Untagged
@@ -223,14 +224,70 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e7c75d22ca6fbd49812b0f5a8f9aa61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Id: 
+  body: {fileID: 0}
+  id: 
   Projectile: {fileID: 9038214777133773486, guid: 5ca95de0050294232be82d462f376a92, type: 3}
   def: {fileID: 11400000, guid: 19c10b0ed2df3c44983a797e71a7aee0, type: 2}
   <OccupyCells>k__BackingField: []
   workingSlots: []
   occupyingNodes: []
+  effectHandler: {fileID: 8578450006246838374}
+  stats:
+    <Damage>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <AttackAOE>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <ArmorPenetrate>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <Piercing>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <Speed>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <Size>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <Accuracy>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <CritChance>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <CritDamage>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <MagazineSize>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <EnergyCost>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <ProjectileCount>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+  projectileStatsTemplate: {fileID: 0}
   sprite: {fileID: 0}
   broken: {r: 0.6415094, g: 0.6415094, b: 0.6415094, a: 1}
   norm: {r: 1, g: 1, b: 1, a: 1}
+--- !u!114 &8578450006246838374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7743350059817669522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01bfda76cc6a4e3080de930ff8b94a3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  entity: {fileID: 5927501447640042736}
+  effects: []
 --- !u!1 &8348072679632945211
 GameObject:
   m_ObjectHideFlags: 0
