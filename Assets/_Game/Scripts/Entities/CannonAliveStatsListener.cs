@@ -19,7 +19,7 @@ public class GridItemAliveStatsListener : AliveStatsListener
 
     private void BrokenCheck(_Base.Scripts.RPG.Stats.RangedStat hp)
     {
-        if (hp.Value < hp.MaxValue / 2)
+        if (hp.Value <= 0)
         {
             OnBelowBrokenThreshold.Invoke();
         }

@@ -59,7 +59,7 @@ namespace _Game.Scripts
                     }
                 }
             }
-            // GridItemDatas = ShipSetupMockup.Datas;
+            GridItemDatas = ShipSetupMockup.Datas;
 
             if (Ship.Id == "0003")
             {
@@ -227,6 +227,7 @@ namespace _Game.Scripts
                 }
                 else
                 {
+                    Debug.Log(cell.ToString());
                     cell.GridItem = gridItem;
                 }
             }

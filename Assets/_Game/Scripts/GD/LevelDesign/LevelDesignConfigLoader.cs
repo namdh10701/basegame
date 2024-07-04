@@ -27,13 +27,13 @@ namespace _Game.Scripts.GD
         public async Task Load()
         {
             Debug.Log("Loaded Level Design: 1");
-            LevelDesignConfigs = await GetConfigMap(getSheetData("level_design"));
+            LevelDesignConfigs = await GetConfigMap(getSheetData("level_Wave Design"));
             OnLoaded?.Invoke();
             Debug.Log("Loaded Level Design: ");
-            foreach (LevelDesignConfig config in LevelDesignConfigs)
+/*            foreach (LevelDesignConfig config in LevelDesignConfigs)
             {
                 Debug.Log(config.ToString());
-            }
+            }*/
         }
 
         private string getSheetData(string sheetName)
@@ -63,16 +63,16 @@ namespace _Game.Scripts.GD
                 }
 
                 var levelDesignConfig = new LevelDesignConfig();
-                levelDesignConfig.stage = row[0];
+                /*levelDesignConfig.stage = row[0];
                 levelDesignConfig.enemy_ids = new List<string>();
                 levelDesignConfig.time_offset = float.Parse(GetValueOrDefault(row, 1), CultureInfo.InvariantCulture);
                 levelDesignConfig.total_power = int.Parse(GetValueOrDefault(row, 2));
-                string enemyIds = GetValueOrDefault(row, 3);
-                string[] ids = enemyIds.Split(',');
-                foreach (var id in ids)
+                string enemyIds = GetValueOrDefault(row, 3);*/
+                //string[] ids = enemyIds.Split(',');
+                /*foreach (var id in ids)
                 {
                     levelDesignConfig.enemy_ids.Add(id);
-                }
+                }*/
                 list.Add(levelDesignConfig);
             }
 

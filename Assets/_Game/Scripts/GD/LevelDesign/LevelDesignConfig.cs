@@ -12,8 +12,8 @@ namespace _Game.Scripts.GD
 
         public override string ToString()
         {
-            string ret = stage + " " + enemy_ids.Count + " " + time_offset + " " + total_power;
-            return ret;
+            //string ret = stage + " " + enemy_ids.Count + " " + time_offset + " " + total_power;
+            return "";
         }
     }
 }

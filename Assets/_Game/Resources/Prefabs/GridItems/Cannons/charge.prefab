@@ -57,6 +57,7 @@ GameObject:
   - component: {fileID: 8603634124866898627}
   - component: {fileID: 6417796747064952203}
   - component: {fileID: 3687136949943655409}
+  - component: {fileID: 2064397321731087252}
   m_Layer: 9
   m_Name: Hp
   m_TagString: Untagged
@@ -122,6 +123,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2064397321731087252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1533548418476977302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a35778d404630a4792ecb6f6dc877fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cannon: {fileID: 94858937819000496}
 --- !u!1 &1627913969501886181
 GameObject:
   m_ObjectHideFlags: 0
@@ -133,7 +147,6 @@ GameObject:
   - component: {fileID: 4355179568502518930}
   - component: {fileID: 217778121244111863}
   - component: {fileID: 2123419316569687174}
-  - component: {fileID: 1719726847906185139}
   m_Layer: 9
   m_Name: Progress
   m_TagString: Untagged
@@ -198,22 +211,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &1719726847906185139
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1627913969501886181}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db24e285b2ed93e468fce5a39e55adb2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_color1: {r: 1, g: 0, b: 0, a: 1}
-  m_color2: {r: 1, g: 1, b: 1, a: 1}
-  m_angle: 180
-  m_ignoreRatio: 1
 --- !u!1 &1824649510621729314
 GameObject:
   m_ObjectHideFlags: 0
@@ -1284,15 +1281,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5195636385221916247, guid: ebaa462a55bff614e872b57eedff75ea, type: 3}
       propertyPath: m_SortingOrder
-      value: 410
+      value: -9
       objectReference: {fileID: 0}
     - target: {fileID: 5394255174483057536, guid: ebaa462a55bff614e872b57eedff75ea, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.012700081
+      value: 0.012700002
       objectReference: {fileID: 0}
     - target: {fileID: 5394255174483057536, guid: ebaa462a55bff614e872b57eedff75ea, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.17659998
+      value: 0.1766
       objectReference: {fileID: 0}
     - target: {fileID: 5457999683707251757, guid: ebaa462a55bff614e872b57eedff75ea, type: 3}
       propertyPath: m_Mesh
@@ -1308,15 +1305,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7586223634886395045, guid: ebaa462a55bff614e872b57eedff75ea, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.012599945
+      value: 0.012600022
       objectReference: {fileID: 0}
     - target: {fileID: 7586223634886395045, guid: ebaa462a55bff614e872b57eedff75ea, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.0230999
+      value: 1.0231
       objectReference: {fileID: 0}
     - target: {fileID: 8332969265366852943, guid: ebaa462a55bff614e872b57eedff75ea, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.012599945
+      value: 0.012600039
       objectReference: {fileID: 0}
     - target: {fileID: 8332969265366852943, guid: ebaa462a55bff614e872b57eedff75ea, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1324,7 +1321,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8620421146434930455, guid: ebaa462a55bff614e872b57eedff75ea, type: 3}
       propertyPath: m_SortingOrder
-      value: 409
+      value: -10
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 9205354397409906689, guid: ebaa462a55bff614e872b57eedff75ea, type: 3}

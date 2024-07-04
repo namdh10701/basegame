@@ -15,9 +15,10 @@ namespace _Game.Scripts.Gameplay
         private void Awake()
         {
             instance = this;
+            //Initialize(null);
         }
 
-        public static string SelectedShipId = "0001";
+        public static string SelectedShipId = "0003";
         public static string StageId;
 
         public Transform shipStartPos;
@@ -47,7 +48,7 @@ namespace _Game.Scripts.Gameplay
         IEnumerator LevelEntryCoroutine()
         {
             yield return LevelStartSequence.Play();
-            EnemyManager.StartLevel();
+            //EnemyManager.StartLevel();
             BattleInputManager.gameObject.SetActive(true);
             EntityManager.Ship.ShipSetup.CrewController.ActivateCrews();
             StartCoroutine(CheckLevelDone());

@@ -127,6 +127,7 @@ GameObject:
   - component: {fileID: 3925510072308052193}
   - component: {fileID: 3401564398146415594}
   - component: {fileID: 2812774651040625436}
+  - component: {fileID: 7531011082401526721}
   m_Layer: 9
   m_Name: Hp
   m_TagString: Untagged
@@ -192,6 +193,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7531011082401526721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 778392104062598300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a35778d404630a4792ecb6f6dc877fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cannon: {fileID: 94858937819000496}
 --- !u!1 &1446828985570526221
 GameObject:
   m_ObjectHideFlags: 0
@@ -1109,7 +1123,6 @@ GameObject:
   - component: {fileID: 5945003570530884448}
   - component: {fileID: 399452802420258015}
   - component: {fileID: 5564060884021126713}
-  - component: {fileID: 2904714110214285837}
   m_Layer: 9
   m_Name: Progress
   m_TagString: Untagged
@@ -1174,22 +1187,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &2904714110214285837
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9044397896475475222}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db24e285b2ed93e468fce5a39e55adb2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_color1: {r: 1, g: 0, b: 0, a: 1}
-  m_color2: {r: 1, g: 1, b: 1, a: 1}
-  m_angle: 180
-  m_ignoreRatio: 1
 --- !u!1001 &6241990121129680911
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1252,11 +1249,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4570742587718422711, guid: b097179f18b097f4eb4b03e1ec238244, type: 3}
       propertyPath: m_SortingOrder
-      value: 435
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 5022497625863009003, guid: b097179f18b097f4eb4b03e1ec238244, type: 3}
       propertyPath: m_SortingOrder
-      value: 436
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 5136839274860472885, guid: b097179f18b097f4eb4b03e1ec238244, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1272,7 +1269,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8595158877210297382, guid: b097179f18b097f4eb4b03e1ec238244, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.39960003
+      value: 0.39959997
       objectReference: {fileID: 0}
     - target: {fileID: 8637381182204016981, guid: b097179f18b097f4eb4b03e1ec238244, type: 3}
       propertyPath: m_LocalPosition.y

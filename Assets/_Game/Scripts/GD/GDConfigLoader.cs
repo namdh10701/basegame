@@ -246,7 +246,6 @@ namespace _Game.Scripts.GD
                 if (fieldInfo.FieldType == typeof(float))
                 {
                     value ??= "0";
-                    Debug.Log(value.ToString());
                     value = float.Parse(value.ToString(), CultureInfo.InvariantCulture);
                 }
                 fieldInfo.SetValue(so, value);

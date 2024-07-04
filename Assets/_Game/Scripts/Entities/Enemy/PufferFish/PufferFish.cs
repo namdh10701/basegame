@@ -1,6 +1,9 @@
+using _Base.Scripts.RPG.Effects;
+using _Base.Scripts.RPG.Entities;
 using _Game.Scripts.Gameplay.Ship;
 using DG.Tweening;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace _Game.Scripts.Entities
@@ -19,6 +22,10 @@ namespace _Game.Scripts.Entities
             Animation = (PufferFishAnimation)spineAnimationEnemyHandler;
             Animation.OnAttack.AddListener(DoAttack);
             yield return base.Start();
+        }
+        protected override void ApplyStats()
+        {
+            base.ApplyStats();
         }
         bool isAttacking;
         public override IEnumerator AttackSequence()
@@ -71,13 +78,31 @@ namespace _Game.Scripts.Entities
             body.velocity = Vector2.zero;
             StartCoroutine(AttackSequence());
         }
-
+        public AttackPatternProfile pufferFish;
         public void DoAttack()
         {
             pushCollider.gameObject.SetActive(false);
             EffectTakerCollider.gameObject.SetActive(false);
             DamageArea da = Instantiate(DamageArea, transform.position, Quaternion.identity);
+            da.SetRange(_stats.AttackRange.Value);
             da.SetDamage(_stats.AttackDamage.Value, 0);
+
+            RaycastHit2D[] inRangeColliders = Physics2D.CircleCastAll(transform.position, _stats.AttackRange.Value, Vector2.zero, LayerMask.NameToLayer("Ship"));
+
+            if (inRangeColliders != null)
+            {
+                GridAttackHandler atk = FindAnyObjectByType<GridAttackHandler>();
+                GridPicker gp = FindAnyObjectByType<GridPicker>();
+                List<Cell> cells = gp.PickCells(transform, pufferFish, out Cell centerCell);
+                EnemyAttackData enemyAtk = new EnemyAttackData();
+                DecreaseHealthEffect dhe = new GameObject("", typeof(DecreaseHealthEffect)).GetComponent<DecreaseHealthEffect>();
+                dhe.Amount = _stats.AttackDamage.Value;
+
+                enemyAtk.Effects = new List<Effect> { dhe };
+
+                atk.ProcessAttack(enemyAtk);
+            }
+
         }
     }
 }
