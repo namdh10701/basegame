@@ -103,6 +103,19 @@ namespace _Base.Scripts.UI
 
             }
 
+            if (_shipID == "0001")
+            {
+                foreach (var item in GridConfig.grids[0].listCellsData)
+                {
+                    if ((item.r == 0 && item.c == 3) || (item.r == 2 && item.c == 3))
+                    {
+                        item.statusCell = StatusCell.Occupied;
+                    }
+                }
+                GridConfig.grids[1].cells[0, 3].SetStatusCell(StatusCell.Occupied);
+                GridConfig.grids[1].cells[2, 3].SetStatusCell(StatusCell.Occupied);
+            }
+
         }
 
         private void LoadCellData(GridInfor grid)
