@@ -1,7 +1,11 @@
 using _Base.Scripts.EventSystem;
+using _Base.Scripts.RPG.Entities;
+using _Base.Scripts.RPGCommon.Entities;
 using _Game.Features;
 using _Game.Features.Battle;
 using _Game.Scripts.Battle;
+using _Game.Scripts.Entities;
+using Map;
 using System.Collections;
 using UnityEngine;
 using ZBase.UnityScreenNavigator.Core.Modals;
@@ -48,7 +52,8 @@ namespace _Game.Scripts.Gameplay
         IEnumerator LevelEntryCoroutine()
         {
             yield return LevelStartSequence.Play();
-            //EnemyManager.StartLevel();
+            EnemyManager.StartLevel();
+            MapPlayerTracker.Instance.OnGameStart();
             BattleInputManager.gameObject.SetActive(true);
             EntityManager.Ship.ShipSetup.CrewController.ActivateCrews();
             StartCoroutine(CheckLevelDone());
@@ -62,10 +67,34 @@ namespace _Game.Scripts.Gameplay
                 if (EnemyManager.IsLevelDone && EntityManager.aliveEntities.Count == 0)
                 {
                     Win();
+                    MapPlayerTracker.Instance.OnGamePassed();
                     yield break;
+                }
+                if (EnemyManager.IsLevelDone)
+                {
+                    Debug.Log("A");
+                    bool ended = true;
+                    foreach (Entity a in EntityManager.aliveEntities)
+                    {
+                        if (a != null)
+                        {
+                            if (a.Stats is IAliveStats s)
+                            {
+                                if (s.HealthPoint.Value > 0)
+                                {
+                                    ended = false;
+                                }
+                            }
+                        }
+                    }
+                    if (ended)
+                    {
+                        yield break;
+                    }
                 }
                 else
                 {
+                    Debug.Log("OKEN" + EnemyManager.IsLevelDone + " " + EntityManager.aliveEntities.Count);
                 }
             }
         }
@@ -83,8 +112,14 @@ namespace _Game.Scripts.Gameplay
         {
             Time.timeScale = 1;
             GlobalEvent<bool>.Unregister("TOGGLE_PAUSE", TogglePause);
-            currentRate = 1;
+            currentRate = 1; 
+            BattleViewModel.SpeedUpRate = currentRate;
             EntityManager.CleanUp();
+            Enemy[] a = GameObject.FindObjectsByType<Enemy>(FindObjectsSortMode.None);
+            foreach (Enemy enemy in a)
+            {
+                GameObject.Destroy(enemy.gameObject);
+            }
         }
 
         private readonly int _minSpeedUpRate = 1;

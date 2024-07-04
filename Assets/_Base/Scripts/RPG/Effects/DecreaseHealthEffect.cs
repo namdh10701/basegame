@@ -44,8 +44,14 @@ namespace _Base.Scripts.RPG.Effects
             blockChance = Mathf.Clamp01(blockChance);
             finalAmount = finalAmount * (1 - blockChance);
 
-            alive.HealthPoint.StatValue.BaseValue -= finalAmount;
-            GlobalEvent<float, bool, Vector3>.Send("DAMAGE_INFLICTED", finalAmount, IsCrit, transform.position);
+            if (finalAmount > 0)
+            {
+                if (alive.HealthPoint.StatValue.BaseValue > alive.HealthPoint.MinStatValue.Value)
+                {
+                    alive.HealthPoint.StatValue.BaseValue -= finalAmount;
+                    GlobalEvent<float, bool, Vector3>.Send("DAMAGE_INFLICTED", finalAmount, IsCrit, transform.position);
+                }
+            }
         }
 
     }

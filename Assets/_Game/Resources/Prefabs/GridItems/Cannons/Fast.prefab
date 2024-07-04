@@ -357,7 +357,19 @@ MonoBehaviour:
   BrokenThreshold: 0
   OnBelowBrokenThreshold:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 94858937819000496}
+        m_TargetAssemblyTypeName: _Game.Scripts.Entities.Cannon, Assembly-CSharp
+        m_MethodName: Deactivate
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2738015328258581795
 GameObject:
   m_ObjectHideFlags: 0
@@ -407,6 +419,7 @@ GameObject:
   - component: {fileID: 203558676454944391}
   - component: {fileID: 2080228113004721733}
   - component: {fileID: 6452250721243337204}
+  - component: {fileID: 273191813160184508}
   m_Layer: 9
   m_Name: Canvas
   m_TagString: Untagged
@@ -454,8 +467,8 @@ Canvas:
   m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: 986091187
-  m_SortingOrder: 0
+  m_SortingLayerID: -285313645
+  m_SortingOrder: 101
   m_TargetDisplay: 0
 --- !u!114 &203558676454944391
 MonoBehaviour:
@@ -510,6 +523,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 0}
+--- !u!114 &273191813160184508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3165749791399872394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1d60519b92988246a9c87ba19196b22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sa: {fileID: 209435412617999329}
+  canvas: {fileID: 7988109737358735741}
 --- !u!1 &3203743624694535973
 GameObject:
   m_ObjectHideFlags: 0

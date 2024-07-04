@@ -136,7 +136,6 @@ namespace _Game.Scripts.DB
             {
                 string operationType = ammo.Value.operation_type.ToLower();
                 string path = $"Prefabs/GridItems/Bullets/{operationType}";
-                Debug.Log(ammo.Key + " "+ operationType);
                 Bullet bulletPrefab = Resources.Load<Bullet>(path);
                 BulletDic.Add(ammo.Key, bulletPrefab);
                 BulletOperatorDic.Add(ammo.Key, operationType);

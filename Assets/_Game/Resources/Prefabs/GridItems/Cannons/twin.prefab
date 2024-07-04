@@ -123,6 +123,7 @@ GameObject:
   - component: {fileID: 1570808234364923535}
   - component: {fileID: 1607559049652280926}
   - component: {fileID: 7495619063599607}
+  - component: {fileID: 9010621906517706960}
   m_Layer: 9
   m_Name: twin
   m_TagString: Untagged
@@ -307,6 +308,46 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultNumOfProjectile: 2
   gap: 1
+--- !u!114 &9010621906517706960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2506795332634619781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d32b25d12c98904092b3bd619327604, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnReachZero:
+    m_PersistentCalls:
+      m_Calls: []
+  OnReachFull:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDecreased:
+    m_PersistentCalls:
+      m_Calls: []
+  OnIncreased:
+    m_PersistentCalls:
+      m_Calls: []
+  BrokenThreshold: 0
+  OnBelowBrokenThreshold:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 94858937819000496}
+        m_TargetAssemblyTypeName: _Game.Scripts.Entities.Cannon, Assembly-CSharp
+        m_MethodName: Deactivate
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2738015328258581795
 GameObject:
   m_ObjectHideFlags: 0
@@ -1017,6 +1058,7 @@ GameObject:
   - component: {fileID: 3063814022251264916}
   - component: {fileID: 2459210393177126272}
   - component: {fileID: 3862144667451391008}
+  - component: {fileID: 6438526549658341834}
   m_Layer: 9
   m_Name: Canvas (5)
   m_TagString: Untagged
@@ -1120,6 +1162,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 0}
+--- !u!114 &6438526549658341834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7674018672360605269}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1d60519b92988246a9c87ba19196b22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sa: {fileID: 1117780275231740217}
+  canvas: {fileID: 8899656074919176519}
 --- !u!1 &8382686258375318159
 GameObject:
   m_ObjectHideFlags: 0

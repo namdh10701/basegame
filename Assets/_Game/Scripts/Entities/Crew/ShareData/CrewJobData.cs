@@ -15,6 +15,8 @@ public class CrewJobData : MonoBehaviour
 
     public Dictionary<Cell, FixCellJob> FixCellJobDic = new Dictionary<Cell, FixCellJob>();
 
+    public Dictionary<IGridItem, FixGridItemJob> FixGridItemDic = new Dictionary<IGridItem, FixGridItemJob>();
+
     public Dictionary<Cannon, ReloadCannonJob> ReloadCannonJobsDic = new Dictionary<Cannon, ReloadCannonJob>();
 
     public List<CrewJob> GetHighestPiorityActiveJobs()
@@ -46,15 +48,27 @@ public class CrewJobData : MonoBehaviour
 
     public void Initialize()
     {
-        foreach (Cell cell in ShipSetup.AllCells)
+        foreach (Bullet bullet in ShipSetup.Bullets)
         {
-            FixCellJob fixCellJob = new FixCellJob(cell);
-            FixCellJobDic.Add(cell, fixCellJob);
+            IGridItem item = bullet.GetComponent<IGridItem>();
+            IWorkLocation worklocation = bullet.GetComponent<IWorkLocation>();
+            FixGridItemJob fixCellJob = new FixGridItemJob(item, worklocation);
+
+            FixGridItemDic.Add(bullet, fixCellJob);
             fixCellJob.OnJobCompleted += OnJobCompleted;
             fixCellJob.OnJobInterupted += OnJobInterupted;
         }
+
         foreach (Cannon cannon in ShipSetup.Cannons)
         {
+            IGridItem item = cannon.GetComponent<IGridItem>();
+
+            IWorkLocation worklocation = cannon.GetComponent<IWorkLocation>();
+            FixGridItemJob fixCellJob = new FixGridItemJob(item, worklocation);
+            FixGridItemDic.Add(item, fixCellJob);
+            fixCellJob.OnJobCompleted += OnJobCompleted;
+            fixCellJob.OnJobInterupted += OnJobInterupted;
+
             ReloadCannonJob reloadCannonJob = new ReloadCannonJob(cannon);
             if (!ReloadCannonJobsDic.ContainsKey(cannon))
             {
@@ -62,27 +76,58 @@ public class CrewJobData : MonoBehaviour
             }
             reloadCannonJob.OnJobCompleted += OnJobCompleted;
             reloadCannonJob.OnJobInterupted += OnJobInterupted;
-
         }
 
-        Debug.Log(FixCellJobDic.Count + " FIX CELL");
+        foreach (Cell cell in ShipSetup.AllCells)
+        {
+            if (cell.GridItem == null)
+            {
+                FixCellJob fixCellJob = new FixCellJob(cell);
+                FixCellJobDic.Add(cell, fixCellJob);
+                fixCellJob.OnJobCompleted += OnJobCompleted;
+                fixCellJob.OnJobInterupted += OnJobInterupted;
+            }
+        }
+        Debug.Log(FixCellJobDic.Count + " FIX CELL JOB DIC");
+        Debug.Log(FixGridItemDic.Count + " FIX GRID ITEM");
         Debug.Log(ReloadCannonJobsDic.Count + " RELOAD CANNON");
     }
 
     private void Awake()
     {
-        // Cannon, Bullet, Piority
         GlobalEvent<Cannon, Bullet, int>.Register("Reload", ActivateReloadCannonJob);
-        // Cell, Piority
-        GlobalEvent<Cell, int>.Register("Fix", ActivateFixCellJob);
+        GlobalEvent<IGridItem, int>.Register("Fix", ActivateFixGridItemJob);
+        GlobalEvent<Cell, int>.Register("FixCell", ActivateFixCellJob);
     }
 
     private void OnDestroy()
     {
         GlobalEvent<Cannon, Bullet, int>.Unregister("Reload", ActivateReloadCannonJob);
-     
-     
-        GlobalEvent<Cell, int>.Unregister("Fix", ActivateFixCellJob);
+
+        GlobalEvent<Cell, int>.Unregister("FixCell", ActivateFixCellJob);
+        GlobalEvent<IGridItem, int>.Unregister("Fix", ActivateFixGridItemJob);
+    }
+
+    void ActivateFixCellJob(Cell cell, int piority)
+    {
+        FixCellJob fixCellJob = FixCellJobDic[cell];
+        if (piority == 0)
+        {
+            fixCellJob.Piority = fixCellJob.DefaultPiority;
+        }
+        else
+        {
+            fixCellJob.Piority = piority;
+        }
+        if (!ActivateJobs.Contains(fixCellJob))
+        {
+            ActivateJobs.Add(fixCellJob);
+        }
+        if (fixCellJob.Status == JobStatus.WorkingOn)
+        {
+            return;
+        }
+        OnActivateJobsChanged?.Invoke(fixCellJob);
     }
 
     void ActivateReloadCannonJob(Cannon cannon, Bullet bullet, int piority = 0)
@@ -117,9 +162,9 @@ public class CrewJobData : MonoBehaviour
         OnActivateJobsChanged.Invoke(reloadCannonJob);
 
     }
-    void ActivateFixCellJob(Cell cell, int piority)
+    void ActivateFixGridItemJob(IGridItem gridItem, int piority)
     {
-        FixCellJob fixCellJob = FixCellJobDic[cell];
+        FixGridItemJob fixCellJob = FixGridItemDic[gridItem];
         if (piority == 0)
         {
             fixCellJob.Piority = fixCellJob.DefaultPiority;

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7778602225380941272}
   - component: {fileID: 2371146244603665}
   - component: {fileID: 8301055044590193718}
+  - component: {fileID: 7707643891518476927}
   m_Layer: 9
   m_Name: Canvas (3)
   m_TagString: Untagged
@@ -60,8 +61,8 @@ Canvas:
   m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: 986091187
-  m_SortingOrder: 0
+  m_SortingLayerID: -285313645
+  m_SortingOrder: 100
   m_TargetDisplay: 0
 --- !u!114 &7778602225380941272
 MonoBehaviour:
@@ -116,6 +117,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 0}
+--- !u!114 &7707643891518476927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 581403066572111131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1d60519b92988246a9c87ba19196b22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sa: {fileID: 2251727487072821338}
+  canvas: {fileID: 5594089028488346719}
 --- !u!1 &1446828985570526221
 GameObject:
   m_ObjectHideFlags: 0
@@ -239,6 +254,7 @@ GameObject:
   - component: {fileID: 1570808234364923535}
   - component: {fileID: 1607559049652280926}
   - component: {fileID: 7117074399182550230}
+  - component: {fileID: 55807796650215036}
   m_Layer: 9
   m_Name: chaining
   m_TagString: Untagged
@@ -427,6 +443,46 @@ MonoBehaviour:
   bounceTimes: 5
   damageScale: 0
   targetBehaviour: {fileID: 7147069703896698860}
+--- !u!114 &55807796650215036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2506795332634619781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d32b25d12c98904092b3bd619327604, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnReachZero:
+    m_PersistentCalls:
+      m_Calls: []
+  OnReachFull:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDecreased:
+    m_PersistentCalls:
+      m_Calls: []
+  OnIncreased:
+    m_PersistentCalls:
+      m_Calls: []
+  BrokenThreshold: 0
+  OnBelowBrokenThreshold:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 94858937819000496}
+        m_TargetAssemblyTypeName: _Game.Scripts.Entities.Cannon, Assembly-CSharp
+        m_MethodName: Deactivate
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2738015328258581795
 GameObject:
   m_ObjectHideFlags: 0

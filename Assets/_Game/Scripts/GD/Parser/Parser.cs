@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using _Base.Scripts.Utils;
 using CsvHelper;
 using Fusion.LagCompensation;
@@ -17,7 +18,7 @@ namespace _Game.Scripts.GD.Parser
             using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
             return csv.GetRecords<TRecordClass>().ToList();
         }
-        
+
         public static List<TRecordClass> GetRecords<TRecordClass>(string csvContent)
         {
             using var reader = new StringReader(csvContent);
@@ -29,20 +30,20 @@ namespace _Game.Scripts.GD.Parser
     public class GameLevelManager
     {
         public static readonly string DataFileName = "WaveLevel";
-        private static Dictionary<string, Dictionary<string, List<LevelData>>> _normalLevelDataSource = new ();
-        private static Dictionary<string, Dictionary<string, List<LevelData>>> _eliteLevelDataSource = new ();
-        
-        public static async void LoadData()
+        private static Dictionary<string, Dictionary<string, List<LevelData>>> _normalLevelDataSource = new();
+        private static Dictionary<string, Dictionary<string, List<LevelData>>> _eliteLevelDataSource = new();
+
+        public static async Task LoadData()
         {
             _normalLevelDataSource.Clear();
             _eliteLevelDataSource.Clear();
-            
+
             var filePath = GetFilePath(DataFileName);
             await GSheetDownloader.Download(
                 "https://docs.google.com/spreadsheets/d/16zvsN6iALnKVByPfI9BGuvyW44DHVhBZVg07CDoUyOY/edit?gid=755631495#gid=755631495",
                 filePath);
             await using var stream = File.OpenRead(filePath);
-            
+
             var rawRecords = Parser.GetRecords<RawLevelData>(stream);
 
             var idxElite = 0;
@@ -59,12 +60,12 @@ namespace _Game.Scripts.GD.Parser
                 // normal
                 if (!_normalLevelDataSource.ContainsKey(levelId))
                 {
-                    _normalLevelDataSource[levelId] = new ();
+                    _normalLevelDataSource[levelId] = new();
                 }
-                
+
                 if (!_normalLevelDataSource[levelId].ContainsKey(idx))
                 {
-                    _normalLevelDataSource[levelId][idx] = new ();
+                    _normalLevelDataSource[levelId][idx] = new();
                     idxElite++;
                 }
 
@@ -86,7 +87,7 @@ namespace _Game.Scripts.GD.Parser
                 {
                     if (!_eliteLevelDataSource.ContainsKey(stageId))
                     {
-                        _eliteLevelDataSource[stageId] = new ();
+                        _eliteLevelDataSource[stageId] = new();
                     }
 
                     if (!_eliteLevelDataSource[stageId].ContainsKey(record.Level))
@@ -109,13 +110,13 @@ namespace _Game.Scripts.GD.Parser
 
         public static List<LevelData> GetLevelData(string stageId, string levelId)
         {
-            var list =  _normalLevelDataSource[$"{stageId}.{levelId}"];
+            var list = _normalLevelDataSource[$"{stageId}.{levelId}"];
             return list[Random.Range(1, list.Count).ToString()];
         }
-        
+
         public static List<LevelData> GetStageEliteData(string stageId)
         {
-            var list =  _eliteLevelDataSource[$"{stageId}"];
+            var list = _eliteLevelDataSource[$"{stageId}"];
             return list[Random.Range(1, list.Count).ToString()];
         }
     }

@@ -25,11 +25,13 @@ namespace _Game.Scripts.Entities
         public List<Node> occupyingNodes = new List<Node>();
         public List<Node> OccupyingNodes { get => occupyingNodes; set => occupyingNodes = value; }
         public bool IsBroken { get => isBroken; set => isBroken = value; }
-        public bool IsAbleToTakeHit { get => stats.HealthPoint.Value > stats.HealthPoint.MaxValue; }
+        public bool IsAbleToTakeHit { get => stats.HealthPoint.Value > stats.HealthPoint.MinValue; }
         public EffectHandler effectHandler;
         public EffectHandler EffectHandler => effectHandler;
 
         public override Stats Stats => stats;
+
+        public Transform Transform => transform;
 
         public ProjectileStats stats;
         public ProjectileStatsTemplate projectileStatsTemplate;
@@ -60,6 +62,7 @@ namespace _Game.Scripts.Entities
 
         public void OnFixed()
         {
+            stats.HealthPoint.StatValue.BaseValue = stats.HealthPoint.MaxStatValue.Value / 100 * 30;
             sprite.color = norm;
             IsBroken = false;
         }

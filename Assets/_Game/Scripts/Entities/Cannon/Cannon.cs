@@ -52,14 +52,14 @@ namespace _Game.Scripts.Entities
         public Rarity Rarity { get => rarity; set => rarity = value; }
         public List<Node> WorkingSlots { get => workingSlots; set => workingSlots = value; }
         public List<Node> OccupyingNodes { get => occupyingNodes; set => occupyingNodes = value; }
-        public bool IsBroken { get => isBrokenn; set => isBrokenn = value; }
+        public bool IsBroken { get => isBroken; set => isBroken = value; }
         public List<Effect> BulletEffects { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
         public EffectHandler effectHandler;
         public EffectHandler EffectHandler { get => effectHandler; }
 
         public Transform Transform => transform;
 
-        public bool IsAbleToTakeHit { get => _stats.HealthPoint.Value > _stats.HealthPoint.MaxValue;}
+        public bool IsAbleToTakeHit { get => _stats.HealthPoint.Value > _stats.HealthPoint.MinValue; }
 
         public List<Node> workingSlots = new List<Node>();
         public List<Node> occupyingNodes = new List<Node>();
@@ -70,7 +70,6 @@ namespace _Game.Scripts.Entities
 
         public Bullet usingBullet;
         public SpineAnimationCannonHandler Animation;
-        public bool isBrokenn;
 
         protected override void Awake()
         {
@@ -108,7 +107,15 @@ namespace _Game.Scripts.Entities
         }
         public void OnClick()
         {
-            GlobalEvent<Cannon, Bullet, int>.Send("Reload", this, usingBullet, int.MaxValue);
+            if (IsBroken)
+            {
+                Debug.Log("Click");
+                GlobalEvent<IGridItem, int>.Send("Fix", this, int.MaxValue);
+            }
+            else
+            {
+                GlobalEvent<Cannon, Bullet, int>.Send("Reload", this, usingBullet, int.MaxValue);
+            }
         }
 
         bool isOutOfAmmo;
@@ -119,61 +126,26 @@ namespace _Game.Scripts.Entities
             {
                 Animation.PlayBroken();
             }
+            else
+            {
+                Animation.PlayNormal();
+            }
             if (isOutOfAmmo || isBroken)
             {
                 FindTargetBehaviour.Disable();
-                foreach (Node node in disableWhenActive)
-                {
-                    node.State = NodeState.Free;
-                }
             }
             else
             {
-                foreach (Node node in disableWhenActive)
-                {
-                    node.State = NodeState.Disabled;
-                }
                 FindTargetBehaviour.Enable();
             }
         }
 
-        List<Node> disableWhenActive = new List<Node>();
-
-        Cell[,] ConvertOccupyCellsToShape()
-        {
-            // Determine the bounds (dimensions) of the shape array
-            int minX = int.MaxValue;
-            int maxX = int.MinValue;
-            int minY = int.MaxValue;
-            int maxY = int.MinValue;
-
-            foreach (Cell cell in OccupyCells)
-            {
-                if (cell.X < minX)
-                    minX = cell.X;
-                if (cell.X > maxX)
-                    maxX = cell.X;
-                if (cell.Y < minY)
-                    minY = cell.Y;
-                if (cell.Y > maxY)
-                    maxY = cell.Y;
-            }
-            int width = maxX - minX + 1;
-            int height = maxY - minY + 1;
-            Cell[,] shape = new Cell[height, width];
-            foreach (Cell cell in OccupyCells)
-            {
-                int x = cell.X - minX;
-                int y = cell.Y - minY;
-                shape[y, x] = cell;
-            }
-            return shape;
-        }
 
         public void OnOutOfAmmo()
         {
             isOutOfAmmo = true;
-            GlobalEvent<Cannon, Bullet, int>.Send("Reload", this, usingBullet, 3);
+            GlobalEvent<Cannon, Bullet, int>.Send("Reload", this, usingBullet, 15);
+
             UpdateVisual();
         }
 
@@ -185,19 +157,15 @@ namespace _Game.Scripts.Entities
 
         public void Deactivate()
         {
+            GlobalEvent<IGridItem, int>.Send("Fix", this, 20);
             isBroken = true;
+            Debug.Log("Hereererr");
             UpdateVisual();
         }
 
         public void OnFixed()
         {
-            foreach (Cell cell in OccupyCells)
-            {
-                if (cell.stats.HealthPoint.Value == cell.stats.HealthPoint.MinValue)
-                {
-                    return;
-                }
-            }
+            _stats.HealthPoint.StatValue.BaseValue = _stats.HealthPoint.MaxStatValue.Value / 100 * 30;
             isBroken = false;
             UpdateVisual();
         }

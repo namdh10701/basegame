@@ -62,6 +62,7 @@ namespace _Game.Scripts.GD
             cannonSt.ArmorPenetrate.BaseValue = armor_pen;
             cannonSt.Piercing.BaseValue = project_piercing;
             cannonSt.MagazineSize.BaseValue = magazine_size;
+            cannonSt.EnergyCost.BaseValue = energy_cost;
 
         }
     }

@@ -33,6 +33,10 @@ public class SpineAnimationCannonHandler : SpineAnimationHandler
     {
         skeletonAnimation.AnimationState.SetAnimation(0, "broken", true);
     }
+    public void PlayNormal()
+    {
+        skeletonAnimation.AnimationState.AddEmptyAnimation(0, 0, 0);
+    }
     protected void AnimationState_Event(TrackEntry trackEntry, Spine.Event e)
     {
         if (e.Data.Name == shootEvent)

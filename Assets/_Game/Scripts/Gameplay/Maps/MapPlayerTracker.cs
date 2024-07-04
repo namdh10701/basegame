@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using _Game.Features;
+using _Game.Scripts.Battle;
 using _Game.Scripts.Managers;
 using DG.Tweening;
 using UnityEngine;
@@ -147,22 +148,12 @@ namespace Map
             // load appropriate scene with context based on nodeType:
             // or show appropriate GUI over the map: 
             // if you choose to show GUI in some of these cases, do not forget to set "Locked" in MapPlayerTracker back to false
-            switch (mapNode.Node.nodeType)
-            {
-                case NodeType.MinorEnemy:
-                    break;
-                case NodeType.Boss:
-                    break;
-                case NodeType.Armory:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+
 
             // LevelInfoPopup levelInfoPopup = PopupManager.Instance.GetPopup<LevelInfoPopup>();
             // levelInfoPopup.SetData(mapNode);
             // PopupManager.Instance.ShowPopup(levelInfoPopup);
-            
+
             ShowInfoPopup(mapNode.Node);
         }
 
@@ -192,10 +183,12 @@ namespace Map
 
         static async void ShowInfoPopup(Node mapNode)
         {
+
+            EnemyManager.floorId = (mapNode.point.y + 1).ToString();
             var options = new ViewOptions("FightNodeInfoModal", true);
-            
+
             var args = new object[] { mapNode }.AsMemory();
-            
+
             await ModalContainer.Find(ContainerKey.Modals).PushAsync(options, args);
         }
     }

@@ -16,7 +16,7 @@ public class Timer : MonoBehaviour
         if (isStarted && isRunning)
         {
             elapsedTime += deltaTime;
-            foreach (TimedEvent timedEvent in timedEvents)
+            foreach (TimedEvent timedEvent in timedEvents.ToArray())
             {
                 if (!timedEvent.IsTriggered)
                 {
@@ -24,6 +24,7 @@ public class Timer : MonoBehaviour
                     {
                         timedEvent.Action.Invoke();
                         timedEvent.IsTriggered = true;
+                        timedEvents.Remove(timedEvent);
                     }
                 }
             }

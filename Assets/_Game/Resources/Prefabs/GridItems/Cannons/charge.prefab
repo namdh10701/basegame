@@ -224,6 +224,7 @@ GameObject:
   - component: {fileID: 7118358282080344736}
   - component: {fileID: 7531981143715628752}
   - component: {fileID: 546393963843975906}
+  - component: {fileID: 7056807360934029899}
   m_Layer: 9
   m_Name: Canvas (4)
   m_TagString: Untagged
@@ -327,6 +328,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 0}
+--- !u!114 &7056807360934029899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1824649510621729314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1d60519b92988246a9c87ba19196b22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sa: {fileID: 1117780275231740217}
+  canvas: {fileID: 4654318674862284766}
 --- !u!1 &1852782839655817911
 GameObject:
   m_ObjectHideFlags: 0
@@ -404,6 +419,7 @@ GameObject:
   - component: {fileID: 1570808234364923535}
   - component: {fileID: 1607559049652280926}
   - component: {fileID: 3014231783961799318}
+  - component: {fileID: 410877400923015044}
   m_Layer: 9
   m_Name: charge
   m_TagString: Untagged
@@ -590,6 +606,46 @@ MonoBehaviour:
   defaultNumOfProjectile: 5
   minSpeedBulletModifier: -5
   maxSpeedBulletModifier: -10
+--- !u!114 &410877400923015044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2506795332634619781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d32b25d12c98904092b3bd619327604, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnReachZero:
+    m_PersistentCalls:
+      m_Calls: []
+  OnReachFull:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDecreased:
+    m_PersistentCalls:
+      m_Calls: []
+  OnIncreased:
+    m_PersistentCalls:
+      m_Calls: []
+  BrokenThreshold: 0
+  OnBelowBrokenThreshold:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 94858937819000496}
+        m_TargetAssemblyTypeName: _Game.Scripts.Entities.Cannon, Assembly-CSharp
+        m_MethodName: Deactivate
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2738015328258581795
 GameObject:
   m_ObjectHideFlags: 0
