@@ -580,7 +580,6 @@ GameObject:
   - component: {fileID: 6940604211630430140}
   - component: {fileID: 325111154648324912}
   - component: {fileID: 773742453697062517}
-  - component: {fileID: 1759216254442629370}
   m_Layer: 9
   m_Name: Progress
   m_TagString: Untagged
@@ -645,22 +644,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &1759216254442629370
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5819952049192213444}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db24e285b2ed93e468fce5a39e55adb2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_color1: {r: 1, g: 0, b: 0, a: 1}
-  m_color2: {r: 1, g: 1, b: 1, a: 1}
-  m_angle: 180
-  m_ignoreRatio: 1
 --- !u!1 &6040855809983312167
 GameObject:
   m_ObjectHideFlags: 0
@@ -942,6 +925,7 @@ GameObject:
   - component: {fileID: 411606788855415899}
   - component: {fileID: 3890636922353477510}
   - component: {fileID: 7923240431934046152}
+  - component: {fileID: 4179161162766803381}
   m_Layer: 9
   m_Name: Hp
   m_TagString: Untagged
@@ -1007,6 +991,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &4179161162766803381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7667797758284332247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a35778d404630a4792ecb6f6dc877fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cannon: {fileID: 94858937819000496}
 --- !u!1 &7674018672360605269
 GameObject:
   m_ObjectHideFlags: 0
@@ -1201,7 +1198,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 426406289218189296, guid: a7ee9c645d779cf4b8487147481b5950, type: 3}
       propertyPath: m_SortingOrder
-      value: 413
+      value: -12
       objectReference: {fileID: 0}
     - target: {fileID: 426406289218189296, guid: a7ee9c645d779cf4b8487147481b5950, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -1217,15 +1214,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2258547344737152541, guid: a7ee9c645d779cf4b8487147481b5950, type: 3}
       propertyPath: m_SortingOrder
-      value: 412
+      value: -13
       objectReference: {fileID: 0}
     - target: {fileID: 3536942125324184676, guid: a7ee9c645d779cf4b8487147481b5950, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.005300045
+      value: 0.005300004
       objectReference: {fileID: 0}
     - target: {fileID: 3536942125324184676, guid: a7ee9c645d779cf4b8487147481b5950, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.39899993
+      value: 0.39900002
       objectReference: {fileID: 0}
     - target: {fileID: 3894072766566459417, guid: a7ee9c645d779cf4b8487147481b5950, type: 3}
       propertyPath: m_LocalPosition.y
