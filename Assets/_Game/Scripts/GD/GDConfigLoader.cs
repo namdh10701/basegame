@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using _Base.Scripts.Utils;
 using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -145,6 +147,10 @@ namespace _Game.Scripts.GD
         [ContextMenu("LoadAll")]
         private void LoadAll()
         {
+            GSheetDownloader.Download(
+                "https://docs.google.com/spreadsheets/d/1M91hXkFM9BvP5SsfMKz-oDndDaOx-hJLfFTE39kfEJM/edit?gid=1712483375#gid=1712483375", 
+                Path.Combine(Application.persistentDataPath, "GdData", "")
+                );
             // Load cannon config
             foreach (var (key, properties) in GDConfigLoader.Instance.CannonMap)
             {

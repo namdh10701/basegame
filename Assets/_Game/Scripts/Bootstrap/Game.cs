@@ -8,6 +8,11 @@ namespace _Game.Scripts.Bootstrap
 {
     public class Game : BaseGame
     {
+        public class MasterData
+        {
+            // https://docs.google.com/spreadsheets/d/1M91hXkFM9BvP5SsfMKz-oDndDaOx-hJLfFTE39kfEJM/export?gid=1915146529&format=csv
+        }
+        
         public class GSheetData
         {
             public string range;
