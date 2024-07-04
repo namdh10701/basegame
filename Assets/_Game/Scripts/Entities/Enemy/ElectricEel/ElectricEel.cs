@@ -8,8 +8,8 @@ using UnityEngine;
 public class ElectricEel : Enemy
 {
     [Header("Electric Eel")]
-
-    [SerializeField] ElectricEelAnimation Animation;
+    [Space]
+    ElectricEelAnimation Animation;
     [SerializeField] ElectricFx electricFx;
     [SerializeField] ElectricEelProjectile Projectile;
     [SerializeField] Transform target;
@@ -21,6 +21,7 @@ public class ElectricEel : Enemy
     [SerializeField] float syncAnimationSpawnProjectileTime = .8f;
     protected override IEnumerator Start()
     {
+        Animation = (ElectricEelAnimation)spineAnimationEnemyHandler;
         Animation.Attack.AddListener(DoAttack);
         Animation.OnHide += OnHide;
         MoveAreaController moveArea = FindAnyObjectByType<MoveAreaController>();

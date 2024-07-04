@@ -186,6 +186,7 @@ GameObject:
   m_Component:
   - component: {fileID: 528517828048701709}
   - component: {fileID: 5927501447640042736}
+  - component: {fileID: 4748583646171955563}
   m_Layer: 0
   m_Name: burning
   m_TagString: Untagged
@@ -223,12 +224,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e7c75d22ca6fbd49812b0f5a8f9aa61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Id: 
+  body: {fileID: 0}
+  id: 
   Projectile: {fileID: 2342970395553311547, guid: 4588bd9e642073746af5ea4e6b5fa1c8, type: 3}
   def: {fileID: 11400000, guid: 8e30b24f0d761b74099148893bedb3d2, type: 2}
   <OccupyCells>k__BackingField: []
   workingSlots: []
   occupyingNodes: []
-  Stats:
+  effectHandler: {fileID: 4748583646171955563}
+  stats:
     <Damage>k__BackingField:
       statModifiers: []
       _baseValue: 0
@@ -262,10 +267,27 @@ MonoBehaviour:
     <EnergyCost>k__BackingField:
       statModifiers: []
       _baseValue: 0
+    <ProjectileCount>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
   projectileStatsTemplate: {fileID: 11400000, guid: f126b524c45be054c9bc8e146046a69d, type: 2}
   sprite: {fileID: 4469434035626341655}
   broken: {r: 0.5943396, g: 0.5943396, b: 0.5943396, a: 1}
   norm: {r: 1, g: 1, b: 1, a: 1}
+--- !u!114 &4748583646171955563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7743350059817669522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01bfda76cc6a4e3080de930ff8b94a3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  entity: {fileID: 5927501447640042736}
+  effects: []
 --- !u!1 &8348072679632945211
 GameObject:
   m_ObjectHideFlags: 0

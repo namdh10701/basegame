@@ -1,3 +1,4 @@
+using _Base.Scripts.RPG.Effects;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,5 +15,7 @@ namespace _Game.Scripts.Entities
         public void OnFixed();
 
         public bool IsBroken { get; set; }
+
+        public EffectHandler EffectHandler { get; }
     }
 }

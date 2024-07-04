@@ -162,6 +162,8 @@ namespace _Game.Features.MyShip
 
         private void OnEquipmentItemsReceived(List<InventoryItem> items)
         {
+            if (items.Count == 0) return;
+            
             var inventoryItemsData = new List<InventoryItemData>();
             foreach (var inventoryItemData in items)
             {

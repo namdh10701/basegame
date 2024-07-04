@@ -10,10 +10,12 @@ namespace _Game.Scripts
         [Header("Squid")]
         [Space]
         public CooldownBehaviour CooldownBehaviour;
-        public SquidAnimation anim;
+        
+        SquidAnimation anim;
         public EvasionBuffArea EvasionBuffArea;
         protected override IEnumerator Start()
         {
+            anim = (SquidAnimation)spineAnimationEnemyHandler;
             anim.OnAction.AddListener(DoAction);
             MoveAreaController moveArea = FindAnyObjectByType<MoveAreaController>();
             Area area = moveArea.GetCloset(transform.position);

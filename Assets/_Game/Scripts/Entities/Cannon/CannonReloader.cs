@@ -11,9 +11,10 @@ namespace _Game.Scripts.Entities.CannonComponent
         {
             cannon.usingBullet = bullet;
             CannonStats cannonStats = (CannonStats)cannon.Stats;
-            cannonStats.Ammo.MaxStatValue.BaseValue = bullet.Stats.MagazineSize.Value;
+            ProjectileStats ps = (ProjectileStats)bullet.Stats;
+            cannonStats.Ammo.MaxStatValue.BaseValue = ps.MagazineSize.Value;
             cannonStats.Ammo.MinStatValue.BaseValue = 0;
-            cannonStats.Ammo.StatValue.BaseValue = bullet.Stats.MagazineSize.Value;
+            cannonStats.Ammo.StatValue.BaseValue = ps.MagazineSize.Value;
             AttackTargetBehaviour.projectilePrefab = bullet.Projectile;
         }
     }

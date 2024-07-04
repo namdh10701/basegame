@@ -1,6 +1,10 @@
 using System.Collections;
+using System.Collections.Generic;
+using _Base.Scripts.RPG;
+using _Base.Scripts.RPG.Behaviours.FindTarget;
 using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.RPG.Entities;
+using _Base.Scripts.RPG.Stats;
 using _Game.Scripts.Gameplay.Ship;
 using _Game.Scripts.GD;
 using MBT;
@@ -8,7 +12,7 @@ using UnityEngine;
 
 namespace _Game.Scripts.Entities
 {
-    public abstract class Enemy : Entity, IEffectTaker
+    public abstract class Enemy : Entity, IEffectTaker, ISlowable
     {
         [Header("Enemy")]
         [SerializeField] string enemyId;
@@ -22,10 +26,13 @@ namespace _Game.Scripts.Entities
         [SerializeField] protected Blackboard blackboard;
         [SerializeField] protected MBTExecutor MBTExecutor;
 
+        [SerializeField] protected SpineAnimationEnemyHandler spineAnimationEnemyHandler;
         public override Stats Stats => _stats;
         public Transform Transform => transform;
         public EffectHandler EffectHandler => effectHandler;
 
+        public List<Stat> SlowableStats => new List<Stat>() { _stats.MoveSpeed, _stats.AnimationTimeScale };
+        public ObjectCollisionDetector FindTargetCollider;
         protected virtual IEnumerator Start()
         {
             EffectTakerCollider.Taker = this;
@@ -71,12 +78,22 @@ namespace _Game.Scripts.Entities
 
         protected override void ApplyStats()
         {
-
+            FindTargetCollider?.SetRadius(_stats.AttackRange.Value);
         }
 
         protected override void LoadModifiers()
         {
 
+        }
+
+        public virtual void OnSlowed()
+        {
+            spineAnimationEnemyHandler.OnSlowedDown();
+        }
+
+        public virtual void OnSlowEnded()
+        {
+            spineAnimationEnemyHandler.OnSlowEnded();
         }
     }
 }
