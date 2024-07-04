@@ -14,13 +14,13 @@ namespace _Base.Scripts.Utils
             var matches = Regex.Matches(url, @"\/d\/(.+)\/edit\?gid=(\d+)");
             var matched = matches.FirstOrDefault();
 
-            if (matched == null || matched.Groups.Count != 2)
+            if (matched == null || matched.Groups.Count != 3)
             {
                 return null;
             }
             
-            var docId = matched.Groups[0];
-            var gId = matched.Groups[1];
+            var docId = matched.Groups[1];
+            var gId = matched.Groups[2];
             // string docId, string gId
             return
                 $"https://docs.google.com/spreadsheets/d/{docId}/export?gid={gId}&format=csv";
