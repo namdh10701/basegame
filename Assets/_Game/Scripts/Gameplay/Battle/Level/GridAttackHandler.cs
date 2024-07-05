@@ -18,29 +18,44 @@ namespace _Game.Scripts
             {
                 foreach (Cell cell in cells)
                 {
+                    Debug.Log(cell.ToString());
                     if (effect is DecreaseHealthEffect decrease)
                     {
                         if (cell.GridItem != null)
                         {
+                            Debug.Log("HRER");
                             if (cell.GridItem.IsAbleToTakeHit)
                             {
+                                Debug.Log("HRER 1");
                                 cell.GridItem.EffectHandler.Apply(effect);
+
                             }
                             else
                             {
+                                Debug.Log("HRER 2");
                                 ship.EffectHandler.Apply(effect);
                             }
+                            continue;
                         }
-                        continue;
-                    }
+                        else
+                        {
+                            cell.EffectHandler.Apply(effect);
+                            ship.EffectHandler.Apply(effect);
+                        }
 
-                    if (cell.GridItem != null)
-                    {
-                        cell.GridItem.EffectHandler.Apply(effect);
                     }
                     else
                     {
-                        ship.EffectHandler.Apply(effect);
+
+                        if (cell.GridItem != null)
+                        {
+                            cell.GridItem.EffectHandler.Apply(effect);
+                        }
+                        else
+                        {
+                            ship.EffectHandler.Apply(effect);
+                            cell.EffectHandler.Apply(effect);
+                        }
                     }
                 }
 

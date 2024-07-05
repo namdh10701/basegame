@@ -59,7 +59,7 @@ namespace _Game.Scripts
                     }
                 }
             }
-            GridItemDatas = ShipSetupMockup.Datas;
+            //GridItemDatas = ShipSetupMockup.Datas;
 
             if (Ship.Id == "0003")
             {

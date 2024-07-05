@@ -6,6 +6,7 @@ using System.Linq;
 using UnityEngine;
 using _Game.Scripts.PathFinding;
 using _Base.Scripts.EventSystem;
+using _Game.Scripts.Gameplay.Ship;
 
 public class ReloadCannonJob : CrewJob
 {
@@ -40,10 +41,16 @@ public class ReloadCannonJob : CrewJob
             yield return crew.CrewMovement.MoveTo(workingSlot.transform.position);
             yield return new WaitForSeconds(0.5f);
             workingSlot.State = NodeState.Free;
+
             if (bullet.IsBroken)
             {
                 yield break;
             }
+            if (((ShipStats)crew.Ship.Stats).ManaPoint.Value < bullet.stats.EnergyCost.Value)
+            {
+                yield break;
+            }
+            ((ShipStats)crew.Ship.Stats).ManaPoint.StatValue.BaseValue -= bullet.stats.EnergyCost.Value;
             crew.Carry(bullet);
 
         }

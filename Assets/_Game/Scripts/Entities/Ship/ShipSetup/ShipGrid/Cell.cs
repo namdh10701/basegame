@@ -29,7 +29,7 @@ namespace _Game.Scripts
         public List<Node> workingSlots;
         public EffectTakerCollider EffectCollider;
         public NodeGraph nodeGraph;
-        
+
 
         protected override void Awake()
         {
@@ -74,28 +74,23 @@ namespace _Game.Scripts
 
         }
 
-        public void OnBroken()
-        {
-            GlobalEvent<Cell, int>.Send("Fix", this, 3);
-            if (GridItem != null)
-            {
-                GridItem.Deactivate();
-            }
-        }
         public void OnFixed()
         {
             CellRenderer.OnFixed();
-            if (GridItem != null)
-            {
-                GridItem.OnFixed();
-            }
         }
 
+
+
+        public void OnBroken()
+        {
+            GlobalEvent<Cell, int>.Send("FixCell", this, 3);
+            CellRenderer.OnBroken();
+        }
         public void OnClick()
         {
             if (stats.HealthPoint.Value == stats.HealthPoint.MinValue)
             {
-                GlobalEvent<Cell, int>.Send("Fix", this, int.MaxValue);
+                GlobalEvent<Cell, int>.Send("FixCell", this, int.MaxValue);
             }
         }
     }

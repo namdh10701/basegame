@@ -1,10 +1,12 @@
 using _Game.Scripts;
+using _Game.Scripts.Gameplay.Ship;
 using _Game.Scripts.PathFinding;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class CrewController : MonoBehaviour
 {
+    public Ship Ship;
     public CrewJobData CrewJobData;
     public bool HasPendingJob => CrewJobData.ActivateJobs.Count > 0;
     public List<Crew> crews = new List<Crew>();
@@ -16,6 +18,7 @@ public class CrewController : MonoBehaviour
     public void AddCrew(Crew crew)
     {
         crews.Add(crew);
+        crew.Ship = Ship;
     }
 
     void OnJobActivate(CrewJob crewJob)

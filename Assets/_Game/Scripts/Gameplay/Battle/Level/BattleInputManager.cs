@@ -17,7 +17,6 @@ namespace _Game.Scripts
         public GameObject canvas;
         public Image selectCannon;
 
-
         private void Update()
         {
 #if UNITY_EDITOR
@@ -113,6 +112,7 @@ namespace _Game.Scripts
                                         if (gridItem.Def.Type == ItemType.CANNON)
                                         {
                                             selectingCannon = gridItem as Cannon;
+
                                             selectCannon.sprite = Database.GetCannonImage(selectingCannon.Id);
                                             CreateBulletsMenu();
                                         }

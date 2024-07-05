@@ -115,8 +115,8 @@ namespace _Game.Scripts
                         int col = centerCell.X - i;
                         if (col >= 0)
                         {
-                            cells.Add(grid.Cells[col, centerCell.Y]);
-                            lengthCount++;
+                                cells.Add(grid.Cells[centerCell.Y, col]);
+                                lengthCount++;
                         }
                         else
                         {
@@ -134,8 +134,8 @@ namespace _Game.Scripts
                         int col = centerCell.X + i;
                         if (col < grid.Col)
                         {
-                            cells.Add(grid.Cells[col, centerCell.Y]);
-                            lengthCount++;
+                                cells.Add(grid.Cells[centerCell.Y, col]);
+                                lengthCount++;
                         }
                         else
                         {
@@ -152,8 +152,8 @@ namespace _Game.Scripts
                         int col = centerCell.X + i;
                         if (col < grid.Col)
                         {
-                            cells.Add(grid.Cells[col, centerCell.Y]);
-                            lengthCount++;
+                                cells.Add(grid.Cells[centerCell.Y, col]);
+                                lengthCount++;
                         }
                         else
                         {
@@ -171,8 +171,8 @@ namespace _Game.Scripts
                         int col = centerCell.X - i;
                         if (col >= 0)
                         {
-                            cells.Add(grid.Cells[col, centerCell.Y]);
-                            lengthCount++;
+                                cells.Add(grid.Cells[centerCell.Y, col]);
+                                lengthCount++;
                         }
                         else
                         {
@@ -181,8 +181,7 @@ namespace _Game.Scripts
                     }
                 }
             }
-
-            return cells;
+            return cells.Distinct().ToList();
         }
 
         private static List<Cell> GetVerticalLinePattern(Grid grid, Cell centerCell, int size)
@@ -199,7 +198,7 @@ namespace _Game.Scripts
                 }
             }
 
-            return cells;
+            return cells.Distinct().ToList();
         }
 
         private static List<Cell> GetFilledSquarePattern(Grid grid, Cell centerCell, int size)
@@ -221,7 +220,7 @@ namespace _Game.Scripts
                 }
             }
 
-            return cells;
+            return cells.Distinct().ToList();
         }
 
         public static Cell GetClosetCellToPoint(List<Cell> cells, Vector3 point)

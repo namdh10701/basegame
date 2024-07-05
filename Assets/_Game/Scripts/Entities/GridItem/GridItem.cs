@@ -10,7 +10,7 @@ namespace _Game.Scripts.Entities
         public List<Cell> OccupyCells { get; set; }
         public GridItemDef Def { get; }
         public Transform Behaviour { get; }
-
+        public Transform Transform { get; }
         public void Deactivate();
         public void OnFixed();
 

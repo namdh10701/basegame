@@ -161,13 +161,13 @@ MonoBehaviour:
     <HealthPoint>k__BackingField:
       _value:
         statModifiers: []
-        _baseValue: 800
+        _baseValue: 1
       _minValue:
         statModifiers: []
         _baseValue: 0
       _maxValue:
         statModifiers: []
-        _baseValue: 800
+        _baseValue: 1
   template: {fileID: 11400000, guid: 313797c60a5acd54fa55937c0534ea96, type: 2}
   workingSlots: []
   EffectCollider: {fileID: 4081074454392886212}
@@ -204,10 +204,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   OnReachZero:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6880831251077919418}
+        m_TargetAssemblyTypeName: _Game.Scripts.Cell, Assembly-CSharp
+        m_MethodName: OnBroken
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnReachFull:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6880831251077919418}
+        m_TargetAssemblyTypeName: _Game.Scripts.Cell, Assembly-CSharp
+        m_MethodName: OnFixed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnDecreased:
     m_PersistentCalls:
       m_Calls:

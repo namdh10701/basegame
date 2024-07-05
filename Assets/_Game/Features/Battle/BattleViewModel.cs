@@ -2,6 +2,7 @@ using _Base.Scripts.EventSystem;
 using _Game.Scripts.Gameplay;
 using _Game.Scripts.UI;
 using Cysharp.Threading.Tasks;
+using System;
 using UnityWeld.Binding;
 using ZBase.UnityScreenNavigator.Core.Modals;
 using ZBase.UnityScreenNavigator.Core.Screens;
@@ -218,8 +219,8 @@ namespace _Game.Features.Battle
         #endregion
 
         [Binding] public string SpeedUpRateText => $"X{SpeedUpRate}";
-        [Binding] public string HPText => $"{HP}/{MaxHP}";
-        [Binding] public string MPText => $"{MP}/{MaxMP}";
+        [Binding] public string HPText => $"{Math.Round(HP)}/{MaxHP}";
+        [Binding] public string MPText => $"{Math.Round(MP)}/{MaxMP}";
         [Binding] public string FeverText => $"{Fever}/{MaxFever}";
 
         [Binding]
@@ -229,7 +230,7 @@ namespace _Game.Features.Battle
             GlobalEvent<bool>.Send("TOGGLE_PAUSE", true);
             var options = new ModalOptions("GamePauseModal");
             await ModalContainer.Find(ContainerKey.Modals).PushAsync(options);
-            
+
         }
 
 

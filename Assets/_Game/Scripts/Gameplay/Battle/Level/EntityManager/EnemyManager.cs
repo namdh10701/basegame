@@ -1,13 +1,20 @@
+using _Base.Scripts.Utils.Extensions;
 using _Game.Scripts.DB;
 using _Game.Scripts.GD;
+using _Game.Scripts.GD.Parser;
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 
 namespace _Game.Scripts.Battle
 {
     public class EnemyManager : MonoBehaviour
     {
-        [SerializeField] List<LevelDesignConfig> levelDesignConfigs;
+        public static string stageId = "0001";
+        public static string floorId;
+
+
+        [SerializeField] List<LevelData> levelDatas;
         [SerializeField] EntityManager entityManager;
 
         [SerializeField] Area pufferFishSpawnArea;
@@ -26,17 +33,17 @@ namespace _Game.Scripts.Battle
 
         void LoadLevelEnemyData()
         {
-            if (LevelDesignConfigLoader.Instance != null)
-            {
-                levelDesignConfigs = LevelDesignConfigLoader.Instance.LevelDesignConfigs;
-            }
+            Debug.LogError(floorId + " HERE");
+            levelDatas = GameLevelManager.GetLevelData(stageId, floorId);
+            //Debug.Log(selectLevelData.);
         }
         public void StartLevel()
         {
             isStart = true;
-            foreach (var spawnData in levelDesignConfigs)
+            foreach (var spawnData in levelDatas)
             {
-                TimedEvent timedEvent = new TimedEvent(spawnData.time_offset, () => SpawnEnemy(spawnData.enemy_ids.ToArray(), spawnData.total_power));
+                TimedEvent timedEvent = new TimedEvent(float.Parse(spawnData.TimeOffset, CultureInfo.InvariantCulture), () => SpawnEnemy(spawnData.EnemyId.ToArray(),
+                    int.Parse(spawnData.TotalPower)));
                 enemySpawnTimer.RegisterEvent(timedEvent);
             }
             enemySpawnTimer.StartTimer();

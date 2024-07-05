@@ -1,6 +1,7 @@
 using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.RPG.Entities;
 using _Game.Scripts.Entities;
+using _Game.Scripts.Gameplay.Ship;
 using _Game.Scripts.GD;
 using _Game.Scripts.PathFinding;
 using System.Collections.Generic;
@@ -11,6 +12,8 @@ namespace _Game.Scripts
     public class Crew : Entity, IGridItem, INodeOccupier, IEffectTaker, IStunable
     {
         [Header("Crew")]
+
+        public Ship Ship;
         public CrewAniamtionHandler Animation;
         public CrewMovement CrewMovement;
         public CrewAction CrewAction;

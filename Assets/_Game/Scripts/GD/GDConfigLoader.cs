@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using _Game.Scripts.GD.Parser;
 using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -148,6 +149,12 @@ namespace _Game.Scripts.GD
         //     }
         //
         // }
+
+        [ContextMenu("test")]
+        public void Test()
+        {
+            GameLevelManager.LoadData();
+        }
 
         [ContextMenu("LoadAll")]
         private void LoadAll()

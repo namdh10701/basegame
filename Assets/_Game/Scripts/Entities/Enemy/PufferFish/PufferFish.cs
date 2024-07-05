@@ -88,19 +88,36 @@ namespace _Game.Scripts.Entities
             da.SetDamage(_stats.AttackDamage.Value, 0);
 
             RaycastHit2D[] inRangeColliders = Physics2D.CircleCastAll(transform.position, _stats.AttackRange.Value, Vector2.zero, LayerMask.NameToLayer("Ship"));
-
-            if (inRangeColliders != null)
+            Debug.LogError(inRangeColliders.Length);
+            if (inRangeColliders != null && inRangeColliders.Length > 0)
             {
-                GridAttackHandler atk = FindAnyObjectByType<GridAttackHandler>();
-                GridPicker gp = FindAnyObjectByType<GridPicker>();
-                List<Cell> cells = gp.PickCells(transform, pufferFish, out Cell centerCell);
-                EnemyAttackData enemyAtk = new EnemyAttackData();
-                DecreaseHealthEffect dhe = new GameObject("", typeof(DecreaseHealthEffect)).GetComponent<DecreaseHealthEffect>();
-                dhe.Amount = _stats.AttackDamage.Value;
+                bool found = false;
+                foreach (var inRange in inRangeColliders)
+                {
+                    if (inRange.collider.TryGetComponent(out EntityProvider entityProvider))
+                    {
+                        if (entityProvider.Entity is Ship)
+                        {
+                            found = true;
+                        }
+                    }
+                }
 
-                enemyAtk.Effects = new List<Effect> { dhe };
+                if (found)
+                {
+                    GridAttackHandler atk = FindAnyObjectByType<GridAttackHandler>();
+                    GridPicker gp = FindAnyObjectByType<GridPicker>();
+                    List<Cell> cells = gp.PickCells(transform, pufferFish, out Cell centerCell);
+                    EnemyAttackData enemyAtk = new EnemyAttackData();
+                    enemyAtk.CenterCell = centerCell;
+                    enemyAtk.TargetCells = cells;
+                    DecreaseHealthEffect dhe = new GameObject("", typeof(DecreaseHealthEffect)).GetComponent<DecreaseHealthEffect>();
+                    dhe.transform.position = centerCell.transform.position;
+                    dhe.Amount = _stats.AttackDamage.Value;
 
-                atk.ProcessAttack(enemyAtk);
+                    enemyAtk.Effects = new List<Effect> { dhe };
+                    atk.ProcessAttack(enemyAtk);
+                }
             }
 
         }
