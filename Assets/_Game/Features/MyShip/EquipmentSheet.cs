@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using _Base.Scripts.UI;
 using _Game.Features.Equipment;
-using _Game.Features.Home;
+using _Game.Features.MyShipScreen;
 using _Game.Features.InventoryItemInfo;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -28,7 +28,7 @@ namespace _Game.Features.MyShip
         [Binding]
         public async void NavBack()
         {
-            await MyShipScreen.Instance.ShowSheet(Sheets.MainShipSheet);
+            await MyShipScreen.MyShipScreen.Instance.ShowSheet(Sheets.MainShipSheet);
         }
 
         [Binding]
@@ -37,7 +37,7 @@ namespace _Game.Features.MyShip
             var selectedItems = EquipmentViewModel.SelectedItems;
             var output = new EquipmentSheetOutputData(selectedItems);
 
-            await MyShipScreen.Instance.ShowSheet(Sheets.MainShipSheet, output);
+            await MyShipScreen.MyShipScreen.Instance.ShowSheet(Sheets.MainShipSheet, output);
         }
 
         [Binding]

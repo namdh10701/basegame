@@ -6,7 +6,7 @@ using UnityWeld.Binding;
 using ZBase.UnityScreenNavigator.Core.Sheets;
 using Task = System.Threading.Tasks.Task;
 
-namespace _Game.Features.Home
+namespace _Game.Features.MyShipScreen
 {
     public enum Sheets
     {
