@@ -8,8 +8,8 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
     [AddComponentMenu("[Attack Strategy] ChargeShot")]
     public class ChargeShot : NormalShot
     {
-        public float minSpeedBulletModifier = -1;
-        public float maxSpeedBulletModifier = -10;
+        public float minSpeedBulletModifier = .8f;
+        public float maxSpeedBulletModifier = 1f;
 
         public override void DoAttack()
         {
@@ -26,7 +26,8 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
                 var shootDirection = transform.rotation.Rotate(randomAngle);
                 var projectile = SpawnProjectile(shootDirection, shootPosition);
                 AddProjectileModifiers(projectile);
-                projectile.AddMoveSpeed(new RPG.Stats.StatModifier(Random.Range(minSpeedBulletModifier, maxSpeedBulletModifier), RPG.Stats.StatModType.Flat, 1));
+                float speedMod = Random.Range(.8f, 1f);
+                projectile._stats.Speed.BaseValue *= speedMod;
             }
         }
     }

@@ -84,11 +84,12 @@ namespace _Game.Scripts
         public void OnBroken()
         {
             GlobalEvent<Cell, int>.Send("FixCell", this, 3);
+            Debug.Log(X + " " + Y);
             CellRenderer.OnBroken();
         }
         public void OnClick()
         {
-            if (stats.HealthPoint.Value == stats.HealthPoint.MinValue)
+            if (stats.HealthPoint.Value <= stats.HealthPoint.MinValue)
             {
                 GlobalEvent<Cell, int>.Send("FixCell", this, int.MaxValue);
             }

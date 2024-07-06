@@ -1,9 +1,10 @@
+using System.Collections.Generic;
 using _Game.Features.Inventory;
 using UnityEngine;
 namespace _Base.Scripts.UI
 {
-    [CreateAssetMenu(menuName = "Scriptable Objects/Inventory Item Data")]
-    public class InventoryItemData : ScriptableObject
+    [System.Serializable]
+    public class InventoryItemData
     {
         public int startX;
         public int startY;
@@ -11,7 +12,12 @@ namespace _Base.Scripts.UI
         public Vector2 position;
         public string Id;
         public ItemType Type;
-        public int[,] Shape;
-        public Sprite Image;
+    }
+
+    [System.Serializable]
+    public class InventoryData
+    {
+        public List<InventoryItemData> InventoryItemsOnGrid;
+        public List<InventoryItemData> InventoryItemsOnStash;
     }
 }

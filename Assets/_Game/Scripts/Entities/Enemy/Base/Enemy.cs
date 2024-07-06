@@ -5,6 +5,7 @@ using _Base.Scripts.RPG.Behaviours.FindTarget;
 using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.RPG.Entities;
 using _Base.Scripts.RPG.Stats;
+using _Game.Scripts.Battle;
 using _Game.Scripts.Gameplay.Ship;
 using _Game.Scripts.GD;
 using MBT;
@@ -14,6 +15,37 @@ namespace _Game.Scripts.Entities
 {
     public abstract class Enemy : Entity, IEffectTaker, ISlowable
     {
+        public static Dictionary<string, float> dmgModifer = new Dictionary<string, float>()
+        {
+            {"0001",0 },
+            {"0002",0.02f },
+            {"0003",0.0404f },
+            {"0004",0.061208f },
+            {"0005",0.08243216f },
+            {"0006",0.1040808032f },
+            {"0007",0.1261624193f },
+            {"0008",0.1486856676f },
+            {"0009",0.171659381f },
+            {"0010",0.1950925686f }
+        };
+
+        public static Dictionary<string, float> hpModifer = new Dictionary<string, float>()
+        {
+            {"0001",0 },
+            {"0002",0.12f },
+            {"0003",0.2544f },
+            {"0004",0.404928f },
+            {"0005",0.57351936f },
+            {"0006",0.7623416832f },
+            {"0007",0.9738226852f },
+            {"0008",1.210681407f },
+            {"0009",1.475963176f },
+            {"0010",1.773078757f }
+        };
+
+
+
+
         [Header("Enemy")]
         [SerializeField] string enemyId;
         [SerializeField] protected EnemyStats _stats;
@@ -43,6 +75,10 @@ namespace _Game.Scripts.Entities
             MBTExecutor.enabled = false;
             yield return StartActionCoroutine();
             MBTExecutor.enabled = true;
+
+            _stats.AttackDamage.BaseValue *= (1 + dmgModifer[EnemyManager.stageId]);
+            _stats.HealthPoint.StatValue.BaseValue *= (1 + hpModifer[EnemyManager.stageId]);
+            _stats.HealthPoint.MaxStatValue.BaseValue *= (1 + hpModifer[EnemyManager.stageId]);
         }
         public virtual void Die()
         {

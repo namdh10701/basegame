@@ -42,8 +42,6 @@ public class CrewAction : MonoBehaviour
 
     void OnFree()
     {
-        Debug
-            .Log("ON FREE");
         if (!isActive || crewController == null)
         {
             Handler.Act(new Idle(crew));
@@ -51,7 +49,22 @@ public class CrewAction : MonoBehaviour
         }
         if (crewController.HasPendingJob)
         {
-            crewController.RegisterForNewJob(crew);
+            if (crewController.RegisterForNewJob(crew))
+            {
+
+            }
+            else{
+                float rand = Random.Range(0f, 1f);
+                if (rand < 0.35f)
+                {
+                    Handler.Act(new Idle(crew));
+                }
+                else
+                {
+                    MoveData moveData = FindAnyObjectByType<MoveData>();
+                    Handler.Act(new Wander(crew, moveData));
+                }
+            }
         }
         else
         {
