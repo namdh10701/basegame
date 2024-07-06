@@ -150,12 +150,6 @@ namespace _Game.Scripts.GD
         //
         // }
 
-        [ContextMenu("test")]
-        public void Test()
-        {
-            GameLevelManager.LoadData();
-        }
-
         [ContextMenu("LoadAll")]
         private void LoadAll()
         {
