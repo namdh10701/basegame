@@ -7,6 +7,7 @@ using System.Linq;
 using _Game.Features.Inventory;
 using UnityEngine;
 using _Base.Scripts.Utils.Extensions;
+using _Base.Scripts.UI;
 
 namespace _Game.Scripts
 {
@@ -71,7 +72,47 @@ namespace _Game.Scripts
                 UsingGridItemDatas = GridItemDatas_Id2;
             }
 
+            GetLoadOut();
+
+
             LoadShipItems();
+        }
+
+        void GetLoadOut()
+        {
+            UsingGridItemDatas = new List<GridItemData>();
+            if (PlayerPrefs.HasKey(Ship.Id))
+            {
+                string jsonData = PlayerPrefs.GetString(Ship.Id);
+                InventoryData data = JsonUtility.FromJson<InventoryData>(jsonData);
+
+                List<InventoryItemData> items = data.InventoryItemsOnGrid;
+
+                foreach (InventoryItemData item in items)
+                {
+                    GridItemData itemData = new();
+                    itemData.Id = item.Id;
+                    itemData.startY = item.startX;
+                    itemData.startX = item.startY;
+                    itemData.GridId = "1";
+
+                    switch (item.Type)
+                    {
+                        case ItemType.CANNON:
+                            itemData.GridItemType = GridItemType.Cannon;
+                            break;
+                        case ItemType.CREW:
+                            itemData.GridItemType = GridItemType.Crew;
+                            break;
+                        case ItemType.AMMO:
+                            itemData.GridItemType = GridItemType.Bullet;
+                            break;
+                    }
+
+                    UsingGridItemDatas.Add(itemData);
+
+                }
+            }
         }
 
         public void LoadShipItems()
