@@ -4,28 +4,14 @@ using UnityEngine;
 
 public class ElectricEelProjectile : Projectile
 {
-    protected override void LoadStats()
-    {
-    }
-
-    protected override void LoadModifiers()
-    {
-
-    }
-    protected override void ApplyStats()
-    {
-
-    }
-
     public Transform startTransform;
     public Transform targetTransform;
     public ElectricFx lightingFx;
     public Transform TargetTransform { set { targetTransform = value; lightingFx.targetTransform = value; } }
     public Transform StartTransform { set { startTransform = value; lightingFx.startTransform = value; } }
 
-    protected override void Awake()
+    protected void Awake()
     {
-        base.Awake();
         ProjectileMovement = new HomingMove(this, targetTransform);
         ProjectileCollisionHandler projectileCollisionHandler = (ProjectileCollisionHandler)CollisionHandler;
         projectileCollisionHandler.Handlers.Add(new ElectricBounceHandler(3, 20, lightingFx));

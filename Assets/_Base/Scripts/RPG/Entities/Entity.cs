@@ -4,15 +4,6 @@ using UnityEngine;
 
 namespace _Base.Scripts.RPG.Entities
 {
-    [Serializable]
-    public class AttributeDictionary : SerializableDictionary<Type, string> { }
-
-    [Serializable]
-    public class StringColorDictionary : SerializableDictionary<string, Color>
-    {
-        public StringColorDictionary(IDictionary<string, Color> dict) : base(dict) { }
-    }
-
     [DisallowMultipleComponent]
     public abstract class Entity : MonoBehaviour
     {

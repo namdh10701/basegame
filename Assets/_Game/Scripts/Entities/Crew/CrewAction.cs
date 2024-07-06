@@ -12,9 +12,9 @@ public class CrewAction : MonoBehaviour
     Wander wander;
     bool isActive;
     public SpriteRenderer carryObject;
-    private Bullet carryingBullet;
+    private Ammo carryingBullet;
 
-    public Bullet CarryingBullet
+    public Ammo CarryingBullet
     {
         get
         {

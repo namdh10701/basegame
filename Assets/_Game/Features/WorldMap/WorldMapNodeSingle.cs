@@ -1,4 +1,6 @@
+using _Game.Scripts.Battle;
 using _Game.Scripts.UI;
+using UnityEngine;
 using UnityWeld.Binding;
 using ZBase.UnityScreenNavigator.Core.Screens;
 using ZBase.UnityScreenNavigator.Core.Views;
@@ -8,6 +10,8 @@ namespace _Game.Features.WorldMap
     [Binding]
     public class WorldMapNodeSingle : RootViewModel
     {
+        public string stageId = "";
+
         #region Binding Prop: Name
 
         /// <summary>
@@ -57,7 +61,7 @@ namespace _Game.Features.WorldMap
         private bool _isCompleted;
 
         #endregion
-        
+
         #region Binding Prop: IsSelected
 
         /// <summary>
@@ -69,11 +73,17 @@ namespace _Game.Features.WorldMap
             get => _isSelected;
             set
             {
+                if (PlayerPrefs.GetString("PlayingStage", "") != stageId)
+                {
+                    Debug.Log(stageId + " " + PlayerPrefs.GetString("PlayingStage"));
+                    return;
+                }
+
                 if (value)
                 {
                     OnSelected();
                 }
-                
+
                 if (Equals(_isSelected, value))
                 {
                     return;
@@ -87,7 +97,7 @@ namespace _Game.Features.WorldMap
         private async void OnSelected()
         {
             // PopupManager.Instance.ShowPopup<SeaMapNodeInfoPopup.SeaMapNodeInfoPopup>();
-            
+            EnemyManager.stageId = stageId;
             var options = new ViewOptions("SeaMapScreen", true);
             await ScreenContainer.Find(ContainerKey.Screens).PushAsync(options);
             // ModalContainer.Find(ContainerKey.Modals).Push(options);
@@ -96,7 +106,7 @@ namespace _Game.Features.WorldMap
         private bool _isSelected;
 
         #endregion
-        
+
         #region Binding Prop: IsLocked
 
         /// <summary>

@@ -89,7 +89,7 @@ namespace _Game.Scripts
             Animation.StopStun();
         }
 
-        public void Carry(Bullet bullet)
+        public void Carry(Ammo bullet)
         {
             Animation.PlayCarry();
             CrewAction.CarryingBullet = bullet;

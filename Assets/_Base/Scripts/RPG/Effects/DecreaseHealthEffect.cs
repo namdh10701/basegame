@@ -18,7 +18,7 @@ namespace _Base.Scripts.RPG.Effects
         public float AmmoPenetrate { get; set; }
         public bool IsCrit;
 
-        protected override void OnApply(Entity entity)
+        protected override void OnApply(IEffectTaker entity)
         {
             if (entity.Stats == null)
             {

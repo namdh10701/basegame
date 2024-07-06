@@ -5,9 +5,9 @@ public class StunEffect : OneShotEffect
 {
     public float StunDuration = 1;
 
-    protected override void OnApply(Entity entity)
+    protected override void OnApply(IEffectTaker entity)
     {
-        if (entity.TryGetComponent(out IStunable stunable))
+        if (entity is IStunable stunable)
         {
             stunable.OnStun(StunDuration);
         }

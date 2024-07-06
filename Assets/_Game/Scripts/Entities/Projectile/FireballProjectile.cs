@@ -7,9 +7,8 @@ public class FireballProjectile : CannonProjectile
 {
     public DamageArea damageArea;
     public ExplosionFx explosionFx;
-    protected override void Awake()
+    protected void Awake()
     {
-        base.Awake();
         ProjectileCollisionHandler projectileCollisionHandler = (ProjectileCollisionHandler)collisionListener.CollisionHandler;
         projectileCollisionHandler.LoopHandlers.Add(new ExplodeHandler(damageArea));
     }
@@ -19,7 +18,7 @@ public class FireballProjectile : CannonProjectile
         damageArea.SetDamage(_stats.Damage.Value, _stats.ArmorPenetrate.Value);
     }
 
-    protected override void ApplyStats()
+    public override void ApplyStats()
     {
         base.ApplyStats();
         explosionFx.SetSize(_stats.AttackAOE.Value);

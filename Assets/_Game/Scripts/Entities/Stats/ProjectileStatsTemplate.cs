@@ -4,19 +4,18 @@ using UnityEngine;
 
 [CreateAssetMenu(menuName = "Scriptable Objects/Projectile Stats Template")]
 [Serializable]
-public class ProjectileStatsTemplate : ScriptableObject
+public class ProjectileStatsTemplate : StatsTemplate
 {
     [field: SerializeField] public ProjectileStats Data { get; set; } = new();
-    public void ApplyConfig(ProjectileStats stats)
+    public override void ApplyConfig(Stats stats)
     {
-        stats.Accuracy.BaseValue = Data.Accuracy.BaseValue;
-        stats.AttackAOE.BaseValue = Data.AttackAOE.BaseValue;
-        stats.CritChance.BaseValue = Data.CritChance.BaseValue;
-        stats.CritDamage.BaseValue = Data.CritDamage.BaseValue;
-        stats.ArmorPenetrate.BaseValue = Data.ArmorPenetrate.BaseValue;
-        stats.Damage.BaseValue = Data.Damage.BaseValue;
-        stats.Speed.BaseValue = Data.Speed.BaseValue;
-        stats.MagazineSize.BaseValue = Data.MagazineSize.BaseValue;
-        stats.EnergyCost.BaseValue = Data.EnergyCost.BaseValue;
+        ProjectileStats projectileStats = stats as ProjectileStats;
+        projectileStats.Accuracy.BaseValue = Data.Accuracy.BaseValue;
+        projectileStats.AttackAOE.BaseValue = Data.AttackAOE.BaseValue;
+        projectileStats.CritChance.BaseValue = Data.CritChance.BaseValue;
+        projectileStats.CritDamage.BaseValue = Data.CritDamage.BaseValue;
+        projectileStats.ArmorPenetrate.BaseValue = Data.ArmorPenetrate.BaseValue;
+        projectileStats.Damage.BaseValue = Data.Damage.BaseValue;
+        projectileStats.Speed.BaseValue = Data.Speed.BaseValue;
     }
 }

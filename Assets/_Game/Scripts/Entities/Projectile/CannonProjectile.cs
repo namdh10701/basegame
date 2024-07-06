@@ -5,36 +5,9 @@ using _Game.Scripts.GD;
 
 namespace _Game.Scripts.Entities
 {
-    public class CannonProjectile : Projectile
+    public class CannonProjectile : Projectile, IPhysicsEffectGiver, IGDConfigStatsTarget
     {
-        protected override void LoadStats()
-        {
-            if (GDConfigLoader.Instance != null)
-            {
-                if (GDConfigLoader.Instance.Ammos.TryGetValue(Id, out AmmoConfig cannonConfig))
-                {
-                    cannonConfig.ApplyGDConfig(_stats);
-                }
-                else
-                {
-                    _statsTemplate.ApplyConfig(_stats);
-                }
-            }
-            else
-            {
-                _statsTemplate.ApplyConfig(_stats);
-            }
-        }
-
-        protected override void LoadModifiers()
-        {
-
-        }
-        protected override void ApplyStats()
-        {
-
-        }
-
+        public string id;
         protected virtual void Start()
         {
             DecreaseHealthEffect decreaseHpEffect = gameObject.AddComponent<DecreaseHealthEffect>();

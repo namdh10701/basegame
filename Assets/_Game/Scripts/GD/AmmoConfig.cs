@@ -36,34 +36,26 @@ namespace _Game.Scripts.GD
         public override string GetId() => id;
         public override void ApplyGDConfig(object stats)
         {
-            // var gdConfig = GDConfigLoader.Instance.CannonMap[ID];
-            // foreach (var fieldInfo in typeof(CannonConfig).GetFields(BindingFlags.Public | BindingFlags.Instance))
-            // {
-            //     object value = gdConfig[fieldInfo.Name];
-            //     if (fieldInfo.FieldType == typeof(float))
-            //     {
-            //         value ??= 0f;
-            //     }
-            //     fieldInfo.SetValue(this, value);
-            // }
-
-
-
-            var cannonSt = (stats as ProjectileStats)!;
-            cannonSt.HealthPoint.MaxStatValue.BaseValue = hp;
-            cannonSt.HealthPoint.StatValue.BaseValue = hp;
-            cannonSt.Damage.BaseValue = ammo_attack;
-            cannonSt.CritDamage.BaseValue = ammo_crit_damage;
-            cannonSt.CritChance.BaseValue = ammo_crit_chance;
-            cannonSt.Accuracy.BaseValue = ammo_accuracy;
-            cannonSt.ArmorPenetrate.BaseValue = armor_pen;
-            cannonSt.AttackAOE.BaseValue = attack_aoe;
-            cannonSt.Speed.BaseValue = project_speed;
-            cannonSt.ArmorPenetrate.BaseValue = armor_pen;
-            cannonSt.Piercing.BaseValue = project_piercing;
-            cannonSt.MagazineSize.BaseValue = magazine_size;
-            cannonSt.EnergyCost.BaseValue = energy_cost;
-
+            if(stats is AmmoStats)
+            {
+                var cannonSt = (stats as AmmoStats);
+                cannonSt.HealthPoint.MaxStatValue.BaseValue = hp;
+                cannonSt.HealthPoint.StatValue.BaseValue = hp;
+                cannonSt.EnergyCost.BaseValue = energy_cost;
+            }
+            else
+            {
+                var cannonSt = (stats as ProjectileStats);
+                cannonSt.Damage.BaseValue = ammo_attack;
+                cannonSt.CritDamage.BaseValue = ammo_crit_damage;
+                cannonSt.CritChance.BaseValue = ammo_crit_chance;
+                cannonSt.Accuracy.BaseValue = ammo_accuracy;
+                cannonSt.ArmorPenetrate.BaseValue = armor_pen;
+                cannonSt.AttackAOE.BaseValue = attack_aoe;
+                cannonSt.Speed.BaseValue = project_speed;
+                cannonSt.ArmorPenetrate.BaseValue = armor_pen;
+                cannonSt.Piercing.BaseValue = project_piercing;
+            }
         }
     }
 }

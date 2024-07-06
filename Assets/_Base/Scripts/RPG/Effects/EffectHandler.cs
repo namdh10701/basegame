@@ -8,9 +8,7 @@ namespace _Base.Scripts.RPG.Effects
     [Serializable]
     public class EffectHandler : MonoBehaviour
     {
-        // public List<StatModifier> StatModifiers;
-        [SerializeField]
-        private Entity entity;
+        private IEffectTaker entity;
 
         [HideInInspector] public List<Effect> effects = new List<Effect>();
 

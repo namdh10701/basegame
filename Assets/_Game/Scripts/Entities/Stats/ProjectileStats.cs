@@ -6,7 +6,7 @@ using UnityEngine;
 namespace _Game.Scripts
 {
     [Serializable]
-    public class ProjectileStats : Stats, IAliveStats
+    public class ProjectileStats : Stats
     {
         [field: SerializeField]
         public Stat Damage { get; set; } = new();
@@ -33,16 +33,5 @@ namespace _Game.Scripts
 
         [field: SerializeField]
         public Stat CritDamage { get; set; } = new();
-
-        [field: SerializeField]
-        public Stat MagazineSize { get; set; } = new();
-
-        [field: SerializeField]
-        public Stat EnergyCost { get; set; } = new();
-
-        [field: SerializeField]
-        public Stat ProjectileCount { get; set; } = new();
-        [field: SerializeField]
-        public RangedStat HealthPoint { get; set; }
     }
 }

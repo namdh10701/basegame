@@ -23,7 +23,7 @@ namespace _Game.Scripts
         public GridItemReferenceHolder ItemReferenceHolder;
         public ShipGridProfile ShipGridProfile;
         public List<Grid> Grids;
-        public List<Bullet> Bullets { get; private set; } = new List<Bullet>();
+        public List<Ammo> Bullets { get; private set; } = new List<Ammo>();
         public List<Cannon> Cannons { get; private set; } = new List<Cannon>();
 
         public CrewController CrewController;
@@ -317,11 +317,11 @@ namespace _Game.Scripts
 
         public void SpawnBullet(GridItemData data, Grid grid)
         {
-            Bullet bulletPrefab = Database.GetBullet(data.Id);
-            Bullet spawned = Instantiate(bulletPrefab, grid.GridItemRoot);
+            Ammo bulletPrefab = Database.GetBullet(data.Id);
+            Ammo spawned = Instantiate(bulletPrefab, grid.GridItemRoot);
             Bullets.Add(spawned);
             spawned.SetId(data.Id);
-            spawned.InitStats();
+            //spawned.InitStats();
 
             IGridItem gridItem = spawned.GetComponent<IGridItem>();
             InitOccupyCell(spawned.id, ItemType.AMMO, gridItem, data, grid);

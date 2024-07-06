@@ -178,6 +178,8 @@ namespace Map
             if (mapManager.CurrentMap.path.Count == mapManager.CurrentMap.BossNodeLayer)
             {
                 mapManager.GenerateNewMap();
+                int stage = int.Parse(EnemyManager.stageId) + 1;
+                PlayerPrefs.SetString("PlayingStage", stage.ToString("#4"));
             }
             mapManager.SaveMap();
             view.SetAttainableNodes();

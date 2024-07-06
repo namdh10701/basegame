@@ -23,6 +23,10 @@ namespace _Game.Features
 
         protected override async void OnPostCreateContainers()
         {
+            if (!PlayerPrefs.HasKey("PlayingStage"))
+            {
+                PlayerPrefs.SetString("PlayingStage", "0001");
+            }
             //Debug.unityLogger.logEnabled = false;
             Application.targetFrameRate = 120;
             UnityScreenNavigatorSettings.Initialize();

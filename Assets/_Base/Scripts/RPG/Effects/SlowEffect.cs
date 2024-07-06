@@ -14,7 +14,7 @@ namespace _Base.Scripts.RPG.Effects
             statModifer = new StatModifier(strength, StatModType.PercentAdd);
         }
 
-        protected override void OnStart(Entity entity)
+        protected override void OnStart(IEffectTaker entity)
         {
             if (entity is ISlowable slowable)
             {
@@ -26,11 +26,11 @@ namespace _Base.Scripts.RPG.Effects
             }
         }
 
-        protected override void OnTick(Entity entity)
+        protected override void OnTick(IEffectTaker entity)
         {
 
         }
-        protected override void OnEnd(Entity entity)
+        protected override void OnEnd(IEffectTaker entity)
         {
             if (affected != null)
             {

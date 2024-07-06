@@ -14,7 +14,7 @@ namespace _Base.Scripts.RPG.Effects
             Amount = amount;
         }
 
-        protected override void OnApply(Entity entity)
+        protected override void OnApply(IEffectTaker entity)
         {
             if (entity.Stats is not IAliveStats alive)
             {

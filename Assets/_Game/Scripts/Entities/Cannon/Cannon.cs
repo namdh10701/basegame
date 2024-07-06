@@ -68,7 +68,7 @@ namespace _Game.Scripts.Entities
         public AttackTargetBehaviour AttackTargetBehaviour;
         public FindTargetBehaviour FindTargetBehaviour;
 
-        public Bullet usingBullet;
+        public Ammo usingBullet;
         public SpineAnimationCannonHandler Animation;
 
         protected override void Awake()
@@ -114,7 +114,7 @@ namespace _Game.Scripts.Entities
             }
             else
             {
-                GlobalEvent<Cannon, Bullet, int>.Send("Reload", this, usingBullet, int.MaxValue);
+                GlobalEvent<Cannon, Ammo, int>.Send("Reload", this, usingBullet, int.MaxValue);
             }
         }
 
@@ -144,7 +144,7 @@ namespace _Game.Scripts.Entities
         public void OnOutOfAmmo()
         {
             isOutOfAmmo = true;
-            GlobalEvent<Cannon, Bullet, int>.Send("Reload", this, usingBullet, 15);
+            GlobalEvent<Cannon, Ammo, int>.Send("Reload", this, usingBullet, 15);
 
             UpdateVisual();
         }

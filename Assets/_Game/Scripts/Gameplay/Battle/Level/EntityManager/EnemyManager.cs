@@ -33,7 +33,6 @@ namespace _Game.Scripts.Battle
 
         void LoadLevelEnemyData()
         {
-            Debug.LogError(floorId + " HERE");
             levelDatas = GameLevelManager.GetLevelData(stageId, floorId);
             //Debug.Log(selectLevelData.);
         }

@@ -9,12 +9,12 @@ using UnityEngine.UI;
 public class BulletHpBar : MonoBehaviour
 {
     Image progress;
-    public Bullet bullet;
+    public Ammo bullet;
 
     private void Start()
     {
         progress = transform.GetChild(0).GetComponent<Image>();
-        ((ProjectileStats)bullet.Stats).HealthPoint.OnValueChanged += HealthPoint_OnValueChanged;
+        ((AmmoStats)bullet.Stats).HealthPoint.OnValueChanged += HealthPoint_OnValueChanged;
     }
 
     private void HealthPoint_OnValueChanged(RangedStat stat)
@@ -23,6 +23,6 @@ public class BulletHpBar : MonoBehaviour
     }
     private void OnDestroy()
     {
-        ((ProjectileStats)bullet.Stats).HealthPoint.OnValueChanged -= HealthPoint_OnValueChanged;
+        ((AmmoStats)bullet.Stats).HealthPoint.OnValueChanged -= HealthPoint_OnValueChanged;
     }
 }

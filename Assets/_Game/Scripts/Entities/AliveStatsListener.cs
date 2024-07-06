@@ -13,7 +13,7 @@ public class AliveStatsListener : MonoBehaviour
     float lastValue;
     protected virtual void Awake()
     {
-        aliveStats = (IAliveStats)GetComponent<Entity>().Stats;
+        aliveStats = (IAliveStats)GetComponent<IStatsBearer>().Stats;
         aliveStats.HealthPoint.OnValueChanged += HealthPoint_OnValueChanged;
         lastValue = aliveStats.HealthPoint.Value;
     }
