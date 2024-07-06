@@ -23,7 +23,7 @@ namespace _Game.Features
 
         protected override async void OnPostCreateContainers()
         {
-            Debug.unityLogger.logEnabled = false;
+            //Debug.unityLogger.logEnabled = false;
             Application.targetFrameRate = 120;
             UnityScreenNavigatorSettings.Initialize();
             await GameLevelManager.LoadData();

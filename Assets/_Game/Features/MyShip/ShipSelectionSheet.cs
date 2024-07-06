@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using _Base.Scripts.UI;
-using _Game.Features.Home;
+using _Game.Features.MyShipScreen;
 using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
@@ -108,7 +108,7 @@ namespace _Game.Features.MyShip
             var selectedShipId = GetSelectedShipId();
 
             var output = new ShipSelectionSheetOutputData(selectedShipId);
-            await MyShipScreen.Instance.ShowSheet(Sheets.MainShipSheet, output);
+            await MyShipScreen.MyShipScreen.Instance.ShowSheet(Sheets.MainShipSheet, output);
         }
 
         private string GetSelectedShipId()

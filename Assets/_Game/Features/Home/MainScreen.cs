@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using ZBase.UnityScreenNavigator.Core.Sheets;
 
-namespace _Game.Features.Home
+namespace _Game.Features.MyShipScreen
 {
     public class MainScreen : ZBase.UnityScreenNavigator.Core.Screens.Screen
     {

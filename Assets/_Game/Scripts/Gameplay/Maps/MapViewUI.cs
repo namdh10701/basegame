@@ -26,16 +26,6 @@ namespace Map
         private void Start()
         {
             ShowMap(mapManager.CurrentMap);
-            GlobalEvent.Register(GlobalData.MAP_CHANGED, ShowMapAgain);
-        }
-        public void ShowMapAgain()
-        {
-            ShowMap(mapManager.CurrentMap);
-        }
-
-        private void OnDestroy()
-        {
-            GlobalEvent.Unregister(GlobalData.MAP_CHANGED, ShowMapAgain);
         }
 
 

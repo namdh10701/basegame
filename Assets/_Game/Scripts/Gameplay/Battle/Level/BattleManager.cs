@@ -78,7 +78,7 @@ namespace _Game.Scripts.Gameplay
                     {
                         if (a != null)
                         {
-                            if (a.Stats is IAliveStats s)
+                            if (a.Stats is EnemyStats s)
                             {
                                 if (s.HealthPoint.Value > 0)
                                 {
@@ -89,6 +89,8 @@ namespace _Game.Scripts.Gameplay
                     }
                     if (ended)
                     {
+                        Win();
+                        MapPlayerTracker.Instance.OnGamePassed();
                         yield break;
                     }
                 }

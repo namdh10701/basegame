@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using _Base.Scripts.UI;
-using _Game.Features.Home;
+using _Game.Features.MyShipScreen;
 using _Game.Features.Inventory;
 using _Game.Scripts.DB;
 using Cysharp.Threading.Tasks;
@@ -201,7 +201,7 @@ namespace _Game.Features.MyShip
         public async void NavToShipSelectionSheet()
         {
             OnRemoveClick();
-            await MyShipScreen.Instance.ShowSheet(Sheets.ShipSelectionSheet, _shipsConfig.currentShipId);
+            await MyShipScreen.MyShipScreen.Instance.ShowSheet(Sheets.ShipSelectionSheet, _shipsConfig.currentShipId);
         }
 
         [Binding]
@@ -209,7 +209,7 @@ namespace _Game.Features.MyShip
         {
             var itemList = GetCurrentInventoryItemList();
             OnRemoveClick();
-            await MyShipScreen.Instance.ShowSheet(Sheets.EquipmentSheet, itemList);
+            await MyShipScreen.MyShipScreen.Instance.ShowSheet(Sheets.EquipmentSheet, itemList);
         }
 
         private List<InventoryItemData> GetCurrentInventoryItemList()

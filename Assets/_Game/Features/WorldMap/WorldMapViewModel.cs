@@ -4,7 +4,7 @@ using ZBase.UnityScreenNavigator.Core.Modals;
 using ZBase.UnityScreenNavigator.Core.Screens;
 using ZBase.UnityScreenNavigator.Core.Views;
 
-namespace _Game.Features.Home
+namespace _Game.Features.MyShipScreen
 {
     [Binding]
     public class WorldMapViewModel : RootViewModel

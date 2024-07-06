@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using _Game.Features.Home;
+using _Game.Features.MyShipScreen;
 using _Game.Features.Inventory;
 using _Game.Scripts.Gameplay;
 using _Game.Scripts.UI;
