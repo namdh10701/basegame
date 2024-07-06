@@ -1,9 +1,10 @@
-﻿using _Game.Scripts.DB;
+﻿using _Game.Features.Home;
+using _Game.Features.MyShipScreen;
+using _Game.Scripts.DB;
 using _Game.Scripts.GD;
 using _Game.Scripts.GD.Parser;
 using Cysharp.Threading.Tasks;
-using System.Threading.Tasks;
-using _Game.Features.Home;
+using Map;
 using UnityEngine;
 using ZBase.UnityScreenNavigator.Core;
 using ZBase.UnityScreenNavigator.Core.Screens;
@@ -29,7 +30,14 @@ namespace _Game.Features
             await GameLevelManager.LoadData();
             await GDConfigLoader.Instance.Load();
             Database.Load();
+
+            // MapPlayerTracker.Instance.OnStagePassed += OnOnStagePassed;
             ShowTopPage().Forget();
+        }
+
+        private void OnOnStagePassed()
+        {
+            
         }
 
         private async UniTaskVoid ShowTopPage()

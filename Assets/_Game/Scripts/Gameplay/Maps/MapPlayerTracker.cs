@@ -183,7 +183,10 @@ namespace Map
             view.SetAttainableNodes();
             view.SetLineColors();
 
+            OnStagePassed?.Invoke();
         }
+
+        public event Action OnStagePassed;
 
         static async void ShowInfoPopup(Node mapNode)
         {

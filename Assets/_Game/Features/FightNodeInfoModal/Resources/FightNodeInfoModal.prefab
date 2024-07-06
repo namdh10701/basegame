@@ -278,7 +278,6 @@ GameObject:
   - component: {fileID: 4082930100035404540}
   - component: {fileID: -3119687737808314467}
   - component: {fileID: -7255165818853529643}
-  - component: {fileID: 4353844542100523617}
   m_Layer: 5
   m_Name: FightNodeInfoModal
   m_TagString: Untagged
@@ -346,19 +345,6 @@ MonoBehaviour:
   _animationContainer:
     _enterAnimations: []
     _exitAnimations: []
-  ViewModel: {fileID: 4353844542100523617}
---- !u!114 &4353844542100523617
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1814889502892698750}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 15a5d6c323a141feb48c35c6c18af5bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   style: 0
 --- !u!1 &1953317564139321077
 GameObject:
@@ -618,7 +604,7 @@ MonoBehaviour:
   m_Script: {fileID: 1223786303, guid: e650e72e8be47794994495fc15c0ba63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewModelPropertyName: _Game.Features.FightNodeInfo.FightNodeInfoViewModel.Items
+  viewModelPropertyName: _Game.Features.FightNodeInfoPopup.FightNodeInfoModal.Items
   templatesRoot: {fileID: 2074317476927365731}
 --- !u!114 &664595479594077159
 MonoBehaviour:
@@ -1386,7 +1372,7 @@ MonoBehaviour:
   m_Script: {fileID: -1360956885, guid: e650e72e8be47794994495fc15c0ba63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewModelMethodName: _Game.Features.FightNodeInfo.FightNodeInfoViewModel.NavToBattle
+  viewModelMethodName: _Game.Features.FightNodeInfoPopup.FightNodeInfoModal.NavToBattle
   viewEventName: UnityEngine.UI.Button.onClick
 --- !u!1001 &2283170903863069224
 PrefabInstance:
@@ -1512,7 +1498,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 61700493558767824, guid: 3641699625288486dbe26e9655c31cb7, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 61700493558767824, guid: 3641699625288486dbe26e9655c31cb7, type: 3}
       propertyPath: m_AnchorMin.x
@@ -1520,15 +1506,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 61700493558767824, guid: 3641699625288486dbe26e9655c31cb7, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 61700493558767824, guid: 3641699625288486dbe26e9655c31cb7, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 186
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 61700493558767824, guid: 3641699625288486dbe26e9655c31cb7, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 177
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 61700493558767824, guid: 3641699625288486dbe26e9655c31cb7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1560,11 +1546,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 61700493558767824, guid: 3641699625288486dbe26e9655c31cb7, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 93
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 61700493558767824, guid: 3641699625288486dbe26e9655c31cb7, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -88.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 61700493558767824, guid: 3641699625288486dbe26e9655c31cb7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1766,7 +1752,7 @@ MonoBehaviour:
   m_Script: {fileID: -1360956885, guid: e650e72e8be47794994495fc15c0ba63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewModelMethodName: _Game.Features.FightNodeInfo.FightNodeInfoViewModel.NavToMyShip
+  viewModelMethodName: _Game.Features.FightNodeInfoPopup.FightNodeInfoModal.NavToMyShip
   viewEventName: UnityEngine.UI.Button.onClick
 --- !u!224 &9222770147420768634 stripped
 RectTransform:
