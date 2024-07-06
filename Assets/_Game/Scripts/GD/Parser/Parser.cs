@@ -108,9 +108,9 @@ namespace _Game.Scripts.GD.Parser
 
         private static string GetFilePath(string dataFileName) => Path.Combine(Application.persistentDataPath, "Data", dataFileName);
 
-        public static List<LevelData> GetLevelData(string stageId, string levelId)
+        public static List<LevelData> GetLevelData(string stageId, string floorId)
         {
-            var list = _normalLevelDataSource[$"{stageId}.{levelId}"];
+            var list = _normalLevelDataSource[$"{stageId}.{floorId}"];
             return list[Random.Range(1, list.Count).ToString()];
         }
 
