@@ -175,6 +175,10 @@ namespace Map
         {
             mapManager.CurrentMap.IsLastNodeLocked = false;
             mapManager.CurrentMap.IsLastNodePassed = true;
+            if (mapManager.CurrentMap.path.Count == mapManager.CurrentMap.BossNodeLayer)
+            {
+                mapManager.GenerateNewMap();
+            }
             mapManager.SaveMap();
             view.SetAttainableNodes();
             view.SetLineColors();

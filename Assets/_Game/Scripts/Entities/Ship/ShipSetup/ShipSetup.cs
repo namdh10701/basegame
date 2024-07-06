@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using _Game.Features.Inventory;
 using UnityEngine;
+using _Base.Scripts.Utils.Extensions;
 
 namespace _Game.Scripts
 {
@@ -91,7 +92,7 @@ namespace _Game.Scripts
             foreach (Cannon cannon in Cannons)
             {
                 if (Bullets.Count > 0)
-                    cannon.Reloader.Reload(Bullets[0]);
+                    cannon.Reloader.Reload(Bullets.GetRandom());
             }
         }
 

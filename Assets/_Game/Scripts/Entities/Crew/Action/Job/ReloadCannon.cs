@@ -17,8 +17,8 @@ public class ReloadCannonJob : CrewJob
     public ReloadCannonJob(Cannon cannon) : base()
     {
         Name = "RELOAD CANNON ";
-        DefaultPiority = 3;
-        Piority = 3;
+        DefaultPiority = 20;
+        Piority =20;
 
         this.cannon = cannon;
         this.bullet = null;

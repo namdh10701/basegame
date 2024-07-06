@@ -89,13 +89,6 @@ namespace _Game.Scripts
             Animation.StopStun();
         }
 
-        private void Update()
-        {
-            if (UnityEngine.Input.GetKeyDown(KeyCode.V))
-            {
-                OnStun(2);
-            }
-        }
         public void Carry(Bullet bullet)
         {
             Animation.PlayCarry();

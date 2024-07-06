@@ -46,19 +46,20 @@ public class CrewController : MonoBehaviour
         }
     }
 
-    public void RegisterForNewJob(Crew crew)
+    public bool RegisterForNewJob(Crew crew)
     {
         List<CrewJob> highestPiorityJobs = CrewJobData.GetHighestPiorityActiveJobs();
         if (highestPiorityJobs.Count == 0)
         {
-            return;
+            return false;
         }
         CrewJob closetJob = GetClosetJobFromCrew(highestPiorityJobs, crew);
         if (closetJob == null)
         {
-            return;
+            return false;
         }
         AssignJob(crew, closetJob);
+        return true;
     }
 
 
@@ -70,7 +71,6 @@ public class CrewController : MonoBehaviour
         CrewJob closestJob = null;
         foreach (CrewJob job in jobs)
         {
-            Debug.Log(job.Status + " " + job.Name);
             List<Node> workingSlots = job.WorkLocation.WorkingSlots;
 
             foreach (Node workingSlot in workingSlots)

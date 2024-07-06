@@ -60,6 +60,8 @@ public class FixGridItemJob : CrewJob
     Node workingSlot;
     public FixGridItemJob(IGridItem item, IWorkLocation worklocation)
     {
+        DefaultPiority = 50;
+        Piority = 50;
         gridItem = item;
         WorkLocation = worklocation;
     }

@@ -3,6 +3,7 @@ using _Game.Scripts.GD;
 using _Game.Scripts.GD.Parser;
 using Cysharp.Threading.Tasks;
 using System.Threading.Tasks;
+using _Game.Features.Home;
 using UnityEngine;
 using ZBase.UnityScreenNavigator.Core;
 using ZBase.UnityScreenNavigator.Core.Screens;
@@ -22,7 +23,7 @@ namespace _Game.Features
 
         protected override async void OnPostCreateContainers()
         {
-            Debug.unityLogger.logEnabled = false;
+            //Debug.unityLogger.logEnabled = false;
             Application.targetFrameRate = 120;
             UnityScreenNavigatorSettings.Initialize();
             await GameLevelManager.LoadData();
@@ -33,7 +34,7 @@ namespace _Game.Features
 
         private async UniTaskVoid ShowTopPage()
         {
-            var options = new ViewOptions("MainScreen", false, loadAsync: false);
+            var options = new ViewOptions(nameof(MainScreen), false, loadAsync: false);
             await ContainerManager.Find<ScreenContainer>(ContainerKey.Screens).PushAsync(options);
         }
     }
