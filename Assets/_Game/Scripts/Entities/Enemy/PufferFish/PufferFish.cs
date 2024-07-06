@@ -88,7 +88,6 @@ namespace _Game.Scripts.Entities
             da.SetDamage(_stats.AttackDamage.Value, 0);
 
             RaycastHit2D[] inRangeColliders = Physics2D.CircleCastAll(transform.position, _stats.AttackRange.Value, Vector2.zero, LayerMask.NameToLayer("Ship"));
-            Debug.LogError(inRangeColliders.Length);
             if (inRangeColliders != null && inRangeColliders.Length > 0)
             {
                 bool found = false;

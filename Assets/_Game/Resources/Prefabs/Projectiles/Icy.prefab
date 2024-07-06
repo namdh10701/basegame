@@ -195,8 +195,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51454a304ff74d7ba561bd142aa532c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  body: {fileID: 7245544195619501951}
   Id: 1033
+  body: {fileID: 7245544195619501951}
   onHitParticle: {fileID: 4485226115363735725}
   _stats:
     <Damage>k__BackingField:
@@ -232,6 +232,19 @@ MonoBehaviour:
     <EnergyCost>k__BackingField:
       statModifiers: []
       _baseValue: 0
+    <ProjectileCount>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <HealthPoint>k__BackingField:
+      _value:
+        statModifiers: []
+        _baseValue: 0
+      _minValue:
+        statModifiers: []
+        _baseValue: 0
+      _maxValue:
+        statModifiers: []
+        _baseValue: 0
   _statsTemplate: {fileID: 11400000, guid: 599004154fef6ff439591cab02cb63d5, type: 2}
   trail: {fileID: 3036597525397596365}
   rarity: 0
@@ -327,7 +340,7 @@ CircleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 8832
+    m_Bits: 10880
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2

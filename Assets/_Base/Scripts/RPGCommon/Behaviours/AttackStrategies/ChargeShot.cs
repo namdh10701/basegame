@@ -13,7 +13,6 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
 
         public override void DoAttack()
         {
-
             for (var idx = 0; idx < NumOfProjectile; idx++)
             {
                 CannonProjectile cannonProjectile = projectilePrefab as CannonProjectile;
