@@ -105,7 +105,7 @@ namespace _Base.Scripts.UI
                 // Get pos 
                 _inventoryItem.GetInventorInfo().position = _nextCells[0].GetCellData().position;
                 _inventoryItem.GetInventorInfo().gridID = _curentGrid.id;
-                var shape = _inventoryItem.GetInventorInfo().Shape;
+                var shape = _inventoryItem.GetShape();
                 var pos = _gridManager.GetPositionCell(shape, _inventoryItem.GetInventorInfo().startX,
                 _inventoryItem.GetInventorInfo().startY, _curentGrid);
 

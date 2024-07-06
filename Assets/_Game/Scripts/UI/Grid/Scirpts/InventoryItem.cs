@@ -1,5 +1,7 @@
+using _Game.Features.Inventory;
 using UnityEngine;
 using UnityEngine.UI;
+using _Game.Scripts.DB;
 namespace _Base.Scripts.UI
 {
     public class InventoryItem : MonoBehaviour
@@ -12,10 +14,21 @@ namespace _Base.Scripts.UI
         public void Setup(InventoryItemData inventoryItemData)
         {
             _inventoryItemData = inventoryItemData;
-            Icon.sprite = inventoryItemData.Image;
-            // Icon.sprite = Resources.Load<Sprite>(inventoryItemData.gridItemDef.Image);
+            switch (_inventoryItemData.Type)
+            {
+                case ItemType.CANNON:
+                    Icon.sprite = _Game.Scripts.DB.Database.GetCannonImage(_inventoryItemData.Id);
+                    break;
+                case ItemType.CREW:
+                    Icon.sprite = _Game.Scripts.DB.Database.GetCrewImage(_inventoryItemData.Id);
+                    break;
+                case ItemType.AMMO:
+                    Icon.sprite = _Game.Scripts.DB.Database.GetAmmoImage(_inventoryItemData.Id);
+                    break;
+
+            }
             Icon.SetNativeSize();
-            _shape = inventoryItemData.Shape;
+            _shape = _Game.Scripts.DB.Database.GetShapeByTypeAndOperationType(inventoryItemData.Id, inventoryItemData.Type);
             this.transform.localPosition = inventoryItemData.position;
         }
 

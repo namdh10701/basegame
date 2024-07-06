@@ -22,16 +22,30 @@ namespace _Base.Scripts.UI
 
         void Awake()
         {
-            RemoveAllInventoryItems();
         }
 
+        public void LoadInventoryData()
+        {
+            if (PlayerPrefs.HasKey(_shipID))
+            {
+                string jsonData = PlayerPrefs.GetString(_shipID);
+                InventoryData data = JsonUtility.FromJson<InventoryData>(jsonData);
+
+                if (data.InventoryItemsOnGrid.Count > 0)
+                    GridConfig.grids[0].ItemsReceived = data.InventoryItemsOnGrid;
+                if (data.InventoryItemsOnStash.Count > 0)
+                    GridConfig.grids[1].ItemsReceived = data.InventoryItemsOnStash;
+
+                LoadInventoryItems();
+            }
+        }
 
         public void LoadInventoryItems()
         {
             for (int i = 0; i < GridConfig.grids.Count; i++)
             {
-                if (GridConfig.grids[i].ItemsReceived.InventoryItemsData.Count > 0)
-                    LoadInventoryItemsOnGrid(GridConfig.grids[i].ItemsReceived.InventoryItemsData, GridConfig.grids[i], ParentCells[i]);
+                if (GridConfig.grids[i].ItemsReceived.Count > 0)
+                    LoadInventoryItemsOnGrid(GridConfig.grids[i].ItemsReceived, GridConfig.grids[i], ParentCells[i]);
             }
         }
 
@@ -51,10 +65,13 @@ namespace _Base.Scripts.UI
         {
             InventoryItemsOnGrid = InventoryItems.Where(item => item != null && item.GetInventorInfo().gridID == "Ship_1").ToList();
             InventoryItemsOnStash = InventoryItems.Where(item => item != null && item.GetInventorInfo().gridID == "Stash").ToList();
+            SaveInventoryData();
+
         }
 
         public void Initialize(string shipID)
         {
+            RemoveAllInventoryItems();
             _shipID = shipID;
 
             for (int i = 0; i < GridConfig.grids.Count; i++)
@@ -127,14 +144,14 @@ namespace _Base.Scripts.UI
 
         }
 
-        public void AddInventoryItemsInfo(List<InventoryItemData> inventoryItems)
+        public void AddInventoryItemsInfoToStash(List<InventoryItemData> inventoryItems)
         {
             foreach (var inventoryItem in inventoryItems)
             {
                 if (CheckPlaceItem(inventoryItem, GridConfig.grids[1]))
                 {
                     inventoryItem.gridID = GridConfig.grids[1].id;
-                    GridConfig.grids[1].ItemsReceived.InventoryItemsData.Add(inventoryItem);
+                    GridConfig.grids[1].ItemsReceived.Add(inventoryItem);
                 }
                 else
                 {
@@ -150,7 +167,7 @@ namespace _Base.Scripts.UI
             {
                 if (grid.id == gridInfor.id)
                 {
-                    grid.ItemsReceived.InventoryItemsData.Add(inventoryItemData);
+                    grid.ItemsReceived.Add(inventoryItemData);
                 }
             }
         }
@@ -158,11 +175,11 @@ namespace _Base.Scripts.UI
         public void SubmitItemInventorToGamePlay()
         {
             var GridItemDatas = new List<GridItemData>();
-            foreach (var item in GridConfig.grids[0].ItemsReceived.InventoryItemsData)
+            foreach (var item in GridConfig.grids[0].ItemsReceived)
             {
                 var GridItemData = new GridItemData();
                 GridItemData.Id = item.Id;
-                GridItemData.GridId = "1";
+                GridItemData.GridId = item.gridID;
                 GridItemData.position = Vector3.zero;
                 GridItemData.OccupyCells = new List<Vector2Int>();
                 GridItemData.startX = item.startY;
@@ -191,7 +208,17 @@ namespace _Base.Scripts.UI
             {
                 ShipSetup.GridItemDatas_Id2 = GridItemDatas;
             }
+        }
 
+        private void SaveInventoryData()
+        {
+            InventoryData data = new InventoryData();
+            data.InventoryItemsOnGrid = GridConfig.grids[0].ItemsReceived;
+            data.InventoryItemsOnStash = GridConfig.grids[1].ItemsReceived;
+
+            string jsonData = JsonUtility.ToJson(data);
+            PlayerPrefs.SetString(_shipID, jsonData);
+            PlayerPrefs.Save();
         }
 
         public void RemoveInventoryItemsInfoEndDrag(InventoryItemData inventoryItemData, GridInfor gridInfor)
@@ -200,7 +227,7 @@ namespace _Base.Scripts.UI
             {
                 if (grid.id == gridInfor.id)
                 {
-                    grid.ItemsReceived.InventoryItemsData.Remove(inventoryItemData);
+                    grid.ItemsReceived.Remove(inventoryItemData);
                 }
             }
 
@@ -212,7 +239,7 @@ namespace _Base.Scripts.UI
 
             foreach (var inventoryItem in InventoryItemsData)
             {
-                foreach (var inventoryItemData in grid.ItemsReceived.InventoryItemsData)
+                foreach (var inventoryItemData in grid.ItemsReceived)
                 {
                     if (inventoryItem == inventoryItemData)
                     {
@@ -223,7 +250,7 @@ namespace _Base.Scripts.UI
 
             foreach (var itemToRemove in itemsToRemove)
             {
-                grid.ItemsReceived.InventoryItemsData.Remove(itemToRemove);
+                grid.ItemsReceived.Remove(itemToRemove);
                 ChangeStatusCell(itemToRemove, itemToRemove.startX, itemToRemove.startY, grid, StatusCell.Empty);
             }
         }
@@ -231,7 +258,7 @@ namespace _Base.Scripts.UI
 
         public void LoadInventoryItemsOnGrid(List<InventoryItemData> InventoryItemsData, GridInfor grid, Transform parent)
         {
-            RemoveAllInventoryItemsOnStash();
+            // RemoveAllInventoryItemsOnStash();
             foreach (var inventoryItem in InventoryItemsData)
             {
                 inventoryItem.gridID = grid.id;
@@ -251,6 +278,7 @@ namespace _Base.Scripts.UI
             {
                 InventoryItems.Add(item);
             }
+            SaveInventoryData();
         }
 
         private void RemoveAllInventoryItemsOnStash()
@@ -311,10 +339,10 @@ namespace _Base.Scripts.UI
             // Clear all grid items and cells data
             foreach (var grid in GridConfig.grids)
             {
-                grid.ItemsReceived.InventoryItemsData.Clear();
+                grid.ItemsReceived.Clear();
                 grid.listCellsData.Clear();
             }
-            Initialize(_shipID);
+            // Initialize(_shipID);
         }
 
 
@@ -326,7 +354,7 @@ namespace _Base.Scripts.UI
             {
                 for (int c = 0; c < grid.cols && !itemPlaced; c++)
                 {
-                    var shape = inventoryItemData.Shape;
+                    var shape = _Game.Scripts.DB.Database.GetShapeByTypeAndOperationType(inventoryItemData.Id, inventoryItemData.Type);
                     var result = CanPlace(shape, r, c, grid);
                     if (result.canPlace)
                     {
@@ -398,7 +426,7 @@ namespace _Base.Scripts.UI
 
         public void ChangeStatusCell(InventoryItemData inventoryItemData, int startX, int startY, GridInfor grid, StatusCell statusCell)
         {
-            var shape = inventoryItemData.Shape;
+            var shape = _Game.Scripts.DB.Database.GetShapeByTypeAndOperationType(inventoryItemData.Id, inventoryItemData.Type);
             int itemRows = shape.GetLength(0);
             int itemCols = shape.GetLength(1);
             inventoryItemData.startX = startX;
@@ -488,7 +516,7 @@ namespace _Base.Scripts.UI
                 for (int c = 0; c < grid.cols; c++)
                 {
                     var cell = grid.cells[r, c];
-                    var shape = inventoryItem.GetInventorInfo().Shape;
+                    var shape = _Game.Scripts.DB.Database.GetShapeByTypeAndOperationType(inventoryItem.GetInventorInfo().Id, inventoryItem.GetInventorInfo().Type);
                     if (IsMouseOverCell(inventoryPositon, cell, shape))
                     {
                         var cellData = cell.GetCellData();

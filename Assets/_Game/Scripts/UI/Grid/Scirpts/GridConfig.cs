@@ -20,7 +20,7 @@ namespace _Base.Scripts.UI
         public float spacing;
         public Cell[,] cells;
         public List<CellData> listCellsData = new List<CellData>();
-        public ItemsReceived ItemsReceived;
+        public List<InventoryItemData> ItemsReceived;
         public Transform startPos;
 
         public int GetIndex(Cell cell)
