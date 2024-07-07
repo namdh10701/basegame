@@ -14,8 +14,6 @@ public interface IEffectTaker
 {
     public Transform Transform { get; }
     public EffectHandler EffectHandler { get; }
-
-    public Stats Stats { get; }
 }
 
 public interface IPhysicsEffectTaker : IEffectTaker

@@ -36,12 +36,13 @@ namespace _Game.Scripts.GD
         public override string GetId() => id;
         public override void ApplyGDConfig(object stats)
         {
-            if(stats is AmmoStats)
+            if (stats is AmmoStats)
             {
                 var cannonSt = (stats as AmmoStats);
                 cannonSt.HealthPoint.MaxStatValue.BaseValue = hp;
                 cannonSt.HealthPoint.StatValue.BaseValue = hp;
                 cannonSt.EnergyCost.BaseValue = energy_cost;
+                cannonSt.MagazineSize.BaseValue = magazine_size;
             }
             else
             {

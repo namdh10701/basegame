@@ -8,9 +8,12 @@ using UnityEngine;
 
 namespace _Game.Scripts.Entities
 {
-    public class Ammo : MonoBehaviour, IStatsBearer, IEffectTaker, IGridItem, IWorkLocation, INodeOccupier
+    public class Ammo : Entity, IEffectTaker, IGridItem, IWorkLocation, INodeOccupier, IGDConfigStatsTarget
     {
         public string id;
+        public GDConfig gdConfig;
+        public StatsTemplate statsTemplate;
+        public StatsTemplate StatsTemplate => statsTemplate;
         public CannonProjectile Projectile;
 
         [SerializeField] private GridItemDef def;
@@ -20,6 +23,7 @@ namespace _Game.Scripts.Entities
         public GridItemDef Def { get => def; }
         public Transform Behaviour { get => null; }
         public string GridId { get; set; }
+
         public List<Node> workingSlots = new List<Node>();
         public List<Node> WorkingSlots { get => workingSlots; set => workingSlots = value; }
         public List<Node> occupyingNodes = new List<Node>();
@@ -29,9 +33,13 @@ namespace _Game.Scripts.Entities
         public EffectHandler effectHandler;
         public EffectHandler EffectHandler => effectHandler;
 
-        public Stats Stats => stats;
+        public override Stats Stats => stats;
 
         public Transform Transform => transform;
+
+        public string Id { get => id; set => id = value; }
+        public GDConfig GDConfig { get => gdConfig; }
+
         public AmmoStats stats;
 
         public SpriteRenderer sprite;

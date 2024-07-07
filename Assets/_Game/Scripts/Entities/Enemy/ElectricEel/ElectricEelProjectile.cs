@@ -9,9 +9,13 @@ public class ElectricEelProjectile : Projectile
     public ElectricFx lightingFx;
     public Transform TargetTransform { set { targetTransform = value; lightingFx.targetTransform = value; } }
     public Transform StartTransform { set { startTransform = value; lightingFx.startTransform = value; } }
-
-    protected void Awake()
+    private void Start()
     {
+        ApplyStats();
+    }
+    public override void ApplyStats()
+    {
+        base.ApplyStats();
         ProjectileMovement = new HomingMove(this, targetTransform);
         ProjectileCollisionHandler projectileCollisionHandler = (ProjectileCollisionHandler)CollisionHandler;
         projectileCollisionHandler.Handlers.Add(new ElectricBounceHandler(3, 20, lightingFx));

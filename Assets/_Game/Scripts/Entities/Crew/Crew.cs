@@ -9,70 +9,44 @@ using UnityEngine;
 
 namespace _Game.Scripts
 {
-    public class Crew : Entity, IGridItem, INodeOccupier, IEffectTaker, IStunable
+    public class Crew : Entity, IGDConfigStatsTarget, IStatsBearer, INodeOccupier, IEffectTaker, IStunable
     {
-        [Header("Crew")]
+        [Header("GD Config Stats Target")]
+        [SerializeField] private string id;
+        [SerializeField] private GDConfig gdConfig;
+        [SerializeField] private StatsTemplate statsTemplate;
 
+        [Header("Crew")]
         public Ship Ship;
+        public Rigidbody2D body;
         public CrewAniamtionHandler Animation;
         public CrewMovement CrewMovement;
         public CrewAction CrewAction;
         public CrewStats stats;
         public CrewStatsTemplate _statTemplate;
 
-        [Header("GridItem")]
-        [SerializeField] GridItemDef def;
-        [SerializeField] Transform behaviour;
-
         [Header("EffectTaker")]
         public EffectTakerCollider EffectTakerCollider;
         [SerializeField] EffectHandler effectHandler;
-        public override Stats Stats => stats;
         public EffectHandler EffectHandler => effectHandler;
         public Transform Transform => EffectTakerCollider.transform;
         [field: SerializeField]
         public List<Cell> OccupyCells { get; set; }
-        public GridItemDef Def { get => def; set => def = value; }
-        public Transform Behaviour { get => behaviour; }
         public string GridId { get; set; }
         public List<Node> occupiyingNodes = new List<Node>();
         public List<Node> OccupyingNodes { get => occupiyingNodes; set => occupiyingNodes = value; }
-        public bool IsBroken { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-        public bool IsAbleToTakeHit { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+        public string Id { get => id; set => id = value; }
+        public GDConfig GDConfig => gdConfig;
+
+        public StatsTemplate StatsTemplate => statsTemplate;
+
+        public override Stats Stats => stats;
 
         private void Start()
         {
+            EffectHandler.EffectTaker = this;
             EffectTakerCollider.Taker = this;
         }
-
-        protected override void ApplyStats()
-        {
-        }
-
-        protected override void LoadModifiers()
-        {
-
-        }
-
-        protected override void LoadStats()
-        {
-            if (GDConfigLoader.Instance == null)
-            {
-                _statTemplate.ApplyConfig(stats);
-            }
-            else
-            {
-                if (GDConfigLoader.Instance.Crews.TryGetValue(Id, out CrewConfig enemyConfig))
-                {
-                    enemyConfig.ApplyGDConfig(stats);
-                }
-                else
-                {
-                    _statTemplate.ApplyConfig(stats);
-                }
-            }
-        }
-
         public void OnStun(float duration)
         {
             Debug.Log("Stun " + name);
@@ -112,6 +86,11 @@ namespace _Game.Scripts
         }
 
         public void OnFixed()
+        {
+
+        }
+
+        void IStatsBearer.ApplyStats()
         {
 
         }

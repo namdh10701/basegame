@@ -47,7 +47,6 @@ namespace _Base.Scripts.RPG.Behaviours.FindTarget
             {
                 return;
             }
-
             Targets.Add(target);
         }
 

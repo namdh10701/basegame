@@ -15,13 +15,13 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
     {
         protected Cannon Cannon;
         protected Transform shootPosition;
-        protected Entity projectilePrefab;
+        protected CannonProjectile projectilePrefab;
         private Vector2 shootDirection;
         private void Awake()
         {
             Cannon = GetComponent<Cannon>();
         }
-        public override void SetData(Entity shooter, Transform shootPosition, Entity projectilePrefab, Vector3 shootDirection)
+        public override void SetData(Cannon shooter, Transform shootPosition, CannonProjectile projectilePrefab, Vector3 shootDirection)
         {
 
             this.shootPosition = shootPosition;
@@ -47,7 +47,7 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
         {
             CannonStats cannonStats = (CannonStats)Cannon.Stats;
             projectile.AddCritChance(new StatModifier(cannonStats.CriticalChance.Value, StatModType.Flat, 1));
-            ProjectileStats pStats = (ProjectileStats)Cannon.usingBullet.Stats;
+            ProjectileStats pStats = (ProjectileStats)Cannon.usingBullet.Projectile.Stats;
             float addCritChanceFromProjectile = pStats.CritChance.Value;
             float totalCritChance = addCritChanceFromProjectile + Cannon.FighterStats.CriticalChance.Value;
             float addCritDmgFromProjectile = pStats.CritDamage.Value;

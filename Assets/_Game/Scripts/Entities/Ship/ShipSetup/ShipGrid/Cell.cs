@@ -10,7 +10,7 @@ using UnityEngine;
 namespace _Game.Scripts
 {
     [System.Serializable]
-    public class Cell : Entity, IEffectTaker, IWorkLocation
+    public class Cell : MonoBehaviour, IStatsBearer, IEffectTaker, IWorkLocation
     {
         public CellRenderer CellRenderer;
         public int X;
@@ -23,7 +23,7 @@ namespace _Game.Scripts
         public EffectHandler EffectHandler => effectHandler;
         public CellStats stats;
         public CellStatsTemplate template;
-        public override Stats Stats => stats;
+        public Stats Stats => stats;
 
         public List<Node> WorkingSlots { get => workingSlots; set => workingSlots = value; }
         public List<Node> workingSlots;
@@ -31,9 +31,9 @@ namespace _Game.Scripts
         public NodeGraph nodeGraph;
 
 
-        protected override void Awake()
+        protected void Awake()
         {
-            base.Awake();
+            effectHandler.EffectTaker = this;
             EffectCollider.Taker = this;
             InitWorkingSlot();
         }
@@ -59,21 +59,6 @@ namespace _Game.Scripts
             return $"{X}, {Y}";
         }
 
-        protected override void ApplyStats()
-        {
-
-        }
-
-        protected override void LoadModifiers()
-        {
-
-        }
-
-        protected override void LoadStats()
-        {
-
-        }
-
         public void OnFixed()
         {
             CellRenderer.OnFixed();
@@ -93,6 +78,11 @@ namespace _Game.Scripts
             {
                 GlobalEvent<Cell, int>.Send("FixCell", this, int.MaxValue);
             }
+        }
+
+        void IStatsBearer.ApplyStats()
+        {
+
         }
     }
 }

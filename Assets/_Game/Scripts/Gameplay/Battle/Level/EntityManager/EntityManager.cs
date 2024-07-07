@@ -11,7 +11,7 @@ namespace _Game.Scripts.Battle
 {
     public class EntityManager : MonoBehaviour
     {
-        public List<Entity> aliveEntities = new List<Entity>();
+        public List<IAliveStats> aliveEntities = new List<IAliveStats>();
         public Ship Ship;
         public Transform entityRoot;
         public Transform enemyRoot;
@@ -23,22 +23,22 @@ namespace _Game.Scripts.Battle
         }
         public void SpawnEnemy(string id, Vector3 position)
         {
-            Enemy enemy = ResourceLoader.LoadEnemy(id);
-            Enemy spawned = Instantiate(enemy, position, Quaternion.identity, enemyRoot);
+            EnemyModel enemy = ResourceLoader.LoadEnemy(id);
+            EnemyModel spawned = Instantiate(enemy, position, Quaternion.identity, enemyRoot);
 
             if (spawned.Stats is IAliveStats alive)
             {
-                aliveEntities.Add(spawned);
-                alive.HealthPoint.OnValueChanged += (newStat) => MaxHealthPoint_OnValueChanged(newStat, spawned);
+                aliveEntities.Add(alive);
+                alive.HealthPoint.OnValueChanged += (newStat) => MaxHealthPoint_OnValueChanged(newStat, alive);
             }
         }
 
-        private void MaxHealthPoint_OnValueChanged(RangedStat newStat, Entity alive)
+        private void MaxHealthPoint_OnValueChanged(RangedStat newStat, IAliveStats alive)
         {
             if (newStat.Value <= 0)
             {
                 aliveEntities.Remove(alive);
-                GlobalEvent<Entity>.Send("EntityDied", alive);
+                GlobalEvent<IAliveStats>.Send("EntityDied", alive);
             }
         }
 

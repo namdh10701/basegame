@@ -13,16 +13,12 @@ public class FireballProjectile : CannonProjectile
         projectileCollisionHandler.LoopHandlers.Add(new ExplodeHandler(damageArea));
     }
 
-    protected override void Start()
-    {
-        damageArea.SetDamage(_stats.Damage.Value, _stats.ArmorPenetrate.Value);
-    }
-
     public override void ApplyStats()
     {
         base.ApplyStats();
         explosionFx.SetSize(_stats.AttackAOE.Value);
         damageArea.SetRange(_stats.AttackAOE.Value);
+        damageArea.SetDamage(_stats.Damage.Value, _stats.ArmorPenetrate.Value);
     }
 
     public class ExplodeHandler : IHandler

@@ -13,9 +13,6 @@ namespace _Game.Scripts
 {
     public class ShipSetup : MonoBehaviour
     {
-        public static List<GridItemData> GridItemDatas = new List<GridItemData>();
-        public static List<GridItemData> GridItemDatas_Id2 = new List<GridItemData>();
-
         public List<GridItemData> UsingGridItemDatas = new List<GridItemData>();
 
         public Ship Ship;
@@ -61,20 +58,8 @@ namespace _Game.Scripts
                     }
                 }
             }
-            //GridItemDatas = ShipSetupMockup.Datas;
-
-            if (Ship.Id == "0003")
-            {
-                UsingGridItemDatas = GridItemDatas;
-            }
-            else if (Ship.Id == "0001")
-            {
-                UsingGridItemDatas = GridItemDatas_Id2;
-            }
 
             GetLoadOut();
-
-
             LoadShipItems();
         }
 
@@ -295,7 +280,6 @@ namespace _Game.Scripts
             Cannon cannonPrefab = Database.GetCannon(data.Id);
             Cannon spawned = Instantiate(cannonPrefab, grid.GridItemRoot);
             spawned.Id = data.Id;
-            spawned.InitStats();
 
             Cannons.Add(spawned);
             spawned.Def.Type = ItemType.CANNON;
@@ -349,25 +333,6 @@ namespace _Game.Scripts
             spawned.transform.position =
             grid.Cells[data.startY, data.startX].transform.position;
 
-        }
-
-        public void AddNewGridItem(GridItemData gridItemData)
-        {
-            if (!GridItemDatas.Contains(gridItemData))
-            {
-                GridItemDatas.Add(gridItemData);
-            }
-        }
-
-        public void RemoveGridItem(GridItemDef gridItemDef)
-        {
-            foreach (GridItemData gid in GridItemDatas.ToArray())
-            {
-                if (gid.Def == gridItemDef)
-                {
-                    GridItemDatas.Remove(gid);
-                }
-            }
         }
     }
 }

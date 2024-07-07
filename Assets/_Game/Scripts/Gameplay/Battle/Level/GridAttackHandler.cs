@@ -23,16 +23,13 @@ namespace _Game.Scripts
                     {
                         if (cell.GridItem != null)
                         {
-                            Debug.Log("HRER");
                             if (cell.GridItem.IsAbleToTakeHit)
                             {
-                                Debug.Log("HRER 1");
                                 cell.GridItem.EffectHandler.Apply(effect);
 
                             }
                             else
                             {
-                                Debug.Log("HRER 2");
                                 ship.EffectHandler.Apply(effect);
                             }
                             continue;

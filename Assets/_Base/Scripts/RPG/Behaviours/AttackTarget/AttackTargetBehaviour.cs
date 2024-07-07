@@ -3,6 +3,7 @@ using _Base.Scripts.RPG.Entities;
 using _Base.Scripts.RPG.Stats;
 using _Base.Scripts.RPGCommon.Entities;
 using _Game.Scripts;
+using _Game.Scripts.Entities;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -12,9 +13,9 @@ namespace _Base.Scripts.RPG.Behaviours.AttackTarget
     {
         public AimTargetBehaviour aimTargetBehaviour;
         public IAttackStrategy attackStrategy;
-        public Entity entity;
+        public Cannon entity;
         public Transform shootPosition;
-        public Entity projectilePrefab;
+        public CannonProjectile projectilePrefab;
         public SpineAnimationCannonHandler Animation;
 
         private void Awake()

@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace _Base.Scripts.RPG.Effects
 {
-    public class IncreaseHealthEffect: OneShotEffect
+    public class IncreaseHealthEffect : OneShotEffect
     {
-        [field:SerializeField]
+        [field: SerializeField]
         public float Amount { get; set; }
-        
+
         public IncreaseHealthEffect(float amount)
         {
             Amount = amount;
@@ -16,7 +16,11 @@ namespace _Base.Scripts.RPG.Effects
 
         protected override void OnApply(IEffectTaker entity)
         {
-            if (entity.Stats is not IAliveStats alive)
+            if (entity is not IStatsBearer statsBearer)
+            {
+                return;
+            }
+            if (statsBearer is not IAliveStats alive)
             {
                 return;
             }

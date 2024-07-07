@@ -8,21 +8,20 @@ using UnityEngine;
 
 namespace _Base.Scripts.RPGCommon.Entities
 {
-    public abstract class Projectile : MonoBehaviour, IStatsBearer, IEffectGiver
+    public abstract class Projectile : Entity, IEffectGiver
     {
         [Header("Projectile")]
         public Rigidbody2D body;
         public ParticleSystem onHitParticle;
         public ProjectileStats _stats;
-        public ProjectileStatsTemplate _statsTemplate;
         public ProjectileMovement ProjectileMovement;
         public Transform trail;
 
-        public Stats Stats => _stats;
+        public override Stats Stats => _stats;
 
         public Transform Transform => transform;
 
-        protected List<Effect> outGoingEffects = new List<Effect>();
+       [SerializeField] protected List<Effect> outGoingEffects = new List<Effect>();
 
         public List<Effect> OutGoingEffects { get => outGoingEffects; set => outGoingEffects = value; }
 
@@ -37,7 +36,7 @@ namespace _Base.Scripts.RPGCommon.Entities
             CollisionHandler = new ProjectileCollisionHandler(this);
             collisionListener.CollisionHandler = CollisionHandler;
         }
-        public virtual void ApplyStats()
+        public override void ApplyStats()
         {
             ProjectileCollisionHandler projectileCollisionHandler = (ProjectileCollisionHandler)collisionListener.CollisionHandler;
             if (onHitParticle != null)

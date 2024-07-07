@@ -4,7 +4,7 @@ using _Base.Scripts.RPGCommon.Entities;
 
 namespace _Base.Scripts.RPG.Effects
 {
-    public class AddTempMaxHealthEffect: TimeoutEffect
+    /*public class AddTempMaxHealthEffect: TimeoutEffect
     {
         public float Amount { get; set; }
 
@@ -35,5 +35,5 @@ namespace _Base.Scripts.RPG.Effects
         public AddTempMaxHealthEffect(int duration) : base(duration)
         {
         }
-    }
+    }*/
 }

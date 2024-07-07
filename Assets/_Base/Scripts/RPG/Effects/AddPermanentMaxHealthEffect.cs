@@ -4,7 +4,7 @@ using _Base.Scripts.RPGCommon.Entities;
 
 namespace _Base.Scripts.RPG.Effects
 {
-    public class AddPermanentMaxHealthEffect: OneShotEffect
+    /*public class AddPermanentMaxHealthEffect: OneShotEffect
     {
         public float Amount { get; set; }
 
@@ -18,5 +18,5 @@ namespace _Base.Scripts.RPG.Effects
             
             alive.HealthPoint.StatValue.AddModifier(StatModifier.Flat(Amount));
         }
-    }
+    }*/
 }

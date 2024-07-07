@@ -14,7 +14,11 @@ namespace _Base.Scripts.RPG.Effects
 
         protected override void OnTick(IEffectTaker entity)
         {
-            if (entity.Stats is not IAliveStats alive)
+            if (entity is not IStatsBearer statsBearer)
+            {
+                return;
+            }
+            if (statsBearer is not IAliveStats alive)
             {
                 return;
             }

@@ -6,12 +6,6 @@ using UnityEngine;
 
 public class GDConfigStatsApplier : MonoBehaviour
 {
-    public StatsTemplate statsTemplate;
-    public GDConfig gdConfig;
-
-    public GDConfig GDConfig { get => gdConfig; }
-    public StatsTemplate StatTemplate { get => statsTemplate; }
-
     public Stats targetStats;
     private void Start()
     {
@@ -20,11 +14,16 @@ public class GDConfigStatsApplier : MonoBehaviour
 
     public void LoadStats()
     {
-        Debug.Log("Load stats");
+        
+        IGDConfigStatsTarget target = GetComponent<IGDConfigStatsTarget>();
         string id = GetComponent<IGDConfigStatsTarget>().Id;
+        
+        GDConfig gdConfig = target.GDConfig;
+        StatsTemplate statsTemplate = target.StatsTemplate;
+
         IStatsBearer statsBearer = GetComponent<IStatsBearer>();
         targetStats = statsBearer.Stats;
-
+        Debug.Log("Load stats" + id + gdConfig);
         if (GDConfigLoader.Instance != null)
         {
             GDConfig config = GDConfigLoader.Instance.GetConfig(id, gdConfig);

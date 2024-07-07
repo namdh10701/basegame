@@ -20,23 +20,23 @@ namespace _Base.Scripts.RPG.Effects
 
         protected override void OnApply(IEffectTaker entity)
         {
-            if (entity.Stats == null)
+            if (entity is not IStatsBearer statsBearer)
             {
                 return;
             }
-            if (entity.Stats is not IAliveStats alive)
+            if (statsBearer.Stats is not IAliveStats alive)
             {
                 return;
             }
             float finalAmount = Amount;
             float blockChance = 0;
 
-            if (entity.Stats is EnemyStats enemyStats)
+            if (statsBearer.Stats is EnemyStats enemyStats)
             {
                 blockChance = enemyStats.BlockChance.Value;
             }
 
-            if (entity.Stats is ShipStats shipStats)
+            if (statsBearer.Stats is ShipStats shipStats)
             {
                 blockChance = shipStats.BlockChance.Value;
             }

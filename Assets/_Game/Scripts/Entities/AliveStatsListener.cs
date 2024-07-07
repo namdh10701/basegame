@@ -11,11 +11,12 @@ public class AliveStatsListener : MonoBehaviour
     public UnityEvent OnIncreased = new UnityEvent();
     public IAliveStats aliveStats;
     float lastValue;
-    protected virtual void Awake()
+    protected virtual void Start()
     {
         aliveStats = (IAliveStats)GetComponent<IStatsBearer>().Stats;
         aliveStats.HealthPoint.OnValueChanged += HealthPoint_OnValueChanged;
         lastValue = aliveStats.HealthPoint.Value;
+        Debug.LogError(aliveStats);
     }
 
     private void HealthPoint_OnValueChanged(_Base.Scripts.RPG.Stats.RangedStat hp)

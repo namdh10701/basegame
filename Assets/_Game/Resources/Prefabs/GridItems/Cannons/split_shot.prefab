@@ -280,10 +280,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetTypeNames:
-  - JellyFish
-  - _Game.Scripts.Squid
-  - _Game.Scripts.Entities.PufferFish
-  - ElectricEel
+  - _Game.Scripts.Entities.PufferFishModel
+  - JellyFishModel
+  - _Game.Scripts.SquidModel
+  - ElectricEelModel
   closestTo: {fileID: 870496088559109320}
 --- !u!114 &3152544984102912611
 MonoBehaviour:
@@ -341,7 +341,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01bfda76cc6a4e3080de930ff8b94a3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entity: {fileID: 7230544241734426114}
   effects: []
 --- !u!1 &2664798930805317180
 GameObject:
@@ -389,7 +388,8 @@ GameObject:
   - component: {fileID: 2630867745230066010}
   - component: {fileID: 8749993615228827884}
   - component: {fileID: 2088882076843486254}
-  - component: {fileID: 2680015536340800012}
+  - component: {fileID: 1761671711630777676}
+  - component: {fileID: 893107118460700710}
   m_Layer: 9
   m_Name: split_shot
   m_TagString: Untagged
@@ -442,8 +442,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04a2db7fd60a46c9ad717e4290795b41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Id: 
-  body: {fileID: 0}
+  id: 
+  gdConfig: {fileID: 0}
+  statsTemplate: {fileID: 0}
   def: {fileID: 11400000, guid: 9b32df294375f80449a42cb87c642e70, type: 2}
   _stats:
     <HealthPoint>k__BackingField:
@@ -492,10 +493,10 @@ MonoBehaviour:
       _baseValue: 0
   _statsTemplate: {fileID: 11400000, guid: 14077db5de1824e3abe122b6685a11ce, type: 2}
   _cannonReloader: {fileID: 2630867745230066010}
+  CannonRenderer: {fileID: 6856121553521624037}
   <AttackStrategy>k__BackingField: {fileID: 2088882076843486254}
   behaviour: {fileID: 2461236567741450463}
   <OccupyCells>k__BackingField: []
-  rarity: 0
   effectHandler: {fileID: 3817214019478983037}
   workingSlots: []
   occupyingNodes: []
@@ -504,7 +505,6 @@ MonoBehaviour:
   FindTargetBehaviour: {fileID: 6103908589702467067}
   usingBullet: {fileID: 5909292734019790869, guid: f484edc2e211fba4abf6d10c45701042, type: 3}
   Animation: {fileID: 0}
-  isBrokenn: 0
 --- !u!114 &3798245963770099852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -575,7 +575,7 @@ MonoBehaviour:
   defaultNumOfProjectile: 1
   angle: 15
   amount: 3
---- !u!114 &2680015536340800012
+--- !u!114 &1761671711630777676
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -584,23 +584,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6378892929398903831}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d32b25d12c98904092b3bd619327604, type: 3}
+  m_Script: {fileID: 11500000, guid: ece8af53fc95ece4496db2febce1ff1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   OnReachZero:
-    m_PersistentCalls:
-      m_Calls: []
-  OnReachFull:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDecreased:
-    m_PersistentCalls:
-      m_Calls: []
-  OnIncreased:
-    m_PersistentCalls:
-      m_Calls: []
-  BrokenThreshold: 0
-  OnBelowBrokenThreshold:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 7230544241734426114}
@@ -615,6 +602,39 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnReachFull:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDecreased:
+    m_PersistentCalls:
+      m_Calls: []
+  OnIncreased:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7230544241734426114}
+        m_TargetAssemblyTypeName: _Game.Scripts.Entities.Cannon, Assembly-CSharp
+        m_MethodName: OnFixed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &893107118460700710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6378892929398903831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12c5255b5a7391c48b0346c3510cbd9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6593716251318637534
 GameObject:
   m_ObjectHideFlags: 0
