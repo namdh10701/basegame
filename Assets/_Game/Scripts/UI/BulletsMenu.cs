@@ -52,7 +52,6 @@ public class BulletsMenu : MonoBehaviour
 
     void Reload(Ammo bullet)
     {
-        Debug.Log("BULLET + " + cannon + " " + bullet + " ");
         GlobalEvent<Cannon, Ammo, int>.Send("Reload", cannon, bullet, int.MaxValue);
         Close();
     }

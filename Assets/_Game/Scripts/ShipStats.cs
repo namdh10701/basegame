@@ -19,6 +19,9 @@ namespace _Game.Scripts
 
         [field: SerializeField]
         public Stat AmmoLimit { get; set; } = new();
+        
+        [field: SerializeField]
+        public RangedStat Fever { get; set; } = new();
 
         [field: SerializeField]
         public RangedStat ManaPoint { get; set; } = new(0, 0, 150);
