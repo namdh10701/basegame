@@ -13,10 +13,6 @@ namespace _Game.Scripts
         [SpineAnimation] public string doAction;
         [HideInInspector] public UnityEvent OnAction;
         public Renderer[] visuals;
-        protected override void Start()
-        {
-            base.Start();
-        }
 
         protected override void AnimationState_Event(TrackEntry trackEntry, Spine.Event e)
         {

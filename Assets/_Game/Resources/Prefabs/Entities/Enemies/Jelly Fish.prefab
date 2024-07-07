@@ -93,8 +93,10 @@ GameObject:
   - component: {fileID: 6667219895640718775}
   - component: {fileID: 7234317534750435984}
   - component: {fileID: 5408430181070719296}
-  - component: {fileID: 1581707943620237759}
   - component: {fileID: 6951767458011656319}
+  - component: {fileID: 40291501738919957}
+  - component: {fileID: 2124255219871785813}
+  - component: {fileID: -663780779955090971}
   m_Layer: 0
   m_Name: Jelly Fish
   m_TagString: Untagged
@@ -170,9 +172,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7ad83fafefc2404ba6059292db9ac9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Id: 
-  body: {fileID: 5622699148522565298}
-  enemyId: 0005
   _stats:
     <HealthPoint>k__BackingField:
       _value:
@@ -211,17 +210,18 @@ MonoBehaviour:
     <MoveSpeed>k__BackingField:
       statModifiers: []
       _baseValue: 0
-  _statsTemplate: {fileID: 11400000, guid: c1d618045a490e34d935f3eeba8c4d01, type: 2}
+  anim: {fileID: 1581404908438099686}
+  id: 0005
+  gdConfig: {fileID: 11400000, guid: dafc4004e0133475f8d7f898a1f7342d, type: 2}
+  statsTemplate: {fileID: 11400000, guid: c1d618045a490e34d935f3eeba8c4d01, type: 2}
+  body: {fileID: 5622699148522565298}
   EffectTakerCollider: {fileID: 7997525620002543866}
   effectHandler: {fileID: 1517516598541746012}
-  pushCollider: {fileID: 1071861742469022370}
   blackboard: {fileID: 2542956212317951686}
   MBTExecutor: {fileID: 6764331205060662260}
-  spineAnimationEnemyHandler: {fileID: 1581404908438099686}
-  FindTargetCollider: {fileID: 3405972684606934045}
+  enemyController: {fileID: 40291501738919957}
   attack: {fileID: 5408430181070719296}
-  CooldownBehaviour: {fileID: 6667219895640718775}
-  cameraShake: {fileID: 6951767458011656319}
+  cooldownBehaviour: {fileID: 6667219895640718775}
 --- !u!114 &5408430181070719296
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -247,20 +247,6 @@ MonoBehaviour:
     _baseValue: 0
   JellyFish: {fileID: 7234317534750435984}
   cameraShake: {fileID: 6951767458011656319}
---- !u!114 &1581707943620237759
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 204875977232690952}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cba299f113027e04eb3db23b9981c38c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Enemy: {fileID: 7234317534750435984}
-  SpineAnimationEnemyHandler: {fileID: 1581404908438099686}
 --- !u!114 &6951767458011656319
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -306,6 +292,80 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     shakesDelay: 0
+--- !u!114 &40291501738919957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 204875977232690952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7923a0a4b79bb640ad61734ea1aa150, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraShake: {fileID: 6951767458011656319}
+  attack: {fileID: 5408430181070719296}
+--- !u!114 &2124255219871785813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 204875977232690952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ece8af53fc95ece4496db2febce1ff1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnReachZero:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 40291501738919957}
+        m_TargetAssemblyTypeName: JellyFishController, Assembly-CSharp
+        m_MethodName: Die
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnReachFull:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDecreased:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1581404908438099686}
+        m_TargetAssemblyTypeName: SpineAnimationEnemyHandler, Assembly-CSharp
+        m_MethodName: Blink
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnIncreased:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &-663780779955090971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 204875977232690952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12c5255b5a7391c48b0346c3510cbd9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &948089325419232472
 GameObject:
   m_ObjectHideFlags: 0
@@ -1024,7 +1084,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b25af8627659c6949b60949c3aa8d91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedEditorNode: {fileID: 1670484185559942852}
+  selectedEditorNode: {fileID: 3423538191540144381}
   repeatOnFinish: 1
   maxExecutionsPerTick: 1000
   parent: {fileID: 0}
@@ -1196,7 +1256,7 @@ MonoBehaviour:
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
-  type: JellyFish
+  type: JellyFishController
   monoBehaviour: {fileID: 6667219895640718775}
   coroutineName: AttackSequence
 --- !u!114 &2454670021125081383
@@ -1212,7 +1272,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Enemy
-  val: {fileID: 7234317534750435984}
+  val: {fileID: 40291501738919957}
 --- !u!114 &1731378119387417618
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1368,7 +1428,7 @@ MonoBehaviour:
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
-  type: JellyFish
+  type: JellyFishController
   monoBehaviour: {fileID: 6667219895640718775}
   coroutineName: MeleeAttackSequence
 --- !u!114 &6174530953408996001
@@ -2041,7 +2101,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01bfda76cc6a4e3080de930ff8b94a3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entity: {fileID: 7234317534750435984}
   effects: []
 --- !u!1 &8123266846594804094
 GameObject:
@@ -2453,7 +2512,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6080003365391893744, guid: 46f21a2cea182034aa9ef095cd474d50, type: 3}
       propertyPath: m_SortingOrder
-      value: 182
+      value: -428
       objectReference: {fileID: 0}
     - target: {fileID: 7414120992175594364, guid: 46f21a2cea182034aa9ef095cd474d50, type: 3}
       propertyPath: m_LocalPosition.x

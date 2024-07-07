@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityWeld.Binding;
 using Screen = ZBase.UnityScreenNavigator.Core.Screens.Screen;
 
-namespace _Game.Features.MyShipScreen
+namespace _Game.Features.Home
 {
     [Binding]
     public class ShipSelectionScreen : Screen

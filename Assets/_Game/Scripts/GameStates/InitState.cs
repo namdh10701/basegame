@@ -24,6 +24,7 @@ namespace _Game.Scripts.GameStates
             SaveSystem.LoadSave();
 
             // yield return new WaitForSeconds(10.0f);
+            Debug.unityLogger.logEnabled = false;
             Application.targetFrameRate = 120;
             var asyncInitFunc = UniTask.RunOnThreadPool(async () => await AsyncInitFunc());
             yield return new WaitUntil(() => asyncInitFunc.Status.IsCompleted());
@@ -36,7 +37,7 @@ namespace _Game.Scripts.GameStates
 
 
             await UniTask.SwitchToMainThread();
-            
+
             Task levelDesignLoadTask = LevelDesignConfigLoader.Instance.Load();
             Task gdConfigLoadTask = GDConfigLoader.Instance.Load();
             await Task.WhenAll(levelDesignLoadTask, gdConfigLoadTask);

@@ -8,13 +8,13 @@ namespace _Base.Scripts.RPG.Effects
     [Serializable]
     public abstract class Effect : MonoBehaviour
     {
-        public abstract void Apply(Entity entity);
+        public abstract void Apply(IEffectTaker entity);
 
         public bool IsDone { get; protected set; }
 
 
-        protected virtual void OnStart(Entity entity) { }
-        protected virtual void OnEnd(Entity entity)
+        protected virtual void OnStart(IEffectTaker entity) { }
+        protected virtual void OnEnd(IEffectTaker entity)
         {
             if (gameObject.name == "")
             {
@@ -29,7 +29,7 @@ namespace _Base.Scripts.RPG.Effects
 
     public abstract class OneShotEffect : Effect
     {
-        public override void Apply(Entity entity)
+        public override void Apply(IEffectTaker entity)
         {
             OnStart(entity);
             OnApply(entity);
@@ -37,7 +37,7 @@ namespace _Base.Scripts.RPG.Effects
             IsDone = true;
         }
 
-        protected abstract void OnApply(Entity entity);
+        protected abstract void OnApply(IEffectTaker entity);
     }
 
 
@@ -51,7 +51,7 @@ namespace _Base.Scripts.RPG.Effects
         [field: SerializeField]
         public int Duration { get; set; }
 
-        public override async void Apply(Entity entity)
+        public override async void Apply(IEffectTaker entity)
         {
             OnStart(entity);
             await Task.Delay(Duration);
@@ -70,7 +70,7 @@ namespace _Base.Scripts.RPG.Effects
         [field: SerializeField]
         public int Interval { get; set; }
 
-        public override async void Apply(Entity entity)
+        public override async void Apply(IEffectTaker entity)
         {
             var startTime = Time.time;
             OnStart(entity);
@@ -83,6 +83,6 @@ namespace _Base.Scripts.RPG.Effects
             IsDone = true;
         }
 
-        protected abstract void OnTick(Entity entity);
+        protected abstract void OnTick(IEffectTaker entity);
     }
 }

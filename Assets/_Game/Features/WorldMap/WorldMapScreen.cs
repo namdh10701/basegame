@@ -1,4 +1,4 @@
-namespace _Game.Features.MyShipScreen
+namespace _Game.Features.WorldMap
 {
     public class WorldMapScreen : ZBase.UnityScreenNavigator.Core.Screens.Screen
     {

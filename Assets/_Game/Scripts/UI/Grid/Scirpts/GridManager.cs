@@ -200,14 +200,6 @@ namespace _Base.Scripts.UI
                 }
                 GridItemDatas.Add(GridItemData);
             }
-            if (_shipID == "0003")
-            {
-                ShipSetup.GridItemDatas = GridItemDatas;
-            }
-            if (_shipID == "0001")
-            {
-                ShipSetup.GridItemDatas_Id2 = GridItemDatas;
-            }
         }
 
         private void SaveInventoryData()

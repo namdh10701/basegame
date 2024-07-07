@@ -19,7 +19,7 @@ public class JellyFishAttack : MonoBehaviour
     public GridAttackHandler gridAttackHandler;
     public GridPicker gridPicker;
     public Stat AttackDamage;
-    public JellyFish JellyFish;
+    public JellyFishModel JellyFish;
     public CameraShake cameraShake;
     private void Start()
     {

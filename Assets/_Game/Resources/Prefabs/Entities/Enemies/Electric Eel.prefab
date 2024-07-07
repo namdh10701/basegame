@@ -68,7 +68,9 @@ GameObject:
   - component: {fileID: 4714609694109140471}
   - component: {fileID: 1637006819063413915}
   - component: {fileID: 593926761375271006}
-  - component: {fileID: 169621131979774700}
+  - component: {fileID: 3349221708042926482}
+  - component: {fileID: 2147891299371632106}
+  - component: {fileID: -8914283548860050815}
   m_Layer: 6
   m_Name: Electric Eel
   m_TagString: Untagged
@@ -144,9 +146,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ef6759beb939704bb47238a6442468d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Id: 
-  body: {fileID: 4714609694109140471}
-  enemyId: 0002
   _stats:
     <HealthPoint>k__BackingField:
       _value:
@@ -185,22 +184,22 @@ MonoBehaviour:
     <MoveSpeed>k__BackingField:
       statModifiers: []
       _baseValue: 0
-  _statsTemplate: {fileID: 11400000, guid: 7b641c5f7ad3c493c9f6f71cb400fdee, type: 2}
+  anim: {fileID: 5696707011990469512}
+  id: 0002
+  gdConfig: {fileID: 11400000, guid: dafc4004e0133475f8d7f898a1f7342d, type: 2}
+  statsTemplate: {fileID: 11400000, guid: 7b641c5f7ad3c493c9f6f71cb400fdee, type: 2}
+  body: {fileID: 4714609694109140471}
   EffectTakerCollider: {fileID: 2464650525156154373}
   effectHandler: {fileID: 961302212376726107}
-  pushCollider: {fileID: 8959591976242257430}
   blackboard: {fileID: 291860766914543287}
   MBTExecutor: {fileID: 6092494332393929708}
-  spineAnimationEnemyHandler: {fileID: 5696707011990469512}
-  FindTargetCollider: {fileID: 1288910632154343372}
+  enemyController: {fileID: 3349221708042926482}
   electricFx: {fileID: 1285242852396960929}
+  findTargetBehaviour: {fileID: 7770344797633873571}
+  cooldownBehaviour: {fileID: 1637006819063413915}
   Projectile: {fileID: 326042506130949033, guid: f0e08edf84664b0478d53a2dffe30f52, type: 3}
-  target: {fileID: 0}
-  CooldownBehaviour: {fileID: 1637006819063413915}
-  FindTargetBehaviour: {fileID: 7770344797633873571}
-  syncAnimationPlayFxTime: 0.5
-  syncAnimationSpawnProjectileTime: 0.8
---- !u!114 &169621131979774700
+  FindTargetCollider: {fileID: 1288910632154343372}
+--- !u!114 &3349221708042926482
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -209,11 +208,74 @@ MonoBehaviour:
   m_GameObject: {fileID: 667844986492863248}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cba299f113027e04eb3db23b9981c38c, type: 3}
+  m_Script: {fileID: 11500000, guid: 75bad72ee5166304c8117a39c62cd8b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Enemy: {fileID: 593926761375271006}
-  SpineAnimationEnemyHandler: {fileID: 5696707011990469512}
+  electricFx: {fileID: 1285242852396960929}
+  Projectile: {fileID: 326042506130949033, guid: f0e08edf84664b0478d53a2dffe30f52, type: 3}
+  target: {fileID: 0}
+  syncAnimationPlayFxTime: 0.5
+  syncAnimationSpawnProjectileTime: 0.8
+--- !u!114 &2147891299371632106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 667844986492863248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ece8af53fc95ece4496db2febce1ff1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnReachZero:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3349221708042926482}
+        m_TargetAssemblyTypeName: ElectricEelController, Assembly-CSharp
+        m_MethodName: Die
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnReachFull:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDecreased:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5696707011990469512}
+        m_TargetAssemblyTypeName: SpineAnimationEnemyHandler, Assembly-CSharp
+        m_MethodName: Blink
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnIncreased:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &-8914283548860050815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 667844986492863248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12c5255b5a7391c48b0346c3510cbd9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &777111709541884253
 GameObject:
   m_ObjectHideFlags: 0
@@ -1212,7 +1274,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01bfda76cc6a4e3080de930ff8b94a3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entity: {fileID: 593926761375271006}
   effects: []
 --- !u!1 &7917550658513957522
 GameObject:
@@ -1393,7 +1454,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b25af8627659c6949b60949c3aa8d91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedEditorNode: {fileID: 4425502763461382094}
+  selectedEditorNode: {fileID: 3888079522125468208}
   repeatOnFinish: 1
   maxExecutionsPerTick: 1000
   parent: {fileID: 0}
@@ -1478,8 +1539,8 @@ MonoBehaviour:
   title: Wander
   rect:
     serializedVersion: 2
-    x: 84
-    y: 599
+    x: 79
+    y: 632
     width: 160
     height: 45
   parent: {fileID: 918975567095667542}
@@ -1538,7 +1599,7 @@ MonoBehaviour:
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
-  type: ElectricEel
+  type: ElectricEelController
   monoBehaviour: {fileID: 1637006819063413915}
   coroutineName: AttackSequence
 --- !u!114 &5901448636202595226
@@ -1554,7 +1615,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Enemy
-  val: {fileID: 593926761375271006}
+  val: {fileID: 3349221708042926482}
 --- !u!114 &4382031657814544503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1609,8 +1670,8 @@ MonoBehaviour:
   UnityEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 593926761375271006}
-        m_TargetAssemblyTypeName: ElectricEel, Assembly-CSharp
+      - m_Target: {fileID: 3349221708042926482}
+        m_TargetAssemblyTypeName: ElectricEelController, Assembly-CSharp
         m_MethodName: Hide
         m_Mode: 1
         m_Arguments:
@@ -1711,7 +1772,7 @@ MonoBehaviour:
     blackboard: {fileID: 0}
     key: 
     constantValue: {fileID: 4714609694109140471}
-  ElectricEel: {fileID: 593926761375271006}
+  ElectricEel: {fileID: 3349221708042926482}
   moveArea:
     useConstant: 0
     mode: 0
@@ -1779,8 +1840,8 @@ MonoBehaviour:
   UnityEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 593926761375271006}
-        m_TargetAssemblyTypeName: ElectricEel, Assembly-CSharp
+      - m_Target: {fileID: 3349221708042926482}
+        m_TargetAssemblyTypeName: ElectricEelController, Assembly-CSharp
         m_MethodName: Show
         m_Mode: 1
         m_Arguments:
@@ -2109,7 +2170,7 @@ MonoBehaviour:
   rect:
     serializedVersion: 2
     x: 84
-    y: 504
+    y: 521
     width: 160
     height: 45
   parent: {fileID: 7834660955722705572}

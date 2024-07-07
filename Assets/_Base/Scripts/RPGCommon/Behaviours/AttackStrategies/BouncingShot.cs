@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using _Base.Scripts.RPG.Behaviours.FindTarget;
 using _Base.Scripts.RPG.Entities;
 using _Base.Scripts.RPGCommon.Entities;
@@ -43,22 +44,19 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
 
             void IHandler.Process(Projectile p, IEffectGiver mainEntity, IEffectTaker collidedEntity)
             {
-                List<Entity> inRangeEntities = new List<Entity>();
+                List<IEffectTaker> inRangeEntities = new List<IEffectTaker>();
                 RaycastHit2D[] inRangeColliders = Physics2D.CircleCastAll(collidedEntity.Transform.position, range, Vector2.zero, LayerMask.NameToLayer("Enemy"));
                 foreach (RaycastHit2D hit in inRangeColliders)
                 {
-                    if (hit.collider.TryGetComponent(out EffectTakerCollider entityCollisionDetector))
+                    if (hit.collider.TryGetComponent(out IEffectTakerCollider entity))
                     {
-                        Debug.Log(hit.collider);
-                        Entity entity = entityCollisionDetector.GetComponent<EntityProvider>().Entity;
-                        IEffectTaker taker = entity.GetComponent<IEffectTaker>();
 
-                        if (!((ProjectileCollisionHandler)p.CollisionHandler).IgnoreCollideEntities.Contains(taker))
+                        if (!((ProjectileCollisionHandler)p.CollisionHandler).IgnoreCollideEntities.Contains(entity.Taker))
                         {
-                            if (entity is Enemy)
+                            if (entity is EnemyModel)
                             {
                                 Debug.Log("add");
-                                inRangeEntities.Add(entity);
+                                inRangeEntities.Add(entity.Taker);
                             }
                             else
                             {
@@ -74,11 +72,11 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
 
                 if (inRangeEntities.Count > 0)
                 {
-                    Entity nextTarget = inRangeEntities[0];
+                    IEffectTaker nextTarget = inRangeEntities[0];
                     float minDistance = Mathf.Infinity;
-                    foreach (Entity entity in inRangeEntities)
+                    foreach (IEffectTaker entity in inRangeEntities)
                     {
-                        float distance = Vector2.Distance(mainEntity.Transform.position, entity.transform.position);
+                        float distance = Vector2.Distance(mainEntity.Transform.position, entity.Transform.position);
                         if (distance < minDistance)
                         {
                             nextTarget = entity;
@@ -87,8 +85,7 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
                     }
 
                     bounceCount++;
-                    p.ProjectileMovement = new HomingMove(p, nextTarget.transform);
-                    Debug.Log(nextTarget.name);
+                    p.ProjectileMovement = new HomingMove(p, nextTarget.Transform);
                 }
                 else
                 {

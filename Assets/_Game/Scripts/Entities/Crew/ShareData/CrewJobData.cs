@@ -48,7 +48,7 @@ public class CrewJobData : MonoBehaviour
 
     public void Initialize()
     {
-        foreach (Bullet bullet in ShipSetup.Bullets)
+        foreach (Ammo bullet in ShipSetup.Bullets)
         {
             IGridItem item = bullet.GetComponent<IGridItem>();
             IWorkLocation worklocation = bullet.GetComponent<IWorkLocation>();
@@ -95,14 +95,14 @@ public class CrewJobData : MonoBehaviour
 
     private void Awake()
     {
-        GlobalEvent<Cannon, Bullet, int>.Register("Reload", ActivateReloadCannonJob);
+        GlobalEvent<Cannon, Ammo, int>.Register("Reload", ActivateReloadCannonJob);
         GlobalEvent<IGridItem, int>.Register("Fix", ActivateFixGridItemJob);
         GlobalEvent<Cell, int>.Register("FixCell", ActivateFixCellJob);
     }
 
     private void OnDestroy()
     {
-        GlobalEvent<Cannon, Bullet, int>.Unregister("Reload", ActivateReloadCannonJob);
+        GlobalEvent<Cannon, Ammo, int>.Unregister("Reload", ActivateReloadCannonJob);
 
         GlobalEvent<Cell, int>.Unregister("FixCell", ActivateFixCellJob);
         GlobalEvent<IGridItem, int>.Unregister("Fix", ActivateFixGridItemJob);
@@ -130,7 +130,7 @@ public class CrewJobData : MonoBehaviour
         OnActivateJobsChanged?.Invoke(fixCellJob);
     }
 
-    void ActivateReloadCannonJob(Cannon cannon, Bullet bullet, int piority = 0)
+    void ActivateReloadCannonJob(Cannon cannon, Ammo bullet, int piority = 0)
     {
         ReloadCannonJob reloadCannonJob = ReloadCannonJobsDic[cannon];
         if (piority == 0)

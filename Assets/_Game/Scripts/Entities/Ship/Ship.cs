@@ -7,67 +7,50 @@ using UnityEngine;
 
 namespace _Game.Scripts.Gameplay.Ship
 {
-    public class Ship : Entity, IEffectTaker
+    public class Ship : Entity, IEffectTaker, IStatsBearer, IGDConfigStatsTarget
     {
+        [Header("GD Config Stats Target")]
+        [SerializeField] private string id;
+        [SerializeField] private GDConfig gdConfig;
+        [SerializeField] private StatsTemplate statsTemplate;
+
         [Space]
         [Header("Ship")]
         public ShipStats stats;
         public ShipSetup ShipSetup;
+        public string Id { get => id; set => id = value; }
+
+        public GDConfig GDConfig => gdConfig;
+
+        public StatsTemplate StatsTemplate => statsTemplate;
+
         public override Stats Stats => stats;
-        public ShipStatsTemplate _statTemplate;
+
+
         public EffectHandler effectHandler;
+
 
         public Transform Transform => transform;
 
         public EffectHandler EffectHandler => effectHandler;
+
         public PathfindingController PathfindingController;
         public EffectTakerCollider EffectCollider;
         public Area ShipArea;
         public ShipSpeed ShipSpeed;
         public CrewJobData CrewJobData;
         public BattleViewModel BattleViewModel;
-        protected override void Awake()
+        protected void Awake()
         {
-            base.Awake();
-            EffectCollider.Taker = this;
             PathfindingController.Initialize();
             ShipSetup.Initialize();
             CrewJobData.Initialize();
         }
         private void Start()
         {
-            BattleViewModel = GameObject.Find("BattleScreen(Clone)").GetComponent<BattleViewModel>();
+            //BattleViewModel = GameObject.Find("BattleScreen(Clone)").GetComponent<BattleViewModel>();
 
         }
-        protected override void LoadStats()
-        {
-            if (GDConfigLoader.Instance != null)
-            {
-                if (GDConfigLoader.Instance.Ships.TryGetValue(Id, out ShipConfig shipConfig))
-                {
-                    shipConfig.ApplyGDConfig(stats);
-                }
-            }
-            else
-            {
-                _statTemplate.ApplyConfig(stats);
-            }
-        }
-
-        protected override void LoadModifiers()
-        {
-
-        }
-
-        protected override void ApplyStats()
-        {
-            foreach (Cell cell in ShipSetup.AllCells)
-            {
-                cell.stats.HealthPoint.MaxStatValue.BaseValue = stats.HealthPoint.MaxStatValue.Value / ShipSetup.AllCells.Count;
-                cell.stats.HealthPoint.StatValue.BaseValue = cell.stats.HealthPoint.MaxStatValue.BaseValue;
-            }
-        }
-
 
         private void Update()
         {
@@ -103,5 +86,9 @@ namespace _Game.Scripts.Gameplay.Ship
             }
         }
 
+        void IStatsBearer.ApplyStats()
+        {
+           
+        }
     }
 }

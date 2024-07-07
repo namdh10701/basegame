@@ -5,13 +5,6 @@ using UnityEngine;
 
 public class BulletsMenu : MonoBehaviour
 {
-    /* [SerializeField] SpriteRenderer spriteRenderer;
-     List<GridItemDef> bullets;
-     List<GameObject> _menuItem = new List<GameObject>();
-     GameObject _menu;
-
-     float distance;*/
-
     public BulletButton[] buttons;
     Cannon cannon;
     public CrewJobData jobdata;
@@ -25,7 +18,7 @@ public class BulletsMenu : MonoBehaviour
         transform.parent.gameObject.SetActive(false);
     }
 
-    public void Setup(Cannon cannon, List<Bullet> gridItemDatas)
+    public void Setup(Cannon cannon, List<Ammo> gridItemDatas)
     {
         jobdata = FindAnyObjectByType<CrewJobData>();
         this.cannon = cannon;
@@ -35,7 +28,7 @@ public class BulletsMenu : MonoBehaviour
         }
         for (int i = 0; i < gridItemDatas.Count; i++)
         {
-            Bullet bullet = gridItemDatas[i];
+            Ammo bullet = gridItemDatas[i];
             buttons[i].gameObject.SetActive(true);
             buttons[i].Init(bullet);
             buttons[i].onClick.AddListener(() => Reload(bullet));
@@ -57,10 +50,10 @@ public class BulletsMenu : MonoBehaviour
 
     }
 
-    void Reload(Bullet bullet)
+    void Reload(Ammo bullet)
     {
         Debug.Log("BULLET + " + cannon + " " + bullet + " ");
-        GlobalEvent<Cannon, Bullet, int>.Send("Reload", cannon, bullet, int.MaxValue);
+        GlobalEvent<Cannon, Ammo, int>.Send("Reload", cannon, bullet, int.MaxValue);
         Close();
     }
 

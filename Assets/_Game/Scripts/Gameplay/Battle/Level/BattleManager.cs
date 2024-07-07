@@ -74,11 +74,11 @@ namespace _Game.Scripts.Gameplay
                 {
                     Debug.Log("A");
                     bool ended = true;
-                    foreach (Entity a in EntityManager.aliveEntities)
+                    foreach (IAliveStats a in EntityManager.aliveEntities)
                     {
                         if (a != null)
                         {
-                            if (a.Stats is EnemyStats s)
+                            if (a is EnemyStats s)
                             {
                                 if (s.HealthPoint.Value > 0)
                                 {
@@ -117,8 +117,8 @@ namespace _Game.Scripts.Gameplay
             currentRate = 1; 
             BattleViewModel.SpeedUpRate = currentRate;
             EntityManager.CleanUp();
-            Enemy[] a = GameObject.FindObjectsByType<Enemy>(FindObjectsSortMode.None);
-            foreach (Enemy enemy in a)
+            EnemyModel[] a = GameObject.FindObjectsByType<EnemyModel>(FindObjectsSortMode.None);
+            foreach (EnemyModel enemy in a)
             {
                 GameObject.Destroy(enemy.gameObject);
             }

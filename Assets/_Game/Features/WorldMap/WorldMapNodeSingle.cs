@@ -1,5 +1,10 @@
+using System;
+using _Game.Features.FightNodeInfoPopup;
+using _Game.Features.SeaMap;
 using _Game.Scripts.UI;
+using UnityEngine;
 using UnityWeld.Binding;
+using ZBase.UnityScreenNavigator.Core.Modals;
 using ZBase.UnityScreenNavigator.Core.Screens;
 using ZBase.UnityScreenNavigator.Core.Views;
 
@@ -8,31 +13,6 @@ namespace _Game.Features.WorldMap
     [Binding]
     public class WorldMapNodeSingle : RootViewModel
     {
-        #region Binding Prop: Name
-
-        /// <summary>
-        /// Name
-        /// </summary>
-        [Binding]
-        public string Name
-        {
-            get => m_name;
-            set
-            {
-                if (Equals(m_name, value))
-                {
-                    return;
-                }
-
-                m_name = value;
-                OnPropertyChanged(nameof(Name));
-            }
-        }
-
-        private string m_name;
-
-        #endregion
-
         #region Binding Prop: IsCompleted
 
         /// <summary>
@@ -58,68 +38,57 @@ namespace _Game.Features.WorldMap
 
         #endregion
         
-        #region Binding Prop: IsSelected
+        #region Binding Prop: IsCurrentNode
 
         /// <summary>
-        /// IsSelected
+        /// IsCurrentNode
         /// </summary>
         [Binding]
-        public bool IsSelected
+        public bool IsCurrentNode
         {
-            get => _isSelected;
+            get => _isCurrentNode;
             set
             {
-                if (value)
-                {
-                    OnSelected();
-                }
-                
-                if (Equals(_isSelected, value))
+                if (Equals(_isCurrentNode, value))
                 {
                     return;
                 }
 
-                _isSelected = value;
-                OnPropertyChanged(nameof(IsSelected));
+                _isCurrentNode = value;
+                OnPropertyChanged(nameof(IsCurrentNode));
             }
         }
 
-        private async void OnSelected()
+        private bool _isCurrentNode;
+
+        #endregion
+
+        /// <summary>
+        /// Id
+        /// </summary>
+        public string Id;
+
+        private void Awake()
         {
-            // PopupManager.Instance.ShowPopup<SeaMapNodeInfoPopup.SeaMapNodeInfoPopup>();
             
-            var options = new ViewOptions("SeaMapScreen", true);
-            await ScreenContainer.Find(ContainerKey.Screens).PushAsync(options);
-            // ModalContainer.Find(ContainerKey.Modals).Push(options);
         }
 
-        private bool _isSelected;
-
-        #endregion
-        
-        #region Binding Prop: IsLocked
-
-        /// <summary>
-        /// IsLocked
-        /// </summary>
-        [Binding]
-        public bool IsLocked
+        private void Start()
         {
-            get => _isLocked;
-            set
-            {
-                if (Equals(_isLocked, value))
-                {
-                    return;
-                }
-
-                _isLocked = value;
-                OnPropertyChanged(nameof(IsLocked));
-            }
+            IsCurrentNode = PlayerPrefs.GetString("currentStage") == Id;
         }
 
-        private bool _isLocked;
-
-        #endregion
+        [Binding]
+        public void OnClick()
+        {
+            // IsCompleted = true;
+            // ModalContainer.Find(ContainerKey.Modals).PushAsync(new
+            //     ViewOptions(nameof(FightNodeInfoModal)), 
+            //     Id);
+            
+            ScreenContainer.Find(ContainerKey.Screens).PushAsync(new
+                    ViewOptions(nameof(SeaMapScreen)), 
+                Id);
+        }
     }
 }

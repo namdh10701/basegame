@@ -1,11 +1,12 @@
 using _Game.Features.Quest;
+using _Game.Features.WorldMap;
 using _Game.Scripts.UI;
 using UnityWeld.Binding;
 using ZBase.UnityScreenNavigator.Core.Modals;
 using ZBase.UnityScreenNavigator.Core.Screens;
 using ZBase.UnityScreenNavigator.Core.Views;
 
-namespace _Game.Features.MyShipScreen
+namespace _Game.Features.Home
 {
     [Binding]
     public class HomeViewModel : RootViewModel

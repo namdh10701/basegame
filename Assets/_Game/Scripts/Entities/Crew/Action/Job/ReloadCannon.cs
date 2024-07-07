@@ -11,7 +11,7 @@ using _Game.Scripts.Gameplay.Ship;
 public class ReloadCannonJob : CrewJob
 {
     public Cannon cannon;
-    public Bullet bullet;
+    public Ammo bullet;
     Node workingSlot;
     Node cannonWorkingSlot;
     public ReloadCannonJob(Cannon cannon) : base()
@@ -24,7 +24,7 @@ public class ReloadCannonJob : CrewJob
         this.bullet = null;
     }
 
-    public void AssignBullet(Bullet bullet)
+    public void AssignBullet(Ammo bullet)
     {
         this.bullet = bullet;
         WorkLocation = bullet.GetComponent<IWorkLocation>();
@@ -61,6 +61,7 @@ public class ReloadCannonJob : CrewJob
         yield return crew.CrewMovement.MoveCarry(cannonWorkingSlot.transform.position);
         crew.Dropdown();
         yield return new WaitForSeconds(.5f);
+        Debug.Log("HERE 11212121");
         cannon.Reloader.Reload(bullet);
         crew.CrewAction.CarryingBullet = null;
         GlobalEvent.Send("ReloadCompleted");

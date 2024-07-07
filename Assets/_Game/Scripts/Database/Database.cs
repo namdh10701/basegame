@@ -15,7 +15,7 @@ namespace _Game.Scripts.DB
         private static Dictionary<string, Sprite> CannonImageDic = new Dictionary<string, Sprite>();
 
         private static Dictionary<string, Cannon> CannonDic = new Dictionary<string, Cannon>();
-        private static Dictionary<string, Bullet> BulletDic = new Dictionary<string, Bullet>();
+        private static Dictionary<string, Ammo> BulletDic = new Dictionary<string, Ammo>();
         private static Dictionary<string, Crew> CrewDic = new Dictionary<string, Crew>();
 
         private static Dictionary<string, string> CannonOperatorDic = new Dictionary<string, string>();
@@ -136,7 +136,7 @@ namespace _Game.Scripts.DB
             {
                 string operationType = ammo.Value.operation_type.ToLower();
                 string path = $"Prefabs/GridItems/Bullets/{operationType}";
-                Bullet bulletPrefab = Resources.Load<Bullet>(path);
+                Ammo bulletPrefab = Resources.Load<Ammo>(path);
                 BulletDic.Add(ammo.Key, bulletPrefab);
                 BulletOperatorDic.Add(ammo.Key, operationType);
             }
@@ -215,7 +215,7 @@ namespace _Game.Scripts.DB
         {
             return CannonDic[id];
         }
-        public static Bullet GetBullet(string id)
+        public static Ammo GetBullet(string id)
         {
             return BulletDic[id];
         }

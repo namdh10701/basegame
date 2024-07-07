@@ -50,9 +50,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa3e061551977bc4981e1aafa909e337, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Id: 
-  body: {fileID: 3547516095354855559}
+  id: 
+  gdConfig: {fileID: 0}
+  statsTemplate: {fileID: 11400000, guid: 84fb51cf2123cca4894e08b24d356752, type: 2}
   Ship: {fileID: 0}
+  body: {fileID: 3547516095354855559}
   Animation: {fileID: 5057098962496586513}
   CrewMovement: {fileID: 3125218877588862083}
   CrewAction: {fileID: 6031859851334405460}
@@ -72,7 +74,7 @@ MonoBehaviour:
       _baseValue: 0
     <MoveSpeed>k__BackingField:
       statModifiers: []
-      _baseValue: 0
+      _baseValue: 1.5
     <EvadeChance>k__BackingField:
       statModifiers: []
       _baseValue: 0
@@ -80,8 +82,6 @@ MonoBehaviour:
       statModifiers: []
       _baseValue: 0
   _statTemplate: {fileID: 11400000, guid: 84fb51cf2123cca4894e08b24d356752, type: 2}
-  def: {fileID: 11400000, guid: d2c305b7d3078b946b4dc55bec6796f5, type: 2}
-  behaviour: {fileID: 0}
   EffectTakerCollider: {fileID: 7557830686970291313}
   effectHandler: {fileID: 7046251937023846737}
   <OccupyCells>k__BackingField: []
@@ -367,7 +367,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01bfda76cc6a4e3080de930ff8b94a3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entity: {fileID: 4423691010520195521}
   effects: []
 --- !u!1001 &7713688862844745258
 PrefabInstance:

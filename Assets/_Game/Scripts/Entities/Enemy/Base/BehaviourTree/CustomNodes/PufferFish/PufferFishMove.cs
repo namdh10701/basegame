@@ -1,14 +1,17 @@
 using _Game.Scripts.Entities;
 using MBT;
 using UnityEngine;
-[MBTNode("Puffer Fish/Move")]
-[AddComponentMenu("")]
-public class PufferFishMove : Leaf
+namespace _Game.MBT
 {
-    public PufferFish PufferFish;
-    public override NodeResult Execute()
+    [MBTNode("Puffer Fish/Move")]
+    [AddComponentMenu("")]
+    public class PufferFishMove : Leaf
     {
-        PufferFish.Move();
-        return NodeResult.success;
+        public PufferFishController PufferFish;
+        public override NodeResult Execute()
+        {
+            PufferFish.Move();
+            return NodeResult.success;
+        }
     }
 }

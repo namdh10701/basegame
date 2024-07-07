@@ -75,7 +75,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01bfda76cc6a4e3080de930ff8b94a3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entity: {fileID: 8289297811835334095}
   effects: []
 --- !u!1 &1043588036320149862
 GameObject:
@@ -632,7 +631,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b25af8627659c6949b60949c3aa8d91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedEditorNode: {fileID: 2439725888952280321}
+  selectedEditorNode: {fileID: 2651914818716957583}
   repeatOnFinish: 1
   maxExecutionsPerTick: 1000
   parent: {fileID: 0}
@@ -717,8 +716,8 @@ MonoBehaviour:
   title: Wander
   rect:
     serializedVersion: 2
-    x: 437
-    y: 392
+    x: 438
+    y: 398
     width: 160
     height: 45
   parent: {fileID: 6411447790648082315}
@@ -842,7 +841,7 @@ MonoBehaviour:
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
-  type: _Game.Scripts.Squid
+  type: SquidController
   monoBehaviour: {fileID: 8289297811835334095}
   coroutineName: AttackSequence
 --- !u!114 &1398462479390615626
@@ -858,7 +857,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Enemy
-  val: {fileID: 8289297811835334095}
+  val: {fileID: 9122971033754850652}
 --- !u!114 &7984349400047426400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1201,7 +1200,9 @@ GameObject:
   - component: {fileID: 8505113706736554174}
   - component: {fileID: 8289297811835334095}
   - component: {fileID: 8631502049836452865}
-  - component: {fileID: 5277049571435688989}
+  - component: {fileID: 9122971033754850652}
+  - component: {fileID: 2152454626335057488}
+  - component: {fileID: -4896455647920452742}
   m_Layer: 6
   m_Name: Squid
   m_TagString: Untagged
@@ -1267,9 +1268,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1df9b60d0f62dac4b99b9204a5821408, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Id: 
-  body: {fileID: 8505113706736554174}
-  enemyId: 0003
   _stats:
     <HealthPoint>k__BackingField:
       _value:
@@ -1308,17 +1306,18 @@ MonoBehaviour:
     <MoveSpeed>k__BackingField:
       statModifiers: []
       _baseValue: 0
-  _statsTemplate: {fileID: 11400000, guid: 3c4145d76312eaa49bf2401ba0a86cbb, type: 2}
+  anim: {fileID: 243247705162881782}
+  id: 0003
+  gdConfig: {fileID: 11400000, guid: dafc4004e0133475f8d7f898a1f7342d, type: 2}
+  statsTemplate: {fileID: 11400000, guid: 3c4145d76312eaa49bf2401ba0a86cbb, type: 2}
+  body: {fileID: 8505113706736554174}
   EffectTakerCollider: {fileID: 3945846091911806246}
   effectHandler: {fileID: 7379212253086196880}
-  pushCollider: {fileID: 8353682512256452849}
   blackboard: {fileID: 5341758609630521839}
   MBTExecutor: {fileID: 1623288628284439890}
-  spineAnimationEnemyHandler: {fileID: 243247705162881782}
-  FindTargetCollider: {fileID: 8827971999485147048}
+  enemyController: {fileID: 9122971033754850652}
   CooldownBehaviour: {fileID: 8631502049836452865}
   EvasionBuffArea: {fileID: 8219674582110224420, guid: d6e6ed9a1ae50964a82936674da0902a, type: 3}
-  wander: {fileID: 2439725888952280321}
 --- !u!114 &8631502049836452865
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1331,7 +1330,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d9ebe8214567844fa318b7cdc254af6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5277049571435688989
+--- !u!114 &9122971033754850652
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1340,11 +1339,69 @@ MonoBehaviour:
   m_GameObject: {fileID: 7740837542243925400}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cba299f113027e04eb3db23b9981c38c, type: 3}
+  m_Script: {fileID: 11500000, guid: 259eb03fce04e5b4480420acbc6cc888, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Enemy: {fileID: 8289297811835334095}
-  SpineAnimationEnemyHandler: {fileID: 243247705162881782}
+--- !u!114 &2152454626335057488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7740837542243925400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ece8af53fc95ece4496db2febce1ff1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnReachZero:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 9122971033754850652}
+        m_TargetAssemblyTypeName: EnemyController, Assembly-CSharp
+        m_MethodName: Die
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnReachFull:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDecreased:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 243247705162881782}
+        m_TargetAssemblyTypeName: SpineAnimationEnemyHandler, Assembly-CSharp
+        m_MethodName: Blink
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnIncreased:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &-4896455647920452742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7740837542243925400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12c5255b5a7391c48b0346c3510cbd9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8246854824660603471
 GameObject:
   m_ObjectHideFlags: 0

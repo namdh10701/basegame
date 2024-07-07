@@ -221,7 +221,6 @@ GameObject:
   - component: {fileID: 1800230495805982014}
   - component: {fileID: 3307297066827325185}
   - component: {fileID: 270257393755564702}
-  - component: {fileID: 5382645484777069493}
   - component: {fileID: 1123572628264669413}
   m_Layer: 0
   m_Name: SeaMapScreen
@@ -330,18 +329,6 @@ MonoBehaviour:
     _pushExitAnimations: []
     _popEnterAnimations: []
     _popExitAnimations: []
---- !u!114 &5382645484777069493
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 560792548003290747}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e5132dfa91c40f4ba1e191f3421b7c4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1123572628264669413
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2092,9 +2079,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4711874496808919553, guid: f7c445ffd1cac8e49938cf8445b24bb5, type: 3}
+      propertyPath: m_text
+      value: HOME
+      objectReference: {fileID: 0}
     - target: {fileID: 5372131827885761618, guid: f7c445ffd1cac8e49938cf8445b24bb5, type: 3}
       propertyPath: m_Name
-      value: Btn_2
+      value: Btn_home
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2126,7 +2117,7 @@ MonoBehaviour:
   m_Script: {fileID: -1360956885, guid: e650e72e8be47794994495fc15c0ba63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewModelMethodName: _Game.Features.SeaMap.SeaMapViewModel.NavToHome
+  viewModelMethodName: _Game.Features.SeaMap.SeaMapScreen.NavToHome
   viewEventName: UnityEngine.UI.Button.onClick
 --- !u!1001 &7144403015481384707
 PrefabInstance:
@@ -2249,7 +2240,7 @@ MonoBehaviour:
   m_Script: {fileID: -1360956885, guid: e650e72e8be47794994495fc15c0ba63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewModelMethodName: _Game.Features.SeaMap.SeaMapViewModel.ShowQuestPopup
+  viewModelMethodName: _Game.Features.SeaMap.SeaMapScreen.ShowQuestPopup
   viewEventName: UnityEngine.UI.Button.onClick
 --- !u!224 &7164072379747309283 stripped
 RectTransform:
@@ -2417,7 +2408,7 @@ MonoBehaviour:
   m_Script: {fileID: -1360956885, guid: e650e72e8be47794994495fc15c0ba63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewModelMethodName: _Game.Features.SeaMap.SeaMapViewModel.NavToWorldMap
+  viewModelMethodName: _Game.Features.SeaMap.SeaMapScreen.NavBack
   viewEventName: UnityEngine.UI.Button.onClick
 --- !u!224 &8388499463298483164 stripped
 RectTransform:

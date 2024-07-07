@@ -116,9 +116,9 @@ namespace _Game.Scripts
             return Resources.Load<Ship>($"Prefabs/Entities/Ship/Ship_{id}/Ship_{id}");
         }
 
-        public static Enemy LoadEnemy(string id)
+        public static EnemyModel LoadEnemy(string id)
         {
-            return Resources.Load<Enemy>($"{enemyPath}{enemyIdNameDic[id]}");
+            return Resources.Load<EnemyModel>($"{enemyPath}{enemyIdNameDic[id]}");
         }
 
         public static Dictionary<string, string> enemyIdNameDic = new Dictionary<string, string>()

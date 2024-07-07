@@ -31,7 +31,7 @@ public abstract class SpineAnimationEnemyHandler : MonoBehaviour
     public float onHitduration = 0.1f;
     Coroutine blinkCoroutine;
 
-    protected virtual void Start()
+    protected virtual void Awake()
     {
         mpb = new MaterialPropertyBlock();
         skeletonAnimation.AnimationState.Event += AnimationState_Event;
