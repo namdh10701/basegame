@@ -48,7 +48,6 @@ namespace _Game.Scripts.GD
         public Dictionary<string, ShipConfig> Ships { get; } = new();
         public Dictionary<string, TalentTreeNormalConfig> TalentTreeNormals { get; } = new();
         public Dictionary<string, TalentTreePreConfig> TalentTreePres { get; } = new();
-
         private async void Awake()
         {
             Instance = this;
@@ -342,6 +341,47 @@ namespace _Game.Scripts.GD
         async Task<string> GetHttpResponse(string url)
         {
             return (await UnityWebRequest.Get(url).SendWebRequest()).downloadHandler.text;
+        }
+
+        public GDConfig GetConfig(string id, GDConfig gdConfig)
+        {
+            GDConfig ret = null;
+            if (gdConfig is EnemyConfig)
+            {
+                if (Enemies.TryGetValue(id, out EnemyConfig value))
+                {
+                    ret = value;
+                }
+            }
+            if (gdConfig is CrewConfig)
+            {
+                if (Crews.TryGetValue(id, out CrewConfig value))
+                {
+                    ret = value;
+                }
+            }
+            if (gdConfig is CannonConfig)
+            {
+                if (Cannons.TryGetValue(id, out CannonConfig value))
+                {
+                    ret = value;
+                }
+            }
+            if (gdConfig is AmmoConfig)
+            {
+                if (Ammos.TryGetValue(id, out AmmoConfig value))
+                {
+                    ret = value;
+                }
+            }
+            if (gdConfig is ShipConfig)
+            {
+                if (Ships.TryGetValue(id, out ShipConfig value))
+                {
+                    ret = value;
+                }
+            }
+            return ret;
         }
     }
 }

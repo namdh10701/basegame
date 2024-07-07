@@ -13,11 +13,11 @@ public class PushEffect : OneShotEffect
     public bool isIgnorePoise;
     public Vector2 pushDirection;
     public Rigidbody2D body;
-    protected override void OnApply(Entity entity)
+    protected override void OnApply(IEffectTaker entity)
     {
-        if (entity is Enemy enemy)
+        if (entity is IPhysicsEffectTaker enemy)
         {
-            float poise = ((EnemyStats)enemy.Stats).Poise.Value;
+            float poise = enemy.Poise;
 
             if (!isIgnorePoise)
             {
@@ -25,11 +25,11 @@ public class PushEffect : OneShotEffect
             }
             if (body != null)
             {
-                entity.body.AddForceAtPosition(force * body.velocity.normalized, transform.position);
+                enemy.Body.AddForceAtPosition(force * body.velocity.normalized, transform.position);
             }
             else
             {
-                entity.body.AddForceAtPosition(force * (entity.body.transform.position - transform.position).normalized, transform.position);
+                enemy.Body.AddForceAtPosition(force * (enemy.Body.transform.position - transform.position).normalized, transform.position);
             }
         }
     }

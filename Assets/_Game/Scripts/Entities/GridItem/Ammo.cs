@@ -8,10 +8,13 @@ using UnityEngine;
 
 namespace _Game.Scripts.Entities
 {
-    public class Bullet : Entity, IGridItem, IWorkLocation, INodeOccupier
+    public class Ammo : Entity, IEffectTaker, IGridItem, IWorkLocation, INodeOccupier, IGDConfigStatsTarget
     {
         public string id;
-        public Projectile Projectile;
+        public GDConfig gdConfig;
+        public StatsTemplate statsTemplate;
+        public StatsTemplate StatsTemplate => statsTemplate;
+        public CannonProjectile Projectile;
 
         [SerializeField] private GridItemDef def;
 
@@ -20,6 +23,7 @@ namespace _Game.Scripts.Entities
         public GridItemDef Def { get => def; }
         public Transform Behaviour { get => null; }
         public string GridId { get; set; }
+
         public List<Node> workingSlots = new List<Node>();
         public List<Node> WorkingSlots { get => workingSlots; set => workingSlots = value; }
         public List<Node> occupyingNodes = new List<Node>();
@@ -33,14 +37,17 @@ namespace _Game.Scripts.Entities
 
         public Transform Transform => transform;
 
-        public ProjectileStats stats;
-        public ProjectileStatsTemplate projectileStatsTemplate;
+        public string Id { get => id; set => id = value; }
+        public GDConfig GDConfig { get => gdConfig; }
 
+        public AmmoStats stats;
 
         public SpriteRenderer sprite;
         public Color broken;
         public Color norm;
         bool isBroken;
+
+
 
         public void SetId(string id)
         {
@@ -67,30 +74,6 @@ namespace _Game.Scripts.Entities
             IsBroken = false;
         }
 
-        protected override void LoadStats()
-        {
-            if (GDConfigLoader.Instance != null)
-            {
-                if (GDConfigLoader.Instance.Ammos.TryGetValue(id, out AmmoConfig value))
-                {
-                    value.ApplyGDConfig(Stats);
-                }
-                else
-                {
-                    projectileStatsTemplate.ApplyConfig(stats);
-                }
-
-            }
-        }
-
-        protected override void LoadModifiers()
-        {
-            
-        }
-
-        protected override void ApplyStats()
-        {
-            
-        }
+        public void ApplyStats() { }
     }
 }

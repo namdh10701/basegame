@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class EnemyStatsChangedListener : MonoBehaviour
 {
-    public Enemy Enemy;
+    public EnemyModel EnemyModel;
+    public EnemyController EnemyController;
     public SpineAnimationEnemyHandler SpineAnimationEnemyHandler;
     float lastHp;
     private void Start()
     {
-        lastHp = ((EnemyStats)Enemy.Stats).HealthPoint.Value;
-        ((EnemyStats)Enemy.Stats).HealthPoint.OnValueChanged += HealthPoint_OnValueChanged;
+        lastHp = ((EnemyStats)EnemyModel.Stats).HealthPoint.Value;
+        ((EnemyStats)EnemyModel.Stats).HealthPoint.OnValueChanged += HealthPoint_OnValueChanged;
     }
     private void HealthPoint_OnValueChanged(_Base.Scripts.RPG.Stats.RangedStat obj)
     {
@@ -19,7 +20,7 @@ public class EnemyStatsChangedListener : MonoBehaviour
 
         if (obj.StatValue.Value <= obj.MinValue)
         {
-            Enemy.Die();
+            EnemyController.Die();
         }
     }
 }

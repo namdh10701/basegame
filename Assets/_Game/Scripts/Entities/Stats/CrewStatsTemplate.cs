@@ -5,13 +5,14 @@ namespace _Game.Scripts
 {
     [CreateAssetMenu(fileName = "CrewStats", menuName = "Scriptable Objects/Crew Stats", order = 1)]
     [Serializable]
-    public class CrewStatsTemplate : ScriptableObject
+    public class CrewStatsTemplate : StatsTemplate
     {
         [field: SerializeField] public CrewStats Data { get; set; } = new();
 
-        public void ApplyConfig(CrewStats stats)
+        public override void ApplyConfig(Stats stats)
         {
-            stats.MoveSpeed.BaseValue = Data.MoveSpeed.BaseValue;
+            CrewStats crewStats = stats as CrewStats;
+            crewStats.MoveSpeed.BaseValue = Data.MoveSpeed.BaseValue;
         }
     }
 }

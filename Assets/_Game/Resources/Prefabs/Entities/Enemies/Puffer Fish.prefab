@@ -113,7 +113,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b25af8627659c6949b60949c3aa8d91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedEditorNode: {fileID: 7687039662104936203}
+  selectedEditorNode: {fileID: 4260380818238376302}
   repeatOnFinish: 0
   maxExecutionsPerTick: 6
   parent: {fileID: 0}
@@ -265,7 +265,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Enemy
-  val: {fileID: 5255935956171750253}
+  val: {fileID: 1264530026246775067}
 --- !u!114 &7687039662104936203
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -281,8 +281,8 @@ MonoBehaviour:
   title: Play Attack Coroutine
   rect:
     serializedVersion: 2
-    x: 122
-    y: 453
+    x: 1096
+    y: 919
     width: 160
     height: 45
   parent: {fileID: 0}
@@ -290,8 +290,8 @@ MonoBehaviour:
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
-  type: _Game.Scripts.Entities.PufferFish
-  monoBehaviour: {fileID: 8800468236094569836}
+  type: PufferFishController
+  monoBehaviour: {fileID: 3347196295145259414}
   coroutineName: AttackSequence
 --- !u!114 &856751186372080755
 MonoBehaviour:
@@ -376,7 +376,7 @@ MonoBehaviour:
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
-  PufferFish: {fileID: 5255935956171750253}
+  PufferFish: {fileID: 1264530026246775067}
 --- !u!114 &5077078246157167131
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -453,9 +453,11 @@ GameObject:
   m_Component:
   - component: {fileID: 5887077759218277640}
   - component: {fileID: 9081800915487468024}
-  - component: {fileID: 8800468236094569836}
   - component: {fileID: 3347196295145259414}
   - component: {fileID: 5255935956171750253}
+  - component: {fileID: 804566052892127189}
+  - component: {fileID: 1264530026246775067}
+  - component: {fileID: -6316431101422094178}
   m_Layer: 6
   m_Name: Puffer Fish
   m_TagString: Untagged
@@ -478,6 +480,7 @@ Transform:
   m_Children:
   - {fileID: 8198101950313118468}
   - {fileID: 8080589545341370426}
+  - {fileID: 1094489970447347437}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &9081800915487468024
@@ -507,20 +510,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &8800468236094569836
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5407639160895214179}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cba299f113027e04eb3db23b9981c38c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Enemy: {fileID: 5255935956171750253}
-  SpineAnimationEnemyHandler: {fileID: 7789903315881788189}
 --- !u!114 &3347196295145259414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -585,9 +574,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68c8c756b91b28343a31dd125b084c44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Id: 
-  body: {fileID: 9081800915487468024}
-  enemyId: 0001
   _stats:
     <HealthPoint>k__BackingField:
       _value:
@@ -626,17 +612,93 @@ MonoBehaviour:
     <MoveSpeed>k__BackingField:
       statModifiers: []
       _baseValue: 0
-  _statsTemplate: {fileID: 11400000, guid: 9eafdaa630e9ff0429e1ff587ed34637, type: 2}
+  anim: {fileID: 7789903315881788189}
+  id: 0001
+  gdConfig: {fileID: 11400000, guid: dafc4004e0133475f8d7f898a1f7342d, type: 2}
+  statsTemplate: {fileID: 11400000, guid: 9eafdaa630e9ff0429e1ff587ed34637, type: 2}
+  body: {fileID: 9081800915487468024}
   EffectTakerCollider: {fileID: 397694424681592153}
   effectHandler: {fileID: 6980205348978265785}
-  pushCollider: {fileID: 129813338327264512}
   blackboard: {fileID: 5194563963806863679}
   MBTExecutor: {fileID: 688278576719588910}
-  spineAnimationEnemyHandler: {fileID: 7789903315881788189}
-  FindTargetCollider: {fileID: 0}
+  enemyController: {fileID: 1264530026246775067}
   PufferFishMove: {fileID: 3347196295145259414}
-  DamageArea: {fileID: 3365400120013340572, guid: 23da74e46d94dd94da3e561b1e3a003e, type: 3}
+  DamageArea: {fileID: 2245490483383338687}
+--- !u!114 &804566052892127189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5407639160895214179}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ece8af53fc95ece4496db2febce1ff1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnReachZero:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1264530026246775067}
+        m_TargetAssemblyTypeName: PufferFishController, Assembly-CSharp
+        m_MethodName: Die
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnReachFull:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDecreased:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7789903315881788189}
+        m_TargetAssemblyTypeName: SpineAnimationEnemyHandler, Assembly-CSharp
+        m_MethodName: Blink
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnIncreased:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &1264530026246775067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5407639160895214179}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 001096ffb3340e84e92718533e87fd1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pufferFishMove: {fileID: 3347196295145259414}
+  damageArea: {fileID: 3365400120013340572, guid: 23da74e46d94dd94da3e561b1e3a003e, type: 3}
   pufferFish: {fileID: 11400000, guid: 506cb7fb8ac8e764e99d4431e31feb49, type: 2}
+--- !u!114 &-6316431101422094178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5407639160895214179}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12c5255b5a7391c48b0346c3510cbd9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6435896889800693050
 GameObject:
   m_ObjectHideFlags: 0
@@ -812,7 +874,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01bfda76cc6a4e3080de930ff8b94a3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entity: {fileID: 5255935956171750253}
   effects: []
 --- !u!1 &6880856187185135634
 GameObject:
@@ -996,6 +1057,83 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 632092afc43eeec4fbac00b80ce9e41d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1001 &3575251339219188003
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 5887077759218277640}
+    m_Modifications:
+    - target: {fileID: 1445375723543447256, guid: 23da74e46d94dd94da3e561b1e3a003e, type: 3}
+      propertyPath: m_Name
+      value: DamageArea
+      objectReference: {fileID: 0}
+    - target: {fileID: 1445375723543447256, guid: 23da74e46d94dd94da3e561b1e3a003e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4516460558011848654, guid: 23da74e46d94dd94da3e561b1e3a003e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -3.26
+      objectReference: {fileID: 0}
+    - target: {fileID: 4516460558011848654, guid: 23da74e46d94dd94da3e561b1e3a003e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.51
+      objectReference: {fileID: 0}
+    - target: {fileID: 4516460558011848654, guid: 23da74e46d94dd94da3e561b1e3a003e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4516460558011848654, guid: 23da74e46d94dd94da3e561b1e3a003e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4516460558011848654, guid: 23da74e46d94dd94da3e561b1e3a003e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4516460558011848654, guid: 23da74e46d94dd94da3e561b1e3a003e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4516460558011848654, guid: 23da74e46d94dd94da3e561b1e3a003e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4516460558011848654, guid: 23da74e46d94dd94da3e561b1e3a003e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4516460558011848654, guid: 23da74e46d94dd94da3e561b1e3a003e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4516460558011848654, guid: 23da74e46d94dd94da3e561b1e3a003e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 23da74e46d94dd94da3e561b1e3a003e, type: 3}
+--- !u!4 &1094489970447347437 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4516460558011848654, guid: 23da74e46d94dd94da3e561b1e3a003e, type: 3}
+  m_PrefabInstance: {fileID: 3575251339219188003}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2245490483383338687 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3365400120013340572, guid: 23da74e46d94dd94da3e561b1e3a003e, type: 3}
+  m_PrefabInstance: {fileID: 3575251339219188003}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb9ce5181cc6131468cc3cc45f982db0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &4109166419433855438

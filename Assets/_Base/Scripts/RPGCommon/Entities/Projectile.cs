@@ -8,24 +8,20 @@ using UnityEngine;
 
 namespace _Base.Scripts.RPGCommon.Entities
 {
-    public abstract class Projectile : Entity, IUpgradeable, IEffectGiver
+    public abstract class Projectile : Entity, IEffectGiver
     {
         [Header("Projectile")]
+        public Rigidbody2D body;
         public ParticleSystem onHitParticle;
         public ProjectileStats _stats;
-        public ProjectileStatsTemplate _statsTemplate;
         public ProjectileMovement ProjectileMovement;
         public Transform trail;
 
-
         public override Stats Stats => _stats;
-
-        public Rarity rarity;
-        public Rarity Rarity { get => rarity; set => rarity = value; }
 
         public Transform Transform => transform;
 
-        public List<Effect> outGoingEffects = new List<Effect>();
+       [SerializeField] protected List<Effect> outGoingEffects = new List<Effect>();
 
         public List<Effect> OutGoingEffects { get => outGoingEffects; set => outGoingEffects = value; }
 
@@ -35,11 +31,13 @@ namespace _Base.Scripts.RPGCommon.Entities
 
         public bool isCrit;
 
-        protected override void Awake()
+        private void Awake()
         {
-            base.Awake();
             CollisionHandler = new ProjectileCollisionHandler(this);
             collisionListener.CollisionHandler = CollisionHandler;
+        }
+        public override void ApplyStats()
+        {
             ProjectileCollisionHandler projectileCollisionHandler = (ProjectileCollisionHandler)collisionListener.CollisionHandler;
             if (onHitParticle != null)
             {

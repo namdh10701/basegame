@@ -12,9 +12,13 @@ namespace _Base.Scripts.RPG.Effects
             Amount = amount;
         }
 
-        protected override void OnTick(Entity entity)
+        protected override void OnTick(IEffectTaker entity)
         {
-            if (entity.Stats is not IAliveStats alive)
+            if (entity is not IStatsBearer statsBearer)
+            {
+                return;
+            }
+            if (statsBearer is not IAliveStats alive)
             {
                 return;
             }

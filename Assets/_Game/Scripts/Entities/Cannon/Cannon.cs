@@ -14,8 +14,13 @@ using UnityEngine;
 
 namespace _Game.Scripts.Entities
 {
-    public class Cannon : Entity, IShooter, IGridItem, IUpgradeable, IWorkLocation, INodeOccupier, IEffectTaker
+    public class Cannon : Entity, IStatsBearer, IShooter, IGridItem, IWorkLocation, INodeOccupier, IEffectTaker, IGDConfigStatsTarget
     {
+        [Header("GD Config Stats Target")]
+        public string id;
+        public GDConfig gdConfig;
+        public StatsTemplate statsTemplate;
+
         [Header("Cannon")]
         [field: SerializeField]
         private GridItemDef def;
@@ -31,13 +36,13 @@ namespace _Game.Scripts.Entities
 
         public CannonReloader Reloader => _cannonReloader;
 
-        public override Stats Stats => _stats;
 
         public IFighterStats FighterStats
         {
             get => _stats;
             set => _stats = (CannonStats)value;
         }
+        public CannonRenderer CannonRenderer;
 
         [field: SerializeReference]
         public AttackStrategy AttackStrategy { get; set; }
@@ -47,9 +52,6 @@ namespace _Game.Scripts.Entities
         public GridItemDef Def { get => def; set => def = value; }
         public Transform Behaviour { get => behaviour; }
         public string GridId { get; set; }
-
-        public Rarity rarity;
-        public Rarity Rarity { get => rarity; set => rarity = value; }
         public List<Node> WorkingSlots { get => workingSlots; set => workingSlots = value; }
         public List<Node> OccupyingNodes { get => occupyingNodes; set => occupyingNodes = value; }
         public bool IsBroken { get => isBroken; set => isBroken = value; }
@@ -60,6 +62,13 @@ namespace _Game.Scripts.Entities
         public Transform Transform => transform;
 
         public bool IsAbleToTakeHit { get => _stats.HealthPoint.Value > _stats.HealthPoint.MinValue; }
+        public string Id { get => id; set => id = value; }
+
+        public GDConfig GDConfig => gdConfig;
+
+        public StatsTemplate StatsTemplate => statsTemplate;
+
+        public override Stats Stats => _stats;
 
         public List<Node> workingSlots = new List<Node>();
         public List<Node> occupyingNodes = new List<Node>();
@@ -68,34 +77,10 @@ namespace _Game.Scripts.Entities
         public AttackTargetBehaviour AttackTargetBehaviour;
         public FindTargetBehaviour FindTargetBehaviour;
 
-        public Bullet usingBullet;
+        public Ammo usingBullet;
         public SpineAnimationCannonHandler Animation;
 
-        protected override void Awake()
-        {
-            base.Awake();
-        }
-
-        protected override void LoadStats()
-        {
-            if (GDConfigLoader.Instance != null)
-            {
-                if (GDConfigLoader.Instance.Cannons.TryGetValue(Id, out CannonConfig cannonConfig))
-                {
-                    cannonConfig.ApplyGDConfig(_stats);
-                }
-            }
-            else
-            {
-                _statsTemplate.ApplyConfig(_stats);
-            }
-        }
-
-        protected override void LoadModifiers()
-        {
-
-        }
-        protected override void ApplyStats()
+        protected void ApplyStats()
         {
             FindTargetCollider.SetRadius(_stats.AttackRange.Value);
             AttackTargetBehaviour.projectilePrefab = usingBullet.Projectile;
@@ -114,7 +99,7 @@ namespace _Game.Scripts.Entities
             }
             else
             {
-                GlobalEvent<Cannon, Bullet, int>.Send("Reload", this, usingBullet, int.MaxValue);
+                GlobalEvent<Cannon, Ammo, int>.Send("Reload", this, usingBullet, int.MaxValue);
             }
         }
 
@@ -144,7 +129,7 @@ namespace _Game.Scripts.Entities
         public void OnOutOfAmmo()
         {
             isOutOfAmmo = true;
-            GlobalEvent<Cannon, Bullet, int>.Send("Reload", this, usingBullet, 15);
+            GlobalEvent<Cannon, Ammo, int>.Send("Reload", this, usingBullet, 15);
 
             UpdateVisual();
         }
@@ -168,6 +153,12 @@ namespace _Game.Scripts.Entities
             _stats.HealthPoint.StatValue.BaseValue = _stats.HealthPoint.MaxStatValue.Value / 100 * 30;
             isBroken = false;
             UpdateVisual();
+        }
+
+        void IStatsBearer.ApplyStats()
+        {
+            CannonStats stst = Stats as CannonStats;
+            FindTargetCollider.SetRadius(stst.AttackRange.BaseValue);
         }
     }
 }

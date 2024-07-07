@@ -2,41 +2,27 @@ using System.Collections.Generic;
 using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.RPGCommon.Entities;
 using _Game.Scripts.GD;
+using UnityEngine;
 
 namespace _Game.Scripts.Entities
 {
-    public class CannonProjectile : Projectile
+    public class CannonProjectile : Projectile, IPhysicsEffectGiver, IGDConfigStatsTarget
     {
-        protected override void LoadStats()
-        {
-            if (GDConfigLoader.Instance != null)
-            {
-                if (GDConfigLoader.Instance.Ammos.TryGetValue(Id, out AmmoConfig cannonConfig))
-                {
-                    cannonConfig.ApplyGDConfig(_stats);
-                }
-                else
-                {
-                    _statsTemplate.ApplyConfig(_stats);
-                }
-            }
-            else
-            {
-                _statsTemplate.ApplyConfig(_stats);
-            }
-        }
+        [Header("Cannon Projectile")]
+        [Space]
+        public string id;
+        public GDConfig gDConfig;
+        public StatsTemplate statsTemplate;
 
-        protected override void LoadModifiers()
-        {
+        public string Id { get => id; set => id = value; }
 
-        }
-        protected override void ApplyStats()
-        {
+        public GDConfig GDConfig => gDConfig;
 
-        }
+        public StatsTemplate StatsTemplate => statsTemplate;
 
-        protected virtual void Start()
+        public override void ApplyStats()
         {
+            base.ApplyStats();
             DecreaseHealthEffect decreaseHpEffect = gameObject.AddComponent<DecreaseHealthEffect>();
             decreaseHpEffect.Amount = _stats.Damage.Value;
             decreaseHpEffect.AmmoPenetrate = _stats.Damage.Value;
@@ -47,7 +33,7 @@ namespace _Game.Scripts.Entities
             outGoingEffects = new List<Effect>() {
                 decreaseHpEffect,
                 pushEffect
-        };
+            };
         }
     }
 }

@@ -175,7 +175,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01bfda76cc6a4e3080de930ff8b94a3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entity: {fileID: 94858937819000496}
   effects: []
 --- !u!1 &1852782839655817911
 GameObject:
@@ -254,7 +253,8 @@ GameObject:
   - component: {fileID: 1570808234364923535}
   - component: {fileID: 1607559049652280926}
   - component: {fileID: 7117074399182550230}
-  - component: {fileID: 55807796650215036}
+  - component: {fileID: 7137323824395201997}
+  - component: {fileID: 895275160858682197}
   m_Layer: 9
   m_Name: chaining
   m_TagString: Untagged
@@ -308,8 +308,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04a2db7fd60a46c9ad717e4290795b41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Id: 
-  body: {fileID: 0}
+  id: 
+  gdConfig: {fileID: 11400000, guid: 7b4127df3f04e4033a2aaca892eea7c2, type: 2}
+  statsTemplate: {fileID: 11400000, guid: 0c8271029c7ca5a4784a48e1f5956d29, type: 2}
   def: {fileID: 11400000, guid: 2c822956dc430f641a17a069044e3bf9, type: 2}
   _stats:
     <HealthPoint>k__BackingField:
@@ -358,10 +359,10 @@ MonoBehaviour:
       _baseValue: 0
   _statsTemplate: {fileID: 11400000, guid: 14077db5de1824e3abe122b6685a11ce, type: 2}
   _cannonReloader: {fileID: 1570808234364923535}
+  CannonRenderer: {fileID: 4194977101597096630}
   <AttackStrategy>k__BackingField: {fileID: 7117074399182550230}
   behaviour: {fileID: 8427063930449867751}
   <OccupyCells>k__BackingField: []
-  rarity: 0
   effectHandler: {fileID: 1093922780712145661}
   workingSlots: []
   occupyingNodes: []
@@ -370,7 +371,6 @@ MonoBehaviour:
   FindTargetBehaviour: {fileID: 7147069703896698860}
   usingBullet: {fileID: 5927501447640042736, guid: 35562f71236b7764e87558a6f905567a, type: 3}
   Animation: {fileID: 2096826101554558456}
-  isBrokenn: 0
 --- !u!114 &-717564830529616064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -443,7 +443,7 @@ MonoBehaviour:
   bounceTimes: 5
   damageScale: 0
   targetBehaviour: {fileID: 7147069703896698860}
---- !u!114 &55807796650215036
+--- !u!114 &7137323824395201997
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -452,23 +452,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2506795332634619781}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d32b25d12c98904092b3bd619327604, type: 3}
+  m_Script: {fileID: 11500000, guid: ece8af53fc95ece4496db2febce1ff1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   OnReachZero:
-    m_PersistentCalls:
-      m_Calls: []
-  OnReachFull:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDecreased:
-    m_PersistentCalls:
-      m_Calls: []
-  OnIncreased:
-    m_PersistentCalls:
-      m_Calls: []
-  BrokenThreshold: 0
-  OnBelowBrokenThreshold:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 94858937819000496}
@@ -483,6 +470,39 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnReachFull:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDecreased:
+    m_PersistentCalls:
+      m_Calls: []
+  OnIncreased:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 94858937819000496}
+        m_TargetAssemblyTypeName: _Game.Scripts.Entities.Cannon, Assembly-CSharp
+        m_MethodName: OnFixed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &895275160858682197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2506795332634619781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12c5255b5a7391c48b0346c3510cbd9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2738015328258581795
 GameObject:
   m_ObjectHideFlags: 0
@@ -1075,10 +1095,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetTypeNames:
-  - JellyFish
-  - _Game.Scripts.Squid
-  - ElectricEel
-  - _Game.Scripts.Entities.PufferFish
+  - _Game.Scripts.Entities.PufferFishModel
+  - JellyFishModel
+  - _Game.Scripts.SquidModel
+  - ElectricEelModel
   closestTo: {fileID: 575761695595097317}
 --- !u!114 &3998683235849372507
 MonoBehaviour:

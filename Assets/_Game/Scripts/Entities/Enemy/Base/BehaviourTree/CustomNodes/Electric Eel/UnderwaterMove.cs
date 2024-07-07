@@ -5,7 +5,7 @@ using UnityEngine;
 public class UnderwaterMove : Leaf
 {
     public RigidbodyReference Rigidbody;
-    public ElectricEel ElectricEel;
+    public ElectricEelController ElectricEel;
     public AreaReference moveArea;
     public int moveToPerform;
     public int moveCount;

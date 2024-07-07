@@ -10,7 +10,7 @@ namespace _Game.Scripts
     public class EvasionBuffArea : MonoBehaviour
     {
         public StatModifier statModifier = new StatModifier(.33f, StatModType.Flat);
-        List<Enemy> buffedEnemy = new List<Enemy>();
+        List<EnemyModel> buffedEnemy = new List<EnemyModel>();
 
         public float existTime;
         float elapsedTime;
@@ -26,9 +26,9 @@ namespace _Game.Scripts
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.TryGetComponent(out EntityProvider entityProvider))
+            if (collision.TryGetComponent(out IEffectTakerCollider entityProvider))
             {
-                if (entityProvider.Entity is Enemy enemy)
+                if (entityProvider.Taker is EnemyModel enemy)
                 {
                     if (!buffedEnemy.Contains(enemy))
                     {
@@ -41,9 +41,9 @@ namespace _Game.Scripts
 
         private void OnTriggerExit2D(Collider2D collision)
         {
-            if (collision.TryGetComponent(out EntityProvider entityProvider))
+            if (collision.TryGetComponent(out IEffectTakerCollider entityProvider))
             {
-                if (entityProvider.Entity is Enemy enemy)
+                if (entityProvider.Taker is EnemyModel enemy)
                 {
                     if (buffedEnemy.Contains(enemy))
                     {

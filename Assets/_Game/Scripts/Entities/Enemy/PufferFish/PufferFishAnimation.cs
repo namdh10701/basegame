@@ -15,10 +15,6 @@ namespace _Game.Scripts
             skeletonAnimation.AnimationState.SetAnimation(0, "bomb_ship_transform", false);
             skeletonAnimation.AnimationState.AddAnimation(0, "bomb_ship_loop", true, 0);
         }
-        protected override void Start()
-        {
-            base.Start();
-        }
         protected override void AnimationState_Event(TrackEntry trackEntry, Spine.Event e)
         {
             if (e.Data.Name == attack)

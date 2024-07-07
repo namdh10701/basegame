@@ -24,7 +24,7 @@ public class ProjectileCollisionHandler : DefaultEffectCollisionHandler
 
     public override void Process(IEffectGiver giver, IEffectTaker taker)
     {
-        if (taker is Enemy enemy)
+        if (taker is EnemyModel enemy)
         {
             float evadeChance = ((EnemyStats)enemy.Stats).EvadeChance.Value;
             if (evadeChance > 0)
@@ -51,7 +51,6 @@ public class ProjectileCollisionHandler : DefaultEffectCollisionHandler
             handler.Process(projectile, giver, taker);
             if (handler.IsCompleted)
             {
-                Debug.Log("completed");
                 Handlers.Remove(handler);
             }
         }

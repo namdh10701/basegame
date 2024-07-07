@@ -7,11 +7,11 @@ namespace _Game.Scripts.Entities.CannonComponent
         [SerializeField] Cannon cannon;
         [SerializeField] AttackTargetBehaviour AttackTargetBehaviour;
 
-        public void Reload(Bullet bullet)
+        public void Reload(Ammo bullet)
         {
             cannon.usingBullet = bullet;
             CannonStats cannonStats = (CannonStats)cannon.Stats;
-            ProjectileStats ps = (ProjectileStats)bullet.Stats;
+            AmmoStats ps = (AmmoStats)bullet.Stats;
             cannonStats.Ammo.MaxStatValue.BaseValue = ps.MagazineSize.Value;
             cannonStats.Ammo.MinStatValue.BaseValue = 0;
             cannonStats.Ammo.StatValue.BaseValue = ps.MagazineSize.Value;

@@ -4,12 +4,12 @@ using _Base.Scripts.RPGCommon.Entities;
 
 namespace _Base.Scripts.RPG.Effects
 {
-    public class AddTempMaxHealthEffect: TimeoutEffect
+    /*public class AddTempMaxHealthEffect: TimeoutEffect
     {
         public float Amount { get; set; }
 
 
-        protected override void OnStart(Entity entity)
+        protected override void OnStart(IEffectTaker entity)
         {
             base.OnStart(entity);
             if (entity.Stats is not IAliveStats alive)
@@ -21,7 +21,7 @@ namespace _Base.Scripts.RPG.Effects
             // alive.HealthPoint += Amount;
         }
         
-        protected override void OnEnd(Entity entity)
+        protected override void OnEnd(IEffectTaker entity)
         {
             base.OnStart(entity);
             if (entity.Stats is not IAliveStats alive)
@@ -35,5 +35,5 @@ namespace _Base.Scripts.RPG.Effects
         public AddTempMaxHealthEffect(int duration) : base(duration)
         {
         }
-    }
+    }*/
 }

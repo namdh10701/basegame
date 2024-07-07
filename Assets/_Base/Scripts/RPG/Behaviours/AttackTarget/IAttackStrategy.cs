@@ -1,6 +1,7 @@
 using System;
 using _Base.Scripts.RPG.Entities;
 using _Base.Scripts.RPG.Stats;
+using _Game.Scripts.Entities;
 using UnityEngine;
 
 namespace _Base.Scripts.RPG.Behaviours.AttackTarget
@@ -9,7 +10,7 @@ namespace _Base.Scripts.RPG.Behaviours.AttackTarget
     {
         public int DefaultNumOfProjectile { get; }
         public int NumOfProjectile { get; set; }
-        void SetData(Entity shooter, Transform shootPosition, Entity projectilePrefab, Vector3 shootDirection);
+        void SetData(Cannon shooter, Transform shootPosition, CannonProjectile projectilePrefab, Vector3 shootDirection);
         void DoAttack();
         void Consume(RangedStat ammo);
     }
@@ -20,7 +21,7 @@ namespace _Base.Scripts.RPG.Behaviours.AttackTarget
         int numOfProjectile;
         public int NumOfProjectile { get => numOfProjectile; set => numOfProjectile = value; }
         public int DefaultNumOfProjectile { get => defaultNumOfProjectile; }
-        public abstract void SetData(Entity shooter, Transform shootPosition, Entity projectilePrefab,
+        public abstract void SetData(Cannon shooter, Transform shootPosition, CannonProjectile projectilePrefab,
             Vector3 targetPosition);
 
         public abstract void DoAttack();

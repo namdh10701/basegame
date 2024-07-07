@@ -183,6 +183,8 @@ namespace Map
                 PlayerPrefs.SetString("currentStage", nextStage.ToString("D4"));
 
                 mapManager.GenerateNewMap();
+                int stage = int.Parse(EnemyManager.stageId) + 1;
+                PlayerPrefs.SetString("PlayingStage", stage.ToString("#4"));
             }
             mapManager.SaveMap();
             view.SetAttainableNodes();

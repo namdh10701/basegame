@@ -30,8 +30,8 @@ public class Approach : Leaf
             UpdateTargetDirection();
         }
 
-        Enemy.Value.body.AddForce(direction.normalized * Force);
-        float distance = Vector2.Distance(Enemy.Value.transform.position, Ship.Value.Transform.position);
+        Enemy.Value.Body.AddForce(direction.normalized * Force);
+        float distance = Vector2.Distance(Enemy.Value.transform.position, Ship.Value.transform.position);
         return distance < 1 ? NodeResult.success : NodeResult.running;
     }
 

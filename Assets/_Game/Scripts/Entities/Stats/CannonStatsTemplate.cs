@@ -5,12 +5,13 @@ namespace _Game.Scripts
 {
     [CreateAssetMenu(fileName = "CannonStats", menuName = "Scriptable Objects/Cannon Stats", order = 1)]
     [Serializable]
-    public class CannonStatsTemplate : ScriptableObject
+    public class CannonStatsTemplate : StatsTemplate
     {
         [field: SerializeField] public CannonStats Data { get; set; } = new();
 
-        public void ApplyConfig(CannonStats stats)
+        public override void ApplyConfig(Stats cannonStats)
         {
+            CannonStats stats = cannonStats as CannonStats;
             stats.BlockChance.BaseValue = Data.BlockChance.BaseValue;
             stats.CriticalChance.BaseValue = Data.CriticalChance.BaseValue;
             stats.AttackAccuracy.BaseValue = Data.AttackAccuracy.BaseValue;

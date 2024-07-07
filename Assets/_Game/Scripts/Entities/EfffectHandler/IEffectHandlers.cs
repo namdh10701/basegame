@@ -1,5 +1,6 @@
 using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.RPG.Entities;
+using _Game.Scripts;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,6 +14,12 @@ public interface IEffectTaker
 {
     public Transform Transform { get; }
     public EffectHandler EffectHandler { get; }
+}
+
+public interface IPhysicsEffectTaker : IEffectTaker
+{
+    public Rigidbody2D Body { get; }
+    public float Poise { get; }
 }
 
 public interface IEffectHandleOnCollision
