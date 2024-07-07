@@ -61,6 +61,7 @@ namespace _Game.Features.Inventory
 
         #endregion
 
+
         #region Binding Prop: ItemType
 
         /// <summary>
