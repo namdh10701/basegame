@@ -1,3 +1,4 @@
+using System.Linq;
 using _Game.Features.Inventory;
 using _Game.Scripts.UI;
 using UnityEngine;
@@ -128,6 +129,34 @@ namespace _Game.Features.InventoryCustomScreen
 
         #endregion
 
+        public ItemType AttachItemType;
+        public string AttachItemId { get; set; }
+
+
+        #region Binding Prop: Thumbnail
+        /// <summary>
+        /// Thumbnail
+        /// </summary>
+        [Binding]
+        public Sprite Thumbnail
+        {
+            get
+            {
+                switch (AttachItemType)
+                {
+                    case ItemType.CANNON:
+                        return _Game.Scripts.DB.Database.GetCannonImage(AttachItemId);
+                    case ItemType.CREW:
+                        return _Game.Scripts.DB.Database.GetCrewImage(AttachItemId);
+                    case ItemType.AMMO:
+                        return _Game.Scripts.DB.Database.GetAmmoImage(AttachItemId);
+                    default:
+                        return null;
+                }
+            }
+        }
+        #endregion
+
         #region Binding: SkillInfoItems
 
         private ObservableList<SkillInfoItem> skillInfoItems = new ObservableList<SkillInfoItem>();
@@ -146,6 +175,15 @@ namespace _Game.Features.InventoryCustomScreen
 
         #endregion
 
+        #region Binding: AttachInfoItems
+
+        private ObservableList<AttachInfoItem> attachInfoItems = new ObservableList<AttachInfoItem>();
+
+        [Binding]
+        public ObservableList<AttachInfoItem> AttachInfoItems => attachInfoItems;
+
+        #endregion
+
         public static CrewCustomScreen Instance;
 
         async void Awake()
@@ -154,7 +192,7 @@ namespace _Game.Features.InventoryCustomScreen
             for (int i = 0; i < 2; i++)
             {
                 var SkillInfoItem = new SkillInfoItem();
-                SkillInfoItem.Id = "i";
+                SkillInfoItem.Id = "0001";
                 SkillInfoItem.SkillName = "Skill Nam 1";
                 SkillInfoItem.Type = ItemType.CREW;
                 SkillInfoItem.Details = "111111111111111111111111111111111111111111";
@@ -164,9 +202,18 @@ namespace _Game.Features.InventoryCustomScreen
 
             var SkinInfoItem = new SkinInfoItem();
             SkinInfoItem.Id = "0001";
-            SkinInfoItem.Type = ItemType.CREW;
+            SkinInfoItem.Type = ItemType.CANNON;
             SkinInfoItem.Details = "22222222222";
             skinInfoItems.Add(SkinInfoItem);
+
+
+            for (int i = 0; i < 3; i++)
+            {
+                var tachItem = new AttachInfoItem();
+                tachItem.Id = "0001";
+                tachItem.Type = ItemType.CREW;
+                attachInfoItems.Add(tachItem);
+            }
 
 
         }
@@ -182,6 +229,16 @@ namespace _Game.Features.InventoryCustomScreen
             // _attachItems.SetActive();
             Interactable = !Interactable;
             IsActiveAttach = !IsActiveAttach;
+        }
+
+        [Binding]
+        public void OnEquipSelectedItem()
+        {
+            foreach (var item in AttachInfoItems.Where(v => v.IsHighlight))
+            {
+                AttachItemId = item.Id;
+                AttachItemType = item.Type;
+            }
         }
     }
 }
