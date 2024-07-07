@@ -6,14 +6,10 @@ using UnityEngine;
 
 namespace _Base.Scripts.RPG.Entities
 {
-    [DisallowMultipleComponent]
     public abstract class Entity : MonoBehaviour, IStatsBearer
     {
         public abstract _Game.Scripts.Stats Stats { get; }
 
-        public virtual void ApplyStats()
-        {
-            
-        }
+        public abstract void ApplyStats();
     }
 }

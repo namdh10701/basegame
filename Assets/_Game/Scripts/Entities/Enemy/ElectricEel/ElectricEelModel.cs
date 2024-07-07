@@ -19,6 +19,7 @@ public class ElectricEelModel : EnemyModel
 
     public override void ApplyStats()
     {
+        base.ApplyStats();
         cooldownBehaviour.SetCooldownTime(_stats.ActionSequenceInterval.Value);
         FindTargetCollider?.SetRadius(_stats.AttackRange.Value);
     }

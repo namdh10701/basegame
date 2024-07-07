@@ -63,7 +63,10 @@ public abstract class EnemyController : MonoBehaviour
         effectTakerCollider.Taker = enemyModel;
         Ship ship = FindAnyObjectByType<Ship>();
         blackboard.GetVariable<ShipVariable>("Ship").Value = ship;
+
         EnemyStats _stats = enemyModel.Stats as EnemyStats;
+
+        blackboard.GetVariable<StatVariable>("MoveSpeed").Value = _stats.MoveSpeed;
         _stats.AttackDamage.BaseValue *= (1 + dmgModifer[EnemyManager.stageId]);
         _stats.HealthPoint.StatValue.BaseValue *= (1 + hpModifer[EnemyManager.stageId]);
         _stats.HealthPoint.MaxStatValue.BaseValue *= (1 + hpModifer[EnemyManager.stageId]);

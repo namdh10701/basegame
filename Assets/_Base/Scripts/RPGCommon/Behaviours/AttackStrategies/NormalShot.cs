@@ -39,6 +39,7 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
         {
             var projectileEntity = Object.Instantiate(projectilePrefab, ShootPosition.position, shootDirection, null);
             var projectile = projectileEntity.GetComponent<Projectile>();
+            projectile.gameObject.SetActive(true);
             AddProjectileModifiers(projectile);
             return projectile;
         }
@@ -103,7 +104,6 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
             {
                 NumOfProjectile = DefaultNumOfProjectile;
             }
-            Debug.Log("num" + NumOfProjectile);
             ammo.StatValue.BaseValue -= NumOfProjectile;
         }
     }

@@ -13,6 +13,7 @@ namespace _Game.Scripts
         public EvasionBuffArea EvasionBuffArea;
         public override void ApplyStats()
         {
+            base.ApplyStats();
             CooldownBehaviour.SetCooldownTime(_stats.ActionSequenceInterval.Value);
         }
     }

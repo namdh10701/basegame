@@ -54,11 +54,13 @@ public class ProjectileCollisionHandler : DefaultEffectCollisionHandler
                 Handlers.Remove(handler);
             }
         }
+        base.Process(giver, taker);
+        Debug.Log("Base ");
         if (Handlers.Count == 0)
         {
             FinalAct();
         }
-        base.Process(giver, taker);
+
     }
 
     public void FinalAct()
@@ -68,6 +70,7 @@ public class ProjectileCollisionHandler : DefaultEffectCollisionHandler
             projectile.trail.parent = null;
             projectile.trail.AddComponent<DestroyAfterEnabled>();
         }
+        Debug.Log("Base DES");
         Object.Destroy(projectile.gameObject);
     }
 }

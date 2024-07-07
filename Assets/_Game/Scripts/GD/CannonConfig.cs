@@ -41,7 +41,6 @@ namespace _Game.Scripts.GD
             cannonSt.Ammo.MaxStatValue.BaseValue = 10;
             cannonSt.Ammo.StatValue.BaseValue = 10;
             cannonSt.ProjectileCount.BaseValue = project_count;
-            Debug.Log(cannonSt.Ammo.GetHashCode());
         }
     }
 }

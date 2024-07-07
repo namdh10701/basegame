@@ -61,7 +61,6 @@ public class ReloadCannonJob : CrewJob
         yield return crew.CrewMovement.MoveCarry(cannonWorkingSlot.transform.position);
         crew.Dropdown();
         yield return new WaitForSeconds(.5f);
-        Debug.Log("HERE 11212121");
         cannon.Reloader.Reload(bullet);
         crew.CrewAction.CarryingBullet = null;
         GlobalEvent.Send("ReloadCompleted");

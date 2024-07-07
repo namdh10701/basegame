@@ -61,6 +61,7 @@ GameObject:
   - component: {fileID: 4657808025786170137}
   - component: {fileID: 4260380818238376302}
   - component: {fileID: 5077078246157167131}
+  - component: {fileID: 6432930537831335695}
   m_Layer: 6
   m_Name: BehaviourTree
   m_TagString: Untagged
@@ -100,6 +101,7 @@ MonoBehaviour:
   - {fileID: 1564369706626909024}
   - {fileID: 5312989881003853790}
   - {fileID: 7712055642738875664}
+  - {fileID: 6432930537831335695}
   masterBlackboard: {fileID: 0}
 --- !u!114 &8545632675032106440
 MonoBehaviour:
@@ -410,6 +412,22 @@ MonoBehaviour:
     blackboard: {fileID: 5194563963806863679}
     key: IsTriggered
     constantValue: 0
+--- !u!114 &6432930537831335695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5245305612781269985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31175dd0a3f665b4c84483f37dd4a198, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: MoveSpeed
+  val:
+    statModifiers: []
+    _baseValue: 0
 --- !u!1 &5303551782634425171
 GameObject:
   m_ObjectHideFlags: 0
@@ -1242,6 +1260,14 @@ PrefabInstance:
       propertyPath: m_ReflectionProbeUsage
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1027300088920108140, guid: d8077670f117daa4eba9f9ec9b37aaad, type: 3}
+      propertyPath: move
+      value: idle_move
+      objectReference: {fileID: 0}
+    - target: {fileID: 1027300088920108140, guid: d8077670f117daa4eba9f9ec9b37aaad, type: 3}
+      propertyPath: enemyModel
+      value: 
+      objectReference: {fileID: 5255935956171750253}
     - target: {fileID: 3387052645833027010, guid: d8077670f117daa4eba9f9ec9b37aaad, type: 3}
       propertyPath: m_Name
       value: Puffer Fish

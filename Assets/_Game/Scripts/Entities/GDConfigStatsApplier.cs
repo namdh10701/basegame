@@ -23,7 +23,6 @@ public class GDConfigStatsApplier : MonoBehaviour
 
         IStatsBearer statsBearer = GetComponent<IStatsBearer>();
         targetStats = statsBearer.Stats;
-        Debug.Log("Load stats" + id + gdConfig);
         if (GDConfigLoader.Instance != null)
         {
             GDConfig config = GDConfigLoader.Instance.GetConfig(id, gdConfig);

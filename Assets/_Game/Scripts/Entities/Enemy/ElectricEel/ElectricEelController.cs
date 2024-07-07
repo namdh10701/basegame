@@ -2,6 +2,7 @@ using _Base.Scripts.RPG;
 using _Base.Scripts.RPG.Behaviours.FindTarget;
 using _Base.Scripts.RPGCommon.Entities;
 using _Game.Scripts;
+using _Game.Scripts.BehaviourTree;
 using _Game.Scripts.Entities;
 using MBT;
 using System.Collections;
@@ -23,6 +24,7 @@ public class ElectricEelController : EnemyController
 
     FindTargetBehaviour findTargetBehaviour;
     CooldownBehaviour cooldownBehaviour;
+    _Game.Scripts.BehaviourTree.Wander wander;
 
     public override void Initialize(EnemyModel enemyModel, EffectTakerCollider effectTakerCollider, Blackboard blackboard, MBTExecutor mbtExecutor, Rigidbody2D body, SpineAnimationEnemyHandler anim)
     {
@@ -107,6 +109,23 @@ public class ElectricEelController : EnemyController
 
     public override IEnumerator StartActionCoroutine()
     {
-        yield break;
+        wander = mbtExecutor.GetComponent<_Game.Scripts.BehaviourTree.Wander>();
+        effectTakerCollider.enabled = false;
+        Animation.Appear();
+        yield return new WaitForSeconds(1.5f);
+        float rand = Random.Range(0, 1f);
+        if (rand < .5f)
+        {
+            wander.ToLeft();
+        }
+        else
+        {
+            wander.ToRight();
+        }
+        wander.UpdateTargetDirection(-50, 50);
+        effectTakerCollider.enabled = true;
+        EnemyStats _stats = enemyModel.Stats as EnemyStats;
+        cooldownBehaviour.SetCooldownTime(_stats.ActionSequenceInterval.Value);
+        cooldownBehaviour.StartCooldown();
     }
 }

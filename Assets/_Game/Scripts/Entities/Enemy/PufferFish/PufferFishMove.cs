@@ -121,6 +121,7 @@ namespace _Game.Scripts.Entities
             }
         }
 
+
         bool animPlayed;
     }
 }

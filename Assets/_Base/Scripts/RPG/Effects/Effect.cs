@@ -8,18 +8,24 @@ namespace _Base.Scripts.RPG.Effects
     [Serializable]
     public abstract class Effect : MonoBehaviour
     {
-        public abstract void Apply(IEffectTaker entity);
-
+        public IEffectTaker Target;
+        public virtual void Apply(IEffectTaker entity)
+        {
+            Target = entity;
+            IsActive = true;
+            transform.parent = null;
+        }
+        [field: SerializeField]
+        public bool IsActive { get; protected set; }
         public bool IsDone { get; protected set; }
 
+        public Action<Effect> OnEnded;
 
         protected virtual void OnStart(IEffectTaker entity) { }
-        protected virtual void OnEnd(IEffectTaker entity)
+        public virtual void OnEnd(IEffectTaker entity)
         {
-            if (gameObject.name == "")
-            {
-                Destroy(gameObject);
-            }
+            OnEnded?.Invoke(this);
+            Destroy(gameObject);
         }
 
         public virtual bool CanEffect(Entity entity) => true;
@@ -31,6 +37,7 @@ namespace _Base.Scripts.RPG.Effects
     {
         public override void Apply(IEffectTaker entity)
         {
+            base.Apply(entity);
             OnStart(entity);
             OnApply(entity);
             OnEnd(entity);
@@ -43,46 +50,60 @@ namespace _Base.Scripts.RPG.Effects
 
     public abstract class TimeoutEffect : Effect
     {
-        protected TimeoutEffect(int duration)
-        {
-            Duration = duration;
-        }
-
         [field: SerializeField]
         public int Duration { get; set; }
+        [field: SerializeField]
+        protected float elapsedTime = 0;
 
-        public override async void Apply(IEffectTaker entity)
+        public override void Apply(IEffectTaker entity)
         {
+            base.Apply(entity);
             OnStart(entity);
-            await Task.Delay(Duration);
-            OnEnd(entity);
-            IsDone = true;
+        }
+
+        private void Update()
+        {
+            if (IsActive)
+            {
+                elapsedTime += Time.deltaTime;
+                if (elapsedTime > Duration)
+                {
+                    OnEnd(Target);
+                    IsDone = true;
+                }
+            }
         }
     }
 
     public abstract class PeriodicEffect : TimeoutEffect
     {
-        protected PeriodicEffect(int interval, int duration) : base(duration)
-        {
-            Interval = interval;
-        }
 
         [field: SerializeField]
         public int Interval { get; set; }
-
-        public override async void Apply(IEffectTaker entity)
+        public float intervalElapsedTime = 0;
+        public override void Apply(IEffectTaker entity)
         {
-            var startTime = Time.time;
+            base.Apply(entity);
             OnStart(entity);
-            do
-            {
-                OnTick(entity);
-                await Task.Delay(Interval * 1000);
-            } while (Time.time - startTime < Duration);
-            OnEnd(entity);
-            IsDone = true;
         }
 
+        private void Update()
+        {
+            if (IsActive)
+            {
+                elapsedTime += Time.deltaTime;
+                intervalElapsedTime += Time.deltaTime;
+                if (intervalElapsedTime > Interval)
+                {
+                    OnTick(Target);
+                }
+                if (elapsedTime > Duration)
+                {
+                    OnEnd(Target);
+                    IsDone = true;
+                }
+            }
+        }
         protected abstract void OnTick(IEffectTaker entity);
     }
 }

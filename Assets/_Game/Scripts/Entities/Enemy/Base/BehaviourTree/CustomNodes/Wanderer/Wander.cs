@@ -20,7 +20,7 @@ namespace _Game.Scripts.BehaviourTree
 
         [Header("Movement")]
         public Rigidbody2D Body;
-        public DeviableFloat Force;
+        public StatReference Force;
         public DeviableFloat MaxSpeed;
 
 
@@ -100,7 +100,7 @@ namespace _Game.Scripts.BehaviourTree
         {
             if (Body.velocity.magnitude < MaxSpeed.Value)
             {
-                Body.AddForce(Force.Value * CurrentDirection);
+                Body.AddForce(Force.Value.Value * CurrentDirection);
             }
         }
 
@@ -250,7 +250,6 @@ namespace _Game.Scripts.BehaviourTree
         public void UpdateTargetDirection(float low, float high)
         {
             timer = 0;
-            Force.RefreshValue();
             MaxSpeed.RefreshValue();
             if (MoveableArea == null)
             {

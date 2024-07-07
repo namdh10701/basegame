@@ -49,7 +49,6 @@ namespace _Game.Scripts
         }
         public void OnStun(float duration)
         {
-            Debug.Log("Stun " + name);
             CrewAction.Pause();
             Animation.PlayStun();
             body.velocity = Vector2.zero;
@@ -90,7 +89,7 @@ namespace _Game.Scripts
 
         }
 
-        void IStatsBearer.ApplyStats()
+        public override void ApplyStats()
         {
 
         }

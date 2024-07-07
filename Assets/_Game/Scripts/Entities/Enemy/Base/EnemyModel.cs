@@ -12,7 +12,7 @@ using UnityEngine;
 
 namespace _Game.Scripts.Entities
 {
-    public abstract class EnemyModel : Entity, IGDConfigStatsTarget, IEffectTaker, IPhysicsEffectTaker
+    public abstract class EnemyModel : Entity, IGDConfigStatsTarget, IEffectTaker, IPhysicsEffectTaker, ISlowable
     {
         [Header("Enemy")]
         [SerializeField] protected EnemyStats _stats;
@@ -56,11 +56,33 @@ namespace _Game.Scripts.Entities
 
         [SerializeField] EnemyController enemyController;
 
+
+        public override void ApplyStats()
+        {
+            enemyController.Initialize(this, EffectTakerCollider, blackboard, MBTExecutor, Body, anim);
+        }
+
         private void Start()
         {
             EffectHandler.EffectTaker = this;
             EffectTakerCollider.Taker = this;
-            enemyController.Initialize(this, EffectTakerCollider, blackboard, MBTExecutor, Body, anim);
+        }
+
+        public void OnSlowed()
+        {
+            OnSlowedDown?.Invoke();
+        }
+
+        public void OnSlowEnded()
+        {
+            foreach (Effect effect in EffectHandler.effects)
+            {
+                if (effect is SlowEffect)
+                {
+                    return;
+                }
+            }
+            OnSlowedDownStopped?.Invoke();
         }
     }
 }

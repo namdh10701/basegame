@@ -7,11 +7,6 @@ namespace _Base.Scripts.RPG.Effects
     {
         public float Amount { get; set; }
 
-        public DrainHealthEffect(float amount, int interval, int duration): base(interval, duration)
-        {
-            Amount = amount;
-        }
-
         protected override void OnTick(IEffectTaker entity)
         {
             if (entity is not IStatsBearer statsBearer)

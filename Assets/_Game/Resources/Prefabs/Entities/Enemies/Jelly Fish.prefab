@@ -222,6 +222,7 @@ MonoBehaviour:
   enemyController: {fileID: 40291501738919957}
   attack: {fileID: 5408430181070719296}
   cooldownBehaviour: {fileID: 6667219895640718775}
+  FindTargetCollider: {fileID: 0}
 --- !u!114 &5408430181070719296
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1030,6 +1031,7 @@ GameObject:
   - component: {fileID: 5842808753855686244}
   - component: {fileID: 8787088028602981134}
   - component: {fileID: 1670484185559942852}
+  - component: {fileID: 8276685389509852522}
   m_Layer: 0
   m_Name: BehaviourTree
   m_TagString: Untagged
@@ -1071,6 +1073,7 @@ MonoBehaviour:
   - {fileID: 2454670021125081383}
   - {fileID: 273697454482756428}
   - {fileID: 2424270011897663428}
+  - {fileID: 8276685389509852522}
   masterBlackboard: {fileID: 0}
 --- !u!114 &986576175066823617
 MonoBehaviour:
@@ -1084,7 +1087,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b25af8627659c6949b60949c3aa8d91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedEditorNode: {fileID: 3423538191540144381}
+  selectedEditorNode: {fileID: 8613466694832718217}
   repeatOnFinish: 1
   maxExecutionsPerTick: 1000
   parent: {fileID: 0}
@@ -1189,8 +1192,13 @@ MonoBehaviour:
   RayToSelectDirection: []
   Body: {fileID: 5622699148522565298}
   Force:
-    BaseValue: 3
-    Deviation: 0.5
+    useConstant: 0
+    mode: 0
+    blackboard: {fileID: 2542956212317951686}
+    key: MoveSpeed
+    constantValue:
+      statModifiers: []
+      _baseValue: 0
   MaxSpeed:
     BaseValue: 2
     Deviation: 0.5
@@ -1704,7 +1712,14 @@ MonoBehaviour:
     blackboard: {fileID: 2542956212317951686}
     key: Ship
     constantValue: {fileID: 0}
-  Force: 5
+  Force:
+    useConstant: 0
+    mode: 0
+    blackboard: {fileID: 2542956212317951686}
+    key: MoveSpeed
+    constantValue:
+      statModifiers: []
+      _baseValue: 0
   ChangeDirectionInterval: 1
 --- !u!114 &4980967081634445799
 MonoBehaviour:
@@ -1872,8 +1887,31 @@ MonoBehaviour:
     blackboard: {fileID: 2542956212317951686}
     key: Ship
     constantValue: {fileID: 0}
-  Force: 3
+  Force:
+    useConstant: 0
+    mode: 0
+    blackboard: {fileID: 2542956212317951686}
+    key: MoveSpeed
+    constantValue:
+      statModifiers: []
+      _baseValue: 0
   ChangeDirectionInterval: 1
+--- !u!114 &8276685389509852522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6883125132945228213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31175dd0a3f665b4c84483f37dd4a198, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: MoveSpeed
+  val:
+    statModifiers: []
+    _baseValue: 0
 --- !u!1 &7187862958415371157
 GameObject:
   m_ObjectHideFlags: 0
@@ -2463,6 +2501,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 3313385019475395675}
     m_Modifications:
     - target: {fileID: 731438699079128055, guid: 46f21a2cea182034aa9ef095cd474d50, type: 3}
+      propertyPath: enemyModel
+      value: 
+      objectReference: {fileID: 7234317534750435984}
+    - target: {fileID: 731438699079128055, guid: 46f21a2cea182034aa9ef095cd474d50, type: 3}
       propertyPath: meshRenderer
       value: 
       objectReference: {fileID: 232230559458106920}
@@ -2512,7 +2554,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6080003365391893744, guid: 46f21a2cea182034aa9ef095cd474d50, type: 3}
       propertyPath: m_SortingOrder
-      value: -428
+      value: 182
       objectReference: {fileID: 0}
     - target: {fileID: 7414120992175594364, guid: 46f21a2cea182034aa9ef095cd474d50, type: 3}
       propertyPath: m_LocalPosition.x

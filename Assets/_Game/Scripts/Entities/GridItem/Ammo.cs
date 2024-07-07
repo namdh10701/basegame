@@ -74,6 +74,6 @@ namespace _Game.Scripts.Entities
             IsBroken = false;
         }
 
-        public void ApplyStats() { }
+        public override void ApplyStats() { }
     }
 }

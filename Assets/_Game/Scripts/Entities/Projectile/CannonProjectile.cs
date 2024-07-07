@@ -23,11 +23,14 @@ namespace _Game.Scripts.Entities
         public override void ApplyStats()
         {
             base.ApplyStats();
-            DecreaseHealthEffect decreaseHpEffect = gameObject.AddComponent<DecreaseHealthEffect>();
+            GameObject dhe = new GameObject("decrease hp");
+            GameObject push = new GameObject("push");
+
+            DecreaseHealthEffect decreaseHpEffect = dhe.AddComponent<DecreaseHealthEffect>();
             decreaseHpEffect.Amount = _stats.Damage.Value;
             decreaseHpEffect.AmmoPenetrate = _stats.Damage.Value;
             decreaseHpEffect.IsCrit = isCrit;
-            PushEffect pushEffect = gameObject.AddComponent<PushEffect>();
+            PushEffect pushEffect = push.AddComponent<PushEffect>();
             pushEffect.force = 150;
             pushEffect.body = body;
             outGoingEffects = new List<Effect>() {

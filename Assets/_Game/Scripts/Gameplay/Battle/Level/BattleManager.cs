@@ -72,7 +72,6 @@ namespace _Game.Scripts.Gameplay
                 }
                 if (EnemyManager.IsLevelDone)
                 {
-                    Debug.Log("A");
                     bool ended = true;
                     foreach (IAliveStats a in EntityManager.aliveEntities)
                     {
@@ -93,10 +92,6 @@ namespace _Game.Scripts.Gameplay
                         MapPlayerTracker.Instance.OnGamePassed();
                         yield break;
                     }
-                }
-                else
-                {
-                    Debug.Log("OKEN" + EnemyManager.IsLevelDone + " " + EntityManager.aliveEntities.Count);
                 }
             }
         }

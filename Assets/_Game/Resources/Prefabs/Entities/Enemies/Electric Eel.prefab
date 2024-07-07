@@ -1400,6 +1400,7 @@ GameObject:
   - component: {fileID: 3128012144155073256}
   - component: {fileID: 3826834696898326724}
   - component: {fileID: 2256248938945240947}
+  - component: {fileID: 8327156677661610839}
   m_Layer: 6
   m_Name: BehaviourTree
   m_TagString: Untagged
@@ -1441,6 +1442,7 @@ MonoBehaviour:
   - {fileID: 5901448636202595226}
   - {fileID: 6566917435121128353}
   - {fileID: 7976023221219650416}
+  - {fileID: 8327156677661610839}
   masterBlackboard: {fileID: 0}
 --- !u!114 &3423505453605259068
 MonoBehaviour:
@@ -1454,7 +1456,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b25af8627659c6949b60949c3aa8d91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedEditorNode: {fileID: 3888079522125468208}
+  selectedEditorNode: {fileID: 2256248938945240947}
   repeatOnFinish: 1
   maxExecutionsPerTick: 1000
   parent: {fileID: 0}
@@ -1559,8 +1561,13 @@ MonoBehaviour:
   RayToSelectDirection: []
   Body: {fileID: 4714609694109140471}
   Force:
-    BaseValue: 3
-    Deviation: 0.5
+    useConstant: 0
+    mode: 0
+    blackboard: {fileID: 291860766914543287}
+    key: MoveSpeed
+    constantValue:
+      statModifiers: []
+      _baseValue: 0
   MaxSpeed:
     BaseValue: 2
     Deviation: 0.5
@@ -2309,8 +2316,31 @@ MonoBehaviour:
     blackboard: {fileID: 291860766914543287}
     key: Ship
     constantValue: {fileID: 0}
-  Force: 3
+  Force:
+    useConstant: 0
+    mode: 0
+    blackboard: {fileID: 291860766914543287}
+    key: MoveSpeed
+    constantValue:
+      statModifiers: []
+      _baseValue: 0
   ChangeDirectionInterval: 1
+--- !u!114 &8327156677661610839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8399095276866630800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31175dd0a3f665b4c84483f37dd4a198, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: MoveSpeed
+  val:
+    statModifiers: []
+    _baseValue: 0
 --- !u!1 &8879532844825408350
 GameObject:
   m_ObjectHideFlags: 0
@@ -2710,6 +2740,10 @@ PrefabInstance:
       propertyPath: rings
       value: 
       objectReference: {fileID: 1164255914469927669}
+    - target: {fileID: 4498478607665456856, guid: 8023c7f2bd4aa6e48abe4932f8bf5835, type: 3}
+      propertyPath: enemyModel
+      value: 
+      objectReference: {fileID: 593926761375271006}
     - target: {fileID: 4498478607665456856, guid: 8023c7f2bd4aa6e48abe4932f8bf5835, type: 3}
       propertyPath: meshRenderer
       value: 

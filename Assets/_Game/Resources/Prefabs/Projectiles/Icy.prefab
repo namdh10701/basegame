@@ -154,10 +154,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9085472083669875089}
-  - component: {fileID: 1138419619119243829}
   - component: {fileID: 7245544195619501951}
   - component: {fileID: 3499231666417343741}
   - component: {fileID: -644992194364409088}
+  - component: {fileID: 1546534463697038270}
   m_Layer: 7
   m_Name: Icy
   m_TagString: Untagged
@@ -182,57 +182,9 @@ Transform:
   - {fileID: 2954563075718385775}
   - {fileID: 6529054523962144906}
   - {fileID: 3036597525397596365}
+  - {fileID: 2440288810121611842}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1138419619119243829
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1059543623916933120}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51454a304ff74d7ba561bd142aa532c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  body: {fileID: 7245544195619501951}
-  onHitParticle: {fileID: 4485226115363735725}
-  _stats:
-    <Damage>k__BackingField:
-      statModifiers: []
-      _baseValue: 0
-    <AttackAOE>k__BackingField:
-      statModifiers: []
-      _baseValue: 0
-    <ArmorPenetrate>k__BackingField:
-      statModifiers: []
-      _baseValue: 0
-    <Piercing>k__BackingField:
-      statModifiers: []
-      _baseValue: 0
-    <Speed>k__BackingField:
-      statModifiers: []
-      _baseValue: 0
-    <Size>k__BackingField:
-      statModifiers: []
-      _baseValue: 0
-    <Accuracy>k__BackingField:
-      statModifiers: []
-      _baseValue: 0
-    <CritChance>k__BackingField:
-      statModifiers: []
-      _baseValue: 0
-    <CritDamage>k__BackingField:
-      statModifiers: []
-      _baseValue: 0
-  trail: {fileID: 3036597525397596365}
-  outGoingEffects: []
-  collisionListener: {fileID: 3499231666417343741}
-  isCrit: 0
-  id: 1033
-  gDConfig: {fileID: 11400000, guid: d0ed2d75ef03e46a89a69e09a4a544d5, type: 2}
-  statsTemplate: {fileID: 11400000, guid: 599004154fef6ff439591cab02cb63d5, type: 2}
 --- !u!50 &7245544195619501951
 Rigidbody2D:
   serializedVersion: 4
@@ -285,6 +237,56 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12c5255b5a7391c48b0346c3510cbd9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1546534463697038270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1059543623916933120}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c91a990da3337f4a97248b59672e7eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  body: {fileID: 7245544195619501951}
+  onHitParticle: {fileID: 4485226115363735725}
+  _stats:
+    <Damage>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <AttackAOE>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <ArmorPenetrate>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <Piercing>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <Speed>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <Size>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <Accuracy>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <CritChance>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <CritDamage>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+  trail: {fileID: 3036597525397596365}
+  outGoingEffects: []
+  collisionListener: {fileID: 3499231666417343741}
+  isCrit: 0
+  id: 
+  gDConfig: {fileID: 11400000, guid: d0ed2d75ef03e46a89a69e09a4a544d5, type: 2}
+  statsTemplate: {fileID: 11400000, guid: 599004154fef6ff439591cab02cb63d5, type: 2}
+  slowEffect: {fileID: 4201488496636709507}
 --- !u!1 &2603679293533938607
 GameObject:
   m_ObjectHideFlags: 0
@@ -295,7 +297,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2954563075718385775}
   - component: {fileID: 1710570400351657972}
-  - component: {fileID: 8671022531587273472}
   - component: {fileID: 6069880810734191804}
   m_Layer: 7
   m_Name: EffectCollider
@@ -354,19 +355,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.2
---- !u!114 &8671022531587273472
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2603679293533938607}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 69b63fcec66342af9cc00f0e6ea683e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Entity: {fileID: 1138419619119243829}
 --- !u!114 &6069880810734191804
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -379,6 +367,53 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e10284dfa44940ee863f817c760bce5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &3772704142760849057
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2440288810121611842}
+  - component: {fileID: 4201488496636709507}
+  m_Layer: 7
+  m_Name: SlowEffect
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2440288810121611842
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3772704142760849057}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9085472083669875089}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4201488496636709507
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3772704142760849057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c91b213ea099c54da9afc566c70d295, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Duration>k__BackingField: 3
+  elapsedTime: 0
+  id: slowFromCannon
 --- !u!1 &5847805425701923858
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,3 +1,4 @@
+using _Base.Scripts.RPG.Attributes;
 using _Game.Scripts;
 using MBT;
 using UnityEngine;
@@ -8,7 +9,7 @@ public class Approach : Leaf
 {
     public EnemyReference Enemy;
     public ShipReference Ship;
-    public float Force;
+    public StatReference Force;
 
     float elapsedTime;
     public float ChangeDirectionInterval = 1;
@@ -30,7 +31,7 @@ public class Approach : Leaf
             UpdateTargetDirection();
         }
 
-        Enemy.Value.Body.AddForce(direction.normalized * Force);
+        Enemy.Value.Body.AddForce(direction.normalized * Force.Value.Value);
         float distance = Vector2.Distance(Enemy.Value.transform.position, Ship.Value.transform.position);
         return distance < 1 ? NodeResult.success : NodeResult.running;
     }

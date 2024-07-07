@@ -7,6 +7,8 @@ namespace _Game.Scripts
 {
     public class SquidAnimation : SpineAnimationEnemyHandler
     {
+
+
         [Header("Squid")]
         [SpineEvent] public string action;
 
@@ -39,16 +41,6 @@ namespace _Game.Scripts
             skeletonAnimation.AnimationState.AddAnimation(0, "dive_out", false, 0);
             skeletonAnimation.AnimationState.AddAnimation(0, "idle", false, 0);
 
-        }
-
-        private void Update()
-        {
-            if (UnityEngine.Input.GetKeyDown(KeyCode.V))
-            {
-
-                Blink();
-
-            }
         }
     }
 }

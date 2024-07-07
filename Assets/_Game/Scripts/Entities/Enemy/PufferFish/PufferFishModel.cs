@@ -19,6 +19,7 @@ namespace _Game.Scripts.Entities
 
         public override void ApplyStats()
         {
+            base.ApplyStats();
             EnemyStats stats = Stats as EnemyStats;
             DamageArea.SetRange(stats.AttackRange.Value);
             DamageArea.SetDamage(stats.AttackDamage.Value, 0);

@@ -86,9 +86,9 @@ namespace _Game.Scripts.Gameplay.Ship
             }
         }
 
-        void IStatsBearer.ApplyStats()
+        public override void ApplyStats()
         {
-           
+            
         }
     }
 }

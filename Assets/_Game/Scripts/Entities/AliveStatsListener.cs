@@ -16,7 +16,6 @@ public class AliveStatsListener : MonoBehaviour
         aliveStats = (IAliveStats)GetComponent<IStatsBearer>().Stats;
         aliveStats.HealthPoint.OnValueChanged += HealthPoint_OnValueChanged;
         lastValue = aliveStats.HealthPoint.Value;
-        Debug.LogError(aliveStats);
     }
 
     private void HealthPoint_OnValueChanged(_Base.Scripts.RPG.Stats.RangedStat hp)

@@ -12,10 +12,11 @@ namespace _Game.Scripts
         public LayerMask affectLayers;
         public List<Entity> ignoreEntity = new List<Entity>();
         bool isActivated;
-
+        public Transform effectRoot;
         public List<Effect> outGoingEffects = new List<Effect>();
         public Transform Transform => transform;
         public List<Effect> OutGoingEffects { get => outGoingEffects; set => outGoingEffects = value; }
+        public Transform EffectRoot { get => effectRoot; set => effectRoot = value; }
 
         public void SetDamage(float damage, float armoPenetrate)
         {

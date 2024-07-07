@@ -104,7 +104,6 @@ namespace _Game.Scripts
         {
             foreach (GridItemData gridItemData in UsingGridItemDatas)
             {
-                Debug.Log(gridItemData.Id);
                 Grid itemGridTransform = GetGridTransformById(gridItemData.GridId);
                 SpawnItems(gridItemData, itemGridTransform);
             }

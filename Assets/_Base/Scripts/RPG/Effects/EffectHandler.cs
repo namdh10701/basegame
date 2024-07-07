@@ -10,15 +10,36 @@ namespace _Base.Scripts.RPG.Effects
     {
         public IEffectTaker EffectTaker;
 
-        [HideInInspector] public List<Effect> effects = new List<Effect>();
+        public List<Effect> effects = new List<Effect>();
 
         public virtual void Apply(Effect effect)
         {
+            if (effect is SlowEffect slowEf)
+            {
+                foreach (Effect ef in EffectTaker.EffectHandler.effects.ToArray())
+                {
+                    if (ef is SlowEffect slowef)
+                    {
+                        if (slowef.id == slowEf.id)
+                        {
+                            slowef.OnEnd(EffectTaker);
+                        }
+                    }
+                }
+            }
+            effect.OnEnded += OnEffectEnded;
             effects.Add(effect);
             effect.Apply(EffectTaker);
-            if (effect.IsDone)
+        }
+
+        private void OnEffectEnded(Effect effect)
+        {
+            foreach (Effect ef in effects.ToArray())
             {
-                effects.Remove(effect);
+                if (ef == effect)
+                {
+                    effects.Remove(effect);
+                }
             }
         }
     }

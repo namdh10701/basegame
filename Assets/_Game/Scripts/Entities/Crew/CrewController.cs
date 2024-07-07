@@ -200,7 +200,6 @@ public class CrewController : MonoBehaviour
 
     public void AssignJob(Crew crew, CrewJob crewJob)
     {
-        Debug.Log("ASSIGNED TO " + crew.name);
         CrewJobAction action = crewJob.BuildCrewAction(crew);
         crew.CrewAction.DoJob(action);
     }

@@ -127,58 +127,6 @@ MonoBehaviour:
   GridAttackHandler: {fileID: 8414391988157680252}
   GridPicker: {fileID: 4199722477159872837}
   BattleViewModel: {fileID: 0}
---- !u!1 &580625108662668977
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2849892721383539161}
-  - component: {fileID: 6098615578455841261}
-  m_Layer: 0
-  m_Name: BattleInputManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2849892721383539161
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 580625108662668977}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 7551900754541619481}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6098615578455841261
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 580625108662668977}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24a41a8260d7cc244adb88ed61efa573, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _camera: {fileID: 0}
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 256
-  shipSetup: {fileID: 0}
-  bulletMenu: {fileID: 0}
-  canvas: {fileID: 0}
-  selectCannon: {fileID: 0}
 --- !u!1 &1425171860645595871
 GameObject:
   m_ObjectHideFlags: 0
@@ -263,9 +211,9 @@ Transform:
   - {fileID: 7764254272973831283}
   - {fileID: 8152537313642701730}
   - {fileID: 6813098821172009089}
-  - {fileID: 2849892721383539161}
   - {fileID: 8983687453666303027}
   - {fileID: 4050495869109634538}
+  - {fileID: 641762068805856101}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1496331913571015506
@@ -502,6 +450,37 @@ MonoBehaviour:
   color: {r: 1, g: 0.7310039, b: 0.25943398, a: 1}
   offset: {x: 0, y: 0}
   isDrawGizmos: 1
+--- !u!1 &2593066040501663258
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 641762068805856101}
+  m_Layer: 0
+  m_Name: EffectRoot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &641762068805856101
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2593066040501663258}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7551900754541619481}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3751038145181560860
 GameObject:
   m_ObjectHideFlags: 0
@@ -947,7 +926,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35adf9631cb3c2a41b2839eede7311e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelDesignConfigs: []
   entityManager: {fileID: 2985685409058613849}
   pufferFishSpawnArea: {fileID: 7433687906444898659}
   electricEelSpawnArea: {fileID: 1646213473583397385}
@@ -1011,7 +989,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb8710c07ef885d4d9c620a7d65f30b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aliveEntities: []
   Ship: {fileID: 0}
   entityRoot: {fileID: 0}
   enemyRoot: {fileID: 0}

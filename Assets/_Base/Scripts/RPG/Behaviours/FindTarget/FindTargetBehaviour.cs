@@ -32,6 +32,7 @@ namespace _Base.Scripts.RPG.Behaviours.FindTarget
         {
             ObjectCollisionDetector.OnObjectCollisionEnter -= OnObjectCollisionEnter;
             ObjectCollisionDetector.OnObjectCollisionExit -= OnObjectCollisionExit;
+
         }
 
         private void OnObjectCollisionEnter(GameObject obj)

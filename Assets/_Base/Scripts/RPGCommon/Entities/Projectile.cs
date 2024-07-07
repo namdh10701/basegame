@@ -16,12 +16,11 @@ namespace _Base.Scripts.RPGCommon.Entities
         public ProjectileStats _stats;
         public ProjectileMovement ProjectileMovement;
         public Transform trail;
-
         public override Stats Stats => _stats;
 
         public Transform Transform => transform;
 
-       [SerializeField] protected List<Effect> outGoingEffects = new List<Effect>();
+        [SerializeField] protected List<Effect> outGoingEffects = new List<Effect>();
 
         public List<Effect> OutGoingEffects { get => outGoingEffects; set => outGoingEffects = value; }
 
@@ -86,6 +85,16 @@ namespace _Base.Scripts.RPGCommon.Entities
         private void OnBecameInvisible()
         {
             Destroy(gameObject);
+        }
+        private void OnDestroy()
+        {
+            foreach (Effect effect in outGoingEffects)
+            {
+                if (effect != null && !effect.IsActive)
+                {
+                    Destroy(effect.gameObject);
+                }
+            }
         }
     }
 

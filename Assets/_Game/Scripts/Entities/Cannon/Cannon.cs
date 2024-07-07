@@ -14,7 +14,7 @@ using UnityEngine;
 
 namespace _Game.Scripts.Entities
 {
-    public class Cannon : Entity, IStatsBearer, IShooter, IGridItem, IWorkLocation, INodeOccupier, IEffectTaker, IGDConfigStatsTarget
+    public class Cannon : Entity, IShooter, IGridItem, IWorkLocation, INodeOccupier, IEffectTaker, IGDConfigStatsTarget
     {
         [Header("GD Config Stats Target")]
         public string id;
@@ -80,10 +80,10 @@ namespace _Game.Scripts.Entities
         public Ammo usingBullet;
         public SpineAnimationCannonHandler Animation;
 
-        protected void ApplyStats()
+        public override void ApplyStats()
         {
-            FindTargetCollider.SetRadius(_stats.AttackRange.Value);
-            AttackTargetBehaviour.projectilePrefab = usingBullet.Projectile;
+            CannonStats stst = Stats as CannonStats;
+            FindTargetCollider.SetRadius(stst.AttackRange.BaseValue);
         }
 
         public void SetProjectile(CannonProjectile projectile)
@@ -153,12 +153,6 @@ namespace _Game.Scripts.Entities
             _stats.HealthPoint.StatValue.BaseValue = _stats.HealthPoint.MaxStatValue.Value / 100 * 30;
             isBroken = false;
             UpdateVisual();
-        }
-
-        void IStatsBearer.ApplyStats()
-        {
-            CannonStats stst = Stats as CannonStats;
-            FindTargetCollider.SetRadius(stst.AttackRange.BaseValue);
         }
     }
 }

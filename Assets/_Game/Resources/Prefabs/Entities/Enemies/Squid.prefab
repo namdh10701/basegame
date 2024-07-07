@@ -578,6 +578,7 @@ GameObject:
   - component: {fileID: 2651914818716957583}
   - component: {fileID: 1398462479390615626}
   - component: {fileID: 7984349400047426400}
+  - component: {fileID: 4985974820303403186}
   m_Layer: 6
   m_Name: BehaviourTree
   m_TagString: Untagged
@@ -618,6 +619,7 @@ MonoBehaviour:
   - {fileID: 385540518426301459}
   - {fileID: 1398462479390615626}
   - {fileID: 7984349400047426400}
+  - {fileID: 4985974820303403186}
   masterBlackboard: {fileID: 0}
 --- !u!114 &851421964308577174
 MonoBehaviour:
@@ -631,7 +633,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b25af8627659c6949b60949c3aa8d91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedEditorNode: {fileID: 2651914818716957583}
+  selectedEditorNode: {fileID: 2439725888952280321}
   repeatOnFinish: 1
   maxExecutionsPerTick: 1000
   parent: {fileID: 0}
@@ -736,8 +738,13 @@ MonoBehaviour:
   RayToSelectDirection: []
   Body: {fileID: 8505113706736554174}
   Force:
-    BaseValue: 3
-    Deviation: 0.5
+    useConstant: 0
+    mode: 0
+    blackboard: {fileID: 5341758609630521839}
+    key: MoveSpeed
+    constantValue:
+      statModifiers: []
+      _baseValue: 0
   MaxSpeed:
     BaseValue: 5
     Deviation: 0.5
@@ -872,6 +879,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   key: IsReadyToAttack
   val: 0
+--- !u!114 &4985974820303403186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5487576428607964545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31175dd0a3f665b4c84483f37dd4a198, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: MoveSpeed
+  val:
+    statModifiers: []
+    _baseValue: 0
 --- !u!1 &6029242624141832124
 GameObject:
   m_ObjectHideFlags: 0
@@ -1613,6 +1636,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7310936986431149851}
     m_Modifications:
+    - target: {fileID: 1140883269233120307, guid: a3526514ffce8c44ea8475ce8a2e4c70, type: 3}
+      propertyPath: enemyModel
+      value: 
+      objectReference: {fileID: 8289297811835334095}
     - target: {fileID: 2947612624465916877, guid: a3526514ffce8c44ea8475ce8a2e4c70, type: 3}
       propertyPath: m_Name
       value: Squid - Spine

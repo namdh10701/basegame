@@ -27,6 +27,8 @@ namespace _Game.Scripts.GD
             enemyStats.BlockChance.BaseValue = block_chance;
             enemyStats.ActionSequenceInterval.BaseValue = attack_speed;
             enemyStats.AttackRange.BaseValue = attack_range;
+            enemyStats.MoveSpeed.BaseValue = 5;
+            enemyStats.AnimationTimeScale.BaseValue = 1;
         }
     }
 }
