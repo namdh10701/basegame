@@ -54,7 +54,6 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
             float totalCritDmg = addCritDmgFromProjectile + Cannon.FighterStats.CriticalDamage.Value;
             float addDmg = pStats.Damage.Value;
             float totalDmg = addDmg + Cannon.FighterStats.AttackDamage.Value;
-            Debug.Log(addDmg);
             float finalDmg = 0;
 
             bool isCrit = UnityEngine.Random.Range(0f, 1f) < totalCritChance;

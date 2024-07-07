@@ -173,10 +173,15 @@ namespace Map
 
         public void OnGamePassed()
         {
+
             mapManager.CurrentMap.IsLastNodeLocked = false;
             mapManager.CurrentMap.IsLastNodePassed = true;
             if (mapManager.CurrentMap.path.Count == mapManager.CurrentMap.BossNodeLayer)
             {
+                string stageId = PlayerPrefs.GetString("currentStage");
+                int nextStage = int.Parse(stageId) + 1;
+                PlayerPrefs.SetString("currentStage", nextStage.ToString("D4"));
+
                 mapManager.GenerateNewMap();
             }
             mapManager.SaveMap();

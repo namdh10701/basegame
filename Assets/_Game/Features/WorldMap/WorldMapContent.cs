@@ -24,7 +24,6 @@ namespace _Game.Features.WorldMap
             {
                 return;
             }
-
             if (!PlayerPrefs.HasKey("currentStage"))
             {
                 PlayerPrefs.SetString("currentStage", "0001");
