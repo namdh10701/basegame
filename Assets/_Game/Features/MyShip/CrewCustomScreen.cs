@@ -1,9 +1,7 @@
-using System.Collections.Generic;
 using System.Linq;
 using _Game.Features.Inventory;
 using _Game.Scripts.UI;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityWeld.Binding;
 
 namespace _Game.Features.InventoryCustomScreen
@@ -42,14 +40,12 @@ namespace _Game.Features.InventoryCustomScreen
                 {
                     return;
                 }
-                _isActive
-                 = value;
+                _isActive = value;
                 OnPropertyChanged(nameof(IsActive));
             }
         }
 
-        private bool _isActive
-        ;
+        private bool _isActive;
 
         #endregion
 
