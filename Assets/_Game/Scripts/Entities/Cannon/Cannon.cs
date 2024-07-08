@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using _Base.Scripts.EventSystem;
 using _Base.Scripts.RPG;
@@ -5,8 +6,9 @@ using _Base.Scripts.RPG.Behaviours.AttackTarget;
 using _Base.Scripts.RPG.Behaviours.FindTarget;
 using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.RPG.Entities;
+using _Base.Scripts.RPG.Stats;
 using _Base.Scripts.RPGCommon.Entities;
-using _Game.Scripts.Entities.CannonComponent;
+using _Game.Features.Gameplay;
 using _Game.Scripts.GD;
 using _Game.Scripts.InventorySystem;
 using _Game.Scripts.PathFinding;
@@ -14,7 +16,7 @@ using UnityEngine;
 
 namespace _Game.Scripts.Entities
 {
-    public class Cannon : Entity, IShooter, IGridItem, IWorkLocation, INodeOccupier, IEffectTaker, IGDConfigStatsTarget
+    public class Cannon : Entity, IFighter, IGridItem, IWorkLocation, INodeOccupier, IEffectTaker, IGDConfigStatsTarget
     {
         [Header("GD Config Stats Target")]
         public string id;
@@ -30,12 +32,6 @@ namespace _Game.Scripts.Entities
 
         [SerializeField]
         private CannonStatsTemplate _statsTemplate;
-
-        [SerializeField]
-        private CannonReloader _cannonReloader;
-
-        public CannonReloader Reloader => _cannonReloader;
-
 
         public IFighterStats FighterStats
         {
@@ -55,7 +51,7 @@ namespace _Game.Scripts.Entities
         public List<Node> WorkingSlots { get => workingSlots; set => workingSlots = value; }
         public List<Node> OccupyingNodes { get => occupyingNodes; set => occupyingNodes = value; }
         public bool IsBroken { get => isBroken; set => isBroken = value; }
-        public List<Effect> BulletEffects { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+
         public EffectHandler effectHandler;
         public EffectHandler EffectHandler { get => effectHandler; }
 
@@ -86,10 +82,50 @@ namespace _Game.Scripts.Entities
             FindTargetCollider.SetRadius(stst.AttackRange.BaseValue);
         }
 
-        public void SetProjectile(CannonProjectile projectile)
+        #region Controller
+
+        bool isBroken;
+        bool isOutOfAmmo;
+        private void Awake()
         {
-            AttackTargetBehaviour.projectilePrefab = projectile;
+            _stats.HealthPoint.OnValueChanged += HealthPoint_OnValueChanged;
+            _stats.Ammo.OnValueChanged += Ammo_OnValueChanged;
         }
+
+        private void Ammo_OnValueChanged(RangedStat stat)
+        {
+            if (stat.StatValue.Value == stat.MinValue)
+            {
+                OnOutOfAmmo();
+            }
+            else if (stat.StatValue.Value == stat.MaxValue)
+            {
+                OnReloaded();
+            }
+        }
+
+        private void HealthPoint_OnValueChanged(RangedStat stat)
+        {
+            if (stat.StatValue.Value == stat.MinValue)
+            {
+
+            }
+            else if (stat.StatValue.Value == stat.MaxValue)
+            {
+
+            }
+        }
+
+        public void OnOutOfAmmo()
+        {
+            GlobalEvent<Cannon, Ammo, int>.Send("Reload", this, usingBullet, 15);
+            OutOfAmmo?.Invoke();
+        }
+        public void OnBroken()
+        {
+            throw new NotImplementedException();
+        }
+
         public void OnClick()
         {
             if (IsBroken)
@@ -103,56 +139,29 @@ namespace _Game.Scripts.Entities
             }
         }
 
-        bool isOutOfAmmo;
-        bool isBroken;
-        void UpdateVisual()
-        {
-            if (isBroken)
-            {
-                Animation.PlayBroken();
-            }
-            else
-            {
-                Animation.PlayNormal();
-            }
-            if (isOutOfAmmo || isBroken)
-            {
-                FindTargetBehaviour.Disable();
-            }
-            else
-            {
-                FindTargetBehaviour.Enable();
-            }
-        }
-
-
-        public void OnOutOfAmmo()
-        {
-            isOutOfAmmo = true;
-            GlobalEvent<Cannon, Ammo, int>.Send("Reload", this, usingBullet, 15);
-
-            UpdateVisual();
-        }
+        public Action OutOfAmmo;
+        public Action Broken;
 
         public void OnReloaded()
         {
-            isOutOfAmmo = false;
-            UpdateVisual();
+
         }
 
-        public void Deactivate()
-        {
-            GlobalEvent<IGridItem, int>.Send("Fix", this, 20);
-            isBroken = true;
-            Debug.Log("Hereererr");
-            UpdateVisual();
-        }
 
         public void OnFixed()
         {
             _stats.HealthPoint.StatValue.BaseValue = _stats.HealthPoint.MaxStatValue.Value / 100 * 30;
-            isBroken = false;
-            UpdateVisual();
         }
+
+        public void Reload(Ammo bullet)
+        {
+            usingBullet = bullet;
+            AmmoStats ps = (AmmoStats)bullet.Stats;
+            _stats.Ammo.MaxStatValue.BaseValue = ps.MagazineSize.Value;
+            _stats.Ammo.MinStatValue.BaseValue = 0;
+            _stats.Ammo.StatValue.BaseValue = ps.MagazineSize.Value;
+            AttackTargetBehaviour.projectilePrefab = bullet.Projectile;
+        }
+        #endregion
     }
 }

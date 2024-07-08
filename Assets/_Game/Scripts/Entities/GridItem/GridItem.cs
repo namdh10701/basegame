@@ -1,4 +1,5 @@
 using _Base.Scripts.RPG.Effects;
+using _Game.Features.Gameplay;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,13 +12,13 @@ namespace _Game.Scripts.Entities
         public GridItemDef Def { get; }
         public Transform Behaviour { get; }
         public Transform Transform { get; }
-        public void Deactivate();
+        public void OnBroken();
         public void OnFixed();
 
         public bool IsBroken { get; set; }
 
         public EffectHandler EffectHandler { get; }
 
-        public bool IsAbleToTakeHit { get;}
+        public bool IsAbleToTakeHit { get; }
     }
 }

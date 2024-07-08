@@ -1,6 +1,5 @@
 using _Game.Scripts.DB;
 using _Game.Scripts.Entities;
-using _Game.Scripts.Gameplay.Ship;
 using _Game.Scripts.PathFinding;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +7,9 @@ using _Game.Features.Inventory;
 using UnityEngine;
 using _Base.Scripts.Utils.Extensions;
 using _Base.Scripts.UI;
+using _Game.Scripts;
 
-namespace _Game.Scripts
+namespace _Game.Features.Gameplay
 {
     public class ShipSetup : MonoBehaviour
     {
@@ -17,7 +17,6 @@ namespace _Game.Scripts
 
         public Ship Ship;
         public ShipSetupMockup ShipSetupMockup;
-        public GridItemReferenceHolder ItemReferenceHolder;
         public ShipGridProfile ShipGridProfile;
         public List<Grid> Grids;
         public List<Ammo> Bullets { get; private set; } = new List<Ammo>();
@@ -117,7 +116,7 @@ namespace _Game.Scripts
             foreach (Cannon cannon in Cannons)
             {
                 if (Bullets.Count > 0)
-                    cannon.Reloader.Reload(Bullets.GetRandom());
+                    cannon.Reload(Bullets.GetRandom());
             }
         }
 
@@ -128,7 +127,7 @@ namespace _Game.Scripts
                 if (spawned.TryGetComponent(out IWorkLocation workLocation))
                 {
                     WorkLocations.Add(workLocation);
-                    workLocation.WorkingSlots = new List<PathFinding.Node>();
+                    workLocation.WorkingSlots = new List<Scripts.PathFinding.Node>();
 
                     if (spawned.TryGetComponent(out IGridItem gridItem))
                     {
@@ -154,7 +153,7 @@ namespace _Game.Scripts
             spawnedItems.Clear();
             foreach (Cell cell in AllCells)
             {
-                cell.WorkingSlots = new List<PathFinding.Node>();
+                cell.WorkingSlots = new List<Scripts.PathFinding.Node>();
                 foreach (var node in NodeGraph.nodes)
                 {
                     if (node.cell != null && node.cell == cell)

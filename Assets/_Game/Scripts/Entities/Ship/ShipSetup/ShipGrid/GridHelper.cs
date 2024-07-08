@@ -1,8 +1,9 @@
+using _Game.Features.Gameplay;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace _Game.Scripts
+namespace _Game.Features.Gameplay
 {
     public enum CellPattern
     {

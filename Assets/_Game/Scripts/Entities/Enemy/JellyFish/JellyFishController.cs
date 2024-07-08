@@ -7,128 +7,131 @@ using UnityEngine;
 using _Game.Scripts.Utils;
 using _Game.Scripts.Entities;
 
-public class JellyFishController : EnemyController
+namespace _Game.Features.Gameplay
 {
-    bool isCurrentAttackLeftHand;
-    public CameraShake cameraShake;
-    private JellyFishAnimation jellyFishAnimation;
-    private CooldownBehaviour cooldownBehaviour;
-    [SerializeField] private JellyFishAttack attack;
+    public class JellyFishController : EnemyController
+    {
+        bool isCurrentAttackLeftHand;
+        public CameraShake cameraShake;
+        private JellyFishAnimation jellyFishAnimation;
+        private CooldownBehaviour cooldownBehaviour;
+        [SerializeField] private JellyFishAttack attack;
 
-    public override void Initialize(EnemyModel enemyModel, EffectTakerCollider effectTakerCollider, Blackboard blackboard, MBTExecutor mbtExecutor, Rigidbody2D body, SpineAnimationEnemyHandler anim)
-    {
-        cooldownBehaviour = ((JellyFishModel)enemyModel).cooldownBehaviour;
-        jellyFishAnimation = anim as JellyFishAnimation;
-        MoveAreaController moveArea = FindAnyObjectByType<MoveAreaController>();
-        Area area = moveArea.GetArea(AreaType.All);
-        blackboard.GetVariable<AreaVariable>("MoveArea").Value = area;
-        jellyFishAnimation.Attack.AddListener(Attack);
-        jellyFishAnimation.AttackMeele.AddListener(AttackMelee);
-        base.Initialize(enemyModel, effectTakerCollider, blackboard, mbtExecutor, body, anim);
-    }
-    public override IEnumerator AttackSequence()
-    {
-        if (isCurrentAttackLeftHand)
+        public override void Initialize(EnemyModel enemyModel, EffectTakerCollider effectTakerCollider, Blackboard blackboard, MBTExecutor mbtExecutor, Rigidbody2D body, SpineAnimationEnemyHandler anim)
         {
-            jellyFishAnimation.PlayIdleToAttackLoopLeftHand();
+            cooldownBehaviour = ((JellyFishModel)enemyModel).cooldownBehaviour;
+            jellyFishAnimation = anim as JellyFishAnimation;
+            MoveAreaController moveArea = FindAnyObjectByType<MoveAreaController>();
+            Area area = moveArea.GetArea(AreaType.All);
+            blackboard.GetVariable<AreaVariable>("MoveArea").Value = area;
+            jellyFishAnimation.Attack.AddListener(Attack);
+            jellyFishAnimation.AttackMeele.AddListener(AttackMelee);
+            base.Initialize(enemyModel, effectTakerCollider, blackboard, mbtExecutor, body, anim);
         }
-        else
+        public override IEnumerator AttackSequence()
         {
-            jellyFishAnimation.PlayIdleToAttackLoopRightHand();
-        }
-        yield return new WaitForSeconds(2);
-        if (isCurrentAttackLeftHand)
-        {
-            jellyFishAnimation.PlayAttackLeftHand();
-        }
-        else
-        {
-            jellyFishAnimation.PlayAttackRightHand();
-        }
-        cooldownBehaviour.StartCooldown();
-    }
-
-    public override bool IsReadyToAttack()
-    {
-        return !cooldownBehaviour.IsInCooldown;
-    }
-
-    public override void Die()
-    {
-        base.Die();
-        anim.PlayDie(() => Destroy(gameObject));
-        StopAllCoroutines();
-    }
-
-    public override IEnumerator StartActionCoroutine()
-    {
-        jellyFishAnimation.Appear();
-        cameraShake.Shake(3f);
-        _Game.Scripts.BehaviourTree.Wander wander = mbtExecutor.GetComponent<_Game.Scripts.BehaviourTree.Wander>();
-        effectTakerCollider.gameObject.SetActive(false);
-        yield return new WaitForSeconds(4.5f);
-        effectTakerCollider.gameObject.SetActive(true);
-        float rand = Random.Range(0, 1f);
-        if (rand < .5f)
-        {
-            wander.ToLeft();
-        }
-        else
-        {
-            wander.ToRight();
+            if (isCurrentAttackLeftHand)
+            {
+                jellyFishAnimation.PlayIdleToAttackLoopLeftHand();
+            }
+            else
+            {
+                jellyFishAnimation.PlayIdleToAttackLoopRightHand();
+            }
+            yield return new WaitForSeconds(2);
+            if (isCurrentAttackLeftHand)
+            {
+                jellyFishAnimation.PlayAttackLeftHand();
+            }
+            else
+            {
+                jellyFishAnimation.PlayAttackRightHand();
+            }
+            cooldownBehaviour.StartCooldown();
         }
 
-        cooldownBehaviour.StartCooldown();
-        wander.UpdateTargetDirection(-50, 50);
-    }
-
-    public void Attack()
-    {
-        if (isCurrentAttackLeftHand)
-            attack.DoLeftAttack();
-        else
-            attack.DoRightAttack();
-        isCurrentAttackLeftHand = !isCurrentAttackLeftHand;
-    }
-
-    public void AttackMelee()
-    {
-        if (isAttackLefthand)
+        public override bool IsReadyToAttack()
         {
-            attack.DoLeftMeleeAttack();
+            return !cooldownBehaviour.IsInCooldown;
         }
-        else
-        {
-            attack.DoRightMelleAttack();
-        }
-    }
 
-    public IEnumerator MeleeAttackSequence()
-    {
-        float rand = Random.Range(0, 1f);
-        if (rand < .5f)
+        public override void Die()
         {
-            yield return LeftAttackSequence();
+            base.Die();
+            anim.PlayDie(() => Destroy(gameObject));
+            StopAllCoroutines();
         }
-        else
-        {
-            yield return RightAttackSequence();
-        }
-    }
-    bool isAttackLefthand;
-    IEnumerator LeftAttackSequence()
-    {
-        cooldownBehaviour.StartCooldown();
-        isAttackLefthand = true;
-        jellyFishAnimation.PlayAttackMeeleLeftHand();
-        yield return new WaitForSeconds(1f);
-    }
 
-    IEnumerator RightAttackSequence()
-    {
-        cooldownBehaviour.StartCooldown();
-        isAttackLefthand = false;
-        jellyFishAnimation.PlayAttackMeeleRightHand();
-        yield return new WaitForSeconds(1f);
+        public override IEnumerator StartActionCoroutine()
+        {
+            jellyFishAnimation.Appear();
+            cameraShake.Shake(3f);
+            _Game.Scripts.BehaviourTree.Wander wander = mbtExecutor.GetComponent<_Game.Scripts.BehaviourTree.Wander>();
+            effectTakerCollider.gameObject.SetActive(false);
+            yield return new WaitForSeconds(4.5f);
+            effectTakerCollider.gameObject.SetActive(true);
+            float rand = Random.Range(0, 1f);
+            if (rand < .5f)
+            {
+                wander.ToLeft();
+            }
+            else
+            {
+                wander.ToRight();
+            }
+
+            cooldownBehaviour.StartCooldown();
+            wander.UpdateTargetDirection(-50, 50);
+        }
+
+        public void Attack()
+        {
+            if (isCurrentAttackLeftHand)
+                attack.DoLeftAttack();
+            else
+                attack.DoRightAttack();
+            isCurrentAttackLeftHand = !isCurrentAttackLeftHand;
+        }
+
+        public void AttackMelee()
+        {
+            if (isAttackLefthand)
+            {
+                attack.DoLeftMeleeAttack();
+            }
+            else
+            {
+                attack.DoRightMelleAttack();
+            }
+        }
+
+        public IEnumerator MeleeAttackSequence()
+        {
+            float rand = Random.Range(0, 1f);
+            if (rand < .5f)
+            {
+                yield return LeftAttackSequence();
+            }
+            else
+            {
+                yield return RightAttackSequence();
+            }
+        }
+        bool isAttackLefthand;
+        IEnumerator LeftAttackSequence()
+        {
+            cooldownBehaviour.StartCooldown();
+            isAttackLefthand = true;
+            jellyFishAnimation.PlayAttackMeeleLeftHand();
+            yield return new WaitForSeconds(1f);
+        }
+
+        IEnumerator RightAttackSequence()
+        {
+            cooldownBehaviour.StartCooldown();
+            isAttackLefthand = false;
+            jellyFishAnimation.PlayAttackMeeleRightHand();
+            yield return new WaitForSeconds(1f);
+        }
     }
 }

@@ -1,8 +1,9 @@
+using _Game.Scripts;
 using DG.Tweening;
 using System.Collections;
 using UnityEngine;
 
-namespace _Game.Scripts
+namespace _Game.Features.Gameplay
 {
     public class LevelStartSequence : MonoBehaviour
     {

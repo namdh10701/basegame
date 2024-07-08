@@ -1,13 +1,13 @@
 using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.RPG.Entities;
+using _Game.Scripts;
 using _Game.Scripts.Entities;
-using _Game.Scripts.Gameplay.Ship;
 using _Game.Scripts.GD;
 using _Game.Scripts.PathFinding;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace _Game.Scripts
+namespace _Game.Features.Gameplay
 {
     public class Crew : Entity, IGDConfigStatsTarget, IStatsBearer, INodeOccupier, IEffectTaker, IStunable
     {

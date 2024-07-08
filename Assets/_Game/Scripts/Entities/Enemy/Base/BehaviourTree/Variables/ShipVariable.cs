@@ -1,6 +1,5 @@
 
-using _Base.Scripts.SaveSystem;
-using _Game.Scripts.Gameplay.Ship;
+using _Game.Features.Gameplay;
 using MBT;
 using UnityEngine;
 

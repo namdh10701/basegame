@@ -1,9 +1,9 @@
 using _Game.Scripts.Entities;
-using _Game.Scripts.Gameplay.Ship;
 using _Game.Scripts.InventorySystem;
 using System.Collections.Generic;
 using _Game.Features.Inventory;
 using UnityEngine;
+using _Game.Features.Gameplay;
 
 namespace _Game.Scripts
 {

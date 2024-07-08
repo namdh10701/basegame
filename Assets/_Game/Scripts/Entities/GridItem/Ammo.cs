@@ -1,6 +1,7 @@
 using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.RPG.Entities;
 using _Base.Scripts.RPGCommon.Entities;
+using _Game.Features.Gameplay;
 using _Game.Scripts.GD;
 using _Game.Scripts.PathFinding;
 using System.Collections.Generic;
@@ -61,7 +62,7 @@ namespace _Game.Scripts.Entities
 
         }
 
-        public void Deactivate()
+        public void OnBroken()
         {
             sprite.color = broken;
             IsBroken = true;

@@ -4,8 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using _Game.Features.Inventory;
 using _Game.Scripts.DB;
+using _Game.Scripts;
 
-namespace _Game.Scripts
+namespace _Game.Features.Gameplay
 {
     public class BattleInputManager : MonoBehaviour
     {
@@ -13,7 +14,7 @@ namespace _Game.Scripts
         [SerializeField] LayerMask layerMask;
         public ShipSetup shipSetup;
         Cannon selectingCannon;
-        public BulletsMenu bulletMenu;
+        public ShipHUD bulletMenu;
         public GameObject canvas;
         public Image selectCannon;
 

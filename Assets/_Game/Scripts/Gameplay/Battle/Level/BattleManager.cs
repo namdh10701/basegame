@@ -3,6 +3,7 @@ using _Base.Scripts.RPG.Entities;
 using _Base.Scripts.RPGCommon.Entities;
 using _Game.Features;
 using _Game.Features.Battle;
+using _Game.Scripts;
 using _Game.Scripts.Battle;
 using _Game.Scripts.Entities;
 using Map;
@@ -10,7 +11,7 @@ using System.Collections;
 using UnityEngine;
 using ZBase.UnityScreenNavigator.Core.Modals;
 
-namespace _Game.Scripts.Gameplay
+namespace _Game.Features.Gameplay
 {
     public class BattleManager : MonoBehaviour
     {
@@ -37,12 +38,15 @@ namespace _Game.Scripts.Gameplay
         public BattleViewModel BattleViewModel;
         public void Initialize(BattleViewModel battleViewModel)
         {
+            EntityManager.OnEnter();
+
             this.BattleViewModel = battleViewModel;
             BattleInputManager.gameObject.SetActive(false);
             EntityManager.SpawnShip(BattleManager.SelectedShipId, shipStartPos.position);
             LevelStartSequence.shipSpeed = EntityManager.Ship.ShipSpeed;
             BattleInputManager.shipSetup = EntityManager.Ship.ShipSetup;
             GridAttackHandler.ship = EntityManager.Ship;
+            EntityManager.Ship.BattleViewModel = battleViewModel;
             GridPicker.ShipGrid = EntityManager.Ship.ShipSetup;
             StartCoroutine(LevelEntryCoroutine());
 
@@ -64,7 +68,7 @@ namespace _Game.Scripts.Gameplay
             while (true)
             {
                 yield return new WaitForSeconds(5);
-                if (EnemyManager.IsLevelDone && EntityManager.aliveEntities.Count == 0)
+                if (EnemyManager.IsLevelDone && EntityManager.aliveEnemies.Count == 0)
                 {
                     Win();
                     MapPlayerTracker.Instance.OnGamePassed();
@@ -73,7 +77,7 @@ namespace _Game.Scripts.Gameplay
                 if (EnemyManager.IsLevelDone)
                 {
                     bool ended = true;
-                    foreach (IAliveStats a in EntityManager.aliveEntities)
+                    foreach (IAliveStats a in EntityManager.aliveEnemies)
                     {
                         if (a != null)
                         {
@@ -109,7 +113,7 @@ namespace _Game.Scripts.Gameplay
         {
             Time.timeScale = 1;
             GlobalEvent<bool>.Unregister("TOGGLE_PAUSE", TogglePause);
-            currentRate = 1; 
+            currentRate = 1;
             BattleViewModel.SpeedUpRate = currentRate;
             EntityManager.CleanUp();
             EnemyModel[] a = GameObject.FindObjectsByType<EnemyModel>(FindObjectsSortMode.None);

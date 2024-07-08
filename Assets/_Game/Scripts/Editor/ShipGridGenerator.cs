@@ -1,3 +1,4 @@
+using _Game.Features.Gameplay;
 using UnityEditor;
 using UnityEngine;
 
@@ -38,7 +39,7 @@ namespace _Game.Scripts.Editor
             foreach (GridDefinition gridDefinition in ShipGridProfile.GridDefinitions)
             {
                 GameObject gridRoot = new GameObject();
-                Grid grid = gridRoot.AddComponent<Grid>();
+                _Game.Features.Gameplay.Grid grid = gridRoot.AddComponent<_Game.Features.Gameplay.Grid>();
                 gridRoot.transform.parent = root;
                 gridRoot.transform.localPosition = gridDefinition.rootPosition;
                 gridRoot.name = "Grid";
@@ -64,7 +65,7 @@ namespace _Game.Scripts.Editor
                         Cell cell = cellObject.GetComponent<Cell>();
                         cell.X = k;
                         cell.Y = j;
-                        cell.Grid = gridRoot.GetComponent<Grid>();
+                        cell.Grid = gridRoot.GetComponent<_Game.Features.Gameplay.Grid>();
 
                     }
                 }

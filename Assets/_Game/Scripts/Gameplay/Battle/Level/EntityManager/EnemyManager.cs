@@ -1,5 +1,8 @@
+using _Base.Scripts.EventSystem;
+using _Base.Scripts.Shared;
 using _Base.Scripts.Utils.Extensions;
 using _Game.Scripts.DB;
+using _Game.Scripts.Entities;
 using _Game.Scripts.GD;
 using _Game.Scripts.GD.Parser;
 using System.Collections.Generic;
@@ -23,24 +26,20 @@ namespace _Game.Scripts.Battle
         [SerializeField] Vector3 jellyFishSpawnPoint;
 
         [SerializeField] Timer enemySpawnTimer;
-        bool isStart;
-        float delayTime = 5;
-        float delayElapsedTime = 0;
         private void Awake()
         {
-            LoadLevelEnemyData();
+            LoadLevelEnemyData(); 
         }
-
         void LoadLevelEnemyData()
         {
+            Debug.Log("AWAKE");
             stageId = PlayerPrefs.GetString("currentStage");
-            Debug.LogError(stageId + " HERE");
+
+            Debug.Log(stageId);
             levelDatas = GameLevelManager.GetLevelData(stageId, floorId);
-            //Debug.Log(selectLevelData.);
         }
         public void StartLevel()
         {
-            isStart = true;
             foreach (var spawnData in levelDatas)
             {
                 TimedEvent timedEvent = new TimedEvent(float.Parse(spawnData.TimeOffset, CultureInfo.InvariantCulture), () => SpawnEnemy(spawnData.EnemyId.ToArray(),
@@ -54,7 +53,6 @@ namespace _Game.Scripts.Battle
 
         public void CleanUp()
         {
-            isStart = false;
             enemySpawnTimer.Clear();
         }
 

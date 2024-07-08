@@ -2,11 +2,11 @@ using _Base.Scripts.RPG.Effects;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace _Game.Scripts
+namespace _Game.Features.Gameplay
 {
     public class GridAttackHandler : MonoBehaviour
     {
-        public _Game.Scripts.Gameplay.Ship.Ship ship;
+        public Ship ship;
         public void ProcessAttack(EnemyAttackData enemyAttackData)
         {
             ProcessAttack(enemyAttackData.TargetCells, enemyAttackData.Effects);
