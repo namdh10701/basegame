@@ -9,11 +9,12 @@ namespace _Game.Features.Inventory
 
     public enum ItemType
     {
+        None,
         CREW,
         CANNON,
         AMMO,
     }
-    
+
     public enum Rarity
     {
         Common,
@@ -32,10 +33,10 @@ namespace _Game.Features.Inventory
     public class InventoryItem : SubViewModel
     {
         public InventoryViewModel InventoryViewModel { get; set; }
-        
+
         [Binding]
         public string Id { get; set; }
-        
+
         #region Binding Prop: Name
 
         /// <summary>
@@ -174,10 +175,10 @@ namespace _Game.Features.Inventory
                 return Resources.Load<Sprite>(path);
             }
         }
-        
+
         public event Action<InventoryItem> SelectionStateChanged;
 
-        
+
         #region Binding Prop: IsSelected
 
         /// <summary>
@@ -196,7 +197,7 @@ namespace _Game.Features.Inventory
 
                 _isSelected = value;
                 OnPropertyChanged(nameof(IsSelected));
-                
+
                 SelectionStateChanged?.Invoke(this);
             }
         }
@@ -204,7 +205,7 @@ namespace _Game.Features.Inventory
         private bool _isSelected;
 
         #endregion
-        
+
         #region Binding Prop: IsEquipped
 
         /// <summary>
