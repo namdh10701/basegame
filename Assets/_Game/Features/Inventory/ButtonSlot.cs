@@ -1,12 +1,12 @@
 using _Game.Features.Inventory;
-using _Game.Scripts.DB;
 using _Game.Scripts.UI;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityWeld.Binding;
 namespace _Game.Features.InventoryCustomScreen
 {
     [Binding]
-    public class ToggleSlot : SubViewModel
+    public class ButtonSlot : SubViewModel
     {
         public IInventoryCustomScreen IInventoryCustomScreen { get; set; }
 
@@ -82,11 +82,45 @@ namespace _Game.Features.InventoryCustomScreen
                     case ItemType.AMMO:
                         return _Game.Scripts.DB.Database.GetAmmoImage(Id);
                     default:
-                        return null;
+                        Debug.LogWarning("Images/Common/icon_plus");
+                        return Resources.Load<Sprite>("Images/Common/icon_plus");
                 }
             }
         }
         #endregion
 
+        #region Binding Prop: Interactable
+
+        private bool _interactable = true;
+        /// <summary>
+        /// Interactable
+        /// </summary>
+        [Binding]
+        public bool Interactable
+        {
+            get => _interactable;
+            set
+            {
+                if (_interactable == value)
+                {
+                    return;
+                }
+
+                _interactable = value;
+
+                OnPropertyChanged(nameof(Interactable));
+            }
+        }
+
+        #endregion
+
+
+        public void UpdateData(string id, ItemType itemType)
+        {
+            Id = id;
+            Type = itemType;
+            OnPropertyChanged(nameof(Thumbnail));
+
+        }
     }
 }

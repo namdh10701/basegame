@@ -1,9 +1,7 @@
-using System.Collections.Generic;
 using System.Linq;
 using _Game.Features.Inventory;
 using _Game.Scripts.UI;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityWeld.Binding;
 
 namespace _Game.Features.InventoryCustomScreen
@@ -12,7 +10,7 @@ namespace _Game.Features.InventoryCustomScreen
     {
         public bool IsActive { get; set; }
         public bool IsActiveAttach { get; set; }
-        public int FilterItemTypeIndex { get; set; }
+        public int IndexButton { get; set; }
         public void OnEnableAttachItems();
     }
 
@@ -22,19 +20,9 @@ namespace _Game.Features.InventoryCustomScreen
         CrewCustomScreen
     }
 
-    public enum ToggleType
-    {
-        Slot_1,
-        Slot_2,
-        Slot_3,
-        Slot_4,
-    }
-
-
     [Binding]
     public class CrewCustomScreen : RootViewModel, IInventoryCustomScreen
     {
-        [SerializeField] List<Toggle> _toggleSlots;
         #region Binding Prop: IsActive
 
         /// <summary>
@@ -52,19 +40,17 @@ namespace _Game.Features.InventoryCustomScreen
                 {
                     return;
                 }
-                _isActive
-                 = value;
+                _isActive = value;
                 OnPropertyChanged(nameof(IsActive));
             }
         }
 
-        private bool _isActive
-        ;
+        private bool _isActive;
 
         #endregion
 
         #region Binding Prop: IsActiveAttach
-        private bool _isActiveAttach = true;
+        private bool _isActiveAttach;
 
         /// <summary>
         /// IsActiveAttach
@@ -90,51 +76,26 @@ namespace _Game.Features.InventoryCustomScreen
 
         #endregion
 
-        #region Binding Prop: FilterItemTypeIndex
+        #region Binding Prop: IndexButton
 
-        private int _filterItemTypeIndex = 0;
+        private int _indexButton = 0;
         /// <summary>
-        /// FilterItemTypeIndex
+        /// IndexButton
         /// </summary>
         [Binding]
-        public int FilterItemTypeIndex
+        public int IndexButton
         {
-            get => _filterItemTypeIndex;
+            get => _indexButton;
             set
             {
-                if (_filterItemTypeIndex == value)
+                if (_indexButton == value)
                 {
                     return;
                 }
 
-                _filterItemTypeIndex = value;
+                _indexButton = value;
 
-                OnPropertyChanged(nameof(FilterItemTypeIndex));
-            }
-        }
-
-        #endregion
-
-        #region Binding Prop: Interactable
-
-        private bool _interactable = true;
-        /// <summary>
-        /// Interactable
-        /// </summary>
-        [Binding]
-        public bool Interactable
-        {
-            get => _interactable;
-            set
-            {
-                if (_interactable == value)
-                {
-                    return;
-                }
-
-                _interactable = value;
-
-                OnPropertyChanged(nameof(Interactable));
+                OnPropertyChanged(nameof(IndexButton));
             }
         }
 
@@ -142,32 +103,6 @@ namespace _Game.Features.InventoryCustomScreen
 
         public ItemType AttachItemType = ItemType.None;
         public string AttachItemId { get; set; }
-
-
-        #region Binding Prop: Thumbnail
-        /// <summary>
-        /// Thumbnail
-        /// </summary>
-        [Binding]
-        public Sprite Thumbnail
-        {
-            get
-            {
-                switch (AttachItemType)
-                {
-                    case ItemType.CANNON:
-                        return _Game.Scripts.DB.Database.GetCannonImage(AttachItemId);
-                    case ItemType.CREW:
-                        return _Game.Scripts.DB.Database.GetCrewImage(AttachItemId);
-                    case ItemType.AMMO:
-                        return _Game.Scripts.DB.Database.GetAmmoImage(AttachItemId);
-                    default:
-                        Debug.LogWarning("Images/Common/icon_plus");
-                        return Resources.Load<Sprite>("Images/Common/icon_plus");
-                }
-            }
-        }
-        #endregion
 
         #region Binding: SkillInfoItems
 
@@ -196,20 +131,19 @@ namespace _Game.Features.InventoryCustomScreen
 
         #endregion
 
-        #region Binding: ToggleSlot
+        #region Binding: ButtonSlot
 
-        private ObservableList<ToggleSlot> toggleSlots = new ObservableList<ToggleSlot>();
+        private ObservableList<ButtonSlot> buttonSlots = new ObservableList<ButtonSlot>();
 
         [Binding]
-        public ObservableList<ToggleSlot> ToggleSlots => toggleSlots;
+        public ObservableList<ButtonSlot> ButtonSlots => buttonSlots;
 
         #endregion
-
+        [SerializeField] ButtonGroupInput _buttonGroupInput;
         public static CrewCustomScreen Instance;
         async void Awake()
         {
             Instance = this;
-
             InitDataTest();
         }
 
@@ -221,24 +155,46 @@ namespace _Game.Features.InventoryCustomScreen
         [Binding]
         public void OnEnableAttachItems()
         {
-            // _attachItems.SetActive();
-            Interactable = !Interactable;
-            IsActiveAttach = !IsActiveAttach;
+            IsActiveAttach = true;
+        }
+
+        [Binding]
+        public void OnDisableAttachItems()
+        {
+            IsActiveAttach = false;
+            _buttonGroupInput.Interactable(true);
+
         }
 
         [Binding]
         public void OnEquipSelectedItem()
         {
+            var attachInfoItem = new AttachInfoItem();
             foreach (var item in AttachInfoItems.Where(v => v.IsHighlight))
             {
                 AttachItemId = item.Id;
                 AttachItemType = item.Type;
-                OnPropertyChanged(nameof(Thumbnail));
+                attachInfoItem = item;
             }
 
-            var image = _toggleSlots[_filterItemTypeIndex].transform.GetChild(0).GetComponent<Image>();
-            image.sprite = Thumbnail;
-            image.SetNativeSize();
+            if (buttonSlots[_indexButton].Type == ItemType.None)
+            {
+                buttonSlots[_indexButton].UpdateData(AttachItemId, AttachItemType);
+                AttachInfoItems.Remove(attachInfoItem);
+            }
+            else
+            {
+                var attachInfoItemReturn = new AttachInfoItem();
+                attachInfoItemReturn.Id = buttonSlots[_indexButton].Id;
+                attachInfoItemReturn.Type = buttonSlots[_indexButton].Type;
+                attachInfoItemReturn.IsHighlight = false;
+                AttachInfoItems.Add(attachInfoItemReturn);
+
+                buttonSlots[_indexButton].UpdateData(AttachItemId, AttachItemType);
+                AttachInfoItems.Remove(attachInfoItem);
+            }
+            _buttonGroupInput.Interactable(true);
+
         }
 
         public void InitDataTest()
@@ -264,9 +220,18 @@ namespace _Game.Features.InventoryCustomScreen
             for (int i = 0; i < 3; i++)
             {
                 var tachItem = new AttachInfoItem();
-                tachItem.Id = "0001";
+                tachItem.Id = $"000{i + 1}";
                 tachItem.Type = ItemType.CREW;
                 attachInfoItems.Add(tachItem);
+            }
+
+            for (int i = 0; i < 4; i++)
+            {
+                var toggle = new ButtonSlot();
+                toggle.Id = "";
+                toggle.Type = ItemType.None;
+                toggle.SlotName = $"Slot {i}";
+                buttonSlots.Add(toggle);
             }
         }
     }
