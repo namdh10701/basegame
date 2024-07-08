@@ -1,3 +1,4 @@
+using _Game.Features.Quest;
 using _Game.Scripts.UI;
 using UnityWeld.Binding;
 using ZBase.UnityScreenNavigator.Core.Modals;
@@ -23,7 +24,7 @@ namespace _Game.Features.WorldMap
         [Binding]
         public async void ShowQuestPopup()
         {
-            var options = new ViewOptions("QuestModal", true);
+            var options = new ViewOptions(nameof(QuestModal), true);
             await ModalContainer.Find(ContainerKey.Modals).PushAsync(options);
         }
     }
