@@ -1,23 +1,26 @@
 using _Game.Scripts;
 using System.Collections;
-public class CrewJobAction : CrewActionBase
+namespace _Game.Features.Gameplay
 {
-    public CrewJob CrewJob;
-
-    public CrewJobAction(CrewJob crewJob, IEnumerator execute)
+    public class CrewJobAction : CrewActionBase
     {
-        Name = crewJob.Name;
-        this.CrewJob = crewJob;
-        this.Execute = execute;
-    }
+        public CrewJob CrewJob;
 
-    public override void Interupt()
-    {
-        CrewJob.DoInterupt();
-    }
+        public CrewJobAction(CrewJob crewJob, IEnumerator execute)
+        {
+            Name = crewJob.Name;
+            this.CrewJob = crewJob;
+            this.Execute = execute;
+        }
 
-    public override void ReBuild(Crew crew)
-    {
-        this.Execute = CrewJob.DoExecute(crew);
+        public override void Interupt()
+        {
+            CrewJob.DoInterupt();
+        }
+
+        public override void ReBuild(Crew crew)
+        {
+            this.Execute = CrewJob.DoExecute(crew);
+        }
     }
 }

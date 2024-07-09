@@ -4,18 +4,16 @@ using UnityEngine;
 using UnityEngine.UI;
 using _Game.Features.Inventory;
 using _Game.Scripts.DB;
+using _Game.Scripts;
+using Unity.VisualScripting;
 
-namespace _Game.Scripts
+namespace _Game.Features.Gameplay
 {
     public class BattleInputManager : MonoBehaviour
     {
         [SerializeField] Camera _camera;
         [SerializeField] LayerMask layerMask;
-        public ShipSetup shipSetup;
-        Cannon selectingCannon;
-        public BulletsMenu bulletMenu;
-        public GameObject canvas;
-        public Image selectCannon;
+        public ShipHUD bulletMenu;
 
         private void Update()
         {
@@ -49,21 +47,22 @@ namespace _Game.Scripts
 
                 if (closestHit.collider != null)
                 {
-                    if (closestHit.collider.TryGetComponent(out ItemClickDetector icd))
-                    {
-                        IWorkLocation workLocation = icd.Item.GetComponent<IWorkLocation>();
-                        workLocation.OnClick();
-                        IGridItem gridItem = icd.Item.GetComponent<IGridItem>();
-                        if (gridItem != null)
-                        {
-                            if (gridItem.Def.Type == ItemType.CANNON)
-                            {
-                                selectingCannon = gridItem as Cannon;
-                                selectCannon.sprite = Database.GetCannonImage(selectingCannon.Id);
-                                CreateBulletsMenu();
-                            }
-                        }
+                    OnClickDown(closestHit.collider);
+                }
 
+            }
+        }
+        void OnClickDown(Collider2D collider)
+        {
+            if (collider.TryGetComponent(out ItemClickDetector icd))
+            {
+                IWorkLocation workLocation = icd.Item.GetComponent<IWorkLocation>();
+                workLocation.OnClick();
+                IGridItem gridItem = icd.Item.GetComponent<IGridItem>();
+                if (gridItem != null)
+                {
+                    if (gridItem.Def.Type == ItemType.CANNON)
+                    {
                     }
                 }
 
@@ -102,37 +101,13 @@ namespace _Game.Scripts
 
                             if (closestHit.collider != null)
                             {
-                                if (closestHit.collider.TryGetComponent(out ItemClickDetector icd))
-                                {
-                                    IWorkLocation workLocation = icd.Item.GetComponent<IWorkLocation>();
-                                    workLocation.OnClick();
-                                    IGridItem gridItem = icd.Item.GetComponent<IGridItem>();
-                                    if (gridItem != null)
-                                    {
-                                        if (gridItem.Def.Type == ItemType.CANNON)
-                                        {
-                                            selectingCannon = gridItem as Cannon;
-
-                                            selectCannon.sprite = Database.GetCannonImage(selectingCannon.Id);
-                                            CreateBulletsMenu();
-                                        }
-                                    }
-
-                                }
+                                OnClickDown(closestHit.collider);
                             }
-
                             isClick = false;
                         }
                         break;
                 }
             }
         }
-
-        void CreateBulletsMenu()
-        {
-            canvas.SetActive(true);
-            bulletMenu.Setup(selectingCannon, shipSetup.Bullets);
-        }
-
     }
 }

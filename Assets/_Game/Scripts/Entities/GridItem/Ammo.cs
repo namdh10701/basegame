@@ -1,8 +1,12 @@
+using _Base.Scripts.EventSystem;
 using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.RPG.Entities;
+using _Base.Scripts.RPG.Stats;
 using _Base.Scripts.RPGCommon.Entities;
+using _Game.Features.Gameplay;
 using _Game.Scripts.GD;
 using _Game.Scripts.PathFinding;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -46,7 +50,7 @@ namespace _Game.Scripts.Entities
         public Color broken;
         public Color norm;
         bool isBroken;
-
+        public AmmoHUD HUD;
 
 
         public void SetId(string id)
@@ -55,16 +59,32 @@ namespace _Game.Scripts.Entities
             Projectile.Id = id;
         }
 
+        public void Initialize()
+        {
+            GDConfigStatsApplier GDConfigStatsApplier = GetComponent<GDConfigStatsApplier>();
+            GDConfigStatsApplier.LoadStats(this);
+            stats.HealthPoint.OnValueChanged += HealthPoint_OnValueChanged;
+            HUD.SetAmmo(this);
+        }
+
+        private void HealthPoint_OnValueChanged(RangedStat stat)
+        {
+            if (stat.Value == stat.MinValue)
+            {
+                OnBroken();
+            }
+        }
 
         public void OnClick()
         {
 
         }
 
-        public void Deactivate()
+        public void OnBroken()
         {
             sprite.color = broken;
             IsBroken = true;
+            GlobalEvent<IGridItem, int>.Send("Fix", this, 19);
         }
 
         public void OnFixed()

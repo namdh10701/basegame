@@ -6,23 +6,15 @@ using UnityEngine;
 
 public class GDConfigStatsApplier : MonoBehaviour
 {
-    public Stats targetStats;
-    private void Start()
+    public void LoadStats(IGDConfigStatsTarget target)
     {
-        LoadStats();
-    }
-
-    public void LoadStats()
-    {
-        
-        IGDConfigStatsTarget target = GetComponent<IGDConfigStatsTarget>();
         string id = GetComponent<IGDConfigStatsTarget>().Id;
-        
+
         GDConfig gdConfig = target.GDConfig;
         StatsTemplate statsTemplate = target.StatsTemplate;
 
         IStatsBearer statsBearer = GetComponent<IStatsBearer>();
-        targetStats = statsBearer.Stats;
+        Stats targetStats = statsBearer.Stats;
         if (GDConfigLoader.Instance != null)
         {
             GDConfig config = GDConfigLoader.Instance.GetConfig(id, gdConfig);

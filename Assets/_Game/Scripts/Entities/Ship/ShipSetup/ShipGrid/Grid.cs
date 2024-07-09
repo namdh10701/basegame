@@ -1,7 +1,8 @@
+using _Game.Scripts;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace _Game.Scripts
+namespace _Game.Features.Gameplay
 {
     public class Grid : MonoBehaviour
     {

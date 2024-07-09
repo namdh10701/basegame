@@ -476,6 +476,8 @@ GameObject:
   - component: {fileID: 7135756796741525485}
   - component: {fileID: 8836812664547222018}
   - component: {fileID: 5817357046448799332}
+  - component: {fileID: 4227394144008822919}
+  - component: {fileID: 3144578231535256236}
   m_Layer: 9
   m_Name: Ship_0002
   m_TagString: Untagged
@@ -512,8 +514,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 368025709d8d477488e54dd5c9c78d15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Id: 0001
-  body: {fileID: 0}
+  id: 
+  gdConfig: {fileID: 0}
+  statsTemplate: {fileID: 0}
   stats:
     <HealthPoint>k__BackingField:
       _value:
@@ -534,6 +537,16 @@ MonoBehaviour:
     <AmmoLimit>k__BackingField:
       statModifiers: []
       _baseValue: 0
+    <Fever>k__BackingField:
+      _value:
+        statModifiers: []
+        _baseValue: 0
+      _minValue:
+        statModifiers: []
+        _baseValue: 0
+      _maxValue:
+        statModifiers: []
+        _baseValue: 0
     <ManaPoint>k__BackingField:
       _value:
         statModifiers: []
@@ -558,7 +571,6 @@ MonoBehaviour:
         statModifiers: []
         _baseValue: 10
   ShipSetup: {fileID: 4408094167755191158}
-  _statTemplate: {fileID: 11400000, guid: 25d32cbf840623d40a895499ecea5f2b, type: 2}
   effectHandler: {fileID: 7857274161767291091}
   PathfindingController: {fileID: 7135756796741525485}
   EffectCollider: {fileID: 7146891435442519243}
@@ -566,6 +578,7 @@ MonoBehaviour:
   ShipSpeed: {fileID: 5817357046448799332}
   CrewJobData: {fileID: 7873234573730837184}
   BattleViewModel: {fileID: 0}
+  FeverModel: {fileID: 4227394144008822919}
 --- !u!114 &4408094167755191158
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -627,6 +640,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 236faec551f14c54890cf2c388bd412f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Ship: {fileID: 0}
   CrewJobData: {fileID: 7873234573730837184}
   crews: []
 --- !u!114 &7873234573730837184
@@ -708,6 +722,43 @@ MonoBehaviour:
   currentOffset: {x: 0, y: 0}
   direction: {x: 1, y: 1}
   scrollSpeed: {x: 0.25, y: 1}
+--- !u!114 &4227394144008822919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2019623168102066363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5eeaca819987b94a811f16790478388, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thresholdSteps: c8000000900100005802000020030000
+  FeverPoint:
+    _value:
+      statModifiers: []
+      _baseValue: 0
+    _minValue:
+      statModifiers: []
+      _baseValue: 0
+    _maxValue:
+      statModifiers: []
+      _baseValue: 0
+  CurrentState: 0
+--- !u!114 &3144578231535256236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2019623168102066363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a2efe45c2ba279459ca2ff735f4b1cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FeverModel: {fileID: 0}
 --- !u!1 &2094399799821266711
 GameObject:
   m_ObjectHideFlags: 0
@@ -2168,7 +2219,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bounds:
-    m_Center: {x: 0.5800219, y: -6.4548454, z: 0}
+    m_Center: {x: -0.21, y: -2.5500002, z: 0}
     m_Extent: {x: 1.32, y: 1.19, z: 0}
   color: {r: 0.18396229, g: 0.62283343, b: 1, a: 1}
   offset: {x: 0, y: 0}
@@ -3023,7 +3074,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01bfda76cc6a4e3080de930ff8b94a3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entity: {fileID: 2628608560081248010}
   effects: []
 --- !u!1 &9066691990103488799
 GameObject:

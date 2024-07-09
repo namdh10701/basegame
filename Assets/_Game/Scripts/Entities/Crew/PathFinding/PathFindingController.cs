@@ -1,3 +1,4 @@
+using _Game.Features.Gameplay;
 using _Game.Scripts.PathFinding;
 using System.Collections.Generic;
 using UnityEngine;

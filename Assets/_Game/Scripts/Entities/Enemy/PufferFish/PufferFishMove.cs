@@ -1,4 +1,4 @@
-using _Game.Scripts.Gameplay.Ship;
+using _Game.Features.Gameplay;
 using UnityEngine;
 
 namespace _Game.Scripts.Entities

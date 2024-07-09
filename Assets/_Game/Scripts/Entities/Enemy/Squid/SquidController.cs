@@ -6,59 +6,62 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SquidController : EnemyController
+namespace _Game.Features.Gameplay
 {
-    SquidAnimation squidAnimation;
-    CooldownBehaviour cooldownBehaviour;
-    _Game.Scripts.BehaviourTree.Wander wander;
+    public class SquidController : EnemyController
+    {
+        SquidAnimation squidAnimation;
+        CooldownBehaviour cooldownBehaviour;
+        _Game.Scripts.BehaviourTree.Wander wander;
 
-    public override void Initialize(EnemyModel enemyModel, EffectTakerCollider effectTakerCollider, Blackboard blackboard, MBTExecutor mbtExecutor, Rigidbody2D body, SpineAnimationEnemyHandler anim)
-    {
-        squidAnimation = anim as SquidAnimation;
-        cooldownBehaviour = ((SquidModel)enemyModel).CooldownBehaviour;
-        MoveAreaController moveArea = FindAnyObjectByType<MoveAreaController>();
-        blackboard.GetVariable<AreaVariable>("MoveArea").Value = moveArea.GetArea(AreaType.All);
-        base.Initialize(enemyModel, effectTakerCollider, blackboard, mbtExecutor, body, anim);
-    }
-    public override IEnumerator AttackSequence()
-    {
-        squidAnimation.PlayAttack();
-        yield return new WaitForSeconds(2);
-        cooldownBehaviour.StartCooldown();
-    }
-
-    public override bool IsReadyToAttack()
-    {
-        return !cooldownBehaviour.IsInCooldown;
-    }
-
-    public override IEnumerator StartActionCoroutine()
-    {
-        wander = mbtExecutor.GetComponent<_Game.Scripts.BehaviourTree.Wander>();
-        effectTakerCollider.enabled = false;
-        squidAnimation.Appear();
-        yield return new WaitForSeconds(1.5f);
-        float rand = Random.Range(0, 1f);
-        if (rand < .5f)
+        public override void Initialize(EnemyModel enemyModel, EffectTakerCollider effectTakerCollider, Blackboard blackboard, MBTExecutor mbtExecutor, Rigidbody2D body, SpineAnimationEnemyHandler anim)
         {
-            wander.ToLeft();
+            squidAnimation = anim as SquidAnimation;
+            cooldownBehaviour = ((SquidModel)enemyModel).CooldownBehaviour;
+            MoveAreaController moveArea = FindAnyObjectByType<MoveAreaController>();
+            blackboard.GetVariable<AreaVariable>("MoveArea").Value = moveArea.GetArea(AreaType.All);
+            base.Initialize(enemyModel, effectTakerCollider, blackboard, mbtExecutor, body, anim);
         }
-        else
+        public override IEnumerator AttackSequence()
         {
-            wander.ToRight();
+            squidAnimation.PlayAttack();
+            yield return new WaitForSeconds(2);
+            cooldownBehaviour.StartCooldown();
         }
-        wander.UpdateTargetDirection(-50, 50);
-        effectTakerCollider.enabled = true;
-        EnemyStats _stats = enemyModel.Stats as EnemyStats;
-        cooldownBehaviour.SetCooldownTime(_stats.ActionSequenceInterval.Value);
-        cooldownBehaviour.StartCooldown();
+
+        public override bool IsReadyToAttack()
+        {
+            return !cooldownBehaviour.IsInCooldown;
+        }
+
+        public override IEnumerator StartActionCoroutine()
+        {
+            wander = mbtExecutor.GetComponent<_Game.Scripts.BehaviourTree.Wander>();
+            effectTakerCollider.enabled = false;
+            squidAnimation.Appear();
+            yield return new WaitForSeconds(1.5f);
+            float rand = Random.Range(0, 1f);
+            if (rand < .5f)
+            {
+                wander.ToLeft();
+            }
+            else
+            {
+                wander.ToRight();
+            }
+            wander.UpdateTargetDirection(-50, 50);
+            effectTakerCollider.enabled = true;
+            EnemyStats _stats = enemyModel.Stats as EnemyStats;
+            cooldownBehaviour.SetCooldownTime(_stats.ActionSequenceInterval.Value);
+            cooldownBehaviour.StartCooldown();
+        }
+
+        public override void Die()
+        {
+            base.Die();
+            squidAnimation.PlayDie(() => Destroy(gameObject));
+        }
+
+
     }
-
-    public override void Die()
-    {
-        base.Die();
-        squidAnimation.PlayDie(() => Destroy(gameObject));
-    }
-
-
 }

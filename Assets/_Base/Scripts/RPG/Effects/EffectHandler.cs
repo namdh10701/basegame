@@ -14,32 +14,28 @@ namespace _Base.Scripts.RPG.Effects
 
         public virtual void Apply(Effect effect)
         {
-            if (effect is SlowEffect slowEf)
+            effect.OnEnded += OnEffectEnded;
+            if (effect is UnstackableEffect newUnStackableEffect)
             {
-                foreach (Effect ef in EffectTaker.EffectHandler.effects.ToArray())
+                foreach (Effect ef in effects.ToArray())
                 {
-                    if (ef is SlowEffect slowef)
+                    if (ef is UnstackableEffect exist && exist.Id == newUnStackableEffect.Id)
                     {
-                        if (slowef.id == slowEf.id)
-                        {
-                            slowef.OnEnd(EffectTaker);
-                        }
+                        exist.RefreshEffect(newUnStackableEffect);
+                        Destroy(newUnStackableEffect.gameObject);
+                        return;
                     }
                 }
             }
-            effect.OnEnded += OnEffectEnded;
-            effects.Add(effect);
             effect.Apply(EffectTaker);
+            effects.Add(effect);
         }
 
         private void OnEffectEnded(Effect effect)
         {
-            foreach (Effect ef in effects.ToArray())
+            if (effects.Contains(effect))
             {
-                if (ef == effect)
-                {
-                    effects.Remove(effect);
-                }
+                effects.Remove(effect);
             }
         }
     }

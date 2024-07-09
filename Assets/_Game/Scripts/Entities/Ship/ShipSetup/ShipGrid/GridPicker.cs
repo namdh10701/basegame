@@ -2,7 +2,7 @@ using _Base.Scripts.Utils.Extensions;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace _Game.Scripts
+namespace _Game.Features.Gameplay
 {
     public enum CellPickType
     {

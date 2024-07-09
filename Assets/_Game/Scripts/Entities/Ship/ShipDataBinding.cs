@@ -1,8 +1,9 @@
 ﻿using _Base.Scripts.RPG.Stats;
+using _Game.Scripts;
 using _Game.Scripts.GameContext;
 using UnityEngine;
 
-namespace _Game.Scripts.Gameplay.Ship
+namespace _Game.Features.Gameplay
 {
     public class ShipDataBinding : MonoBehaviour
     {

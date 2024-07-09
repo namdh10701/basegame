@@ -1,8 +1,5 @@
 using _Base.Scripts.RPG.Stats;
-using _Game.Scripts.Gameplay.Ship;
 using MBT;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [AddComponentMenu("StatVariable")]

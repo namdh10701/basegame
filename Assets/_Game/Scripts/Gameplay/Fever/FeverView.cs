@@ -1,105 +1,110 @@
 using _Game.Features.Battle;
 using Spine.Unity;
+using System.Diagnostics.Contracts;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
-namespace _Game.Features.GamePause
+namespace _Game.Features.Gameplay
 {
     public class FeverView : MonoBehaviour
     {
-        public SkeletonAnimation SkeletonGraphic;
+        public SkeletonGraphic SkeletonGraphic;
 
         [SpineAnimation] public string appear;
         [SpineAnimation] public string idle;
-
-        public GameObject[] AllWings;
-        public GameObject[] State1Wings;
-        public GameObject[] State2Wings;
-        public GameObject[] State3Wings;
-        public GameObject[] State4Wings;
+        [SpineAnimation] public string feverIdle;
+        [SpineAnimation] public string fevering;
+        [SpineAnimation] public string feverToNormal;
+        [SpineAnimation] public string normalToFever;
+        public StarWing State1Wing;
+        public StarWing State2Wing;
+        public StarWing State3Wing;
 
 
         public FeverModel FeverModel;
         public FeverState lastState;
+
+        public FeverBtn feverBtn;
+
+
         public void Init(FeverModel feverModel)
         {
             this.FeverModel = feverModel;
             OnStateEnter(feverModel.CurrentState);
             lastState = feverModel.CurrentState;
             this.FeverModel.OnStateChanged += OnFeverStateChanged;
-            SkeletonGraphic.AnimationState.SetAnimation(0, appear, false);
+            SkeletonGraphic.AnimationState.AddAnimation(0, appear, false, 0);
             SkeletonGraphic.AnimationState.AddAnimation(0, idle, true, 0);
         }
+
         public void OnFeverStateChanged(FeverState currentState)
         {
-            OnStateEnter(currentState);
-            lastState = currentState;
+            if (lastState != currentState)
+            {
+                OnStateEnter(currentState);
+                lastState = currentState;
+            }
         }
 
         void OnStateEnter(FeverState state)
         {
-            if (state == FeverState.State0 && lastState == FeverState.State1)
-            {
-
-            }
-            else if (state == FeverState.State0 && lastState == FeverState.Unleashing)
-            {
-
-            }
-
-            ToggleStarWing(state);
-
-        }
-
-
-        public void ToggleStarWing(FeverState state)
-        {
             switch (state)
             {
                 case FeverState.State0:
-                    foreach (GameObject gameObject in AllWings)
+                    if (lastState == FeverState.State1)
                     {
-                        gameObject.SetActive(false);
+                        State1Wing.Hide();
+                    }
+                    else if (lastState == FeverState.Unleashing)
+                    {
+                        feverBtn.Hide();
+                        // Handle transition from Unleashing to State0
+                        SkeletonGraphic.AnimationState.AddAnimation(0, feverToNormal, false, 0);
+                        SkeletonGraphic.AnimationState.AddAnimation(0, idle, true, 0);
                     }
                     break;
                 case FeverState.State1:
-                    foreach (GameObject gameObject in AllWings)
+                    if (lastState == FeverState.State2)
                     {
-                        gameObject.SetActive(false);
+                        State2Wing.Hide();
                     }
-                    foreach (GameObject gameObject1 in State1Wings)
+                    else if (lastState == FeverState.State0)
                     {
-                        gameObject1.SetActive(false);
+                        State1Wing.Show();
                     }
                     break;
                 case FeverState.State2:
-                    foreach (GameObject gameObject in AllWings)
+                    if (lastState == FeverState.State3)
                     {
-                        gameObject.SetActive(false);
+                        State3Wing.Hide();
                     }
-                    foreach (GameObject gameObject1 in State2Wings)
+                    else if (lastState == FeverState.State1)
                     {
-                        gameObject1.SetActive(false);
+                        State2Wing.Show();
                     }
                     break;
                 case FeverState.State3:
-                    foreach (GameObject gameObject in AllWings)
+                    if (lastState == FeverState.State4)
                     {
-                        gameObject.SetActive(false);
                     }
-                    foreach (GameObject gameObject1 in State3Wings)
+                    else if (lastState == FeverState.State2)
                     {
-                        gameObject1.SetActive(false);
+                        State3Wing.Show();
                     }
                     break;
                 case FeverState.State4:
-
-                    foreach (GameObject gameObject1 in State4Wings)
+                    if (lastState == FeverState.State3)
                     {
-                        gameObject1.SetActive(false);
+                        SkeletonGraphic.AnimationState.AddAnimation(0, normalToFever, true, 0);
+                        SkeletonGraphic.AnimationState.AddAnimation(0, feverIdle, true, 0);
+                        feverBtn.Show();
                     }
                     break;
                 case FeverState.Unleashing:
-
+                    if (lastState == FeverState.State0)
+                    {
+                    }
                     break;
             }
         }
