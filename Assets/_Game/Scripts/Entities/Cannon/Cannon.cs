@@ -42,11 +42,9 @@ namespace _Game.Scripts.Entities
 
         [field: SerializeReference]
         public AttackStrategy AttackStrategy { get; set; }
-        public Transform behaviour;
         [field: SerializeField]
         public List<Cell> OccupyCells { get; set; }
         public GridItemDef Def { get => def; set => def = value; }
-        public Transform Behaviour { get => behaviour; }
         public string GridId { get; set; }
         public List<Node> WorkingSlots { get => workingSlots; set => workingSlots = value; }
         public List<Node> OccupyingNodes { get => occupyingNodes; set => occupyingNodes = value; }
@@ -56,14 +54,9 @@ namespace _Game.Scripts.Entities
         public EffectHandler EffectHandler { get => effectHandler; }
 
         public Transform Transform => transform;
-
-        public bool IsAbleToTakeHit { get => _stats.HealthPoint.Value > _stats.HealthPoint.MinValue; }
         public string Id { get => id; set => id = value; }
-
         public GDConfig GDConfig => gdConfig;
-
         public StatsTemplate StatsTemplate => statsTemplate;
-
         public override Stats Stats => _stats;
 
         public List<Node> workingSlots = new List<Node>();
@@ -84,13 +77,21 @@ namespace _Game.Scripts.Entities
 
         #region Controller
 
+        public CannonHUD HUD;
         bool isBroken;
         bool isOutOfAmmo;
+
+        public void InitHUD()
+        {
+            HUD.Init(this);
+        }
+
         private void Awake()
         {
             _stats.HealthPoint.OnValueChanged += HealthPoint_OnValueChanged;
             _stats.Ammo.OnValueChanged += Ammo_OnValueChanged;
         }
+
 
         private void Ammo_OnValueChanged(RangedStat stat)
         {
@@ -162,6 +163,7 @@ namespace _Game.Scripts.Entities
             _stats.Ammo.StatValue.BaseValue = ps.MagazineSize.Value;
             AttackTargetBehaviour.projectilePrefab = bullet.Projectile;
         }
+
         #endregion
     }
 }

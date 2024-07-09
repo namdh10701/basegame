@@ -23,9 +23,12 @@ namespace _Game.Features.Gameplay
                     {
                         if (cell.GridItem != null)
                         {
-                            if (cell.GridItem.IsAbleToTakeHit)
+                            if (!cell.GridItem.IsBroken)
                             {
-                                cell.GridItem.EffectHandler.Apply(effect);
+                                if (cell.GridItem is IEffectTaker effectTaker)
+                                {
+                                    effectTaker.EffectHandler.Apply(effect);
+                                }
 
                             }
                             else
@@ -46,7 +49,10 @@ namespace _Game.Features.Gameplay
 
                         if (cell.GridItem != null)
                         {
-                            cell.GridItem.EffectHandler.Apply(effect);
+                            if (cell.GridItem is IEffectTaker effectTaker)
+                            {
+                                effectTaker.EffectHandler.Apply(effect);
+                            }
                         }
                         else
                         {

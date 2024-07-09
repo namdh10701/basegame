@@ -1,11 +1,13 @@
 using _Game.Scripts;
 using System;
 using System.Collections;
+using static UnityEngine.CullingGroup;
+
 namespace _Game.Features.Gameplay
 {
     public enum JobStatus
     {
-        Free, WorkingOn, Interupting, Completed
+        Deactive, Free, WorkingOn
     }
     [Serializable]
     public abstract class CrewJob
@@ -13,11 +15,13 @@ namespace _Game.Features.Gameplay
         public string Name;
         public int DefaultPiority;
         public int Piority;
-        public JobStatus Status = JobStatus.Free;
+        private JobStatus jobStatus;
+        public JobStatus Status { get => jobStatus; set { jobStatus = value; StatusChanged.Invoke(jobStatus); } }
         public IWorkLocation WorkLocation;
         public bool IsJobActivated;
         public Action<CrewJob> OnJobCompleted;
         public Action<CrewJob> OnJobInterupted;
+        public Action<JobStatus> StatusChanged;
         Crew crew;
         public CrewJob()
         {
@@ -35,16 +39,18 @@ namespace _Game.Features.Gameplay
         public IEnumerator DoExecute(Crew crew)
         {
             Status = JobStatus.WorkingOn;
+            StatusChanged.Invoke(Status);
             yield return Execute(crew);
             OnJobCompleted.Invoke(this);
-            Status = JobStatus.Completed;
+            Status = JobStatus.Deactive;
+            StatusChanged.Invoke(Status);
         }
         public void DoInterupt()
         {
             OnJobInterupted.Invoke(this);
-            Status = JobStatus.Interupting;
             Interupt(crew);
             Status = JobStatus.Free;
+            StatusChanged.Invoke(Status);
         }
 
         public abstract IEnumerator Execute(Crew crew);

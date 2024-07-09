@@ -53,6 +53,11 @@ namespace _Game.Features.Gameplay
             PathfindingController.Initialize();
             ShipSetup.Initialize();
             CrewJobData.Initialize();
+            foreach(Cannon shipSetup in ShipSetup.Cannons)
+            {
+
+            }
+
         }
         private void Start()
         {
