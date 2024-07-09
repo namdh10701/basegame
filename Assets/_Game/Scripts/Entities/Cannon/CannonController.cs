@@ -65,11 +65,6 @@ namespace _Game.Features.Gameplay
         {
             cannon.FindTargetBehaviour.Enable();
         }
-
-        public void Reload()
-        {
-
-        }
         public void Reload(Ammo bullet)
         {
             cannon.usingBullet = bullet;
