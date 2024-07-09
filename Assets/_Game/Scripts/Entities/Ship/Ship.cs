@@ -7,6 +7,7 @@ using _Game.Scripts.Battle;
 using _Game.Scripts.Entities;
 using _Game.Scripts.GD;
 using DG.Tweening;
+using System;
 using UnityEngine;
 using static UnityEngine.CullingGroup;
 
@@ -44,11 +45,14 @@ namespace _Game.Features.Gameplay
         public CrewJobData CrewJobData;
         public BattleViewModel BattleViewModel;
         public FeverModel FeverModel;
+        public ShipHUD HUD;
 
         private void Start()
         {
             GlobalEvent<EnemyModel>.Register("EnemyDied", OnEnemyDied);
             GlobalEvent.Register("UseFever", UseFever);
+            GlobalEvent<Cannon>.Register("ClickCannon", ShowShipHUD);
+            GlobalEvent.Register("CloseHUD", CloseHUD);
             GetComponent<GDConfigStatsApplier>().LoadStats(this);
             FeverModel.SetFeverPointStats(stats.Fever);
             PathfindingController.Initialize();
@@ -62,14 +66,21 @@ namespace _Game.Features.Gameplay
             {
                 ammo.HUD.RegisterJob(CrewJobData);
             }
-
+            HUD.Initialize(ShipSetup.Ammos);
             BattleViewModel = GameObject.Find("BattleScreen(Clone)").GetComponent<BattleViewModel>();
             BattleViewModel.FeverView.Init(FeverModel);
         }
+
         public void UseFever()
         {
             FeverModel.OnUseFever();
-            DOTween.To(() => stats.Fever.StatValue.BaseValue, x => stats.Fever.StatValue.BaseValue = x, 0, 10);
+            BattleManager.Instance.FeverSpeedFx.Activate();
+            DOTween.To(() => stats.Fever.StatValue.BaseValue, x => stats.Fever.StatValue.BaseValue = x, 0, 10).OnComplete(
+                () =>
+                {
+                    BattleManager.Instance.FeverSpeedFx.Deactivate();
+                    FeverModel.UpdateState();
+                });
         }
 
         public void UseWeakFever()
@@ -141,6 +152,21 @@ namespace _Game.Features.Gameplay
         {
 
         }
+        private void ShowShipHUD(Cannon cannon)
+        {
+            Debug.Log(cannon);
+            if (cannon == null)
+            {
+                HUD.Hide();
+                return;
+            }
+            HUD.Cannon = cannon;
+            HUD.Show();
+        }
 
+        private void CloseHUD()
+        {
+            HUD.Hide();
+        }
     }
 }

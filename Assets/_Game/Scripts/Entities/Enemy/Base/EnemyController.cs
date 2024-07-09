@@ -91,6 +91,7 @@ namespace _Game.Features.Gameplay
 
         public virtual void Die()
         {
+            enemyModel.EffectHandler.Clear();
             body.velocity = Vector3.zero;
             effectTakerCollider.gameObject.SetActive(false);
             mbtExecutor.gameObject.SetActive(false);

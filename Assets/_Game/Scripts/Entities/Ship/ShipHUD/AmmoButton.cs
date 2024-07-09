@@ -1,3 +1,4 @@
+using _Game.Scripts.DB;
 using _Game.Scripts.Entities;
 using UnityEngine;
 using UnityEngine.Events;
@@ -7,13 +8,18 @@ public class AmmoButton : MonoBehaviour
 {
     public Image image;
     public Image selector;
-    public Ammo bullet;
+    public Ammo ammo;
     public Button button;
 
     public UnityEvent onClick => button.onClick;
-    public void Init(Ammo bullet)
+    public void Init(Ammo ammo)
     {
-        this.bullet = bullet;
-        image.sprite = bullet.Def.Image;
+        this.ammo = ammo;
+        image.sprite = Database.GetAmmoImage(ammo.Id);
+    }
+
+    public void ToggleSelect(bool isOn)
+    {
+        selector.gameObject.SetActive(isOn);
     }
 }

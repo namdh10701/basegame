@@ -14,7 +14,10 @@ namespace _Game.Features.Battle
     public class BattleViewModel : RootViewModel
     {
         public FeverView FeverView;
-
+        public void CleanUp()
+        {
+            FeverView.ClearState();
+        }
         #region Binding Prop: HP
 
         /// <summary>
@@ -129,10 +132,10 @@ namespace _Game.Features.Battle
             get => _fever;
             set
             {
-/*                if (Equals(_fever, value))
-                {
-                    return;
-                }*/
+                /*                if (Equals(_fever, value))
+                                {
+                                    return;
+                                }*/
 
                 _fever = value;
                 OnPropertyChanged(nameof(Fever));

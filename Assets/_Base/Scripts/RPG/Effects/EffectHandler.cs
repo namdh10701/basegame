@@ -38,6 +38,14 @@ namespace _Base.Scripts.RPG.Effects
                 effects.Remove(effect);
             }
         }
+
+        public void Clear()
+        {
+            foreach (Effect ef in effects.ToArray())
+            {
+                ef.OnEnd(EffectTaker);
+            }
+        }
     }
 
 }

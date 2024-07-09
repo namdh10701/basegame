@@ -25,7 +25,7 @@ namespace _Base.Scripts.RPG.Effects
         public virtual void OnEnd(IEffectTaker entity)
         {
             OnEnded?.Invoke(this);
-            Destroy(gameObject);
+            
         }
         public virtual bool CanEffect(IEffectTaker entity) => true;
     }
@@ -33,23 +33,10 @@ namespace _Base.Scripts.RPG.Effects
     public abstract class UnstackableEffect : TimeoutEffect
     {
         public abstract string Id { get; }
-        public IEffectTaker Affected { get; protected set; }
-        protected override void OnStart(IEffectTaker entity)
-        {
-            base.OnStart(entity);
-            transform.parent = null;
-        }
-
         public virtual void RefreshEffect(UnstackableEffect newEffect)
         {
             Duration = Mathf.Max(newEffect.Duration, elapsedTime);
             elapsedTime = 0;
-        }
-        public override void OnEnd(IEffectTaker entity)
-        {
-            base.OnEnd(entity);
-            if (Affected != entity)
-                return;
         }
     }
 
@@ -74,7 +61,19 @@ namespace _Base.Scripts.RPG.Effects
         [field: SerializeField]
         public float Duration { get; set; }
         protected float elapsedTime = 0;
-
+        public IEffectTaker Affected { get; protected set; }
+        protected override void OnStart(IEffectTaker entity)
+        {
+            base.OnStart(entity);
+            transform.parent = null;
+        }
+        public override void OnEnd(IEffectTaker entity)
+        {
+            base.OnEnd(entity); 
+            Destroy(gameObject);
+            if (Affected != entity)
+                return;
+        }
         public override void Apply(IEffectTaker entity)
         {
             base.Apply(entity);

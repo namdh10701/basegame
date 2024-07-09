@@ -33,7 +33,7 @@ namespace _Game.Features.Gameplay
         public BattleInputManager BattleInputManager;
         public GridAttackHandler GridAttackHandler;
         public GridPicker GridPicker;
-
+        public FeverSpeedFx FeverSpeedFx;
 
         public BattleViewModel BattleViewModel;
         public void Initialize(BattleViewModel battleViewModel)

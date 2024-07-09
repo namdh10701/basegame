@@ -33,7 +33,6 @@ namespace _Game.Features.Gameplay
 
         void ReloadCannonStatusEnter(JobStatus status)
         {
-            Debug.Log(status + " ");
             switch (status)
             {
                 case JobStatus.Deactive:

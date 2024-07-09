@@ -6,6 +6,9 @@ using _Game.Features.Inventory;
 using _Game.Scripts.DB;
 using _Game.Scripts;
 using Unity.VisualScripting;
+using _Base.Scripts.Shared;
+using _Base.Scripts.EventSystem;
+using UnityEngine.EventSystems;
 
 namespace _Game.Features.Gameplay
 {
@@ -13,7 +16,6 @@ namespace _Game.Features.Gameplay
     {
         [SerializeField] Camera _camera;
         [SerializeField] LayerMask layerMask;
-        public ShipHUD bulletMenu;
 
         private void Update()
         {
@@ -29,25 +31,33 @@ namespace _Game.Features.Gameplay
             if (UnityEngine.Input.GetMouseButtonDown(0))
             {
 
-                Vector3 mousePosition = _camera.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
-                RaycastHit2D[] hits = Physics2D.CircleCastAll(mousePosition, 1, Vector2.zero, Mathf.Infinity, layerMask);
-
-                float closestDistance = Mathf.Infinity;
-                RaycastHit2D closestHit = new RaycastHit2D();
-
-                foreach (RaycastHit2D hit in hits)
+                if (!EventSystem.current.IsPointerOverGameObject())
                 {
-                    float distance = Vector2.Distance(hit.point, mousePosition);
-                    if (distance < closestDistance)
+                    Vector3 mousePosition = _camera.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
+                    RaycastHit2D[] hits = Physics2D.CircleCastAll(mousePosition, 1, Vector2.zero, Mathf.Infinity, layerMask);
+
+                    float closestDistance = Mathf.Infinity;
+                    RaycastHit2D closestHit = new RaycastHit2D();
+
+                    foreach (RaycastHit2D hit in hits)
                     {
-                        closestDistance = distance;
-                        closestHit = hit;
+                        Debug.Log("CLICK DOWN ALL" + hit.collider.name);
+                        float distance = Vector2.Distance(hit.point, mousePosition);
+                        if (distance < closestDistance)
+                        {
+                            closestDistance = distance;
+                            closestHit = hit;
+                        }
                     }
-                }
 
-                if (closestHit.collider != null)
-                {
-                    OnClickDown(closestHit.collider);
+                    if (closestHit.collider != null)
+                    {
+                        OnClickDown(closestHit.collider);
+                    }
+                    else
+                    {
+                        GlobalEvent.Send("CloseHUD");
+                    }
                 }
 
             }
@@ -63,9 +73,22 @@ namespace _Game.Features.Gameplay
                 {
                     if (gridItem.Def.Type == ItemType.CANNON)
                     {
+                        Cannon cannon = gridItem as Cannon;
+                        GlobalEvent<Cannon>.Send("ClickCannon", cannon);
+                    }
+                    else
+                    {
+                        GlobalEvent.Send("CloseHUD");
                     }
                 }
-
+                else
+                {
+                    GlobalEvent.Send("CloseHUD");
+                }
+            }
+            else
+            {
+                GlobalEvent.Send("CloseHUD");
             }
         }
 

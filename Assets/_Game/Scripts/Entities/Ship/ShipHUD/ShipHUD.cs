@@ -7,40 +7,49 @@ namespace _Game.Features.Gameplay
 {
     public class ShipHUD : MonoBehaviour
     {
+        public Cannon Cannon { get => selectingCannon; set => selectingCannon = value; }
         public AmmoButton[] buttons;
         CrewJobData jobdata;
         Cannon selectingCannon;
+        public List<Ammo> ammos = new List<Ammo>();
 
-        public void Setup(Cannon cannon, List<Ammo> gridItemDatas)
+
+        List<AmmoButton> actives = new List<AmmoButton>();
+        public void Initialize(List<Ammo> ammos)
         {
-            jobdata = FindAnyObjectByType<CrewJobData>();
+            this.ammos = ammos;
             for (int i = 0; i < buttons.Length; i++)
             {
                 buttons[i].gameObject.SetActive(false);
             }
-            for (int i = 0; i < gridItemDatas.Count; i++)
+            for (int i = 0; i < ammos.Count; i++)
             {
-                Ammo bullet = gridItemDatas[i];
                 buttons[i].gameObject.SetActive(true);
-                buttons[i].Init(bullet);
-                buttons[i].onClick.AddListener(() => Reload(bullet));
-
+                buttons[i].Init(ammos[i]);
+                actives.Add(buttons[i]);
             }
-
-            foreach (AmmoButton bb in buttons)
+        }
+        public void Show()
+        {
+            gameObject.SetActive(true);
+            foreach (AmmoButton am in actives)
             {
-                if (bb.bullet == jobdata.ReloadCannonJobsDic[cannon].bullet)
+                if (am.ammo == selectingCannon.usingBullet)
                 {
-                    bb.selector.gameObject.SetActive(true);
+                    am.ToggleSelect(true);
                 }
                 else
                 {
-                    bb.selector.gameObject.SetActive(false);
+                    am.ToggleSelect(false);
                 }
             }
-
-
         }
+
+        public void Hide()
+        {
+            gameObject.SetActive(false);
+        }
+
 
         void Reload(Ammo bullet)
         {

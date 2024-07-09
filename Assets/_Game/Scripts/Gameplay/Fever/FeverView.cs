@@ -38,6 +38,14 @@ namespace _Game.Features.Gameplay
             SkeletonGraphic.AnimationState.AddAnimation(0, idle, true, 0);
         }
 
+        public void ClearState()
+        {
+            this.FeverModel.OnStateChanged += OnFeverStateChanged;
+            State1Wing.HideCompletely();
+            State2Wing.HideCompletely();
+            State3Wing.HideCompletely();
+        }
+
         public void OnFeverStateChanged(FeverState currentState)
         {
             if (lastState != currentState)
@@ -102,9 +110,7 @@ namespace _Game.Features.Gameplay
                     }
                     break;
                 case FeverState.Unleashing:
-                    if (lastState == FeverState.State0)
-                    {
-                    }
+                    SkeletonGraphic.AnimationState.AddAnimation(0, fevering, true, 0);
                     break;
             }
         }
