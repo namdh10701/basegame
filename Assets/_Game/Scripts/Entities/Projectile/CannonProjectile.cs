@@ -19,7 +19,12 @@ namespace _Game.Scripts.Entities
         public GDConfig GDConfig => gDConfig;
 
         public StatsTemplate StatsTemplate => statsTemplate;
-
+        protected override void Awake()
+        {
+            base.Awake();
+            GDConfigStatsApplier gDConfigStatsApplier = GetComponent<GDConfigStatsApplier>();
+            gDConfigStatsApplier.LoadStats(this);
+        }
         public override void ApplyStats()
         {
             base.ApplyStats();

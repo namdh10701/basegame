@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 234377267815567241}
   - component: {fileID: 5936362320265798886}
   - component: {fileID: 4906350867011812111}
+  - component: {fileID: 1323459719242254482}
   m_Layer: 9
   m_Name: Fix
   m_TagString: Untagged
@@ -75,6 +76,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1323459719242254482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 440961216384198427}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cae9f6345a11e9044884223a8a9685a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startRotation: {x: 0, y: 0, z: -30}
+  endRotation: {x: 0, y: 0, z: 25}
 --- !u!1 &2716967570270355641
 GameObject:
   m_ObjectHideFlags: 0
@@ -161,7 +176,7 @@ GameObject:
   - component: {fileID: 4094052356827443520}
   - component: {fileID: 6068385832779100366}
   - component: {fileID: 7067469312219139210}
-  - component: {fileID: 4566284547479241928}
+  - component: {fileID: 6853068993098305932}
   m_Layer: 9
   m_Name: Hp
   m_TagString: Untagged
@@ -227,7 +242,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4566284547479241928
+--- !u!114 &6853068993098305932
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -236,10 +251,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 3686066621645202068}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a35778d404630a4792ecb6f6dc877fc, type: 3}
+  m_Script: {fileID: 11500000, guid: 78a5fa321859b154f8f28dd1de78eb12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cannon: {fileID: 0}
+  Progress: {fileID: 8740915205182653445}
 --- !u!1 &3800318333688558139
 GameObject:
   m_ObjectHideFlags: 0
@@ -253,6 +268,7 @@ GameObject:
   - component: {fileID: 2126084143196052278}
   - component: {fileID: 255585568089195508}
   - component: {fileID: 5104986387157263429}
+  - component: {fileID: 7443450460670239248}
   m_Layer: 9
   m_Name: Cannon HUD
   m_TagString: Untagged
@@ -267,7 +283,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3800318333688558139}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -302,7 +318,7 @@ Canvas:
   m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: -285313645
+  m_SortingLayerID: 986091187
   m_SortingOrder: 101
   m_TargetDisplay: 0
 --- !u!114 &2126084143196052278
@@ -327,7 +343,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &255585568089195508
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -358,6 +374,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 0}
+--- !u!114 &7443450460670239248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3800318333688558139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1d60519b92988246a9c87ba19196b22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AmmoBar: {fileID: 3350929276623496334}
+  HpBar: {fileID: 6853068993098305932}
+  Hammer: {fileID: 1323459719242254482}
+  Reload: {fileID: 4791628571789859248}
 --- !u!1 &3975673868705639932
 GameObject:
   m_ObjectHideFlags: 0
@@ -369,6 +401,7 @@ GameObject:
   - component: {fileID: 3948495356709310062}
   - component: {fileID: 5687779461650909688}
   - component: {fileID: 2595587368344973146}
+  - component: {fileID: 4791628571789859248}
   m_Layer: 9
   m_Name: Reload
   m_TagString: Untagged
@@ -433,6 +466,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &4791628571789859248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3975673868705639932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c776f6bd32f3e449aaf169369af0e77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4089987885795377273
 GameObject:
   m_ObjectHideFlags: 0
@@ -519,7 +564,7 @@ GameObject:
   - component: {fileID: 7067821186108456170}
   - component: {fileID: 2295944676506356937}
   - component: {fileID: 2416420758352456074}
-  - component: {fileID: 5129671292980670570}
+  - component: {fileID: 3350929276623496334}
   m_Layer: 9
   m_Name: Ammo
   m_TagString: Untagged
@@ -585,7 +630,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &5129671292980670570
+--- !u!114 &3350929276623496334
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -594,10 +639,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6498959695123313895}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a35778d404630a4792ecb6f6dc877fc, type: 3}
+  m_Script: {fileID: 11500000, guid: 78a5fa321859b154f8f28dd1de78eb12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cannon: {fileID: 0}
+  Progress: {fileID: 4358179946531921613}
 --- !u!1 &8022124176148184742
 GameObject:
   m_ObjectHideFlags: 0

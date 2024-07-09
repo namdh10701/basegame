@@ -49,6 +49,7 @@ GameObject:
   - component: {fileID: 7191464087408298430}
   - component: {fileID: 9061362879518052732}
   - component: {fileID: 4077136646050379469}
+  - component: {fileID: 5484481661778899158}
   m_Layer: 9
   m_Name: Ammo HUD
   m_TagString: Untagged
@@ -63,7 +64,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5400125313098244275}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -97,7 +98,7 @@ Canvas:
   m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: -285313645
+  m_SortingLayerID: 986091187
   m_SortingOrder: 101
   m_TargetDisplay: 0
 --- !u!114 &7191464087408298430
@@ -122,7 +123,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &9061362879518052732
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,6 +154,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 0}
+--- !u!114 &5484481661778899158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5400125313098244275}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c05ba24197f77984e9378a6ea44f4e76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HPBar: {fileID: 4501541067997270006}
+  Hammer: {fileID: 2444149707194501900}
 --- !u!1 &5578801258622349340
 GameObject:
   m_ObjectHideFlags: 0
@@ -164,7 +179,8 @@ GameObject:
   - component: {fileID: 5088107510556337096}
   - component: {fileID: 3061133815989035590}
   - component: {fileID: 2042621966622531074}
-  - component: {fileID: 4689051666025207360}
+  - component: {fileID: 4501541067997270006}
+  - component: {fileID: 8937130907057153181}
   m_Layer: 9
   m_Name: Hp
   m_TagString: Untagged
@@ -230,7 +246,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4689051666025207360
+--- !u!114 &4501541067997270006
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -239,10 +255,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 5578801258622349340}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a35778d404630a4792ecb6f6dc877fc, type: 3}
+  m_Script: {fileID: 11500000, guid: 78a5fa321859b154f8f28dd1de78eb12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cannon: {fileID: 0}
+  Progress: {fileID: 504843162993350285}
+--- !u!114 &8937130907057153181
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5578801258622349340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78a5fa321859b154f8f28dd1de78eb12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Progress: {fileID: 504843162993350285}
 --- !u!1 &6627314736855863857
 GameObject:
   m_ObjectHideFlags: 0
@@ -329,13 +358,14 @@ GameObject:
   - component: {fileID: 9010793411462765825}
   - component: {fileID: 3183581132432946798}
   - component: {fileID: 4204871258456910215}
+  - component: {fileID: 2444149707194501900}
   m_Layer: 9
   m_Name: Fix
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &9010793411462765825
 RectTransform:
   m_ObjectHideFlags: 0
@@ -352,7 +382,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.13218, y: -0.162}
+  m_AnchoredPosition: {x: 0.035, y: -0.055}
   m_SizeDelta: {x: 0.66, y: 0.66}
   m_Pivot: {x: 0.7, y: 0.3}
 --- !u!222 &3183581132432946798
@@ -393,3 +423,17 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2444149707194501900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8670260359320581523}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cae9f6345a11e9044884223a8a9685a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startRotation: {x: 0, y: 0, z: -30}
+  endRotation: {x: 0, y: 0, z: 25}

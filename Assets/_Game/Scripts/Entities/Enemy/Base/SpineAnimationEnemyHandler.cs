@@ -94,6 +94,8 @@ public abstract class SpineAnimationEnemyHandler : MonoBehaviour
     {
         skeletonAnimation.AnimationState.Event -= AnimationState_Event;
         skeletonAnimation.AnimationState.Complete -= AnimationState_Complete;
+        enemyModel.OnSlowedDown -= OnSlowedDown;
+        enemyModel.OnSlowedDownStopped -= OnSlowEnded;
     }
     public void Blink()
     {

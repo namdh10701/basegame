@@ -35,7 +35,7 @@ public class SpineAnimationCannonHandler : SpineAnimationHandler
     }
     public void PlayNormal()
     {
-        skeletonAnimation.AnimationState.AddEmptyAnimation(0, 0, 0);
+        skeletonAnimation.AnimationState.SetEmptyAnimation(0, 0);
     }
     protected void AnimationState_Event(TrackEntry trackEntry, Spine.Event e)
     {

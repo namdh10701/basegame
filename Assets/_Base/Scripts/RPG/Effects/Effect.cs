@@ -24,7 +24,6 @@ namespace _Base.Scripts.RPG.Effects
         protected virtual void OnStart(IEffectTaker entity) { }
         public virtual void OnEnd(IEffectTaker entity)
         {
-            Debug.Log("ENDED "+ this);
             OnEnded?.Invoke(this);
             Destroy(gameObject);
         }
@@ -38,8 +37,6 @@ namespace _Base.Scripts.RPG.Effects
         protected override void OnStart(IEffectTaker entity)
         {
             base.OnStart(entity);
-
-            Debug.Log("OnStart " + this);
             transform.parent = null;
         }
 

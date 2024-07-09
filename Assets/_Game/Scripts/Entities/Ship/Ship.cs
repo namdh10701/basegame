@@ -45,22 +45,24 @@ namespace _Game.Features.Gameplay
         public BattleViewModel BattleViewModel;
         public FeverModel FeverModel;
 
-        protected void Awake()
+        private void Start()
         {
             GlobalEvent<EnemyModel>.Register("EnemyDied", OnEnemyDied);
             GlobalEvent.Register("UseFever", UseFever);
+            GetComponent<GDConfigStatsApplier>().LoadStats(this);
             FeverModel.SetFeverPointStats(stats.Fever);
             PathfindingController.Initialize();
             ShipSetup.Initialize();
             CrewJobData.Initialize();
-            foreach(Cannon shipSetup in ShipSetup.Cannons)
+            foreach (Cannon cannon in ShipSetup.Cannons)
             {
-
+                cannon.HUD.RegisterJob(CrewJobData);
+            }
+            foreach (Ammo ammo in ShipSetup.Ammos)
+            {
+                ammo.HUD.RegisterJob(CrewJobData);
             }
 
-        }
-        private void Start()
-        {
             BattleViewModel = GameObject.Find("BattleScreen(Clone)").GetComponent<BattleViewModel>();
             BattleViewModel.FeverView.Init(FeverModel);
         }

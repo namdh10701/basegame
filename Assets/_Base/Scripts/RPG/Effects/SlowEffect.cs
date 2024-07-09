@@ -37,10 +37,5 @@ namespace _Base.Scripts.RPG.Effects
             }
             slowable.OnSlowEnded();
         }
-
-        private void OnDestroy()
-        {
-            Debug.Log("DESTROYED ");
-        }
     }
 }

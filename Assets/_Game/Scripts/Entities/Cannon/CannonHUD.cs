@@ -12,18 +12,59 @@ namespace _Game.Features.Gameplay
         Cannon cannon;
         public ProgressBarDisplay AmmoBar;
         public ProgressBarDisplay HpBar;
+        public Hammer Hammer;
+        public ReloadSign Reload;
 
-        public void Init(Cannon cannon)
+        public void SetCannon(Cannon cannon)
         {
             this.cannon = cannon;
-            CrewJobData crewJobData = FindAnyObjectByType<CrewJobData>();
             CannonStats cannonStats = cannon.Stats as CannonStats;
             AmmoBar.SetProgress(cannonStats.HealthPoint.Value / cannonStats.HealthPoint.MaxValue);
             HpBar.SetProgress(cannonStats.HealthPoint.Value / cannonStats.HealthPoint.MaxValue);
             cannonStats.HealthPoint.OnValueChanged += HealthPoint_OnValueChanged;
             cannonStats.Ammo.OnValueChanged += Ammo_OnValueChanged;
-
         }
+
+        public void RegisterJob(CrewJobData crewJobData)
+        {
+            crewJobData.ReloadCannonJobsDic[cannon].StatusChanged += ReloadCannonStatusEnter;
+            crewJobData.FixGridItemDic[cannon.GetComponent<IGridItem>()].StatusChanged += FixItemStatusEnter;
+        }
+
+        void ReloadCannonStatusEnter(JobStatus status)
+        {
+            Debug.Log(status + " ");
+            switch (status)
+            {
+                case JobStatus.Deactive:
+                    Reload.Hide();
+                    break;
+                case JobStatus.Free:
+                    Reload.Show();
+                    break;
+                case JobStatus.WorkingOn:
+                    Reload.Play();
+                    break;
+            }
+        }
+
+        void FixItemStatusEnter(JobStatus status)
+        {
+            switch (status)
+            {
+                case JobStatus.Deactive:
+                    Hammer.Hide();
+                    break;
+                case JobStatus.Free:
+                    Hammer.Show();
+                    break;
+                case JobStatus.WorkingOn:
+                    Hammer.Play();
+                    break;
+            }
+        }
+
+
 
         private void Ammo_OnValueChanged(RangedStat obj)
         {

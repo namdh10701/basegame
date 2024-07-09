@@ -50,7 +50,7 @@ namespace _Game.Features.Gameplay
 
         public void Initialize()
         {
-            foreach (Ammo bullet in ShipSetup.Bullets)
+            foreach (Ammo bullet in ShipSetup.Ammos)
             {
                 IGridItem item = bullet.GetComponent<IGridItem>();
                 IWorkLocation worklocation = bullet.GetComponent<IWorkLocation>();
@@ -147,18 +147,18 @@ namespace _Game.Features.Gameplay
             {
                 if (!ActivateJobs.Contains(reloadCannonJob))
                 {
+                    reloadCannonJob.Status = JobStatus.Free;
                     ActivateJobs.Add(reloadCannonJob);
                 }
             }
 
             if (reloadCannonJob.bullet == bullet && reloadCannonJob.Status == JobStatus.WorkingOn)
             {
-                Debug.Log(reloadCannonJob.Status);
                 return;
             }
             else if (reloadCannonJob.bullet == null || reloadCannonJob.bullet != bullet)
             {
-                Debug.Log("asign new bullet to job ");
+                reloadCannonJob.Status = JobStatus.Free;
                 reloadCannonJob.AssignBullet(bullet);
             }
             OnActivateJobsChanged.Invoke(reloadCannonJob);
@@ -177,6 +177,7 @@ namespace _Game.Features.Gameplay
             }
             if (!ActivateJobs.Contains(fixCellJob))
             {
+                fixCellJob.Status = JobStatus.Free;
                 ActivateJobs.Add(fixCellJob);
             }
             if (fixCellJob.Status == JobStatus.WorkingOn)

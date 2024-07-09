@@ -30,10 +30,11 @@ namespace _Base.Scripts.RPGCommon.Entities
 
         public bool isCrit;
 
-        private void Awake()
+        protected virtual void Awake()
         {
             CollisionHandler = new ProjectileCollisionHandler(this);
             collisionListener.CollisionHandler = CollisionHandler;
+
         }
         public override void ApplyStats()
         {

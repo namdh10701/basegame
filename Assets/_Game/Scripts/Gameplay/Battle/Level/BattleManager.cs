@@ -44,7 +44,6 @@ namespace _Game.Features.Gameplay
             BattleInputManager.gameObject.SetActive(false);
             EntityManager.SpawnShip(BattleManager.SelectedShipId, shipStartPos.position);
             LevelStartSequence.shipSpeed = EntityManager.Ship.ShipSpeed;
-            BattleInputManager.shipSetup = EntityManager.Ship.ShipSetup;
             GridAttackHandler.ship = EntityManager.Ship;
             EntityManager.Ship.BattleViewModel = battleViewModel;
             GridPicker.ShipGrid = EntityManager.Ship.ShipSetup;

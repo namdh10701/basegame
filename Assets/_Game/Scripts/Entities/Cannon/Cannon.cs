@@ -68,7 +68,7 @@ namespace _Game.Scripts.Entities
 
         public Ammo usingBullet;
         public SpineAnimationCannonHandler Animation;
-
+        public GDConfigStatsApplier GDConfigStatsApplier;
         public override void ApplyStats()
         {
             CannonStats stst = Stats as CannonStats;
@@ -81,17 +81,16 @@ namespace _Game.Scripts.Entities
         bool isBroken;
         bool isOutOfAmmo;
 
-        public void InitHUD()
+        public void Initizalize()
         {
-            HUD.Init(this);
-        }
+            GDConfigStatsApplier = GetComponent<GDConfigStatsApplier>();
+            GDConfigStatsApplier.LoadStats(this);
 
-        private void Awake()
-        {
             _stats.HealthPoint.OnValueChanged += HealthPoint_OnValueChanged;
             _stats.Ammo.OnValueChanged += Ammo_OnValueChanged;
-        }
 
+            HUD.SetCannon(this);
+        }
 
         private void Ammo_OnValueChanged(RangedStat stat)
         {
@@ -109,29 +108,32 @@ namespace _Game.Scripts.Entities
         {
             if (stat.StatValue.Value == stat.MinValue)
             {
-
-            }
-            else if (stat.StatValue.Value == stat.MaxValue)
-            {
-
+                OnBroken();
             }
         }
 
         public void OnOutOfAmmo()
         {
+            isOutOfAmmo = true;
             GlobalEvent<Cannon, Ammo, int>.Send("Reload", this, usingBullet, 15);
             OutOfAmmo?.Invoke();
+            UpdateVisual();
+            FindTargetBehaviour.Disable();
         }
         public void OnBroken()
         {
-            throw new NotImplementedException();
+            isBroken = true;
+            GlobalEvent<IGridItem, int>.Send("Fix", this, 20);
+            Broken?.Invoke();
+            UpdateVisual();
+
+            FindTargetBehaviour.Disable();
         }
 
         public void OnClick()
         {
             if (IsBroken)
             {
-                Debug.Log("Click");
                 GlobalEvent<IGridItem, int>.Send("Fix", this, int.MaxValue);
             }
             else
@@ -145,13 +147,27 @@ namespace _Game.Scripts.Entities
 
         public void OnReloaded()
         {
-
+            isOutOfAmmo = false;
+            UpdateVisual();
         }
-
+        void UpdateVisual()
+        {
+            if (!isOutOfAmmo && !isBroken)
+            {
+                FindTargetBehaviour.Enable();
+                Animation.PlayNormal();
+            }
+            else
+            {
+                Animation.PlayBroken();
+            }
+        }
 
         public void OnFixed()
         {
+            isBroken = false;
             _stats.HealthPoint.StatValue.BaseValue = _stats.HealthPoint.MaxStatValue.Value / 100 * 30;
+            UpdateVisual();
         }
 
         public void Reload(Ammo bullet)

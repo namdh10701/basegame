@@ -10,10 +10,6 @@ namespace _Game.Features.Gameplay
         public AmmoButton[] buttons;
         CrewJobData jobdata;
         Cannon selectingCannon;
-        void OnReloadComplete()
-        {
-            transform.parent.gameObject.SetActive(false);
-        }
 
         public void Setup(Cannon cannon, List<Ammo> gridItemDatas)
         {

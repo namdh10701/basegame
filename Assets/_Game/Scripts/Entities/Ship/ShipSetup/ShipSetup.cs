@@ -19,7 +19,7 @@ namespace _Game.Features.Gameplay
         public ShipSetupMockup ShipSetupMockup;
         public ShipGridProfile ShipGridProfile;
         public List<Grid> Grids;
-        public List<Ammo> Bullets { get; private set; } = new List<Ammo>();
+        public List<Ammo> Ammos { get; private set; } = new List<Ammo>();
         public List<Cannon> Cannons { get; private set; } = new List<Cannon>();
 
         public CrewController CrewController;
@@ -60,6 +60,7 @@ namespace _Game.Features.Gameplay
 
             GetLoadOut();
             LoadShipItems();
+
         }
 
         void GetLoadOut()
@@ -115,8 +116,8 @@ namespace _Game.Features.Gameplay
         {
             foreach (Cannon cannon in Cannons)
             {
-                if (Bullets.Count > 0)
-                    cannon.Reload(Bullets.GetRandom());
+                if (Ammos.Count > 0)
+                    cannon.Reload(Ammos.GetRandom());
             }
         }
 
@@ -281,7 +282,7 @@ namespace _Game.Features.Gameplay
 
             Cannons.Add(spawned);
             spawned.Def.Type = ItemType.CANNON;
-
+            spawned.Initizalize();
 
             IGridItem gridItem = spawned.GetComponent<IGridItem>();
             InitOccupyCell(spawned.Id, ItemType.CANNON, gridItem, data, grid);
@@ -301,10 +302,9 @@ namespace _Game.Features.Gameplay
         {
             Ammo bulletPrefab = Database.GetBullet(data.Id);
             Ammo spawned = Instantiate(bulletPrefab, grid.GridItemRoot);
-            Bullets.Add(spawned);
+            Ammos.Add(spawned);
             spawned.SetId(data.Id);
-            //spawned.InitStats();
-
+            spawned.Initialize();
             IGridItem gridItem = spawned.GetComponent<IGridItem>();
             InitOccupyCell(spawned.id, ItemType.AMMO, gridItem, data, grid);
 

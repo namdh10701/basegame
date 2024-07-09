@@ -58,6 +58,10 @@ namespace _Game.Scripts.Entities
 
         [SerializeField] EnemyController enemyController;
 
+        private void Awake()
+        {
+            GetComponent<GDConfigStatsApplier>().LoadStats(this);
+        }
         public override void ApplyStats()
         {
             enemyController.Initialize(this, EffectTakerCollider, blackboard, MBTExecutor, Body, anim);

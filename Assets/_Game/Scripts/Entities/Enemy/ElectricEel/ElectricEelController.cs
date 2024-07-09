@@ -86,13 +86,11 @@ namespace _Game.Features.Gameplay
         public void Hide()
         {
             Animation.Hide();
-            cooldownBehaviour.gameObject.SetActive(false);
         }
 
         public void Show()
         {
             Animation.Appear();
-            cooldownBehaviour.gameObject.SetActive(true);
         }
 
         public override void Die()

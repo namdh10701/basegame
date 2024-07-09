@@ -41,7 +41,10 @@ namespace _Game.Features.Gameplay
         public StatsTemplate StatsTemplate => statsTemplate;
 
         public override Stats Stats => stats;
-
+        private void Awake()
+        {
+            GetComponent<GDConfigStatsApplier>().LoadStats(this);
+        }
         private void Start()
         {
             EffectHandler.EffectTaker = this;
