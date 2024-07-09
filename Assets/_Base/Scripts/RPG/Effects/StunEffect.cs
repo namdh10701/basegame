@@ -1,18 +1,33 @@
 using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.RPG.Entities;
+using _Base.Scripts.RPG.Stats;
 using UnityEngine;
 
-public class StunEffect : OneShotEffect
+public class StunEffect : UnstackableEffect
 {
-    public float StunDuration = 1;
-
-    protected override void OnApply(IEffectTaker entity)
+    public override string Id => "StunEffect";
+    public IStunable affected;
+    public override bool CanEffect(IEffectTaker entity)
     {
-        Debug.LogError("HErer");
-        if (entity is IStunable stunable)
-        {
-            Debug.LogError("HErer a");
-            stunable.OnStun(StunDuration);
-        }
+        return entity is IStunable;
+    }
+    public override void Apply(IEffectTaker entity)
+    {
+        base.Apply(entity);
+        IStunable stunable = entity as IStunable;
+        Affected = stunable as IEffectTaker;
+        stunable.OnStun();
+    }
+
+    public override void OnEnd(IEffectTaker entity)
+    {
+        base.OnEnd(entity);
+        IStunable stunable = entity as IStunable;
+        stunable.OnAfterStun();
+    }
+
+    public override void RefreshEffect(UnstackableEffect effect)
+    {
+        base.RefreshEffect(effect);
     }
 }

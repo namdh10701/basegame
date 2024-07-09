@@ -47,13 +47,11 @@ namespace _Game.Features.Gameplay
             EffectHandler.EffectTaker = this;
             EffectTakerCollider.Taker = this;
         }
-        public void OnStun(float duration)
+        public void OnStun()
         {
             CrewAction.Pause();
             Animation.PlayStun();
             body.velocity = Vector2.zero;
-            CancelInvoke();
-            Invoke("OnAfterStun", duration);
         }
 
         public void OnAfterStun()

@@ -1,5 +1,5 @@
 public interface IStunable
 {
-    public void OnStun(float duration);
+    public void OnStun();
     public void OnAfterStun();
 }

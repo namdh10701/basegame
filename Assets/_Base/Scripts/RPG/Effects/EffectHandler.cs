@@ -14,22 +14,9 @@ namespace _Base.Scripts.RPG.Effects
 
         public virtual void Apply(Effect effect)
         {
-            if (effect is SlowEffect slowEf)
-            {
-                foreach (Effect ef in EffectTaker.EffectHandler.effects.ToArray())
-                {
-                    if (ef is SlowEffect slowef)
-                    {
-                        if (slowef.id == slowEf.id)
-                        {
-                            slowef.OnEnd(EffectTaker);
-                        }
-                    }
-                }
-            }
             effect.OnEnded += OnEffectEnded;
-            effects.Add(effect);
             effect.Apply(EffectTaker);
+            effects.Add(effect);
         }
 
         private void OnEffectEnded(Effect effect)
@@ -38,6 +25,7 @@ namespace _Base.Scripts.RPG.Effects
             {
                 if (ef == effect)
                 {
+                    effect.OnEnded -= OnEffectEnded;
                     effects.Remove(effect);
                 }
             }

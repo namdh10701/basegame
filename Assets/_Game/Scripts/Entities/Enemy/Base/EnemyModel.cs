@@ -76,13 +76,6 @@ namespace _Game.Scripts.Entities
 
         public void OnSlowEnded()
         {
-            foreach (Effect effect in EffectHandler.effects)
-            {
-                if (effect is SlowEffect)
-                {
-                    return;
-                }
-            }
             OnSlowedDownStopped?.Invoke();
         }
 

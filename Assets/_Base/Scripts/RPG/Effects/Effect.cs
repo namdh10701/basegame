@@ -1,6 +1,7 @@
 using System;
 using _Base.Scripts.RPG.Entities;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 using Task = System.Threading.Tasks.Task;
 
 namespace _Base.Scripts.RPG.Effects
@@ -12,11 +13,8 @@ namespace _Base.Scripts.RPG.Effects
         public virtual void Apply(IEffectTaker entity)
         {
             Target = entity;
-            IsActive = true;
-            transform.parent = null;
         }
         [field: SerializeField]
-        public bool IsActive { get; protected set; }
         public bool IsDone { get; protected set; }
 
         public Action<Effect> OnEnded;
@@ -27,9 +25,51 @@ namespace _Base.Scripts.RPG.Effects
             OnEnded?.Invoke(this);
             Destroy(gameObject);
         }
-
-        public virtual bool CanEffect(Entity entity) => true;
         public virtual bool CanEffect(IEffectTaker entity) => true;
+    }
+
+    public abstract class UnstackableEffect : TimeoutEffect
+    {
+        public abstract string Id { get; }
+        public IEffectTaker Affected { get; protected set; }
+        protected override void OnStart(IEffectTaker entity)
+        {
+            base.OnStart(entity);
+            transform.parent = null;
+        }
+
+        public override void Apply(IEffectTaker entity)
+        {
+            base.Apply(entity);
+            if (TryGetEffect(this, out UnstackableEffect existEffect))
+            {
+                RefreshEffect(existEffect);
+            }
+        }
+        bool TryGetEffect(UnstackableEffect findEffect, out UnstackableEffect existEffect)
+        {
+            foreach (Effect effect in Target.EffectHandler.effects.ToArray())
+            {
+                if (effect is UnstackableEffect unstackableEffect && findEffect.Id == this.Id)
+                {
+                    existEffect = unstackableEffect;
+                    return true;
+                }
+            }
+            existEffect = null;
+            return false;
+        }
+        public virtual void RefreshEffect(UnstackableEffect existEffect)
+        {
+            existEffect.Duration = this.Duration;
+            elapsedTime = 0;
+        }
+        public override void OnEnd(IEffectTaker entity)
+        {
+            base.OnEnd(entity);
+            if (Affected != entity)
+                return;
+        }
     }
 
 
@@ -52,7 +92,7 @@ namespace _Base.Scripts.RPG.Effects
     {
         [field: SerializeField]
         public int Duration { get; set; }
-        [field: SerializeField]
+        public bool IsActive { get; protected set; }
         protected float elapsedTime = 0;
 
         public override void Apply(IEffectTaker entity)
