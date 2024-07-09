@@ -1,31 +1,41 @@
 using System.Collections;
 using System.Collections.Generic;
+using _Base.Scripts.RPG.Entities;
 using UnityEngine;
 
 public class PullEffect : MonoBehaviour
 {
-    public Collider2D pullArea;
+    public CircleCollider2D pullArea;
     public float pullStrength = 5f;
     public float swirlStrength = 2f;
     public float duration = 4f;
+    public LayerMask enemyLayer; // Thêm biến để lưu layer của Enemy
     private List<Rigidbody2D> enemiesInRange = new List<Rigidbody2D>();
+    void Awake()
+    {
+        pullArea = GetComponent<CircleCollider2D>();
+    }
+
+    public void Setsize(float size)
+    {
+        pullArea.radius = size;
+    }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("enemy"))
+        if (((1 << other.gameObject.layer) & enemyLayer) != 0)
         {
-            Rigidbody2D rb = other.GetComponent<Rigidbody2D>();
-            if (rb != null && !enemiesInRange.Contains(rb))
+            EntityProvider entityProvider = other.GetComponent<EntityProvider>();
+            if (entityProvider != null)
             {
-                enemiesInRange.Add(rb);
+                enemiesInRange.Add(entityProvider.Entity.gameObject.GetComponent<Rigidbody2D>());
             }
         }
-        StartCoroutine(PullEffectCoroutine());
     }
 
     void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("enemy"))
+        if (((1 << other.gameObject.layer) & enemyLayer) != 0)
         {
             Rigidbody2D rb = other.GetComponent<Rigidbody2D>();
             if (rb != null && enemiesInRange.Contains(rb))
@@ -33,14 +43,6 @@ public class PullEffect : MonoBehaviour
                 enemiesInRange.Remove(rb);
             }
         }
-    }
-
-    IEnumerator PullEffectCoroutine()
-    {
-        yield return new WaitForSeconds(1f); // Đợi 1 giây trước khi hút
-        PullEnemies(); // Hút các enemy một lần
-        yield return new WaitForSeconds(3f); // Đợi thêm 3 giây nữa trước khi huỷ Collider2D
-        Destroy(pullArea); // Huỷ Collider2D sau 4 giây
     }
 
     void PullEnemies()
@@ -55,6 +57,19 @@ public class PullEffect : MonoBehaviour
 
             rb.AddForce(pullForce + swirlForce);
         }
+    }
+
+    void Update()
+    {
+        if (duration > 0 && enemiesInRange.Count > 0)
+        {
+            PullEnemies();
+            duration = duration - Time.deltaTime;
+        }
+
+        if (duration <= 0)
+            Destroy(pullArea);
+
     }
 
     void OnDrawGizmos()

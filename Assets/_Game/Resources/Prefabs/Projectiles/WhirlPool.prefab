@@ -273,7 +273,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4683481970626377361
 Transform:
   m_ObjectHideFlags: 0
@@ -284,7 +284,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -0}
-  m_LocalScale: {x: 0.8, y: 0.8, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7691449450847267648}
@@ -318,7 +318,7 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -336,10 +336,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72ef390bb13fda041b01fe60b09daf1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DamageAreaCollder: {fileID: 8202047830367757229}
   pullArea: {fileID: 8229450132391061295}
-  pullStrength: 5
+  pullStrength: 10
   swirlStrength: 2
   duration: 4
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &3855894321026421062
 GameObject:
   m_ObjectHideFlags: 0
@@ -596,7 +600,6 @@ Transform:
   m_Children:
   - {fileID: 2088440072557684589}
   - {fileID: 8022128136482742172}
-  - {fileID: 8203453596044222419}
   m_Father: {fileID: 7691449450847267648}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7099963840742418997
@@ -636,6 +639,7 @@ Transform:
   - {fileID: 6595177705596107890}
   - {fileID: 5498933391540071804}
   - {fileID: 7885028732212463864}
+  - {fileID: 8203453596044222419}
   - {fileID: 2517527209159179442}
   - {fileID: 4683481970626377361}
   m_Father: {fileID: 0}
@@ -690,6 +694,7 @@ MonoBehaviour:
   gDConfig: {fileID: 11400000, guid: d0ed2d75ef03e46a89a69e09a4a544d5, type: 2}
   statsTemplate: {fileID: 11400000, guid: b8c7bf0392ef49743b470ae98921bfda, type: 2}
   damageArea: {fileID: 3668728140575298784}
+  pullEffect: {fileID: 2228654522212447844}
   explosionFx: {fileID: 3574143361936658583}
 --- !u!50 &1933465007915484115
 Rigidbody2D:
@@ -822,6 +827,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DamageArea_1
       objectReference: {fileID: 0}
+    - target: {fileID: 1445375723543447256, guid: 5a8644b4de79a9845879dd99acd28a4b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3365400120013340572, guid: 5a8644b4de79a9845879dd99acd28a4b, type: 3}
       propertyPath: outGoingEffects.Array.size
       value: 1
@@ -866,6 +875,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7894311320082614481, guid: 5a8644b4de79a9845879dd99acd28a4b, type: 3}
+      propertyPath: m_Radius
+      value: 1.25
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -887,13 +900,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb9ce5181cc6131468cc3cc45f982db0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!58 &8202047830367757229 stripped
+CircleCollider2D:
+  m_CorrespondingSourceObject: {fileID: 7894311320082614481, guid: 5a8644b4de79a9845879dd99acd28a4b, type: 3}
+  m_PrefabInstance: {fileID: 2043998001282411388}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6285484890503064669
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 7885028732212463864}
+    m_TransformParent: {fileID: 7691449450847267648}
     m_Modifications:
     - target: {fileID: 2801804805605487502, guid: e16407350d06d454dbba4b863146e64d, type: 3}
       propertyPath: m_LocalScale.y
@@ -942,6 +960,10 @@ PrefabInstance:
     - target: {fileID: 8878860108368617078, guid: e16407350d06d454dbba4b863146e64d, type: 3}
       propertyPath: m_Name
       value: Explosion
+      objectReference: {fileID: 0}
+    - target: {fileID: 8878860108368617078, guid: e16407350d06d454dbba4b863146e64d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
