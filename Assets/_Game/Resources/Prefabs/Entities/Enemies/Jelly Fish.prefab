@@ -210,6 +210,12 @@ MonoBehaviour:
     <MoveSpeed>k__BackingField:
       statModifiers: []
       _baseValue: 0
+    <AnimationTimeScale>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <FeverPoint>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
   anim: {fileID: 1581404908438099686}
   id: 0005
   gdConfig: {fileID: 11400000, guid: dafc4004e0133475f8d7f898a1f7342d, type: 2}
@@ -1087,7 +1093,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b25af8627659c6949b60949c3aa8d91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedEditorNode: {fileID: 8613466694832718217}
+  selectedEditorNode: {fileID: 3423538191540144381}
   repeatOnFinish: 1
   maxExecutionsPerTick: 1000
   parent: {fileID: 0}
@@ -1264,7 +1270,7 @@ MonoBehaviour:
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
-  type: JellyFishController
+  type: _Game.Features.Gameplay.JellyFishModel
   monoBehaviour: {fileID: 6667219895640718775}
   coroutineName: AttackSequence
 --- !u!114 &2454670021125081383
@@ -1436,7 +1442,7 @@ MonoBehaviour:
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
-  type: JellyFishController
+  type: _Game.Features.Gameplay.JellyFishModel
   monoBehaviour: {fileID: 6667219895640718775}
   coroutineName: MeleeAttackSequence
 --- !u!114 &6174530953408996001

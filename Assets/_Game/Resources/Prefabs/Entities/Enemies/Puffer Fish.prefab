@@ -115,7 +115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b25af8627659c6949b60949c3aa8d91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedEditorNode: {fileID: 4260380818238376302}
+  selectedEditorNode: {fileID: 7687039662104936203}
   repeatOnFinish: 0
   maxExecutionsPerTick: 6
   parent: {fileID: 0}
@@ -283,8 +283,8 @@ MonoBehaviour:
   title: Play Attack Coroutine
   rect:
     serializedVersion: 2
-    x: 1096
-    y: 919
+    x: 166
+    y: 454
     width: 160
     height: 45
   parent: {fileID: 0}
@@ -292,7 +292,7 @@ MonoBehaviour:
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
-  type: PufferFishController
+  type: _Game.Scripts.Entities.PufferFishModel
   monoBehaviour: {fileID: 3347196295145259414}
   coroutineName: AttackSequence
 --- !u!114 &856751186372080755
@@ -628,6 +628,12 @@ MonoBehaviour:
       statModifiers: []
       _baseValue: 1
     <MoveSpeed>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <AnimationTimeScale>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <FeverPoint>k__BackingField:
       statModifiers: []
       _baseValue: 0
   anim: {fileID: 7789903315881788189}

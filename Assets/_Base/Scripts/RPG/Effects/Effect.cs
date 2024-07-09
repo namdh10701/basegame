@@ -12,16 +12,19 @@ namespace _Base.Scripts.RPG.Effects
         public IEffectTaker Target;
         public virtual void Apply(IEffectTaker entity)
         {
+            IsActive = true;
             Target = entity;
         }
         [field: SerializeField]
         public bool IsDone { get; protected set; }
+        public bool IsActive { get; protected set; }
 
         public Action<Effect> OnEnded;
 
         protected virtual void OnStart(IEffectTaker entity) { }
         public virtual void OnEnd(IEffectTaker entity)
         {
+            Debug.Log("ENDED "+ this);
             OnEnded?.Invoke(this);
             Destroy(gameObject);
         }
@@ -35,33 +38,14 @@ namespace _Base.Scripts.RPG.Effects
         protected override void OnStart(IEffectTaker entity)
         {
             base.OnStart(entity);
+
+            Debug.Log("OnStart " + this);
             transform.parent = null;
         }
 
-        public override void Apply(IEffectTaker entity)
+        public virtual void RefreshEffect(UnstackableEffect newEffect)
         {
-            base.Apply(entity);
-            if (TryGetEffect(this, out UnstackableEffect existEffect))
-            {
-                RefreshEffect(existEffect);
-            }
-        }
-        bool TryGetEffect(UnstackableEffect findEffect, out UnstackableEffect existEffect)
-        {
-            foreach (Effect effect in Target.EffectHandler.effects.ToArray())
-            {
-                if (effect is UnstackableEffect unstackableEffect && findEffect.Id == this.Id)
-                {
-                    existEffect = unstackableEffect;
-                    return true;
-                }
-            }
-            existEffect = null;
-            return false;
-        }
-        public virtual void RefreshEffect(UnstackableEffect existEffect)
-        {
-            existEffect.Duration = this.Duration;
+            Duration = Mathf.Max(newEffect.Duration, elapsedTime);
             elapsedTime = 0;
         }
         public override void OnEnd(IEffectTaker entity)
@@ -91,8 +75,7 @@ namespace _Base.Scripts.RPG.Effects
     public abstract class TimeoutEffect : Effect
     {
         [field: SerializeField]
-        public int Duration { get; set; }
-        public bool IsActive { get; protected set; }
+        public float Duration { get; set; }
         protected float elapsedTime = 0;
 
         public override void Apply(IEffectTaker entity)

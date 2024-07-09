@@ -15,19 +15,27 @@ namespace _Base.Scripts.RPG.Effects
         public virtual void Apply(Effect effect)
         {
             effect.OnEnded += OnEffectEnded;
+            if (effect is UnstackableEffect newUnStackableEffect)
+            {
+                foreach (Effect ef in effects.ToArray())
+                {
+                    if (ef is UnstackableEffect exist && exist.Id == newUnStackableEffect.Id)
+                    {
+                        exist.RefreshEffect(newUnStackableEffect);
+                        Destroy(newUnStackableEffect.gameObject);
+                        return;
+                    }
+                }
+            }
             effect.Apply(EffectTaker);
             effects.Add(effect);
         }
 
         private void OnEffectEnded(Effect effect)
         {
-            foreach (Effect ef in effects.ToArray())
+            if (effects.Contains(effect))
             {
-                if (ef == effect)
-                {
-                    effect.OnEnded -= OnEffectEnded;
-                    effects.Remove(effect);
-                }
+                effects.Remove(effect);
             }
         }
     }

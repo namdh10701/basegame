@@ -16,7 +16,7 @@ namespace _Game.Features.Gameplay
         public int DefaultPiority;
         public int Piority;
         private JobStatus jobStatus;
-        public JobStatus Status { get => jobStatus; set { jobStatus = value; StatusChanged.Invoke(jobStatus); } }
+        public JobStatus Status { get => jobStatus; set { jobStatus = value; StatusChanged?.Invoke(jobStatus); } }
         public IWorkLocation WorkLocation;
         public bool IsJobActivated;
         public Action<CrewJob> OnJobCompleted;

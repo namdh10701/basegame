@@ -29,6 +29,7 @@ namespace _Base.Scripts.RPG.Effects
 
         public override void OnEnd(IEffectTaker entity)
         {
+            base.OnEnd(entity);
             ISlowable slowable = entity as ISlowable;
             foreach (Stat stat in slowable.SlowableStats)
             {
@@ -37,9 +38,9 @@ namespace _Base.Scripts.RPG.Effects
             slowable.OnSlowEnded();
         }
 
-        public override void RefreshEffect(UnstackableEffect effect)
+        private void OnDestroy()
         {
-            base.RefreshEffect(effect);
+            Debug.Log("DESTROYED ");
         }
     }
 }

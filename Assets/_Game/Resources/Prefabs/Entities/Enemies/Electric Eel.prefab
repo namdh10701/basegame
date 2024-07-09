@@ -184,6 +184,12 @@ MonoBehaviour:
     <MoveSpeed>k__BackingField:
       statModifiers: []
       _baseValue: 0
+    <AnimationTimeScale>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <FeverPoint>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
   anim: {fileID: 5696707011990469512}
   id: 0002
   gdConfig: {fileID: 11400000, guid: dafc4004e0133475f8d7f898a1f7342d, type: 2}
@@ -1456,7 +1462,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b25af8627659c6949b60949c3aa8d91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedEditorNode: {fileID: 2256248938945240947}
+  selectedEditorNode: {fileID: 4425502763461382094}
   repeatOnFinish: 1
   maxExecutionsPerTick: 1000
   parent: {fileID: 0}
@@ -1597,7 +1603,7 @@ MonoBehaviour:
   title: Attack
   rect:
     serializedVersion: 2
-    x: -383
+    x: -382
     y: 875
     width: 160
     height: 45
@@ -1606,7 +1612,7 @@ MonoBehaviour:
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
-  type: ElectricEelController
+  type: ElectricEelModel
   monoBehaviour: {fileID: 1637006819063413915}
   coroutineName: AttackSequence
 --- !u!114 &5901448636202595226
@@ -1764,8 +1770,8 @@ MonoBehaviour:
   title: UnderwaterMove
   rect:
     serializedVersion: 2
-    x: 536
-    y: 817
+    x: 575
+    y: 794
     width: 160
     height: 45
   parent: {fileID: 4793104390355839427}
