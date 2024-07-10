@@ -33,5 +33,8 @@ namespace _Game.Scripts
 
         [field: SerializeField]
         public Stat CritDamage { get; set; } = new();
+
+        [field: SerializeField]
+        public Stat HpThreshold { get; set; } = new();
     }
 }

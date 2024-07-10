@@ -43,6 +43,7 @@ namespace _Game.Scripts.GD
                 cannonSt.HealthPoint.StatValue.BaseValue = hp;
                 cannonSt.EnergyCost.BaseValue = energy_cost;
                 cannonSt.MagazineSize.BaseValue = magazine_size;
+
             }
             else
             {
@@ -56,6 +57,7 @@ namespace _Game.Scripts.GD
                 cannonSt.Speed.BaseValue = project_speed;
                 cannonSt.ArmorPenetrate.BaseValue = armor_pen;
                 cannonSt.Piercing.BaseValue = project_piercing;
+                cannonSt.HpThreshold.BaseValue = hp_threshold;
             }
         }
     }

@@ -85,7 +85,7 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
         public override void Consume(RangedStat ammo)
         {
             int numOfProjectileCanProvide = (int)ammo.Value;
-            ActualNumOfProjectile = Mathf.Max(numOfProjectileCanProvide, (int)Mathf.Max(1, NumOfProjectile.Value));
+            ActualNumOfProjectile = Mathf.Min(numOfProjectileCanProvide, (int)Mathf.Max(1, NumOfProjectile.Value));
             ammo.StatValue.BaseValue -= ActualNumOfProjectile;
         }
     }

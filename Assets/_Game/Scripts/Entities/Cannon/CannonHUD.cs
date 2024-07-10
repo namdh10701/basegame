@@ -20,7 +20,7 @@ namespace _Game.Features.Gameplay
         {
             this.cannon = cannon;
             CannonStats cannonStats = cannon.Stats as CannonStats;
-            AmmoBar.SetProgress(cannonStats.HealthPoint.Value / cannonStats.HealthPoint.MaxValue);
+            AmmoBar.SetProgress(cannonStats.Ammo.Value / cannonStats.Ammo.MaxValue);
             HpBar.SetProgress(cannonStats.HealthPoint.Value / cannonStats.HealthPoint.MaxValue);
             cannonStats.HealthPoint.OnValueChanged += HealthPoint_OnValueChanged;
             cannonStats.Ammo.OnValueChanged += Ammo_OnValueChanged;

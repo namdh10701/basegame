@@ -73,6 +73,7 @@ namespace _Game.Scripts.Entities
         {
             CannonStats stst = Stats as CannonStats;
             FindTargetCollider.SetRadius(stst.AttackRange.BaseValue);
+            AttackStrategy.NumOfProjectile = stst.ProjectileCount;
         }
 
         #region Controller
@@ -184,14 +185,20 @@ namespace _Game.Scripts.Entities
             usingBullet = bullet;
             AmmoStats ammoStats = (AmmoStats)bullet.Stats;
 
+            _stats.Ammo.MaxStatValue.BaseValue = ammoStats.MagazineSize.BaseValue;
+            _stats.Ammo.StatValue.BaseValue = ammoStats.MagazineSize.BaseValue;
             AttackTargetBehaviour.projectilePrefab = bullet.Projectile;
         }
 
         public bool IsOnFever => isOnFever;
+        public bool IsOnFullFever => isOnFullFever;
 
         public ParticleSystem feverFx;
         public ParticleSystem feverEnterFx;
+
         bool isOnFever;
+        bool isOnFullFever;
+
         public Action OnFeverStart;
         public Action OnFeverEnded;
 
@@ -199,7 +206,10 @@ namespace _Game.Scripts.Entities
         {
             isOnFever = true;
             feverEnterFx.Play();
-            feverFx.Play();
+            if (feverFx != null)
+            {
+                feverFx.Play();
+            }
             OnFeverStart?.Invoke();
             ApplyFeverStats();
             // code change stats go here 
@@ -213,27 +223,45 @@ namespace _Game.Scripts.Entities
         public void OnFullFeverEffectEnter()
         {
             feverEnterFx.Play();
-            feverFx.Play();
-            isOnFever = true;
+            if (feverFx != null)
+            {
+                feverFx.Play();
+            }
+            isOnFullFever = true;
             ApplyFeverStats();
             if (usingBullet.AmmoType == AmmoType.Bomb)
             {
                 _stats.Ammo.StatValue.BaseValue = _stats.Ammo.MaxStatValue.BaseValue + 10;
             }
+        }
 
-            Invoke("OnFeverEffectExit", 10);
+        public void OnFullFeverEffectExit()
+        {
+
+            if (!isOnFullFever)
+                return;
+            ApplyNormalStats();
+            isOnFullFever = false;
+            if (feverFx != null)
+            {
+                feverFx.Stop();
+            }
+            OnFeverEnded?.Invoke();
+
         }
 
         public void OnFeverEffectExit()
         {
-            ApplyNormalStats();
+
             if (!isOnFever)
                 return;
-
+            ApplyNormalStats();
             isOnFever = false;
-            feverFx.Stop();
+            if (feverFx != null)
+            {
+                feverFx.Stop();
+            }
             OnFeverEnded?.Invoke();
-            // code update stats go here
         }
 
         void ApplyFeverStats()

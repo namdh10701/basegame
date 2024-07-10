@@ -25,7 +25,8 @@ namespace _Base.Scripts.RPG.Effects
         public virtual void OnEnd(IEffectTaker entity)
         {
             OnEnded?.Invoke(this);
-            
+            IsActive = false;
+            IsDone = true;
         }
         public virtual bool CanEffect(IEffectTaker entity) => true;
     }
@@ -69,7 +70,7 @@ namespace _Base.Scripts.RPG.Effects
         }
         public override void OnEnd(IEffectTaker entity)
         {
-            base.OnEnd(entity); 
+            base.OnEnd(entity);
             Destroy(gameObject);
             if (Affected != entity)
                 return;

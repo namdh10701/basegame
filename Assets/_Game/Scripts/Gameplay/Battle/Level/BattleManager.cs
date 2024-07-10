@@ -49,7 +49,7 @@ namespace _Game.Features.Gameplay
             EntityManager.Ship.BattleViewModel = battleViewModel;
             GridPicker.ShipGrid = EntityManager.Ship.ShipSetup;
             StartCoroutine(LevelEntryCoroutine());
-
+            GlobalEvent.Register("UseFullFever", UseFullFever);
             GlobalEvent<bool>.Register("TOGGLE_PAUSE", TogglePause);
         }
 
@@ -111,6 +111,7 @@ namespace _Game.Features.Gameplay
 
         public void CleanUp()
         {
+            GlobalEvent.Unregister("UseFullFever", UseFullFever);
             Time.timeScale = 1;
             GlobalEvent<bool>.Unregister("TOGGLE_PAUSE", TogglePause);
             currentRate = 1;
@@ -166,7 +167,7 @@ namespace _Game.Features.Gameplay
             EntityManager.Ship.UseFever(cannon);
         }
 
-        internal void UseFullFever()
+        void UseFullFever()
         {
             EntityManager.Ship.UseFullFever();
         }

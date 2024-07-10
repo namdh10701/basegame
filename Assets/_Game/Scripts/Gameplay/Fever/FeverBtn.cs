@@ -38,6 +38,6 @@ public class FeverBtn : MonoBehaviour
 
     public void OnClick()
     {
-        GlobalEvent.Send("UseFever");
+        GlobalEvent.Send("UseFullFever");
     }
 }

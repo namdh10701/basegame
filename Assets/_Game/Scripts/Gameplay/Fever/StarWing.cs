@@ -18,6 +18,7 @@ public class StarWing : MonoBehaviour
     public void Show()
     {
         image.sprite = enableSprite;
+        gameObject.SetActive(true);
         if (IsShowed)
         {
             glow.AnimationState.SetAnimation(0, "fx_active_set", false);
@@ -36,11 +37,13 @@ public class StarWing : MonoBehaviour
     {
         image.sprite = disableSprite;
         glow.AnimationState.SetAnimation(0, "fx_deactive_set", false);
-        //tween = transform.DOScale(0, .25f).OnComplete(() => tween = null);
+
     }
 
     internal void HideCompletely()
     {
-        transform.localScale = Vector3.zero;
+        image.sprite = disableSprite;
+        glow.AnimationState.SetAnimation(0, "fx_deactive_set", false);
+        tween = transform.DOScale(0, .25f).OnComplete(() => tween = null);
     }
 }

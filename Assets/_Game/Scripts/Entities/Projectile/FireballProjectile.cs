@@ -21,7 +21,7 @@ public class FireballProjectile : CannonProjectile
         explosionFx.SetSize(_stats.AttackAOE.Value);
         damageArea.SetRange(_stats.AttackAOE.Value);
         damageArea.SetDamage(_stats.Damage.Value, _stats.ArmorPenetrate.Value);
-        pullEffect.Setsize(_stats.AttackAOE.Value);
+        pullEffect?.Setsize(_stats.AttackAOE.Value);
     }
 
     public class ExplodeHandler : IHandler

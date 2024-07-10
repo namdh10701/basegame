@@ -107,6 +107,14 @@ namespace _Game.Features.Gameplay
                 Grid itemGridTransform = GetGridTransformById(gridItemData.GridId);
                 SpawnItems(gridItemData, itemGridTransform);
             }
+            foreach (var ammo in Ammos)
+            {
+                ammo.Initialize();
+            }
+            foreach (var cannon in Cannons)
+            {
+                cannon.Initizalize();
+            }
 
             DefineWorkLocation();
             ReloadCannons();
@@ -282,7 +290,6 @@ namespace _Game.Features.Gameplay
 
             Cannons.Add(spawned);
             spawned.Def.Type = ItemType.CANNON;
-            spawned.Initizalize();
 
             IGridItem gridItem = spawned.GetComponent<IGridItem>();
             InitOccupyCell(spawned.Id, ItemType.CANNON, gridItem, data, grid);
@@ -304,7 +311,6 @@ namespace _Game.Features.Gameplay
             Ammo spawned = Instantiate(bulletPrefab, grid.GridItemRoot);
             Ammos.Add(spawned);
             spawned.SetId(data.Id);
-            spawned.Initialize();
             IGridItem gridItem = spawned.GetComponent<IGridItem>();
             InitOccupyCell(spawned.id, ItemType.AMMO, gridItem, data, grid);
 

@@ -73,12 +73,22 @@ namespace _Game.Features.Gameplay
         public void UseFullFever()
         {
             FeverModel.OnUseFever();
+            foreach (Cannon cannon in ShipSetup.Cannons)
+            {
+                cannon.OnFullFeverEffectEnter();
+            }
             DOTween.To(() => stats.Fever.StatValue.BaseValue, x => stats.Fever.StatValue.BaseValue = x, 0, 10).OnComplete(
                 () =>
                 {
                     BattleManager.Instance.FeverSpeedFx.Deactivate();
                     FeverModel.UpdateState();
+                    foreach (Cannon cannon in ShipSetup.Cannons)
+                    {
+                        cannon.OnFullFeverEffectExit();
+                    }
+
                 });
+            
         }
         public void UseFever(Cannon cannon)
         {
@@ -148,7 +158,7 @@ namespace _Game.Features.Gameplay
         private void ShowShipHUD(Cannon cannon)
         {
             Debug.Log(cannon);
-            if (cannon.IsOnFever)
+            if (cannon.IsOnFever || cannon.IsOnFullFever)
             {
                 HUD.Hide();
                 return;

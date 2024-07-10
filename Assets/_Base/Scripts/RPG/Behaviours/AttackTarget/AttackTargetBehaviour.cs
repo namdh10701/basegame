@@ -34,7 +34,7 @@ namespace _Base.Scripts.RPG.Behaviours.AttackTarget
                 RangedStat Ammo = ((CannonStats)entity.Stats).Ammo;
                 if (Ammo.Value <= Ammo.MinValue)
                     return;
-                if (entity.usingBullet.AmmoType == AmmoType.Standard && entity.IsOnFever)
+                if (entity.usingBullet.AmmoType == AmmoType.Standard && (entity.IsOnFever || entity.IsOnFullFever))
                 {
 
                 }
