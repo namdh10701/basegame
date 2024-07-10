@@ -13,7 +13,7 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
 
         public override void DoAttack()
         {
-            for (var idx = 0; idx < NumOfProjectile; idx++)
+            for (var idx = 0; idx < ActualNumOfProjectile; idx++)
             {
                 CannonProjectile cannonProjectile = projectilePrefab as CannonProjectile;
                 float projectileAcc = cannonProjectile._stats.Accuracy.Value;

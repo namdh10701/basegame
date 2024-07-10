@@ -170,6 +170,7 @@ MonoBehaviour:
   gdConfig: {fileID: 11400000, guid: d0ed2d75ef03e46a89a69e09a4a544d5, type: 2}
   statsTemplate: {fileID: 11400000, guid: 8c2f3e1903ffe6f42994b6b268592ed8, type: 2}
   Projectile: {fileID: 9038214777133773486, guid: b5dc049af9c50164982e0e33810ad805, type: 3}
+  AmmoType: 0
   def: {fileID: 11400000, guid: e43dfc0a777e0e44fa91c9f369670ee3, type: 2}
   <OccupyCells>k__BackingField: []
   workingSlots: []
@@ -228,8 +229,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 7212550019625025344}
-        m_TargetAssemblyTypeName: _Game.Scripts.Entities.Bullet, Assembly-CSharp
-        m_MethodName: Deactivate
+        m_TargetAssemblyTypeName: _Game.Scripts.Entities.Ammo, Assembly-CSharp
+        m_MethodName: OnBroken
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

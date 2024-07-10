@@ -34,7 +34,14 @@ namespace _Base.Scripts.RPG.Behaviours.AttackTarget
                 RangedStat Ammo = ((CannonStats)entity.Stats).Ammo;
                 if (Ammo.Value <= Ammo.MinValue)
                     return;
-                attackStrategy.Consume(Ammo);
+                if (entity.usingBullet.AmmoType == AmmoType.Standard && entity.IsOnFever)
+                {
+
+                }
+                else
+                {
+                    attackStrategy.Consume(Ammo);
+                }
             }
             attackStrategy.SetData(entity, shootPosition, projectilePrefab, entity.transform.up);
             attackStrategy.DoAttack();

@@ -12,8 +12,8 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
         {
             var centerDirection = CalculateShootDirection();
 
-            var mostLeftX = NumOfProjectile / 2 * gap;
-            if (NumOfProjectile % 2 == 0)
+            var mostLeftX = ActualNumOfProjectile / 2 * gap;
+            if (NumOfProjectile.Value % 2 == 0)
             {
                 mostLeftX -= gap / 2;
             }
@@ -22,7 +22,7 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
 
             var mostLeftDirection = centerDirection * centerDirection.Rotate(-90);
 
-            for (var idx = 0; idx < NumOfProjectile; idx++)
+            for (var idx = 0; idx < ActualNumOfProjectile; idx++)
             {
                 var projectile = SpawnProjectile(centerDirection, shootPosition);
                 projectile.transform.Translate(projectile.transform.right * (-mostLeftX + gap * idx), Space.World);

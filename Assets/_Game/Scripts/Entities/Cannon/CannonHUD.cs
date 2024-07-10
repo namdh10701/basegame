@@ -14,7 +14,8 @@ namespace _Game.Features.Gameplay
         public ProgressBarDisplay HpBar;
         public Hammer Hammer;
         public ReloadSign Reload;
-
+        bool isFixing;
+        bool isReloading;
         public void SetCannon(Cannon cannon)
         {
             this.cannon = cannon;
@@ -23,6 +24,18 @@ namespace _Game.Features.Gameplay
             HpBar.SetProgress(cannonStats.HealthPoint.Value / cannonStats.HealthPoint.MaxValue);
             cannonStats.HealthPoint.OnValueChanged += HealthPoint_OnValueChanged;
             cannonStats.Ammo.OnValueChanged += Ammo_OnValueChanged;
+            cannon.OnFeverStart += Cannon_OnFeverStart;
+            cannon.OnFeverEnded += Cannon_OnFeverEnded;
+        }
+
+        void Cannon_OnFeverStart()
+        {
+
+        }
+
+        void Cannon_OnFeverEnded()
+        {
+
         }
 
         public void RegisterJob(CrewJobData crewJobData)
@@ -45,6 +58,12 @@ namespace _Game.Features.Gameplay
                     Reload.Play();
                     break;
             }
+            isReloading = (status != JobStatus.Deactive);
+
+            if (isFixing)
+            {
+                Reload.Hide();
+            }
         }
 
         void FixItemStatusEnter(JobStatus status)
@@ -56,11 +75,18 @@ namespace _Game.Features.Gameplay
                     break;
                 case JobStatus.Free:
                     Hammer.Show();
+                    if (isReloading)
+                    {
+                        Reload.Show();
+                        Reload.Play();
+                    }
                     break;
                 case JobStatus.WorkingOn:
                     Hammer.Play();
+
                     break;
             }
+            isFixing = (status != JobStatus.Deactive);
         }
 
 

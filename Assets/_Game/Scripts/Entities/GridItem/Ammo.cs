@@ -9,6 +9,10 @@ using _Game.Scripts.PathFinding;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+public enum AmmoType
+{
+    Standard, Bomb
+}
 
 namespace _Game.Scripts.Entities
 {
@@ -19,6 +23,8 @@ namespace _Game.Scripts.Entities
         public StatsTemplate statsTemplate;
         public StatsTemplate StatsTemplate => statsTemplate;
         public CannonProjectile Projectile;
+
+        public AmmoType AmmoType;
 
         [SerializeField] private GridItemDef def;
 

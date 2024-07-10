@@ -114,6 +114,11 @@ namespace _Game.Scripts.Entities
 
         public void OnOutOfAmmo()
         {
+            if (usingBullet.AmmoType == AmmoType.Bomb && isOnFever)
+            {
+                OnFeverEffectExit();
+            }
+
             isOutOfAmmo = true;
             GlobalEvent<Cannon, Ammo, int>.Send("Reload", this, usingBullet, 15);
             OutOfAmmo?.Invoke();
@@ -132,6 +137,9 @@ namespace _Game.Scripts.Entities
 
         public void OnClick()
         {
+            if (isOnFever)
+                return;
+
             if (IsBroken)
             {
                 GlobalEvent<IGridItem, int>.Send("Fix", this, int.MaxValue);
@@ -172,12 +180,76 @@ namespace _Game.Scripts.Entities
 
         public void Reload(Ammo bullet)
         {
+
             usingBullet = bullet;
-            AmmoStats ps = (AmmoStats)bullet.Stats;
-            _stats.Ammo.MaxStatValue.BaseValue = ps.MagazineSize.Value;
-            _stats.Ammo.MinStatValue.BaseValue = 0;
-            _stats.Ammo.StatValue.BaseValue = ps.MagazineSize.Value;
+            AmmoStats ammoStats = (AmmoStats)bullet.Stats;
+
             AttackTargetBehaviour.projectilePrefab = bullet.Projectile;
+        }
+
+        public bool IsOnFever => isOnFever;
+
+        public ParticleSystem feverFx;
+        public ParticleSystem feverEnterFx;
+        bool isOnFever;
+        public Action OnFeverStart;
+        public Action OnFeverEnded;
+
+        public void OnFeverEffectEnter()
+        {
+            isOnFever = true;
+            feverEnterFx.Play();
+            feverFx.Play();
+            OnFeverStart?.Invoke();
+            ApplyFeverStats();
+            // code change stats go here 
+            if (usingBullet.AmmoType == AmmoType.Bomb)
+            {
+                _stats.Ammo.StatValue.BaseValue = _stats.Ammo.MaxStatValue.BaseValue + 5;
+            }
+            Invoke("OnFeverEffectExit", 5);
+
+        }
+        public void OnFullFeverEffectEnter()
+        {
+            feverEnterFx.Play();
+            feverFx.Play();
+            isOnFever = true;
+            ApplyFeverStats();
+            if (usingBullet.AmmoType == AmmoType.Bomb)
+            {
+                _stats.Ammo.StatValue.BaseValue = _stats.Ammo.MaxStatValue.BaseValue + 10;
+            }
+
+            Invoke("OnFeverEffectExit", 10);
+        }
+
+        public void OnFeverEffectExit()
+        {
+            ApplyNormalStats();
+            if (!isOnFever)
+                return;
+
+            isOnFever = false;
+            feverFx.Stop();
+            OnFeverEnded?.Invoke();
+            // code update stats go here
+        }
+
+        void ApplyFeverStats()
+        {
+            if (GDConfigLoader.Instance.CannonFevers.TryGetValue(id, out CannonConfig value))
+            {
+                value.ApplyGDConfig(_stats);
+            }
+        }
+
+        void ApplyNormalStats()
+        {
+            if (GDConfigLoader.Instance.Cannons.TryGetValue(id, out CannonConfig value))
+            {
+                value.ApplyGDConfig(_stats);
+            }
         }
 
         #endregion

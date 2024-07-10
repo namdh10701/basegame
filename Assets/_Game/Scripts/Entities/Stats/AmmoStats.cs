@@ -3,6 +3,7 @@ using _Base.Scripts.RPGCommon.Entities;
 using _Game.Scripts;
 using System;
 using UnityEngine;
+
 [Serializable]
 public class AmmoStats : Stats, IAliveStats
 {

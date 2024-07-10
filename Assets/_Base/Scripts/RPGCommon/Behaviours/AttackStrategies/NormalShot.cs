@@ -84,27 +84,9 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
 
         public override void Consume(RangedStat ammo)
         {
-            if (((CannonStats)Cannon.Stats).ProjectileCount.BaseValue == 0)
-            {
-                defaultNumOfProjectile = 1;
-            }
-            else
-            {
-                defaultNumOfProjectile = (int)((CannonStats)Cannon.Stats).ProjectileCount.BaseValue;
-            }
-
-            int numOfProjectileWant = DefaultNumOfProjectile;
             int numOfProjectileCanProvide = (int)ammo.Value;
-
-            if (numOfProjectileCanProvide < numOfProjectileWant)
-            {
-                NumOfProjectile = numOfProjectileCanProvide;
-            }
-            else
-            {
-                NumOfProjectile = DefaultNumOfProjectile;
-            }
-            ammo.StatValue.BaseValue -= NumOfProjectile;
+            ActualNumOfProjectile = Mathf.Max(numOfProjectileCanProvide, (int)Mathf.Max(1, NumOfProjectile.Value));
+            ammo.StatValue.BaseValue -= ActualNumOfProjectile;
         }
     }
 }

@@ -50,7 +50,6 @@ namespace _Game.Features.Gameplay
         private void Start()
         {
             GlobalEvent<EnemyModel>.Register("EnemyDied", OnEnemyDied);
-            GlobalEvent.Register("UseFever", UseFever);
             GlobalEvent<Cannon>.Register("ClickCannon", ShowShipHUD);
             GlobalEvent.Register("CloseHUD", CloseHUD);
             GetComponent<GDConfigStatsApplier>().LoadStats(this);
@@ -71,10 +70,9 @@ namespace _Game.Features.Gameplay
             BattleViewModel.FeverView.Init(FeverModel);
         }
 
-        public void UseFever()
+        public void UseFullFever()
         {
             FeverModel.OnUseFever();
-            BattleManager.Instance.FeverSpeedFx.Activate();
             DOTween.To(() => stats.Fever.StatValue.BaseValue, x => stats.Fever.StatValue.BaseValue = x, 0, 10).OnComplete(
                 () =>
                 {
@@ -82,18 +80,17 @@ namespace _Game.Features.Gameplay
                     FeverModel.UpdateState();
                 });
         }
-
-        public void UseWeakFever()
+        public void UseFever(Cannon cannon)
         {
             stats.Fever.StatValue.BaseValue -= 200;
             stats.Fever.StatValue.BaseValue = Mathf.Clamp(stats.Fever.StatValue.BaseValue, 0, stats.Fever.MaxStatValue.BaseValue);
             FeverModel.UpdateState();
+            cannon.OnFeverEffectEnter();
         }
 
         private void OnDestroy()
         {
             GlobalEvent<EnemyModel>.Unregister("EnemyDied", OnEnemyDied);
-            GlobalEvent.Unregister("UseFever", UseFever);
         }
 
         public void OnEnemyDied(EnemyModel enemyModel)
@@ -121,10 +118,6 @@ namespace _Game.Features.Gameplay
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 AddFeverPoint(50);
-            }
-            if (Input.GetKeyDown(KeyCode.V))
-            {
-                UseWeakFever();
             }
         }
 
@@ -155,7 +148,7 @@ namespace _Game.Features.Gameplay
         private void ShowShipHUD(Cannon cannon)
         {
             Debug.Log(cannon);
-            if (cannon == null)
+            if (cannon.IsOnFever)
             {
                 HUD.Hide();
                 return;

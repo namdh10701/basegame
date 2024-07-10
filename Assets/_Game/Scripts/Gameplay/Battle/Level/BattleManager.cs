@@ -7,6 +7,7 @@ using _Game.Scripts;
 using _Game.Scripts.Battle;
 using _Game.Scripts.Entities;
 using Map;
+using System;
 using System.Collections;
 using UnityEngine;
 using ZBase.UnityScreenNavigator.Core.Modals;
@@ -160,5 +161,14 @@ namespace _Game.Features.Gameplay
             Time.timeScale = currentRate;
         }
 
+        internal void UseFever(Cannon cannon)
+        {
+            EntityManager.Ship.UseFever(cannon);
+        }
+
+        internal void UseFullFever()
+        {
+            EntityManager.Ship.UseFullFever();
+        }
     }
 }
