@@ -200,7 +200,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7691449450847267648}
-  - component: {fileID: 9038214777133773486}
+  - component: {fileID: 758270740813100276}
   - component: {fileID: 1933465007915484115}
   - component: {fileID: 3939969849683305201}
   - component: {fileID: -3540324888013650409}
@@ -230,7 +230,7 @@ Transform:
   - {fileID: 2467403479100736081}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9038214777133773486
+--- !u!114 &758270740813100276
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -239,7 +239,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7099963840742418997}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51454a304ff74d7ba561bd142aa532c8, type: 3}
+  m_Script: {fileID: 11500000, guid: 18b15367f4f1e2d48b0bbcdd51995cc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   body: {fileID: 1933465007915484115}
@@ -272,10 +272,13 @@ MonoBehaviour:
     <CritDamage>k__BackingField:
       statModifiers: []
       _baseValue: 0
+    <HpThreshold>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
   trail: {fileID: 2467403479100736081}
   outGoingEffects: []
   collisionListener: {fileID: 3939969849683305201}
-  isCrit: 0
+  isCrit: 1
   id: 
   gDConfig: {fileID: 11400000, guid: d0ed2d75ef03e46a89a69e09a4a544d5, type: 2}
   statsTemplate: {fileID: 11400000, guid: e5dfddbd8e83b034c8bcb7969df1f373, type: 2}
