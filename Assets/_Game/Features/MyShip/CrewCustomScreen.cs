@@ -6,22 +6,8 @@ using UnityWeld.Binding;
 
 namespace _Game.Features.InventoryCustomScreen
 {
-    public interface IInventoryCustomScreen
-    {
-        public bool IsActive { get; set; }
-        public bool IsActiveAttach { get; set; }
-        public int IndexButton { get; set; }
-        public void OnEnableAttachItems();
-    }
-
-    public enum InventoryCustomScreenType
-    {
-        GunCustomScreen,
-        CrewCustomScreen
-    }
-
     [Binding]
-    public class CrewCustomScreen : RootViewModel, IInventoryCustomScreen
+    public class CrewCustomScreen : RootViewModel
     {
         #region Binding Prop: IsActive
 

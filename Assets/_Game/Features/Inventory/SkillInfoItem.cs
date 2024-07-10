@@ -8,7 +8,6 @@ namespace _Game.Features.InventoryCustomScreen
     [Binding]
     public class SkillInfoItem : SubViewModel
     {
-        public IInventoryCustomScreen IInventoryCustomScreen { get; set; }
 
         [Binding]
         public string Id { get; set; }
