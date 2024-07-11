@@ -179,24 +179,50 @@ namespace _Game.Features.Inventory
             foreach (var (id, conf) in GDConfigLoader.Instance.Cannons)
             {
                 Enum.TryParse(conf.rarity, true, out Rarity rarity);
-                dataSource.Add(new InventoryItem { InventoryViewModel = this, Type = ItemType.CANNON, Id = id, Rarity = rarity, RarityLevel = conf.rarity_level, OperationType = conf.operation_type });
+                dataSource.Add(new InventoryItem
+                {
+                    InventoryViewModel = this, Type = ItemType.CANNON, Id = id, Rarity = rarity,
+                    RarityLevel = conf.rarity_level, OperationType = conf.operation_type,
+                    Shape = conf.shape
+                });
             }
             
             foreach (var (id, conf) in GDConfigLoader.Instance.Ammos)
             {
                 Enum.TryParse(conf.rarity, true, out  Rarity rarity);
-                dataSource.Add(new InventoryItem { InventoryViewModel = this, Type = ItemType.AMMO, Id = id, Rarity = rarity, RarityLevel = conf.rarity_level, OperationType = conf.operation_type });
-            }
-
-            var crewNo = 1;
-            for (int i = 1; i <= 2; i++)
-            {
-                var rarities = Enum.GetValues(typeof(Rarity)).Cast<Rarity>();
-                foreach (var rarity in rarities)
+                dataSource.Add(new InventoryItem
                 {
-                    dataSource.Add(new InventoryItem {  InventoryViewModel = this, Type = ItemType.CREW, Id = $"{(crewNo++).ToString().PadLeft(4, '0')}", Rarity = rarity, OperationType = $"{i}" });
-                }
+                    InventoryViewModel = this, Type = ItemType.AMMO, Id = id, Rarity = rarity,
+                    RarityLevel = conf.rarity_level, OperationType = conf.operation_type,
+                    Shape = conf.shape
+                });
             }
+            
+            foreach (var (id, conf) in GDConfigLoader.Instance.Crews)
+            {
+                Enum.TryParse(conf.rarity, true, out  Rarity rarity);
+                dataSource.Add(new InventoryItem
+                {
+                    InventoryViewModel = this, Type = ItemType.CREW, Id = id, Rarity = rarity,
+                    OperationType = conf.operation_type,
+                    Shape = conf.shape
+                });
+            }
+            //
+            // var crewNo = 1;
+            // for (int i = 1; i <= 2; i++)
+            // {
+            //     var rarities = Enum.GetValues(typeof(Rarity)).Cast<Rarity>();
+            //     foreach (var rarity in rarities)
+            //     {
+            //         dataSource.Add(new InventoryItem
+            //         {
+            //             InventoryViewModel = this, Type = ItemType.CREW,
+            //             Id = $"{(crewNo++).ToString().PadLeft(4, '0')}", Rarity = rarity, OperationType = $"{i}",
+            //             Shape = conf.shape
+            //         });
+            //     }
+            // }
             
             foreach (var inventoryItem in dataSource)
             {

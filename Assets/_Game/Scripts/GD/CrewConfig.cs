@@ -9,6 +9,8 @@ namespace _Game.Scripts.GD
     {
         public string id;
         public string name;
+        public string operation_type;
+        public string shape;
         public string rarity;
         public float move_speed;
         public float repair_speed;

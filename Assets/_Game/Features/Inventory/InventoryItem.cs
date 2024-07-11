@@ -9,10 +9,10 @@ namespace _Game.Features.Inventory
 
     public enum ItemType
     {
-        None,
         CREW,
         CANNON,
         AMMO,
+        None,
     }
 
     public enum Rarity
@@ -163,6 +163,31 @@ namespace _Game.Features.Inventory
 
         #endregion
 
+        #region Binding Prop: Shape
+
+        /// <summary>
+        /// Shape
+        /// </summary>
+        [Binding]
+        public string Shape
+        {
+            get => _shape;
+            set
+            {
+                if (Equals(_shape, value))
+                {
+                    return;
+                }
+
+                _shape = value;
+                OnPropertyChanged(nameof(Shape));
+            }
+        }
+
+        private string _shape;
+
+        #endregion
+
         [Binding]
         public Sprite Thumbnail
         {
@@ -259,7 +284,7 @@ namespace _Game.Features.Inventory
         [Binding]
         public void ShowItemDetail()
         {
-            PopupManager.Instance.ShowPopup<GearInfoPopup>();
+            // PopupManager.Instance.ShowPopup<GearInfoPopup>();
         }
 
         [Binding]

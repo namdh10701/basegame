@@ -1,18 +1,13 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using _Base.Scripts.UI;
-using _Game.Features.MyShipScreen;
 using _Game.Features.Inventory;
+using _Game.Features.MyShip.GridSystem;
 using _Game.Scripts.DB;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
-using UnityEngine.UI;
 using UnityWeld.Binding;
-using ZBase.UnityScreenNavigator.Core.Screens;
-using InventoryItem = _Game.Features.Inventory.InventoryItem;
 
 namespace _Game.Features.MyShip
 {
@@ -27,13 +22,13 @@ namespace _Game.Features.MyShip
     public class NewShipEditSheet : SheetWithViewModel
     {
         public RectTransform ConfigSheet;
+        public RectTransform ShipSpawnPoint;
         public RectTransform InventorySheet;
+        public ShipConfigManager ShipConfigManager;
 
         #region ViewMode
         public ViewMode _viewMode = ViewMode.NORMAL;
         
-        
-
         private void SetViewMode(ViewMode viewMode)
         {
             _viewMode = viewMode;
@@ -168,6 +163,25 @@ namespace _Game.Features.MyShip
         }
         #endregion
 
+        public Transform InventorySheetDragPane;
+
+        public DraggingItem CreateDragItem(InventoryItem item)
+        {
+            var prefab = GetDragItemPrefab(item);
+            var instance = Instantiate(prefab, InventorySheetDragPane);
+
+            return instance;
+        }
+
+        
+
+        public DraggingItem GetDragItemPrefab(InventoryItem item)
+        {
+            var shapePath = $"SetupItems/SetupItem_{item.Type.ToString().ToLower()}_{item.OperationType}";
+            var prefab = Resources.Load<DraggingItem>(shapePath);
+            return prefab;
+        }
+
         [Binding]
         public async void NavBack()
         {
@@ -181,13 +195,19 @@ namespace _Game.Features.MyShip
             // _btnRemove.onClick.AddListener(OnRemoveClick);
             //
             // Initialize(_shipsConfig.currentShipId);
+            InitializeShip("0003");
             SetViewMode_Normal();
             return UniTask.CompletedTask;
         }
 
-        void Initialize(string shipID)
+        void InitializeShip(string shipID)
         {
+            var shipPrefabs = Resources.Load($"Ships/Ship_{shipID}");
+            var ship = Instantiate(shipPrefabs, ShipSpawnPoint);
+            ShipConfigManager.Grid = ship.GetComponentInChildren<SlotGrid>();
+            ShipConfigManager.PlacementPane = ship.GetComponentInChildren<PlacementPane>().transform;
             
+            // ShipSpawnPoint.parent.gameObject.GetComponent<ShipConfigManager>()
         }
         
         public class InputData<T>
