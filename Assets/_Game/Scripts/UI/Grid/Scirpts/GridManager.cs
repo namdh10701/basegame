@@ -245,6 +245,7 @@ namespace _Base.Scripts.UI
                 grid.ItemsReceived.Remove(itemToRemove);
                 ChangeStatusCell(itemToRemove, itemToRemove.startX, itemToRemove.startY, grid, StatusCell.Empty);
             }
+            SaveInventoryData();
         }
 
 
@@ -293,6 +294,7 @@ namespace _Base.Scripts.UI
                 InventoryItemsOnStash.Remove(item);
                 Destroy(item.gameObject);
             }
+            SaveInventoryData();
         }
 
 

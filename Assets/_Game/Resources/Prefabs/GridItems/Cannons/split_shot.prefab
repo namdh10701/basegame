@@ -310,7 +310,6 @@ GameObject:
   - component: {fileID: 7230544241734426114}
   - component: {fileID: 8749993615228827884}
   - component: {fileID: 2088882076843486254}
-  - component: {fileID: 1761671711630777676}
   - component: {fileID: 893107118460700710}
   m_Layer: 9
   m_Name: split_shot
@@ -412,6 +411,7 @@ MonoBehaviour:
       statModifiers: []
       _baseValue: 0
   _statsTemplate: {fileID: 11400000, guid: 14077db5de1824e3abe122b6685a11ce, type: 2}
+  border: {fileID: 0}
   CannonRenderer: {fileID: 6856121553521624037}
   <AttackStrategy>k__BackingField: {fileID: 2088882076843486254}
   <OccupyCells>k__BackingField: []
@@ -472,54 +472,6 @@ MonoBehaviour:
   ActualNumOfProjectile: 0
   angle: 15
   amount: 3
---- !u!114 &1761671711630777676
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6378892929398903831}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ece8af53fc95ece4496db2febce1ff1a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OnReachZero:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7230544241734426114}
-        m_TargetAssemblyTypeName: _Game.Scripts.Entities.Cannon, Assembly-CSharp
-        m_MethodName: Deactivate
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  OnReachFull:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDecreased:
-    m_PersistentCalls:
-      m_Calls: []
-  OnIncreased:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7230544241734426114}
-        m_TargetAssemblyTypeName: _Game.Scripts.Entities.Cannon, Assembly-CSharp
-        m_MethodName: OnFixed
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &893107118460700710
 MonoBehaviour:
   m_ObjectHideFlags: 0

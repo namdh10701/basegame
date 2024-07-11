@@ -13,15 +13,24 @@ namespace _Game.Features.Gameplay
         SquidAnimation squidAnimation;
         CooldownBehaviour cooldownBehaviour;
         _Game.Scripts.BehaviourTree.Wander wander;
-
+        public EvasionBuffArea area;
         public override void Initialize(EnemyModel enemyModel, EffectTakerCollider effectTakerCollider, Blackboard blackboard, MBTExecutor mbtExecutor, Rigidbody2D body, SpineAnimationEnemyHandler anim)
         {
             squidAnimation = anim as SquidAnimation;
+            squidAnimation.OnAction.AddListener(SpawnSkill);
             cooldownBehaviour = ((SquidModel)enemyModel).CooldownBehaviour;
             MoveAreaController moveArea = FindAnyObjectByType<MoveAreaController>();
             blackboard.GetVariable<AreaVariable>("MoveArea").Value = moveArea.GetArea(AreaType.All);
             base.Initialize(enemyModel, effectTakerCollider, blackboard, mbtExecutor, body, anim);
         }
+
+        void SpawnSkill()
+        {
+            EvasionBuffArea a = Instantiate(area,null);
+            a.transform.position = transform.position;
+            a.gameObject.SetActive(true);
+        }
+
         public override IEnumerator AttackSequence()
         {
             squidAnimation.PlayAttack();

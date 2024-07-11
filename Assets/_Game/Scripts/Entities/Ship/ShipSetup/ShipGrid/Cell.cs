@@ -70,7 +70,6 @@ namespace _Game.Features.Gameplay
         public void OnBroken()
         {
             GlobalEvent<Cell, int>.Send("FixCell", this, 3);
-            Debug.Log(X + " " + Y);
             CellRenderer.OnBroken();
         }
         public void OnClick()

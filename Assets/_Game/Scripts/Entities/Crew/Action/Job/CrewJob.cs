@@ -39,18 +39,18 @@ namespace _Game.Features.Gameplay
         public IEnumerator DoExecute(Crew crew)
         {
             Status = JobStatus.WorkingOn;
-            StatusChanged.Invoke(Status);
+            StatusChanged?.Invoke(Status);
             yield return Execute(crew);
-            OnJobCompleted.Invoke(this);
+            OnJobCompleted?.Invoke(this);
             Status = JobStatus.Deactive;
-            StatusChanged.Invoke(Status);
+            StatusChanged?.Invoke(Status);
         }
         public void DoInterupt()
         {
-            OnJobInterupted.Invoke(this);
+            OnJobInterupted?.Invoke(this);
             Interupt(crew);
             Status = JobStatus.Free;
-            StatusChanged.Invoke(Status);
+            StatusChanged?.Invoke(Status);
         }
 
         public abstract IEnumerator Execute(Crew crew);

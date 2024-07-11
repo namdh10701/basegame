@@ -8,10 +8,8 @@ using UnityEngine;
 [Serializable]
 public class PushEffect : OneShotEffect
 {
-    public LayerMask affectLayer;
     public float force;
     public bool isIgnorePoise;
-    public Vector2 pushDirection;
     public Rigidbody2D body;
     protected override void OnApply(IEffectTaker entity)
     {

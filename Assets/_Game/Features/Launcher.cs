@@ -28,7 +28,7 @@ namespace _Game.Features
             {
                 PlayerPrefs.SetString("PlayingStage", "0001");
             }
-            //Debug.unityLogger.logEnabled = false;
+            Debug.unityLogger.logEnabled = false;
             Application.targetFrameRate = 120;
             UnityScreenNavigatorSettings.Initialize();
             await GameLevelManager.LoadData();

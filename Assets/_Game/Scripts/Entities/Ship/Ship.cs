@@ -49,10 +49,24 @@ namespace _Game.Features.Gameplay
 
         private void Start()
         {
+
+
             GlobalEvent<EnemyModel>.Register("EnemyDied", OnEnemyDied);
             GlobalEvent<Cannon>.Register("ClickCannon", ShowShipHUD);
             GlobalEvent.Register("CloseHUD", CloseHUD);
             GetComponent<GDConfigStatsApplier>().LoadStats(this);
+
+            if (EnemyManager.floorId == "1")
+            {
+                stats.Fever.StatValue.BaseValue = 0;
+            }
+            else
+            {
+                float fever = PlayerPrefs.GetFloat("fever", 0);
+                stats.Fever.StatValue.BaseValue = fever;
+            }
+            EffectCollider.Taker = this;
+            EffectHandler.EffectTaker = this;
             FeverModel.SetFeverPointStats(stats.Fever);
             PathfindingController.Initialize();
             ShipSetup.Initialize();
@@ -65,7 +79,7 @@ namespace _Game.Features.Gameplay
             {
                 ammo.HUD.RegisterJob(CrewJobData);
             }
-            HUD.Initialize(ShipSetup.Ammos);
+            HUD.Initialize(ShipSetup.Ammos, CrewJobData);
             BattleViewModel = GameObject.Find("BattleScreen(Clone)").GetComponent<BattleViewModel>();
             BattleViewModel.FeverView.Init(FeverModel);
         }
@@ -75,8 +89,10 @@ namespace _Game.Features.Gameplay
             FeverModel.OnUseFever();
             foreach (Cannon cannon in ShipSetup.Cannons)
             {
+                CrewJobData.ReloadCannonJobsDic[cannon].Status = JobStatus.Deactive;
                 cannon.OnFullFeverEffectEnter();
             }
+            BattleManager.Instance.FeverSpeedFx.Activate();
             DOTween.To(() => stats.Fever.StatValue.BaseValue, x => stats.Fever.StatValue.BaseValue = x, 0, 10).OnComplete(
                 () =>
                 {
@@ -88,10 +104,11 @@ namespace _Game.Features.Gameplay
                     }
 
                 });
-            
+
         }
         public void UseFever(Cannon cannon)
         {
+            CrewJobData.ReloadCannonJobsDic[cannon].Status = JobStatus.Deactive;
             stats.Fever.StatValue.BaseValue -= 200;
             stats.Fever.StatValue.BaseValue = Mathf.Clamp(stats.Fever.StatValue.BaseValue, 0, stats.Fever.MaxStatValue.BaseValue);
             FeverModel.UpdateState();
@@ -101,6 +118,8 @@ namespace _Game.Features.Gameplay
         private void OnDestroy()
         {
             GlobalEvent<EnemyModel>.Unregister("EnemyDied", OnEnemyDied);
+            GlobalEvent<Cannon>.Unregister("ClickCannon", ShowShipHUD);
+            GlobalEvent.Unregister("CloseHUD", CloseHUD);
         }
 
         public void OnEnemyDied(EnemyModel enemyModel)
@@ -157,7 +176,6 @@ namespace _Game.Features.Gameplay
         }
         private void ShowShipHUD(Cannon cannon)
         {
-            Debug.Log(cannon);
             if (cannon.IsOnFever || cannon.IsOnFullFever)
             {
                 HUD.Hide();

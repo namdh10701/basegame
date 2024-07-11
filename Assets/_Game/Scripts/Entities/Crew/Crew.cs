@@ -79,20 +79,8 @@ namespace _Game.Features.Gameplay
             Animation.PlayDropDown();
         }
 
-
-        public void Deactivate()
-        {
-
-        }
-
-        public void OnFixed()
-        {
-
-        }
-
         public override void ApplyStats()
         {
-
         }
     }
 }

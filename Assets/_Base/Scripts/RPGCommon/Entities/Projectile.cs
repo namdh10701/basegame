@@ -77,7 +77,7 @@ namespace _Base.Scripts.RPGCommon.Entities
             _stats.Accuracy.AddModifier(statModifier);
         }
 
-        public void SetDamage(float dmg, bool isCrit)
+        public virtual void SetDamage(float dmg, bool isCrit)
         {
             _stats.Damage.BaseValue = dmg;
             this.isCrit = isCrit;

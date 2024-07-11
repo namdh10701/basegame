@@ -14,7 +14,11 @@ namespace _Base.Scripts.RPG.Effects
 
         public virtual void Apply(Effect effect)
         {
-            effect.OnEnded += OnEffectEnded;
+            if (effect is UnstackableEffect)
+            {
+                effect = Instantiate(effect, null);
+                effect.enabled = true;
+            }
             if (effect is UnstackableEffect newUnStackableEffect)
             {
                 foreach (Effect ef in effects.ToArray())
@@ -22,13 +26,19 @@ namespace _Base.Scripts.RPG.Effects
                     if (ef is UnstackableEffect exist && exist.Id == newUnStackableEffect.Id)
                     {
                         exist.RefreshEffect(newUnStackableEffect);
+                        newUnStackableEffect.transform.parent = null;
                         Destroy(newUnStackableEffect.gameObject);
                         return;
                     }
                 }
             }
+            effect.OnEnded += OnEffectEnded;
             effect.Apply(EffectTaker);
-            effects.Add(effect);
+
+            if (effect is TimeoutEffect)
+            {
+                effects.Add(effect);
+            }
         }
 
         private void OnEffectEnded(Effect effect)
@@ -43,7 +53,8 @@ namespace _Base.Scripts.RPG.Effects
         {
             foreach (Effect ef in effects.ToArray())
             {
-                ef.OnEnd(EffectTaker);
+                if (!ef.IsDone)
+                    ef.OnEnd(EffectTaker);
             }
         }
     }

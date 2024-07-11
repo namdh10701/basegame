@@ -48,19 +48,14 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
         {
             CannonStats cannonStats = (CannonStats)Cannon.Stats;
             projectile.AddCritChance(new StatModifier(cannonStats.CriticalChance.Value, StatModType.Flat, 1));
-            ProjectileStats pStats = (ProjectileStats)Cannon.usingBullet.Projectile.Stats;
-            float addCritChanceFromProjectile = pStats.CritChance.Value;
-            float totalCritChance = addCritChanceFromProjectile + Cannon.FighterStats.CriticalChance.Value;
-            float addCritDmgFromProjectile = pStats.CritDamage.Value;
-            float totalCritDmg = addCritDmgFromProjectile + Cannon.FighterStats.CriticalDamage.Value;
-            float addDmg = pStats.Damage.Value;
-            float totalDmg = addDmg + Cannon.FighterStats.AttackDamage.Value;
-            float finalDmg = 0;
+            ProjectileStats pStats = (ProjectileStats)projectile.Stats;
+            float totalDmg = pStats.Damage.Value + Cannon.FighterStats.AttackDamage.Value;
 
-            bool isCrit = UnityEngine.Random.Range(0f, 1f) < totalCritChance;
+            float finalDmg = 0;
+            bool isCrit = UnityEngine.Random.Range(0f, 1f) < (pStats.CritChance.Value + Cannon.FighterStats.CriticalChance.Value);
             if (isCrit)
             {
-                finalDmg = totalDmg * (totalCritDmg);
+                finalDmg = totalDmg * (pStats.CritDamage.Value + Cannon.FighterStats.CriticalDamage.Value);
             }
             else
             {

@@ -30,16 +30,17 @@ namespace _Game.Scripts.GD
         public override void ApplyGDConfig(object stats)
         {
             var cannonSt = (stats as CannonStats)!;
-            cannonSt.HealthPoint.StatValue.BaseValue = hp;
+
             cannonSt.HealthPoint.MaxStatValue.BaseValue = hp;
+            cannonSt.HealthPoint.StatValue.BaseValue = hp;
+
+            Debug.Log(hp);
             cannonSt.AttackDamage.BaseValue = attack;
             cannonSt.AttackAccuracy.BaseValue = accuracy;
             cannonSt.CriticalChance.BaseValue = crit_chance;
             cannonSt.CriticalDamage.BaseValue = crit_damage;
             cannonSt.AttackSpeed.BaseValue = attack_speed;
             cannonSt.AttackRange.BaseValue = range;
-            cannonSt.Ammo.MaxStatValue.BaseValue = 10;
-            cannonSt.Ammo.StatValue.BaseValue = 10;
             cannonSt.ProjectileCount.BaseValue = project_count;
         }
     }

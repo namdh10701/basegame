@@ -454,7 +454,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.128, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2840733961665437198}
@@ -637,7 +637,7 @@ MonoBehaviour:
       statModifiers: []
       _baseValue: 0
   anim: {fileID: 7789903315881788189}
-  id: 0001
+  id: 0006
   gdConfig: {fileID: 11400000, guid: dafc4004e0133475f8d7f898a1f7342d, type: 2}
   statsTemplate: {fileID: 11400000, guid: 9eafdaa630e9ff0429e1ff587ed34637, type: 2}
   body: {fileID: 9081800915487468024}
@@ -710,7 +710,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pufferFishMove: {fileID: 3347196295145259414}
   damageArea: {fileID: 3365400120013340572, guid: 23da74e46d94dd94da3e561b1e3a003e, type: 3}
-  pufferFish: {fileID: 11400000, guid: 506cb7fb8ac8e764e99d4431e31feb49, type: 2}
+  pufferFish: {fileID: 11400000, guid: bc8ed60fd6a8ff94283ac3249fa8fdce, type: 2}
 --- !u!114 &-6316431101422094178
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -787,9 +787,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.36731386}
+  m_Offset: {x: 0, y: 0.12691832}
   serializedVersion: 2
-  m_Radius: 0.46
+  m_Radius: 0.7003956
 --- !u!1 &6789855681812165569
 GameObject:
   m_ObjectHideFlags: 0
@@ -926,7 +926,7 @@ Transform:
   m_GameObject: {fileID: 6880856187185135634}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.15, z: 0}
+  m_LocalPosition: {x: 0, y: 0.158, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -976,9 +976,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.34055996}
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 1.36
 --- !u!1 &7750803122113050896
 GameObject:
   m_ObjectHideFlags: 0
@@ -1056,7 +1056,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.76, y: 0.73}
+  m_Size: {x: 1.91, y: 1.64}
   m_EdgeRadius: 0
 --- !u!114 &6574414207155383042
 MonoBehaviour:
@@ -1190,11 +1190,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5201555825134513242, guid: 807c08b6e5252ae4dba62980dff94de3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.17
+      value: 0.039
       objectReference: {fileID: 0}
     - target: {fileID: 5201555825134513242, guid: 807c08b6e5252ae4dba62980dff94de3, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.005
       objectReference: {fileID: 0}
     - target: {fileID: 5201555825134513242, guid: 807c08b6e5252ae4dba62980dff94de3, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1252,7 +1252,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 471015614277371220, guid: d8077670f117daa4eba9f9ec9b37aaad, type: 3}
       propertyPath: m_SortingOrder
-      value: -1167
+      value: -1111
       objectReference: {fileID: 0}
     - target: {fileID: 471015614277371220, guid: d8077670f117daa4eba9f9ec9b37aaad, type: 3}
       propertyPath: m_ReceiveShadows

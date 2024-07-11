@@ -18,24 +18,14 @@ namespace _Game.Features.Gameplay
             {
                 foreach (Cell cell in cells)
                 {
-                    Debug.Log(cell.ToString());
                     if (effect is DecreaseHealthEffect decrease)
                     {
                         if (cell.GridItem != null)
                         {
-                            if (!cell.GridItem.IsBroken)
+                            if (cell.GridItem is IEffectTaker effectTaker)
                             {
-                                if (cell.GridItem is IEffectTaker effectTaker)
-                                {
-                                    effectTaker.EffectHandler.Apply(effect);
-                                }
-
+                                effectTaker.EffectHandler.Apply(effect);
                             }
-                            else
-                            {
-                                ship.EffectHandler.Apply(effect);
-                            }
-                            continue;
                         }
                         else
                         {

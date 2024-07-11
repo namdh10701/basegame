@@ -187,7 +187,6 @@ GameObject:
   - component: {fileID: 528517828048701709}
   - component: {fileID: 5927501447640042736}
   - component: {fileID: 4748583646171955563}
-  - component: {fileID: -6985853996929986610}
   - component: {fileID: 319926023277800976}
   m_Layer: 0
   m_Name: burning
@@ -231,7 +230,7 @@ MonoBehaviour:
   gdConfig: {fileID: 11400000, guid: d0ed2d75ef03e46a89a69e09a4a544d5, type: 2}
   statsTemplate: {fileID: 11400000, guid: 8c2f3e1903ffe6f42994b6b268592ed8, type: 2}
   Projectile: {fileID: 2342970395553311547, guid: 4588bd9e642073746af5ea4e6b5fa1c8, type: 3}
-  AmmoType: 0
+  AmmoType: 1
   def: {fileID: 11400000, guid: 8e30b24f0d761b74099148893bedb3d2, type: 2}
   <OccupyCells>k__BackingField: []
   workingSlots: []
@@ -274,42 +273,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effects: []
---- !u!114 &-6985853996929986610
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7743350059817669522}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ece8af53fc95ece4496db2febce1ff1a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OnReachZero:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5927501447640042736}
-        m_TargetAssemblyTypeName: _Game.Scripts.Entities.Ammo, Assembly-CSharp
-        m_MethodName: OnBroken
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  OnReachFull:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDecreased:
-    m_PersistentCalls:
-      m_Calls: []
-  OnIncreased:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &319926023277800976
 MonoBehaviour:
   m_ObjectHideFlags: 0

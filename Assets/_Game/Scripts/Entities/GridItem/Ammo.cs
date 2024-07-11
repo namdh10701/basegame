@@ -67,6 +67,7 @@ namespace _Game.Scripts.Entities
 
         public void Initialize()
         {
+            EffectHandler.EffectTaker = this;
             GDConfigStatsApplier GDConfigStatsApplier = GetComponent<GDConfigStatsApplier>();
             GDConfigStatsApplier.LoadStats(this);
             stats.HealthPoint.OnValueChanged += HealthPoint_OnValueChanged;
@@ -83,7 +84,10 @@ namespace _Game.Scripts.Entities
 
         public void OnClick()
         {
-
+            if (IsBroken)
+            {
+                GlobalEvent<IGridItem, int>.Send("Fix", this, int.MaxValue);
+            }
         }
 
         public void OnBroken()
