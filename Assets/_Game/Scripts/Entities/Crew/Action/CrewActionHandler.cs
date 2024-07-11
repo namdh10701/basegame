@@ -10,34 +10,18 @@ namespace _Game.Features.Gameplay
         Coroutine actionCoroutine;
         public CrewActionBase CurrentAction;
         public Action OnFree;
-        bool isPaused;
 
         public void Act(CrewActionBase crewAction)
         {
-            StartCoroutine(HandleAssignNewAction(crewAction));
+            actionCoroutine = StartCoroutine(ActionCoroutine());
         }
 
-        IEnumerator HandleAssignNewAction(CrewActionBase crewAction)
+        IEnumerator ActionCoroutine()
         {
-            if (isPaused)
-            {
-                yield break; // Exit coroutine if paused
-            }
-            if (actionCoroutine != null)
-            {
-                StopCoroutine(actionCoroutine);
-                crew.CrewMovement.Velocity = Vector2.zero;
-                if (CurrentAction is not CrewJobAction crewJob)
-                {
-                }
-                else
-                {
-                    crewJob.CrewJob.StatusChanged += OnChangedStatus;
-                    CurrentAction.Interupt();
-                }
-            }
-            CurrentAction = crewAction;
-            actionCoroutine = StartCoroutine(ActionCoroutine());
+            yield return CurrentAction.Execute;
+            actionCoroutine = null;
+            CurrentAction = null;
+            OnFree?.Invoke();
         }
 
         void OnChangedStatus(JobStatus jobStatus)
@@ -49,30 +33,31 @@ namespace _Game.Features.Gameplay
             }
         }
 
-        IEnumerator ActionCoroutine()
+        public void CancelCurrentAction()
         {
-            yield return CurrentAction.Execute;
-            actionCoroutine = null;
-            CurrentAction = null;
-            OnFree.Invoke();
+            if (CurrentAction != null)
+            {
+                CurrentAction.Interupt();
+                if (actionCoroutine != null)
+                {
+                    StopCoroutine(actionCoroutine);
+                    actionCoroutine = null;
+                }
+            }
         }
 
-        public void Pause()
+        public void PauseCurrentAction()
         {
-            isPaused = true;
             if (actionCoroutine != null)
             {
-                StopCoroutine(CurrentAction.Execute);
                 StopCoroutine(actionCoroutine);
             }
         }
 
-        public void Resume()
+        public void ResumeCurrentAction()
         {
-            isPaused = false;
             if (CurrentAction != null)
             {
-                CurrentAction.Interupt();
                 CurrentAction.ReBuild(crew);
                 actionCoroutine = StartCoroutine(ActionCoroutine());
             }

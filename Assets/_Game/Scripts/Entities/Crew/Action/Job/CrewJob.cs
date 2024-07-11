@@ -12,20 +12,15 @@ namespace _Game.Features.Gameplay
     [Serializable]
     public abstract class CrewJob
     {
-        public string Name;
-        public int DefaultPiority;
+        public abstract string Name { get; }
         public int Piority;
         private JobStatus jobStatus;
         public JobStatus Status { get => jobStatus; set { jobStatus = value; StatusChanged?.Invoke(jobStatus); } }
         public IWorkLocation WorkLocation;
-        public bool IsJobActivated;
-        public Action<CrewJob> OnJobCompleted;
-        public Action<CrewJob> OnJobInterupted;
         public Action<JobStatus> StatusChanged;
         Crew crew;
         public CrewJob()
         {
-            IsJobActivated = false;
             Status = JobStatus.Free;
         }
         public CrewJobAction BuildCrewAction(Crew crew)
@@ -41,13 +36,11 @@ namespace _Game.Features.Gameplay
             Status = JobStatus.WorkingOn;
             StatusChanged?.Invoke(Status);
             yield return Execute(crew);
-            OnJobCompleted?.Invoke(this);
             Status = JobStatus.Deactive;
             StatusChanged?.Invoke(Status);
         }
         public void DoInterupt()
         {
-            OnJobInterupted?.Invoke(this);
             Interupt(crew);
             Status = JobStatus.Free;
             StatusChanged?.Invoke(Status);

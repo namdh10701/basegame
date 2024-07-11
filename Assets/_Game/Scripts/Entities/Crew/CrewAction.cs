@@ -85,16 +85,16 @@ namespace _Game.Features.Gameplay
         }
 
         public void DoJob(CrewJobAction crewJobAction)
-        {
+        {//CHECK HERE
             Handler.Act(crewJobAction);
         }
         public void Pause()
         {
-            Handler.Pause();
+            Handler.PauseCurrentAction();
         }
         public void Resume()
         {
-            Handler.Resume();
+            Handler.ResumeCurrentAction();
         }
         public void Activate()
         {

@@ -11,13 +11,12 @@ namespace _Game.Features.Gameplay
 {
     public class FixCellJob : CrewJob
     {
+        public override string Name => nameof(FixCellJob);
         public Cell cell;
         Node workingSlot;
         public FixCellJob(Cell cell) : base()
         {
-            Name = "FIX CELL " + cell.ToString();
-            DefaultPiority = 3;
-            Piority = 3;
+            Piority = CrewJobData.DefaultPiority[typeof(FixCellJob)];
             WorkLocation = cell.GetComponent<IWorkLocation>();
             this.cell = cell;
         }
@@ -55,14 +54,12 @@ namespace _Game.Features.Gameplay
         }
     }
 
-    public class FixGridItemJob : CrewJob
+    public abstract class FixGridItemJob : CrewJob
     {
         IGridItem gridItem;
         Node workingSlot;
         public FixGridItemJob(IGridItem item, IWorkLocation worklocation)
         {
-            DefaultPiority = 50;
-            Piority = 50;
             gridItem = item;
             WorkLocation = worklocation;
         }
@@ -86,7 +83,6 @@ namespace _Game.Features.Gameplay
             crew.Animation.PlayFix();
             yield return new WaitForSeconds(3);
             workingSlot.State = NodeState.Free;
-            Debug.Log("HERE");
             gridItem.OnFixed();
             crew.Animation.PlayIdle();
             yield break;
@@ -100,5 +96,26 @@ namespace _Game.Features.Gameplay
                 workingSlot.State = NodeState.Free;
             }
         }
+    }
+
+    public class FixCannonJob : FixGridItemJob
+    {
+        public override string Name => nameof(FixCannonJob);
+        public FixCannonJob(IGridItem item, IWorkLocation worklocation) : base(item, worklocation)
+        {
+            Piority = CrewJobData.DefaultPiority[typeof(FixCannonJob)];
+        }
+
+    }
+
+    public class FixAmmoJob : FixGridItemJob
+    {
+        public override string Name => nameof(FixAmmoJob);
+        public FixAmmoJob(IGridItem item, IWorkLocation worklocation) : base(item, worklocation)
+        {
+            Piority = CrewJobData.DefaultPiority[typeof(FixAmmoJob)];
+        }
+
+        
     }
 }

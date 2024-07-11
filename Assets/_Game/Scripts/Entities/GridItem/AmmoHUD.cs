@@ -48,10 +48,10 @@ namespace _Game.Features.Gameplay
             }
         }
 
-        public void RegisterJob(CrewJobData crewJobData)
+/*        public void RegisterJob(CrewJobData crewJobData)
         {
             crewJobData.FixGridItemDic[ammo.GetComponent<IGridItem>()].StatusChanged += EnterState;
-        }
+        }*/
 
         public void EnterState(JobStatus jobStatus)
         {

@@ -6,6 +6,7 @@ using _Game.Scripts;
 using _Base.Scripts.EventSystem;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
+using _Base.Scripts.Shared;
 
 namespace _Game.Features.Gameplay
 {
@@ -14,107 +15,161 @@ namespace _Game.Features.Gameplay
         [SerializeField] Camera _camera;
         [SerializeField] LayerMask layerMask;
         [SerializeField] FeverOrb prefab;
-
         FeverOrb draggingOrb;
+        bool isPointerDown;
+        bool isDragging;
 
-        bool clicked;
+        GameObject pointerDownObject;
+        Vector2 worldPointerPos;
+        Vector2 startWorldPointerPos;
+
+        Cannon selectingCannon;
+
+
+        public ShipHUD ShipHUD;
         private void Update()
         {
+#if !UNITY_EDITOR
             HandleTouch();
+#else
+            HandleMouse();
+#endif
+        }
+        void OnCanvasPointerDown()
+        {
+            GameObject clickedObject = EventSystem.current.currentSelectedGameObject;
+
+            if (clickedObject != null)
+            {
+                if (clickedObject.TryGetComponent(out FeverOrbBtn orbBtn))
+                {
+                    draggingOrb = Instantiate(prefab);
+                    draggingOrb.transform.position = worldPointerPos;
+                    draggingOrb.OnDrag(worldPointerPos);
+                    return;
+                }
+
+                if (clickedObject.TryGetComponent(out AmmoButton ammoButton))
+                {
+                    Ammo ammo = ammoButton.ammo;
+                    selectingCannon.Reload(ammo);
+                    selectingCannon.border.SetActive(false);
+                    ShipHUD.Hide();
+                }
+            }
+
+        }
+
+        void OnWorldPointerDown()
+        {
+            RaycastHit2D[] hits = Physics2D.CircleCastAll(worldPointerPos, 1, Vector2.zero, Mathf.Infinity, layerMask);
+
+            float closestDistance = Mathf.Infinity;
+            RaycastHit2D closestHit = new RaycastHit2D();
+
+            foreach (RaycastHit2D hit in hits)
+            {
+                float distance = Vector2.Distance(hit.point, worldPointerPos);
+                if (distance < closestDistance)
+                {
+                    closestDistance = distance;
+                    closestHit = hit;
+                }
+            }
+            if (closestHit.collider != null)
+            {
+                if (closestHit.collider.TryGetComponent(out ItemClickDetector icd))
+                {
+                    pointerDownObject = icd.Item;
+                }
+            }
+        }
+
+        void OnDrag()
+        {
+            if (!isPointerDown)
+                return;
+            if (draggingOrb != null)
+            {
+                draggingOrb.OnDrag(worldPointerPos);
+            }
+        }
+
+        void OnWorldPointerUp()
+        {
+            if (!isDragging)
+            {
+                if (pointerDownObject != null)
+                {
+                    if (pointerDownObject.TryGetComponent(out Cannon cannon))
+                    {
+                        ShipHUD.FilterCannonUsingAmmo(cannon);
+                        ShipHUD.Show();
+                        selectingCannon = cannon;
+                        selectingCannon.border.SetActive(true);
+
+                        if (cannon.IsBroken)
+                        {
+                            GlobalEvent<IGridItem>.Send("Fix", cannon.GetComponent<IGridItem>());
+                        }
+                    }
+                }
+            }
+            if (draggingOrb != null)
+            {
+                draggingOrb.OnDrop(worldPointerPos);
+            }
+        }
+        void OnCanvasPointerUp()
+        {
         }
 
         void HandleMouse()
         {
-            if (UnityEngine.Input.GetMouseButtonDown(0))
+            worldPointerPos = _camera.ScreenToWorldPoint(Input.mousePosition);
+
+            if (Input.GetMouseButtonDown(0))
             {
+                isPointerDown = true;
+                startWorldPointerPos = worldPointerPos;
 
-                if (!EventSystem.current.IsPointerOverGameObject())
+                if (EventSystem.current.IsPointerOverGameObject())
                 {
-                    Vector3 mousePosition = _camera.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
-                    RaycastHit2D[] hits = Physics2D.CircleCastAll(mousePosition, 1, Vector2.zero, Mathf.Infinity, layerMask);
-
-                    float closestDistance = Mathf.Infinity;
-                    RaycastHit2D closestHit = new RaycastHit2D();
-
-                    foreach (RaycastHit2D hit in hits)
-                    {
-                        float distance = Vector2.Distance(hit.point, mousePosition);
-                        if (distance < closestDistance)
-                        {
-                            closestDistance = distance;
-                            closestHit = hit;
-                        }
-                    }
-
-                    if (closestHit.collider != null)
-                    {
-                        OnClickDown(closestHit.collider);
-                    }
-                    else
-                    {
-                        GlobalEvent.Send("CloseHUD");
-                    }
+                    OnCanvasPointerDown();
                 }
                 else
                 {
-                    GameObject clickedObject = EventSystem.current.currentSelectedGameObject;
-
-                    if (clickedObject != null && clickedObject.name == "FeverOrbBtn")
-                    {
-                        draggingOrb = Instantiate(prefab);
-                        draggingOrb.transform.position = _camera.ScreenToWorldPoint(Input.mousePosition);
-                    }
+                    OnWorldPointerDown();
                 }
-                clicked = true;
+
+
+
             }
-            if (clicked)
+
+            if (isPointerDown && Vector2.Distance(startWorldPointerPos, worldPointerPos) > .1f)
             {
-                if (draggingOrb != null)
-                {
-                    draggingOrb.OnDrag(_camera.ScreenToWorldPoint(Input.mousePosition));
-                }
-
+                isDragging = true;
             }
-
+            if (isDragging)
+            {
+                OnDrag();
+            }
             if (Input.GetMouseButtonUp(0))
             {
-                if (clicked && draggingOrb != null)
+                if (EventSystem.current.IsPointerOverGameObject())
                 {
-                    clicked = false;
-                    draggingOrb.OnDrop(_camera.ScreenToWorldPoint(Input.mousePosition));
-                }
-            }
-        }
-
-        void OnClickDown(Collider2D collider)
-        {
-            if (collider.TryGetComponent(out ItemClickDetector icd))
-            {
-                IWorkLocation workLocation = icd.Item.GetComponent<IWorkLocation>();
-                workLocation.OnClick();
-                IGridItem gridItem = icd.Item.GetComponent<IGridItem>();
-                if (gridItem != null)
-                {
-                    if (gridItem.Def.Type == ItemType.CANNON)
-                    {
-                        Cannon cannon = gridItem as Cannon;
-                        GlobalEvent<Cannon>.Send("ClickCannon", cannon);
-                    }
-                    else
-                    {
-                        GlobalEvent.Send("CloseHUD");
-                    }
+                    OnCanvasPointerUp();
                 }
                 else
                 {
-                    GlobalEvent.Send("CloseHUD");
+                    OnWorldPointerUp();
                 }
-            }
-            else
-            {
-                GlobalEvent.Send("CloseHUD");
+                isPointerDown = false;
+                isDragging = false;
+                pointerDownObject = null;
             }
         }
+
         private bool IsPointerOverUIObject(Vector2 touchPos)
         {
             PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
@@ -123,86 +178,43 @@ namespace _Game.Features.Gameplay
             EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
             return results.Count > 0;
         }
-        bool isClick = false;
-        bool isdragging;
-        float clickTimer = 0;
-        bool clickOnUI;
+
         void HandleTouch()
         {
-            if (isClick)
+            if (Input.touchCount > 0)
             {
-                clickTimer += Time.deltaTime;
-            }
-            if (UnityEngine.Input.touchCount > 0)
-            {
-                Touch touch = UnityEngine.Input.GetTouch(0);
+                Touch touch = Input.GetTouch(0);
+                worldPointerPos = _camera.ScreenToWorldPoint(touch.position);
                 switch (touch.phase)
                 {
                     case TouchPhase.Began:
-                        isClick = true;
-                        isdragging = false;
+                        isPointerDown = true;
                         if (IsPointerOverUIObject(touch.position))
                         {
-                            clickOnUI = true;
-                            GameObject clickedObject = EventSystem.current.currentSelectedGameObject;
-
-                            if (clickedObject != null && clickedObject.name == "FeverOrbBtn")
-                            {
-                                draggingOrb = Instantiate(prefab);
-                                draggingOrb.transform.position = _camera.ScreenToWorldPoint(touch.position);
-                                draggingOrb.OnDrag(draggingOrb.transform.position);
-                            }
+                            OnCanvasPointerDown();
+                        }
+                        else
+                        {
+                            OnWorldPointerDown();
                         }
                         break;
 
+                    case TouchPhase.Moved:
+                        OnDrag();
+                        break;
 
                     case TouchPhase.Ended:
-                        if (isClick)
+                        if (IsPointerOverUIObject(touch.position))
                         {
-                            if (draggingOrb != null)
-                            {
-                                draggingOrb.OnDrop(_camera.ScreenToWorldPoint(touch.position));
-                            }
+                            OnCanvasPointerDown();
                         }
-                        if (isClick && !isdragging)
+                        else
                         {
-                            Vector3 mousePosition = _camera.ScreenToWorldPoint(touch.position);
-                            RaycastHit2D[] hits = Physics2D.CircleCastAll(mousePosition, 1, Vector2.zero, Mathf.Infinity, layerMask);
-
-                            float closestDistance = Mathf.Infinity;
-                            RaycastHit2D closestHit = new RaycastHit2D();
-
-                            foreach (RaycastHit2D hit in hits)
-                            {
-                                float distance = Vector2.Distance(hit.point, mousePosition);
-                                if (distance < closestDistance)
-                                {
-                                    closestDistance = distance;
-                                    closestHit = hit;
-                                }
-                            }
-
-                            if (closestHit.collider != null)
-                            {
-                                OnClickDown(closestHit.collider);
-                            }
-                            else
-                            {
-                                if (!clickOnUI)
-                                    GlobalEvent.Send("CloseHUD");
-                            }
-                            isdragging = false;
-                            clickOnUI = false;
-                            isClick = false;
-                            clickTimer = 0;
+                            OnWorldPointerDown();
                         }
-                        break;
-                    case TouchPhase.Moved:
-                        isdragging = true;
-                        if (draggingOrb != null)
-                        {
-                            draggingOrb.OnDrag(_camera.ScreenToWorldPoint(touch.position));
-                        }
+                        isPointerDown = false;
+                        isDragging = false;
+                        pointerDownObject = null;
                         break;
                 }
             }

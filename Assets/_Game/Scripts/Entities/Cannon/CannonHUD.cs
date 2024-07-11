@@ -50,11 +50,11 @@ namespace _Game.Features.Gameplay
 
         }
 
-        public void RegisterJob(CrewJobData crewJobData)
+/*        public void RegisterJob(CrewJobData crewJobData)
         {
-            crewJobData.ReloadCannonJobsDic[cannon].StatusChanged += ReloadCannonStatusEnter;
+            //crewJobData.ReloadCannonJobsDic[cannon].StatusChanged += ReloadCannonStatusEnter;
             crewJobData.FixGridItemDic[cannon.GetComponent<IGridItem>()].StatusChanged += FixItemStatusEnter;
-        }
+        }*/
 
         void ReloadCannonStatusEnter(JobStatus status)
         {

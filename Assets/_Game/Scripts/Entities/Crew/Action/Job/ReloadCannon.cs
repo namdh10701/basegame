@@ -11,19 +11,21 @@ namespace _Game.Features.Gameplay
 {
     public class ReloadCannonJob : CrewJob
     {
+        public override string Name => nameof(ReloadCannonJob) + cannon;
+
         public Cannon cannon;
         public Ammo bullet;
         Node workingSlot;
         Node cannonWorkingSlot;
+
         public ReloadCannonJob(Cannon cannon) : base()
         {
-            Name = "RELOAD CANNON ";
-            DefaultPiority = 20;
-            Piority = 20;
-
+            Piority = CrewJobData.DefaultPiority[typeof(ReloadCannonJob)];
             this.cannon = cannon;
             this.bullet = null;
         }
+
+
 
         public void AssignBullet(Ammo bullet)
         {

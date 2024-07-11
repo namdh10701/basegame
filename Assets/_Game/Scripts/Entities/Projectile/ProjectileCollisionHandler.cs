@@ -72,7 +72,6 @@ public class ProjectileCollisionHandler : DefaultEffectCollisionHandler
             projectile.trail.parent = null;
             projectile.trail.AddComponent<DestroyAfterEnabled>();
         }
-        Debug.Log("DESTROY ");
         Object.Destroy(projectile.gameObject);
     }
 }

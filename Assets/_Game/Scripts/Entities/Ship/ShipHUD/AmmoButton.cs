@@ -8,13 +8,9 @@ using UnityEngine.UI;
 
 public class AmmoButton : MonoBehaviour
 {
-    public ShipHUD hud;
     public Image image;
     public Image selector;
     public Ammo ammo;
-    public Button button;
-
-    public UnityEvent onClick => button.onClick;
     public void Init(Ammo ammo)
     {
         this.ammo = ammo;
@@ -24,11 +20,6 @@ public class AmmoButton : MonoBehaviour
     public void ToggleSelect(bool isOn)
     {
         selector.gameObject.SetActive(isOn);
-    }
-
-    public void OnClick()
-    {
-        hud.OnClick(ammo);
     }
 
 }
