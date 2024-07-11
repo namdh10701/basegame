@@ -5,14 +5,10 @@ using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.RPGCommon.Entities;
 using UnityEngine;
 
-public class KillShot : OneShotEffect
+public class KillShotEffect : OneShotEffect
 {
     [field: SerializeField]
-    public float Amount { get; set; }
-
-    [field: SerializeField]
-    public float AmmoPenetrate { get; set; }
-    public bool IsCrit = true;
+    public float Threshold { get; set; }
     protected override void OnApply(IEffectTaker entity)
     {
         if (entity is not IStatsBearer statsBearer)
@@ -23,14 +19,15 @@ public class KillShot : OneShotEffect
         {
             return;
         }
-        Amount = 999999;
-        if (Amount > 0)
+
+        if (alive.HealthPoint.Value > 0)
         {
-            if (alive.HealthPoint.StatValue.BaseValue > alive.HealthPoint.MinStatValue.Value)
+            if ((alive.HealthPoint.Value / alive.HealthPoint.MaxValue) < Threshold)
             {
-                alive.HealthPoint.StatValue.BaseValue -= Amount;
-                GlobalEvent<float, bool, Vector3>.Send("DAMAGE_INFLICTED", Amount, IsCrit, transform.position);
+                alive.HealthPoint.StatValue.BaseValue -= 999999;
+                GlobalEvent<float, bool, Vector3>.Send("DAMAGE_INFLICTED", 999999, true, transform.position);
             }
         }
+
     }
 }

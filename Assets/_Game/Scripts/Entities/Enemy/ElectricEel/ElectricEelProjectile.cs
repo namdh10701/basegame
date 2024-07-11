@@ -18,12 +18,17 @@ public class ElectricEelProjectile : Projectile
         base.ApplyStats();
         ProjectileMovement = new HomingMove(this, targetTransform);
         ProjectileCollisionHandler projectileCollisionHandler = (ProjectileCollisionHandler)CollisionHandler;
-        projectileCollisionHandler.Handlers.Add(new ElectricBounceHandler(3, 20, lightingFx));
+        projectileCollisionHandler.Handlers.Add(new ElectricBounceHandler(10, 20, lightingFx));
     }
 
     private void FixedUpdate()
     {
         ProjectileMovement.Move();
+    }
+
+    private void OnDestroy()
+    {
+        Debug.Log("DESTROY 1");
     }
 }
 
@@ -50,10 +55,14 @@ public class ElectricBounceHandler : IHandler
 
         foreach (RaycastHit2D hit in inRangeColliders)
         {
-            if (hit.collider.TryGetComponent(out IEffectTakerCollider effectTakerCollider))
+            Debug.Log(hit.collider.name);
+            if (hit.collider.TryGetComponent(out EffectTakerCollider effectTakerCollider))
             {
+                Debug.Log("GET DC ");
                 if (!((ProjectileCollisionHandler)p.CollisionHandler).IgnoreCollideEntities.Contains(effectTakerCollider.Taker))
                 {
+
+                    Debug.Log("ADD DC ");
                     inRangeEntities.Add(effectTakerCollider.Taker);
                 }
             }
@@ -71,7 +80,6 @@ public class ElectricBounceHandler : IHandler
                     minDistance = distance;
                 }
             }
-            bounceCount++;
             ((HomingMove)p.ProjectileMovement).target = nextTarget.Transform;
             ElectricFx nextProjectile = GameObject.Instantiate(electricFxPrefab);
             nextProjectile.transform.position = collidedEntity.Transform.position;
@@ -81,9 +89,11 @@ public class ElectricBounceHandler : IHandler
         }
         else
         {
+            Debug.Log("MAX BOUNCE");
             bounceCount = maxBounce;
         }
 
     }
+
 
 }

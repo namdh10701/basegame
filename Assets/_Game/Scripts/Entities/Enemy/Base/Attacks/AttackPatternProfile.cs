@@ -9,5 +9,6 @@ namespace _Game.Features.Gameplay
         public CellPattern CellPattern;
         public CellPickType CellPickType;
         public int Size;
+        public int Size2;
     }
 }

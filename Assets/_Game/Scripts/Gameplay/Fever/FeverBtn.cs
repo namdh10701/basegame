@@ -21,11 +21,12 @@ public class FeverBtn : MonoBehaviour
 
     public void Hide()
     {
-        if (tween != null)
+        /*if (tween != null)
         {
             tween.Kill();
         }
-        tween = transform.DOScaleY(0, .5f).OnComplete(() => { tween = null; gameObject.SetActive(false); });
+        tween = transform.DOScaleY(0, .5f).OnComplete(() => { tween = null; gameObject.SetActive(false); });*/
+        gameObject.SetActive(false);
     }
 
     private void OnDestroy()
@@ -39,5 +40,6 @@ public class FeverBtn : MonoBehaviour
     public void OnClick()
     {
         GlobalEvent.Send("UseFullFever");
+        Hide();
     }
 }

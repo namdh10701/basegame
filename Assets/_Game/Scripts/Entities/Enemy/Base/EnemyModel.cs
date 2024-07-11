@@ -73,12 +73,12 @@ namespace _Game.Scripts.Entities
             EffectTakerCollider.Taker = this;
         }
 
-        public void OnSlowed()
+        public virtual void OnSlowed()
         {
             OnSlowedDown?.Invoke();
         }
 
-        public void OnSlowEnded()
+        public virtual void OnSlowEnded()
         {
             OnSlowedDownStopped?.Invoke();
         }

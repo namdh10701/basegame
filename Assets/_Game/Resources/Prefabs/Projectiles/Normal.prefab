@@ -490,10 +490,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7691449450847267648}
-  - component: {fileID: 9038214777133773486}
   - component: {fileID: 1933465007915484115}
   - component: {fileID: 318803717019137845}
   - component: {fileID: -8666109235304471769}
+  - component: {fileID: 8635038290981122986}
+  - component: {fileID: 8367948009204208172}
+  - component: {fileID: 5948625669731361887}
   m_Layer: 7
   m_Name: Normal
   m_TagString: Untagged
@@ -520,55 +522,6 @@ Transform:
   - {fileID: 4442994418334333028}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9038214777133773486
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7099963840742418997}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51454a304ff74d7ba561bd142aa532c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  body: {fileID: 1933465007915484115}
-  onHitParticle: {fileID: 2951344110598069595}
-  _stats:
-    <Damage>k__BackingField:
-      statModifiers: []
-      _baseValue: 0
-    <AttackAOE>k__BackingField:
-      statModifiers: []
-      _baseValue: 0
-    <ArmorPenetrate>k__BackingField:
-      statModifiers: []
-      _baseValue: 0
-    <Piercing>k__BackingField:
-      statModifiers: []
-      _baseValue: 0
-    <Speed>k__BackingField:
-      statModifiers: []
-      _baseValue: 0
-    <Size>k__BackingField:
-      statModifiers: []
-      _baseValue: 0
-    <Accuracy>k__BackingField:
-      statModifiers: []
-      _baseValue: 0
-    <CritChance>k__BackingField:
-      statModifiers: []
-      _baseValue: 0
-    <CritDamage>k__BackingField:
-      statModifiers: []
-      _baseValue: 0
-  trail: {fileID: 4442994418334333028}
-  outGoingEffects: []
-  collisionListener: {fileID: 318803717019137845}
-  isCrit: 0
-  id: 1001
-  gDConfig: {fileID: 11400000, guid: d0ed2d75ef03e46a89a69e09a4a544d5, type: 2}
-  statsTemplate: {fileID: 11400000, guid: 1ef6ab080ed668d47bfaa43b43978cf3, type: 2}
 --- !u!50 &1933465007915484115
 Rigidbody2D:
   serializedVersion: 4
@@ -621,6 +574,94 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12c5255b5a7391c48b0346c3510cbd9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8635038290981122986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7099963840742418997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1de980b921b9d9647a6d437aed8a5c61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  body: {fileID: 1933465007915484115}
+  onHitParticle: {fileID: 2951344110598069595}
+  _stats:
+    <Damage>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <AttackAOE>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <ArmorPenetrate>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <Piercing>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <Speed>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <Size>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <Accuracy>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <CritChance>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <CritDamage>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <HpThreshold>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+  trail: {fileID: 4442994418334333028}
+  outGoingEffects:
+  - {fileID: 8367948009204208172}
+  - {fileID: 5948625669731361887}
+  collisionListener: {fileID: 318803717019137845}
+  isCrit: 0
+  id: 
+  gDConfig: {fileID: 11400000, guid: d0ed2d75ef03e46a89a69e09a4a544d5, type: 2}
+  statsTemplate: {fileID: 11400000, guid: b8c7bf0392ef49743b470ae98921bfda, type: 2}
+  decreaseHpEffect: {fileID: 8367948009204208172}
+  pushEffect: {fileID: 5948625669731361887}
+--- !u!114 &8367948009204208172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7099963840742418997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c262613bbca45d296cc9e30cfb58f40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <IsDone>k__BackingField: 0
+  <Amount>k__BackingField: 0
+  <ArmorPenetrate>k__BackingField: 0
+  IsCrit: 0
+--- !u!114 &5948625669731361887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7099963840742418997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c2a052ce94122d4d899f10e84fd53d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <IsDone>k__BackingField: 0
+  force: 0
+  isIgnorePoise: 0
+  body: {fileID: 0}
 --- !u!1 &7552188455482857825
 GameObject:
   m_ObjectHideFlags: 0

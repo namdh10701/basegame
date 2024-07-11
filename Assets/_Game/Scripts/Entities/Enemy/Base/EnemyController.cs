@@ -80,6 +80,7 @@ namespace _Game.Features.Gameplay
 
         public abstract IEnumerator StartActionCoroutine();
         public abstract IEnumerator AttackSequence();
+        
         public void OnSlowedDown()
         {
 

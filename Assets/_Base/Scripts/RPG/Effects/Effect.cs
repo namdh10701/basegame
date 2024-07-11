@@ -6,6 +6,13 @@ using Task = System.Threading.Tasks.Task;
 
 namespace _Base.Scripts.RPG.Effects
 {
+
+    public interface IDamageEffect
+    {
+        public float Amount { get; set; }
+        public float ArmorPenetrate { get; set; }
+    }
+
     [Serializable]
     public abstract class Effect : MonoBehaviour
     {
@@ -27,6 +34,8 @@ namespace _Base.Scripts.RPG.Effects
             OnEnded?.Invoke(this);
             IsActive = false;
             IsDone = true;
+
+            Destroy(gameObject);
         }
         public virtual bool CanEffect(IEffectTaker entity) => true;
     }
@@ -61,19 +70,18 @@ namespace _Base.Scripts.RPG.Effects
     {
         [field: SerializeField]
         public float Duration { get; set; }
+        [field: SerializeField]
         protected float elapsedTime = 0;
         public IEffectTaker Affected { get; protected set; }
         protected override void OnStart(IEffectTaker entity)
         {
             base.OnStart(entity);
+            IsActive = true;
             transform.parent = null;
         }
         public override void OnEnd(IEffectTaker entity)
         {
             base.OnEnd(entity);
-            Destroy(gameObject);
-            if (Affected != entity)
-                return;
         }
         public override void Apply(IEffectTaker entity)
         {

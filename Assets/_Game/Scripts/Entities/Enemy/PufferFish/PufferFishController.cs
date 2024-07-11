@@ -33,7 +33,7 @@ namespace _Game.Features.Gameplay
                 isAttacking = true;
                 pufferFishAnim.ChargeExplode();
                 yield return new WaitForSeconds(2);
-
+                enemyModel.EffectHandler.Clear();
                 pufferFishAnim.PlayDie(() =>
                 {
                     base.Die();

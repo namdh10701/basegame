@@ -248,6 +248,7 @@ namespace _Game.Features.Gameplay
         void InitOccupyCell(string id, ItemType type, IGridItem gridItem, GridItemData data, Grid grid)
         {
             gridItem.GridId = data.GridId;
+            Debug.Log(Database.GetShapeByTypeAndOperationType(id, type).GetLength(1) + id);
             gridItem.OccupyCells =
                 GridHelper.GetCoveredCellsIfPutShapeAtCell(
                     Database.GetShapeByTypeAndOperationType(id, type), grid.Cells[data.startY, data.startX]

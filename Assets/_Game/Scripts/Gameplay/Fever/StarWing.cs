@@ -42,6 +42,7 @@ public class StarWing : MonoBehaviour
 
     internal void HideCompletely()
     {
+        IsShowed = false;
         image.sprite = disableSprite;
         glow.AnimationState.SetAnimation(0, "fx_deactive_set", false);
         tween = transform.DOScale(0, .25f).OnComplete(() => tween = null);

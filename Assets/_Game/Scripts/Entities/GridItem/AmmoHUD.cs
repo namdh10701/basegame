@@ -19,15 +19,33 @@ namespace _Game.Features.Gameplay
         {
             this.ammo = ammo;
             AmmoStats ammoStats = ammo.Stats as AmmoStats;
-
-            HPBar.SetProgress(ammoStats.HealthPoint.Value / ammoStats.HealthPoint.MaxValue);
-
+            float amount = ammoStats.HealthPoint.Value / ammoStats.HealthPoint.MaxValue;
+            if (amount == 1)
+            {
+                HPBar.SetProgress((float)amount);
+                HPBar.gameObject.SetActive(false);
+            }
+            else
+            {
+                HPBar.gameObject.SetActive(true);
+                HPBar.SetProgress((float)amount);
+            }
             ammoStats.HealthPoint.OnValueChanged += HealthPoint_OnValueChanged;
         }
 
         private void HealthPoint_OnValueChanged(RangedStat stat)
         {
-            HPBar.SetProgress(stat.Value / stat.MaxValue);
+            float amount = stat.Value / stat.MaxValue;
+            if (amount == 1)
+            {
+                HPBar.SetProgress((float)amount);
+                HPBar.gameObject.SetActive(false);
+            }
+            else
+            {
+                HPBar.gameObject.SetActive(true);
+                HPBar.SetProgress((float)amount);
+            }
         }
 
         public void RegisterJob(CrewJobData crewJobData)
@@ -41,6 +59,7 @@ namespace _Game.Features.Gameplay
             {
                 case JobStatus.Deactive:
                     Hammer.Hide();
+                    Hammer.Stop();
                     break;
                 case JobStatus.Free:
                     Hammer.Show();
