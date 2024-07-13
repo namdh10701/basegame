@@ -42,11 +42,6 @@ namespace _Game.Features.Gameplay
                 yield return crew.CrewMovement.MoveTo(workingSlot.transform.position);
                 yield return new WaitForSeconds(0.5f);
                 workingSlot.State = NodeState.Free;
-
-                if (bullet.IsBroken)
-                {
-                    yield break;
-                }
                 if (((ShipStats)crew.Ship.Stats).ManaPoint.Value < bullet.stats.EnergyCost.Value)
                 {
                     yield break;

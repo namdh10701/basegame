@@ -1,5 +1,52 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4850586141687410444
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8112035364498059527}
+  - component: {fileID: 1780828608365208334}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8112035364498059527
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4850586141687410444}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2437308829249742633}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1780828608365208334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4850586141687410444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b613d5f555120443b561b7bad41e2b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <IsDone>k__BackingField: 0
+  <Duration>k__BackingField: 2
+  elapsedTime: 0
 --- !u!1 &6751157435138116611
 GameObject:
   m_ObjectHideFlags: 0
@@ -16,7 +63,6 @@ GameObject:
   - component: {fileID: 8059644799453874067}
   - component: {fileID: 4594968694585464567}
   - component: {fileID: 6481008977829952846}
-  - component: {fileID: 8595738861902811351}
   m_Layer: 0
   m_Name: ElectricProjectile
   m_TagString: Untagged
@@ -36,7 +82,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 8112035364498059527}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &2693085079696738080
@@ -114,7 +161,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   body: {fileID: 2693085079696738080}
-  Id: 
   onHitParticle: {fileID: 0}
   _stats:
     <Damage>k__BackingField:
@@ -144,11 +190,12 @@ MonoBehaviour:
     <CritDamage>k__BackingField:
       statModifiers: []
       _baseValue: 0
-  _statsTemplate: {fileID: 11400000, guid: b8c7bf0392ef49743b470ae98921bfda, type: 2}
-  rarity: 0
+    <HpThreshold>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+  trail: {fileID: 0}
   outGoingEffects:
-  - {fileID: 6481008977829952846}
-  - {fileID: 8595738861902811351}
+  - {fileID: 1780828608365208334}
   collisionListener: {fileID: 4594968694585464567}
   isCrit: 0
   startTransform: {fileID: 0}
@@ -243,17 +290,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c262613bbca45d296cc9e30cfb58f40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <IsDone>k__BackingField: 0
   <Amount>k__BackingField: 0
---- !u!114 &8595738861902811351
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6751157435138116611}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b613d5f555120443b561b7bad41e2b8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  StunDuration: 2
+  <ArmorPenetrate>k__BackingField: 0
+  IsCrit: 0

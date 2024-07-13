@@ -61,7 +61,7 @@ namespace _Game.Features.Gameplay
         }
         void OnHide()
         {
-            effectTakerCollider.enabled = false;
+            effectTakerCollider.gameObject.SetActive(false);
         }
 
         public override IEnumerator AttackSequence()
@@ -90,6 +90,7 @@ namespace _Game.Features.Gameplay
 
         public void Show()
         {
+            effectTakerCollider.gameObject.SetActive(true);
             Animation.Appear();
         }
 
@@ -116,10 +117,12 @@ namespace _Game.Features.Gameplay
             if (rand < .5f)
             {
                 wander.ToLeft();
+
             }
             else
             {
                 wander.ToRight();
+
             }
             wander.UpdateTargetDirection(-50, 50);
             effectTakerCollider.enabled = true;

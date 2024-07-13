@@ -86,6 +86,7 @@ namespace _Game.Features.Gameplay
             crew.Animation.PlayFix();
             yield return new WaitForSeconds(3);
             workingSlot.State = NodeState.Free;
+            Debug.Log("HERE");
             gridItem.OnFixed();
             crew.Animation.PlayIdle();
             yield break;

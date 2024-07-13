@@ -77,17 +77,16 @@ namespace _Game.Features.Gameplay
                 if (EnemyManager.IsLevelDone)
                 {
                     bool ended = true;
-                    foreach (IAliveStats a in EntityManager.aliveEnemies)
+                    foreach (EnemyModel a in EntityManager.aliveEnemies)
                     {
                         if (a != null)
                         {
-                            if (a is EnemyStats s)
+                            EnemyStats stats = (EnemyStats)a.Stats;
+                            if (stats.HealthPoint.Value > 0)
                             {
-                                if (s.HealthPoint.Value > 0)
-                                {
-                                    ended = false;
-                                }
+                                ended = false;
                             }
+
                         }
                     }
                     if (ended)
@@ -103,8 +102,9 @@ namespace _Game.Features.Gameplay
         async void Win()
         {
             //CleanUp();
+            PlayerPrefs.SetFloat("fever", EntityManager.Ship.stats.Fever.Value);
             var options = new ModalOptions("BattleVictory1Screen", true, loadAsync: false);
-
+            
             await ModalContainer.Find(ContainerKey.Modals).PushAsync(options);
         }
 

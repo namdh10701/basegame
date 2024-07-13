@@ -19,9 +19,21 @@ namespace _Game.Features.Gameplay
         public void SetCannon(Cannon cannon)
         {
             this.cannon = cannon;
+
             CannonStats cannonStats = cannon.Stats as CannonStats;
             AmmoBar.SetProgress(cannonStats.Ammo.Value / cannonStats.Ammo.MaxValue);
-            HpBar.SetProgress(cannonStats.HealthPoint.Value / cannonStats.HealthPoint.MaxValue);
+
+            float amount = cannonStats.HealthPoint.Value / cannonStats.HealthPoint.MaxValue;
+            if (amount == 1)
+            {
+                HpBar.gameObject.SetActive(false);
+                HpBar.SetProgress((float)amount);
+            }
+            else
+            {
+                HpBar.gameObject.SetActive(true);
+                HpBar.SetProgress((float)amount);
+            }
             cannonStats.HealthPoint.OnValueChanged += HealthPoint_OnValueChanged;
             cannonStats.Ammo.OnValueChanged += Ammo_OnValueChanged;
             cannon.OnFeverStart += Cannon_OnFeverStart;
@@ -46,6 +58,12 @@ namespace _Game.Features.Gameplay
 
         void ReloadCannonStatusEnter(JobStatus status)
         {
+            isReloading = (status != JobStatus.Deactive);
+            Debug.Log("status " + status);
+            if (isFixing)
+            {
+                return;
+            }
             switch (status)
             {
                 case JobStatus.Deactive:
@@ -58,16 +76,11 @@ namespace _Game.Features.Gameplay
                     Reload.Play();
                     break;
             }
-            isReloading = (status != JobStatus.Deactive);
-
-            if (isFixing)
-            {
-                Reload.Hide();
-            }
         }
 
         void FixItemStatusEnter(JobStatus status)
         {
+            isFixing = (status != JobStatus.Deactive);
             switch (status)
             {
                 case JobStatus.Deactive:
@@ -77,16 +90,14 @@ namespace _Game.Features.Gameplay
                     Hammer.Show();
                     if (isReloading)
                     {
-                        Reload.Show();
-                        Reload.Play();
+                        Reload.Hide();
                     }
                     break;
                 case JobStatus.WorkingOn:
                     Hammer.Play();
-
                     break;
             }
-            isFixing = (status != JobStatus.Deactive);
+
         }
 
 
@@ -98,7 +109,18 @@ namespace _Game.Features.Gameplay
 
         private void HealthPoint_OnValueChanged(RangedStat obj)
         {
-            HpBar.SetProgress(obj.Value / obj.MaxValue);
+            float amount = obj.Value / obj.MaxValue;
+            if (amount == 1)
+            {
+                HpBar.gameObject.SetActive(false);
+
+                HpBar.SetProgress((float)amount);
+            }
+            else
+            {
+                HpBar.gameObject.SetActive(true);
+                HpBar.SetProgress((float)amount);
+            }
         }
     }
 }

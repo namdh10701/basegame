@@ -33,6 +33,7 @@ namespace _Game.Scripts.Entities
         [SerializeField]
         private CannonStatsTemplate _statsTemplate;
 
+        public GameObject border;
         public IFighterStats FighterStats
         {
             get => _stats;
@@ -84,9 +85,10 @@ namespace _Game.Scripts.Entities
 
         public void Initizalize()
         {
+            EffectHandler.EffectTaker = this;
             GDConfigStatsApplier = GetComponent<GDConfigStatsApplier>();
             GDConfigStatsApplier.LoadStats(this);
-
+            border.SetActive(false);
             _stats.HealthPoint.OnValueChanged += HealthPoint_OnValueChanged;
             _stats.Ammo.OnValueChanged += Ammo_OnValueChanged;
 
@@ -95,11 +97,12 @@ namespace _Game.Scripts.Entities
 
         private void Ammo_OnValueChanged(RangedStat stat)
         {
+
             if (stat.StatValue.Value == stat.MinValue)
             {
                 OnOutOfAmmo();
             }
-            else if (stat.StatValue.Value == stat.MaxValue)
+            else if (stat.StatValue.Value > 0)
             {
                 OnReloaded();
             }
@@ -117,9 +120,8 @@ namespace _Game.Scripts.Entities
         {
             if (usingBullet.AmmoType == AmmoType.Bomb && isOnFever)
             {
-                OnFeverEffectExit();
+                //OnFeverEffectExit();
             }
-
             isOutOfAmmo = true;
             GlobalEvent<Cannon, Ammo, int>.Send("Reload", this, usingBullet, 15);
             OutOfAmmo?.Invoke();
@@ -147,6 +149,7 @@ namespace _Game.Scripts.Entities
             }
             else
             {
+                Debug.Log("OUT AMMO 1");
                 GlobalEvent<Cannon, Ammo, int>.Send("Reload", this, usingBullet, int.MaxValue);
             }
         }
@@ -215,7 +218,11 @@ namespace _Game.Scripts.Entities
             // code change stats go here 
             if (usingBullet.AmmoType == AmmoType.Bomb)
             {
-                _stats.Ammo.StatValue.BaseValue = _stats.Ammo.MaxStatValue.BaseValue + 5;
+                _stats.Ammo.StatValue.BaseValue = usingBullet.stats.MagazineSize.BaseValue + 5;
+            }
+            else
+            {
+                _stats.Ammo.StatValue.BaseValue = usingBullet.stats.MagazineSize.BaseValue;
             }
             Invoke("OnFeverEffectExit", 5);
 
@@ -231,7 +238,11 @@ namespace _Game.Scripts.Entities
             ApplyFeverStats();
             if (usingBullet.AmmoType == AmmoType.Bomb)
             {
-                _stats.Ammo.StatValue.BaseValue = _stats.Ammo.MaxStatValue.BaseValue + 10;
+                _stats.Ammo.StatValue.BaseValue = usingBullet.stats.MagazineSize.BaseValue + 10;
+            }
+            else
+            {
+                _stats.Ammo.StatValue.BaseValue = usingBullet.stats.MagazineSize.BaseValue;
             }
         }
 
@@ -270,6 +281,7 @@ namespace _Game.Scripts.Entities
             {
                 value.ApplyGDConfig(_stats);
             }
+
         }
 
         void ApplyNormalStats()

@@ -36,7 +36,6 @@ namespace _Game.Features.Battle
                 if (FeverPoint.StatValue.BaseValue < thresholdSteps[i])
                 {
                     ChangeState((FeverState)i);
-                    Debug.LogError(i);
                     return;
                 }
             }

@@ -14,6 +14,8 @@ namespace _Game.Features.Gameplay
             {
                 sequence.Kill();
             }
+            Debug.Log("PLAY");
+            sequence = DOTween.Sequence(sequence);
             transform.rotation = Quaternion.Euler(startRotation);
             sequence.Append(transform.DOLocalRotate(endRotation, .25f));
             sequence.Append(transform.DOLocalRotate(startRotation, .25f));
@@ -23,6 +25,7 @@ namespace _Game.Features.Gameplay
 
         public void Stop()
         {
+            Debug.Log("Stop");
             if (sequence != null)
             {
                 sequence.Kill();

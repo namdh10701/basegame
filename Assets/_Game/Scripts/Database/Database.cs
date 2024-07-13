@@ -136,7 +136,7 @@ namespace _Game.Scripts.DB
             foreach (var ammo in GDConfigLoader.Instance.Ammos)
             {
                 string operationType = ammo.Value.operation_type.ToLower();
-                string path = $"Prefabs/GridItems/Bullets/{operationType}";
+                string path = $"Prefabs/GridItems/Ammos/{operationType}";
                 Ammo bulletPrefab = Resources.Load<Ammo>(path);
                 BulletDic.Add(ammo.Key, bulletPrefab);
                 BulletOperatorDic.Add(ammo.Key, operationType);
@@ -163,21 +163,21 @@ namespace _Game.Scripts.DB
         {
             CannonOffsetDic.Add(new KeyValuePair<string, string>("normal", "0001"), new Vector3(0, 0.41f, 0));
             CannonOffsetDic.Add(new KeyValuePair<string, string>("fast", "0001"), new Vector3(0, 0.45f, 0));
-            CannonOffsetDic.Add(new KeyValuePair<string, string>("charge", "0001"), new Vector3(0.52f, 0.653f, 0));
+            CannonOffsetDic.Add(new KeyValuePair<string, string>("charge", "0001"), new Vector3(0.52f, 0.5f, 0));
             CannonOffsetDic.Add(new KeyValuePair<string, string>("twin", "0001"), new Vector3(0.52f, 0.33f, 0));
             CannonOffsetDic.Add(new KeyValuePair<string, string>("chaining", "0001"), new Vector3(0, 0.27f, 0));
             CannonOffsetDic.Add(new KeyValuePair<string, string>("far", "0001"), new Vector3(0.48f, 0.38f, 0));
 
             CannonOffsetDic.Add(new KeyValuePair<string, string>("normal", "0002"), new Vector3(0, 0.41f, 0));
             CannonOffsetDic.Add(new KeyValuePair<string, string>("fast", "0002"), new Vector3(0, 0.45f, 0));
-            CannonOffsetDic.Add(new KeyValuePair<string, string>("charge", "0002"), new Vector3(0.52f, 0.653f, 0));
+            CannonOffsetDic.Add(new KeyValuePair<string, string>("charge", "0002"), new Vector3(0.52f, 0.5f, 0));
             CannonOffsetDic.Add(new KeyValuePair<string, string>("twin", "0002"), new Vector3(0.52f, 0.33f, 0));
             CannonOffsetDic.Add(new KeyValuePair<string, string>("chaining", "0002"), new Vector3(0, 0.27f, 0));
             CannonOffsetDic.Add(new KeyValuePair<string, string>("far", "0002"), new Vector3(0.48f, 0.38f, 0));
 
             CannonOffsetDic.Add(new KeyValuePair<string, string>("normal", "0003"), new Vector3(0, 0.41f, 0));
             CannonOffsetDic.Add(new KeyValuePair<string, string>("fast", "0003"), new Vector3(0, 0.45f, 0));
-            CannonOffsetDic.Add(new KeyValuePair<string, string>("charge", "0003"), new Vector3(0.52f, 0.653f, 0));
+            CannonOffsetDic.Add(new KeyValuePair<string, string>("charge", "0003"), new Vector3(0.52f, 0.5f, 0));
             CannonOffsetDic.Add(new KeyValuePair<string, string>("twin", "0003"), new Vector3(0.52f, 0.33f, 0));
             CannonOffsetDic.Add(new KeyValuePair<string, string>("chaining", "0003"), new Vector3(0, 0.27f, 0));
             CannonOffsetDic.Add(new KeyValuePair<string, string>("far", "0003"), new Vector3(0.48f, 0.38f, 0));

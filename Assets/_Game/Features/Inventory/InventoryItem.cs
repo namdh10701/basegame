@@ -23,12 +23,12 @@ namespace _Game.Features.Inventory
         Epic,
         Legend,
     }
-    public class InventoryItemDto
+    [Binding]
+    public class Star : SubViewModel
     {
-        public string Id;
-        public string Name;
-        public ItemType ItemType;
+
     }
+
     [Binding]
     public class InventoryItem : SubViewModel
     {
@@ -38,7 +38,6 @@ namespace _Game.Features.Inventory
         public string Id { get; set; }
 
         #region Binding Prop: Name
-
         /// <summary>
         /// Name
         /// </summary>
@@ -57,14 +56,12 @@ namespace _Game.Features.Inventory
                 OnPropertyChanged(nameof(Name));
             }
         }
-
         private string m_name;
 
         #endregion
 
 
         #region Binding Prop: ItemType
-
         /// <summary>
         /// ItemType
         /// </summary>
@@ -83,13 +80,11 @@ namespace _Game.Features.Inventory
                 OnPropertyChanged(nameof(Type));
             }
         }
-
         private ItemType m_type;
 
         #endregion
 
         #region Binding Prop: ItemOperationType
-
         /// <summary>
         /// OperationType
         /// </summary>
@@ -108,13 +103,11 @@ namespace _Game.Features.Inventory
                 OnPropertyChanged(nameof(OperationType));
             }
         }
-
         private string _operationType;
 
         #endregion
 
         #region Binding Prop: Rarity
-
         /// <summary>
         /// Rarity
         /// </summary>
@@ -133,13 +126,11 @@ namespace _Game.Features.Inventory
                 OnPropertyChanged(nameof(Rarity));
             }
         }
-
         private Rarity _rarity;
 
         #endregion
 
         #region Binding Prop: RarityLevel
-
         /// <summary>
         /// RarityLevel
         /// </summary>
@@ -158,9 +149,7 @@ namespace _Game.Features.Inventory
                 OnPropertyChanged(nameof(RarityLevel));
             }
         }
-
         private string _rarityLevel;
-
         #endregion
 
         [Binding]
@@ -180,7 +169,6 @@ namespace _Game.Features.Inventory
 
 
         #region Binding Prop: IsSelected
-
         /// <summary>
         /// IsSelected
         /// </summary>
@@ -203,11 +191,9 @@ namespace _Game.Features.Inventory
         }
 
         private bool _isSelected;
-
         #endregion
 
         #region Binding Prop: IsEquipped
-
         /// <summary>
         /// IsEquipped
         /// </summary>
@@ -226,13 +212,10 @@ namespace _Game.Features.Inventory
                 OnPropertyChanged(nameof(IsEquipped));
             }
         }
-
         private bool _isEquipped;
-
         #endregion
 
         #region Binding Prop: IsHighLight
-
         /// <summary>
         /// IsHighLight
         /// </summary>
@@ -251,9 +234,80 @@ namespace _Game.Features.Inventory
                 OnPropertyChanged(nameof(IsHighLight));
             }
         }
-
         private bool _isHighLight;
+        #endregion
 
+        #region Binding Prop: Slot
+        /// <summary>
+        /// Slot
+        /// </summary>
+        [Binding]
+        public int Slot
+        {
+            get => _slot;
+            set
+            {
+                if (Equals(_slot, value))
+                {
+                    return;
+                }
+
+                _slot = value;
+                OnPropertyChanged(nameof(Slot));
+            }
+        }
+        private int _slot;
+        #endregion
+
+        #region Binding Prop: NumbStars
+        /// <summary>
+        /// NumbStars
+        /// </summary>
+        [Binding]
+        public int NumbStars
+        {
+            get => _numbStars;
+            set
+            {
+                if (Equals(_numbStars, value))
+                {
+                    return;
+                }
+
+                _numbStars = value;
+                OnPropertyChanged(nameof(NumbStars));
+            }
+        }
+        private int _numbStars;
+        #endregion
+
+        #region Binding Prop: Level
+        /// <summary>
+        /// Slot
+        /// </summary>
+        [Binding]
+        public int Level
+        {
+            get => _level;
+            set
+            {
+                if (Equals(_level, value))
+                {
+                    return;
+                }
+
+                _level = value;
+                OnPropertyChanged(nameof(Level));
+            }
+        }
+        private int _level;
+        #endregion
+
+        #region Binding: Stars
+        private ObservableList<GameObject> stars = new ObservableList<GameObject>();
+
+        [Binding]
+        public ObservableList<GameObject> Stars => stars;
         #endregion
 
         [Binding]
@@ -266,6 +320,14 @@ namespace _Game.Features.Inventory
         public void SetAsHighLightItem()
         {
             InventoryViewModel.HighlightItem = this;
+        }
+
+        void Awake()
+        {
+            for (int i = 0; i < NumbStars; i++)
+            {
+                Stars.Add(new Star());
+            }
         }
     }
 }

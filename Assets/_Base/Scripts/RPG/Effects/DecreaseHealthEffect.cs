@@ -9,19 +9,25 @@ using UnityEngine;
 namespace _Base.Scripts.RPG.Effects
 {
     [Serializable]
-    public class DecreaseHealthEffect : OneShotEffect
+    public class DecreaseHealthEffect : OneShotEffect, IDamageEffect
     {
         [field: SerializeField]
         public float Amount { get; set; }
 
         [field: SerializeField]
-        public float AmmoPenetrate { get; set; }
+        public float ArmorPenetrate { get; set; }
+
         public bool IsCrit;
+        public override bool CanEffect(IEffectTaker entity)
+        {
+            return true;
+        }
 
         protected override void OnApply(IEffectTaker entity)
         {
             if (entity is not IStatsBearer statsBearer)
             {
+
                 return;
             }
             if (statsBearer.Stats is not IAliveStats alive)
@@ -40,10 +46,10 @@ namespace _Base.Scripts.RPG.Effects
             {
                 blockChance = shipStats.BlockChance.Value;
             }
-            blockChance -= AmmoPenetrate;
+            blockChance -= ArmorPenetrate;
+
             blockChance = Mathf.Clamp01(blockChance);
             finalAmount = finalAmount * (1 - blockChance);
-
             if (finalAmount > 0)
             {
                 if (alive.HealthPoint.StatValue.BaseValue > alive.HealthPoint.MinStatValue.Value)

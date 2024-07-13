@@ -27,17 +27,28 @@ namespace _Game.Features.Gameplay
             {
                 StopCoroutine(actionCoroutine);
                 crew.CrewMovement.Velocity = Vector2.zero;
-                if (CurrentAction is not CrewJobAction)
+                if (CurrentAction is not CrewJobAction crewJob)
                 {
                 }
                 else
                 {
+                    crewJob.CrewJob.StatusChanged += OnChangedStatus;
                     CurrentAction.Interupt();
                 }
             }
             CurrentAction = crewAction;
             actionCoroutine = StartCoroutine(ActionCoroutine());
         }
+
+        void OnChangedStatus(JobStatus jobStatus)
+        {
+            if (jobStatus == JobStatus.Deactive)
+            {
+                StopCoroutine(actionCoroutine);
+                CurrentAction.Interupt();
+            }
+        }
+
         IEnumerator ActionCoroutine()
         {
             yield return CurrentAction.Execute;

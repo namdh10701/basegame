@@ -510,9 +510,11 @@ GameObject:
   m_Component:
   - component: {fileID: 7691449450847267648}
   - component: {fileID: 1933465007915484115}
-  - component: {fileID: 9038214777133773486}
   - component: {fileID: 6761118678409611073}
   - component: {fileID: 5339621428467878412}
+  - component: {fileID: 6316790100938737123}
+  - component: {fileID: 1369223688709306893}
+  - component: {fileID: 8274720903606671359}
   m_Layer: 7
   m_Name: Arrow
   m_TagString: Untagged
@@ -566,7 +568,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
---- !u!114 &9038214777133773486
+--- !u!114 &6761118678409611073
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -575,7 +577,68 @@ MonoBehaviour:
   m_GameObject: {fileID: 7099963840742418997}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51454a304ff74d7ba561bd142aa532c8, type: 3}
+  m_Script: {fileID: 11500000, guid: a7e10e1029762a64fbf0925f4ba1d5f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EffectCollisionDetector: {fileID: 7581715947928714615}
+--- !u!114 &5339621428467878412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7099963840742418997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12c5255b5a7391c48b0346c3510cbd9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6316790100938737123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7099963840742418997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c2a052ce94122d4d899f10e84fd53d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <IsDone>k__BackingField: 0
+  affectLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  force: 0
+  isIgnorePoise: 0
+  pushDirection: {x: 0, y: 0}
+  body: {fileID: 0}
+--- !u!114 &1369223688709306893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7099963840742418997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c262613bbca45d296cc9e30cfb58f40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <IsDone>k__BackingField: 0
+  <Amount>k__BackingField: 0
+  <AmmoPenetrate>k__BackingField: 0
+  IsCrit: 0
+--- !u!114 &8274720903606671359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7099963840742418997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1de980b921b9d9647a6d437aed8a5c61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   body: {fileID: 1933465007915484115}
@@ -608,38 +671,20 @@ MonoBehaviour:
     <CritDamage>k__BackingField:
       statModifiers: []
       _baseValue: 0
+    <HpThreshold>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
   trail: {fileID: 3263476833835191608}
-  outGoingEffects: []
+  outGoingEffects:
+  - {fileID: 1369223688709306893}
+  - {fileID: 6316790100938737123}
   collisionListener: {fileID: 6761118678409611073}
   isCrit: 0
   id: 
   gDConfig: {fileID: 11400000, guid: d0ed2d75ef03e46a89a69e09a4a544d5, type: 2}
   statsTemplate: {fileID: 11400000, guid: b8c7bf0392ef49743b470ae98921bfda, type: 2}
---- !u!114 &6761118678409611073
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7099963840742418997}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7e10e1029762a64fbf0925f4ba1d5f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  EffectCollisionDetector: {fileID: 7581715947928714615}
---- !u!114 &5339621428467878412
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7099963840742418997}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12c5255b5a7391c48b0346c3510cbd9e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  decreaseHpEffect: {fileID: 1369223688709306893}
+  pushEffect: {fileID: 6316790100938737123}
 --- !u!1001 &603067967104134390
 PrefabInstance:
   m_ObjectHideFlags: 0

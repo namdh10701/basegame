@@ -2,23 +2,13 @@ using System.Collections.Generic;
 using _Base.Scripts.RPG.Entities;
 using UnityEngine;
 
-public class PullEffect : MonoBehaviour
+public class PullArea : AreaEffectGiver
 {
-    public CircleCollider2D pullArea;
     public float pullStrength = 5f;
     public float swirlStrength = 2f;
     public float duration = 4f;
     public LayerMask enemyLayer; // Thêm biến để lưu layer của Enemy
     private List<Rigidbody2D> enemiesInRange = new List<Rigidbody2D>();
-    void Awake()
-    {
-        pullArea = GetComponent<CircleCollider2D>();
-    }
-
-    public void Setsize(float size)
-    {
-        pullArea.radius = size;
-    }
 
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -48,35 +38,29 @@ public class PullEffect : MonoBehaviour
     {
         foreach (Rigidbody2D rb in enemiesInRange)
         {
-            Vector2 direction = (transform.position - rb.transform.position).normalized;
-            Vector2 perpendicular = Vector2.Perpendicular(direction).normalized;
+            if (rb != null)
+            {
+                Vector2 direction = (transform.position - rb.transform.position).normalized;
+                Vector2 perpendicular = Vector2.Perpendicular(direction).normalized;
 
-            Vector2 pullForce = direction * pullStrength;
-            Vector2 swirlForce = perpendicular * swirlStrength;
+                Vector2 pullForce = direction * pullStrength;
+                Vector2 swirlForce = perpendicular * swirlStrength;
 
-            rb.AddForce(pullForce + swirlForce);
+                rb.AddForce(pullForce + swirlForce);
+            }
         }
     }
 
     void Update()
     {
+        duration = duration - Time.deltaTime;
         if (duration > 0 && enemiesInRange.Count > 0)
         {
             PullEnemies();
-            duration = duration - Time.deltaTime;
         }
 
         if (duration <= 0)
-            Destroy(pullArea);
+            Destroy(gameObject);
 
-    }
-
-    void OnDrawGizmos()
-    {
-        if (pullArea != null)
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(transform.position, pullArea.bounds.extents.x);
-        }
     }
 }

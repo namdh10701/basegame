@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4516460558011848654}
   - component: {fileID: 3365400120013340572}
+  - component: {fileID: 1832914200765475889}
   - component: {fileID: 7192593142797593261}
   - component: {fileID: 7404482021889872102}
-  - component: {fileID: 1832914200765475889}
   - component: {fileID: 5620755161761115575}
   m_Layer: 0
   m_Name: DamageArea
@@ -49,15 +49,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb9ce5181cc6131468cc3cc45f982db0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collider: {fileID: 7894311320082614481}
-  forceApply: 40
-  affectLayers:
-    serializedVersion: 2
-    m_Bits: 64
-  ignoreEntity: []
+  circleCollider: {fileID: 7894311320082614481}
   outGoingEffects:
   - {fileID: 5620755161761115575}
   - {fileID: 7404482021889872102}
+--- !u!114 &1832914200765475889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1445375723543447256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9866ca928dbf34d46b4e338b46c7b52a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7192593142797593261
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83,25 +90,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c2a052ce94122d4d899f10e84fd53d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  affectLayer:
-    serializedVersion: 2
-    m_Bits: 64
+  <IsDone>k__BackingField: 0
   force: 100
   isIgnorePoise: 1
-  pushDirection: {x: 0, y: 0}
   body: {fileID: 0}
---- !u!114 &1832914200765475889
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1445375723543447256}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9866ca928dbf34d46b4e338b46c7b52a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &5620755161761115575
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -114,8 +106,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c262613bbca45d296cc9e30cfb58f40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <IsDone>k__BackingField: 0
   <Amount>k__BackingField: 0
-  <AmmoPenetrate>k__BackingField: 0
+  <ArmorPenetrate>k__BackingField: 0
   IsCrit: 0
 --- !u!1 &6568432779584674152
 GameObject:

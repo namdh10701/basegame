@@ -1,11 +1,14 @@
+using _Game.Features.Gameplay;
 using _Game.Scripts.DB;
 using _Game.Scripts.Entities;
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class AmmoButton : MonoBehaviour
 {
+    public ShipHUD hud;
     public Image image;
     public Image selector;
     public Ammo ammo;
@@ -22,4 +25,10 @@ public class AmmoButton : MonoBehaviour
     {
         selector.gameObject.SetActive(isOn);
     }
+
+    public void OnClick()
+    {
+        hud.OnClick(ammo);
+    }
+
 }

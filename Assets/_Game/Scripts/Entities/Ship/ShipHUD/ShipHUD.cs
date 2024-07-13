@@ -1,13 +1,26 @@
 using _Base.Scripts.EventSystem;
 using _Game.Scripts.Entities;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using WebSocketSharp;
 
 namespace _Game.Features.Gameplay
 {
     public class ShipHUD : MonoBehaviour
     {
-        public Cannon Cannon { get => selectingCannon; set => selectingCannon = value; }
+        public Cannon Cannon
+        {
+            get => selectingCannon; set
+            {
+
+                if (selectingCannon != null && selectingCannon != value)
+                {
+                    selectingCannon.border.SetActive(false);
+                }
+                selectingCannon = value;
+            }
+        }
         public AmmoButton[] buttons;
         CrewJobData jobdata;
         Cannon selectingCannon;
@@ -15,8 +28,9 @@ namespace _Game.Features.Gameplay
 
 
         List<AmmoButton> actives = new List<AmmoButton>();
-        public void Initialize(List<Ammo> ammos)
+        public void Initialize(List<Ammo> ammos, CrewJobData jobData)
         {
+            this.jobdata = jobData;
             this.ammos = ammos;
             for (int i = 0; i < buttons.Length; i++)
             {
@@ -29,12 +43,29 @@ namespace _Game.Features.Gameplay
                 actives.Add(buttons[i]);
             }
         }
+        public void OnClick(Ammo ammo)
+        {
+            GlobalEvent<Cannon, Ammo, int>.Send("Reload", selectingCannon, ammo, int.MaxValue);
+            foreach (AmmoButton am in actives)
+            {
+                if (am.ammo == jobdata.ReloadCannonJobsDic[selectingCannon].bullet)
+                {
+                    am.ToggleSelect(true);
+                }
+                else
+                {
+                    am.ToggleSelect(false);
+                }
+            }
+        }
+
         public void Show()
         {
+            selectingCannon.border.SetActive(true);
             gameObject.SetActive(true);
             foreach (AmmoButton am in actives)
             {
-                if (am.ammo == selectingCannon.usingBullet)
+                if (am.ammo == jobdata.ReloadCannonJobsDic[selectingCannon].bullet)
                 {
                     am.ToggleSelect(true);
                 }
@@ -47,6 +78,7 @@ namespace _Game.Features.Gameplay
 
         public void Hide()
         {
+            selectingCannon?.border.SetActive(false);
             gameObject.SetActive(false);
         }
 
