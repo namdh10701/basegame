@@ -32,6 +32,7 @@ namespace _Game.Scripts.GD
         // public Dictionary<string, AmmoConfig> Ammo { get; private set; }
 
         private Dictionary<string, Dictionary<string, string>> CannonMap { get; set; }
+        private Dictionary<string, Dictionary<string, string>> CannonFeverMap { get; set; }
         private Dictionary<string, Dictionary<string, string>> AmmoMap { get; set; }
         private Dictionary<string, Dictionary<string, string>> EnemyMap { get; set; }
         private Dictionary<string, Dictionary<string, string>> ShipMap { get; set; }
@@ -40,6 +41,9 @@ namespace _Game.Scripts.GD
         private Dictionary<string, Dictionary<string, string>> TalentTreePreMap { get; set; }
 
         public Dictionary<string, CannonConfig> Cannons { get; } = new();
+
+        public Dictionary<string, CannonConfig> CannonFevers { get; } = new();
+
         public Dictionary<string, AmmoConfig> Ammos { get; } = new();
         public Dictionary<string, EnemyConfig> Enemies { get; } = new();
 
@@ -66,7 +70,7 @@ namespace _Game.Scripts.GD
             CrewMap = await GetConfigMap(getSheetData("Crew"));
             TalentTreeNormalMap = await GetConfigMap(getSheetData("Normal Level"));
             TalentTreePreMap = await GetConfigMap(getSheetData("Pre Level"));
-
+            CannonFeverMap = await GetConfigMap(getSheetData("Cannon_Fever"));
             SetLocalData();
 
             OnLoaded?.Invoke();
@@ -163,6 +167,18 @@ namespace _Game.Scripts.GD
 
                 Cannons[key] = so;
             }
+
+            foreach (var (key, properties) in GDConfigLoader.Instance.CannonFeverMap)
+            {
+                // var so = Resources.Load<CannonConfig>($"Configs/Cannon/Cannon_{key}");
+                // if (!so) continue;
+
+                var so = ScriptableObject.CreateInstance<CannonConfig>();
+                Load(so, properties);
+
+                CannonFevers[key] = so;
+            }
+
 
             foreach (var (key, properties) in GDConfigLoader.Instance.CrewMap)
             {

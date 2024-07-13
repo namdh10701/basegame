@@ -1,16 +1,18 @@
+using _Game.Features.Gameplay;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI.Table;
 
-namespace _Game.Scripts
+namespace _Game.Features.Gameplay
 {
     public enum CellPattern
     {
-        X, Plus, HorizontalLine, VerticalLine, FilledSquare, Single
+        X, Plus, HorizontalLine, VerticalLine, FilledSquare, Single, Rectangle
     }
     public static class GridHelper
     {
-        public static List<Cell> GetCellPattern(Grid grid, CellPattern pattern, Cell centerCell, int size)
+        public static List<Cell> GetCellPattern(Grid grid, CellPattern pattern, Cell centerCell, int size, int size2)
         {
             List<Cell> ret = new List<Cell>();
 
@@ -31,11 +33,43 @@ namespace _Game.Scripts
                 case CellPattern.FilledSquare:
                     ret.AddRange(GetFilledSquarePattern(grid, centerCell, size));
                     break;
+                case CellPattern.Rectangle:
+                    ret.AddRange(GetRectanglePattern(grid, centerCell, size, size2));
+                    break;
                 case CellPattern.Single:
                     ret.Add(centerCell);
                     break;
             }
             return ret;
+        }
+
+        private static List<Cell> GetRectanglePattern(Grid grid, Cell centerCell, int sizeX, int sizeY)
+        {
+            List<Cell> cells = new List<Cell>();
+            int startX = centerCell.X - (sizeX / 2);
+            int startY = centerCell.Y - (sizeY / 2);
+            int endX = startX + sizeX - 1;
+            int endY = startY + sizeY - 1;
+
+            Debug.Log(endX + " end " + endY);
+            Debug.Log(grid.Col + " bound " + grid.Row);
+
+            Debug.Log(grid.Cells.GetLength(0) + " bound2 " + grid.Cells.GetLength(1));
+
+            // Add cells within the rectangle bounds
+            for (int row = startY; row <= endY; row++)
+            {
+                for (int col = startX; col <= endX; col++)
+                {
+                    Debug.Log(col + " " + row);
+                    if (row >= 0 && row < grid.Row && col >= 0 && col < grid.Col)
+                    {
+                        Debug.Log(col + " " + row);
+                        cells.Add(grid.Cells[row, col]);
+                    }
+                }
+            }
+            return cells;
         }
 
         private static List<Cell> GetYPattern(Grid grid, Cell centerCell, int size)
@@ -115,8 +149,8 @@ namespace _Game.Scripts
                         int col = centerCell.X - i;
                         if (col >= 0)
                         {
-                                cells.Add(grid.Cells[centerCell.Y, col]);
-                                lengthCount++;
+                            cells.Add(grid.Cells[centerCell.Y, col]);
+                            lengthCount++;
                         }
                         else
                         {
@@ -134,8 +168,8 @@ namespace _Game.Scripts
                         int col = centerCell.X + i;
                         if (col < grid.Col)
                         {
-                                cells.Add(grid.Cells[centerCell.Y, col]);
-                                lengthCount++;
+                            cells.Add(grid.Cells[centerCell.Y, col]);
+                            lengthCount++;
                         }
                         else
                         {
@@ -152,8 +186,8 @@ namespace _Game.Scripts
                         int col = centerCell.X + i;
                         if (col < grid.Col)
                         {
-                                cells.Add(grid.Cells[centerCell.Y, col]);
-                                lengthCount++;
+                            cells.Add(grid.Cells[centerCell.Y, col]);
+                            lengthCount++;
                         }
                         else
                         {
@@ -171,8 +205,8 @@ namespace _Game.Scripts
                         int col = centerCell.X - i;
                         if (col >= 0)
                         {
-                                cells.Add(grid.Cells[centerCell.Y, col]);
-                                lengthCount++;
+                            cells.Add(grid.Cells[centerCell.Y, col]);
+                            lengthCount++;
                         }
                         else
                         {

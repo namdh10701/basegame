@@ -2,71 +2,84 @@ using _Game.Scripts;
 using System;
 using System.Collections;
 using UnityEngine;
-
-public class CrewActionHandler : MonoBehaviour
+namespace _Game.Features.Gameplay
 {
-    public Crew crew;
-    Coroutine actionCoroutine;
-    public CrewActionBase CurrentAction;
-    public Action OnFree;
-    bool isPaused;
-
-    public void Act(CrewActionBase crewAction)
+    public class CrewActionHandler : MonoBehaviour
     {
-        StartCoroutine(HandleAssignNewAction(crewAction));
-    }
+        public Crew crew;
+        Coroutine actionCoroutine;
+        public CrewActionBase CurrentAction;
+        public Action OnFree;
+        bool isPaused;
 
-    IEnumerator HandleAssignNewAction(CrewActionBase crewAction)
-    {
-        if (isPaused)
+        public void Act(CrewActionBase crewAction)
         {
-            yield break; // Exit coroutine if paused
+            StartCoroutine(HandleAssignNewAction(crewAction));
         }
-        if (actionCoroutine != null)
+
+        IEnumerator HandleAssignNewAction(CrewActionBase crewAction)
         {
-            StopCoroutine(actionCoroutine);
-            crew.CrewMovement.Velocity = Vector2.zero;
-            if (CurrentAction is not CrewJobAction)
+            if (isPaused)
             {
+                yield break; // Exit coroutine if paused
             }
-            else
+            if (actionCoroutine != null)
             {
+                StopCoroutine(actionCoroutine);
+                crew.CrewMovement.Velocity = Vector2.zero;
+                if (CurrentAction is not CrewJobAction crewJob)
+                {
+                }
+                else
+                {
+                    crewJob.CrewJob.StatusChanged += OnChangedStatus;
+                    CurrentAction.Interupt();
+                }
+            }
+            CurrentAction = crewAction;
+            actionCoroutine = StartCoroutine(ActionCoroutine());
+        }
+
+        void OnChangedStatus(JobStatus jobStatus)
+        {
+            if (jobStatus == JobStatus.Deactive)
+            {
+                StopCoroutine(actionCoroutine);
                 CurrentAction.Interupt();
             }
         }
-        CurrentAction = crewAction;
-        actionCoroutine = StartCoroutine(ActionCoroutine());
-    }
-    IEnumerator ActionCoroutine()
-    {
-        yield return CurrentAction.Execute;
-        actionCoroutine = null;
-        CurrentAction = null;
-        OnFree.Invoke();
-    }
 
-    public void Pause()
-    {
-        isPaused = true;
-        if (actionCoroutine != null)
+        IEnumerator ActionCoroutine()
         {
-            StopCoroutine(CurrentAction.Execute);
-            StopCoroutine(actionCoroutine);
+            yield return CurrentAction.Execute;
+            actionCoroutine = null;
+            CurrentAction = null;
+            OnFree.Invoke();
         }
-    }
 
-    public void Resume()
-    {
-        isPaused = false;
-        if (CurrentAction != null)
+        public void Pause()
         {
-            CurrentAction.Interupt();
-            CurrentAction.ReBuild(crew);
-            actionCoroutine = StartCoroutine(ActionCoroutine());
+            isPaused = true;
+            if (actionCoroutine != null)
+            {
+                StopCoroutine(CurrentAction.Execute);
+                StopCoroutine(actionCoroutine);
+            }
         }
-        else
+
+        public void Resume()
         {
-            OnFree?.Invoke();
+            isPaused = false;
+            if (CurrentAction != null)
+            {
+                CurrentAction.Interupt();
+                CurrentAction.ReBuild(crew);
+                actionCoroutine = StartCoroutine(ActionCoroutine());
+            }
+            else
+            {
+                OnFree?.Invoke();
+            }
         }
     }
 }

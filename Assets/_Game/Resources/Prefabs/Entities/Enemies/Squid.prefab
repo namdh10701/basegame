@@ -633,7 +633,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b25af8627659c6949b60949c3aa8d91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedEditorNode: {fileID: 2439725888952280321}
+  selectedEditorNode: {fileID: 2651914818716957583}
   repeatOnFinish: 1
   maxExecutionsPerTick: 1000
   parent: {fileID: 0}
@@ -848,7 +848,7 @@ MonoBehaviour:
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
-  type: SquidController
+  type: _Game.Features.Gameplay.SquidController
   monoBehaviour: {fileID: 8289297811835334095}
   coroutineName: AttackSequence
 --- !u!114 &1398462479390615626
@@ -1250,6 +1250,7 @@ Transform:
   - {fileID: 1303754956115312407}
   - {fileID: 3168308408918788988}
   - {fileID: 273788717215886669}
+  - {fileID: 6363008655438259229}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &8505113706736554174
@@ -1329,6 +1330,12 @@ MonoBehaviour:
     <MoveSpeed>k__BackingField:
       statModifiers: []
       _baseValue: 0
+    <AnimationTimeScale>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <FeverPoint>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
   anim: {fileID: 243247705162881782}
   id: 0003
   gdConfig: {fileID: 11400000, guid: dafc4004e0133475f8d7f898a1f7342d, type: 2}
@@ -1340,7 +1347,7 @@ MonoBehaviour:
   MBTExecutor: {fileID: 1623288628284439890}
   enemyController: {fileID: 9122971033754850652}
   CooldownBehaviour: {fileID: 8631502049836452865}
-  EvasionBuffArea: {fileID: 8219674582110224420, guid: d6e6ed9a1ae50964a82936674da0902a, type: 3}
+  EvasionBuffArea: {fileID: 7414925066278507409}
 --- !u!114 &8631502049836452865
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1365,6 +1372,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 259eb03fce04e5b4480420acbc6cc888, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  area: {fileID: 7414925066278507409}
 --- !u!114 &2152454626335057488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1745,3 +1753,84 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8547352812536074042, guid: a3526514ffce8c44ea8475ce8a2e4c70, type: 3}
   m_PrefabInstance: {fileID: 915650426508545733}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1510180819557634997
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2767652085510811412}
+    m_Modifications:
+    - target: {fileID: 726605915888166577, guid: d6e6ed9a1ae50964a82936674da0902a, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5252618118411335674, guid: d6e6ed9a1ae50964a82936674da0902a, type: 3}
+      propertyPath: m_Name
+      value: EvasionBuffArea
+      objectReference: {fileID: 0}
+    - target: {fileID: 5252618118411335674, guid: d6e6ed9a1ae50964a82936674da0902a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5528397088854210472, guid: d6e6ed9a1ae50964a82936674da0902a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5528397088854210472, guid: d6e6ed9a1ae50964a82936674da0902a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5528397088854210472, guid: d6e6ed9a1ae50964a82936674da0902a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5528397088854210472, guid: d6e6ed9a1ae50964a82936674da0902a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5528397088854210472, guid: d6e6ed9a1ae50964a82936674da0902a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5528397088854210472, guid: d6e6ed9a1ae50964a82936674da0902a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5528397088854210472, guid: d6e6ed9a1ae50964a82936674da0902a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5528397088854210472, guid: d6e6ed9a1ae50964a82936674da0902a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5528397088854210472, guid: d6e6ed9a1ae50964a82936674da0902a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5528397088854210472, guid: d6e6ed9a1ae50964a82936674da0902a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d6e6ed9a1ae50964a82936674da0902a, type: 3}
+--- !u!4 &6363008655438259229 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5528397088854210472, guid: d6e6ed9a1ae50964a82936674da0902a, type: 3}
+  m_PrefabInstance: {fileID: 1510180819557634997}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7414925066278507409 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8219674582110224420, guid: d6e6ed9a1ae50964a82936674da0902a, type: 3}
+  m_PrefabInstance: {fileID: 1510180819557634997}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c048e2312c23f2a4f98b8b206014f81b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

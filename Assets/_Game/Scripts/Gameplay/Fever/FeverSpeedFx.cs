@@ -1,7 +1,5 @@
-using BehaviorDesigner.Runtime.Tasks.Unity.UnityParticleSystem;
+
 using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 namespace _Game.Features.Battle
@@ -11,12 +9,14 @@ namespace _Game.Features.Battle
         public Sprite[] sprites;
         public float framesPerSecond = 15f;
 
-        [SerializeReference] private Image image;
+        [SerializeField] private Image image;
+        [SerializeField] private Image bgImage;
         private float timePerFrame;
         private int currentFrame;
         bool isActive;
 
         Tween fade;
+        Tween fadeBg;
         void Start()
         {
             timePerFrame = 1f / framesPerSecond;
@@ -25,14 +25,14 @@ namespace _Game.Features.Battle
 
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.V))
+            /*if (Input.GetKeyDown(KeyCode.V))
             {
                 Activate();
             }
             if (Input.GetKeyDown(KeyCode.X))
             {
                 Deactivate();
-            }
+            }*/
 
             if (isActive)
             {
@@ -46,19 +46,29 @@ namespace _Game.Features.Battle
         {
             if (fade != null)
                 fade.Kill();
-            gameObject.SetActive(true);
+            image.gameObject.SetActive(true);
+            bgImage.gameObject.SetActive(true);
             isActive = true;
             fade = image.DOFade(1, .2f).OnComplete(() => fade = null);
+
+
+            if (fadeBg != null)
+                fadeBg.Kill();
+            fadeBg = bgImage.DOFade(.5f, .2f).OnComplete(() => fade = null);
         }
 
         public void Deactivate()
         {
             if (fade != null)
                 fade.Kill();
-            gameObject.SetActive(false);
-            fade = image.DOFade(0, .2f).OnComplete(() => fade = null);
-        }
 
+            image.gameObject.SetActive(false);
+            fade = image.DOFade(0, .2f).OnComplete(() => fade = null);
+
+            if (fadeBg != null)
+                fadeBg.Kill();
+            fadeBg = bgImage.DOFade(0f, .2f).OnComplete(() => fade = null);
+        }
         private void OnDestroy()
         {
             if (fade != null)

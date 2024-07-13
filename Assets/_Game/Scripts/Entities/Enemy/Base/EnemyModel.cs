@@ -1,11 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using _Base.Scripts.EventSystem;
 using _Base.Scripts.RPG;
 using _Base.Scripts.RPG.Behaviours.FindTarget;
 using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.RPG.Entities;
 using _Base.Scripts.RPG.Stats;
+using _Game.Features.Gameplay;
 using _Game.Scripts.GD;
 using MBT;
 using UnityEngine;
@@ -56,7 +58,10 @@ namespace _Game.Scripts.Entities
 
         [SerializeField] EnemyController enemyController;
 
-
+        private void Awake()
+        {
+            GetComponent<GDConfigStatsApplier>().LoadStats(this);
+        }
         public override void ApplyStats()
         {
             enemyController.Initialize(this, EffectTakerCollider, blackboard, MBTExecutor, Body, anim);
@@ -68,21 +73,19 @@ namespace _Game.Scripts.Entities
             EffectTakerCollider.Taker = this;
         }
 
-        public void OnSlowed()
+        public virtual void OnSlowed()
         {
             OnSlowedDown?.Invoke();
         }
 
-        public void OnSlowEnded()
+        public virtual void OnSlowEnded()
         {
-            foreach (Effect effect in EffectHandler.effects)
-            {
-                if (effect is SlowEffect)
-                {
-                    return;
-                }
-            }
             OnSlowedDownStopped?.Invoke();
+        }
+
+        private void OnDestroy()
+        {
+            GlobalEvent<EnemyModel>.Send("EnemyDied", this);
         }
     }
 }

@@ -8,7 +8,6 @@ namespace _Game.Features.InventoryCustomScreen
     [Binding]
     public class AttachInfoItem : SubViewModel
     {
-        public IInventoryCustomScreen IInventoryCustomScreen { get; set; }
 
         [Binding]
         public string Id { get; set; }

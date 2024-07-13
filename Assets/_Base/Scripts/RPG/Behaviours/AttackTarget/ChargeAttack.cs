@@ -13,7 +13,16 @@ public class ChargeAttack : AttackTargetBehaviour
     IEnumerator AttackCoroutine()
     {
         Animation.PlayChargeAnim();
-        yield return new WaitForSeconds(ChargeTime);
+        if (entity.IsOnFever || entity.IsOnFullFever)
+        {
+            yield return new WaitForSeconds(ChargeTime / 1.5f);
+        }
+        else
+        {
+            yield return new WaitForSeconds(ChargeTime);
+        }
+
         Animation.PlayShootAnim(false);
     }
 }
+

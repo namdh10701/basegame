@@ -8,9 +8,6 @@ namespace _Game.Scripts.Entities
 {
     public class CannonRenderer : MonoBehaviour
     {
-        [SerializeField]
-        private AimTargetBehaviour _aimTargetBehaviour;
-
         [SerializeField] SkeletonAnimation _skeletonAnimation;
         [SerializeField] Skeleton skeleton;
 

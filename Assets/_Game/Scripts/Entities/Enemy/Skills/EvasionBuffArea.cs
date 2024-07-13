@@ -11,7 +11,10 @@ namespace _Game.Scripts
     {
         public StatModifier statModifier = new StatModifier(.33f, StatModType.Flat);
         List<EnemyModel> buffedEnemy = new List<EnemyModel>();
-
+        public void SetRange(float range)
+        {
+            transform.localScale = new Vector3(range, range);
+        }
         public float existTime;
         float elapsedTime;
 

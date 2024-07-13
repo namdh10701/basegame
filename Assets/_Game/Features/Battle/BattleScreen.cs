@@ -1,3 +1,4 @@
+using _Game.Features.Gameplay;
 using _Game.Scripts.Gameplay;
 using Cysharp.Threading.Tasks;
 using System;
@@ -25,6 +26,7 @@ namespace _Game.Features.Battle
         public override UniTask WillPushExit(Memory<object> args)
         {
             Debug.Log(" EXIT ");
+            BattleViewModel.CleanUp();
             GameplayRoot.SetActive(false);
             BattleManager.Instance.CleanUp();
             return base.WillPushExit(args);

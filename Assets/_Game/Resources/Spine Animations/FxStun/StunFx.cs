@@ -17,10 +17,6 @@ public class StunFx : MonoBehaviour
 
     public void Play()
     {
-        if (gameObject.activeSelf)
-        {
-            return;
-        }
         gameObject.SetActive(true);
     }
 

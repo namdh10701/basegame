@@ -1,13 +1,13 @@
 using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.RPG.Entities;
+using _Game.Scripts;
 using _Game.Scripts.Entities;
-using _Game.Scripts.Gameplay.Ship;
 using _Game.Scripts.GD;
 using _Game.Scripts.PathFinding;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace _Game.Scripts
+namespace _Game.Features.Gameplay
 {
     public class Crew : Entity, IGDConfigStatsTarget, IStatsBearer, INodeOccupier, IEffectTaker, IStunable
     {
@@ -41,19 +41,20 @@ namespace _Game.Scripts
         public StatsTemplate StatsTemplate => statsTemplate;
 
         public override Stats Stats => stats;
-
+        private void Awake()
+        {
+            GetComponent<GDConfigStatsApplier>().LoadStats(this);
+        }
         private void Start()
         {
             EffectHandler.EffectTaker = this;
             EffectTakerCollider.Taker = this;
         }
-        public void OnStun(float duration)
+        public void OnStun()
         {
             CrewAction.Pause();
             Animation.PlayStun();
             body.velocity = Vector2.zero;
-            CancelInvoke();
-            Invoke("OnAfterStun", duration);
         }
 
         public void OnAfterStun()
@@ -78,20 +79,8 @@ namespace _Game.Scripts
             Animation.PlayDropDown();
         }
 
-
-        public void Deactivate()
-        {
-
-        }
-
-        public void OnFixed()
-        {
-
-        }
-
         public override void ApplyStats()
         {
-
         }
     }
 }

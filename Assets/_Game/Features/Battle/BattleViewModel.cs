@@ -1,4 +1,5 @@
 using _Base.Scripts.EventSystem;
+using _Game.Features.Gameplay;
 using _Game.Scripts.Gameplay;
 using _Game.Scripts.UI;
 using Cysharp.Threading.Tasks;
@@ -12,6 +13,11 @@ namespace _Game.Features.Battle
     [Binding]
     public class BattleViewModel : RootViewModel
     {
+        public FeverView FeverView;
+        public void CleanUp()
+        {
+            FeverView.ClearState();
+        }
         #region Binding Prop: HP
 
         /// <summary>
@@ -126,10 +132,10 @@ namespace _Game.Features.Battle
             get => _fever;
             set
             {
-                if (Equals(_fever, value))
-                {
-                    return;
-                }
+                /*                if (Equals(_fever, value))
+                                {
+                                    return;
+                                }*/
 
                 _fever = value;
                 OnPropertyChanged(nameof(Fever));
@@ -149,10 +155,10 @@ namespace _Game.Features.Battle
         [Binding]
         public float MaxFever
         {
-            get => _maxFever;
+            get => 800;
             set
             {
-                if (Equals(_maxFever, value))
+                if (Equals(800, value))
                 {
                     return;
                 }
@@ -221,7 +227,7 @@ namespace _Game.Features.Battle
         [Binding] public string SpeedUpRateText => $"X{SpeedUpRate}";
         [Binding] public string HPText => $"{Math.Round(HP)}/{MaxHP}";
         [Binding] public string MPText => $"{Math.Round(MP)}/{MaxMP}";
-        [Binding] public string FeverText => $"{Fever}/{MaxFever}";
+        [Binding] public string FeverText => $"{Math.Round(Fever)}/{MaxFever}";
 
         [Binding]
         public async void PauseGame()

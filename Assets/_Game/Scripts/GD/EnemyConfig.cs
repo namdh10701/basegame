@@ -12,6 +12,7 @@ namespace _Game.Scripts.GD
         public float attack;
         public float attack_speed;
         public float power_number;
+        public float fever_point;
         public float hp;
         public float block_chance;
         public float attack_range;
@@ -27,8 +28,10 @@ namespace _Game.Scripts.GD
             enemyStats.BlockChance.BaseValue = block_chance;
             enemyStats.ActionSequenceInterval.BaseValue = attack_speed;
             enemyStats.AttackRange.BaseValue = attack_range;
-            enemyStats.MoveSpeed.BaseValue = 5;
+            enemyStats.MoveSpeed.BaseValue = 3;
             enemyStats.AnimationTimeScale.BaseValue = 1;
+            enemyStats.FeverPoint.BaseValue = fever_point;
+
         }
     }
 }

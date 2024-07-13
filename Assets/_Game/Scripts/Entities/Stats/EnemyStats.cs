@@ -43,7 +43,10 @@ namespace _Game.Scripts
         public IFighterStats.AttackTypes AttackType { get; set; } = IFighterStats.AttackTypes.UNIT;
         [field: SerializeField]
         public Stat MoveSpeed { get; set; } = new();
+        [field: SerializeField]
         public Stat AnimationTimeScale { get; set; } = new();
+        [field: SerializeField]
+        public Stat FeverPoint { get; set; } = new();
         public List<Stat> SlowableStats => new List<Stat> { MoveSpeed, AnimationTimeScale};
     }
 }

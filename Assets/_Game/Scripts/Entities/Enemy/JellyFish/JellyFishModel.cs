@@ -7,20 +7,23 @@ using _Game.Scripts.Utils;
 using System.Collections;
 using UnityEngine;
 
-public class JellyFishModel : EnemyModel
+namespace _Game.Features.Gameplay
 {
-    [Header("Jelly Fish")]
-    [Space]
-    [SerializeField] JellyFishAttack attack;
-    public CooldownBehaviour cooldownBehaviour;
-    public ObjectCollisionDetector FindTargetCollider;
-
-    public override Stats Stats => _stats;
-
-    public override void ApplyStats()
+    public class JellyFishModel : EnemyModel
     {
-        base.ApplyStats();
-        cooldownBehaviour.SetCooldownTime(_stats.ActionSequenceInterval.Value);
-        FindTargetCollider.SetRadius(_stats.AttackRange.Value);
+        [Header("Jelly Fish")]
+        [Space]
+        [SerializeField] JellyFishAttack attack;
+        public CooldownBehaviour cooldownBehaviour;
+        public ObjectCollisionDetector FindTargetCollider;
+
+        public override Stats Stats => _stats;
+
+        public override void ApplyStats()
+        {
+            base.ApplyStats();
+            cooldownBehaviour.SetCooldownTime(_stats.ActionSequenceInterval.Value);
+            FindTargetCollider.SetRadius(_stats.AttackRange.Value);
+        }
     }
 }

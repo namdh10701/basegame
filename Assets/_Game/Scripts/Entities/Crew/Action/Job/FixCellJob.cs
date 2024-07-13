@@ -7,95 +7,98 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-
-public class FixCellJob : CrewJob
+namespace _Game.Features.Gameplay
 {
-    public _Game.Scripts.Cell cell;
-    Node workingSlot;
-    public FixCellJob(_Game.Scripts.Cell cell) : base()
+    public class FixCellJob : CrewJob
     {
-        Name = "FIX CELL " + cell.ToString();
-        DefaultPiority = 3;
-        Piority = 3;
-        WorkLocation = cell.GetComponent<IWorkLocation>();
-        this.cell = cell;
-    }
-    public override IEnumerator Execute(Crew crew)
-    {
-        List<Node> availableWorkingSlots = WorkLocation.WorkingSlots
-             .Where(slot => slot.State == NodeState.Free)
-             .ToList();
-        workingSlot = DistanceHelper.GetClosestToPosition(availableWorkingSlots.ToArray(), (slot) => slot, crew.transform.position);
-        workingSlot.State = NodeState.Occupied;
-        yield return crew.CrewMovement.MoveTo(workingSlot.transform.position);
-        if (crew.transform.position.x < cell.transform.position.x)
+        public Cell cell;
+        Node workingSlot;
+        public FixCellJob(Cell cell) : base()
         {
-            crew.Animation.Flip(Direction.Right);
+            Name = "FIX CELL " + cell.ToString();
+            DefaultPiority = 3;
+            Piority = 3;
+            WorkLocation = cell.GetComponent<IWorkLocation>();
+            this.cell = cell;
         }
-        else if (crew.transform.position.x > cell.transform.position.x)
+        public override IEnumerator Execute(Crew crew)
         {
-            crew.Animation.Flip(Direction.Left);
-        }
-        crew.Animation.PlayFix();
-        yield return new WaitForSeconds(3);
-        workingSlot.State = NodeState.Free;
-        cell.stats.HealthPoint.StatValue.BaseValue = cell.stats.HealthPoint.MaxValue;
-        crew.Animation.PlayIdle();
-        yield break;
-    }
-
-    public override void Interupt(Crew crew)
-    {
-        crew.body.velocity = Vector3.zero;
-        if (workingSlot != null)
-        {
+            List<Node> availableWorkingSlots = WorkLocation.WorkingSlots
+                 .Where(slot => slot.State == NodeState.Free)
+                 .ToList();
+            workingSlot = DistanceHelper.GetClosestToPosition(availableWorkingSlots.ToArray(), (slot) => slot, crew.transform.position);
+            workingSlot.State = NodeState.Occupied;
+            yield return crew.CrewMovement.MoveTo(workingSlot.transform.position);
+            if (crew.transform.position.x < cell.transform.position.x)
+            {
+                crew.Animation.Flip(Direction.Right);
+            }
+            else if (crew.transform.position.x > cell.transform.position.x)
+            {
+                crew.Animation.Flip(Direction.Left);
+            }
+            crew.Animation.PlayFix();
+            yield return new WaitForSeconds(3);
             workingSlot.State = NodeState.Free;
+            cell.stats.HealthPoint.StatValue.BaseValue = cell.stats.HealthPoint.MaxValue;
+            crew.Animation.PlayIdle();
+            yield break;
+        }
+
+        public override void Interupt(Crew crew)
+        {
+            crew.body.velocity = Vector3.zero;
+            if (workingSlot != null)
+            {
+                workingSlot.State = NodeState.Free;
+            }
         }
     }
-}
 
-public class FixGridItemJob : CrewJob
-{
-    IGridItem gridItem;
-    Node workingSlot;
-    public FixGridItemJob(IGridItem item, IWorkLocation worklocation)
+    public class FixGridItemJob : CrewJob
     {
-        DefaultPiority = 50;
-        Piority = 50;
-        gridItem = item;
-        WorkLocation = worklocation;
-    }
-
-    public override IEnumerator Execute(Crew crew)
-    {
-        List<Node> availableWorkingSlots = WorkLocation.WorkingSlots
-             .Where(slot => slot.State == NodeState.Free)
-             .ToList();
-        workingSlot = DistanceHelper.GetClosestToPosition(availableWorkingSlots.ToArray(), (slot) => slot, crew.transform.position);
-        workingSlot.State = NodeState.Occupied;
-        yield return crew.CrewMovement.MoveTo(workingSlot.transform.position);
-        if (crew.transform.position.x < gridItem.Transform.position.x)
+        IGridItem gridItem;
+        Node workingSlot;
+        public FixGridItemJob(IGridItem item, IWorkLocation worklocation)
         {
-            crew.Animation.Flip(Direction.Right);
+            DefaultPiority = 50;
+            Piority = 50;
+            gridItem = item;
+            WorkLocation = worklocation;
         }
-        else if (crew.transform.position.x > gridItem.Transform.position.x)
-        {
-            crew.Animation.Flip(Direction.Left);
-        }
-        crew.Animation.PlayFix();
-        yield return new WaitForSeconds(3);
-        workingSlot.State = NodeState.Free;
-        gridItem.OnFixed();
-        crew.Animation.PlayIdle();
-        yield break;
-    }
 
-    public override void Interupt(Crew crew)
-    {
-        crew.body.velocity = Vector3.zero;
-        if (workingSlot != null)
+        public override IEnumerator Execute(Crew crew)
         {
+            List<Node> availableWorkingSlots = WorkLocation.WorkingSlots
+                 .Where(slot => slot.State == NodeState.Free)
+                 .ToList();
+            workingSlot = DistanceHelper.GetClosestToPosition(availableWorkingSlots.ToArray(), (slot) => slot, crew.transform.position);
+            workingSlot.State = NodeState.Occupied;
+            yield return crew.CrewMovement.MoveTo(workingSlot.transform.position);
+            if (crew.transform.position.x < gridItem.Transform.position.x)
+            {
+                crew.Animation.Flip(Direction.Right);
+            }
+            else if (crew.transform.position.x > gridItem.Transform.position.x)
+            {
+                crew.Animation.Flip(Direction.Left);
+            }
+            crew.Animation.PlayFix();
+            yield return new WaitForSeconds(3);
             workingSlot.State = NodeState.Free;
+            Debug.Log("HERE");
+            gridItem.OnFixed();
+            crew.Animation.PlayIdle();
+            yield break;
+        }
+
+        public override void Interupt(Crew crew)
+        {
+            crew.body.velocity = Vector3.zero;
+            if (workingSlot != null)
+            {
+                workingSlot.State = NodeState.Free;
+            }
         }
     }
 }

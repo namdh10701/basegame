@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using _Base.Scripts.RPG.Behaviours.FindTarget;
 using _Base.Scripts.RPG.Entities;
+using _Base.Scripts.RPG.Stats;
 using _Base.Scripts.RPGCommon.Entities;
 using _Game.Scripts;
 using _Game.Scripts.Entities;
@@ -20,13 +21,17 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
         public override void DoAttack()
         {
             bounceTimes = (int)((CannonStats)Cannon.Stats).ProjectileCount.BaseValue;
-            Debug.Log(bounceTimes);
             var shootDirection = CalculateShootDirection();
             var projectile = SpawnProjectile(shootDirection, shootPosition);
             ((ProjectileCollisionHandler)projectile.CollisionHandler).Handlers.Add(new BouncingHandler(bounceTimes, lookupRange));
             projectile.ProjectileMovement = new StraightMove(projectile);
         }
-
+        public override void Consume(RangedStat ammo)
+        {
+            int numOfProjectileCanProvide = (int)ammo.Value;
+            ActualNumOfProjectile = Mathf.Min(numOfProjectileCanProvide, (int)Mathf.Max(1, 1));
+            ammo.StatValue.BaseValue -= ActualNumOfProjectile;
+        }
         public class BouncingHandler : IHandler
         {
             public int bounceCount;
@@ -48,24 +53,15 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
                 RaycastHit2D[] inRangeColliders = Physics2D.CircleCastAll(collidedEntity.Transform.position, range, Vector2.zero, LayerMask.NameToLayer("Enemy"));
                 foreach (RaycastHit2D hit in inRangeColliders)
                 {
-                    if (hit.collider.TryGetComponent(out IEffectTakerCollider entity))
+                    if (hit.collider.TryGetComponent(out EffectTakerCollider entity))
                     {
 
                         if (!((ProjectileCollisionHandler)p.CollisionHandler).IgnoreCollideEntities.Contains(entity.Taker))
                         {
-                            if (entity is EnemyModel)
+                            if (entity.Taker is EnemyModel)
                             {
-                                Debug.Log("add");
                                 inRangeEntities.Add(entity.Taker);
                             }
-                            else
-                            {
-                                Debug.Log("K PHAI DAU");
-                            }
-                        }
-                        else
-                        {
-                            Debug.Log("ignore ngay");
                         }
                     }
                 }

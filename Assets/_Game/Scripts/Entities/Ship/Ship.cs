@@ -1,11 +1,17 @@
-﻿using _Base.Scripts.RPG.Effects;
+﻿using _Base.Scripts.EventSystem;
+using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.RPG.Entities;
 using _Game.Features.Battle;
+using _Game.Scripts;
 using _Game.Scripts.Battle;
+using _Game.Scripts.Entities;
 using _Game.Scripts.GD;
+using DG.Tweening;
+using System;
 using UnityEngine;
+using static UnityEngine.CullingGroup;
 
-namespace _Game.Scripts.Gameplay.Ship
+namespace _Game.Features.Gameplay
 {
     public class Ship : Entity, IEffectTaker, IStatsBearer, IGDConfigStatsTarget
     {
@@ -26,9 +32,7 @@ namespace _Game.Scripts.Gameplay.Ship
 
         public override Stats Stats => stats;
 
-
         public EffectHandler effectHandler;
-
 
         public Transform Transform => transform;
 
@@ -40,23 +44,110 @@ namespace _Game.Scripts.Gameplay.Ship
         public ShipSpeed ShipSpeed;
         public CrewJobData CrewJobData;
         public BattleViewModel BattleViewModel;
-        protected void Awake()
+        public FeverModel FeverModel;
+        public ShipHUD HUD;
+
+        private void Start()
         {
+
+
+            GlobalEvent<EnemyModel>.Register("EnemyDied", OnEnemyDied);
+            GlobalEvent<Cannon>.Register("ClickCannon", ShowShipHUD);
+            GlobalEvent.Register("CloseHUD", CloseHUD);
+            GetComponent<GDConfigStatsApplier>().LoadStats(this);
+
+            if (EnemyManager.floorId == "1")
+            {
+                stats.Fever.StatValue.BaseValue = 0;
+            }
+            else
+            {
+                float fever = PlayerPrefs.GetFloat("fever", 0);
+                stats.Fever.StatValue.BaseValue = fever;
+            }
+            EffectCollider.Taker = this;
+            EffectHandler.EffectTaker = this;
+            FeverModel.SetFeverPointStats(stats.Fever);
             PathfindingController.Initialize();
             ShipSetup.Initialize();
             CrewJobData.Initialize();
+            foreach (Cannon cannon in ShipSetup.Cannons)
+            {
+                cannon.HUD.RegisterJob(CrewJobData);
+            }
+            foreach (Ammo ammo in ShipSetup.Ammos)
+            {
+                ammo.HUD.RegisterJob(CrewJobData);
+            }
+            HUD.Initialize(ShipSetup.Ammos, CrewJobData);
+            BattleViewModel = GameObject.Find("BattleScreen(Clone)").GetComponent<BattleViewModel>();
+            BattleViewModel.FeverView.Init(FeverModel);
         }
-        private void Start()
-        {
-            //BattleViewModel = GameObject.Find("BattleScreen(Clone)").GetComponent<BattleViewModel>();
 
+        public void UseFullFever()
+        {
+            FeverModel.OnUseFever();
+            foreach (Cannon cannon in ShipSetup.Cannons)
+            {
+                CrewJobData.ReloadCannonJobsDic[cannon].Status = JobStatus.Deactive;
+                cannon.OnFullFeverEffectEnter();
+            }
+            BattleManager.Instance.FeverSpeedFx.Activate();
+            DOTween.To(() => stats.Fever.StatValue.BaseValue, x => stats.Fever.StatValue.BaseValue = x, 0, 10).OnComplete(
+                () =>
+                {
+                    BattleManager.Instance.FeverSpeedFx.Deactivate();
+                    FeverModel.UpdateState();
+                    foreach (Cannon cannon in ShipSetup.Cannons)
+                    {
+                        cannon.OnFullFeverEffectExit();
+                    }
+
+                });
+
+        }
+        public void UseFever(Cannon cannon)
+        {
+            CrewJobData.ReloadCannonJobsDic[cannon].Status = JobStatus.Deactive;
+            stats.Fever.StatValue.BaseValue -= 200;
+            stats.Fever.StatValue.BaseValue = Mathf.Clamp(stats.Fever.StatValue.BaseValue, 0, stats.Fever.MaxStatValue.BaseValue);
+            FeverModel.UpdateState();
+            cannon.OnFeverEffectEnter();
+        }
+
+        private void OnDestroy()
+        {
+            GlobalEvent<EnemyModel>.Unregister("EnemyDied", OnEnemyDied);
+            GlobalEvent<Cannon>.Unregister("ClickCannon", ShowShipHUD);
+            GlobalEvent.Unregister("CloseHUD", CloseHUD);
+        }
+
+        public void OnEnemyDied(EnemyModel enemyModel)
+        {
+            if (FeverModel.CurrentState != FeverState.Unleashing)
+            {
+
+                float feverPointGained = ((EnemyStats)enemyModel.Stats).FeverPoint.Value;
+                AddFeverPoint(feverPointGained);
+
+            }
+        }
+
+        void AddFeverPoint(float point)
+        {
+            stats.Fever.StatValue.BaseValue += point;
+            stats.Fever.StatValue.BaseValue = Mathf.Clamp(stats.Fever.StatValue.BaseValue, 0, stats.Fever.MaxStatValue.BaseValue);
+            FeverModel.UpdateState();
         }
 
         private void Update()
         {
             RegenMP();
-            //RegenHP();
             UpdateBattleView();
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                AddFeverPoint(50);
+            }
         }
 
         void UpdateBattleView()
@@ -67,6 +158,7 @@ namespace _Game.Scripts.Gameplay.Ship
                 BattleViewModel.MaxHP = stats.HealthPoint.MaxValue;
                 BattleViewModel.MP = stats.ManaPoint.Value;
                 BattleViewModel.MaxMP = stats.ManaPoint.MaxValue;
+                BattleViewModel.Fever = stats.Fever.Value;
             }
         }
 
@@ -78,17 +170,24 @@ namespace _Game.Scripts.Gameplay.Ship
             }
         }
 
-        void RegenHP()
-        {
-            if (!stats.HealthPoint.IsFull)
-            {
-                stats.HealthPoint.StatValue.BaseValue += (stats.HealthRegenerationRate.Value * Time.deltaTime);
-            }
-        }
-
         public override void ApplyStats()
         {
-            
+
+        }
+        private void ShowShipHUD(Cannon cannon)
+        {
+            if (cannon.IsOnFever || cannon.IsOnFullFever)
+            {
+                HUD.Hide();
+                return;
+            }
+            HUD.Cannon = cannon;
+            HUD.Show();
+        }
+
+        private void CloseHUD()
+        {
+            HUD.Hide();
         }
     }
 }

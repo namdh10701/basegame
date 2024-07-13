@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace _Game.Scripts.Entities
 {
-    public class CannonProjectile : Projectile, IPhysicsEffectGiver, IGDConfigStatsTarget
+    public abstract class CannonProjectile : Projectile, IPhysicsEffectGiver, IGDConfigStatsTarget
     {
         [Header("Cannon Projectile")]
         [Space]
@@ -19,24 +19,11 @@ namespace _Game.Scripts.Entities
         public GDConfig GDConfig => gDConfig;
 
         public StatsTemplate StatsTemplate => statsTemplate;
-
-        public override void ApplyStats()
+        protected override void Awake()
         {
-            base.ApplyStats();
-            GameObject dhe = new GameObject("decrease hp");
-            GameObject push = new GameObject("push");
-
-            DecreaseHealthEffect decreaseHpEffect = dhe.AddComponent<DecreaseHealthEffect>();
-            decreaseHpEffect.Amount = _stats.Damage.Value;
-            decreaseHpEffect.AmmoPenetrate = _stats.Damage.Value;
-            decreaseHpEffect.IsCrit = isCrit;
-            PushEffect pushEffect = push.AddComponent<PushEffect>();
-            pushEffect.force = 150;
-            pushEffect.body = body;
-            outGoingEffects = new List<Effect>() {
-                decreaseHpEffect,
-                pushEffect
-            };
+            base.Awake();
+            GDConfigStatsApplier gDConfigStatsApplier = GetComponent<GDConfigStatsApplier>();
+            gDConfigStatsApplier.LoadStats(this);
         }
     }
 }

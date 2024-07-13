@@ -8,8 +8,7 @@ namespace _Base.Scripts.RPG.Behaviours.AttackTarget
 {
     public interface IAttackStrategy
     {
-        public int DefaultNumOfProjectile { get; }
-        public int NumOfProjectile { get; set; }
+        public Stat NumOfProjectile { get; set; }
         void SetData(Cannon shooter, Transform shootPosition, CannonProjectile projectilePrefab, Vector3 shootDirection);
         void DoAttack();
         void Consume(RangedStat ammo);
@@ -17,10 +16,11 @@ namespace _Base.Scripts.RPG.Behaviours.AttackTarget
     [Serializable]
     public abstract class AttackStrategy : MonoBehaviour, IAttackStrategy
     {
-        public int defaultNumOfProjectile;
-        int numOfProjectile;
-        public int NumOfProjectile { get => numOfProjectile; set => numOfProjectile = value; }
-        public int DefaultNumOfProjectile { get => defaultNumOfProjectile; }
+        public Stat numOfProjectile;
+        public Stat NumOfProjectile { get => numOfProjectile; set => numOfProjectile = value; }
+
+        public int ActualNumOfProjectile;
+
         public abstract void SetData(Cannon shooter, Transform shootPosition, CannonProjectile projectilePrefab,
             Vector3 targetPosition);
 

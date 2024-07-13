@@ -1,4 +1,4 @@
-using _Game.Scripts.Gameplay.Ship;
+using _Game.Features.Gameplay;
 using UnityEngine;
 
 namespace _Game.Scripts.Entities
@@ -50,7 +50,13 @@ namespace _Game.Scripts.Entities
             direction.BaseValue = (targetPos - (Vector2)transform.position).normalized;
             direction.RefreshValue();
         }
-
+        public void SetSpeed(float x)
+        {
+            normalSpeed.BaseValue = .3f * x;
+            normalForce.BaseValue = .6f * x;
+            fastForce.BaseValue = 30f * x;
+            maxFastSpeed.BaseValue = 3f * x;
+        }
         public void Move()
         {
             if (isSlowdowned)
@@ -120,7 +126,6 @@ namespace _Game.Scripts.Entities
                 }
             }
         }
-
 
         bool animPlayed;
     }

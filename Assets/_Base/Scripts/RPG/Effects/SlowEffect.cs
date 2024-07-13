@@ -6,43 +6,36 @@ using UnityEngine;
 
 namespace _Base.Scripts.RPG.Effects
 {
-    public class SlowEffect : TimeoutEffect
+    public class SlowEffect : UnstackableEffect
     {
-        public string id = "slowFromCannon";
+        public override string Id => "SlowEffect";
         StatModifier statModifer = new StatModifier(-.5f, StatModType.PercentMult);
-        ISlowable affected;
 
-        protected override void OnStart(IEffectTaker entity)
+        public override bool CanEffect(IEffectTaker entity)
         {
-            base.OnStart(entity);
-            if (entity is ISlowable slowable)
+            return entity is ISlowable;
+        }
+        public override void Apply(IEffectTaker entity)
+        {
+            base.Apply(entity);
+            ISlowable slowable = entity as ISlowable;
+            Affected = (IEffectTaker)slowable;
+            slowable.OnSlowed();
+            foreach (Stat stat in slowable.SlowableStats)
             {
-                slowable.OnSlowed();
-                affected = slowable;
-                foreach (Stat stat in slowable.SlowableStats)
-                {
-                    stat.AddModifier(statModifer);
-                }
+                stat.AddModifier(statModifer);
             }
         }
 
         public override void OnEnd(IEffectTaker entity)
         {
             base.OnEnd(entity);
-            if (affected != null)
+            ISlowable slowable = entity as ISlowable;
+            foreach (Stat stat in slowable.SlowableStats)
             {
-                affected.OnSlowEnded();
-                foreach (Stat stat in affected.SlowableStats)
-                {
-                    stat.RemoveModifier(statModifer);
-                }
+                stat.RemoveModifier(statModifer);
             }
+            slowable.OnSlowEnded();
         }
-
-        private void OnDestroy()
-        {
-            Debug.Log("DESTROYED");
-        }
-
     }
 }

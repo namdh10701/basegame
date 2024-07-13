@@ -2,11 +2,11 @@ using _Base.Scripts.RPG.Effects;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace _Game.Scripts
+namespace _Game.Features.Gameplay
 {
     public class GridAttackHandler : MonoBehaviour
     {
-        public _Game.Scripts.Gameplay.Ship.Ship ship;
+        public Ship ship;
         public void ProcessAttack(EnemyAttackData enemyAttackData)
         {
             ProcessAttack(enemyAttackData.TargetCells, enemyAttackData.Effects);
@@ -18,21 +18,14 @@ namespace _Game.Scripts
             {
                 foreach (Cell cell in cells)
                 {
-                    Debug.Log(cell.ToString());
                     if (effect is DecreaseHealthEffect decrease)
                     {
                         if (cell.GridItem != null)
                         {
-                            if (cell.GridItem.IsAbleToTakeHit)
+                            if (cell.GridItem is IEffectTaker effectTaker)
                             {
-                                cell.GridItem.EffectHandler.Apply(effect);
-
+                                effectTaker.EffectHandler.Apply(effect);
                             }
-                            else
-                            {
-                                ship.EffectHandler.Apply(effect);
-                            }
-                            continue;
                         }
                         else
                         {
@@ -46,7 +39,10 @@ namespace _Game.Scripts
 
                         if (cell.GridItem != null)
                         {
-                            cell.GridItem.EffectHandler.Apply(effect);
+                            if (cell.GridItem is IEffectTaker effectTaker)
+                            {
+                                effectTaker.EffectHandler.Apply(effect);
+                            }
                         }
                         else
                         {

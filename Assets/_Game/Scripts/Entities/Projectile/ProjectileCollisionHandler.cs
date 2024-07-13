@@ -24,14 +24,17 @@ public class ProjectileCollisionHandler : DefaultEffectCollisionHandler
 
     public override void Process(IEffectGiver giver, IEffectTaker taker)
     {
-        if (taker is EnemyModel enemy)
+        if (projectile.ProjectileMovement is not HomingMove)
         {
-            float evadeChance = ((EnemyStats)enemy.Stats).EvadeChance.Value;
-            if (evadeChance > 0)
+            if (taker is EnemyModel enemy)
             {
-                if (Random.Range(0, 1f) < evadeChance)
+                float evadeChance = ((EnemyStats)enemy.Stats).EvadeChance.Value;
+                if (evadeChance > 0)
                 {
-                    return;
+                    if (Random.Range(0, 1f) < evadeChance)
+                    {
+                        return;
+                    }
                 }
             }
         }
@@ -55,7 +58,6 @@ public class ProjectileCollisionHandler : DefaultEffectCollisionHandler
             }
         }
         base.Process(giver, taker);
-        Debug.Log("Base ");
         if (Handlers.Count == 0)
         {
             FinalAct();
@@ -70,7 +72,7 @@ public class ProjectileCollisionHandler : DefaultEffectCollisionHandler
             projectile.trail.parent = null;
             projectile.trail.AddComponent<DestroyAfterEnabled>();
         }
-        Debug.Log("Base DES");
+        Debug.Log("DESTROY ");
         Object.Destroy(projectile.gameObject);
     }
 }

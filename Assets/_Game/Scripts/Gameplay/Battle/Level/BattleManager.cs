@@ -3,14 +3,16 @@ using _Base.Scripts.RPG.Entities;
 using _Base.Scripts.RPGCommon.Entities;
 using _Game.Features;
 using _Game.Features.Battle;
+using _Game.Scripts;
 using _Game.Scripts.Battle;
 using _Game.Scripts.Entities;
 using Map;
+using System;
 using System.Collections;
 using UnityEngine;
 using ZBase.UnityScreenNavigator.Core.Modals;
 
-namespace _Game.Scripts.Gameplay
+namespace _Game.Features.Gameplay
 {
     public class BattleManager : MonoBehaviour
     {
@@ -32,20 +34,22 @@ namespace _Game.Scripts.Gameplay
         public BattleInputManager BattleInputManager;
         public GridAttackHandler GridAttackHandler;
         public GridPicker GridPicker;
-
+        public FeverSpeedFx FeverSpeedFx;
 
         public BattleViewModel BattleViewModel;
         public void Initialize(BattleViewModel battleViewModel)
         {
+            EntityManager.OnEnter();
+
             this.BattleViewModel = battleViewModel;
             BattleInputManager.gameObject.SetActive(false);
             EntityManager.SpawnShip(BattleManager.SelectedShipId, shipStartPos.position);
             LevelStartSequence.shipSpeed = EntityManager.Ship.ShipSpeed;
-            BattleInputManager.shipSetup = EntityManager.Ship.ShipSetup;
             GridAttackHandler.ship = EntityManager.Ship;
+            EntityManager.Ship.BattleViewModel = battleViewModel;
             GridPicker.ShipGrid = EntityManager.Ship.ShipSetup;
             StartCoroutine(LevelEntryCoroutine());
-
+            GlobalEvent.Register("UseFullFever", UseFullFever);
             GlobalEvent<bool>.Register("TOGGLE_PAUSE", TogglePause);
         }
 
@@ -64,7 +68,7 @@ namespace _Game.Scripts.Gameplay
             while (true)
             {
                 yield return new WaitForSeconds(5);
-                if (EnemyManager.IsLevelDone && EntityManager.aliveEntities.Count == 0)
+                if (EnemyManager.IsLevelDone && EntityManager.aliveEnemies.Count == 0)
                 {
                     Win();
                     MapPlayerTracker.Instance.OnGamePassed();
@@ -73,17 +77,16 @@ namespace _Game.Scripts.Gameplay
                 if (EnemyManager.IsLevelDone)
                 {
                     bool ended = true;
-                    foreach (IAliveStats a in EntityManager.aliveEntities)
+                    foreach (EnemyModel a in EntityManager.aliveEnemies)
                     {
                         if (a != null)
                         {
-                            if (a is EnemyStats s)
+                            EnemyStats stats = (EnemyStats)a.Stats;
+                            if (stats.HealthPoint.Value > 0)
                             {
-                                if (s.HealthPoint.Value > 0)
-                                {
-                                    ended = false;
-                                }
+                                ended = false;
                             }
+
                         }
                     }
                     if (ended)
@@ -99,17 +102,19 @@ namespace _Game.Scripts.Gameplay
         async void Win()
         {
             //CleanUp();
+            PlayerPrefs.SetFloat("fever", EntityManager.Ship.stats.Fever.Value);
             var options = new ModalOptions("BattleVictory1Screen", true, loadAsync: false);
-
+            
             await ModalContainer.Find(ContainerKey.Modals).PushAsync(options);
         }
 
 
         public void CleanUp()
         {
+            GlobalEvent.Unregister("UseFullFever", UseFullFever);
             Time.timeScale = 1;
             GlobalEvent<bool>.Unregister("TOGGLE_PAUSE", TogglePause);
-            currentRate = 1; 
+            currentRate = 1;
             BattleViewModel.SpeedUpRate = currentRate;
             EntityManager.CleanUp();
             EnemyModel[] a = GameObject.FindObjectsByType<EnemyModel>(FindObjectsSortMode.None);
@@ -157,5 +162,14 @@ namespace _Game.Scripts.Gameplay
             Time.timeScale = currentRate;
         }
 
+        internal void UseFever(Cannon cannon)
+        {
+            EntityManager.Ship.UseFever(cannon);
+        }
+
+        void UseFullFever()
+        {
+            EntityManager.Ship.UseFullFever();
+        }
     }
 }

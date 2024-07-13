@@ -1,5 +1,6 @@
+using _Base.Scripts.EventSystem;
 using _Base.Scripts.RPG.Stats;
-using _Game.Scripts.Gameplay.Ship;
+using DG.Tweening;
 using System;
 using UnityEngine;
 
@@ -11,38 +12,34 @@ namespace _Game.Features.Battle
     }
     public class FeverModel : MonoBehaviour
     {
-        public int[] thresholdSteps = new int[4] { 200, 400, 600, 800 };
+        public int[] thresholdSteps = new int[5] { 0, 200, 400, 600, 800 };
         public RangedStat FeverPoint;
         public FeverState CurrentState;
         public Action<FeverState> OnStateChanged;
 
-        public void AddFeverPoint(float amount)
+        public void OnUseFever()
         {
-            FeverPoint.StatValue.BaseValue += amount;
-            FeverPoint.StatValue.BaseValue = Mathf.Clamp(FeverPoint.StatValue.BaseValue, 0, FeverPoint.MaxStatValue.BaseValue);
+            CurrentState = FeverState.Unleashing;
+            OnStateChanged.Invoke(CurrentState);
+        }
+
+        public void SetFeverPointStats(RangedStat feverPoint)
+        {
+            this.FeverPoint = feverPoint;
             UpdateState();
         }
 
-        public void RemoveFeverPoint(float amount)
+        public void UpdateState()
         {
-            FeverPoint.StatValue.BaseValue -= amount;
-            FeverPoint.StatValue.BaseValue = Mathf.Clamp(FeverPoint.StatValue.BaseValue, 0, FeverPoint.MaxStatValue.BaseValue);
-            UpdateState();
-        }
-
-        void UpdateState()
-        {
-            for (int i = thresholdSteps.Length - 1; i >= 0; i--)
+            for (int i = 0; i < thresholdSteps.Length; i++)
             {
-                if (FeverPoint.StatValue.BaseValue >= thresholdSteps[i])
+                if (FeverPoint.StatValue.BaseValue < thresholdSteps[i])
                 {
-                    if ((int)CurrentState < i)
-                    {
-                        ChangeState((FeverState)i);
-                    }
+                    ChangeState((FeverState)i);
                     return;
                 }
             }
+            ChangeState(FeverState.State4);
         }
 
         public void ChangeState(FeverState nextState)

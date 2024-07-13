@@ -1,23 +1,30 @@
 using System;
 using _Base.Scripts.RPG.Entities;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 using Task = System.Threading.Tasks.Task;
 
 namespace _Base.Scripts.RPG.Effects
 {
+
+    public interface IDamageEffect
+    {
+        public float Amount { get; set; }
+        public float ArmorPenetrate { get; set; }
+    }
+
     [Serializable]
     public abstract class Effect : MonoBehaviour
     {
         public IEffectTaker Target;
         public virtual void Apply(IEffectTaker entity)
         {
-            Target = entity;
             IsActive = true;
-            transform.parent = null;
+            Target = entity;
         }
         [field: SerializeField]
-        public bool IsActive { get; protected set; }
         public bool IsDone { get; protected set; }
+        public bool IsActive { get; protected set; }
 
         public Action<Effect> OnEnded;
 
@@ -25,11 +32,22 @@ namespace _Base.Scripts.RPG.Effects
         public virtual void OnEnd(IEffectTaker entity)
         {
             OnEnded?.Invoke(this);
+            IsActive = false;
+            IsDone = true;
+
             Destroy(gameObject);
         }
-
-        public virtual bool CanEffect(Entity entity) => true;
         public virtual bool CanEffect(IEffectTaker entity) => true;
+    }
+
+    public abstract class UnstackableEffect : TimeoutEffect
+    {
+        public abstract string Id { get; }
+        public virtual void RefreshEffect(UnstackableEffect newEffect)
+        {
+            Duration = Mathf.Max(newEffect.Duration, elapsedTime);
+            elapsedTime = 0;
+        }
     }
 
 
@@ -51,10 +69,20 @@ namespace _Base.Scripts.RPG.Effects
     public abstract class TimeoutEffect : Effect
     {
         [field: SerializeField]
-        public int Duration { get; set; }
+        public float Duration { get; set; }
         [field: SerializeField]
         protected float elapsedTime = 0;
-
+        public IEffectTaker Affected { get; protected set; }
+        protected override void OnStart(IEffectTaker entity)
+        {
+            base.OnStart(entity);
+            IsActive = true;
+            transform.parent = null;
+        }
+        public override void OnEnd(IEffectTaker entity)
+        {
+            base.OnEnd(entity);
+        }
         public override void Apply(IEffectTaker entity)
         {
             base.Apply(entity);

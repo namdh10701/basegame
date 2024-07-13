@@ -1,13 +1,14 @@
 using _Base.Scripts.EventSystem;
 using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.RPG.Entities;
+using _Game.Scripts;
 using _Game.Scripts.Entities;
 using _Game.Scripts.PathFinding;
 using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace _Game.Scripts
+namespace _Game.Features.Gameplay
 {
     [System.Serializable]
     public class Cell : MonoBehaviour, IStatsBearer, IEffectTaker, IWorkLocation
@@ -69,7 +70,6 @@ namespace _Game.Scripts
         public void OnBroken()
         {
             GlobalEvent<Cell, int>.Send("FixCell", this, 3);
-            Debug.Log(X + " " + Y);
             CellRenderer.OnBroken();
         }
         public void OnClick()

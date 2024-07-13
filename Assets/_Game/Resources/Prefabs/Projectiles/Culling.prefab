@@ -200,10 +200,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7691449450847267648}
-  - component: {fileID: 9038214777133773486}
+  - component: {fileID: 758270740813100276}
   - component: {fileID: 1933465007915484115}
   - component: {fileID: 3939969849683305201}
   - component: {fileID: -3540324888013650409}
+  - component: {fileID: 1966909991810661628}
+  - component: {fileID: 5638452671006819820}
+  - component: {fileID: 3102323159840037471}
   m_Layer: 7
   m_Name: Culling
   m_TagString: Untagged
@@ -230,7 +233,7 @@ Transform:
   - {fileID: 2467403479100736081}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9038214777133773486
+--- !u!114 &758270740813100276
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -239,7 +242,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7099963840742418997}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51454a304ff74d7ba561bd142aa532c8, type: 3}
+  m_Script: {fileID: 11500000, guid: 18b15367f4f1e2d48b0bbcdd51995cc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   body: {fileID: 1933465007915484115}
@@ -272,13 +275,22 @@ MonoBehaviour:
     <CritDamage>k__BackingField:
       statModifiers: []
       _baseValue: 0
+    <HpThreshold>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
   trail: {fileID: 2467403479100736081}
-  outGoingEffects: []
+  outGoingEffects:
+  - {fileID: 1966909991810661628}
+  - {fileID: 5638452671006819820}
+  - {fileID: 3102323159840037471}
   collisionListener: {fileID: 3939969849683305201}
-  isCrit: 0
+  isCrit: 1
   id: 
   gDConfig: {fileID: 11400000, guid: d0ed2d75ef03e46a89a69e09a4a544d5, type: 2}
   statsTemplate: {fileID: 11400000, guid: e5dfddbd8e83b034c8bcb7969df1f373, type: 2}
+  decreaseHpEffect: {fileID: 1966909991810661628}
+  pushEffect: {fileID: 5638452671006819820}
+  killShotEffect: {fileID: 3102323159840037471}
 --- !u!50 &1933465007915484115
 Rigidbody2D:
   serializedVersion: 4
@@ -331,6 +343,52 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12c5255b5a7391c48b0346c3510cbd9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1966909991810661628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7099963840742418997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c262613bbca45d296cc9e30cfb58f40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <IsDone>k__BackingField: 0
+  <Amount>k__BackingField: 0
+  <ArmorPenetrate>k__BackingField: 0
+  IsCrit: 0
+--- !u!114 &5638452671006819820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7099963840742418997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c2a052ce94122d4d899f10e84fd53d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <IsDone>k__BackingField: 0
+  force: 0
+  isIgnorePoise: 0
+  body: {fileID: 0}
+--- !u!114 &3102323159840037471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7099963840742418997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50ba28763ffa5b441bd232c98571a405, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <IsDone>k__BackingField: 0
+  <Threshold>k__BackingField: 0
 --- !u!1 &7326745969274084975
 GameObject:
   m_ObjectHideFlags: 0
