@@ -46,7 +46,8 @@ namespace _Game.Features.MyShipScreen
         {
             Instance = this;
             await RegisterSheets(typeof(Sheets));
-            await ShowSheet(Sheets.NewShipEditSheet);
+            await ShowSheet(Sheets.MainShipSheet);
+            // await ShowSheet(Sheets.NewShipEditSheet);
 
         }
     }

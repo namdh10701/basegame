@@ -22,30 +22,30 @@ namespace _Game.Features.MyShip
 
         public void OnBeginDrag(PointerEventData eventData)
         {
-            // prevPos = _draggingItem.transform.position;
-            
-            DraggingItem = NewShipEditSheet.CreateDragItem(InventoryItem);
-            // NewShipEditSheet.ShipConfigManager.Grid.shape = DraggingItem.Shape;
+            // // prevPos = _draggingItem.transform.position;
+            //
+            // DraggingItem = NewShipEditSheet.CreateDragItem(InventoryItem);
+            // // NewShipEditSheet.ShipConfigManager.Grid.shape = DraggingItem.Shape;
         }
 
         public void OnDrag(PointerEventData eventData)
         {
-            Vector3 pos = Camera.main.ScreenToWorldPoint(
-                eventData.position
-            );
-            pos.z = 0;
-            
-            DraggingItem.transform.position = pos;
+            // Vector3 pos = Camera.main.ScreenToWorldPoint(
+            //     eventData.position
+            // );
+            // pos.z = 0;
+            //
+            // DraggingItem.transform.position = pos;
         }
 
         public void OnEndDrag(PointerEventData eventData)
         {
-            // eventData.
-            if (DraggingItem)
-            {
-                Destroy(DraggingItem.gameObject);
-            }
-            // _draggingItem.transform.position = prevPos;
+            // // eventData.
+            // if (DraggingItem)
+            // {
+            //     Destroy(DraggingItem.gameObject);
+            // }
+            // // _draggingItem.transform.position = prevPos;
         }
     }
 

@@ -31,8 +31,23 @@ namespace _Game.Features
             //Debug.unityLogger.logEnabled = false;
             Application.targetFrameRate = 120;
             UnityScreenNavigatorSettings.Initialize();
-            await GameLevelManager.LoadData();
+            
+            Debug.Log("Load" + "GameLevelManager");
+            await GameLevelManager.Instance.LoadData();
+          
+            Debug.Log("Load" + "ShopDataItem");
+            await ShopDataItem.Instance.LoadData();
+           
+            Debug.Log("Load" + "ShopDataListing");
+            await ShopDataListing.Instance.LoadData();
+           
+            Debug.Log("Load" + "ShopDataRarity");
+            await ShopDataRarity.Instance.LoadData();
+          
+            Debug.Log("Load" + "GDConfigLoader");
             await GDConfigLoader.Instance.Load();
+            
+            Debug.Log("Load" + "Database");
             Database.Load();
 
             // MapPlayerTracker.Instance.OnStagePassed += OnOnStagePassed;
