@@ -31,6 +31,14 @@ namespace _Game.Features.MyShip
             // instance.transform.localPosition = new Vector3(position.x * SlotCell.WIDTH, position.y * SlotCell.HEIGHT); 
             return instance;
         }
+
+        private void MoveItem(DraggingItem draggingItem, Vector2Int position)
+        {
+            Debug.Log("cell.Position: " + position);
+            
+            var rect = draggingItem.transform as RectTransform;
+            rect.anchoredPosition = new Vector3(position.x * SlotCell.WIDTH, position.y * SlotCell.HEIGHT * -1);
+        }
         
         public DraggingItem GetDragItemPrefab(InventoryItem item)
         {
@@ -41,55 +49,115 @@ namespace _Game.Features.MyShip
 
         public void OnDrop(PointerEventData eventData)
         {
-            var cell = _activedCells.FirstOrDefault();
+            var cell = _activeCells.FirstOrDefault();
             if (cell)
             {
-                PlaceItem(_inventorySheetItem.InventoryItem, cell.Position);
+                if (_inventorySheetItem)
+                {
+                    PlaceItem(_inventorySheetItem.InventoryItem, cell.Position);
+                    _draggingItem.Position = cell.Position;
+                }
+                else
+                {
+                    MoveItem(_draggingItem, cell.Position);
+                    _draggingItem.Position = cell.Position;
+                }
+            }
+            else
+            {
+                // _draggingItem.transform.anchoredPosition = _lastDraggingItemPos;
+                // _lastDraggingItemPos = Vector3.zero;
+                MoveItem(_draggingItem, _draggingItem.Position);
             }
 
             _inventorySheetItem = null;
+            _draggingItem = null;
             ClearActiveCells();
         }
+        
 
         InventorySheetItem _inventorySheetItem;
-        private List<SlotCell> _activedCells = new();
+        private DraggingItem _draggingItem;
+        private List<SlotCell> _activeCells = new();
+        private List<SlotCell> _beforeMoveActiveCells = new();
+        // private Vector3 _lastDraggingItemPos;
+
         public void OnPointerEnter(PointerEventData eventData)
         {
-            if (!eventData.pointerDrag)
-            {
-                return;
-            }
-            _inventorySheetItem = eventData.pointerDrag.GetComponent<InventorySheetItem>();
             HandlePointerMove(eventData);
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
             _inventorySheetItem = null;
+            _draggingItem = null;
             ClearActiveCells();
         }
 
         private void ClearActiveCells()
         {
-            _activedCells.ForEach(c => c.IsHighLight = false);
-            _activedCells.Clear();
+            _activeCells.ForEach(c => c.IsHighLight = false);
+            _activeCells.Clear();
         }
 
         public void OnPointerMove(PointerEventData eventData) => HandlePointerMove(eventData);
 
         private void HandlePointerMove(PointerEventData eventData)
         {
-            var hoveredCell = cellTracker.FindSlotCell(eventData.position);
+            if (!eventData.pointerDrag)
+            {
+                return;
+            }
 
-            if (!hoveredCell || !_inventorySheetItem) return;
+            if (!_inventorySheetItem)
+            {
+                _inventorySheetItem = eventData.pointerDrag.GetComponent<InventorySheetItem>();
+                _draggingItem = _inventorySheetItem != null ? _inventorySheetItem.DraggingItem : null;
+            }
+            
+            if (!_draggingItem)
+            {
+                _draggingItem = eventData.pointerDrag.GetComponent<DraggingItem>();
+                // _lastDraggingItemPos = _draggingItem.transform.position;
+            }
+            
+            
+            
+            
+            // var hoveredCell = cellTracker.FindSlotCell(((RectTransform) _draggingItem.transform).rect.position);
+            var mousePos = eventData.position;
+            if (!_inventorySheetItem)
+            {
+                var rect = ((RectTransform)_draggingItem.transform);
+
+                // Convert the screen point to a local point in the raycast target
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                    rect,
+                    eventData.position,
+                    eventData.pressEventCamera, // The camera used to detect the pointer event
+                    out var localPointerPosition
+                );
+                
+                
+                mousePos.x -= localPointerPosition.x / 2;
+                mousePos.y -= localPointerPosition.y / 2;
+            }
+            var hoveredCell = cellTracker.FindSlotCell(mousePos);
+
+            if (!hoveredCell || !_draggingItem) return;
 
             var cells = Vector2IntArrayUtils
                 .Shift(
-                    _inventorySheetItem.DraggingItem.Shape.Data, hoveredCell.Position
+                    _draggingItem.Shape.Data, hoveredCell.Position
                 )
                 .Select(c => Grid.GetCell(c))
-                .Where(c => c)
                 .ToList();
+
+            if (cells.Contains(null))
+            {
+                ClearActiveCells();
+                return;
+            }
             
             SetActiveCells(cells);
         }
@@ -112,9 +180,9 @@ namespace _Game.Features.MyShip
 
             foreach (var cell in cellsToActive)
             {
-                if (_activedCells.Contains(cell)) continue;
+                if (_activeCells.Contains(cell)) continue;
                 cell.IsHighLight = true;
-                _activedCells.Add(cell);
+                _activeCells.Add(cell);
             }
         }
     }

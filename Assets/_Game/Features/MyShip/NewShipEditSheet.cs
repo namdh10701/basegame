@@ -2,6 +2,7 @@ using System;
 using _Game.Features.Inventory;
 using _Game.Features.MyShip.GridSystem;
 using _Game.Scripts.DB;
+using _Game.Scripts.UI;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Unity.VisualScripting;
@@ -19,12 +20,68 @@ namespace _Game.Features.MyShip
     }
 
     [Binding]
+    public class StashItem: SubViewModel
+    {
+        #region Binding Prop: InventoryItem
+
+        /// <summary>
+        /// InventoryItem
+        /// </summary>
+        [Binding]
+        public InventoryItem InventoryItem
+        {
+            get => _inventoryItem;
+            set
+            {
+                if (Equals(_inventoryItem, value))
+                {
+                    return;
+                }
+
+                _inventoryItem = value;
+                OnPropertyChanged(nameof(InventoryItem));
+                OnPropertyChanged(nameof(IsEquipped));
+                OnPropertyChanged(nameof(Thumbnail));
+            }
+        }
+
+        private InventoryItem _inventoryItem;
+
+        #endregion
+
+        #region Binding Prop: IsEmpty
+
+        /// <summary>
+        /// IsEquipped
+        /// </summary>
+        [Binding]
+        public bool IsEquipped => _inventoryItem != null;
+
+        [Binding]
+        public Sprite Thumbnail => IsEquipped ? _inventoryItem.Thumbnail : Resources.Load<Sprite>("Images/Group 248");
+
+        #endregion
+    }
+
+    [Binding]
     public class NewShipEditSheet : SheetWithViewModel
     {
         public RectTransform ConfigSheet;
         public RectTransform ShipSpawnPoint;
         public RectTransform InventorySheet;
         public ShipConfigManager ShipConfigManager;
+        
+        [Binding]
+        public ObservableList<StashItem> StashItems { get; } = new ObservableList<StashItem>();
+
+        protected override void Awake()
+        {
+            base.Awake();
+            for (int i = 0; i < 10; i++)
+            {
+                StashItems.Add(new StashItem());
+            }
+        }
 
         #region ViewMode
         public ViewMode _viewMode = ViewMode.NORMAL;

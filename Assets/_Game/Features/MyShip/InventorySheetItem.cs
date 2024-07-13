@@ -1,4 +1,5 @@
 using _Game.Features.Inventory;
+using _Game.Features.MyShip.GridSystem;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
@@ -46,5 +47,13 @@ namespace _Game.Features.MyShip
             }
             // _draggingItem.transform.position = prevPos;
         }
+    }
+
+    public interface IEquipmentItem
+    {
+        ItemShape Shape { get; set; }
+        InventoryItem ItemInfo { get; set; }
+        
+        Vector2 Position { get; set; }
     }
 }

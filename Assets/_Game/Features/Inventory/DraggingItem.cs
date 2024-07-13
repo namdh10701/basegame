@@ -6,7 +6,9 @@ namespace _Game.Features.Inventory
 {
     public class DraggingItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
     {
+        public Vector2Int Position;
         public ItemShape Shape;
+        public InventoryItem InventoryItem;
         private Vector2 currentMousePos;
         private Vector2 offsetMousePos;
 
