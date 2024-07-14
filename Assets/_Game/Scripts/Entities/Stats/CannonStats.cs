@@ -36,6 +36,12 @@ namespace _Game.Scripts
         public Stat AttackSpeed { get; set; } = new();
         [field: SerializeField]
         public Stat ProjectileCount { get; set; } = new();
+
+        [field: SerializeField]
+        public Stat PrimaryDamage { get; set; } = new();
+        [field: SerializeField]
+        public Stat SecondaryDamage { get; set; } = new();
+
         public IFighterStats.AttackTypes AttackType { get; set; } = IFighterStats.AttackTypes.UNIT;
 
     }

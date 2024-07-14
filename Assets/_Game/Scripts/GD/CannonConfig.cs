@@ -22,6 +22,8 @@ namespace _Game.Scripts.GD
         public float range;
         public float skill;
         public float project_count;
+        public float primary_project_dmg;
+        public float secondary_project_dmg;
 
         public string OperationType { get => operation_type; set => operation_type = value; }
 
@@ -42,6 +44,8 @@ namespace _Game.Scripts.GD
             cannonSt.AttackSpeed.BaseValue = attack_speed;
             cannonSt.AttackRange.BaseValue = range;
             cannonSt.ProjectileCount.BaseValue = project_count;
+            cannonSt.PrimaryDamage.BaseValue = primary_project_dmg;
+            cannonSt.SecondaryDamage.BaseValue = secondary_project_dmg;
         }
     }
 }

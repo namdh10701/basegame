@@ -5,11 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class FeverOrbBtn : MonoBehaviour, IPointerDownHandler
+public class FeverOrbBtn : MonoBehaviour
 {
-    public FeverOrb prefab;
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        Instantiate(prefab);
-    }
+
 }

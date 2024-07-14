@@ -10,18 +10,23 @@ public class StunFx : MonoBehaviour
     Skeleton skeleton;
     [SpineAnimation][SerializeField] string stun;
 
-    private void Start()
-    {
-        skeleton = skeletonAnimation.skeleton;
-    }
-
     public void Play()
     {
+        /*if (fade != null)
+        {
+            fade.Kill();
+        }*/
         gameObject.SetActive(true);
+        //skeletonAnimation.skeleton.SetColor(Color.white);
     }
 
     public void Stop()
     {
+        gameObject.SetActive(false);
+       /* if (fade != null || !gameObject.activeSelf)
+        {
+            return;
+        }
         fade = DOTween.ToAlpha(() => skeleton.GetColor(), x =>
         {
             skeleton.SetColor(x);
@@ -30,11 +35,7 @@ public class StunFx : MonoBehaviour
         {
             fade = null;
             gameObject.SetActive(false);
-        });
-    }
-    private void OnDisable()
-    {
-        skeleton.SetColor(Color.white);
+        });*/
     }
     private void OnDestroy()
     {

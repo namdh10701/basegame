@@ -35,7 +35,7 @@ namespace _Game.Features.Gameplay
             IsLeftHandAttack = false;
             SelectCells();
             JellyFishProjectile projectile = Instantiate(projectilePrefab);
-            projectile.SetData(enemyAttackData, leftShootPos.transform.position, 15);
+            projectile.SetData(enemyAttackData, leftShootPos.transform.position, 15, AttackDamage.Value);
             projectile.Launch();
         }
 
@@ -44,7 +44,7 @@ namespace _Game.Features.Gameplay
             IsLeftHandAttack = true;
             SelectCells();
             JellyFishProjectile projectile = Instantiate(projectilePrefab);
-            projectile.SetData(enemyAttackData, rightShootPos.transform.position, -15);
+            projectile.SetData(enemyAttackData, rightShootPos.transform.position, -15, AttackDamage.Value);
             projectile.Launch();
         }
 

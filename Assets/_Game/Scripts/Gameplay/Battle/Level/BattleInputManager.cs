@@ -26,14 +26,13 @@ namespace _Game.Features.Gameplay
         Cannon selectingCannon;
 
 
+        public Ship Ship;
         public ShipHUD ShipHUD;
         private void Update()
         {
-#if !UNITY_EDITOR
             HandleTouch();
-#else
-            HandleMouse();
-#endif
+            //HandleMouse();
+
         }
         void OnCanvasPointerDown()
         {
@@ -41,6 +40,7 @@ namespace _Game.Features.Gameplay
 
             if (clickedObject != null)
             {
+                Debug.Log("CLICKED"); Debug.Log(clickedObject.name);
                 if (clickedObject.TryGetComponent(out FeverOrbBtn orbBtn))
                 {
                     draggingOrb = Instantiate(prefab);
@@ -52,12 +52,41 @@ namespace _Game.Features.Gameplay
                 if (clickedObject.TryGetComponent(out AmmoButton ammoButton))
                 {
                     Ammo ammo = ammoButton.ammo;
+                    if (ammo.IsBroken)
+                    {
+                        return;
+                    }
+                    ShipStats shipStats = Ship.Stats as ShipStats;
+
+                    if (shipStats.ManaPoint.Value >= ammo.stats.EnergyCost.Value)
+                    {
+                        shipStats.ManaPoint.StatValue.BaseValue -= ammo.stats.EnergyCost.Value;
+                        GlobalEvent<int, Vector3>.Send("MANA_CONSUMED", (int)ammo.stats.EnergyCost.Value, worldPointerPos);
+                    }
                     selectingCannon.Reload(ammo);
-                    selectingCannon.border.SetActive(false);
+                    DeselectCannon();
                     ShipHUD.Hide();
+                    return;
                 }
+
+                ShipHUD.Hide();
+                DeselectCannon();
+            }
+            else
+            {
+                ShipHUD.Hide();
+                DeselectCannon();
             }
 
+        }
+
+        void DeselectCannon()
+        {
+            if (selectingCannon != null)
+            {
+                selectingCannon.border.SetActive(false);
+                selectingCannon = null;
+            }
         }
 
         void OnWorldPointerDown()
@@ -83,6 +112,11 @@ namespace _Game.Features.Gameplay
                     pointerDownObject = icd.Item;
                 }
             }
+            else
+            {
+                ShipHUD.Hide();
+                DeselectCannon();
+            }
         }
 
         void OnDrag()
@@ -101,8 +135,10 @@ namespace _Game.Features.Gameplay
             {
                 if (pointerDownObject != null)
                 {
+                    Debug.Log(pointerDownObject.name);
                     if (pointerDownObject.TryGetComponent(out Cannon cannon))
                     {
+                        DeselectCannon();
                         ShipHUD.FilterCannonUsingAmmo(cannon);
                         ShipHUD.Show();
                         selectingCannon = cannon;
@@ -110,7 +146,25 @@ namespace _Game.Features.Gameplay
 
                         if (cannon.IsBroken)
                         {
-                            GlobalEvent<IGridItem>.Send("Fix", cannon.GetComponent<IGridItem>());
+                            GlobalEvent<Cannon, int>.Send("FixCannon", cannon, int.MaxValue);
+                        }
+                    }
+                    if (pointerDownObject.TryGetComponent(out Ammo ammo))
+                    {
+                        Debug.Log("click mmo");
+
+                        if (ammo.IsBroken)
+                        {
+                            GlobalEvent<Cannon, int>.Send("FixAmmo", cannon, int.MaxValue);
+                        }
+                    }
+                    if (pointerDownObject.TryGetComponent(out Cell cell))
+                    {
+                        if (cell.isBroken)
+                        {
+
+                            Debug.Log("send");
+                            GlobalEvent<Cell, int>.Send("FixCell", cell, int.MaxValue);
                         }
                     }
                 }
@@ -122,6 +176,9 @@ namespace _Game.Features.Gameplay
         }
         void OnCanvasPointerUp()
         {
+            if(draggingOrb != null){
+                draggingOrb.OnDrop(worldPointerPos);
+            }
         }
 
         void HandleMouse()
@@ -185,32 +242,37 @@ namespace _Game.Features.Gameplay
             {
                 Touch touch = Input.GetTouch(0);
                 worldPointerPos = _camera.ScreenToWorldPoint(touch.position);
+                Debug.Log("TOUCHED");
                 switch (touch.phase)
                 {
                     case TouchPhase.Began:
                         isPointerDown = true;
                         if (IsPointerOverUIObject(touch.position))
                         {
+                            Debug.Log("TOUCHED canvas");
                             OnCanvasPointerDown();
                         }
                         else
                         {
+                            Debug.Log("TOUCHED world");
+                            Debug.Log(worldPointerPos);
                             OnWorldPointerDown();
                         }
                         break;
 
                     case TouchPhase.Moved:
+                        isDragging = true;
                         OnDrag();
                         break;
 
                     case TouchPhase.Ended:
                         if (IsPointerOverUIObject(touch.position))
                         {
-                            OnCanvasPointerDown();
+                            OnCanvasPointerUp();
                         }
                         else
                         {
-                            OnWorldPointerDown();
+                            OnWorldPointerUp();
                         }
                         isPointerDown = false;
                         isDragging = false;

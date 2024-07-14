@@ -4,13 +4,36 @@ using _Game.Scripts;
 using _Game.Scripts.Entities;
 using _Game.Scripts.GD;
 using _Game.Scripts.PathFinding;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace _Game.Features.Gameplay
 {
+    public enum CrewState
+    {
+        Idle, Moving, Carrying_Moving, Carrying_Idle, Reparing, Stun
+    }
+
     public class Crew : Entity, IGDConfigStatsTarget, IStatsBearer, INodeOccupier, IEffectTaker, IStunable
     {
+
+        public CrewState state;
+        public CrewState State
+        {
+            get => state; set
+            {
+                CrewState lastState = state;
+
+                state = value;
+                if (state != lastState)
+                {
+                    OnStateChanged.Invoke(value);
+                }
+            }
+        }
+        public Action<CrewState> OnStateChanged;
+
         [Header("GD Config Stats Target")]
         [SerializeField] private string id;
         [SerializeField] private GDConfig gdConfig;
@@ -20,6 +43,8 @@ namespace _Game.Features.Gameplay
         public Ship Ship;
         public Rigidbody2D body;
         public CrewAniamtionHandler Animation;
+
+
         public CrewMovement CrewMovement;
         public CrewAction CrewAction;
         public CrewStats stats;
@@ -53,30 +78,14 @@ namespace _Game.Features.Gameplay
         public void OnStun()
         {
             CrewAction.Pause();
-            Animation.PlayStun();
+            State = CrewState.Stun;
             body.velocity = Vector2.zero;
         }
 
         public void OnAfterStun()
         {
+            State = CrewState.Idle;
             CrewAction.Resume();
-            Animation.StopStun();
-        }
-
-        public void Carry(Ammo bullet)
-        {
-            Animation.PlayCarry();
-            CrewAction.CarryingBullet = bullet;
-        }
-
-        public void StopCarry()
-        {
-            Animation.StopCarry();
-        }
-
-        public void Dropdown()
-        {
-            Animation.PlayDropDown();
         }
 
         public override void ApplyStats()

@@ -43,28 +43,29 @@ namespace _Game.Features.Gameplay
             }
             else
             {
+                amount = Mathf.Clamp01(amount);
                 HPBar.gameObject.SetActive(true);
                 HPBar.SetProgress((float)amount);
             }
         }
 
-/*        public void RegisterJob(CrewJobData crewJobData)
+        public void RegisterJob(CrewJobData crewJobData)
         {
-            crewJobData.FixGridItemDic[ammo.GetComponent<IGridItem>()].StatusChanged += EnterState;
-        }*/
+            crewJobData.FixAmmoJobDic[ammo].OnStatusChanged += EnterState;
+        }
 
-        public void EnterState(JobStatus jobStatus)
+        public void EnterState(TaskStatus jobStatus)
         {
             switch (jobStatus)
             {
-                case JobStatus.Deactive:
+                case TaskStatus.Disabled:
                     Hammer.Hide();
                     Hammer.Stop();
                     break;
-                case JobStatus.Free:
+                case TaskStatus.Pending:
                     Hammer.Show();
                     break;
-                case JobStatus.WorkingOn:
+                case TaskStatus.Working:
                     Hammer.Play();
                     break;
             }

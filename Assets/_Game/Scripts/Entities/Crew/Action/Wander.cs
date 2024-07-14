@@ -15,16 +15,19 @@ namespace _Game.Scripts
             Name = "WANDER";
             this.crew = crew;
             this.moveData = moveData;
-            this.Execute = DoExecute();
         }
-        public IEnumerator DoExecute()
+
+        public override IEnumerator DoExecute()
         {
             targetNode = moveData.GetFreeNode();
             crew.OccupyingNodes.Clear();
             crew.OccupyingNodes.Add(targetNode);
             yield return crew.CrewMovement.MoveTo(targetNode.transform.position);
+            crew.State = CrewState.Idle;
+            crew.CrewMovement.Velocity = Vector2.zero;
             yield return new WaitForSeconds(2);
         }
+
 
         public override void Interupt()
         {
@@ -32,10 +35,15 @@ namespace _Game.Scripts
             crew.CrewMovement.Velocity = Vector2.zero;
         }
 
-
-        public override void ReBuild(Crew crew)
+        public override void OnExit()
         {
-            this.Execute = DoExecute();
+
+            crew.State = CrewState.Idle;
+        }
+
+        public override void OnStart()
+        {
+            crew.State = CrewState.Moving;
         }
     }
 }

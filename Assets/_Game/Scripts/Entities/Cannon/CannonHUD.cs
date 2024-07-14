@@ -22,7 +22,6 @@ namespace _Game.Features.Gameplay
 
             CannonStats cannonStats = cannon.Stats as CannonStats;
             AmmoBar.SetProgress(cannonStats.Ammo.Value / cannonStats.Ammo.MaxValue);
-
             float amount = cannonStats.HealthPoint.Value / cannonStats.HealthPoint.MaxValue;
             if (amount == 1)
             {
@@ -38,6 +37,7 @@ namespace _Game.Features.Gameplay
             cannonStats.Ammo.OnValueChanged += Ammo_OnValueChanged;
             cannon.OnFeverStart += Cannon_OnFeverStart;
             cannon.OnFeverEnded += Cannon_OnFeverEnded;
+
         }
 
         void Cannon_OnFeverStart()
@@ -50,54 +50,41 @@ namespace _Game.Features.Gameplay
 
         }
 
-/*        public void RegisterJob(CrewJobData crewJobData)
+        public void RegisterJob(CrewJobData crewJobData)
         {
             //crewJobData.ReloadCannonJobsDic[cannon].StatusChanged += ReloadCannonStatusEnter;
-            crewJobData.FixGridItemDic[cannon.GetComponent<IGridItem>()].StatusChanged += FixItemStatusEnter;
-        }*/
-
-        void ReloadCannonStatusEnter(JobStatus status)
-        {
-            isReloading = (status != JobStatus.Deactive);
-            Debug.Log("status " + status);
-            if (isFixing)
-            {
-                return;
-            }
-            switch (status)
-            {
-                case JobStatus.Deactive:
-                    Reload.Hide();
-                    break;
-                case JobStatus.Free:
-                    Reload.Show();
-                    break;
-                case JobStatus.WorkingOn:
-                    Reload.Play();
-                    break;
-            }
+            crewJobData.FixCannonJobDic[cannon].OnStatusChanged += FixItemStatusEnter;
         }
 
-        void FixItemStatusEnter(JobStatus status)
+
+        void FixItemStatusEnter(TaskStatus status)
         {
-            isFixing = (status != JobStatus.Deactive);
+            isFixing = (status != TaskStatus.Disabled);
             switch (status)
             {
-                case JobStatus.Deactive:
+                case TaskStatus.Disabled:
                     Hammer.Hide();
+                    if (isReloading)
+                    {
+                        Reload.Show();
+                        Reload.Play();
+                    }
                     break;
-                case JobStatus.Free:
+                case TaskStatus.Pending:
                     Hammer.Show();
                     if (isReloading)
                     {
                         Reload.Hide();
                     }
                     break;
-                case JobStatus.WorkingOn:
+                case TaskStatus.Working:
+                    if (isReloading)
+                    {
+                        Reload.Hide();
+                    }
                     Hammer.Play();
                     break;
             }
-
         }
 
 
@@ -105,6 +92,20 @@ namespace _Game.Features.Gameplay
         private void Ammo_OnValueChanged(RangedStat obj)
         {
             AmmoBar.SetProgress(obj.Value / obj.MaxValue);
+            if (obj.Value == 0)
+            {
+                isReloading = true;
+                if (!isFixing)
+                {
+                    Reload.Show();
+                    Reload.Play();
+                }
+            }
+            if (obj.Value > 1)
+            {
+                isReloading = false;
+                Reload.Hide();
+            }
         }
 
         private void HealthPoint_OnValueChanged(RangedStat obj)
@@ -118,6 +119,7 @@ namespace _Game.Features.Gameplay
             }
             else
             {
+                amount = Mathf.Clamp01(amount);
                 HpBar.gameObject.SetActive(true);
                 HpBar.SetProgress((float)amount);
             }

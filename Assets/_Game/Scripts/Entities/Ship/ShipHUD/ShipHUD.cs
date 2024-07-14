@@ -11,7 +11,7 @@ namespace _Game.Features.Gameplay
     {
         public AmmoButton[] buttons;
         public List<Ammo> ammos = new List<Ammo>();
-
+        public RectTransform rectTransform;
 
         List<AmmoButton> actives = new List<AmmoButton>();
         public void Initialize(List<Ammo> ammos)
@@ -27,6 +27,7 @@ namespace _Game.Features.Gameplay
                 buttons[i].Init(ammos[i]);
                 actives.Add(buttons[i]);
             }
+            rectTransform.sizeDelta = new Vector2(2.4f * ammos.Count, 1.1362f);
         }
         public void FilterCannonUsingAmmo(Cannon cannon)
         {

@@ -16,14 +16,21 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
 
         public float lookupRange = 100f;
         public int bounceTimes = 0;
-        public float damageScale = 0;
         public FindTargetBehaviour targetBehaviour;
         public override void DoAttack()
         {
-            bounceTimes = (int)((CannonStats)Cannon.Stats).ProjectileCount.BaseValue;
+            CannonStats cannonStats = Cannon.Stats as CannonStats;
+            bounceTimes = (int)cannonStats.ProjectileCount.BaseValue;
+            float primaryDmg = cannonStats.PrimaryDamage.Value;
+            float secondaryDmg = cannonStats.SecondaryDamage.Value;
             var shootDirection = CalculateShootDirection();
             var projectile = SpawnProjectile(shootDirection, shootPosition);
-            ((ProjectileCollisionHandler)projectile.CollisionHandler).Handlers.Add(new BouncingHandler(bounceTimes, lookupRange));
+
+            ProjectileStats projectileStats = projectile.Stats as ProjectileStats;
+            projectile.SetDamage(projectileStats.Damage.Value * primaryDmg, projectile.isCrit);
+
+            float secondaryDmgCalculated = projectileStats.Damage.Value * secondaryDmg;
+            ((ProjectileCollisionHandler)projectile.CollisionHandler).Handlers.Add(new BouncingHandler(bounceTimes, secondaryDmgCalculated, lookupRange));
             projectile.ProjectileMovement = new StraightMove(projectile);
         }
         public override void Consume(RangedStat ammo)
@@ -38,11 +45,12 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
             private float range;
             private int maxBounce;
             public List<Entity> collided;
-
+            float dmg;
             public bool IsCompleted => bounceCount == maxBounce;
 
-            public BouncingHandler(int maxBounce, float range)
+            public BouncingHandler(int maxBounce, float dmg, float range)
             {
+                this.dmg = dmg;
                 this.maxBounce = maxBounce;
                 this.range = range;
             }
@@ -81,6 +89,7 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
                     }
 
                     bounceCount++;
+                    p.SetDamage(dmg, p.isCrit);
                     p.ProjectileMovement = new HomingMove(p, nextTarget.Transform);
                 }
                 else

@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 833476788799283099}
   - component: {fileID: 3609420298205566082}
   - component: {fileID: 4494682777151322682}
-  - component: {fileID: 1140883269233120307}
   - component: {fileID: 8378024028749007445}
+  - component: {fileID: 7442658906485186670}
   m_Layer: 0
   m_Name: Skeleton Sword - Spine
   m_TagString: Untagged
@@ -29,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2947612624465916877}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.066, y: 0.067, z: -0.068}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -130,31 +130,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2947612624465916877}
   m_Mesh: {fileID: 0}
---- !u!114 &1140883269233120307
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2947612624465916877}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ed8527604318df448a2e9f70b345187, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  skeletonAnimation: {fileID: 3609420298205566082}
-  idle: NORMAL_IDLE
-  dead: DEAD
-  move: MOVE
-  enemyModel: {fileID: 0}
-  meshRenderer: {fileID: 5806828696693767030}
-  onHitduration: 0.1
-  action: attack
-  doAction: ATTACK
-  OnAction:
-    m_PersistentCalls:
-      m_Calls: []
-  visuals: []
 --- !u!114 &8378024028749007445
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -173,6 +148,28 @@ MonoBehaviour:
   partsRenderers:
   - {fileID: 5324828179827921279}
   - {fileID: 1748059964822529608}
+--- !u!114 &7442658906485186670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2947612624465916877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55e1aca09d6afe641be1c8f172cda611, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Entry: APPEAR
+  Idle: NORMAL_IDLE
+  Moving: MOVE
+  Attacking: ATTACK
+  HidingEntry: idle_hide_offset
+  HidingIdle: HIDE_IDLE
+  Dead: DEAD
+  SkeletonAnimation: {fileID: 3609420298205566082}
+  SkeletonSword: {fileID: 0}
+  lastState: 0
 --- !u!1 &3095843118865810168
 GameObject:
   m_ObjectHideFlags: 0
@@ -383,7 +380,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1786719095
   m_SortingLayer: 2
-  m_SortingOrder: 6
+  m_SortingOrder: 670
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &1748059964822529608
 MonoBehaviour:

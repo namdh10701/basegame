@@ -69,6 +69,10 @@ namespace _Game.Features.Gameplay
             PathfindingController.Initialize();
             ShipSetup.Initialize();
             CrewJobData.Initialize();
+            foreach (Cannon cannon in ShipSetup.Cannons)
+            {
+                cannon.HUD.RegisterJob(CrewJobData);
+            }
             HUD.Initialize(ShipSetup.Ammos);
             BattleViewModel = GameObject.Find("BattleScreen(Clone)").GetComponent<BattleViewModel>();
             BattleViewModel.FeverView.Init(FeverModel);

@@ -48,7 +48,10 @@ namespace _Game.Features.Gameplay
             GridAttackHandler.ship = EntityManager.Ship;
             EntityManager.Ship.BattleViewModel = battleViewModel;
             GridPicker.ShipGrid = EntityManager.Ship.ShipSetup;
+
             BattleInputManager.ShipHUD = EntityManager.Ship.HUD;
+            BattleInputManager.Ship = EntityManager.Ship;
+
             StartCoroutine(LevelEntryCoroutine());
             GlobalEvent.Register("UseFullFever", UseFullFever);
             GlobalEvent<bool>.Register("TOGGLE_PAUSE", TogglePause);

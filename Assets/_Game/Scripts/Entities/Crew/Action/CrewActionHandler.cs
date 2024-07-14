@@ -1,70 +1,42 @@
 using _Game.Scripts;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 namespace _Game.Features.Gameplay
 {
     public class CrewActionHandler : MonoBehaviour
     {
         public Crew crew;
-        Coroutine actionCoroutine;
-        public CrewActionBase CurrentAction;
-        public Action OnFree;
-
-        public void Act(CrewActionBase crewAction)
+        public CrewActionBase currentAction;
+        public IEnumerator Act(Queue<CrewActionBase> actionQueue)
         {
-            actionCoroutine = StartCoroutine(ActionCoroutine());
-        }
-
-        IEnumerator ActionCoroutine()
-        {
-            yield return CurrentAction.Execute;
-            actionCoroutine = null;
-            CurrentAction = null;
-            OnFree?.Invoke();
-        }
-
-        void OnChangedStatus(JobStatus jobStatus)
-        {
-            if (jobStatus == JobStatus.Deactive)
+            while (actionQueue.Count > 0)
             {
-                StopCoroutine(actionCoroutine);
-                CurrentAction.Interupt();
+                CrewActionBase action = actionQueue.Dequeue();
+                currentAction = action;
+                Debug.Log(action + " P");
+                yield return action.Execute();
             }
+            currentAction = null;
         }
 
-        public void CancelCurrentAction()
+        public IEnumerator Act(CrewActionBase crewAction)
         {
-            if (CurrentAction != null)
-            {
-                CurrentAction.Interupt();
-                if (actionCoroutine != null)
-                {
-                    StopCoroutine(actionCoroutine);
-                    actionCoroutine = null;
-                }
-            }
+            Debug.Log(crewAction + " A");
+            currentAction = crewAction;
+            yield return crewAction.Execute();
+            currentAction = null;
         }
 
-        public void PauseCurrentAction()
+        public void InteruptCurrentAction()
         {
-            if (actionCoroutine != null)
-            {
-                StopCoroutine(actionCoroutine);
+            if (currentAction != null) { 
+            Debug.Log("INTERUPT" + currentAction);
+            currentAction.Interupt();
             }
+
         }
 
-        public void ResumeCurrentAction()
-        {
-            if (CurrentAction != null)
-            {
-                CurrentAction.ReBuild(crew);
-                actionCoroutine = StartCoroutine(ActionCoroutine());
-            }
-            else
-            {
-                OnFree?.Invoke();
-            }
-        }
     }
 }

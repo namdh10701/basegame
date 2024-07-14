@@ -46,7 +46,6 @@ namespace _Game.Features.Gameplay
             {
                 if (node.cell != null && node.cell == this)
                 {
-                    workingSlots.Add(node);
                     foreach (var neightbor in node.neighbors)
                     {
                         workingSlots.Add(neightbor);
@@ -63,21 +62,17 @@ namespace _Game.Features.Gameplay
         public void OnFixed()
         {
             CellRenderer.OnFixed();
+            stats.HealthPoint.StatValue.BaseValue = 1;
         }
 
+        public bool isBroken;
 
 
         public void OnBroken()
         {
-            GlobalEvent<Cell, int>.Send("FixCell", this, 3);
+            GlobalEvent<Cell, int>.Send("FixCell", this, CrewJobData.DefaultPiority[typeof(FixCellTask)]);
             CellRenderer.OnBroken();
-        }
-        public void OnClick()
-        {
-            if (stats.HealthPoint.Value <= stats.HealthPoint.MinValue)
-            {
-                GlobalEvent<Cell, int>.Send("FixCell", this, int.MaxValue);
-            }
+            isBroken = true;
         }
 
         void IStatsBearer.ApplyStats()

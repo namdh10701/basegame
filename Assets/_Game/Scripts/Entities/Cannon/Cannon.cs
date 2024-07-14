@@ -110,7 +110,7 @@ namespace _Game.Scripts.Entities
 
         private void HealthPoint_OnValueChanged(RangedStat stat)
         {
-            if (stat.StatValue.Value == stat.MinValue)
+            if (stat.StatValue.Value <= stat.MinValue)
             {
                 OnBroken();
             }
@@ -130,28 +130,13 @@ namespace _Game.Scripts.Entities
         }
         public void OnBroken()
         {
+            Debug.Log("SEND");
             isBroken = true;
-            GlobalEvent<IGridItem, int>.Send("Fix", this, 20);
+            GlobalEvent<Cannon, int>.Send("FixCannon", this, CrewJobData.DefaultPiority[typeof(FixCannonTask)]);
             Broken?.Invoke();
             UpdateVisual();
 
             FindTargetBehaviour.Disable();
-        }
-
-        public void OnClick()
-        {
-            if (isOnFever)
-                return;
-
-            if (IsBroken)
-            {
-                GlobalEvent<IGridItem, int>.Send("Fix", this, int.MaxValue);
-            }
-            else
-            {
-                Debug.Log("OUT AMMO 1");
-                GlobalEvent<Cannon, Ammo, int>.Send("Reload", this, usingBullet, int.MaxValue);
-            }
         }
 
         public Action OutOfAmmo;

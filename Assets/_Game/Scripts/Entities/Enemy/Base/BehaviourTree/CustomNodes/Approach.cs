@@ -10,11 +10,12 @@ public class Approach : Leaf
     public EnemyReference Enemy;
     public ShipReference Ship;
     public StatReference Force;
-
+    public float multiplier = 1;
     float elapsedTime;
     public float ChangeDirectionInterval = 1;
     Vector2 direction;
 
+    public bool isApproachClosest;
     OctaDirectionRay OctarDirectionRay;
     public override void OnEnter()
     {
@@ -31,7 +32,7 @@ public class Approach : Leaf
             UpdateTargetDirection();
         }
 
-        Enemy.Value.Body.AddForce(direction.normalized * Force.Value.Value);
+        Enemy.Value.Body.AddForce(direction.normalized * Force.Value.Value * multiplier);
         float distance = Vector2.Distance(Enemy.Value.transform.position, Ship.Value.transform.position);
         return distance < 1 ? NodeResult.success : NodeResult.running;
     }
@@ -39,7 +40,11 @@ public class Approach : Leaf
 
     void UpdateTargetDirection()
     {
-        Vector3 targetPos = Ship.Value.ShipArea.SamplePoint();
+        Vector3 targetPos;
+        if (!isApproachClosest)
+            targetPos = Ship.Value.ShipArea.SamplePoint();
+        else
+            targetPos = Ship.Value.ShipArea.ClosetPointTo(transform.position);
         direction = targetPos - Enemy.Value.transform.position;
     }
 }
