@@ -91,7 +91,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69b63fcec66342af9cc00f0e6ea683e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Entity: {fileID: 0}
+  Entity: {fileID: 6846669938179048866}
 --- !u!114 &8367046307482725054
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -207,8 +207,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5305779580807722300}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0.9307371, w: 0.36568907}
-  m_LocalPosition: {x: -0.6006319, y: 0.43507397, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0.22928523, w: 0.9733593}
+  m_LocalPosition: {x: 0.009008375, y: 0.13704558, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -970,6 +970,7 @@ MonoBehaviour:
       _baseValue: 0
   multiplier: 1
   ChangeDirectionInterval: 1
+  isApproachClosest: 0
 --- !u!114 &8789580054430203737
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1138,6 +1139,7 @@ MonoBehaviour:
       _baseValue: 0
   multiplier: 1
   ChangeDirectionInterval: 1
+  isApproachClosest: 0
 --- !u!114 &5456895702888036609
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1445,6 +1447,7 @@ MonoBehaviour:
     blackboard: {fileID: 5620064205659582906}
     key: Enemy
     constantValue: {fileID: 0}
+  abort: 0
   isReadyToAttack:
     useConstant: 0
     mode: 0
@@ -1832,8 +1835,9 @@ MonoBehaviour:
   OnReachZero:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: _Game.Features.Gameplay.EnemyController, Assembly-CSharp
+      - m_Target: {fileID: 7482542616865522489}
+        m_TargetAssemblyTypeName: _Game.Features.Gameplay.SkeletonSwordController,
+          Assembly-CSharp
         m_MethodName: Die
         m_Mode: 1
         m_Arguments:
@@ -1850,7 +1854,7 @@ MonoBehaviour:
   OnDecreased:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 6599112574916911145}
         m_TargetAssemblyTypeName: _Game.Features.Gameplay.SkeletonSwordAnimation,
           Assembly-CSharp
         m_MethodName: Blink
@@ -1915,7 +1919,7 @@ MonoBehaviour:
       _baseValue: 1
     <MoveSpeed>k__BackingField:
       statModifiers: []
-      _baseValue: 1
+      _baseValue: 1.75
     <AnimationTimeScale>k__BackingField:
       statModifiers: []
       _baseValue: 0
@@ -1970,9 +1974,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: Skeleton Bomb - Spine
       objectReference: {fileID: 0}
+    - target: {fileID: 3609420298205566082, guid: 8ad697fe9e633164a99a28a0853a31d1, type: 3}
+      propertyPath: _animationName
+      value: bomb_appear
+      objectReference: {fileID: 0}
     - target: {fileID: 5806828696693767030, guid: 8ad697fe9e633164a99a28a0853a31d1, type: 3}
       propertyPath: m_SortingOrder
-      value: -691
+      value: -29
       objectReference: {fileID: 0}
     - target: {fileID: 5806828696693767030, guid: 8ad697fe9e633164a99a28a0853a31d1, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -2009,6 +2017,10 @@ PrefabInstance:
     - target: {fileID: 7442658906485186670, guid: 8ad697fe9e633164a99a28a0853a31d1, type: 3}
       propertyPath: HidingEntry
       value: bomb_idle_hide
+      objectReference: {fileID: 0}
+    - target: {fileID: 8209862057937884952, guid: 8ad697fe9e633164a99a28a0853a31d1, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8547352812536074042, guid: 8ad697fe9e633164a99a28a0853a31d1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2088,7 +2100,6 @@ MonoBehaviour:
   Dead: bomb_dead
   attack: attack
   SkeletonAnimation: {fileID: 3847488961571384272}
-  SkeletonSword: {fileID: 6846669938179048866}
   lastState: 0
   meshRenderer: {fileID: 6334248689387406372}
   skeletonSword: {fileID: 6846669938179048866}

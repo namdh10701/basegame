@@ -14,14 +14,14 @@ namespace _Game.Features.MyShip.GridSystem
     {
         public static readonly int WIDTH = 83;
         public static readonly int HEIGHT = 75;
-        
+
         private GridLayoutGroup _gridLayoutGroup;
         private Toggle _toggle;
         private TMP_Text _debugText;
         public Image SignalImg;
         // private SlotGrid _grid;
         public Color BgColorHighLight = Color.white;
-        public Color BgColorNormal = Color.white.WithAlpha(0);
+        public Color BgColorNormal = new Color(1, 1, 1, 0);
 
         #region Binding Prop: IsHighLight
 
@@ -54,14 +54,14 @@ namespace _Game.Features.MyShip.GridSystem
         {
             get
             {
-                if (!IsAvailable) return Color.white.WithAlpha(0);
-                
+                if (!IsAvailable) return new Color(1, 1, 1, 0);
+
                 return IsHighLight ? BgColorHighLight : BgColorNormal;
             }
         }
 
         public Vector2Int Position { get; private set; }
-        
+
         public bool IsAvailable => _toggle.isOn;
 
         // public void SetSignal(bool show)
@@ -70,12 +70,13 @@ namespace _Game.Features.MyShip.GridSystem
         //     color.a = show ? 1 : 0;
         //     SignalImg.color = color;
         // }
-        
+
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
-        IEnumerator Start() {
+        IEnumerator Start()
+        {
             yield return null;
             Debug.Log(GetComponent<RectTransform>().rect.width);
 

@@ -90,8 +90,9 @@ GameObject:
   - component: {fileID: 4746619135051386516}
   - component: {fileID: 5233157080561784818}
   - component: {fileID: 6560741404244090014}
+  - component: {fileID: 6858774598041652044}
   m_Layer: 6
-  m_Name: Phun Gai
+  m_Name: Spike Fish
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -250,6 +251,56 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d9ebe8214567844fa318b7cdc254af6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6858774598041652044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2607602378708473821}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ece8af53fc95ece4496db2febce1ff1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnReachZero:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5233157080561784818}
+        m_TargetAssemblyTypeName: _Game.Features.Gameplay.SkeletonSwordController,
+          Assembly-CSharp
+        m_MethodName: Die
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnReachFull:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDecreased:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 167826328812882131}
+        m_TargetAssemblyTypeName: _Game.Features.Gameplay.SkeletonSwordAnimation,
+          Assembly-CSharp
+        m_MethodName: Blink
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnIncreased:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &3638239969853379594
 GameObject:
   m_ObjectHideFlags: 0
@@ -954,6 +1005,7 @@ MonoBehaviour:
     blackboard: {fileID: 5174729682723124160}
     key: Enemy
     constantValue: {fileID: 0}
+  abort: 0
   isReadyToAttack:
     useConstant: 0
     mode: 0
@@ -1091,7 +1143,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69b63fcec66342af9cc00f0e6ea683e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Entity: {fileID: 0}
+  Entity: {fileID: 4746619135051386516}
 --- !u!114 &2106032515604378918
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1224,7 +1276,7 @@ MonoBehaviour:
   disableRenderingOnOverride: 1
   updateTiming: 1
   unscaledTime: 0
-  _animationName: idle
+  _animationName: appear
   loop: 0
   timeScale: 1
 --- !u!114 &1752564139640008814

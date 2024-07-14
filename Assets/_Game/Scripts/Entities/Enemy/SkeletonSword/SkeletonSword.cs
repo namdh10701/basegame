@@ -13,7 +13,7 @@ namespace _Game.Features.Gameplay
 
     public class SkeletonSword : EnemyModel
     {
-        EnemyState state;
+        EnemyState state = EnemyState.None;
         public EnemyState State
         {
             get { return state; }

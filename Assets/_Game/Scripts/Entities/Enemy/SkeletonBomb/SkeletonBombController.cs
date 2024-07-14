@@ -20,7 +20,7 @@ namespace _Game.Features.Gameplay
             EnemyStats enemyStats = enemyModel.Stats as EnemyStats;
             SelectCells();
             SkeletonBombProjectile projectile = Instantiate(skeletonBombProjectilePrefab);
-            projectile.SetData(enemyAttackData, shootPos.transform.position, -25, enemyStats.AttackDamage.Value);
+            projectile.SetData(enemyAttackData, shootPos.transform.position, -15, enemyStats.AttackDamage.Value);
             projectile.Launch();
         }
 

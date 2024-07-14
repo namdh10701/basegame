@@ -627,6 +627,7 @@ MonoBehaviour:
       _baseValue: 0
   multiplier: 1
   ChangeDirectionInterval: 1
+  isApproachClosest: 0
 --- !u!114 &8954997354308652718
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -795,6 +796,7 @@ MonoBehaviour:
       _baseValue: 0
   multiplier: 1
   ChangeDirectionInterval: 1
+  isApproachClosest: 0
 --- !u!114 &2890321513768910678
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1346,6 +1348,7 @@ MonoBehaviour:
     blackboard: {fileID: 5194563963806863679}
     key: Enemy
     constantValue: {fileID: 0}
+  abort: 0
   isReadyToAttack:
     useConstant: 0
     mode: 0
@@ -1685,7 +1688,7 @@ MonoBehaviour:
       _baseValue: 1
     <MoveSpeed>k__BackingField:
       statModifiers: []
-      _baseValue: 1
+      _baseValue: 2
     <AnimationTimeScale>k__BackingField:
       statModifiers: []
       _baseValue: 0
@@ -2200,11 +2203,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3609420298205566082, guid: d67dc24830cd9da44b24e9265d61e667, type: 3}
       propertyPath: _animationName
-      value: NORMAL_IDLE
+      value: APPEAR
       objectReference: {fileID: 0}
     - target: {fileID: 5806828696693767030, guid: d67dc24830cd9da44b24e9265d61e667, type: 3}
       propertyPath: m_SortingOrder
-      value: -23
+      value: -1181
       objectReference: {fileID: 0}
     - target: {fileID: 7442658906485186670, guid: d67dc24830cd9da44b24e9265d61e667, type: 3}
       propertyPath: attack

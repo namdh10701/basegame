@@ -8,6 +8,7 @@ using _Game.Scripts.GD.Parser;
 using System.Collections.Generic;
 using System.Globalization;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace _Game.Scripts.Battle
 {
@@ -28,7 +29,7 @@ namespace _Game.Scripts.Battle
         [SerializeField] Timer enemySpawnTimer;
         private void Awake()
         {
-            LoadLevelEnemyData(); 
+            LoadLevelEnemyData();
         }
         void LoadLevelEnemyData()
         {
@@ -55,8 +56,10 @@ namespace _Game.Scripts.Battle
         {
             enemySpawnTimer.Clear();
         }
-
-
+        public void Spawn(string id)
+        {
+            entityManager.SpawnEnemy(id, Vector3.zero);
+        }
         public void SpawnEnemy(string[] idPool, int total_power)
         {
             float currentPower = 0;
@@ -70,6 +73,10 @@ namespace _Game.Scripts.Battle
                 switch (id)
                 {
                     case "0001":
+                    case "0006":
+                    case "0007":
+                    case "0008":
+                    case "0009":
                         position = pufferFishSpawnArea.SamplePoint();
                         break;
                     case "0002":
@@ -78,9 +85,10 @@ namespace _Game.Scripts.Battle
                     case "0003":
                         position = squidSpawnArea.SamplePoint();
                         break;
-                    case "0004":
+                    case "0005":
                         position = jellyFishSpawnPoint;
                         break;
+
                 }
 
                 entityManager.SpawnEnemy(id, position);

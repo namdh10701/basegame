@@ -42,7 +42,7 @@ public class Approach : Leaf
     {
         Vector3 targetPos;
         if (!isApproachClosest)
-            targetPos = Ship.Value.ShipArea.SamplePoint();
+            targetPos = Ship.Value.ShipArea.SamplePointUpSide();
         else
             targetPos = Ship.Value.ShipArea.ClosetPointTo(transform.position);
         direction = targetPos - Enemy.Value.transform.position;

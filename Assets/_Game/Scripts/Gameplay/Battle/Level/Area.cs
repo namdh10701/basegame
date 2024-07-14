@@ -35,6 +35,12 @@ namespace _Game.Scripts.Battle
             point += offset;
             return point;
         }
+        public Vector2 SamplePointUpSide()
+        {
+            Vector2 point = bounds.center + new Vector3(Random.Range(-bounds.extents.x, bounds.extents.x), bounds.extents.y);
+            point += offset;
+            return point;
+        }
 
         public Vector2 SamplePoint(Vector2 center, float minDistance)
         {

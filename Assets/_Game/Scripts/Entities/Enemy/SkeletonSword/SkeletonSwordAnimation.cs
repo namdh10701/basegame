@@ -26,7 +26,7 @@ namespace _Game.Features.Gameplay
         Coroutine blinkCoroutine;
 
         public SkeletonSword skeletonSword;
-        private void Start()
+        private void Awake()
         {
             SkeletonAnimation.AnimationState.Event += AnimationState_Event;
             SkeletonAnimation.AnimationState.Complete += AnimationState_Complete;

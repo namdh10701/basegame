@@ -3,9 +3,11 @@ using _Base.Scripts.RPGCommon.Entities;
 
 namespace _Base.Scripts.RPG.Effects
 {
-    public class DrainHealthEffect: PeriodicEffect
+    public class BurningEffect : UnstackablePeriodicEffect
     {
         public float Amount { get; set; }
+
+        public override string Id => nameof(BurningEffect);
 
         protected override void OnTick(IEffectTaker entity)
         {
@@ -17,6 +19,7 @@ namespace _Base.Scripts.RPG.Effects
             {
                 return;
             }
+
             alive.HealthPoint.StatValue.BaseValue -= Amount;
         }
     }

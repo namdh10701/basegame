@@ -64,7 +64,7 @@ namespace _Game.Features.Gameplay
             SetState(EnemyState.Entry);
             cooldownBehaviour.SetCooldownTime(stat.ActionSequenceInterval.Value);
             cooldownBehaviour.StartCooldown();
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(1f);
             SetState(EnemyState.Idle);
             yield break;
         }
