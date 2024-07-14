@@ -10,6 +10,7 @@ namespace _Game.Features.MyShipScreen
 {
     public enum Sheets
     {
+        NewShipEditSheet,
         MainShipSheet,
         EquipmentSheet,
         ShipSelectionSheet,
@@ -46,6 +47,7 @@ namespace _Game.Features.MyShipScreen
             Instance = this;
             await RegisterSheets(typeof(Sheets));
             await ShowSheet(Sheets.MainShipSheet);
+            // await ShowSheet(Sheets.NewShipEditSheet);
 
         }
     }

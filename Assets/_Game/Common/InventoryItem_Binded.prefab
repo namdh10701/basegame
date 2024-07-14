@@ -8,6 +8,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 43277395245323265, guid: 3641699625288486dbe26e9655c31cb7, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 43277395245323265, guid: 3641699625288486dbe26e9655c31cb7, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 43277395245323265, guid: 3641699625288486dbe26e9655c31cb7, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 43277395245323265, guid: 3641699625288486dbe26e9655c31cb7, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 43277395245323265, guid: 3641699625288486dbe26e9655c31cb7, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 248
+      objectReference: {fileID: 0}
+    - target: {fileID: 43277395245323265, guid: 3641699625288486dbe26e9655c31cb7, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 248
+      objectReference: {fileID: 0}
     - target: {fileID: 61700493558767824, guid: 3641699625288486dbe26e9655c31cb7, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -88,6 +112,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 814154780023094977, guid: 3641699625288486dbe26e9655c31cb7, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 4ad1117a3a861473e826f2cc7d11174d, type: 3}
+    - target: {fileID: 3491436462462729080, guid: 3641699625288486dbe26e9655c31cb7, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3729607765792097561, guid: 3641699625288486dbe26e9655c31cb7, type: 3}
       propertyPath: m_Name
       value: InventoryItem_Binded
@@ -95,98 +127,5 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3729607765792097561, guid: 3641699625288486dbe26e9655c31cb7, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 3291710580686508795}
-    - targetCorrespondingSourceObject: {fileID: 3729607765792097561, guid: 3641699625288486dbe26e9655c31cb7, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 7477121945209027054}
-    - targetCorrespondingSourceObject: {fileID: 2357522381904059536, guid: 3641699625288486dbe26e9655c31cb7, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 8358162284377853037}
-    - targetCorrespondingSourceObject: {fileID: 7688588344107229541, guid: 3641699625288486dbe26e9655c31cb7, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 4668468643353733710}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3641699625288486dbe26e9655c31cb7, type: 3}
---- !u!1 &275957904304416008 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7688588344107229541, guid: 3641699625288486dbe26e9655c31cb7, type: 3}
-  m_PrefabInstance: {fileID: 7595105389851362413}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &4668468643353733710
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 275957904304416008}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1670825535, guid: e650e72e8be47794994495fc15c0ba63, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  viewAdapterTypeName: 
-  viewAdapterOptions: {fileID: 0}
-  viewModelPropertyName: _Game.Features.Inventory.InventoryItem.Thumbnail
-  viewPropertyName: UnityEngine.UI.Image.sprite
---- !u!1 &5318933683465509117 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2357522381904059536, guid: 3641699625288486dbe26e9655c31cb7, type: 3}
-  m_PrefabInstance: {fileID: 7595105389851362413}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &8358162284377853037
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5318933683465509117}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1613660816, guid: e650e72e8be47794994495fc15c0ba63, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  viewAdapterTypeName: 
-  viewAdapterOptions: {fileID: 0}
-  viewModelPropertyName: _Game.Features.Inventory.InventoryItem.IsHighLight
---- !u!1 &6531634102295937396 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3729607765792097561, guid: 3641699625288486dbe26e9655c31cb7, type: 3}
-  m_PrefabInstance: {fileID: 7595105389851362413}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &3291710580686508795
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6531634102295937396}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 526415227, guid: e650e72e8be47794994495fc15c0ba63, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  viewModelTypeName: _Game.Features.Inventory.InventoryItem
---- !u!114 &7477121945209027054
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6531634102295937396}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1957390036, guid: e650e72e8be47794994495fc15c0ba63, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  viewModelPropertyName: _Game.Features.Inventory.InventoryItem.IsSelected
-  viewEventName: UnityEngine.UI.Toggle.onValueChanged
-  viewPropertyName: UnityEngine.UI.Toggle.isOn
-  viewAdapterTypeName: 
-  viewAdapterOptions: {fileID: 0}
-  viewModelAdapterTypeName: 
-  viewModelAdapterOptions: {fileID: 0}
-  exceptionPropertyName: 
-  exceptionAdapterTypeName: 
-  exceptionAdapterOptions: {fileID: 0}

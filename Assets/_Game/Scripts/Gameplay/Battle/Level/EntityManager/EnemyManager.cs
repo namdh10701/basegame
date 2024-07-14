@@ -36,7 +36,7 @@ namespace _Game.Scripts.Battle
             stageId = PlayerPrefs.GetString("currentStage");
 
             Debug.Log(stageId);
-            levelDatas = GameLevelManager.GetLevelData(stageId, floorId);
+            levelDatas = GameLevelManager.Instance.GetLevelData(stageId, floorId);
         }
         public void StartLevel()
         {

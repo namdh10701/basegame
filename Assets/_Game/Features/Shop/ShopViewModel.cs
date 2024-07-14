@@ -1,5 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using _Game.Scripts.GD;
+using _Game.Scripts.GD.DataManager;
 using _Game.Scripts.UI;
 using Unity.VisualScripting;
 using UnityWeld.Binding;
@@ -33,9 +36,9 @@ namespace _Game.Features.Shop
         }
 
         #endregion
-        
+
         private List<ShopItem> itemSource = new List<ShopItem>();
-        
+
         #region Binding: Items
 
         private ObservableList<ShopItem> items = new ObservableList<ShopItem>();
@@ -43,6 +46,34 @@ namespace _Game.Features.Shop
         [Binding]
         public ObservableList<ShopItem> Items => items;
 
+        #endregion
+
+        #region Binding: BigGemItem
+        private ObservableList<ShopGemItem> bigGemItem = new ObservableList<ShopGemItem>();
+
+        [Binding]
+        public ObservableList<ShopGemItem> BigGemItem => bigGemItem;
+        #endregion
+
+        #region Binding: MediumGemItem
+        private ObservableList<ShopGemItem> mediumGemItem = new ObservableList<ShopGemItem>();
+
+        [Binding]
+        public ObservableList<ShopGemItem> MediumGemItem => mediumGemItem;
+        #endregion
+
+        #region Binding: SmallGemItem
+        private ObservableList<ShopGemItem> smallGemItem = new ObservableList<ShopGemItem>();
+
+        [Binding]
+        public ObservableList<ShopGemItem> SmallGemItem => smallGemItem;
+        #endregion
+
+        #region Binding: SummonItems
+        private ObservableList<ShopSummonItem> summonItems = new ObservableList<ShopSummonItem>();
+
+        [Binding]
+        public ObservableList<ShopSummonItem> SummonItems => summonItems;
         #endregion
 
         #region Binding Prop: IsMultiSelect
@@ -125,97 +156,76 @@ namespace _Game.Features.Shop
             Items.Clear();
             Items.AddRange(itemSource.Where(v => v.Type == itemType));
         }
-        //
-        // private void Awake()
-        // {
-        //     GDConfigLoader.Instance.OnLoaded += Init;
-        //     GDConfigLoader.Instance.Load();
-        // }
-        //
-        // private void Init()
-        // {
-        //     
-        //     for (int i = 0; i < 3; i++)
-        //     {
-        //         itemSource.Add(new ShopItem {  InventoryViewModel = this, Type = ItemType.CREW });
-        //     }
-        //     
-        //     // for (int i = 0; i < 5; i++)
-        //     // {
-        //     //     itemSource.Add(new ShopItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0001"});
-        //     // }
-        //     // GDConfigLoader.Instance.Cannons["0001"];
-        //     itemSource.Add(new ShopItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0001"});
-        //     itemSource.Add(new ShopItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-        //     
-        //     for (int i = 0; i < 30; i++)
-        //     {
-        //         itemSource.Add(new ShopItem {  InventoryViewModel = this, Type = ItemType.AMMO });
-        //     }
-        //
-        // }
 
-        protected void InitializeInternal()
+        List<ShopDataItemRecord> _shopDataItemRecords = new List<ShopDataItemRecord>();
+        List<ShopDataListingRecord> _shopDataSummons = new List<ShopDataListingRecord>();
+        List<ShopDataRarityRecord> _shopDataRarityRecord = new List<ShopDataRarityRecord>();
+        //
+        private void Awake()
         {
-            for (int i = 0; i < 3; i++)
-            {
-                itemSource.Add(new ShopItem {  InventoryViewModel = this, Type = ItemType.CREW });
-            }
-            
-            // for (int i = 0; i < 5; i++)
-            // {
-            //     itemSource.Add(new ShopItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0001"});
-            // }
-            // GDConfigLoader.Instance.Cannons["0001"];
-            itemSource.Add(new ShopItem { InventoryViewModel = this, Type = ItemType.CANNON, Id = "0001"});
-            itemSource.Add(new ShopItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            itemSource.Add(new ShopItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            itemSource.Add(new ShopItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            itemSource.Add(new ShopItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            itemSource.Add(new ShopItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            itemSource.Add(new ShopItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            itemSource.Add(new ShopItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            itemSource.Add(new ShopItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            itemSource.Add(new ShopItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            itemSource.Add(new ShopItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            itemSource.Add(new ShopItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            itemSource.Add(new ShopItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            itemSource.Add(new ShopItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            itemSource.Add(new ShopItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            itemSource.Add(new ShopItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            itemSource.Add(new ShopItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            itemSource.Add(new ShopItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            itemSource.Add(new ShopItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            itemSource.Add(new ShopItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            itemSource.Add(new ShopItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            itemSource.Add(new ShopItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            itemSource.Add(new ShopItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            itemSource.Add(new ShopItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            itemSource.Add(new ShopItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            itemSource.Add(new ShopItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            itemSource.Add(new ShopItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            itemSource.Add(new ShopItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            itemSource.Add(new ShopItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            itemSource.Add(new ShopItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            itemSource.Add(new ShopItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            itemSource.Add(new ShopItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            itemSource.Add(new ShopItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            itemSource.Add(new ShopItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            itemSource.Add(new ShopItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            itemSource.Add(new ShopItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            itemSource.Add(new ShopItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            itemSource.Add(new ShopItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-            
-            for (int i = 0; i < 30; i++)
-            {
-                itemSource.Add(new ShopItem {  InventoryViewModel = this, Type = ItemType.AMMO });
-            }
-            
-            DoFilter();
+            LoadDataShop();
+            InitializeShopGem();
+            InitializeShopCommon();
         }
-        
-        
-        
+
+
+        //
+        private void LoadDataShop()
+        {
+            _shopDataItemRecords = ShopDataItem.Instance.GetData();
+            _shopDataSummons = ShopDataListing.Instance.GetData(ShopType.Gacha);
+            _shopDataRarityRecord = ShopDataRarity.Instance.GetData();
+        }
+
+        protected void InitializeShopGem()
+        {
+            var gemItems = _shopDataItemRecords.Where(item => item.Type == "gem").Select(item =>
+            {
+                var (price, packSize) = ShopDataListing.Instance.GetPriceById(ShopType.Gem, item.ItemId);
+                return new ShopGemItem
+                {
+                    Id = item.ItemId,
+                    Price = price,
+                    Amount = item.ItemAmount.ToString(),
+                    PackSize = packSize
+                };
+            });
+
+            foreach (var shopGemItem in gemItems)
+            {
+                switch (shopGemItem.PackSize)
+                {
+                    case PackSize.Big:
+                        BigGemItem.Add(shopGemItem);
+                        break;
+                    case PackSize.Medium:
+                        MediumGemItem.Add(shopGemItem);
+                        break;
+                    case PackSize.Small:
+                        SmallGemItem.Add(shopGemItem);
+                        break;
+                }
+            }
+        }
+
+        private void InitializeShopCommon()
+        {
+            foreach (var item in _shopDataSummons)
+            {
+                ShopSummonItem shopSummonItem = new ShopSummonItem();
+
+                shopSummonItem.Id = item.ItemId;
+                shopSummonItem.Price = item.PriceAmount.ToString();
+                shopSummonItem.GachaType = item.GachaType;
+                shopSummonItem.ListRarity = ShopDataItem.Instance.GetRarityById(item.ItemId);
+                shopSummonItem.ListWeightRarity = ShopDataItem.Instance.GetWeightRarityById(item.ItemId);
+                shopSummonItem.ListNameItem = ShopDataRarity.Instance.GetDataNames(item.GachaType);
+                shopSummonItem.ListWeightNameItem = ShopDataRarity.Instance.GetWeights(item.ItemId, shopSummonItem.CurentRarityItemGacha);
+                SummonItems.Add(shopSummonItem);
+            }
+        }
+
+
         [Binding]
         public void OnEquipSelectedItems()
         {
@@ -224,7 +234,7 @@ namespace _Game.Features.Shop
                 item.IsEquipped = true;
             }
         }
-        
+
         [Binding]
         public void ToggleMultiSelect()
         {

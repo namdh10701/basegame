@@ -70,7 +70,7 @@ namespace _Game.Scripts.Gameplay
 
         #region Binding: HomeViewModel
 
-        private HomeViewModel _homeViewModel = new HomeViewModel();
+        // private HomeViewModel _homeViewModel = new HomeViewModel();
 
         // [Binding]
         // public HomeViewModel HomeViewModel

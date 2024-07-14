@@ -9,6 +9,7 @@ namespace _Game.Scripts.GD
     {
         public string id;
         public string operation_type;
+        public string shape;
         public string rarity;
         public string rarity_level;
         public string name;
