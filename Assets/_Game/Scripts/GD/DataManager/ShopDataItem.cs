@@ -32,5 +32,13 @@ namespace _Game.Scripts.GD
         {
             return _shopData.Where(item => item.ItemId == id).Select(item => item.Weight).ToList();
         }
+
+        public int GetAmountById(string id)
+        {
+            return _shopData.Where(item => item.ItemId == id)
+                    .Select(item => item.ItemAmount)
+                    .FirstOrDefault();
+
+        }
     }
 }

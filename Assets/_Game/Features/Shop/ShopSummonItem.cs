@@ -206,6 +206,17 @@ namespace _Game.Features.Shop
 
         public string CurentRarityItemGacha;
         public string CurentNameItemGacha;
+        public event Action OnClickGacha;
+
+        void OnEnable()
+        {
+            OnClickGacha += GetIDItemGacha;
+        }
+
+        void OnDisable()
+        {
+            OnClickGacha -= GetIDItemGacha;
+        }
 
         public string GetRandomRarityByWeight()
         {
@@ -255,6 +266,7 @@ namespace _Game.Features.Shop
             return null;
         }
 
+        [Binding]
         public void GetIDItemGacha()
         {
             IdGachaItem = ShopDataRarity.Instance.GetIdByNameAndRarity(CurentNameItemGacha, CurentRarityItemGacha);

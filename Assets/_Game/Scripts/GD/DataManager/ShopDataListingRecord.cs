@@ -47,6 +47,7 @@ namespace _Game.Scripts.GD.DataManager
     {
         Gacha,
         Gem,
+        // Pirate,
         Other
     }
 
