@@ -65,7 +65,7 @@ namespace _Game.Features.MyShip.GridSystem
             {
                 var foundCell = ray.gameObject.GetComponentInChildren<SlotCell>();
                 if (!foundCell || !foundCell.IsAvailable) continue;
-                Debug.Log("ray.gameObject: " + ray.gameObject);
+                // Debug.Log("ray.gameObject: " + ray.gameObject);
                 cell = foundCell;
                 break;
             }

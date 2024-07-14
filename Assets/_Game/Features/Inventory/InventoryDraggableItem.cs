@@ -1,14 +1,12 @@
-using UnityEngine;
-using UnityWeld.Binding;
+using UnityEngine.EventSystems;
 
 namespace _Game.Features.Inventory
 {
-    public class InventoryDraggableItemPreviewProvider : DraggableItemPreviewProvider
+    public class InventoryDraggableItem : DraggableItem
     {
-        public override Object GetPreviewItemPrefab()
+        public override void OnDropCommit(PointerEventData eventData)
         {
-            var item = GetComponent<Template>().GetViewModel() as InventoryItem;
-            return ShipSetupUtils.GetShipSetupItemPrefab(item);
+            
         }
     }
 }

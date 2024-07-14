@@ -11,8 +11,16 @@ namespace _Game.Features.Inventory
         {
             Debug.Log("Item Dropped");
             if (eventData.pointerDrag == null) return;
+            var draggableItem = eventData.pointerDrag.GetComponent<DraggableItem>();
+
+            if (!draggableItem) return;
             
-            DropHandler.OnItemDrop(eventData.pointerDrag);
+            var isDropCommitted = DropHandler.OnItemDrop(draggableItem);
+
+            if (isDropCommitted)
+            {
+                draggableItem.OnDropCommit(eventData);
+            }
         }
     }
 }

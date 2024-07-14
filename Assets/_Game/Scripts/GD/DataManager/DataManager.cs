@@ -16,6 +16,7 @@ namespace _Game.Scripts.GD
 
         public async Task LoadData()
         {
+            Debug.Log("Load" + GetType());
             var filePath = GetFilePath(DataFileName);
             await GSheetDownloader.Download(DownloadUrl, filePath);
             await using var stream = File.OpenRead(filePath);

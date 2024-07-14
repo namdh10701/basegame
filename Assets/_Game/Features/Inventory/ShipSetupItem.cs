@@ -1,46 +1,66 @@
+using _Base.Scripts.Utils;
+using _Game.Features.MyShip;
 using _Game.Features.MyShip.GridSystem;
+using _Game.Scripts.UI;
 using UnityEngine;
-using UnityEngine.EventSystems;
+using UnityWeld.Binding;
 
 namespace _Game.Features.Inventory
 {
-    public class DraggingItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
+    [Binding]
+    public class ShipSetupItem : RootViewModel//, IDragHandler, IBeginDragHandler, IEndDragHandler
     {
         public Vector2Int Position;
         public ItemShape Shape;
         public InventoryItem InventoryItem;
-        private Vector2 currentMousePos;
-        private Vector2 offsetMousePos;
 
-        public void OnDrag(PointerEventData eventData)
+        #region Binding Prop: Removable
+
+        /// <summary>
+        /// Removable
+        /// </summary>
+        [Binding]
+        public bool Removable
         {
-            // throw new System.NotImplementedException();
-            Vector3 pos = Camera.main.ScreenToWorldPoint(
-                eventData.position
-            );
-            pos.z = 0;
-            var delta = ((Vector2)pos) - currentMousePos + offsetMousePos;
-            
-            transform.position = currentMousePos + delta;
+            get => _removable;
+            set
+            {
+                if (Equals(_removable, value))
+                {
+                    return;
+                }
+
+                _removable = value;
+                OnPropertyChanged(nameof(Removable));
+            }
         }
 
-        public void OnBeginDrag(PointerEventData eventData)
-        {
-            Vector3 pos = Camera.main.ScreenToWorldPoint(
-                eventData.position
-            );
-            pos.z = 0;
+        private bool _removable;
 
-            offsetMousePos = transform.position - pos;
-            
-            currentMousePos = Camera.main.ScreenToWorldPoint(
-                eventData.position
-            );
-        }
+        #endregion
 
-        public void OnEndDrag(PointerEventData eventData)
+        [Binding]
+        public void Remove()
         {
+            var shipEditSheet = IOC.Resolve<NewShipEditSheet>();
+
+            MyShip.StashItem firstEmptyStashItem = null;
+            foreach (var stashItem in shipEditSheet.StashItems)
+            {
+                if (stashItem.InventoryItem == null)
+                {
+                    firstEmptyStashItem = stashItem;
+                    break;
+                }
+            }
+
+            if (firstEmptyStashItem == null)
+            {
+                return;
+            }
             
+            firstEmptyStashItem.InventoryItem = InventoryItem;
+            Destroy(gameObject);
         }
     }
 }

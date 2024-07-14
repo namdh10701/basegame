@@ -3,10 +3,10 @@ using UnityWeld.Binding;
 namespace _Game.Features.Inventory
 {
     public class InventoryItemDragDataProvider: DragDataProvider {
-        public override object GetData()
+        public override T GetData<T>()
         {
             var data = GetComponent<Template>().GetViewModel();
-            return data;
+            return data as T;
         }
     }
 }

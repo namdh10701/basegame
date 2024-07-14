@@ -1,16 +1,15 @@
-using _Game.Features.MyShip;
 using UnityEngine;
-using UnityWeld.Binding;
 
 namespace _Game.Features.Inventory
 {
-    public class InventoryDraggableItemPreviewProvider : DraggableItemPreviewProvider
+    public class ShipSetupUtils
     {
-        public override Object GetPreviewItemPrefab()
+        public static ShipSetupItem GetShipSetupItemPrefab(InventoryItem item)
         {
-            var item = GetComponent<Template>().GetViewModel() as InventoryItem;
             var shapePath = $"SetupItems/SetupItem_{item.Type.ToString().ToLower()}_{item.OperationType}";
-            var prefab = Resources.Load(shapePath);
+            var prefab = Resources.Load<ShipSetupItem>(shapePath);
+            
+            Debug.Log($"ShipSetupItem: {shapePath} {!Equals(prefab, null)}");
             return prefab;
         }
     }

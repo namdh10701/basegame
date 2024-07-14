@@ -1,4 +1,5 @@
 using System;
+using _Base.Scripts.Utils;
 using _Game.Features.Inventory;
 using _Game.Features.MyShip.GridSystem;
 using _Game.Scripts.DB;
@@ -61,6 +62,12 @@ namespace _Game.Features.MyShip
         public Sprite Thumbnail => IsEquipped ? _inventoryItem.Thumbnail : Resources.Load<Sprite>("Images/Group 248");
 
         #endregion
+
+        [Binding]
+        public void RemoveEquipment()
+        {
+            InventoryItem = null;
+        }
     }
 
     [Binding]
@@ -81,6 +88,8 @@ namespace _Game.Features.MyShip
             {
                 StashItems.Add(new StashItem());
             }
+            
+            IOC.Register(this);
         }
 
         #region ViewMode
@@ -222,7 +231,7 @@ namespace _Game.Features.MyShip
 
         public Transform InventorySheetDragPane;
 
-        public DraggingItem CreateDragItem(InventoryItem item)
+        public ShipSetupItem CreateDragItem(InventoryItem item)
         {
             var prefab = GetDragItemPrefab(item);
             var instance = Instantiate(prefab, InventorySheetDragPane);
@@ -232,10 +241,10 @@ namespace _Game.Features.MyShip
 
         
 
-        public DraggingItem GetDragItemPrefab(InventoryItem item)
+        public ShipSetupItem GetDragItemPrefab(InventoryItem item)
         {
             var shapePath = $"SetupItems/SetupItem_{item.Type.ToString().ToLower()}_{item.OperationType}";
-            var prefab = Resources.Load<DraggingItem>(shapePath);
+            var prefab = Resources.Load<ShipSetupItem>(shapePath);
             return prefab;
         }
 
@@ -261,8 +270,8 @@ namespace _Game.Features.MyShip
         {
             var shipPrefabs = Resources.Load($"Ships/Ship_{shipID}");
             var ship = Instantiate(shipPrefabs, ShipSpawnPoint);
-            ShipConfigManager.Grid = ship.GetComponentInChildren<SlotGrid>();
-            ShipConfigManager.PlacementPane = ship.GetComponentInChildren<PlacementPane>().transform;
+            // ShipConfigManager.Grid = ship.GetComponentInChildren<SlotGrid>();
+            // ShipConfigManager.PlacementPane = ship.GetComponentInChildren<PlacementPane>().transform;
             
             // ShipSpawnPoint.parent.gameObject.GetComponent<ShipConfigManager>()
         }

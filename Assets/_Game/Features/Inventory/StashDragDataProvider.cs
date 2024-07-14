@@ -1,10 +1,12 @@
+using UnityWeld.Binding;
+
 namespace _Game.Features.Inventory
 {
-    public class DragSlotDataProvider: DragDataProvider {
+    public class StashDragDataProvider: DragDataProvider {
         public override T GetData<T>()
         {
-            var data = GetComponent<InventoryItem>();
-            return data as T;
+            var stashItem = GetComponent<Template>().GetViewModel() as MyShip.StashItem;
+            return stashItem?.InventoryItem as T;
         }
     }
 }

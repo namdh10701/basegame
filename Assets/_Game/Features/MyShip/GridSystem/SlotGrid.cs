@@ -22,7 +22,7 @@ namespace _Game.Features.MyShip.GridSystem
         public ItemShape shape;
 
         // public CellRayTracker cellTracker;
-        public GridLayoutGroup _gridLayoutGroup;
+        public GridLayoutGroup GridLayoutGroup;
 
         // public void OnCellReady(SlotCell cell)
         // {
@@ -33,9 +33,9 @@ namespace _Game.Features.MyShip.GridSystem
         {
             // cellTracker.OnTrackCellChanged += OnTrackCellChanged;
 
-            if (!_gridLayoutGroup)
+            if (!GridLayoutGroup)
             {
-                _gridLayoutGroup = GetComponent<GridLayoutGroup>();
+                GridLayoutGroup = GetComponent<GridLayoutGroup>();
             }
         }
         
@@ -69,12 +69,12 @@ namespace _Game.Features.MyShip.GridSystem
 
         public SlotCell GetCell(int siblingIndex)
         {
-            return _gridLayoutGroup.transform.GetChild(siblingIndex).GetComponentInChildren<SlotCell>();
+            return GridLayoutGroup.transform.GetChild(siblingIndex).GetComponentInChildren<SlotCell>();
         }
         
         public SlotCell GetCell(Vector2Int position)
         {
-            var idx = GridLayoutGroupUtils.GetSiblingIndex(_gridLayoutGroup, position);
+            var idx = GridLayoutGroupUtils.GetSiblingIndex(GridLayoutGroup, position);
             if (idx == -1)
             {
                 return null;
