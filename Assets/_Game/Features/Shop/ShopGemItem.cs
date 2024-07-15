@@ -184,6 +184,58 @@ namespace _Game.Features.Shop
         private string _amount;
         #endregion
 
+        #region Binding Prop: PriceType
+        /// <summary>
+        /// PriceType
+        /// </summary>
+        [Binding]
+        public string PriceType
+        {
+            get => _priceType;
+            set
+            {
+                if (Equals(_priceType, value))
+                {
+                    return;
+                }
+
+                _priceType = value;
+                IsActiveButAds = _priceType == "ads" ? true : false;
+                OnPropertyChanged(nameof(PriceType));
+            }
+        }
+        private string _priceType;
+        #endregion
+
+
+        #region Binding Prop: IsActiveButAds
+        /// <summary>
+        /// IsActiveButAds
+        /// </summary>
+        [Binding]
+        public bool IsActiveButAds
+        {
+            get => _isActiveButAds;
+            set
+            {
+                if (Equals(_isActiveButAds, value))
+                {
+                    return;
+                }
+
+                _isActiveButAds = value;
+                OnPropertyChanged(nameof(IsActiveButAds));
+            }
+        }
+        private bool _isActiveButAds;
+        #endregion
+
+
+        void OnEnable()
+        {
+        }
+
+
         [Binding]
         public void ShowItemDetail()
         {
