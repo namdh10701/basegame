@@ -1,0 +1,528 @@
+{
+"skeleton": {
+	"hash": "lOlADRz/C/M",
+	"spine": "4.1.17",
+	"x": -54.42,
+	"y": -86.73,
+	"width": 109,
+	"height": 253.17,
+	"images": "./images/",
+	"audio": "D:/SOF/gun_magic"
+},
+"bones": [
+	{ "name": "root" },
+	{ "name": "bone", "parent": "root", "x": 0.19, "y": 0.13, "scaleX": -1 },
+	{ "name": "bone2", "parent": "bone", "x": 1.72, "y": 85.5 },
+	{ "name": "bone3", "parent": "bone2", "length": 46.49, "rotation": 128.37, "x": -4.6, "y": 16.85 },
+	{ "name": "bone4", "parent": "bone2", "length": 54.42, "rotation": 89.47, "x": 2.74, "y": 20.14 },
+	{ "name": "bone5", "parent": "bone2", "length": 42.02, "rotation": 52.09, "x": 10.08, "y": 18.63 },
+	{ "name": "Comp 1/Comp 1_02", "parent": "root", "x": 3.97, "y": 143.43 },
+	{
+		"name": "bone6",
+		"parent": "root",
+		"rotation": 180,
+		"x": 5.24,
+		"y": 121.83,
+		"scaleX": 0.5,
+		"scaleY": 0.5
+	},
+	{ "name": "broken/Comp 1/Comp 1_00", "parent": "root", "x": 182.57, "y": -13.44, "scaleX": 0.4, "scaleY": 0.4 }
+],
+"slots": [
+	{ "name": "comp2/Comp 1/comp 1_##_10", "bone": "bone6", "blend": "additive" },
+	{ "name": "Comp 1/Comp 1_02", "bone": "Comp 1/Comp 1_02", "dark": "000000", "blend": "additive" },
+	{ "name": "Layer 35", "bone": "bone2", "attachment": "Layer 35" },
+	{ "name": "Layer 36", "bone": "bone2", "attachment": "Layer 35" },
+	{ "name": "Layer 37", "bone": "bone2" },
+	{ "name": "Layer 38", "bone": "bone2", "blend": "additive" },
+	{ "name": "CRYSTAL1", "bone": "bone3" },
+	{ "name": "CRYSTAL2", "bone": "bone4" },
+	{ "name": "GUN1", "bone": "bone2", "attachment": "GUN1" },
+	{ "name": "gai 2", "bone": "bone2", "attachment": "gai 2" },
+	{ "name": "gai 3", "bone": "bone2" },
+	{ "name": "gai 4", "bone": "bone2", "blend": "additive" },
+	{ "name": "GUN1_DA", "bone": "bone2" },
+	{ "name": "GUN_BODY", "bone": "bone", "attachment": "GUN_BODY" },
+	{ "name": "GUN_BODY2", "bone": "bone" },
+	{ "name": "broken/Comp 1/Comp 1_00", "bone": "broken/Comp 1/Comp 1_00", "color": "ffc446ff", "dark": "b31f1f", "blend": "additive" }
+],
+"skins": [
+	{
+		"name": "default",
+		"attachments": {
+			"broken/Comp 1/Comp 1_00": {
+				"broken/Comp 1/Comp 1_": {
+					"y": 158.33,
+					"width": 400,
+					"height": 400,
+					"sequence": { "count": 15, "start": 0, "digits": 2 }
+				}
+			},
+			"CRYSTAL1": {
+				"CRYSTAL1": { "x": 20.83, "y": -0.53, "rotation": -128.37, "width": 40, "height": 48 }
+			},
+			"CRYSTAL2": {
+				"CRYSTAL2": { "x": 27.36, "y": 1.11, "rotation": -89.47, "width": 40, "height": 60 }
+			},
+			"gai 2": {
+				"gai 2": { "x": -2.47, "y": 26.38, "scaleX": -1, "width": 90, "height": 104 }
+			},
+			"gai 3": {
+				"gai 2 - Copy": { "x": -2.47, "y": 26.38, "scaleX": -1, "width": 90, "height": 104 }
+			},
+			"gai 4": {
+				"gai 2 - Copy": { "x": -2.47, "y": 26.38, "scaleX": -1, "width": 90, "height": 104 }
+			},
+			"GUN1": {
+				"GUN1": {
+					"type": "mesh",
+					"uvs": [ 1, 0.59124, 1, 1, 0, 1, 0, 0.58717, 0, 0, 1, 0 ],
+					"triangles": [ 3, 4, 5, 3, 5, 0, 2, 3, 0, 2, 0, 1 ],
+					"vertices": [ 25.88, -13.06, 25.88, -73.85, -26.12, -73.85, -26.12, -12.76, -26.12, 12.81, 25.88, 12.81 ],
+					"hull": 6,
+					"edges": [ 2, 4, 8, 10, 4, 6, 6, 8, 2, 0, 0, 10, 6, 0 ],
+					"width": 52,
+					"height": 72
+				}
+			},
+			"GUN1_DA": {
+				"GUN1_DA": { "x": -3.12, "y": 2.51, "width": 102, "height": 72 }
+			},
+			"GUN_BODY": {
+				"GUN_BODY": { "x": 0.11, "y": -2.37, "width": 109, "height": 169 }
+			},
+			"GUN_BODY2": {
+				"GUN_BODY2": { "x": 0.11, "y": -2.37, "width": 107, "height": 167 }
+			},
+			"Layer 35": {
+				"Layer 35": { "x": 18.75, "y": 41.81, "scaleX": -1, "width": 33, "height": 78 }
+			},
+			"Layer 36": {
+				"Layer 35": { "x": 18.75, "y": 41.81, "scaleX": -1, "width": 33, "height": 78 }
+			},
+			"Layer 37": {
+				"Layer 35 - Copy": { "x": 18.75, "y": 41.81, "scaleX": -1, "width": 33, "height": 78 }
+			},
+			"Layer 38": {
+				"Layer 35 - Copy": { "x": 18.75, "y": 41.81, "scaleX": -1, "width": 33, "height": 78 }
+			}
+		}
+	}
+],
+"events": {
+	"begin": {}
+},
+"animations": {
+	"begin_charge": {
+		"slots": {
+			"gai 3": {
+				"rgba": [
+					{
+						"color": "ffffff00",
+						"curve": [ 0.111, 1, 0.222, 1, 0.111, 1, 0.222, 1, 0.111, 1, 0.222, 1, 0.111, 0, 0.099, 1 ]
+					},
+					{ "time": 0.3333, "color": "ffffffff" }
+				],
+				"attachment": [
+					{ "name": "gai 2 - Copy" }
+				]
+			},
+			"gai 4": {
+				"rgba": [
+					{
+						"color": "ffffff00",
+						"curve": [ 0.045, 1, 0.09, 1, 0.045, 1, 0.09, 1, 0.045, 1, 0.09, 1, 0.061, 0, 0.085, 0.73 ]
+					},
+					{
+						"time": 0.1333,
+						"color": "ffffffff",
+						"curve": [ 0.201, 1, 0.267, 1, 0.201, 1, 0.267, 1, 0.201, 1, 0.267, 1, 0.173, 1.22, 0.229, 0 ]
+					},
+					{ "time": 0.3333, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "name": "gai 2 - Copy" }
+				]
+			},
+			"GUN_BODY2": {
+				"rgba": [
+					{
+						"time": 0.0667,
+						"color": "ffffff00",
+						"curve": [ 0.089, 1, 0.111, 1, 0.089, 1, 0.111, 1, 0.089, 1, 0.111, 1, 0.089, 0, 0.111, 1 ]
+					},
+					{
+						"time": 0.1333,
+						"color": "ffffffff",
+						"curve": [ 0.2, 1, 0.267, 1, 0.2, 1, 0.267, 1, 0.2, 1, 0.267, 1, 0.2, 1, 0.267, 0.69 ]
+					},
+					{ "time": 0.3333, "color": "ffffffaf" }
+				],
+				"attachment": [
+					{ "time": 0.0667, "name": "GUN_BODY2" }
+				]
+			},
+			"Layer 37": {
+				"rgba": [
+					{
+						"color": "ffffff00",
+						"curve": [ 0.111, 1, 0.222, 1, 0.111, 1, 0.222, 1, 0.111, 1, 0.222, 1, 0.111, 0, 0.099, 1 ]
+					},
+					{ "time": 0.3333, "color": "ffffffff" }
+				],
+				"attachment": [
+					{ "name": "Layer 35 - Copy" }
+				]
+			},
+			"Layer 38": {
+				"rgba": [
+					{
+						"color": "ffffff00",
+						"curve": [ 0.045, 1, 0.09, 1, 0.045, 1, 0.09, 1, 0.045, 1, 0.09, 1, 0.061, 0, 0.085, 0.73 ]
+					},
+					{
+						"time": 0.1333,
+						"color": "ffffffff",
+						"curve": [ 0.201, 1, 0.267, 1, 0.201, 1, 0.267, 1, 0.201, 1, 0.267, 1, 0.173, 1.22, 0.229, 0 ]
+					},
+					{ "time": 0.3333, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "name": "Layer 35 - Copy" }
+				]
+			}
+		},
+		"bones": {
+			"bone3": {
+				"rotate": [
+					{
+						"curve": [ 0.023, 0, 0.045, -20.45 ]
+					},
+					{
+						"time": 0.0667,
+						"value": -20.45,
+						"curve": [ 0.156, -20.45, 0.245, 0 ]
+					},
+					{ "time": 0.3333 }
+				]
+			},
+			"bone5": {
+				"rotate": [
+					{
+						"curve": [ 0.023, 0, 0.045, 18.15 ]
+					},
+					{
+						"time": 0.0667,
+						"value": 18.15,
+						"curve": [ 0.156, 18.15, 0.245, 0 ]
+					},
+					{ "time": 0.3333 }
+				]
+			}
+		}
+	},
+	"broken": {
+		"slots": {
+			"broken/Comp 1/Comp 1_00": {
+				"attachment": [
+					{ "time": 0.6667, "name": "broken/Comp 1/Comp 1_" },
+					{ "time": 1.1667 },
+					{ "time": 2.6667, "name": "broken/Comp 1/Comp 1_" },
+					{ "time": 3.1667 },
+					{ "time": 5.2, "name": "broken/Comp 1/Comp 1_" },
+					{ "time": 5.7 }
+				]
+			},
+			"Comp 1/Comp 1_02": {
+				"rgba2": [
+					{ "light": "9b9b9bff", "dark": "000000" }
+				]
+			},
+			"comp2/Comp 1/comp 1_##_10": {
+				"rgba": [
+					{ "color": "9b9b9bff" }
+				]
+			},
+			"CRYSTAL1": {
+				"rgba": [
+					{ "color": "9b9b9bff" }
+				]
+			},
+			"CRYSTAL2": {
+				"rgba": [
+					{ "color": "9b9b9bff" }
+				]
+			},
+			"gai 2": {
+				"rgba": [
+					{ "color": "9b9b9bff" }
+				]
+			},
+			"gai 3": {
+				"rgba": [
+					{ "color": "9b9b9bff" }
+				]
+			},
+			"gai 4": {
+				"rgba": [
+					{ "color": "9b9b9bff" }
+				]
+			},
+			"GUN1": {
+				"rgba": [
+					{ "color": "9b9b9bff" }
+				]
+			},
+			"GUN1_DA": {
+				"rgba": [
+					{ "color": "9b9b9bff" }
+				]
+			},
+			"GUN_BODY": {
+				"rgba": [
+					{ "color": "9b9b9bff" }
+				]
+			},
+			"GUN_BODY2": {
+				"rgba": [
+					{ "color": "9b9b9bff" }
+				]
+			},
+			"Layer 35": {
+				"rgba": [
+					{ "color": "9b9b9bff" }
+				]
+			},
+			"Layer 36": {
+				"rgba": [
+					{ "color": "9b9b9bff" }
+				]
+			},
+			"Layer 37": {
+				"rgba": [
+					{ "color": "9b9b9bff" }
+				]
+			},
+			"Layer 38": {
+				"rgba": [
+					{ "color": "9b9b9bff" }
+				]
+			}
+		},
+		"bones": {
+			"broken/Comp 1/Comp 1_00": {
+				"translate": [
+					{ "x": -195.54, "y": -12.67, "curve": "stepped" },
+					{ "time": 2.6667, "x": -195.54, "y": 94.21, "curve": "stepped" },
+					{ "time": 5.2, "x": -171, "y": 49.87 }
+				],
+				"scale": [
+					{ "time": 2.6667, "x": 0.5, "y": 0.5 }
+				]
+			}
+		},
+		"attachments": {
+			"default": {
+				"broken/Comp 1/Comp 1_00": {
+					"broken/Comp 1/Comp 1_": {
+						"sequence": [
+							{ "time": 0.6667, "mode": "once", "delay": 0.0333 }
+						]
+					}
+				}
+			}
+		}
+	},
+	"charge": {
+		"slots": {
+			"gai 3": {
+				"rgba": [
+					{
+						"color": "ffffffff",
+						"curve": [ 0.067, 1, 0.133, 1, 0.067, 1, 0.133, 1, 0.067, 1, 0.133, 1, 0.067, 1, 0.068, 0.25 ]
+					},
+					{
+						"time": 0.2,
+						"color": "ffffff3c",
+						"curve": [ 0.267, 1, 0.333, 1, 0.267, 1, 0.333, 1, 0.267, 1, 0.333, 1, 0.267, 0.24, 0.268, 0.99 ]
+					},
+					{ "time": 0.4, "color": "ffffffff" }
+				],
+				"attachment": [
+					{ "name": "gai 2 - Copy" }
+				]
+			},
+			"GUN_BODY2": {
+				"rgba": [
+					{
+						"color": "ffffffaf",
+						"curve": [ 0.067, 1, 0.133, 1, 0.067, 1, 0.133, 1, 0.067, 1, 0.133, 1, 0.067, 0.69, 0.133, 0.34 ]
+					},
+					{
+						"time": 0.2,
+						"color": "ffffff57",
+						"curve": [ 0.267, 1, 0.333, 1, 0.267, 1, 0.333, 1, 0.267, 1, 0.333, 1, 0.267, 0.34, 0.333, 0.69 ]
+					},
+					{ "time": 0.4, "color": "ffffffaf" }
+				],
+				"attachment": [
+					{ "name": "GUN_BODY2" }
+				]
+			},
+			"Layer 37": {
+				"rgba": [
+					{
+						"color": "ffffffff",
+						"curve": [ 0.067, 1, 0.133, 1, 0.067, 1, 0.133, 1, 0.067, 1, 0.133, 1, 0.067, 1, 0.068, 0.25 ]
+					},
+					{
+						"time": 0.2,
+						"color": "ffffff3c",
+						"curve": [ 0.267, 1, 0.333, 1, 0.267, 1, 0.333, 1, 0.267, 1, 0.333, 1, 0.267, 0.24, 0.268, 0.99 ]
+					},
+					{ "time": 0.4, "color": "ffffffff" }
+				],
+				"attachment": [
+					{ "name": "Layer 35 - Copy" }
+				]
+			}
+		},
+		"bones": {
+			"bone2": {
+				"translate": [
+					{
+						"curve": [ 0.067, 0, 0.133, 0, 0.067, 0.02, 0.068, -3.36 ]
+					},
+					{
+						"time": 0.2,
+						"y": -3.41,
+						"curve": [ 0.267, 0, 0.333, 0, 0.267, -3.41, 0.268, -0.05 ]
+					},
+					{ "time": 0.4 }
+				]
+			},
+			"bone3": {
+				"rotate": [
+					{},
+					{ "time": 0.2, "value": -4.72 },
+					{ "time": 0.4 }
+				]
+			},
+			"bone5": {
+				"rotate": [
+					{},
+					{ "time": 0.2, "value": 8.8 },
+					{ "time": 0.4 }
+				]
+			}
+		}
+	},
+	"fire": {
+		"slots": {
+			"gai 3": {
+				"attachment": [
+					{ "name": "gai 2 - Copy" },
+					{ "time": 0.0333 }
+				]
+			},
+			"GUN_BODY2": {
+				"rgba": [
+					{ "color": "ffffffaf" }
+				],
+				"attachment": [
+					{ "name": "GUN_BODY2" },
+					{ "time": 0.0333 }
+				]
+			},
+			"Layer 37": {
+				"attachment": [
+					{ "name": "Layer 35 - Copy" },
+					{ "time": 0.0333 }
+				]
+			}
+		},
+		"bones": {
+			"bone": {
+				"translate": [
+					{ "curve": "stepped" },
+					{
+						"time": 0.0333,
+						"y": -29.01,
+						"curve": [ 0.089, 0, 0.144, 0, 0.089, -29.01, 0.095, 0 ]
+					},
+					{ "time": 0.2 }
+				]
+			},
+			"bone2": {
+				"translate": [
+					{ "curve": "stepped" },
+					{
+						"time": 0.0333,
+						"y": -16.43,
+						"curve": [ 0.111, 0, 0.189, 0, 0.111, -16.43, 0.076, 3.3 ]
+					},
+					{ "time": 0.2667, "y": 3.3 },
+					{ "time": 0.3667 }
+				]
+			},
+			"bone3": {
+				"rotate": [
+					{ "curve": "stepped" },
+					{
+						"time": 0.0333,
+						"value": -8.52,
+						"curve": [ 0.122, -8.52, 0.14, 3.61 ]
+					},
+					{
+						"time": 0.3,
+						"value": 3.61,
+						"curve": [ 0.322, 3.61, 0.327, 0 ]
+					},
+					{ "time": 0.3667 }
+				]
+			},
+			"bone4": {
+				"scale": [
+					{ "curve": "stepped" },
+					{
+						"time": 0.0333,
+						"x": 0.939,
+						"curve": [ 0.122, 0.939, 0.14, 1.045, 0.122, 1, 0.211, 1 ]
+					},
+					{
+						"time": 0.3,
+						"x": 1.045,
+						"curve": [ 0.322, 1.045, 0.327, 1, 0.322, 1, 0.344, 1 ]
+					},
+					{ "time": 0.3667 }
+				]
+			},
+			"bone5": {
+				"rotate": [
+					{ "curve": "stepped" },
+					{
+						"time": 0.0333,
+						"value": 10.6,
+						"curve": [ 0.122, 10.6, 0.14, -6.13 ]
+					},
+					{
+						"time": 0.3,
+						"value": -6.13,
+						"curve": [ 0.322, -6.13, 0.327, 0 ]
+					},
+					{ "time": 0.3667 }
+				]
+			},
+			"Comp 1/Comp 1_02": {
+				"scale": [
+					{ "x": 0.5, "y": 0.5 },
+					{ "time": 0.0333, "x": 0.6, "y": 0.6 }
+				]
+			}
+		},
+		"events": [
+			{ "time": 0.0333, "name": "begin" }
+		]
+	}
+}
+}

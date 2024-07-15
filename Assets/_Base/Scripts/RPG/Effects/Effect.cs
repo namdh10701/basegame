@@ -104,9 +104,8 @@ namespace _Base.Scripts.RPG.Effects
     }
     public abstract class UnstackablePeriodicEffect : UnstackableEffect
     {
-
         [field: SerializeField]
-        public int Interval { get; set; }
+        public float Interval { get; set; }
         public float intervalElapsedTime = 0;
         public override void Apply(IEffectTaker entity)
         {
@@ -123,6 +122,7 @@ namespace _Base.Scripts.RPG.Effects
                 if (intervalElapsedTime > Interval)
                 {
                     OnTick(Target);
+                    intervalElapsedTime = 0;
                 }
                 if (elapsedTime > Duration)
                 {

@@ -67,7 +67,7 @@ namespace _Base.Scripts.RPG.Effects
                 if (alive.HealthPoint.StatValue.BaseValue > alive.HealthPoint.MinStatValue.Value)
                 {
                     alive.HealthPoint.StatValue.BaseValue -= finalAmount;
-                    GlobalEvent<float, bool, Vector3>.Send("DAMAGE_INFLICTED", finalAmount, IsCrit, transform.position);
+                    GlobalEvent<float, bool, Vector3>.Send("DAMAGE_INFLICTED", finalAmount, IsCrit, entity.Transform.position);
                 }
             }
         }

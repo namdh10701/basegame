@@ -26,6 +26,9 @@ namespace _Game.Features.Gameplay
         Coroutine blinkCoroutine;
 
         public SkeletonSword skeletonSword;
+        public ParticleSystem burn;
+
+
         private void Awake()
         {
             SkeletonAnimation.AnimationState.Event += AnimationState_Event;
@@ -33,6 +36,19 @@ namespace _Game.Features.Gameplay
             mpb = new MaterialPropertyBlock();
             skeletonSword.OnSlowedDown += OnSlowedDown;
             skeletonSword.OnSlowedDownStopped += OnSlowEnded;
+
+            skeletonSword.OnBurned += OnBurned;
+            skeletonSword.OnBurnEnded += OnBurnEnded;
+        }
+
+        void OnBurned()
+        {
+            burn.Play();
+        }
+
+        void OnBurnEnded()
+        {
+            burn.Stop();
         }
 
         private void AnimationState_Complete(TrackEntry trackEntry)

@@ -24,6 +24,7 @@ public class ProjectileCollisionHandler : DefaultEffectCollisionHandler
 
     public override void Process(IEffectGiver giver, IEffectTaker taker)
     {
+        Debug.Log("PROCESS");
         if (projectile.ProjectileMovement is not HomingMove)
         {
             if (taker is EnemyModel enemy)
@@ -41,10 +42,11 @@ public class ProjectileCollisionHandler : DefaultEffectCollisionHandler
 
         if (IgnoreCollideEntities.Contains(taker))
         {
+            Debug.Log("added");
             return;
         }
         IgnoreCollideEntities.Add(taker);
-
+        Debug.Log("PROCESS ADD");
         foreach (IHandler handler in LoopHandlers.ToArray())
         {
             handler.Process(projectile, giver, taker);
