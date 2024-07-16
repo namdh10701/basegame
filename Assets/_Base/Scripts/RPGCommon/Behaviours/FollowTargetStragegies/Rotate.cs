@@ -9,7 +9,6 @@ namespace _Base.Scripts.RPGCommon.Behaviours.FollowTargetStragegies
     [AddComponentMenu("RPG/FollowTargetStrategy/[FollowTargetStrategy] Rotate")]
     public class Rotate : FollowTargetStrategy
     {
-        [field: SerializeField]
         public float RotateSpeed { get; set; } = 10f;
 
         [field: SerializeField]

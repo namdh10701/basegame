@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: 6378287381636292905}
   - component: {fileID: 5539928903893953687}
   - component: {fileID: 1364860213531301939}
+  - component: {fileID: 7472654597549970904}
   m_Layer: 0
   m_Name: JellyFish Projectile
   m_TagString: Untagged
@@ -210,6 +211,24 @@ MonoBehaviour:
   particle: {fileID: 762301619909457153, guid: 7f773e6beeef7b645913cd2944b760bc, type: 3}
   trail: {fileID: 5905496087259501523}
   isLaunched: 0
+  dmgEffect: {fileID: 7472654597549970904}
+--- !u!114 &7472654597549970904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3705404217252064837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c262613bbca45d296cc9e30cfb58f40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <IsDone>k__BackingField: 0
+  <Amount>k__BackingField: 0
+  <ArmorPenetrate>k__BackingField: 0
+  IsCrit: 0
+  ChanceAffectCell: 1
 --- !u!1001 &1008999997475769655
 PrefabInstance:
   m_ObjectHideFlags: 0

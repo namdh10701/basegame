@@ -51,20 +51,13 @@ namespace _Game.Features.Gameplay
             int endX = startX + sizeX - 1;
             int endY = startY + sizeY - 1;
 
-            Debug.Log(endX + " end " + endY);
-            Debug.Log(grid.Col + " bound " + grid.Row);
-
-            Debug.Log(grid.Cells.GetLength(0) + " bound2 " + grid.Cells.GetLength(1));
-
             // Add cells within the rectangle bounds
             for (int row = startY; row <= endY; row++)
             {
                 for (int col = startX; col <= endX; col++)
                 {
-                    Debug.Log(col + " " + row);
                     if (row >= 0 && row < grid.Row && col >= 0 && col < grid.Col)
                     {
-                        Debug.Log(col + " " + row);
                         cells.Add(grid.Cells[row, col]);
                     }
                 }

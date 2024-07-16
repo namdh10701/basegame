@@ -5,8 +5,8 @@ using UnityEngine;
 
 namespace _Game.Features.Gameplay
 {
-    public class PhunGaiModel : EnemyModel
+    public class PhunGaiModel : SkeletonBomb
     {
-        
+
     }
 }

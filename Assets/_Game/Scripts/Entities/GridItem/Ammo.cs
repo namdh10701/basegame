@@ -3,6 +3,7 @@ using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.RPG.Entities;
 using _Base.Scripts.RPG.Stats;
 using _Base.Scripts.RPGCommon.Entities;
+using _Base.Scripts.Shared;
 using _Game.Features.Gameplay;
 using _Game.Scripts.GD;
 using _Game.Scripts.PathFinding;
@@ -82,19 +83,11 @@ namespace _Game.Scripts.Entities
             }
         }
 
-        public void OnClick()
-        {
-            if (IsBroken)
-            {
-                GlobalEvent<IGridItem, int>.Send("Fix", this, int.MaxValue);
-            }
-        }
-
         public void OnBroken()
         {
             sprite.color = broken;
             IsBroken = true;
-            GlobalEvent<IGridItem, int>.Send("Fix", this, 19);
+            GlobalEvent<Ammo, int>.Send("FixAmmo", this, CrewJobData.DefaultPiority[typeof(FixAmmoTask)]);
         }
 
         public void OnFixed()

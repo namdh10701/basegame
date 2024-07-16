@@ -125,8 +125,14 @@ namespace _Game.Scripts
         {
             { "0001", "Puffer Fish"},
             { "0002", "Electric Eel"},
-            { "0003","Squid"},
-            { "0004","Jelly Fish" }
+            { "0003", "Squid"},
+            { "0004", "Elite Electric Eel" },
+            { "0005", "Jelly Fish" },
+            { "0006", "Big Puffer Fish" },
+            { "0007", "Spike Fish" },
+            { "0008", "Skeleton Sword" },
+            { "0009", "Skeleton Bomb" }
+
         };
 
 

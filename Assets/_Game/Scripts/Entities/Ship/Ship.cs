@@ -49,11 +49,9 @@ namespace _Game.Features.Gameplay
 
         private void Start()
         {
-
-
             GlobalEvent<EnemyModel>.Register("EnemyDied", OnEnemyDied);
-            GlobalEvent<Cannon>.Register("ClickCannon", ShowShipHUD);
-            GlobalEvent.Register("CloseHUD", CloseHUD);
+            //GlobalEvent<Cannon>.Register("CLICK_CANNON", ShowShipHUD);
+            //GlobalEvent.Register("CloseHUD", CloseHUD);
             GetComponent<GDConfigStatsApplier>().LoadStats(this);
 
             if (EnemyManager.floorId == "1")
@@ -75,11 +73,7 @@ namespace _Game.Features.Gameplay
             {
                 cannon.HUD.RegisterJob(CrewJobData);
             }
-            foreach (Ammo ammo in ShipSetup.Ammos)
-            {
-                ammo.HUD.RegisterJob(CrewJobData);
-            }
-            HUD.Initialize(ShipSetup.Ammos, CrewJobData);
+            HUD.Initialize(ShipSetup.Ammos);
             BattleViewModel = GameObject.Find("BattleScreen(Clone)").GetComponent<BattleViewModel>();
             BattleViewModel.FeverView.Init(FeverModel);
         }
@@ -89,7 +83,7 @@ namespace _Game.Features.Gameplay
             FeverModel.OnUseFever();
             foreach (Cannon cannon in ShipSetup.Cannons)
             {
-                CrewJobData.ReloadCannonJobsDic[cannon].Status = JobStatus.Deactive;
+                //CrewJobData.ReloadCannonJobsDic[cannon].Status = JobStatus.Deactive;
                 cannon.OnFullFeverEffectEnter();
             }
             BattleManager.Instance.FeverSpeedFx.Activate();
@@ -108,7 +102,7 @@ namespace _Game.Features.Gameplay
         }
         public void UseFever(Cannon cannon)
         {
-            CrewJobData.ReloadCannonJobsDic[cannon].Status = JobStatus.Deactive;
+            //CrewJobData.ReloadCannonJobsDic[cannon].Status = JobStatus.Deactive;
             stats.Fever.StatValue.BaseValue -= 200;
             stats.Fever.StatValue.BaseValue = Mathf.Clamp(stats.Fever.StatValue.BaseValue, 0, stats.Fever.MaxStatValue.BaseValue);
             FeverModel.UpdateState();
@@ -118,8 +112,8 @@ namespace _Game.Features.Gameplay
         private void OnDestroy()
         {
             GlobalEvent<EnemyModel>.Unregister("EnemyDied", OnEnemyDied);
-            GlobalEvent<Cannon>.Unregister("ClickCannon", ShowShipHUD);
-            GlobalEvent.Unregister("CloseHUD", CloseHUD);
+            /*GlobalEvent<Cannon>.Unregister("ClickCannon", ShowShipHUD);
+            GlobalEvent.Unregister("CloseHUD", CloseHUD);*/
         }
 
         public void OnEnemyDied(EnemyModel enemyModel)
@@ -173,21 +167,6 @@ namespace _Game.Features.Gameplay
         public override void ApplyStats()
         {
 
-        }
-        private void ShowShipHUD(Cannon cannon)
-        {
-            if (cannon.IsOnFever || cannon.IsOnFullFever)
-            {
-                HUD.Hide();
-                return;
-            }
-            HUD.Cannon = cannon;
-            HUD.Show();
-        }
-
-        private void CloseHUD()
-        {
-            HUD.Hide();
         }
     }
 }

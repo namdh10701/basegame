@@ -43,7 +43,6 @@ namespace _Game.Features.Gameplay
             {
                 yield break;
             }
-            crew.Animation.PlayMove();
             foreach (Vector3 waypoint in path)
             {
                 Vector3 direction = (waypoint - crew.transform.position).normalized;
@@ -64,7 +63,6 @@ namespace _Game.Features.Gameplay
                 }
                 crew.body.velocity = Vector3.zero;
             }
-            crew.Animation.PlayIdle();
             yield break;
         }
 

@@ -102,7 +102,37 @@ namespace _Base.Scripts.RPG.Effects
             }
         }
     }
+    public abstract class UnstackablePeriodicEffect : UnstackableEffect
+    {
+        [field: SerializeField]
+        public float Interval { get; set; }
+        public float intervalElapsedTime = 0;
+        public override void Apply(IEffectTaker entity)
+        {
+            base.Apply(entity);
+            OnStart(entity);
+        }
 
+        private void Update()
+        {
+            if (IsActive)
+            {
+                elapsedTime += Time.deltaTime;
+                intervalElapsedTime += Time.deltaTime;
+                if (intervalElapsedTime > Interval)
+                {
+                    OnTick(Target);
+                    intervalElapsedTime = 0;
+                }
+                if (elapsedTime > Duration)
+                {
+                    OnEnd(Target);
+                    IsDone = true;
+                }
+            }
+        }
+        protected abstract void OnTick(IEffectTaker entity);
+    }
     public abstract class PeriodicEffect : TimeoutEffect
     {
 

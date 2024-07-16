@@ -1,3 +1,4 @@
+using _Game.Features.Gameplay;
 using Spine.Unity;
 using UnityEngine;
 public enum Direction
@@ -8,6 +9,8 @@ namespace _Game.Scripts
 {
     public class CrewAniamtionHandler : SpineAnimationHandler
     {
+        public Crew crew;
+
         [SerializeField]
         [SpineAnimation]
         string move;
@@ -27,6 +30,42 @@ namespace _Game.Scripts
         string dropdown;
 
         [SerializeField] StunFx stunFx;
+
+        private void OnEnable()
+        {
+            crew.OnStateChanged += OnStateEnter;
+        }
+
+        private void OnDisable()
+        {
+            crew.OnStateChanged -= OnStateEnter;
+        }
+        public CrewState lastState = CrewState.Idle;
+        public void OnStateEnter(CrewState state)
+        {
+            switch (state)
+            {
+                case CrewState.Idle:
+                    skeletonAnimation.AnimationState.SetAnimation(0, idle, true);
+                    if (lastState == CrewState.Stun)
+                    {
+                        stunFx.Stop();
+                    }
+                    break;
+                case CrewState.Reparing:
+                    skeletonAnimation.AnimationState.SetAnimation(0, fix, true);
+                    break;
+                case CrewState.Moving:
+                    skeletonAnimation.AnimationState.SetAnimation(0, move, true);
+                    break;
+                case CrewState.Stun:
+                    stunFx.Play();
+                    skeletonAnimation.AnimationState.SetAnimation(0, idle, true);
+                    break;
+            }
+            lastState = state;
+        }
+
         public void PlayFix()
         {
             skeletonAnimation.AnimationState.SetAnimation(0, fix, true);
@@ -53,27 +92,6 @@ namespace _Game.Scripts
             skeletonAnimation.AnimationState.AddEmptyAnimation(1, 0, 0);
         }
 
-        public void PlayStun()
-        {
-            PlayIdle();
-            stunFx.Play();
-        }
-
-        public void StopStun()
-        {
-            stunFx.Stop();
-        }
-
-        public void PlayDropDown()
-        {
-            skeletonAnimation.AnimationState.SetEmptyAnimation(1, 0);
-            skeletonAnimation.AnimationState.SetAnimation(0, dropdown, false);
-        }
-
-        public void AddIdle()
-        {
-            skeletonAnimation.AnimationState.AddAnimation(0, idle, true, 0);
-        }
         public void Flip(Direction direction)
         {
             if (direction == Direction.Left)

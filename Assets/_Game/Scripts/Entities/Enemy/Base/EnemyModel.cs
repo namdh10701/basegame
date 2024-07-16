@@ -14,7 +14,7 @@ using UnityEngine;
 
 namespace _Game.Scripts.Entities
 {
-    public abstract class EnemyModel : Entity, IGDConfigStatsTarget, IEffectTaker, IPhysicsEffectTaker, ISlowable
+    public abstract class EnemyModel : Entity, IGDConfigStatsTarget, IEffectTaker, IPhysicsEffectTaker, ISlowable, IBurnable
     {
         [Header("Enemy")]
         [SerializeField] protected EnemyStats _stats;
@@ -44,6 +44,8 @@ namespace _Game.Scripts.Entities
 
         public Action OnSlowedDown;
         public Action OnSlowedDownStopped;
+        public Action OnBurned;
+        public Action OnBurnEnded;
 
         public override Stats Stats => _stats;
         public Transform Transform => transform;
@@ -86,6 +88,16 @@ namespace _Game.Scripts.Entities
         private void OnDestroy()
         {
             GlobalEvent<EnemyModel>.Send("EnemyDied", this);
+        }
+
+        public void OnBurn()
+        {
+            OnBurned?.Invoke();
+        }
+
+        public void OnBurnEnd()
+        {
+            OnBurnEnded?.Invoke();
         }
     }
 }

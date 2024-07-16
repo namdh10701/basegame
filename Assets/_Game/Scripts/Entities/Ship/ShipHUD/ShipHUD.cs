@@ -9,28 +9,13 @@ namespace _Game.Features.Gameplay
 {
     public class ShipHUD : MonoBehaviour
     {
-        public Cannon Cannon
-        {
-            get => selectingCannon; set
-            {
-
-                if (selectingCannon != null && selectingCannon != value)
-                {
-                    selectingCannon.border.SetActive(false);
-                }
-                selectingCannon = value;
-            }
-        }
         public AmmoButton[] buttons;
-        CrewJobData jobdata;
-        Cannon selectingCannon;
         public List<Ammo> ammos = new List<Ammo>();
-
+        public RectTransform rectTransform;
 
         List<AmmoButton> actives = new List<AmmoButton>();
-        public void Initialize(List<Ammo> ammos, CrewJobData jobData)
+        public void Initialize(List<Ammo> ammos)
         {
-            this.jobdata = jobData;
             this.ammos = ammos;
             for (int i = 0; i < buttons.Length; i++)
             {
@@ -42,13 +27,13 @@ namespace _Game.Features.Gameplay
                 buttons[i].Init(ammos[i]);
                 actives.Add(buttons[i]);
             }
+            rectTransform.sizeDelta = new Vector2(2.4f * ammos.Count, 1.1362f);
         }
-        public void OnClick(Ammo ammo)
+        public void FilterCannonUsingAmmo(Cannon cannon)
         {
-            GlobalEvent<Cannon, Ammo, int>.Send("Reload", selectingCannon, ammo, int.MaxValue);
             foreach (AmmoButton am in actives)
             {
-                if (am.ammo == jobdata.ReloadCannonJobsDic[selectingCannon].bullet)
+                if (am.ammo == cannon.usingBullet)
                 {
                     am.ToggleSelect(true);
                 }
@@ -58,45 +43,14 @@ namespace _Game.Features.Gameplay
                 }
             }
         }
-
         public void Show()
         {
-            selectingCannon.border.SetActive(true);
             gameObject.SetActive(true);
-            foreach (AmmoButton am in actives)
-            {
-                if (am.ammo == jobdata.ReloadCannonJobsDic[selectingCannon].bullet)
-                {
-                    am.ToggleSelect(true);
-                }
-                else
-                {
-                    am.ToggleSelect(false);
-                }
-            }
         }
 
         public void Hide()
         {
-            selectingCannon?.border.SetActive(false);
             gameObject.SetActive(false);
-        }
-
-
-        void Reload(Ammo bullet)
-        {
-            GlobalEvent<Cannon, Ammo, int>.Send("Reload", selectingCannon, bullet, int.MaxValue);
-            Close();
-        }
-
-        void Close()
-        {
-            transform.parent.gameObject.SetActive(false);
-            for (int i = 0; i < buttons.Length; i++)
-            {
-                buttons[i].onClick.RemoveAllListeners();
-                buttons[i].gameObject.SetActive(false);
-            }
         }
     }
 }

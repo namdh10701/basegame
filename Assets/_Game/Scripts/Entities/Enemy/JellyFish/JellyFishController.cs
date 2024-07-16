@@ -22,7 +22,7 @@ namespace _Game.Features.Gameplay
             cooldownBehaviour = ((JellyFishModel)enemyModel).cooldownBehaviour;
             jellyFishAnimation = anim as JellyFishAnimation;
             MoveAreaController moveArea = FindAnyObjectByType<MoveAreaController>();
-            Area area = moveArea.GetArea(AreaType.All);
+            Area area = moveArea.GetArea(AreaType.Floor2Plus3);
             blackboard.GetVariable<AreaVariable>("MoveArea").Value = area;
             jellyFishAnimation.Attack.AddListener(Attack);
             jellyFishAnimation.AttackMeele.AddListener(AttackMelee);
@@ -64,6 +64,8 @@ namespace _Game.Features.Gameplay
 
         public override IEnumerator StartActionCoroutine()
         {
+            EnemyStats enemyStats = enemyModel.Stats as EnemyStats;
+            cooldownBehaviour.SetCooldownTime(enemyStats.ActionSequenceInterval.Value);
             jellyFishAnimation.Appear();
             cameraShake.Shake(3f);
             _Game.Scripts.BehaviourTree.Wander wander = mbtExecutor.GetComponent<_Game.Scripts.BehaviourTree.Wander>();

@@ -35,8 +35,13 @@ namespace _Game.Scripts
                 {
                     if (!buffedEnemy.Contains(enemy))
                     {
-                        ((EnemyStats)enemy.Stats).EvadeChance.AddModifier(statModifier);
-                        buffedEnemy.Add(enemy);
+                        EnemyStats enemyStats = enemy.Stats as EnemyStats;
+                        if (enemyStats.EvadeChance.StatModifiers.Count == 0)
+                        {
+                            enemyStats.EvadeChance.AddModifier(statModifier);
+
+                            buffedEnemy.Add(enemy);
+                        }
                     }
                 }
             }

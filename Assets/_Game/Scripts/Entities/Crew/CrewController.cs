@@ -1,5 +1,6 @@
 
 using _Game.Scripts.PathFinding;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,15 +23,15 @@ namespace _Game.Features.Gameplay
             crew.Ship = Ship;
         }
 
-        void OnJobActivate(CrewJob crewJob)
+
+        void OnJobActivate(CrewTask task)
         {
-            if (crewJob.Piority == int.MaxValue)
+            if (task.Priority == int.MaxValue)
             {
-                Crew crew = GetMostSuitableCrewForJob(crewJob);
+                Crew crew = GetMostSuitableCrewForTask(task);
                 if (crew != null)
                 {
-                    lastAssignCrew = crew;
-                    AssignJob(crew, crewJob);
+                    AssignTask(crew, task);
                 }
             }
             else
@@ -38,41 +39,36 @@ namespace _Game.Features.Gameplay
                 List<Crew> freeCrews = GetFreeCrews();
                 if (freeCrews.Count > 0)
                 {
-                    Crew crew = GetClosetCrewToJob(crewJob, freeCrews);
+                    Crew crew = GetClosetCrewToTask(task, freeCrews);
                     if (crew != null)
                     {
-                        AssignJob(crew, crewJob);
+                        AssignTask(crew, task);
                     }
                 }
             }
         }
 
-        public bool RegisterForNewJob(Crew crew)
+        private void AssignTask(Crew crew, CrewTask task)
         {
-            List<CrewJob> highestPiorityJobs = CrewJobData.GetHighestPiorityActiveJobs();
-            if (highestPiorityJobs.Count == 0)
-            {
-                return false;
-            }
-            CrewJob closetJob = GetClosetJobFromCrew(highestPiorityJobs, crew);
-            if (closetJob == null)
-            {
-                return false;
-            }
-            AssignJob(crew, closetJob);
+            crew.CrewAction.DoTask(task);
+        }
+
+        public bool GetMostSuitableTaskForCrew(Crew crew, out CrewTask task)
+        {
+            task = null;
+            List<CrewTask> highestPiorityTasks = CrewJobData.GetHighestPiorityActiveJobs();
+            if (highestPiorityTasks.Count == 0) return false;
+            task = GetClosetTaskFromCrew(highestPiorityTasks, crew);
             return true;
         }
 
-
-
-
-        CrewJob GetClosetJobFromCrew(List<CrewJob> jobs, Crew crew)
+        CrewTask GetClosetTaskFromCrew(List<CrewTask> tasks, Crew crew)
         {
             float closestDistance = Mathf.Infinity;
-            CrewJob closestJob = null;
-            foreach (CrewJob job in jobs)
+            CrewTask closestJob = null;
+            foreach (CrewTask task in tasks)
             {
-                List<Node> workingSlots = job.WorkLocation.WorkingSlots;
+                List<Node> workingSlots = task.StartLocation.WorkingSlots;
 
                 foreach (Node workingSlot in workingSlots)
                 {
@@ -81,94 +77,78 @@ namespace _Game.Features.Gameplay
                     if (distanceToJob < closestDistance)
                     {
                         closestDistance = distanceToJob;
-                        closestJob = job;
+                        closestJob = task;
                     }
                 }
             }
             return closestJob;
         }
 
-        Crew GetMostSuitableCrewForJob(CrewJob crewJob)
+        Crew GetMostSuitableCrewForTask(CrewTask task)
         {
-            foreach (Crew crew in crews)
+            if (task.StartLocation.WorkingSlots.Count == 0)
             {
-                if (crew.CrewAction.CurrentAction != null && crew.CrewAction.CurrentAction is CrewJobAction crewJobaction)
-                {
-                    if (crewJobaction.CrewJob == crewJob)
-                    {
-                        return crew;
-                    }
-                }
-            }
-            Debug.Log("GEt Suitable crew job");
-            if (crewJob.WorkLocation.WorkingSlots.Count == 0)
-            {
-                Debug.Log("PKPK");
                 return null;
             }
-            List<Crew> ret = GetFreeCrews();
-            Crew closestFreeCrew = GetClosetCrewToJob(crewJob, ret);
-            if (closestFreeCrew != null)
+            List<Crew> freeCrews = GetFreeCrews();
+            if (freeCrews.Count > 0)
             {
-                Debug.Log("HERE 3");
-                return closestFreeCrew;
+                Crew closetCrewToTask = GetClosetCrewToTask(task, freeCrews);
+                return closetCrewToTask;
             }
             else
             {
-                Debug.Log("HERE 6");
-                List<Crew> lowerPriorityCrews = GetCrewsWithLowerJobPriority(crewJob);
+                List<Crew> lowerPriorityCrews = GetCrewsWithLowerTaskPriority(task);
                 if (lowerPriorityCrews.Count == 0)
                 {
-                    Debug.Log("HERE 4");
-                    return lastAssignCrew;
-
+                    return GetClosetCrewToTask(task, crews);
                 }
                 else
                 {
-                    Crew closetCrewWithLowerPriority = GetClosetCrewToJob(crewJob, lowerPriorityCrews);
+                    Crew closetCrewWithLowerPriority = GetClosetCrewToTask(task, lowerPriorityCrews);
                     return closetCrewWithLowerPriority;
                 }
+
             }
         }
-        Crew lastAssignCrew;
-
-
         List<Crew> GetFreeCrews()
         {
             List<Crew> freeCrews = new List<Crew>();
 
             foreach (Crew crew in crews)
             {
-                if (crew.CrewAction.CurrentAction is not CrewJobAction || crew.CrewAction.CurrentAction == null)
+                if (crew.CrewAction.DoingTask == null)
                 {
                     freeCrews.Add(crew);
                 }
             }
             return freeCrews;
         }
-        Crew GetCrewWithLowerJobPiority(CrewJob crewJob)
+        List<Crew> GetCrewsWithLowerTaskPriority(CrewTask task)
         {
+            List<Crew> crews = new List<Crew>();
             foreach (Crew crew in crews)
             {
-                if (crew.CrewAction.CurrentAction is CrewJobAction action)
+                if (crew.CrewAction.DoingTask != null)
                 {
-                    if (action.CrewJob.Piority < crewJob.Piority)
+                    if (crew.CrewAction.DoingTask.Priority < task.Priority)
                     {
-                        return crew;
+                        crews.Add(crew);
                     }
                 }
+
             }
-            return null;
+            return crews;
         }
 
-        Crew GetClosetCrewToJob(CrewJob crewJob, List<Crew> crews)
+        Crew GetClosetCrewToTask(CrewTask crewJob, List<Crew> crews)
         {
             Crew closestCrew = null;
             float closestDistance = Mathf.Infinity;
 
             foreach (Crew crew in crews)
             {
-                foreach (Node workingSlot in crewJob.WorkLocation.WorkingSlots)
+                foreach (Node workingSlot in crewJob.StartLocation.WorkingSlots)
                 {
                     float distance = Vector2.Distance(crew.transform.position, workingSlot.transform.position);
 
@@ -180,29 +160,6 @@ namespace _Game.Features.Gameplay
                 }
             }
             return closestCrew;
-        }
-
-        List<Crew> GetCrewsWithLowerJobPriority(CrewJob crewjob)
-        {
-            List<Crew> ret = new List<Crew>();
-            foreach (Crew crew in crews)
-            {
-                if (crew.CrewAction.CurrentAction is CrewJobAction crewJobAction)
-                {
-                    if (crewJobAction.CrewJob.Piority < crewjob.Piority)
-                    {
-                        ret.Add(crew);
-                        continue;
-                    }
-                }
-            }
-            return ret;
-        }
-
-        public void AssignJob(Crew crew, CrewJob crewJob)
-        {
-            CrewJobAction action = crewJob.BuildCrewAction(crew);
-            crew.CrewAction.DoJob(action);
         }
 
         public void ActivateCrews()

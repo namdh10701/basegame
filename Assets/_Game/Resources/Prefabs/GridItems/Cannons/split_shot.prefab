@@ -281,9 +281,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetTypeNames:
   - _Game.Scripts.Entities.PufferFishModel
-  - JellyFishModel
+  - _Game.Features.Gameplay.JellyFishModel
   - _Game.Scripts.SquidModel
   - ElectricEelModel
+  - _Game.Features.Gameplay.PhunGaiModel
+  - _Game.Features.Gameplay.SkeletonSword
+  - _Game.Features.Gameplay.SkeletonBomb
   closestTo: {fileID: 870496088559109320}
 --- !u!114 &3152544984102912611
 MonoBehaviour:
@@ -408,6 +411,12 @@ MonoBehaviour:
       statModifiers: []
       _baseValue: 0
     <ProjectileCount>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <PrimaryDamage>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <SecondaryDamage>k__BackingField:
       statModifiers: []
       _baseValue: 0
   _statsTemplate: {fileID: 11400000, guid: 14077db5de1824e3abe122b6685a11ce, type: 2}
@@ -594,7 +603,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33fa8754bde94080903d69f1555d4c10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <RotateSpeed>k__BackingField: 10
   <RotateTarget>k__BackingField: {fileID: 6472357837835627961}
   <Direction>k__BackingField: {x: 0, y: 0, z: 0}
   <Rotation>k__BackingField: {x: 0, y: 0, z: 0, w: 0}

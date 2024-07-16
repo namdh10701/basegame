@@ -34,6 +34,13 @@ namespace _Game.Scripts.PathFinding
                 }
             }
         }
-
+        public void ConnectNeighbors(Node[,] grid, int x, int y, int width, int height)
+        {
+            // Check and connect neighbors
+            if (x > 0) neighbors.Add(grid[x - 1, y]); // Left
+            if (x < width - 1) neighbors.Add(grid[x + 1, y]); // Right
+            if (y > 0) neighbors.Add(grid[x, y - 1]); // Down
+            if (y < height - 1) neighbors.Add(grid[x, y + 1]); // Up
+        }
     }
 }

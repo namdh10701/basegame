@@ -1,4 +1,6 @@
+using _Base.Scripts.RPG.Effects;
 using _Game.Scripts;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace _Game.Features.Gameplay
@@ -12,7 +14,8 @@ namespace _Game.Features.Gameplay
         [SerializeField] ParticleSystem particle;
         [SerializeField] ParticleSystem trail;
         public bool isLaunched;
-        public void SetData(EnemyAttackData atkData, Vector2 startPos, float deviation)
+        public DecreaseHealthEffect dmgEffect;
+        public void SetData(EnemyAttackData atkData, Vector2 startPos, float deviation, float dmg)
         {
             this.atkData = atkData;
             transform.position = startPos;
@@ -21,6 +24,8 @@ namespace _Game.Features.Gameplay
             float angle = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg;
             Quaternion newRotation = Quaternion.AngleAxis(angle - 90 + deviation, Vector3.forward);
             transform.rotation = newRotation;
+            dmgEffect.Amount = dmg;
+            atkData.Effects = new List<Effect> { dmgEffect };
         }
 
         private void FixedUpdate()

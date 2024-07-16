@@ -48,6 +48,10 @@ namespace _Game.Features.Gameplay
             GridAttackHandler.ship = EntityManager.Ship;
             EntityManager.Ship.BattleViewModel = battleViewModel;
             GridPicker.ShipGrid = EntityManager.Ship.ShipSetup;
+
+            BattleInputManager.ShipHUD = EntityManager.Ship.HUD;
+            BattleInputManager.Ship = EntityManager.Ship;
+
             StartCoroutine(LevelEntryCoroutine());
             GlobalEvent.Register("UseFullFever", UseFullFever);
             GlobalEvent<bool>.Register("TOGGLE_PAUSE", TogglePause);
@@ -104,7 +108,7 @@ namespace _Game.Features.Gameplay
             //CleanUp();
             PlayerPrefs.SetFloat("fever", EntityManager.Ship.stats.Fever.Value);
             var options = new ModalOptions("BattleVictory1Screen", true, loadAsync: false);
-            
+
             await ModalContainer.Find(ContainerKey.Modals).PushAsync(options);
         }
 
@@ -117,6 +121,7 @@ namespace _Game.Features.Gameplay
             currentRate = 1;
             BattleViewModel.SpeedUpRate = currentRate;
             EntityManager.CleanUp();
+            EnemyManager.CleanUp();
             EnemyModel[] a = GameObject.FindObjectsByType<EnemyModel>(FindObjectsSortMode.None);
             foreach (EnemyModel enemy in a)
             {

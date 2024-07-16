@@ -18,6 +18,10 @@ namespace _Base.Scripts.RPG.Effects
         public float ArmorPenetrate { get; set; }
 
         public bool IsCrit;
+
+        public float ChanceAffectCell = 1;
+
+
         public override bool CanEffect(IEffectTaker entity)
         {
             return true;
@@ -46,6 +50,14 @@ namespace _Base.Scripts.RPG.Effects
             {
                 blockChance = shipStats.BlockChance.Value;
             }
+
+            if (statsBearer.Stats is CellStats cellStats)
+            {
+                float rand = UnityEngine.Random.Range(0f, 1f);
+                if (rand > ChanceAffectCell)
+                    return;
+            }
+
             blockChance -= ArmorPenetrate;
 
             blockChance = Mathf.Clamp01(blockChance);
@@ -55,7 +67,7 @@ namespace _Base.Scripts.RPG.Effects
                 if (alive.HealthPoint.StatValue.BaseValue > alive.HealthPoint.MinStatValue.Value)
                 {
                     alive.HealthPoint.StatValue.BaseValue -= finalAmount;
-                    GlobalEvent<float, bool, Vector3>.Send("DAMAGE_INFLICTED", finalAmount, IsCrit, transform.position);
+                    GlobalEvent<float, bool, Vector3>.Send("DAMAGE_INFLICTED", finalAmount, IsCrit, entity.Transform.position);
                 }
             }
         }

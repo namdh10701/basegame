@@ -9,34 +9,39 @@ namespace _Game.Features.Gameplay
 {
     public class CrewJobData : MonoBehaviour
     {
-        public List<CrewJob> ActivateJobs = new List<CrewJob>();
+        public static Dictionary<Type, int> DefaultPiority = new Dictionary<Type, int>()
+        {
+            {typeof(FixCellTask) ,20 },
+            {typeof(FixCannonTask), 80},
+            {typeof(FixAmmoTask), 70}
+        };
+        public List<CrewTask> ActivateJobs = new List<CrewTask>();
 
-        public Action<CrewJob> OnActivateJobsChanged;
-
+        public Action<CrewTask> OnActivateJobsChanged;
         public ShipSetup ShipSetup;
 
-        public Dictionary<Cell, FixCellJob> FixCellJobDic = new Dictionary<Cell, FixCellJob>();
+        public Dictionary<Cell, FixCellTask> FixCellJobDic = new Dictionary<Cell, FixCellTask>();
+        public Dictionary<Cannon, FixCannonTask> FixCannonJobDic = new Dictionary<Cannon, FixCannonTask>();
+        public Dictionary<Ammo, FixAmmoTask> FixAmmoJobDic = new Dictionary<Ammo, FixAmmoTask>();
 
-        public Dictionary<IGridItem, FixGridItemJob> FixGridItemDic = new Dictionary<IGridItem, FixGridItemJob>();
 
-        public Dictionary<Cannon, ReloadCannonJob> ReloadCannonJobsDic = new Dictionary<Cannon, ReloadCannonJob>();
-
-        public List<CrewJob> GetHighestPiorityActiveJobs()
+        public List<CrewTask> AllJobs = new List<CrewTask>();
+        public List<CrewTask> GetHighestPiorityActiveJobs()
         {
-            List<CrewJob> highestPriorityJobs = new List<CrewJob>();
+            List<CrewTask> highestPriorityJobs = new List<CrewTask>();
             int highestPriority = -1;
 
-            foreach (CrewJob crewJob in ActivateJobs)
+            foreach (CrewTask crewJob in ActivateJobs)
             {
-                if (crewJob.Status != JobStatus.WorkingOn && crewJob.Piority > highestPriority)
+                if (crewJob.Status != TaskStatus.Working && crewJob.Priority > highestPriority)
                 {
-                    highestPriority = crewJob.Piority;
+                    highestPriority = crewJob.Priority;
                 }
             }
 
-            foreach (CrewJob crewJob in ActivateJobs)
+            foreach (CrewTask crewJob in ActivateJobs)
             {
-                if (crewJob.Status != JobStatus.WorkingOn && crewJob.Piority == highestPriority)
+                if (crewJob.Status != TaskStatus.Working && crewJob.Priority == highestPriority)
                 {
                     highestPriorityJobs.Add(crewJob);
                 }
@@ -44,166 +49,94 @@ namespace _Game.Features.Gameplay
 
             return highestPriorityJobs;
         }
-        //case 1 crew: click cannon -> reload cannon default bullet,
-        //             click bullet -> deactivate the reload cannonjob -> activate reload cannon with clicked bullet job
-        //case 2 crew: 
 
         public void Initialize()
         {
-            foreach (Ammo bullet in ShipSetup.Ammos)
+            foreach (Ammo ammo in ShipSetup.Ammos)
             {
-                IGridItem item = bullet.GetComponent<IGridItem>();
-                IWorkLocation worklocation = bullet.GetComponent<IWorkLocation>();
-                FixGridItemJob fixCellJob = new FixGridItemJob(item, worklocation);
-
-                FixGridItemDic.Add(bullet, fixCellJob);
-                fixCellJob.OnJobCompleted += OnJobCompleted;
-                fixCellJob.OnJobInterupted += OnJobInterupted;
+                FixAmmoTask fixAmmoTask = new FixAmmoTask(this, ammo);
+                FixAmmoJobDic.Add(ammo, fixAmmoTask);
+                AllJobs.Add(fixAmmoTask);
             }
 
             foreach (Cannon cannon in ShipSetup.Cannons)
             {
-                IGridItem item = cannon.GetComponent<IGridItem>();
-
-                IWorkLocation worklocation = cannon.GetComponent<IWorkLocation>();
-                FixGridItemJob fixCellJob = new FixGridItemJob(item, worklocation);
-                FixGridItemDic.Add(item, fixCellJob);
-                fixCellJob.OnJobCompleted += OnJobCompleted;
-                fixCellJob.OnJobInterupted += OnJobInterupted;
-
-                ReloadCannonJob reloadCannonJob = new ReloadCannonJob(cannon);
-                if (!ReloadCannonJobsDic.ContainsKey(cannon))
-                {
-                    ReloadCannonJobsDic.Add(cannon, reloadCannonJob);
-                }
-                reloadCannonJob.OnJobCompleted += OnJobCompleted;
-                reloadCannonJob.OnJobInterupted += OnJobInterupted;
+                FixCannonTask fixCannonTask = new FixCannonTask(this, cannon);
+                FixCannonJobDic.Add(cannon, fixCannonTask);
+                AllJobs.Add(fixCannonTask);
             }
 
             foreach (Cell cell in ShipSetup.AllCells)
             {
                 if (cell.GridItem == null)
                 {
-                    FixCellJob fixCellJob = new FixCellJob(cell);
-                    FixCellJobDic.Add(cell, fixCellJob);
-                    fixCellJob.OnJobCompleted += OnJobCompleted;
-                    fixCellJob.OnJobInterupted += OnJobInterupted;
+                    FixCellTask fixCellTask = new FixCellTask(this, cell);
+                    FixCellJobDic.Add(cell, fixCellTask);
+                    AllJobs.Add(fixCellTask);
                 }
             }
-            Debug.Log(FixCellJobDic.Count + " FIX CELL JOB DIC");
-            Debug.Log(FixGridItemDic.Count + " FIX GRID ITEM");
-            Debug.Log(ReloadCannonJobsDic.Count + " RELOAD CANNON");
         }
+
 
         private void Awake()
         {
-            GlobalEvent<Cannon, Ammo, int>.Register("Reload", ActivateReloadCannonJob);
-            GlobalEvent<IGridItem, int>.Register("Fix", ActivateFixGridItemJob);
-            GlobalEvent<Cell, int>.Register("FixCell", ActivateFixCellJob);
+            GlobalEvent<Cell, int>.Register("FixCell", ActivateFixCellTask);
+            GlobalEvent<Ammo, int>.Register("FixAmmo", ActivateFixAmmoTask);
+            GlobalEvent<Cannon, int>.Register("FixCannon", ActivateFixCannonTask);
         }
 
         private void OnDestroy()
         {
-            GlobalEvent<Cannon, Ammo, int>.Unregister("Reload", ActivateReloadCannonJob);
-
-            GlobalEvent<Cell, int>.Unregister("FixCell", ActivateFixCellJob);
-            GlobalEvent<IGridItem, int>.Unregister("Fix", ActivateFixGridItemJob);
+            GlobalEvent<Cell, int>.Unregister("FixCell", ActivateFixCellTask);
+            GlobalEvent<Ammo, int>.Unregister("FixAmmo", ActivateFixAmmoTask);
+            GlobalEvent<Cannon, int>.Unregister("FixCannon", ActivateFixCannonTask);
         }
 
-        void ActivateFixCellJob(Cell cell, int piority)
+        void ActivateFixCellTask(Cell cell, int piority)
         {
-            FixCellJob fixCellJob = FixCellJobDic[cell];
-            if (piority == 0)
-            {
-                fixCellJob.Piority = fixCellJob.DefaultPiority;
-            }
-            else
-            {
-                fixCellJob.Piority = piority;
-            }
+            FixCellTask fixCellJob = FixCellJobDic[cell];
+            fixCellJob.Priority = piority;
             if (!ActivateJobs.Contains(fixCellJob))
             {
+                fixCellJob.Status = TaskStatus.Pending;
                 ActivateJobs.Add(fixCellJob);
-            }
-            if (fixCellJob.Status == JobStatus.WorkingOn)
-            {
-                return;
             }
             OnActivateJobsChanged?.Invoke(fixCellJob);
         }
 
-        void ActivateReloadCannonJob(Cannon cannon, Ammo bullet, int piority = 0)
+        public void OnTaskCompleted(CrewTask task)
         {
-            ReloadCannonJob reloadCannonJob = ReloadCannonJobsDic[cannon];
-            if (piority == 0)
+            if (ActivateJobs.Contains(task))
             {
-                reloadCannonJob.Piority = reloadCannonJob.DefaultPiority;
-            }
-            else
-            {
-                reloadCannonJob.Piority = piority;
-            }
-            if (reloadCannonJob.Piority != int.MaxValue)
-            {
-                if (!ActivateJobs.Contains(reloadCannonJob))
-                {
-                    reloadCannonJob.Status = JobStatus.Free;
-                    ActivateJobs.Add(reloadCannonJob);
-                }
-            }
-
-            if (reloadCannonJob.bullet == bullet && reloadCannonJob.Status == JobStatus.WorkingOn)
-            {
-                return;
-            }
-            else if (reloadCannonJob.bullet == null || reloadCannonJob.bullet != bullet)
-            {
-                reloadCannonJob.Status = JobStatus.Free;
-                reloadCannonJob.AssignBullet(bullet);
-            }
-            OnActivateJobsChanged.Invoke(reloadCannonJob);
-
-        }
-        void ActivateFixGridItemJob(IGridItem gridItem, int piority)
-        {
-            FixGridItemJob fixCellJob = FixGridItemDic[gridItem];
-            if (piority == 0)
-            {
-                fixCellJob.Piority = fixCellJob.DefaultPiority;
-            }
-            else
-            {
-                fixCellJob.Piority = piority;
-            }
-            if (!ActivateJobs.Contains(fixCellJob))
-            {
-                fixCellJob.Status = JobStatus.Free;
-                ActivateJobs.Add(fixCellJob);
-            }
-            if (fixCellJob.Status == JobStatus.WorkingOn)
-            {
-                return;
-            }
-            OnActivateJobsChanged?.Invoke(fixCellJob);
-
-        }
-
-        void OnJobInterupted(CrewJob crewJob)
-        {
-            if (ActivateJobs.Contains(crewJob))
-            {
-                crewJob.Piority = crewJob.DefaultPiority;
+                ActivateJobs.Remove(task);
+                task.Status = TaskStatus.Disabled;
             }
         }
 
-        void OnJobCompleted(CrewJob crewJob)
+
+        void ActivateFixAmmoTask(Ammo ammo, int priority)
         {
-            crewJob.IsJobActivated = false;
-            crewJob.Piority = crewJob.DefaultPiority;
-            if (ActivateJobs.Contains(crewJob))
+            FixAmmoTask fixAmmoJob = FixAmmoJobDic[ammo];
+            fixAmmoJob.Priority = priority;
+            if (!ActivateJobs.Contains(fixAmmoJob))
             {
-                ActivateJobs.Remove(crewJob);
+                fixAmmoJob.Status = TaskStatus.Pending;
+                ActivateJobs.Add(fixAmmoJob);
+
             }
+            OnActivateJobsChanged?.Invoke(fixAmmoJob);
+        }
+
+        void ActivateFixCannonTask(Cannon ammo, int priority)
+        {
+            FixCannonTask fixCannonJob = FixCannonJobDic[ammo];
+            fixCannonJob.Priority = priority;
+            if (!ActivateJobs.Contains(fixCannonJob))
+            {
+                fixCannonJob.Status = TaskStatus.Pending;
+                ActivateJobs.Add(fixCannonJob);
+            }
+            OnActivateJobsChanged?.Invoke(fixCannonJob);
         }
     }
 }

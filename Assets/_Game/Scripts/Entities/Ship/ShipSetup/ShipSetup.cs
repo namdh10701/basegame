@@ -278,6 +278,7 @@ namespace _Game.Features.Gameplay
                     if (node.cell != null && node.cell == cell)
                     {
                         nodeOccupier.OccupyingNodes.Add(node);
+                        node.State = NodeState.Occupied;
                     }
                 }
             }
@@ -329,6 +330,7 @@ namespace _Game.Features.Gameplay
         {
             Crew crewPrefab = Database.GetCrew(data.Id);
             Crew spawned = Instantiate(crewPrefab, grid.GridItemRoot);
+
             CrewController.AddCrew(spawned);
             spawned.Id = data.Id;
             float scale = Vector3.one.x / spawned.transform.parent.lossyScale.x;
@@ -337,6 +339,15 @@ namespace _Game.Features.Gameplay
             spawnedItems.Add(spawned.gameObject);
             spawned.transform.position =
             grid.Cells[data.startY, data.startX].transform.position;
+            INodeOccupier nodeOccupier = spawned.GetComponent<INodeOccupier>();
+
+            foreach (var node in NodeGraph.nodes)
+            {
+                if (node.cell != null && node.cell.X == data.startX && node.cell.Y == data.startY)
+                {
+                    nodeOccupier.OccupyingNodes.Add(node);
+                }
+            }
 
         }
     }

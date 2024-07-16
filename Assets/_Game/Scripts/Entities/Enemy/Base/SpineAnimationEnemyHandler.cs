@@ -35,15 +35,32 @@ public abstract class SpineAnimationEnemyHandler : MonoBehaviour
     public float onHitduration = 0.1f;
     Coroutine blinkCoroutine;
 
+    public ParticleSystem burn;
+
     protected virtual void Awake()
     {
         enemyModel.OnSlowedDown += OnSlowedDown;
         enemyModel.OnSlowedDownStopped += OnSlowEnded;
+
+
+        enemyModel.OnBurned += OnBurn;
+        enemyModel.OnBurnEnded += OnBurnEnded;
+
         EnemyStats stats = enemyModel.Stats as EnemyStats;
         stats.AnimationTimeScale.OnValueChanged += AnimationTimeScale_OnValueChanged;
         mpb = new MaterialPropertyBlock();
         skeletonAnimation.AnimationState.Event += AnimationState_Event;
         skeletonAnimation.AnimationState.Complete += AnimationState_Complete;
+    }
+
+    void OnBurn()
+    {
+        burn.Play();
+    }
+
+    void OnBurnEnded()
+    {
+        burn.Stop();
     }
 
     private void AnimationTimeScale_OnValueChanged(_Base.Scripts.RPG.Stats.Stat obj)

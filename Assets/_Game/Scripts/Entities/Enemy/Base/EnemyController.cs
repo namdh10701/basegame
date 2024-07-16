@@ -45,7 +45,9 @@ namespace _Game.Features.Gameplay
         protected EffectTakerCollider effectTakerCollider;
         protected Rigidbody2D body;
         protected SpineAnimationEnemyHandler anim;
-
+        protected
+            GridAttackHandler atkHandler;
+        protected GridPicker gridPicker;
         public Rigidbody2D Body => body;
 
         public abstract bool IsReadyToAttack();
@@ -73,6 +75,8 @@ namespace _Game.Features.Gameplay
 
         protected virtual IEnumerator OnInitializedCompleted()
         {
+            gridPicker = FindAnyObjectByType<GridPicker>();
+            atkHandler = FindAnyObjectByType<GridAttackHandler>();
             mbtExecutor.enabled = false;
             yield return StartActionCoroutine();
             mbtExecutor.enabled = true;
@@ -80,7 +84,7 @@ namespace _Game.Features.Gameplay
 
         public abstract IEnumerator StartActionCoroutine();
         public abstract IEnumerator AttackSequence();
-        
+
         public void OnSlowedDown()
         {
 
