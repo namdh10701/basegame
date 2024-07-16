@@ -3,6 +3,7 @@ using _Game.Features.Home;
 using _Game.Features.MyShipScreen;
 using _Game.Scripts.DB;
 using _Game.Scripts.GD;
+using _Game.Scripts.GD.DataManager;
 using _Game.Scripts.GD.Parser;
 using Cysharp.Threading.Tasks;
 using Map;
@@ -35,15 +36,15 @@ namespace _Game.Features
 
             var loadDataTasks = new Task[]
             {
-                GameLevelManager.Instance.LoadData(),
+                GameData.LevelWaveTable.LoadData(),
 
-                ShopDataItem.Instance.LoadData(),
+                GameData.ShopItemTable.LoadData(),
 
                 // Debug.Log("Load" + "ShopDataListing");
-                ShopDataListing.Instance.LoadData(),
+                GameData.ShopListingTable.LoadData(),
 
                 // Debug.Log("Load" + "ShopDataRarity");
-                ShopDataRarity.Instance.LoadData(),
+                GameData.ShopRarityTable.LoadData(),
 
                 // Debug.Log("Load" + "GDConfigLoader");
                 GDConfigLoader.Instance.Load(),

@@ -193,6 +193,7 @@ GameObject:
   - component: {fileID: 5756244470040153948}
   - component: {fileID: 8135680774235329146}
   - component: {fileID: 7436762826038441462}
+  - component: {fileID: 8743574685287811565}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -316,6 +317,22 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &8743574685287811565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 513789663874237107}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1670825535, guid: e650e72e8be47794994495fc15c0ba63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  viewAdapterTypeName: 
+  viewAdapterOptions: {fileID: 0}
+  viewModelPropertyName: _Game.Features.MyShip.InventorySheet.PageInfo
+  viewPropertyName: TMPro.TextMeshProUGUI.text
 --- !u!1 &790330141215602598
 GameObject:
   m_ObjectHideFlags: 0
@@ -2014,6 +2031,8 @@ GameObject:
   - component: {fileID: 6773962423997368926}
   - component: {fileID: 3767223747280518850}
   - component: {fileID: 1104852393366824235}
+  - component: {fileID: 6758767135038686838}
+  - component: {fileID: 3516643283551400538}
   m_Layer: 5
   m_Name: Btn_Next
   m_TagString: Untagged
@@ -2122,6 +2141,36 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &6758767135038686838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3532844267175652668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1360956885, guid: e650e72e8be47794994495fc15c0ba63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  viewModelMethodName: _Game.Features.MyShip.InventorySheet.NextPage
+  viewEventName: UnityEngine.UI.Button.onClick
+--- !u!114 &3516643283551400538
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3532844267175652668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1670825535, guid: e650e72e8be47794994495fc15c0ba63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  viewAdapterTypeName: 
+  viewAdapterOptions: {fileID: 0}
+  viewModelPropertyName: _Game.Features.MyShip.InventorySheet.IsNextPageAvailable
+  viewPropertyName: UnityEngine.UI.Button.interactable
 --- !u!1 &3587812640570022921
 GameObject:
   m_ObjectHideFlags: 0
@@ -2871,6 +2920,8 @@ GameObject:
   - component: {fileID: 5807608746417840188}
   - component: {fileID: 9000048311300345071}
   - component: {fileID: 3083890241209730736}
+  - component: {fileID: 7954967859616079565}
+  - component: {fileID: 3997180871860778951}
   m_Layer: 5
   m_Name: Btn_Previous
   m_TagString: Untagged
@@ -2925,7 +2976,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 0b0e658ccbdf8fa4f87394afe6b6d719, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5f7de8edb9899e447be9e26749ca32f1, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2967,7 +3018,7 @@ MonoBehaviour:
     m_HighlightedSprite: {fileID: 0}
     m_PressedSprite: {fileID: 0}
     m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 21300000, guid: 0b0e658ccbdf8fa4f87394afe6b6d719, type: 3}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
@@ -2979,6 +3030,36 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &7954967859616079565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5904808695782691857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1360956885, guid: e650e72e8be47794994495fc15c0ba63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  viewModelMethodName: _Game.Features.MyShip.InventorySheet.PrevPage
+  viewEventName: UnityEngine.UI.Button.onClick
+--- !u!114 &3997180871860778951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5904808695782691857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1670825535, guid: e650e72e8be47794994495fc15c0ba63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  viewAdapterTypeName: 
+  viewAdapterOptions: {fileID: 0}
+  viewModelPropertyName: _Game.Features.MyShip.InventorySheet.IsPrevPageAvailable
+  viewPropertyName: UnityEngine.UI.Button.interactable
 --- !u!1 &6149829802658061295
 GameObject:
   m_ObjectHideFlags: 0
@@ -3411,7 +3492,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1c84916dd4c4dd89badd2c0db437376, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlacementPane: {fileID: 135154314207094722}
   ShipGridHighLighter: {fileID: 5082341435830970151}
 --- !u!114 &5082341435830970151
 MonoBehaviour:
@@ -3812,7 +3892,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -540.0004, y: 0}
+  m_AnchoredPosition: {x: -540.0008, y: 0}
   m_SizeDelta: {x: 0, y: 130}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &4823265939445006486
@@ -4858,7 +4938,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 647230755175826651, guid: 554f6d2e2de4344adbd62645711a0a04, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 166
       objectReference: {fileID: 0}
     - target: {fileID: 647230755175826651, guid: 554f6d2e2de4344adbd62645711a0a04, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -5869,6 +5949,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c87c4c49b1a40b6a19b222064233963, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Interactable: 1
   DragDataProvider: {fileID: 6189909534904763049}
   PreviewDragArea: {fileID: 0}
   DraggableItemPreviewProvider: {fileID: 7346860376872607102}
@@ -6836,7 +6917,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7618973848632272061, guid: 3fb28f9f3dee840d7adfb78258981139, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7618973848632272061, guid: 3fb28f9f3dee840d7adfb78258981139, type: 3}
       propertyPath: m_AnchorMin.x
@@ -6844,15 +6925,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7618973848632272061, guid: 3fb28f9f3dee840d7adfb78258981139, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7618973848632272061, guid: 3fb28f9f3dee840d7adfb78258981139, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 240
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7618973848632272061, guid: 3fb28f9f3dee840d7adfb78258981139, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 240
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7618973848632272061, guid: 3fb28f9f3dee840d7adfb78258981139, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6884,11 +6965,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7618973848632272061, guid: 3fb28f9f3dee840d7adfb78258981139, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 120
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7618973848632272061, guid: 3fb28f9f3dee840d7adfb78258981139, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -120
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7618973848632272061, guid: 3fb28f9f3dee840d7adfb78258981139, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -7079,6 +7160,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc8bc343b9e54989b0506d9cfef32b56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Interactable: 1
   DragDataProvider: {fileID: 1207664382370631826}
   PreviewDragArea: {fileID: 0}
   DraggableItemPreviewProvider: {fileID: 4808180305934300851}

@@ -1,3 +1,4 @@
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -24,6 +25,7 @@ namespace _Game.Features.Inventory
             }
         }
 
+        public bool Interactable = true;
         public DragDataProvider DragDataProvider;
         public RectTransform PreviewDragArea;
         public DraggableItemPreviewProvider DraggableItemPreviewProvider;
@@ -41,8 +43,24 @@ namespace _Game.Features.Inventory
             }
         }
 
+        private void Update()
+        {
+            // if (!Interactable)
+            // {
+            //     
+            // }
+            
+            if (canvasGroup)
+            {
+                // canvasGroup.alpha = Interactable ? 1.0f : 0.6f; // Make it semi-transparent
+                // canvasGroup.blocksRaycasts = false; // Disable raycast blocking so it can be dropped
+            }
+        }
+
         public void OnBeginDrag(PointerEventData eventData)
         {
+            // if (!Interactable) return;
+            
             if (PreviewDragArea)
             {
                 var previewPrefab = DraggableItemPreviewProvider
@@ -78,6 +96,8 @@ namespace _Game.Features.Inventory
 
         public void OnDrag(PointerEventData eventData)
         {
+            // if (!Interactable) return;
+            
             if (_previewDragItem)
             {
                 RectTransformUtility.ScreenPointToLocalPointInRectangle(PreviewDragArea, eventData.position,
@@ -95,6 +115,20 @@ namespace _Game.Features.Inventory
 
         public void OnEndDrag(PointerEventData eventData)
         {
+            // if (!Interactable) return;
+            ProcessEndDrop(eventData);
+        }
+
+        public virtual void OnDropCommit(PointerEventData eventData)
+        {
+            ProcessEndDrop(eventData);
+        }
+
+        private bool _processEndDrop = false;
+        public void ProcessEndDrop(PointerEventData eventData)
+        {
+            if (_processEndDrop) return;
+            
             if (canvasGroup)
             {
                 canvasGroup.alpha = 1.0f; // Reset transparency
@@ -105,11 +139,6 @@ namespace _Game.Features.Inventory
             {
                 Destroy(_previewDragItem.gameObject);
             }
-        }
-
-        public virtual void OnDropCommit(PointerEventData eventData)
-        {
-            // TODO
         }
     }
 }

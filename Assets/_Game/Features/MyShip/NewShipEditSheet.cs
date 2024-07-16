@@ -3,6 +3,7 @@ using _Base.Scripts.Utils;
 using _Game.Features.Inventory;
 using _Game.Features.MyShip.GridSystem;
 using _Game.Scripts.DB;
+using _Game.Scripts.SaveLoad;
 using _Game.Scripts.UI;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
@@ -23,6 +24,13 @@ namespace _Game.Features.MyShip
     [Binding]
     public class StashItem: SubViewModel
     {
+        private NewShipEditSheet _shipEditSheet;
+
+        public StashItem(NewShipEditSheet shipEditSheet)
+        {
+            _shipEditSheet = shipEditSheet;
+        }
+        
         #region Binding Prop: InventoryItem
 
         /// <summary>
@@ -66,6 +74,7 @@ namespace _Game.Features.MyShip
         [Binding]
         public void RemoveEquipment()
         {
+            IOC.Resolve<InventorySheet>().RemoveIgnore(_inventoryItem);
             InventoryItem = null;
         }
     }
@@ -86,10 +95,33 @@ namespace _Game.Features.MyShip
             base.Awake();
             for (int i = 0; i < 10; i++)
             {
-                StashItems.Add(new StashItem());
+                StashItems.Add(new StashItem(this));
             }
             
             IOC.Register(this);
+        }
+
+        public void LoadShipSetupProfile(int profileIndex)
+        {
+            foreach (var stashItem in StashItems)
+            {
+                stashItem.RemoveEquipment();
+            }
+            
+            // load data
+            var shipSetupData = SaveSystem.GameSave.ShipSetupSaveData.SwitchProfile(profileIndex);
+            foreach (var (pos, itemId) in shipSetupData.StashData)
+            {
+                var masterData = "";
+                if (itemId.ItemType == ItemType.CREW)
+                {
+                    
+                    // Database.GetCrew(itemId.ItemId).body
+                }
+                var inventoryItem = new InventoryItem();
+                
+                StashItems[pos].InventoryItem = inventoryItem;
+            }
         }
 
         #region ViewMode
@@ -261,7 +293,7 @@ namespace _Game.Features.MyShip
             // _btnRemove.onClick.AddListener(OnRemoveClick);
             //
             // Initialize(_shipsConfig.currentShipId);
-            InitializeShip("0003");
+            InitializeShip("0002");
             SetViewMode_Normal();
             return UniTask.CompletedTask;
         }

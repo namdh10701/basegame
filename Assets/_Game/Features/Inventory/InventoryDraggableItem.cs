@@ -1,3 +1,5 @@
+using _Base.Scripts.Utils;
+using _Game.Features.MyShip;
 using UnityEngine.EventSystems;
 
 namespace _Game.Features.Inventory
@@ -6,7 +8,8 @@ namespace _Game.Features.Inventory
     {
         public override void OnDropCommit(PointerEventData eventData)
         {
-            
+            base.OnDropCommit(eventData);
+            IOC.Resolve<InventorySheet>().AddIgnore(DragDataProvider.GetData<InventoryItem>());
         }
     }
 }

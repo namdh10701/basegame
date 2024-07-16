@@ -7,6 +7,7 @@ namespace _Game.Features.Inventory
     {
         public override void OnDropCommit(PointerEventData eventData)
         {
+            base.OnDropCommit(eventData);
             var stashItem = GetComponent<Template>().GetViewModel() as MyShip.StashItem;
             stashItem?.RemoveEquipment();
         }

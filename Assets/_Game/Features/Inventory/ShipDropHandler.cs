@@ -1,16 +1,34 @@
 using System.Linq;
+using _Base.Scripts.Utils;
+using _Game.Features.MyShip;
 using _Game.Features.MyShip.GridSystem;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
-using UnityWeld.Binding;
 
 namespace _Game.Features.Inventory
 {
     public class ShipDropHandler : DropHandler
     {
-        public RectTransform PlacementPane;
+        public RectTransform PlacementPane
+        {
+            get
+            {
+                if (!_placementPane)
+                {
+                    _placementPane = GetComponentInChildren<PlacementPane>().transform as RectTransform;
+                }
+
+                return _placementPane;
+            }
+        }
+
         public ShipGridHighLighter ShipGridHighLighter;
+        private RectTransform _placementPane;
+
+        private void Awake()
+        {
+            
+        }
+
         public override bool OnItemDrop(DraggableItem droppedItem)
         {
             var inventoryItem = droppedItem.DragDataProvider.GetData<InventoryItem>();
@@ -31,10 +49,13 @@ namespace _Game.Features.Inventory
             RectTransformUtility.ScreenPointToLocalPointInRectangle(PlacementPane, screenPoint, Camera.main, out Vector2 localAnchoredPosition);
             
             var rect = shipSetupItem.transform as RectTransform;
-            rect.anchorMin = Vector2.zero;
-            rect.anchorMax = Vector2.zero;
+            // rect.anchorMin = Vector2.zero;
+            // rect.anchorMax = Vector2.zero;
+            rect.anchorMin = Vector2.up;
+            rect.anchorMax = Vector2.up;
             rect.pivot = Vector2.zero;
-            rect.anchoredPosition = localAnchoredPosition;
+            // rect.anchoredPosition = localAnchoredPosition;
+            rect.anchoredPosition = uiCell.anchoredPosition;
 
             ShipGridHighLighter.Clear();
 
@@ -45,6 +66,8 @@ namespace _Game.Features.Inventory
             {
                 v.Data = inventoryItem;
             });
+            
+            IOC.Resolve<InventorySheet>().AddIgnore(inventoryItem);
 
             return true;
         }

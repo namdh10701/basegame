@@ -1,3 +1,5 @@
+using _Base.Scripts.Utils;
+using _Game.Features.MyShip;
 using UnityWeld.Binding;
 
 namespace _Game.Features.Inventory
@@ -8,13 +10,11 @@ namespace _Game.Features.Inventory
         {
             var data = droppedItem.DragDataProvider.GetData<InventoryItem>();
 
-            if (GetComponent<Template>().GetViewModel() is MyShip.StashItem stashItem)
-            {
-                stashItem.InventoryItem = data;
-                return true;
-            }
-
-            return false;
+            if (GetComponent<Template>().GetViewModel() is not MyShip.StashItem stashItem) return false;
+            
+            stashItem.InventoryItem = data;
+            
+            return true;
         }
     }
 }

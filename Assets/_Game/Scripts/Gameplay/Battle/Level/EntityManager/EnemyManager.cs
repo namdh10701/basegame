@@ -1,12 +1,7 @@
-using _Base.Scripts.EventSystem;
-using _Base.Scripts.Shared;
-using _Base.Scripts.Utils.Extensions;
 using _Game.Scripts.DB;
-using _Game.Scripts.Entities;
-using _Game.Scripts.GD;
-using _Game.Scripts.GD.Parser;
 using System.Collections.Generic;
 using System.Globalization;
+using _Game.Scripts.GD.DataManager;
 using UnityEngine;
 
 namespace _Game.Scripts.Battle
@@ -36,7 +31,7 @@ namespace _Game.Scripts.Battle
             stageId = PlayerPrefs.GetString("currentStage");
 
             Debug.Log(stageId);
-            levelDatas = GameLevelManager.Instance.GetLevelData(stageId, floorId);
+            levelDatas = GameData.LevelWaveTable.GetLevelData(stageId, floorId);
         }
         public void StartLevel()
         {

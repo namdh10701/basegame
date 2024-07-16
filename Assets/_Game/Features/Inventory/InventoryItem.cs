@@ -59,8 +59,7 @@ namespace _Game.Features.Inventory
         private string m_name;
 
         #endregion
-
-
+        
         #region Binding Prop: ItemType
         /// <summary>
         /// ItemType

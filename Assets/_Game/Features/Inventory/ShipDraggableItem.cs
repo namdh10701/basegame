@@ -6,6 +6,7 @@ namespace _Game.Features.Inventory
     {
         public override void OnDropCommit(PointerEventData eventData)
         {
+            base.OnDropCommit(eventData);
             var draggableItem = gameObject.GetComponent<DraggableItem>();
             if (draggableItem)
             {

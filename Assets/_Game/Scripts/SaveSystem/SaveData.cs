@@ -12,6 +12,7 @@ namespace _Game.Scripts.SaveLoad
         public int SaveId;
         public SkillSaveData SkillSaveData;
         public InventorySaveData InventorySaveData;
+        public ShipSetupSaveData ShipSetupSaveData;
 
         public SaveData(int saveId)
         {
@@ -47,6 +48,10 @@ namespace _Game.Scripts.SaveLoad
             skillSaveData.SkillDatas.Add(new SkillData(2, 1));
 
             defaultSave.SkillSaveData = skillSaveData;
+
+            defaultSave.ShipSetupSaveData = new ShipSetupSaveData();
+            defaultSave.ShipSetupSaveData.Init();
+            
             return defaultSave;
         }
 
