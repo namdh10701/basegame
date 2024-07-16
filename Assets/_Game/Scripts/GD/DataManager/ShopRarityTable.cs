@@ -9,31 +9,19 @@ namespace _Game.Scripts.GD.DataManager
     /// </summary>
     public class ShopRarityTable : DataTable<ShopRarityTableRecord>
     {
-        private List<ShopRarityTableRecord> _records = new();
-
-        protected override void HandleLoadedRecords(List<ShopRarityTableRecord> rawRecords)
-        {
-            _records = rawRecords;
-        }
-
-        public List<ShopRarityTableRecord> GetData()
-        {
-            return _records;
-        }
-
         public List<string> GetDataNames(string gachaType)
         {
-            return _records.Where(item => item.Type == gachaType).Select(item => item.Name).ToList();
+            return Records.Where(item => item.Type == gachaType).Select(item => item.Name).ToList();
         }
 
         public List<int> GetWeights(string gachaType, string rarity)
         {
-            return _records.Where(item => item.Type == gachaType && item.DefaultRarity == rarity).Select(item => item.Weight).ToList();
+            return Records.Where(item => item.Type == gachaType && item.Rarity.ToString() == rarity).Select(item => item.Weight).ToList();
         }
 
         public string GetIdByNameAndRarity(string itemName, string rarity)
         {
-            return _records.Where(item => item.Name == itemName && item.DefaultRarity == rarity).Select(item => item.Id).FirstOrDefault();
+            return Records.Where(item => item.Name == itemName && item.Rarity.ToString() == rarity).Select(item => item.Id).FirstOrDefault();
         }
 
         public ShopRarityTable(string downloadUrl, string dataFileName = null) : base(downloadUrl, dataFileName)
@@ -56,7 +44,9 @@ namespace _Game.Scripts.GD.DataManager
         public string Type { get; set; }
         
         [Index(3)]
-        public string DefaultRarity { get; set; }
+        // public string DefaultRarity { get; set; }
+        [TypeConverter(typeof(RarityConverter))]
+        public Rarity Rarity { get; set; }
         
         [Index(4)]
         [Default(0)]

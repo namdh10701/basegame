@@ -1,4 +1,4 @@
-using CsvHelper.Configuration.Attributes;
+using System.Threading.Tasks;
 
 namespace _Game.Scripts.GD.DataManager
 {
@@ -37,5 +37,28 @@ namespace _Game.Scripts.GD.DataManager
 
         public static MonsterTable MonsterTable
             = new("https://docs.google.com/spreadsheets/d/1M91hXkFM9BvP5SsfMKz-oDndDaOx-hJLfFTE39kfEJM/edit?gid=2019962973#gid=2019962973");
+        
+        // public static DataTable<TTable> Get<TTable>()
+        // {
+        //     
+        // }
+        public static Task Load() => Task.WhenAll(new[]
+        {
+            ShopItemTable.LoadData(),
+            ShopListingTable.LoadData(),
+            ShopRarityTable.LoadData(),
+            CrewTable.LoadData(),
+            CannonTable.LoadData(),
+            CannonFeverTable.LoadData(),
+            AmmoTable.LoadData(),
+            ShipTable.LoadData(),
+            LevelWaveTable.LoadData(),
+            TalentTreeNormalTable.LoadData(),
+            TalentTreePremiumTable.LoadData(),
+            TalentTreeItemTable.LoadData(),
+            MonsterTable.LoadData(),
+            
+            GDConfigLoader.Instance.Load(),
+        });
     }
 }

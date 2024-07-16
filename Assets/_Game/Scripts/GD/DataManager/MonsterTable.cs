@@ -8,18 +8,6 @@ namespace _Game.Scripts.GD.DataManager
     /// </summary>
     public class MonsterTable : DataTable<MonsterTableRecord>
     {
-        private List<MonsterTableRecord> _records = new();
-
-        protected override void HandleLoadedRecords(List<MonsterTableRecord> rawRecords)
-        {
-            _records = rawRecords;
-        }
-
-        public List<MonsterTableRecord> GetData()
-        {
-            return _records;
-        }
-
         public MonsterTable(string downloadUrl, string dataFileName = null) : base(downloadUrl, dataFileName)
         {
         }

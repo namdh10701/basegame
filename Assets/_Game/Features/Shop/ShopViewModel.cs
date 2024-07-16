@@ -167,10 +167,10 @@ namespace _Game.Features.Shop
         //
         private void LoadDataShop()
         {
-            _shopDataItemRecords = GameData.ShopItemTable.GetData();
+            _shopDataItemRecords = GameData.ShopItemTable.GetRecords();
             _shopDataSummons = GameData.ShopListingTable.GetData(ShopType.Gacha);
             _shopDataItemGem = GameData.ShopListingTable.GetData(ShopType.Gem);
-            _shopDataRarityRecord = GameData.ShopRarityTable.GetData();
+            _shopDataRarityRecord = GameData.ShopRarityTable.GetRecords();
         }
 
         protected void InitializeShopGem()

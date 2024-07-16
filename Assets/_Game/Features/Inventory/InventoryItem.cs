@@ -1,5 +1,6 @@
 using System;
 using _Base.Scripts.UI.Managers;
+using _Game.Scripts.GD.DataManager;
 using _Game.Scripts.UI;
 using UnityEngine;
 using UnityWeld.Binding;
@@ -15,24 +16,32 @@ namespace _Game.Features.Inventory
         None,
     }
 
-    public enum Rarity
-    {
-        Common,
-        Good,
-        Rare,
-        Epic,
-        Legend,
-    }
     [Binding]
     public class Star : SubViewModel
     {
 
     }
 
+    // [Binding]
+    // public abstract class AbstractInventoryItem<TBackedData> : SubViewModel
+    // {
+    //     public TBackedData BackedData;
+    // }
+    //
+    // [Binding]
+    // public class CrewInventoryItem : AbstractInventoryItem<CrewTableRecord>
+    // {
+    //     
+    // }
+
+
+
     [Binding]
     public class InventoryItem : SubViewModel
     {
         public InventoryViewModel InventoryViewModel { get; set; }
+
+        public object BackedData;
 
         [Binding]
         public string Id { get; set; }

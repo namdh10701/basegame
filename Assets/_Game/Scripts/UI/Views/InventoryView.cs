@@ -58,42 +58,42 @@ namespace _Game.Scripts.UI
 
         void EquipGear(Gear newGear)
         {
-            List<GearData> equipingGears = SaveSystem.GameSave.InventorySaveData.EquippingGears;
-            for (int i = 0; i < equipingGears.Count; i++)
-            {
-                if (equipingGears[i].GearType == newGear.GearType)
-                {
-                    equipingGears[i] = new GearData(newGear.Id, newGear.GearType, newGear.Rarity);
-                    SaveSystem.SaveGame();
-                    InitGearSlots();
-                    return;
-                }
-            }
-            equipingGears.Add(new GearData(newGear.Id, newGear.GearType, newGear.Rarity));
-            SaveSystem.SaveGame();
-            InitGearSlots();
+            // List<GearData> equipingGears = SaveSystem.GameSave.InventorySaveData.EquippingGears;
+            // for (int i = 0; i < equipingGears.Count; i++)
+            // {
+            //     if (equipingGears[i].GearType == newGear.GearType)
+            //     {
+            //         equipingGears[i] = new GearData(newGear.Id, newGear.GearType, newGear.Rarity);
+            //         SaveSystem.SaveGame();
+            //         InitGearSlots();
+            //         return;
+            //     }
+            // }
+            // equipingGears.Add(new GearData(newGear.Id, newGear.GearType, newGear.Rarity));
+            // SaveSystem.SaveGame();
+            // InitGearSlots();
 
         }
 
         void InitGearSlots()
         {
-            List<GearData> equipingGears = SaveSystem.GameSave.InventorySaveData.EquippingGears;
-            foreach (GearData gearData in equipingGears)
-            {
-                Gear gear = new Gear(gearData);
-                switch (gear.GearType)
-                {
-                    case GearType.Hat:
-                        hat.SetData(gear);
-                        break;
-                    case GearType.Sword:
-                        sword.SetData(gear);
-                        break;
-                    case GearType.Necklace:
-                        necklace.SetData(gear);
-                        break;
-                }
-            }
+            // List<GearData> equipingGears = SaveSystem.GameSave.InventorySaveData.EquippingGears;
+            // foreach (GearData gearData in equipingGears)
+            // {
+            //     Gear gear = new Gear(gearData);
+            //     switch (gear.GearType)
+            //     {
+            //         case GearType.Hat:
+            //             hat.SetData(gear);
+            //             break;
+            //         case GearType.Sword:
+            //             sword.SetData(gear);
+            //             break;
+            //         case GearType.Necklace:
+            //             necklace.SetData(gear);
+            //             break;
+            //     }
+            // }
         }
 
         void InitCharacterFrame()

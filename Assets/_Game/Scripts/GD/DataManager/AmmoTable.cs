@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using CsvHelper.Configuration.Attributes;
 
 namespace _Game.Scripts.GD.DataManager
@@ -8,18 +7,6 @@ namespace _Game.Scripts.GD.DataManager
     /// </summary>
     public class AmmoTable : DataTable<AmmoTableRecord>
     {
-        private List<AmmoTableRecord> _records = new();
-
-        protected override void HandleLoadedRecords(List<AmmoTableRecord> rawRecords)
-        {
-            _records = rawRecords;
-        }
-
-        public List<AmmoTableRecord> GetData()
-        {
-            return _records;
-        }
-
         public AmmoTable(string downloadUrl, string dataFileName = null) : base(downloadUrl, dataFileName)
         {
         }
@@ -40,11 +27,12 @@ namespace _Game.Scripts.GD.DataManager
         public string Shape { get; set; }
 
         [Index(3)]
-        public string Rarity { get; set; }
+        [TypeConverter(typeof(RarityConverter))]
+        public Rarity Rarity { get; set; }
 
         [Index(4)]
         [Default(0)]
-        public float RarityLevel { get; set; }
+        public int RarityLevel { get; set; }
 
         [Index(5)]
         public string Name { get; set; }
@@ -121,7 +109,6 @@ namespace _Game.Scripts.GD.DataManager
         public float HpThreshold { get; set; }
 
         [Index(24)]
-        [Default(0)]
-        public float Type { get; set; }
+        public string Type { get; set; }
     }
 }

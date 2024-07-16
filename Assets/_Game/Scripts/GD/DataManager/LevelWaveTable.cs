@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using CsvHelper.Configuration.Attributes;
 using UnityEngine;
 
@@ -13,12 +14,13 @@ namespace _Game.Scripts.GD.DataManager
         private Dictionary<string, Dictionary<string, List<LevelData>>> _normalLevelDataSource = new();
         private Dictionary<string, Dictionary<string, List<LevelData>>> _eliteLevelDataSource = new();
         
-        protected override void HandleLoadedRecords(List<LevelWaveTableRecord> rawRecords)
+        public override async Task LoadData()
         {
+            await base.LoadData();
             _normalLevelDataSource.Clear();
             _eliteLevelDataSource.Clear();
 
-            foreach (var record in rawRecords.Skip(1))
+            foreach (var record in Records.Skip(1))
             {
                 var parts = record.Level.Split('.');
                 if (parts.Length != 3) continue;
@@ -52,7 +54,6 @@ namespace _Game.Scripts.GD.DataManager
                 }
 
                 // elite
-
                 if (!string.IsNullOrEmpty(record.EliteEnemyId))
                 {
                     if (!_eliteLevelDataSource.ContainsKey(stageId))

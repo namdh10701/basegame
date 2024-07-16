@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using CsvHelper.Configuration.Attributes;
 
 namespace _Game.Scripts.GD.DataManager
@@ -8,18 +7,6 @@ namespace _Game.Scripts.GD.DataManager
     /// </summary>
     public class TalentTreeItemTable : DataTable<TalentTreeItemTableRecord>
     {
-        private List<TalentTreeItemTableRecord> _records = new();
-
-        protected override void HandleLoadedRecords(List<TalentTreeItemTableRecord> rawRecords)
-        {
-            _records = rawRecords;
-        }
-
-        public List<TalentTreeItemTableRecord> GetData()
-        {
-            return _records;
-        }
-
         public TalentTreeItemTable(string downloadUrl, string dataFileName = null) : base(downloadUrl, dataFileName)
         {
         }
@@ -31,7 +18,6 @@ namespace _Game.Scripts.GD.DataManager
     public class TalentTreeItemTableRecord
     {
         [Index(0)]
-        [Default(0)]
         public string Id { get; set; }
 
         [Index(1)]

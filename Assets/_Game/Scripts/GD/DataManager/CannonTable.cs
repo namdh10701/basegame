@@ -8,17 +8,6 @@ namespace _Game.Scripts.GD.DataManager
     /// </summary>
     public class CannonTable : DataTable<CannonTableRecord>
     {
-        private List<CannonTableRecord> _records = new();
-        protected override void HandleLoadedRecords(List<CannonTableRecord> rawRecords)
-        {
-            _records = rawRecords;
-        }
-
-        public List<CannonTableRecord> GetData()
-        {
-            return _records;
-        }
-
         public CannonTable(string downloadUrl, string dataFileName = null) : base(downloadUrl, dataFileName)
         {
         }
@@ -40,15 +29,15 @@ namespace _Game.Scripts.GD.DataManager
         public string Shape { get; set; }
 
         [Index(3)]
-        public string Rarity { get; set; }
+        [TypeConverter(typeof(RarityConverter))]
+        public Rarity Rarity { get; set; }
 
         [Index(4)]
         [Default(0)]
-        public float RarityLevel { get; set; }
+        public int RarityLevel { get; set; }
 
         [Index(5)]
-        [Default(0)]
-        public float Name { get; set; }
+        public string Name { get; set; }
 
         [Index(6)]
         public string DefaultRarity { get; set; }

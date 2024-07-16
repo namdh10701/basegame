@@ -8,18 +8,6 @@ namespace _Game.Scripts.GD.DataManager
     /// </summary>
     public class ShipTable : DataTable<ShipTableRecord>
     {
-        private List<ShipTableRecord> _records = new();
-
-        protected override void HandleLoadedRecords(List<ShipTableRecord> rawRecords)
-        {
-            _records = rawRecords;
-        }
-
-        public List<ShipTableRecord> GetData()
-        {
-            return _records;
-        }
-
         public ShipTable(string downloadUrl, string dataFileName = null) : base(downloadUrl, dataFileName)
         {
         }

@@ -9,31 +9,19 @@ namespace _Game.Scripts.GD.DataManager
     /// </summary>
     public class ShopItemTable : DataTable<ShopItemTableRecord>
     {
-        private List<ShopItemTableRecord> _records = new();
-
-        protected override void HandleLoadedRecords(List<ShopItemTableRecord> rawRecords)
-        {
-            _records = rawRecords;
-        }
-
-        public List<ShopItemTableRecord> GetData()
-        {
-            return _records;
-        }
-
         public List<string> GetRarityById(string id)
         {
-            return _records.Where(item => item.ItemId == id).Select(item => item.Type).ToList();
+            return Records.Where(item => item.ItemId == id).Select(item => item.Type).ToList();
         }
 
         public List<int> GetWeightRarityById(string id)
         {
-            return _records.Where(item => item.ItemId == id).Select(item => item.Weight).ToList();
+            return Records.Where(item => item.ItemId == id).Select(item => item.Weight).ToList();
         }
 
         public int GetAmountById(string id)
         {
-            return _records.Where(item => item.ItemId == id)
+            return Records.Where(item => item.ItemId == id)
                 .Select(item => item.ItemAmount)
                 .FirstOrDefault();
 

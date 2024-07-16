@@ -1,5 +1,6 @@
 using System.IO;
 using _Game.Scripts.SaveLoad;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace _Base.Scripts.SaveSystem
@@ -9,7 +10,8 @@ namespace _Base.Scripts.SaveSystem
         public static void WriteSave(SaveData saveData)
         {
             RecreateSaveDirectory();
-            string saveDataString = JsonUtility.ToJson(saveData);
+            // string saveDataString = JsonUtility.ToJson(saveData);
+            string saveDataString = JsonConvert.SerializeObject(saveData);
             File.WriteAllText(GenerateSaveFileName(saveData.SaveId), saveDataString);
         }
         public static SaveData ReadSave(int slotId)
@@ -18,6 +20,8 @@ namespace _Base.Scripts.SaveSystem
                 return null;
             RecreateSaveDirectory();
             string saveDataString = File.ReadAllText(GenerateSaveFileName(slotId));
+            Debug.Log("saveDataString: " + saveDataString);
+            return JsonConvert.DeserializeObject<SaveData>(saveDataString);
             SaveData saveData = JsonUtility.FromJson<SaveData>(saveDataString);
             return saveData;
         }

@@ -5,6 +5,7 @@ using _Game.Scripts.GD;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using _Game.Scripts.GD.DataManager;
 using UnityEngine;
 
 namespace _Game.Scripts.DB
@@ -101,7 +102,7 @@ namespace _Game.Scripts.DB
 
             for (int i = 0; i <= 1; i++)
             {
-                var rarities = Enum.GetValues(typeof(Features.Inventory.Rarity)).Cast<Features.Inventory.Rarity>();
+                var rarities = Enum.GetValues(typeof(Rarity)).Cast<Rarity>();
                 for (int j = 1; j < rarities.Count() + 1; j++)
                 {
                     ItemType Type = ItemType.CREW;
