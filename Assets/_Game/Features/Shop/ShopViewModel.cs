@@ -117,13 +117,6 @@ namespace _Game.Features.Shop
         }
         private ShopItem _highlightItem;
 
-        // #region Binding Prop: FilterItemType
-        //
-        // [Binding]
-        // public ShopItem.ItemType FilterItemType => (ShopItem.ItemType)_filterItemTypeIndex;
-        //
-        // #endregion
-
         #region Binding Prop: FilterItemTypeIndex
 
         private int _filterItemTypeIndex = 0;
@@ -157,7 +150,9 @@ namespace _Game.Features.Shop
             Items.AddRange(itemSource.Where(v => v.Type == itemType));
         }
 
+        public event Action OnClickGacha;
         List<ShopItemTableRecord> _shopDataItemRecords = new List<ShopItemTableRecord>();
+        List<ShopListingTableRecord> _shopDataItemGem = new List<ShopListingTableRecord>();
         List<ShopListingTableRecord> _shopDataSummons = new List<ShopListingTableRecord>();
         List<ShopRarityTableRecord> _shopDataRarityRecord = new List<ShopRarityTableRecord>();
         //
@@ -174,22 +169,27 @@ namespace _Game.Features.Shop
         {
             _shopDataItemRecords = GameData.ShopItemTable.GetData();
             _shopDataSummons = GameData.ShopListingTable.GetData(ShopType.Gacha);
+            _shopDataItemGem = GameData.ShopListingTable.GetData(ShopType.Gem);
             _shopDataRarityRecord = GameData.ShopRarityTable.GetData();
         }
 
         protected void InitializeShopGem()
         {
-            var gemItems = _shopDataItemRecords.Where(item => item.Type == "gem").Select(item =>
+            var gemItems = new List<ShopGemItem>();
+
+            foreach (var item in _shopDataItemGem)
             {
-                var (price, packSize) = GameData.ShopListingTable.GetPriceById(ShopType.Gem, item.ItemId);
-                return new ShopGemItem
+                var shopGemItem = new ShopGemItem
                 {
                     Id = item.ItemId,
-                    Price = price,
-                    Amount = item.ItemAmount.ToString(),
-                    PackSize = packSize
+                    Price = item.PriceAmount.ToString(),
+                    Amount = GameData.ShopItemTable.GetAmountById(item.ItemId).ToString(),
+                    PackSize = item.PackSize,
+                    PriceType = item.PriceType
                 };
-            });
+                gemItems.Add(shopGemItem);
+
+            }
 
             foreach (var shopGemItem in gemItems)
             {
@@ -221,6 +221,7 @@ namespace _Game.Features.Shop
                 shopSummonItem.ListWeightRarity = GameData.ShopItemTable.GetWeightRarityById(item.ItemId);
                 shopSummonItem.ListNameItem = GameData.ShopRarityTable.GetDataNames(item.GachaType);
                 shopSummonItem.ListWeightNameItem = GameData.ShopRarityTable.GetWeights(item.ItemId, shopSummonItem.CurentRarityItemGacha);
+                shopSummonItem.OnClickGacha += OnClickGacha;
                 SummonItems.Add(shopSummonItem);
             }
         }
@@ -239,6 +240,12 @@ namespace _Game.Features.Shop
         public void ToggleMultiSelect()
         {
             IsMultiSelect = !IsMultiSelect;
+        }
+
+        [Binding]
+        public void ClickGacha()
+        {
+            OnClickGacha?.Invoke();
         }
     }
 }

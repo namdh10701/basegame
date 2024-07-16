@@ -31,6 +31,14 @@ namespace _Game.Scripts.GD.DataManager
             return _records.Where(item => item.ItemId == id).Select(item => item.Weight).ToList();
         }
 
+        public int GetAmountById(string id)
+        {
+            return _records.Where(item => item.ItemId == id)
+                .Select(item => item.ItemAmount)
+                .FirstOrDefault();
+
+        }
+
         public ShopItemTable(string downloadUrl, string dataFileName = null) : base(downloadUrl, dataFileName)
         {
         }
