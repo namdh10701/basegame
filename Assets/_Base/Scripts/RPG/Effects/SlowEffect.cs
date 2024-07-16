@@ -6,9 +6,12 @@ using UnityEngine;
 
 namespace _Base.Scripts.RPG.Effects
 {
-    public class SlowEffect : UnstackableEffect
+    public class SlowEffect : UnstackableEffect, IProbabilityEffect
     {
         public override string Id => "SlowEffect";
+        [field: SerializeField]
+        public float Prob { get; set; }
+
         StatModifier statModifer = new StatModifier(-.5f, StatModType.PercentMult);
 
         public override bool CanEffect(IEffectTaker entity)
@@ -18,6 +21,7 @@ namespace _Base.Scripts.RPG.Effects
         public override void Apply(IEffectTaker entity)
         {
             base.Apply(entity);
+            Debug.Log("APLLY SLOW");
             ISlowable slowable = entity as ISlowable;
             Affected = (IEffectTaker)slowable;
             slowable.OnSlowed();
@@ -36,6 +40,11 @@ namespace _Base.Scripts.RPG.Effects
                 stat.RemoveModifier(statModifer);
             }
             slowable.OnSlowEnded();
+        }
+
+        public void SetStrength(float percent)
+        {
+            statModifer.Value = percent;
         }
     }
 }

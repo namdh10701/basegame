@@ -1,13 +1,15 @@
 using _Game.Scripts.Entities;
 using UnityEngine;
-
-public class CullingProjectile : StandardProjectile
+namespace _Game.Features.Gameplay
 {
-    public KillShotEffect killShotEffect;
-
-    public override void ApplyStats()
+    public class CullingProjectile : StandardProjectile
     {
-        base.ApplyStats();
-        killShotEffect.Threshold = _stats.HpThreshold.Value;
+        public KillShotEffect killShotEffect;
+
+        public override void ApplyStats()
+        {
+            base.ApplyStats();
+            killShotEffect.Threshold = _stats.HpThreshold.Value;
+        }
     }
 }

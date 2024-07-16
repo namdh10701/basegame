@@ -6,7 +6,7 @@ using _Game.Scripts.InventorySystem;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace _Base.Scripts.RPGCommon.Entities
+namespace _Game.Features.Gameplay
 {
     public abstract class Projectile : Entity, IEffectGiver
     {

@@ -7,9 +7,9 @@ using UnityEngine;
 
 namespace _Game.Features.Gameplay
 {
-    public class SkeletonBombAnimation : SkeletonSwordAnimation
+    public class SkeletonBombAnimation : EnemyView
     {
-     
+
     }
 
 }

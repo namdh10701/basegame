@@ -11,7 +11,7 @@ namespace _Game.Scripts.BehaviourTree
     [MBTNode("Wanderer/Wander")]
     public class Wander : Leaf
     {
-        public SpineAnimationEnemyHandler SpineAnimationEnemyHandler;
+        public EnemyReference Enemy;
 
         [Header("Detector")]
         public AreaReference MoveableArea;
@@ -53,7 +53,7 @@ namespace _Game.Scripts.BehaviourTree
                 WanderTime.RefreshValue(); wanderTimer = 0;
             }
             Detector.SetArea(MoveableArea.Value);
-            SpineAnimationEnemyHandler.PlayMove();
+            Enemy.Value.State = Features.Gameplay.EnemyState.Moving;
         }
         public override NodeResult Execute()
         {

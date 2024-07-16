@@ -2,6 +2,7 @@ using _Base.Scripts.RPG.Behaviours.AttackTarget;
 using _Base.Scripts.RPG.Entities;
 using _Base.Scripts.RPG.Stats;
 using _Base.Scripts.RPGCommon.Entities;
+using _Game.Features.Gameplay;
 using _Game.Scripts;
 using _Game.Scripts.Entities;
 using UnityEngine;
@@ -72,6 +73,7 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
             float addAccuarcyFromProjectile = ((ProjectileStats)projectilePrefab.Stats).Accuracy.Value;
             float shooterAccuracy = Cannon.FighterStats.AttackAccuracy.Value;
             float totalAccuaracy = addAccuarcyFromProjectile + shooterAccuracy;
+            totalAccuaracy = Mathf.Clamp(totalAccuaracy, 0, 180);
             Vector2 finalShootDirection = Quaternion.Euler(0, 0, Random.Range(-totalAccuaracy, totalAccuaracy)) * shootDirection;
             var aimDirection = Quaternion.LookRotation(Vector3.forward, finalShootDirection);
             return aimDirection;

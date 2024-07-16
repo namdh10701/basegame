@@ -36,5 +36,13 @@ namespace _Game.Scripts
 
         [field: SerializeField]
         public Stat HpThreshold { get; set; } = new();
+        [field: SerializeField]
+        public Stat Duration { get; set; } = new();
+
+        [field: SerializeField]
+        public Stat SpeedModifier { get; set; } = new();
+
+        [field: SerializeField]
+        public Stat TriggerProb { get; set; } = new();
     }
 }

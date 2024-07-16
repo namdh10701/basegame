@@ -4,7 +4,7 @@ using _Base.Scripts.RPGCommon.Entities;
 using _Game.Scripts.GD;
 using UnityEngine;
 
-namespace _Game.Scripts.Entities
+namespace _Game.Features.Gameplay
 {
     public abstract class CannonProjectile : Projectile, IPhysicsEffectGiver, IGDConfigStatsTarget
     {

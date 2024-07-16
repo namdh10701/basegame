@@ -3,9 +3,13 @@ using _Base.Scripts.RPG.Entities;
 using _Base.Scripts.RPG.Stats;
 using UnityEngine;
 
-public class StunEffect : UnstackableEffect
+public class StunEffect : UnstackableEffect, IProbabilityEffect
 {
     public override string Id => "StunEffect";
+
+    [field: SerializeField]
+    public float Prob { get; set; }
+
     public IStunable affected;
     public override bool CanEffect(IEffectTaker entity)
     {

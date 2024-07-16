@@ -21,19 +21,15 @@ namespace _Base.Scripts.RPG.Effects
 
         protected override void OnTick(IEffectTaker entity)
         {
-            Debug.LogError("TICK");
             if (entity is not IStatsBearer statsBearer)
             {
-                Debug.LogError("TICK 1");
                 return;
             }
             if (statsBearer.Stats is not IAliveStats alive)
             {
-                Debug.LogError("TICK 2 " + statsBearer);
                 return;
             }
 
-            Debug.LogError("TICK 3");
             float finalAmount = Amount;
             float blockChance = 0;
 
@@ -47,9 +43,6 @@ namespace _Base.Scripts.RPG.Effects
                 blockChance = shipStats.BlockChance.Value;
             }
 
-
-            //blockChance -= ArmorPenetrate;
-
             blockChance = Mathf.Clamp01(blockChance);
             finalAmount = finalAmount * (1 - blockChance);
             Debug.LogError(finalAmount);
@@ -58,7 +51,7 @@ namespace _Base.Scripts.RPG.Effects
                 if (alive.HealthPoint.StatValue.BaseValue > alive.HealthPoint.MinStatValue.Value)
                 {
                     alive.HealthPoint.StatValue.BaseValue -= finalAmount;
-                    GlobalEvent<float, bool, Vector3>.Send("DAMAGE_INFLICTED", finalAmount, false, transform.position);
+                    GlobalEvent<float, bool, Vector3>.Send("DAMAGE_INFLICTED", finalAmount, false, entity.Transform.position);
                 }
             }
             alive.HealthPoint.StatValue.BaseValue -= Amount;

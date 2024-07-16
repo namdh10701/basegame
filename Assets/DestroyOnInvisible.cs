@@ -1,13 +1,15 @@
 using _Base.Scripts.RPGCommon.Entities;
 using UnityEngine;
-
-public class DestroyOnInvisible : MonoBehaviour
+namespace _Game.Features.Gameplay
 {
-    Projectile projectile;
-    private void OnBecameInvisible()
+    public class DestroyOnInvisible : MonoBehaviour
     {
-        projectile = transform.parent.GetComponent<Projectile>();
-        ProjectileCollisionHandler handler = (ProjectileCollisionHandler)projectile.CollisionHandler;
-        handler.FinalAct();
+        Projectile projectile;
+        private void OnBecameInvisible()
+        {
+            projectile = transform.parent.GetComponent<Projectile>();
+            ProjectileCollisionHandler handler = (ProjectileCollisionHandler)projectile.CollisionHandler;
+            handler.FinalAct();
+        }
     }
 }

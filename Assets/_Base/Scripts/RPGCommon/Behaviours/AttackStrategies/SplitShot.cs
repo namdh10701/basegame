@@ -8,6 +8,7 @@ using _Game.Scripts;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using _Game.Features.Gameplay;
 
 namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
 {

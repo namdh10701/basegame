@@ -7,15 +7,15 @@ using UnityEngine;
 namespace _Game.Features.Gameplay
 {
     [AddComponentMenu("")]
-    [MBTNode("Skeleton Sword/Set State")]
+    [MBTNode("Enemy Model/Set State")]
     public class SetState : Leaf
     {
         public EnemyState enemyState;
-        public SkeletonSwordController skeletonSword;
+        public EnemyReference enemyReference;
 
         public override NodeResult Execute()
         {
-            skeletonSword.SetState(enemyState);
+            enemyReference.Value.State = enemyState;
             return NodeResult.success;
         }
 

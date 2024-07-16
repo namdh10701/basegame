@@ -7,28 +7,28 @@ using UnityEngine;
 namespace _Game.Scripts
 {
     [AddComponentMenu("EnemyVariable")]
-    public class EnemyControllerVariable : Variable<EnemyController>
+    public class EnemyModelVariable : Variable<EnemyModel>
     {
-        protected override bool ValueEquals(EnemyController val1, EnemyController val2)
+        protected override bool ValueEquals(EnemyModel val1, EnemyModel val2)
         {
             return val1 == val2;
         }
     }
 
     [System.Serializable]
-    public class EnemyReference : VariableReference<EnemyControllerVariable, EnemyController>
+    public class EnemyReference : VariableReference<EnemyModelVariable, EnemyModel>
     {
         protected override bool isConstantValid
         {
             get { return constantValue != null; }
         }
-        public EnemyReference(EnemyController ship)
+        public EnemyReference(EnemyModel ship)
         {
             useConstant = false;
             constantValue = ship;
         }
 
-        public EnemyController Value
+        public EnemyModel Value
         {
             get
             {

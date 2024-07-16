@@ -1,4 +1,5 @@
 using _Game.Features.Gameplay;
+using System;
 using UnityEngine;
 
 namespace _Game.Scripts.Entities
@@ -6,9 +7,8 @@ namespace _Game.Scripts.Entities
     public class PufferFishMove : MonoBehaviour
     {
         public Ship Ship;
-        public PufferFishAnimation pfa;
         public Rigidbody2D body;
-
+        public Action OnFast;
         [Header("Fast phase")]
         public DeviableFloat fastForce = new(30, 5);
         public DeviableFloat maxFastSpeed = new(3, 2);
@@ -90,7 +90,7 @@ namespace _Game.Scripts.Entities
                 }
                 else
                 {
-                    pfa.PlayAnim("move_fast", false);
+                    OnFast?.Invoke();
                     animPlayed = false;
                     isAccelerate = true;
                     isSlowdowned = false;

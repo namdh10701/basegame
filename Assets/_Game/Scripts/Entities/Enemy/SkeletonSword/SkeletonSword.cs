@@ -1,3 +1,6 @@
+using _Base.Scripts.RPG.Behaviours.FindTarget;
+using _Base.Scripts.RPG.Effects;
+using _Game.Scripts;
 using _Game.Scripts.Entities;
 using System;
 using System.Collections;
@@ -6,28 +9,31 @@ using UnityEngine;
 
 namespace _Game.Features.Gameplay
 {
-    public enum EnemyState
-    {
-        None, Entry, Idle, Moving, Attacking, Hiding, Dead
-    }
 
     public class SkeletonSword : EnemyModel
     {
-        EnemyState state = EnemyState.None;
-        public EnemyState State
+        public override IEnumerator AttackSequence()
         {
-            get { return state; }
-            set
-            {
-                EnemyState lastState = state;
-                state = value;
-                if (state != lastState)
-                {
-                    OnStateChanged?.Invoke(state);
-                }
-            }
+            enemyView.PlayAttack();
+            State = EnemyState.Attacking;
+            cooldownBehaviour.StartCooldown();
+            yield break;
         }
 
-        public Action<EnemyState> OnStateChanged;
+        public override void DoAttack()
+        {
+            if (findTargetBehaviour.MostTargets.Count > 0)
+            {
+                List<Cell> cells = gridPicker.PickCells(transform, attackPatternProfile, out Cell centerCell);
+                EnemyAttackData enemyAtk = new EnemyAttackData();
+                enemyAtk.CenterCell = centerCell;
+                enemyAtk.TargetCells = cells;
+                DecreaseHealthEffect dhe = new GameObject("", typeof(DecreaseHealthEffect)).GetComponent<DecreaseHealthEffect>();
+                dhe.transform.position = centerCell.transform.position;
+                dhe.Amount = _stats.AttackDamage.Value;
+                enemyAtk.Effects = new List<Effect> { dhe };
+                atkHandler.ProcessAttack(enemyAtk);
+            }
+        }
     }
 }

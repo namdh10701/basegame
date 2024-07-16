@@ -1,11 +1,12 @@
 
 using _Base.Scripts.RPG.Entities;
 using _Base.Scripts.RPG.Stats;
+using _Game.Scripts;
 using _Game.Scripts.Entities;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace _Game.Scripts
+namespace _Game.Features.Gameplay
 {
     public class EvasionBuffArea : MonoBehaviour
     {

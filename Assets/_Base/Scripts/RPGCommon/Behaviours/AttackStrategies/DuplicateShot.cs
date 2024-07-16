@@ -1,5 +1,6 @@
 using _Base.Scripts.RPGCommon.Entities;
 using _Base.Scripts.Utils.Extensions;
+using _Game.Features.Gameplay;
 using UnityEngine;
 
 namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies

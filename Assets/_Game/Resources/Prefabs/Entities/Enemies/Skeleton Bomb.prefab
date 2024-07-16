@@ -401,14 +401,12 @@ GameObject:
   - component: {fileID: 170055326424479480}
   - component: {fileID: 6777348914633322761}
   - component: {fileID: 7810754550779163363}
-  - component: {fileID: 5448913378163104986}
   - component: {fileID: 5410460072296087918}
   - component: {fileID: 2336478729171546141}
   - component: {fileID: 31762211888400641}
   - component: {fileID: 8823041485976366199}
   - component: {fileID: 3201341304791780857}
   - component: {fileID: 8902379806647813142}
-  - component: {fileID: 3019560106264148139}
   - component: {fileID: 3505578070539409560}
   - component: {fileID: 2205243014792441422}
   - component: {fileID: 1025831443154081604}
@@ -430,14 +428,14 @@ GameObject:
   - component: {fileID: 1266896018906172800}
   - component: {fileID: 714917080809493383}
   - component: {fileID: 802726824081452670}
-  - component: {fileID: 7478669622692440249}
   - component: {fileID: 8682389583570855100}
   - component: {fileID: 1854078054355624452}
   - component: {fileID: 5699953156240191337}
-  - component: {fileID: 7781044035592764394}
   - component: {fileID: 487257787013991094}
   - component: {fileID: 1792199623651829269}
   - component: {fileID: 5003182219642373381}
+  - component: {fileID: 4175256740179871270}
+  - component: {fileID: 4197063370441031576}
   m_Layer: 6
   m_Name: BehaviourTree
   m_TagString: Untagged
@@ -474,14 +472,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   variables:
   - {fileID: 2749087126340631218}
-  - {fileID: 5448913378163104986}
   - {fileID: 5410460072296087918}
   - {fileID: 8823041485976366199}
-  - {fileID: 3019560106264148139}
   - {fileID: 9193217592377852863}
   - {fileID: 714917080809493383}
-  - {fileID: 7478669622692440249}
-  - {fileID: 7781044035592764394}
+  - {fileID: 4175256740179871270}
+  - {fileID: 4197063370441031576}
   masterBlackboard: {fileID: 0}
 --- !u!114 &5618315008136055615
 MonoBehaviour:
@@ -495,7 +491,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b25af8627659c6949b60949c3aa8d91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedEditorNode: {fileID: 7520944291543983585}
+  selectedEditorNode: {fileID: 8502797856831486152}
   repeatOnFinish: 0
   maxExecutionsPerTick: 6
   parent: {fileID: 0}
@@ -572,7 +568,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8498814890599592609}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e5f392bbea2fa2499665ed8b604ff86, type: 3}
   m_Name: 
@@ -606,20 +602,6 @@ MonoBehaviour:
   loops: 1
   infinite: 1
   breakOnFailure: 0
---- !u!114 &5448913378163104986
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8498814890599592609}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eaa62ce5e63cc9d45ae0efc52561ace7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  key: TargetPoint
-  val: {x: 0, y: 0}
 --- !u!114 &5410460072296087918
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -633,7 +615,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Enemy
-  val: {fileID: 7482542616865522489}
+  val: {fileID: 6846669938179048866}
 --- !u!114 &2336478729171546141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -649,8 +631,8 @@ MonoBehaviour:
   title: Sequence
   rect:
     serializedVersion: 2
-    x: -370
-    y: 447
+    x: -368
+    y: 459
     width: 160
     height: 45
   parent: {fileID: 802726824081452670}
@@ -735,7 +717,12 @@ MonoBehaviour:
   runtimePriority: 0
   breakpoint: 0
   enemyState: 3
-  skeletonSword: {fileID: 7482542616865522489}
+  enemyReference:
+    useConstant: 0
+    mode: 0
+    blackboard: {fileID: 5620064205659582906}
+    key: Enemy
+    constantValue: {fileID: 0}
 --- !u!114 &8902379806647813142
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -751,8 +738,8 @@ MonoBehaviour:
   title: Update Target In Range
   rect:
     serializedVersion: 2
-    x: 404
-    y: 265
+    x: 405
+    y: 266
     width: 160
     height: 45
   parent: {fileID: 170055326424479480}
@@ -764,27 +751,18 @@ MonoBehaviour:
   interval: 0.25
   randomDeviation: 0
   callOnEnter: 1
-  IsTargetInRange:
+  IsHasTarget:
     useConstant: 0
     mode: 0
     blackboard: {fileID: 5620064205659582906}
-    key: IsTargetInRange
+    key: IsHasTarget
     constantValue: 0
-  FindTargetBehaviour: {fileID: 1726526991669629574}
---- !u!114 &3019560106264148139
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8498814890599592609}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ae15c5e6bcb1714080f2e8296c3d17a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  key: IsTargetInRange
-  val: 0
+  enemyReference:
+    useConstant: 0
+    mode: 0
+    blackboard: {fileID: 5620064205659582906}
+    key: Enemy
+    constantValue: {fileID: 0}
 --- !u!114 &3505578070539409560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -828,7 +806,7 @@ MonoBehaviour:
   rect:
     serializedVersion: 2
     x: 562
-    y: 410
+    y: 380
     width: 160
     height: 45
   parent: {fileID: 8902379806647813142}
@@ -923,7 +901,12 @@ MonoBehaviour:
   runtimePriority: 0
   breakpoint: 0
   enemyState: 5
-  skeletonSword: {fileID: 7482542616865522489}
+  enemyReference:
+    useConstant: 0
+    mode: 0
+    blackboard: {fileID: 5620064205659582906}
+    key: Enemy
+    constantValue: {fileID: 0}
 --- !u!114 &717629205813870264
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -996,7 +979,12 @@ MonoBehaviour:
   runtimePriority: 0
   breakpoint: 0
   enemyState: 1
-  skeletonSword: {fileID: 7482542616865522489}
+  enemyReference:
+    useConstant: 0
+    mode: 0
+    blackboard: {fileID: 5620064205659582906}
+    key: Enemy
+    constantValue: {fileID: 0}
 --- !u!114 &2361093634368450168
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1452,22 +1440,8 @@ MonoBehaviour:
     useConstant: 0
     mode: 0
     blackboard: {fileID: 5620064205659582906}
-    key: ReadyToAttack
+    key: IsInCooldown
     constantValue: 0
---- !u!114 &7478669622692440249
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8498814890599592609}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ae15c5e6bcb1714080f2e8296c3d17a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  key: ReadyToAttack
-  val: 0
 --- !u!114 &8682389583570855100
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1492,7 +1466,7 @@ MonoBehaviour:
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
-  type: _Game.Features.Gameplay.SkeletonSwordController
+  type: _Game.Features.Gameplay.SkeletonBomb
   monoBehaviour: {fileID: 4996416405061031801}
   coroutineName: AttackSequence
 --- !u!114 &1854078054355624452
@@ -1554,20 +1528,6 @@ MonoBehaviour:
   runtimePriority: 0
   breakpoint: 0
   random: 0
---- !u!114 &7781044035592764394
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8498814890599592609}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ae15c5e6bcb1714080f2e8296c3d17a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  key: A
-  val: 0
 --- !u!114 &487257787013991094
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1593,7 +1553,12 @@ MonoBehaviour:
   runtimePriority: 0
   breakpoint: 0
   enemyState: 2
-  skeletonSword: {fileID: 7482542616865522489}
+  enemyReference:
+    useConstant: 0
+    mode: 0
+    blackboard: {fileID: 5620064205659582906}
+    key: Enemy
+    constantValue: {fileID: 0}
 --- !u!114 &1792199623651829269
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1619,13 +1584,18 @@ MonoBehaviour:
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
-  FindTargetBehaviour: {fileID: 1726526991669629574}
+  enemyReference:
+    useConstant: 0
+    mode: 0
+    blackboard: {fileID: 5620064205659582906}
+    key: Enemy
+    constantValue: {fileID: 0}
   abort: 2
   isHasTarget:
     useConstant: 0
     mode: 1
     blackboard: {fileID: 5620064205659582906}
-    key: IsTargetInRange
+    key: IsHasTarget
     constantValue: 0
 --- !u!114 &5003182219642373381
 MonoBehaviour:
@@ -1663,6 +1633,34 @@ MonoBehaviour:
     blackboard: {fileID: 5620064205659582906}
     key: Moved
     constantValue: 0
+--- !u!114 &4175256740179871270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8498814890599592609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ae15c5e6bcb1714080f2e8296c3d17a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: IsHasTarget
+  val: 0
+--- !u!114 &4197063370441031576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8498814890599592609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ae15c5e6bcb1714080f2e8296c3d17a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: IsInCooldown
+  val: 0
 --- !u!1 &8541103681248947389
 GameObject:
   m_ObjectHideFlags: 0
@@ -1907,7 +1905,7 @@ MonoBehaviour:
       _baseValue: 0
     <AttackRange>k__BackingField:
       statModifiers: []
-      _baseValue: 0
+      _baseValue: 10.66
     <ActionSequenceInterval>k__BackingField:
       statModifiers: []
       _baseValue: 0
@@ -1926,16 +1924,23 @@ MonoBehaviour:
     <FeverPoint>k__BackingField:
       statModifiers: []
       _baseValue: 0
-  anim: {fileID: 0}
   id: 0009
   gdConfig: {fileID: 11400000, guid: dafc4004e0133475f8d7f898a1f7342d, type: 2}
   statsTemplate: {fileID: 11400000, guid: c1d618045a490e34d935f3eeba8c4d01, type: 2}
   body: {fileID: 7041765790174461254}
-  EffectTakerCollider: {fileID: 8367046307482725054}
+  effectTakerCollider: {fileID: 8367046307482725054}
   effectHandler: {fileID: 2648851693703351474}
   blackboard: {fileID: 5620064205659582906}
-  MBTExecutor: {fileID: 6777348914633322761}
+  mbtExecutor: {fileID: 6777348914633322761}
   enemyController: {fileID: 7482542616865522489}
+  enemyView: {fileID: 6599112574916911145}
+  attackPatternProfile: {fileID: 11400000, guid: d9c62de33c557e64b9be6648b2e8a5f7, type: 2}
+  findTargetBehaviour: {fileID: 1726526991669629574}
+  findTargetCollider: {fileID: 5320715532894070577}
+  cooldownBehaviour: {fileID: 7795223157540982680}
+  chargeState: 0
+  skeletonBombProjectilePrefab: {fileID: 6503037721404064667, guid: ce68e99f74768e849b5bc00d012f6810, type: 3}
+  shootPos: {fileID: 8661418805241028502}
 --- !u!114 &7482542616865522489
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1948,12 +1953,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cdcc6cf104483f4aa64dd6c9d047e18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skelAnim: {fileID: 6599112574916911145}
-  attackPatternProfile: {fileID: 11400000, guid: d9c62de33c557e64b9be6648b2e8a5f7, type: 2}
-  findTargetBehaviour: {fileID: 1726526991669629574}
-  cooldownBehaviour: {fileID: 7795223157540982680}
-  skeletonBombProjectilePrefab: {fileID: 6503037721404064667, guid: ce68e99f74768e849b5bc00d012f6810, type: 3}
-  shootPos: {fileID: 8661418805241028502}
+  enemyView: {fileID: 6599112574916911145}
 --- !u!1001 &536555559933083474
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1980,7 +1980,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5806828696693767030, guid: 8ad697fe9e633164a99a28a0853a31d1, type: 3}
       propertyPath: m_SortingOrder
-      value: -29
+      value: -429
       objectReference: {fileID: 0}
     - target: {fileID: 5806828696693767030, guid: 8ad697fe9e633164a99a28a0853a31d1, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -2094,6 +2094,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bfa3bef18a1b1b4a82d1f530149595a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lastState: 0
+  skeletonAnim: {fileID: 3847488961571384272}
   Entry: bomb_appear
   Idle: bomb_idle
   Moving: bomb_move
@@ -2102,11 +2104,9 @@ MonoBehaviour:
   HidingIdle: bomb_hide_idle
   Dead: bomb_dead
   attack: attack
-  SkeletonAnimation: {fileID: 3847488961571384272}
-  lastState: 0
   meshRenderer: {fileID: 6334248689387406372}
-  skeletonSword: {fileID: 6846669938179048866}
-  burn: {fileID: 2231208076231649052}
+  burnFx: {fileID: 2231208076231649052}
+  stunFx: {fileID: 0}
 --- !u!114 &3847488961571384272 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3609420298205566082, guid: 8ad697fe9e633164a99a28a0853a31d1, type: 3}

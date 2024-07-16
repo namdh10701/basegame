@@ -1,4 +1,5 @@
 using _Base.Scripts.RPG.Stats;
+using _Game.Features.Gameplay;
 using UnityEngine;
 
 namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies

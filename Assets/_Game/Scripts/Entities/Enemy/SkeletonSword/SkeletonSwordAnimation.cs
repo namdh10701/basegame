@@ -102,12 +102,12 @@ namespace _Game.Features.Gameplay
 
         private void OnEnable()
         {
-            skeletonSword.OnStateChanged += OnStateEntered;
+            skeletonSword.OnStateEntered += OnStateEntered;
         }
 
         private void OnDisable()
         {
-            skeletonSword.OnStateChanged -= OnStateEntered;
+            skeletonSword.OnStateEntered -= OnStateEntered;
         }
 
         void OnStateEntered(EnemyState enemyState)

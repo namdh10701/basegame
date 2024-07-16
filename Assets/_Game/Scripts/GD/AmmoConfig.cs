@@ -27,7 +27,7 @@ namespace _Game.Scripts.GD
         public float ammo_crit_damage;
         public float trigger_prob;
         public float duration;
-        public float speed_modifer;
+        public float speed_modifier;
         public float dps;
         public float pierc_count;
         public float hp_threshold;
@@ -59,6 +59,9 @@ namespace _Game.Scripts.GD
                 cannonSt.ArmorPenetrate.BaseValue = armor_pen;
                 cannonSt.Piercing.BaseValue = project_piercing;
                 cannonSt.HpThreshold.BaseValue = hp_threshold;
+                cannonSt.SpeedModifier.BaseValue = speed_modifier;
+                cannonSt.Duration.BaseValue = duration;
+                cannonSt.TriggerProb.BaseValue = trigger_prob;
             }
         }
     }

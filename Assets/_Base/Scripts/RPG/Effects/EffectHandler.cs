@@ -19,6 +19,14 @@ namespace _Base.Scripts.RPG.Effects
                 effect = Instantiate(effect, null);
                 effect.enabled = true;
             }
+            if (effect is IProbabilityEffect probEffect)
+            {
+                float rand = UnityEngine.Random.Range(0.0f, 1.0f);
+                if (rand > probEffect.Prob)
+                {
+                    return;
+                }
+            }
             if (effect is UnstackableEffect newUnStackableEffect)
             {
                 foreach (Effect ef in effects.ToArray())

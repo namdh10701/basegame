@@ -1,6 +1,7 @@
 using System.Linq;
 using _Base.Scripts.RPG.Behaviours.FindTarget;
 using _Base.Scripts.RPG.Behaviours.FollowTarget;
+using _Game.Features.Gameplay;
 using _Game.Scripts.Entities;
 using UnityEngine;
 

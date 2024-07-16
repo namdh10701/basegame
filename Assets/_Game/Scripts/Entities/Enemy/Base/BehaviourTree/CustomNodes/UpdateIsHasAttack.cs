@@ -5,14 +5,14 @@ using UnityEngine;
 namespace MBT
 {
     [AddComponentMenu("")]
-    [MBTNode("My Services/Update Is Has Target")]
-    public class UpdateTargetInRange : Service
+    [MBTNode("My Services/Update Is In Cooldown")]
+    public class UpdateIsInCooldown : Service
     {
-        public BoolReference IsHasTarget;
+        public BoolReference isInCooldown;
         public EnemyReference enemyReference;
         public override void Task()
         {
-            IsHasTarget.Value = enemyReference.Value.HasTarget();
+            isInCooldown.Value = enemyReference.Value.IsInCooldown();
         }
     }
 }

@@ -88,6 +88,10 @@ namespace _Base.Scripts.RPG.Effects
             base.Apply(entity);
             OnStart(entity);
         }
+        public void SetDuration(float duration)
+        {
+            this.Duration = duration;
+        }
 
         private void Update()
         {
