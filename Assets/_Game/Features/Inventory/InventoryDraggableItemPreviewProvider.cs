@@ -1,5 +1,5 @@
-using _Game.Features.MyShip;
 using UnityEngine;
+using UnityWeld.Binding;
 
 namespace _Game.Features.Inventory
 {
@@ -7,17 +7,8 @@ namespace _Game.Features.Inventory
     {
         public override Object GetPreviewItemPrefab()
         {
-            var item = GetComponent<InventorySheetItem>().InventoryItem;
-            var shapePath = $"SetupItems/SetupItem_{item.Type.ToString().ToLower()}_{item.OperationType}";
-            var prefab = Resources.Load(shapePath);
-            return prefab;
-        }
-        
-        public DraggingItem GetDragItemPrefab(InventoryItem item)
-        {
-            var shapePath = $"SetupItems/SetupItem_{item.Type.ToString().ToLower()}_{item.OperationType}";
-            var prefab = Resources.Load<DraggingItem>(shapePath);
-            return prefab;
+            var item = GetComponent<Template>().GetViewModel() as InventoryItem;
+            return ShipSetupUtils.GetShipSetupItemPrefab(item);
         }
     }
 }

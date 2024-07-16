@@ -1,7 +1,9 @@
-﻿using _Game.Features.Home;
+﻿using System.Threading.Tasks;
+using _Game.Features.Home;
 using _Game.Features.MyShipScreen;
 using _Game.Scripts.DB;
 using _Game.Scripts.GD;
+using _Game.Scripts.GD.DataManager;
 using _Game.Scripts.GD.Parser;
 using Cysharp.Threading.Tasks;
 using Map;
@@ -28,24 +30,27 @@ namespace _Game.Features
             {
                 PlayerPrefs.SetString("PlayingStage", "0001");
             }
-            //Debug.unityLogger.logEnabled = false;
+            // Debug.unityLogger.logEnabled = false;
             Application.targetFrameRate = 120;
             UnityScreenNavigatorSettings.Initialize();
-            
-            Debug.Log("Load" + "GameLevelManager");
-            await GameLevelManager.Instance.LoadData();
-          
-            Debug.Log("Load" + "ShopDataItem");
-            await ShopDataItem.Instance.LoadData();
-           
-            Debug.Log("Load" + "ShopDataListing");
-            await ShopDataListing.Instance.LoadData();
-           
-            Debug.Log("Load" + "ShopDataRarity");
-            await ShopDataRarity.Instance.LoadData();
-          
-            Debug.Log("Load" + "GDConfigLoader");
-            await GDConfigLoader.Instance.Load();
+
+            var loadDataTasks = new Task[]
+            {
+                GameData.LevelWaveTable.LoadData(),
+
+                GameData.ShopItemTable.LoadData(),
+
+                // Debug.Log("Load" + "ShopDataListing");
+                GameData.ShopListingTable.LoadData(),
+
+                // Debug.Log("Load" + "ShopDataRarity");
+                GameData.ShopRarityTable.LoadData(),
+
+                // Debug.Log("Load" + "GDConfigLoader");
+                GDConfigLoader.Instance.Load(),
+            };
+
+            await Task.WhenAll(loadDataTasks);
             
             Debug.Log("Load" + "Database");
             Database.Load();

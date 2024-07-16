@@ -148,5 +148,18 @@ namespace _Game.Features.MyShip.GridSystem
 
             return centerVector;
         }
+        
+        /// <summary>
+        /// Gets the child RectTransform at the specified Vector2Int position in the GridLayoutGroup.
+        /// </summary>
+        public static RectTransform GetCellAtPosition(GridLayoutGroup gridLayoutGroup, Vector2Int position)
+        {
+            int siblingIndex = GetSiblingIndex(gridLayoutGroup, position);
+            if (siblingIndex >= 0 && siblingIndex < gridLayoutGroup.transform.childCount)
+            {
+                return gridLayoutGroup.transform.GetChild(siblingIndex) as RectTransform;
+            }
+            return null;
+        }
     }
 }

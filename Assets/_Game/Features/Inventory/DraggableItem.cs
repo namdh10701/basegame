@@ -1,46 +1,144 @@
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 
 namespace _Game.Features.Inventory
 {
     public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
-        private RectTransform rectTransform;
+        // private RectTransform rectTransform;
         private CanvasGroup canvasGroup;
-        private Canvas canvas;
+        private Canvas _canvas;
 
-        public DragDataProvider dragDataProvider;
-        // public RectTransform previewDragArea;
+        private Canvas Canvas
+        {
+            get
+            {
+                if (!_canvas)
+                {
+                    _canvas = GetComponentInParent<Canvas>(); // Get the Canvas component from the parent hierarchy
+                }
+
+                return _canvas;
+            }
+        }
+
+        public bool Interactable = true;
+        public DragDataProvider DragDataProvider;
+        public RectTransform PreviewDragArea;
         public DraggableItemPreviewProvider DraggableItemPreviewProvider;
 
         private RectTransform _previewDragItem;
 
         private void Awake()
         {
-            rectTransform = GetComponent<RectTransform>();
+            // rectTransform = GetComponent<RectTransform>();
             canvasGroup = GetComponent<CanvasGroup>();
-            canvas = GetComponentInParent<Canvas>(); // Get the Canvas component from the parent hierarchy
+
+            if (!PreviewDragArea)
+            {
+                PreviewDragArea = PreviewDragPane.Instance.transform as RectTransform;
+            }
+        }
+
+        private void Update()
+        {
+            // if (!Interactable)
+            // {
+            //     
+            // }
+            
+            if (canvasGroup)
+            {
+                // canvasGroup.alpha = Interactable ? 1.0f : 0.6f; // Make it semi-transparent
+                // canvasGroup.blocksRaycasts = false; // Disable raycast blocking so it can be dropped
+            }
         }
 
         public void OnBeginDrag(PointerEventData eventData)
         {
-            canvasGroup.alpha = 0.6f; // Make it semi-transparent
-            canvasGroup.blocksRaycasts = false; // Disable raycast blocking so it can be dropped
+            // if (!Interactable) return;
+            
+            if (PreviewDragArea)
+            {
+                var previewPrefab = DraggableItemPreviewProvider
+                    ? DraggableItemPreviewProvider.GetPreviewItemPrefab()
+                    : this;
 
-            _previewDragItem = Instantiate(DraggableItemPreviewProvider.GetPreviewItemPrefab()).GetComponent<RectTransform>();
+                if (!previewPrefab)
+                {
+                    Debug.LogError("Preview prefab not found");
+                    return;
+                }
+                
+                _previewDragItem = Instantiate(
+                    previewPrefab,
+                    PreviewDragArea
+                ).GetComponent<RectTransform>();
+
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(PreviewDragArea, eventData.position,
+                    eventData.pressEventCamera, out var localMousePos);
+                _previewDragItem.anchorMin = Vector2.zero;
+                _previewDragItem.anchorMax = Vector2.zero;
+                _previewDragItem.pivot = new(0.5f, 0.5f);
+                _previewDragItem.anchoredPosition = localMousePos;
+            }
+            
+            
+            if (canvasGroup)
+            {
+                canvasGroup.alpha = 0.6f; // Make it semi-transparent
+                canvasGroup.blocksRaycasts = false; // Disable raycast blocking so it can be dropped
+            }
         }
 
         public void OnDrag(PointerEventData eventData)
         {
-            _previewDragItem.anchoredPosition += eventData.delta / canvas.scaleFactor;
+            // if (!Interactable) return;
+            
+            if (_previewDragItem)
+            {
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(PreviewDragArea, eventData.position,
+                    eventData.pressEventCamera, out var localMousePos);
+
+                _previewDragItem.anchoredPosition += eventData.delta / Canvas.scaleFactor;
+                Debug.Log("anchoredPosition " + _previewDragItem.anchoredPosition);
+                Debug.Log("mousePos " + localMousePos);
+            }
+            // else
+            // {
+            //     rectTransform.anchoredPosition += eventData.delta / Canvas.scaleFactor;
+            // }
         }
 
         public void OnEndDrag(PointerEventData eventData)
         {
-            canvasGroup.alpha = 1.0f; // Reset transparency
-            canvasGroup.blocksRaycasts = true; // Enable raycast blocking
-            Destroy(_previewDragItem.gameObject);
+            // if (!Interactable) return;
+            ProcessEndDrop(eventData);
+        }
+
+        public virtual void OnDropCommit(PointerEventData eventData)
+        {
+            ProcessEndDrop(eventData);
+        }
+
+        private bool _processEndDrop = false;
+        public void ProcessEndDrop(PointerEventData eventData)
+        {
+            if (_processEndDrop) return;
+            
+            if (canvasGroup)
+            {
+                canvasGroup.alpha = 1.0f; // Reset transparency
+                canvasGroup.blocksRaycasts = true; // Enable raycast blocking
+            }
+
+            if (_previewDragItem)
+            {
+                Destroy(_previewDragItem.gameObject);
+            }
         }
     }
 }

@@ -269,7 +269,7 @@ namespace _Game.Features.Shop
         [Binding]
         public void GetIDItemGacha()
         {
-            IdGachaItem = ShopDataRarity.Instance.GetIdByNameAndRarity(CurentNameItemGacha, CurentRarityItemGacha);
+            IdGachaItem = GameData.ShopRarityTable.GetIdByNameAndRarity(CurentNameItemGacha, CurentRarityItemGacha);
         }
     }
 }

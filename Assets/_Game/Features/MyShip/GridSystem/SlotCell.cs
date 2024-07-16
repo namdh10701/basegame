@@ -1,4 +1,5 @@
 using System.Collections;
+using _Game.Features.Inventory;
 using _Game.Scripts.UI;
 using TMPro;
 using Unity.VisualScripting;
@@ -98,5 +99,9 @@ namespace _Game.Features.MyShip.GridSystem
             _debugText = GetComponentInChildren<TMP_Text>();
             // _grid = GetComponentInParent<SlotGrid>();
         }
+        
+        public InventoryItem Data { get; set; }
+        
+        // public Vector2Int Position => GridLayoutGroupUtils.GetCellPosition(_gridLayoutGroup, transform.GetSiblingIndex());
     }
 }

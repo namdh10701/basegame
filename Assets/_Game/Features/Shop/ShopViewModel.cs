@@ -151,10 +151,10 @@ namespace _Game.Features.Shop
         }
 
         public event Action OnClickGacha;
-        List<ShopDataItemRecord> _shopDataItemRecords = new List<ShopDataItemRecord>();
-        List<ShopDataListingRecord> _shopDataItemGem = new List<ShopDataListingRecord>();
-        List<ShopDataListingRecord> _shopDataSummons = new List<ShopDataListingRecord>();
-        List<ShopDataRarityRecord> _shopDataRarityRecord = new List<ShopDataRarityRecord>();
+        List<ShopItemTableRecord> _shopDataItemRecords = new List<ShopItemTableRecord>();
+        List<ShopListingTableRecord> _shopDataItemGem = new List<ShopListingTableRecord>();
+        List<ShopListingTableRecord> _shopDataSummons = new List<ShopListingTableRecord>();
+        List<ShopRarityTableRecord> _shopDataRarityRecord = new List<ShopRarityTableRecord>();
         //
         private void Awake()
         {
@@ -167,10 +167,10 @@ namespace _Game.Features.Shop
         //
         private void LoadDataShop()
         {
-            _shopDataItemRecords = ShopDataItem.Instance.GetData();
-            _shopDataSummons = ShopDataListing.Instance.GetData(ShopType.Gacha);
-            _shopDataItemGem = ShopDataListing.Instance.GetData(ShopType.Gem);
-            _shopDataRarityRecord = ShopDataRarity.Instance.GetData();
+            _shopDataItemRecords = GameData.ShopItemTable.GetData();
+            _shopDataSummons = GameData.ShopListingTable.GetData(ShopType.Gacha);
+            _shopDataItemGem = GameData.ShopListingTable.GetData(ShopType.Gem);
+            _shopDataRarityRecord = GameData.ShopRarityTable.GetData();
         }
 
         protected void InitializeShopGem()
@@ -183,7 +183,7 @@ namespace _Game.Features.Shop
                 {
                     Id = item.ItemId,
                     Price = item.PriceAmount.ToString(),
-                    Amount = ShopDataItem.Instance.GetAmountById(item.ItemId).ToString(),
+                    Amount = GameData.ShopItemTable.GetAmountById(item.ItemId).ToString(),
                     PackSize = item.PackSize,
                     PriceType = item.PriceType
                 };
@@ -217,10 +217,10 @@ namespace _Game.Features.Shop
                 shopSummonItem.Id = item.ItemId;
                 shopSummonItem.Price = item.PriceAmount.ToString();
                 shopSummonItem.GachaType = item.GachaType;
-                shopSummonItem.ListRarity = ShopDataItem.Instance.GetRarityById(item.ItemId);
-                shopSummonItem.ListWeightRarity = ShopDataItem.Instance.GetWeightRarityById(item.ItemId);
-                shopSummonItem.ListNameItem = ShopDataRarity.Instance.GetDataNames(item.GachaType);
-                shopSummonItem.ListWeightNameItem = ShopDataRarity.Instance.GetWeights(item.ItemId, shopSummonItem.CurentRarityItemGacha);
+                shopSummonItem.ListRarity = GameData.ShopItemTable.GetRarityById(item.ItemId);
+                shopSummonItem.ListWeightRarity = GameData.ShopItemTable.GetWeightRarityById(item.ItemId);
+                shopSummonItem.ListNameItem = GameData.ShopRarityTable.GetDataNames(item.GachaType);
+                shopSummonItem.ListWeightNameItem = GameData.ShopRarityTable.GetWeights(item.ItemId, shopSummonItem.CurentRarityItemGacha);
                 shopSummonItem.OnClickGacha += OnClickGacha;
                 SummonItems.Add(shopSummonItem);
             }

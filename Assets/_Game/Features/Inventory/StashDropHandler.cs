@@ -1,15 +1,20 @@
-using Unity.VisualScripting;
-using UnityEngine;
+using _Base.Scripts.Utils;
+using _Game.Features.MyShip;
+using UnityWeld.Binding;
 
 namespace _Game.Features.Inventory
 {
     public class StashDropHandler : DropHandler
     {
-        public override void OnItemDrop(Object item)
+        public override bool OnItemDrop(DraggableItem droppedItem)
         {
-            var droppedItem = item.GetComponent<DraggableItem>();
-            var data = droppedItem.dragDataProvider.GetData();
-            // droppedItem.anchoredPosition = GetComponent<RectTransform>().anchoredPosition;
+            var data = droppedItem.DragDataProvider.GetData<InventoryItem>();
+
+            if (GetComponent<Template>().GetViewModel() is not MyShip.StashItem stashItem) return false;
+            
+            stashItem.InventoryItem = data;
+            
+            return true;
         }
     }
 }
