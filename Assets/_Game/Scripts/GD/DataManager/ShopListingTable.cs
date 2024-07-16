@@ -1,10 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using CsvHelper;
-using CsvHelper.Configuration;
+using System.Threading.Tasks;
 using CsvHelper.Configuration.Attributes;
-using CsvHelper.TypeConversion;
 
 namespace _Game.Scripts.GD.DataManager
 {
@@ -19,10 +16,11 @@ namespace _Game.Scripts.GD.DataManager
             { ShopType.Gem, new () },
             { ShopType.Other, new () },
         };
-        
-        protected override void HandleLoadedRecords(List<ShopListingTableRecord> rawRecords)
+
+        public override async Task LoadData()
         {
-            foreach (var record in rawRecords)
+            await base.LoadData();
+            foreach (var record in Records)
             {
                 _records[record.ShopType].Add(record);
             }
@@ -42,28 +40,6 @@ namespace _Game.Scripts.GD.DataManager
         public ShopListingTable(string downloadUrl, string dataFileName = null) : base(downloadUrl, dataFileName)
         {
         }
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public enum ShopType
-    {
-        Gacha,
-        Gem,
-        // Pirate,
-        Other
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public enum PackSize
-    {
-        Small,
-        Medium,
-        Big,
-        Other
     }
 
     /// <summary>
@@ -104,48 +80,5 @@ namespace _Game.Scripts.GD.DataManager
 
         [Index(9)]
         public string EndDate { get; set; }
-    }
-    
-    /// <summary>
-    /// 
-    /// </summary>
-    public class ShopTypeConverter : DefaultTypeConverter
-    {
-        public override object ConvertFromString(string text, IReaderRow row, MemberMapData memberMapData)
-        {
-            if (Enum.TryParse(typeof(ShopType), text, true, out var result))
-            {
-                return result;
-            }
-            return ShopType.Other;
-            throw new ArgumentException($"Cannot convert '{text}' to {typeof(ShopType)}");
-        }
-
-        public override string ConvertToString(object value, IWriterRow row, MemberMapData memberMapData)
-        {
-            return value?.ToString();
-        }
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public class PackSizeConverter : DefaultTypeConverter
-    {
-        public override object ConvertFromString(string text, IReaderRow row, MemberMapData memberMapData)
-        {
-            if (Enum.TryParse(typeof(PackSize), text, true, out var result))
-            {
-                return result;
-            }
-
-            return PackSize.Other;
-            throw new ArgumentException($"Cannot convert '{text}' to {typeof(ShopType)}");
-        }
-
-        public override string ConvertToString(object value, IWriterRow row, MemberMapData memberMapData)
-        {
-            return value?.ToString();
-        }
     }
 }

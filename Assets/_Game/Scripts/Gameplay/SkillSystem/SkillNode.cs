@@ -31,8 +31,8 @@ namespace _Game.Scripts.SkillSystem
             {
                 foreach (Prerequisite prerequisite in Prerequisites)
                 {
-                    int level = SaveSystem.GameSave.SkillSaveData.GetLevel(prerequisite.SkillDef.Id);
-                    prerequisite.line.color = level > 0 ? Color.white : Color.black;
+                    // int level = SaveSystem.GameSave.SkillSaveData.GetLevel(prerequisite.SkillDef.Id);
+                    // prerequisite.line.color = level > 0 ? Color.white : Color.black;
                 }
             }
             lvText.text = $"Lv {skillData.Level}";

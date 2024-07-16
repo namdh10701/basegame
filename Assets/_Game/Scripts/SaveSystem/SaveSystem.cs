@@ -1,4 +1,6 @@
 using _Base.Scripts.SaveSystem;
+using _Base.Scripts.Utils;
+using Cysharp.Threading.Tasks;
 
 namespace _Game.Scripts.SaveLoad
 {
@@ -7,6 +9,9 @@ namespace _Game.Scripts.SaveLoad
         public static SaveData GameSave;
         public static void LoadSave()
         {
+            // FIXME: Delete
+            // SaveLoadManager.DeleteSave(1);
+            
             GameSave = SaveLoadManager.ReadSave(1);
             if (GameSave == null)
             {
@@ -16,7 +21,7 @@ namespace _Game.Scripts.SaveLoad
         }
         public static void SaveGame()
         {
-            SaveLoadManager.WriteSave(GameSave);
+            DebounceUtility.Debounce(() => SaveLoadManager.WriteSave(GameSave), 500);
         }
     }
 }

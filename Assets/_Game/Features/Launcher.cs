@@ -5,6 +5,7 @@ using _Game.Scripts.DB;
 using _Game.Scripts.GD;
 using _Game.Scripts.GD.DataManager;
 using _Game.Scripts.GD.Parser;
+using _Game.Scripts.SaveLoad;
 using Cysharp.Threading.Tasks;
 using Map;
 using UnityEngine;
@@ -34,26 +35,12 @@ namespace _Game.Features
             Application.targetFrameRate = 120;
             UnityScreenNavigatorSettings.Initialize();
 
-            var loadDataTasks = new Task[]
-            {
-                GameData.LevelWaveTable.LoadData(),
-
-                GameData.ShopItemTable.LoadData(),
-
-                // Debug.Log("Load" + "ShopDataListing");
-                GameData.ShopListingTable.LoadData(),
-
-                // Debug.Log("Load" + "ShopDataRarity");
-                GameData.ShopRarityTable.LoadData(),
-
-                // Debug.Log("Load" + "GDConfigLoader");
-                GDConfigLoader.Instance.Load(),
-            };
-
-            await Task.WhenAll(loadDataTasks);
+            await GameData.Load();
             
             Debug.Log("Load" + "Database");
             Database.Load();
+            
+            SaveSystem.LoadSave();
 
             // MapPlayerTracker.Instance.OnStagePassed += OnOnStagePassed;
             ShowTopPage().Forget();

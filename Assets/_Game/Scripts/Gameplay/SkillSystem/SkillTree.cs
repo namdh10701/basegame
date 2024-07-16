@@ -27,37 +27,37 @@ namespace _Game.Scripts.SkillSystem
         void TestSaveLoad()
         {
             SaveSystem.LoadSave();
-            foreach (IInventoryData gd in SaveSystem.GameSave.InventorySaveData.OwnedInventories)
-            {
-                if (gd is GearData gearData)
-                {
-                    Debug.Log(gearData.Id + " " + gearData.Type.ToString() + " " + gearData.Rarity);
-                }
-            }
-
-            foreach (SkillData sd in SaveSystem.GameSave.SkillSaveData.SkillDatas)
-            {
-                Debug.Log(sd.Id + "| DEFAULT |");
-            }
+            // foreach (IInventoryData gd in SaveSystem.GameSave.InventorySaveData.OwnedInventories)
+            // {
+            //     if (gd is GearData gearData)
+            //     {
+            //         Debug.Log(gearData.Id + " " + gearData.Type.ToString() + " " + gearData.Rarity);
+            //     }
+            // }
+            //
+            // foreach (SkillData sd in SaveSystem.GameSave.SkillSaveData.SkillDatas)
+            // {
+            //     Debug.Log(sd.Id + "| DEFAULT |");
+            // }
         }
 
         public void AddSkillPoint(int id, int amount)
         {
-            SkillSaveData skillSaveData = SaveSystem.GameSave.SkillSaveData;
-
-            foreach (SkillData sd in skillSaveData.SkillDatas)
-            {
-                if (sd.Id == id)
-                {
-                    sd.Level += amount;
-                }
-            }
-            SaveSystem.SaveGame();
-
-            foreach(SkillNode sn in AllNodes)
-            {
-                sn.RefreshUI();
-            }
+            // SkillSaveData skillSaveData = SaveSystem.GameSave.SkillSaveData;
+            //
+            // foreach (SkillData sd in skillSaveData.SkillDatas)
+            // {
+            //     if (sd.Id == id)
+            //     {
+            //         sd.Level += amount;
+            //     }
+            // }
+            // SaveSystem.SaveGame();
+            //
+            // foreach(SkillNode sn in AllNodes)
+            // {
+            //     sn.RefreshUI();
+            // }
         }
 
         void UpdateState()

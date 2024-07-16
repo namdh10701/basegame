@@ -2,10 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using _Game.Features.Inventory;
+using _Game.Scripts.GD.DataManager;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace _Game.Scripts.SaveLoad
 {
+    [Serializable]
+    public enum SetupProfile
+    {
+        Profile1,
+        Profile2,
+        Profile3,
+    }
+    
     [Serializable]
     public class ItemData
     {
@@ -24,34 +34,33 @@ namespace _Game.Scripts.SaveLoad
     public class ShipSetupSaveData
     {
         public string CurrentShipId;
-        public int CurrentProfileIndex = 0;
-        public Dictionary<string, List<ShipSetupData>> ShipSetupData = new ();
+        public SetupProfile CurrentProfile = SetupProfile.Profile1;
+        public Dictionary<string, Dictionary<SetupProfile, ShipSetupData>> ShipSetupData = new ();
 
-        public ShipSetupData CurrentShipSetupData => ShipSetupData[CurrentShipId][CurrentProfileIndex];
+        public ShipSetupData CurrentShipSetupData => ShipSetupData[CurrentShipId][CurrentProfile];
 
-        public ShipSetupData SwitchProfile(int profileIndex)
+        public ShipSetupData SwitchProfile(SetupProfile setupProfile)
         {
-            CurrentProfileIndex = profileIndex;
+            CurrentProfile = setupProfile;
             return CurrentShipSetupData;
         }
 
         public void Init()
         {
-            for (int i = 0; i < 3; i++)
+            GameData.ShipTable.GetRecords().ForEach(record =>
             {
-                var shipId = i.ToString().PadLeft(4, '0');
-                ShipSetupData[shipId] = new List<ShipSetupData>()
+                ShipSetupData[record.Id] = new Dictionary<SetupProfile, ShipSetupData>()
                 {
-                    new ShipSetupData(),
-                    new ShipSetupData(),
-                    new ShipSetupData(),
+                    { SetupProfile.Profile1, new ShipSetupData() },
+                    { SetupProfile.Profile2, new ShipSetupData() },
+                    { SetupProfile.Profile3, new ShipSetupData() },
                 };
-            }
+            });
             
             
             if (string.IsNullOrEmpty(CurrentShipId))
             {
-                CurrentShipId = ShipSetupData.Keys.First();
+                CurrentShipId = GameData.ShipTable.GetRecords().FirstOrDefault()?.Id;
             }
         }
     }

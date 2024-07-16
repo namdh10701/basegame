@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using _Game.Features.Inventory;
 using _Game.Scripts.GD;
+using _Game.Scripts.GD.DataManager;
 using _Game.Scripts.UI;
 using Unity.VisualScripting;
 using UnityEngine;

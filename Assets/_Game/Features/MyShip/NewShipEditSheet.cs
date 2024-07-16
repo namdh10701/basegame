@@ -1,15 +1,12 @@
 using System;
 using _Base.Scripts.Utils;
 using _Game.Features.Inventory;
-using _Game.Features.MyShip.GridSystem;
-using _Game.Scripts.DB;
+using _Game.Scripts.GD.DataManager;
 using _Game.Scripts.SaveLoad;
 using _Game.Scripts.UI;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityWeld.Binding;
 
 namespace _Game.Features.MyShip
@@ -101,7 +98,34 @@ namespace _Game.Features.MyShip
             IOC.Register(this);
         }
 
-        public void LoadShipSetupProfile(int profileIndex)
+        #region Binding Prop: ShipSetupProfileIndex
+
+        /// <summary>
+        /// ShipSetupProfileIndex
+        /// </summary>
+        [Binding]
+        public int ShipSetupProfileIndex
+        {
+            get => _shipSetupProfileIndex;
+            set
+            {
+                if (Equals(_shipSetupProfileIndex, value))
+                {
+                    return;
+                }
+
+                _shipSetupProfileIndex = value;
+                OnPropertyChanged(nameof(ShipSetupProfileIndex));
+                
+                LoadShipSetupProfile((SetupProfile)_shipSetupProfileIndex);
+            }
+        }
+
+        private int _shipSetupProfileIndex;
+
+        #endregion
+
+        public void LoadShipSetupProfile(SetupProfile profile)
         {
             foreach (var stashItem in StashItems)
             {
@@ -109,19 +133,45 @@ namespace _Game.Features.MyShip
             }
             
             // load data
-            var shipSetupData = SaveSystem.GameSave.ShipSetupSaveData.SwitchProfile(profileIndex);
-            foreach (var (pos, itemId) in shipSetupData.StashData)
+            var shipSetupData = SaveSystem.GameSave.ShipSetupSaveData.SwitchProfile(profile);
+            foreach (var (pos, itemData) in shipSetupData.StashData)
             {
                 var masterData = "";
-                if (itemId.ItemType == ItemType.CREW)
-                {
-                    
-                    // Database.GetCrew(itemId.ItemId).body
-                }
                 var inventoryItem = new InventoryItem();
+                if (itemData.ItemType == ItemType.CREW)
+                {
+                    var crew = GameData.CrewTable.FindById(itemData.ItemId);
+
+                    inventoryItem.BackedData = crew;
+                    inventoryItem.Id = crew.Id;
+                    inventoryItem.Rarity = crew.Rarity;
+                    inventoryItem.OperationType = crew.OperationType;
+                    inventoryItem.Name = crew.Name;
+                    inventoryItem.Type = ItemType.CREW;
+                    inventoryItem.Shape = crew.Shape;
+                }
                 
                 StashItems[pos].InventoryItem = inventoryItem;
             }
+        }
+
+        public void SaveSetupProfile()
+        {
+            // stash
+            for (var i = 0; i < StashItems.Count; i++)
+            {
+                var stash = StashItems[i];
+                
+                if (stash == null || stash.InventoryItem == null) continue;
+                
+                SaveSystem.GameSave.ShipSetupSaveData.CurrentShipSetupData.StashData[i] = new ItemData()
+                {
+                    ItemId = stash.InventoryItem.Id,
+                    ItemType = stash.InventoryItem.Type,
+                };
+            }
+            SaveSystem.SaveGame();
+
         }
 
         #region ViewMode
@@ -293,7 +343,7 @@ namespace _Game.Features.MyShip
             // _btnRemove.onClick.AddListener(OnRemoveClick);
             //
             // Initialize(_shipsConfig.currentShipId);
-            InitializeShip("0002");
+            InitializeShip(SaveSystem.GameSave.ShipSetupSaveData.CurrentShipId);
             SetViewMode_Normal();
             return UniTask.CompletedTask;
         }

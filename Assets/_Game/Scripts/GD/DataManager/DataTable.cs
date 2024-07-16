@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -27,20 +28,32 @@ namespace _Game.Scripts.GD.DataManager
             DataFileName = dataFileName;
         }
 
-        public async Task LoadData()
+        public virtual async Task LoadData()
         {
-            Debug.Log("Load" + GetType());
+            Debug.Log("Load: " + GetType());
             var filePath = GetFilePath(DataFileName);
             await GSheetDownloader.Download(DownloadUrl, filePath);
             await using var stream = File.OpenRead(filePath);
 
-            var rawRecords = Parser.Parser.GetRecords<TRecordType>(stream);
-            HandleLoadedRecords(rawRecords);
+            _records = Parser.Parser.GetRecords<TRecordType>(stream);
+        }
+        
+        private List<TRecordType> _records = new();
+
+        public List<TRecordType> Records => _records;
+        
+        public virtual List<TRecordType> GetRecords()
+        {
+            return _records;
         }
 
-        protected abstract void HandleLoadedRecords(List<TRecordType> records);
+        // protected abstract void HandleLoadedRecords(List<TRecordType> records);
 
         private string GetFilePath(string dataFileName) => Path.Combine(Application.persistentDataPath, "Data", dataFileName);
 
+        // public static DataTable<TRecordType> CreateTable(string downloadUrl, string dataFileName = null)
+        // {
+        //     return (DataTable<TRecordType>)Activator.CreateInstance(typeof(DataTable<TRecordType>), downloadUrl, dataFileName);
+        // }
     }
 }

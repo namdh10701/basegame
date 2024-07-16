@@ -8,19 +8,14 @@ namespace _Game.Scripts.GD.DataManager
     /// </summary>
     public class CrewTable : DataTable<CrewTableRecord>
     {
-        private List<CrewTableRecord> _records = new();
-        protected override void HandleLoadedRecords(List<CrewTableRecord> rawRecords)
-        {
-            _records = rawRecords;
-        }
-
-        public List<CrewTableRecord> GetData()
-        {
-            return _records;
-        }
-
         public CrewTable(string downloadUrl, string dataFileName = null) : base(downloadUrl, dataFileName)
         {
+            
+        }
+        
+        public CrewTableRecord FindById(string id)
+        {
+            return Records.Find(v => v.Id == id);
         }
     }
     
@@ -42,7 +37,8 @@ namespace _Game.Scripts.GD.DataManager
         public string Shape { get; set; }
 
         [Index(4)]
-        public string Rarity { get; set; }
+        [TypeConverter(typeof(RarityConverter))]
+        public Rarity Rarity { get; set; }
 
         [Index(5)]
         [Default(0)]

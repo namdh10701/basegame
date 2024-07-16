@@ -10,6 +10,7 @@ namespace _Game.Features.Inventory
         {
             base.OnDropCommit(eventData);
             IOC.Resolve<InventorySheet>().AddIgnore(DragDataProvider.GetData<InventoryItem>());
+            IOC.Resolve<NewShipEditSheet>().SaveSetupProfile();
         }
     }
 }
