@@ -35,7 +35,7 @@ namespace _Game.Scripts.GD.DataManager
     /// <summary>
     /// 
     /// </summary>
-    public class ShopItemTableRecord
+    public class ShopItemTableRecord: DataTableRecord
     {
         [Index(0)]
         public string ItemId { get; set; }
@@ -50,5 +50,10 @@ namespace _Game.Scripts.GD.DataManager
         [Index(3)]
         [Default(0)]
         public int Weight { get; set; }
+        
+        public override object GetId()
+        {
+            return ItemId;
+        }
     }
 }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using _Base.Scripts.Utils;
 using _Game.Features.MyShip;
 using _Game.Features.MyShip.GridSystem;
@@ -10,7 +11,7 @@ namespace _Game.Features.Inventory
     [Binding]
     public class ShipSetupItem : RootViewModel//, IDragHandler, IBeginDragHandler, IEndDragHandler
     {
-        public Vector2Int Position;
+        public List<Vector2Int> Positions;
         public ItemShape Shape;
         public InventoryItem InventoryItem;
 
@@ -61,6 +62,7 @@ namespace _Game.Features.Inventory
             
             firstEmptyStashItem.InventoryItem = InventoryItem;
             Destroy(gameObject);
+            shipEditSheet.SaveSetupProfile();
         }
     }
 }

@@ -16,7 +16,7 @@ namespace _Game.Scripts.GD.DataManager
     /// <summary>
     /// 
     /// </summary>
-    public class MonsterTableRecord
+    public class MonsterTableRecord: DataTableRecord
     {
         [Index(0)]
         public string Id { get; set; }
@@ -51,5 +51,10 @@ namespace _Game.Scripts.GD.DataManager
         [Index(8)]
         [Default(0)]
         public float AttackRange { get; set; }
+        
+        public override object GetId()
+        {
+            return Id;
+        }
     }
 }

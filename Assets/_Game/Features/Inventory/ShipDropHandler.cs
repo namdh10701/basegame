@@ -1,8 +1,12 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using _Base.Scripts.Utils;
 using _Game.Features.MyShip;
 using _Game.Features.MyShip.GridSystem;
 using UnityEngine;
+using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 namespace _Game.Features.Inventory
 {
@@ -16,32 +20,36 @@ namespace _Game.Features.Inventory
                 {
                     _placementPane = GetComponentInChildren<PlacementPane>().transform as RectTransform;
                 }
-
+                
                 return _placementPane;
             }
         }
 
-        public ShipGridHighLighter ShipGridHighLighter;
+        public ShipGridHighlighter shipGridHighlighter;
         private RectTransform _placementPane;
+        private ShipConfigManager shipConfigManager;
 
         private void Awake()
         {
-            
+            shipConfigManager = GetComponent<ShipConfigManager>();
         }
 
         public override bool OnItemDrop(DraggableItem droppedItem)
         {
             var inventoryItem = droppedItem.DragDataProvider.GetData<InventoryItem>();
 
-            var cell = ShipGridHighLighter.ActiveCells.LastOrDefault();
+            var cell = shipGridHighlighter.ActiveCells.LastOrDefault();
             if (!cell || cell.Data != null) return false;
+
+
 
             var shipSetupItemPrefab = ShipSetupUtils.GetShipSetupItemPrefab(inventoryItem);
             
             var shipSetupItem = Instantiate(shipSetupItemPrefab, PlacementPane);
+            shipSetupItem.Positions = shipGridHighlighter.ActiveCells.Select(v => v.Position).ToList();
 
             var uiCell =
-                GridLayoutGroupUtils.GetCellAtPosition(ShipGridHighLighter.Grid.GridLayoutGroup, cell.Position);
+                GridLayoutGroupUtils.GetCellAtPosition(shipGridHighlighter.Grid.GridLayoutGroup, cell.Position);
 
             // EditorGUIUtility.PingObject(uiCell);
             
@@ -57,18 +65,34 @@ namespace _Game.Features.Inventory
             // rect.anchoredPosition = localAnchoredPosition;
             rect.anchoredPosition = uiCell.anchoredPosition;
 
-            ShipGridHighLighter.Clear();
+            shipGridHighlighter.Clear();
 
             shipSetupItem.InventoryItem = inventoryItem;
             shipSetupItem.Removable = true;
             
-            ShipGridHighLighter.ActiveCells.ForEach(v =>
+            shipGridHighlighter.ActiveCells.ForEach(v =>
             {
                 v.Data = inventoryItem;
             });
             
             IOC.Resolve<InventorySheet>().AddIgnore(inventoryItem);
 
+            // OnDropCommitted?.Invoke();
+
+            Dictionary<Vector2Int, InventoryItem> ItemPositions = new();
+            foreach (var child in _placementPane.GetComponentsInChildren<DraggableItem>())
+            {
+                var item = child.DragDataProvider.GetData<InventoryItem>();
+                
+                var positions = child.GetComponent<ShipSetupItem>().Positions;
+                foreach (var pos in positions)
+                {
+                    ItemPositions[pos] = item;
+                }
+            }
+
+            shipConfigManager.ItemPositions = ItemPositions;
+            shipConfigManager.OnItemPositionChanged.Invoke(shipConfigManager.ItemPositions);
             return true;
         }
     }

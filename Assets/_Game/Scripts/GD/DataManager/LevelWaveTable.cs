@@ -97,7 +97,7 @@ namespace _Game.Scripts.GD.DataManager
     /// <summary>
     /// 
     /// </summary>
-    public class LevelWaveTableRecord
+    public class LevelWaveTableRecord: DataTableRecord
     {
         [Index(0)]
         public string Level { get; set; }
@@ -122,6 +122,11 @@ namespace _Game.Scripts.GD.DataManager
         
         [Index(7)]
         public string EliteEnemyId { get; set; }
+        
+        public override object GetId()
+        {
+            return Level;
+        }
     }
     
     /// <summary>

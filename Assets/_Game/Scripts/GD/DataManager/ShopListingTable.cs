@@ -45,7 +45,7 @@ namespace _Game.Scripts.GD.DataManager
     /// <summary>
     /// 
     /// </summary>
-    public class ShopListingTableRecord
+    public class ShopListingTableRecord: DataTableRecord
     {
         [Index(0)]
         public string ItemId { get; set; }
@@ -80,5 +80,10 @@ namespace _Game.Scripts.GD.DataManager
 
         [Index(9)]
         public string EndDate { get; set; }
+        
+        public override object GetId()
+        {
+            return ItemId;
+        }
     }
 }

@@ -362,5 +362,12 @@ namespace _Game.Features.Inventory
                 Stars.Add(new Star());
             }
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || obj is not InventoryItem other) return false;
+
+            return other.Type == Type && other.Id == Id;
+        }
     }
 }

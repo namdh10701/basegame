@@ -12,17 +12,12 @@ namespace _Game.Scripts.GD.DataManager
         {
             
         }
-        
-        public CrewTableRecord FindById(string id)
-        {
-            return Records.Find(v => v.Id == id);
-        }
     }
     
     /// <summary>
     /// 
     /// </summary>
-    public class CrewTableRecord
+    public class CrewTableRecord: DataTableRecord
     {
         [Index(0)]
         public string Id { get; set; }
@@ -47,5 +42,10 @@ namespace _Game.Scripts.GD.DataManager
         [Index(6)]
         [Default(0)]
         public float RepairSpeed { get; set; }
+        
+        public override object GetId()
+        {
+            return Id;
+        }
     }
 }

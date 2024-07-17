@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 
 namespace _Game.Features.Inventory
 {
-    public class ShipGridHighLighter : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerMoveHandler, IPointerUpHandler
+    public class ShipGridHighlighter : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerMoveHandler, IPointerUpHandler
     {
         public CellRayTracker RayTracker;
         private SlotGrid _grid;

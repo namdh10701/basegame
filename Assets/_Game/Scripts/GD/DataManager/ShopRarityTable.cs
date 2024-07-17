@@ -32,7 +32,7 @@ namespace _Game.Scripts.GD.DataManager
     /// <summary>
     /// 
     /// </summary>
-    public class ShopRarityTableRecord
+    public class ShopRarityTableRecord: DataTableRecord
     {
         [Index(0)]
         public string Id { get; set; }
@@ -51,5 +51,10 @@ namespace _Game.Scripts.GD.DataManager
         [Index(4)]
         [Default(0)]
         public int Weight { get; set; }
+        
+        public override object GetId()
+        {
+            return Id;
+        }
     }
 }

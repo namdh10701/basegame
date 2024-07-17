@@ -16,7 +16,7 @@ namespace _Game.Scripts.GD.DataManager
     /// <summary>
     /// 
     /// </summary>
-    public class ShipTableRecord
+    public class ShipTableRecord: DataTableRecord
     {
         [Index(0)]
         public string Id { get; set; }
@@ -47,5 +47,10 @@ namespace _Game.Scripts.GD.DataManager
         [Index(7)]
         [Default(0)]
         public float AmmoLimit { get; set; }
+        
+        public override object GetId()
+        {
+            return Id;
+        }
     }
 }

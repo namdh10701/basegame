@@ -15,7 +15,7 @@ namespace _Game.Scripts.GD.DataManager
     /// <summary>
     /// 
     /// </summary>
-    public class TalentTreeTableRecord
+    public class TalentTreeTableRecord: DataTableRecord
     {
         [Index(0)]
         public string Id { get; set; }
@@ -30,5 +30,10 @@ namespace _Game.Scripts.GD.DataManager
         
         [Index(3)]
         public string ItemId { get; set; }
+        
+        public override object GetId()
+        {
+            return Id;
+        }
     }
 }

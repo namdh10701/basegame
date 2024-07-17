@@ -16,7 +16,7 @@ namespace _Game.Scripts.GD.DataManager
     /// <summary>
     /// 
     /// </summary>
-    public class CannonTableRecord
+    public class CannonTableRecord: DataTableRecord
     {
         
         [Index(0)]
@@ -89,5 +89,10 @@ namespace _Game.Scripts.GD.DataManager
         [Index(18)]
         [Default(0)]
         public float Angle { get; set; }
+        
+        public override object GetId()
+        {
+            return Id;
+        }
     }
 }

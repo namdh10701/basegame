@@ -12,6 +12,7 @@ namespace _Base.Scripts.SaveSystem
             RecreateSaveDirectory();
             // string saveDataString = JsonUtility.ToJson(saveData);
             string saveDataString = JsonConvert.SerializeObject(saveData);
+            Debug.Log("saveDataString: " + saveDataString);
             File.WriteAllText(GenerateSaveFileName(saveData.SaveId), saveDataString);
         }
         public static SaveData ReadSave(int slotId)

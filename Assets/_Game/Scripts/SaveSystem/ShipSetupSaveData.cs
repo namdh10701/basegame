@@ -11,6 +11,7 @@ namespace _Game.Scripts.SaveLoad
     [Serializable]
     public enum SetupProfile
     {
+        None = -1,
         Profile1,
         Profile2,
         Profile3,
@@ -37,12 +38,11 @@ namespace _Game.Scripts.SaveLoad
         public SetupProfile CurrentProfile = SetupProfile.Profile1;
         public Dictionary<string, Dictionary<SetupProfile, ShipSetupData>> ShipSetupData = new ();
 
-        public ShipSetupData CurrentShipSetupData => ShipSetupData[CurrentShipId][CurrentProfile];
+        // public ShipSetupData CurrentShipSetupData => ShipSetupData[CurrentShipId][CurrentProfile];
 
-        public ShipSetupData SwitchProfile(SetupProfile setupProfile)
+        public ShipSetupData GetShipSetup(string shipId, SetupProfile setupProfile)
         {
-            CurrentProfile = setupProfile;
-            return CurrentShipSetupData;
+            return ShipSetupData[shipId][setupProfile];
         }
 
         public void Init()

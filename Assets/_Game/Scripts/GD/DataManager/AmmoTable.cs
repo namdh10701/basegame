@@ -15,7 +15,7 @@ namespace _Game.Scripts.GD.DataManager
     /// <summary>
     /// 
     /// </summary>
-    public class AmmoTableRecord
+    public class AmmoTableRecord: DataTableRecord
     {
         [Index(0)]
         public string Id { get; set; }
@@ -110,5 +110,10 @@ namespace _Game.Scripts.GD.DataManager
 
         [Index(24)]
         public string Type { get; set; }
+
+        public override object GetId()
+        {
+            return Id;
+        }
     }
 }

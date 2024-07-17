@@ -7,10 +7,14 @@ using UnityEngine;
 
 namespace _Game.Scripts.GD.DataManager
 {
+    public abstract class DataTableRecord
+    {
+        public abstract object GetId();
+    }
     /// <summary>
     /// 
     /// </summary>
-    public abstract class DataTable<TRecordType>
+    public abstract class DataTable<TRecordType> where TRecordType: DataTableRecord
     {
         // public static readonly string SHEET_URL =
         //     "https://docs.google.com/spreadsheets/d/1lg1LNncm8kVlASyTctlJqWU7dw5JWz2SKmbD82R8uM0/edit?gid=1364617036#gid=1364617036";
@@ -55,5 +59,10 @@ namespace _Game.Scripts.GD.DataManager
         // {
         //     return (DataTable<TRecordType>)Activator.CreateInstance(typeof(DataTable<TRecordType>), downloadUrl, dataFileName);
         // }
+        
+        public TRecordType FindById(string id)
+        {
+            return Records.Find(v => Equals(v.GetId(), id));
+        }
     }
 }

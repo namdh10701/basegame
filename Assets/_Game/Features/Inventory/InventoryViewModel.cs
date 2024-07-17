@@ -403,5 +403,10 @@ namespace _Game.Features.Inventory
 
             IgnoreItems.Remove(item);
         }
+        
+        public void ClearIgnoredItems()
+        {
+            IgnoreItems.Clear();
+        }
     }
 }
