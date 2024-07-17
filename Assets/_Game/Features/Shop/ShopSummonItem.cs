@@ -159,45 +159,23 @@ namespace _Game.Features.Shop
         private string _gachaType;
         #endregion
 
-        [Binding]
-        public Sprite Thumbnail
-        {
-            get
-            {
-                switch (_gachaType)
-                {
-                    case "cannon":
-                        return _Game.Scripts.DB.Database.GetCannonImage(IdGachaItem);
-                    case "ammo":
-                        return _Game.Scripts.DB.Database.GetCrewImage(IdGachaItem);
-                    default:
-                        Debug.LogWarning("null image");
-                        return Resources.Load<Sprite>("Images/Common/icon_plus");
-                }
-            }
-        }
-
-        #region Binding Prop: IdGachaItem
-        /// <summary>
-        /// IdGachaItem
-        /// </summary>
-        [Binding]
-        public string IdGachaItem
-        {
-            get => _idGachaItem;
-            set
-            {
-                if (Equals(_idGachaItem, value))
-                {
-                    return;
-                }
-
-                _idGachaItem = value;
-                OnPropertyChanged(nameof(IdGachaItem));
-            }
-        }
-        private string _idGachaItem;
-        #endregion
+        // [Binding]
+        // public Sprite Thumbnail
+        // {
+        //     get
+        //     {
+        //         switch (_gachaType)
+        //         {
+        //             case "cannon":
+        //                 return _Game.Scripts.DB.Database.GetCannonImage(IdGachaItem);
+        //             case "ammo":
+        //                 return _Game.Scripts.DB.Database.GetCrewImage(IdGachaItem);
+        //             default:
+        //                 Debug.LogWarning("null image");
+        //                 return Resources.Load<Sprite>("Images/Common/icon_plus");
+        //         }
+        //     }
+        // }
 
         public List<string> ListRarity = new List<string>();
         public List<int> ListWeightRarity = new List<int>();
@@ -206,16 +184,14 @@ namespace _Game.Features.Shop
 
         public string CurentRarityItemGacha;
         public string CurentNameItemGacha;
-        public event Action OnClickGacha;
+        public ShopViewModel ShopViewModel;
 
-        void OnEnable()
-        {
-            OnClickGacha += GetIDItemGacha;
-        }
+        private int _numberGacha;
 
-        void OnDisable()
+        public void SetUp(int numberGacha, ShopViewModel shopViewModel)
         {
-            OnClickGacha -= GetIDItemGacha;
+            _numberGacha = numberGacha;
+            ShopViewModel = shopViewModel;
         }
 
         public string GetRandomRarityByWeight()
@@ -257,8 +233,8 @@ namespace _Game.Features.Shop
             {
                 if (randomNumber < ListWeightNameItem[i])
                 {
-                    CurentNameItemGacha = ListRarity[i];
-                    return ListRarity[i];
+                    CurentNameItemGacha = ListNameItem[i];
+                    return ListNameItem[i];
                 }
                 randomNumber -= ListWeightNameItem[i];
             }
@@ -269,7 +245,24 @@ namespace _Game.Features.Shop
         [Binding]
         public void GetIDItemGacha()
         {
-            IdGachaItem = GameData.ShopRarityTable.GetIdByNameAndRarity(CurentNameItemGacha, CurentRarityItemGacha);
+            ShopViewModel.ItemsGachaReceived.Clear();
+            for (int i = 0; i < _numberGacha; i++)
+            {
+                ListRarity = GameData.ShopItemTable.GetRarityById(Id);
+                ListWeightRarity = GameData.ShopItemTable.GetWeightRarityById(Id);
+                ListNameItem = GameData.ShopRarityTable.GetDataNames(GachaType, GetRandomRarityByWeight());
+                ListWeightNameItem = GameData.ShopRarityTable.GetWeights(GachaType, CurentRarityItemGacha);
+                GetRandomNameByWeight();
+                var IdGachaItem = GameData.ShopRarityTable.GetIdByNameAndRarity(CurentNameItemGacha, CurentRarityItemGacha);
+
+                ShopItemGachaReceived shopItemGachaReceived = new ShopItemGachaReceived();
+                shopItemGachaReceived.Id = IdGachaItem;
+                shopItemGachaReceived.Name = CurentNameItemGacha;
+                shopItemGachaReceived.GachaType = GachaType;
+                shopItemGachaReceived.Rarity = CurentRarityItemGacha;
+                ShopViewModel.ItemsGachaReceived.Add(shopItemGachaReceived);
+            }
+            ShopViewModel.IsActiveItemGachaReceived = true;
         }
     }
 }

@@ -76,6 +76,13 @@ namespace _Game.Features.Shop
         public ObservableList<ShopSummonItem> SummonItems => summonItems;
         #endregion
 
+        #region Binding: SummonItems
+        private ObservableList<ShopItemGachaReceived> itemsGachaReceived = new ObservableList<ShopItemGachaReceived>();
+
+        [Binding]
+        public ObservableList<ShopItemGachaReceived> ItemsGachaReceived => itemsGachaReceived;
+        #endregion
+
         #region Binding Prop: IsMultiSelect
 
         /// <summary>
@@ -98,6 +105,31 @@ namespace _Game.Features.Shop
         }
 
         private bool _isMultiSelect;
+
+        #endregion
+
+        #region Binding Prop: IsActiveItemGachaReceived
+
+        /// <summary>
+        /// IsActiveItemGachaReceived
+        /// </summary>
+        [Binding]
+        public bool IsActiveItemGachaReceived
+        {
+            get => _isActiveItemGachaReceived;
+            set
+            {
+                if (Equals(_isActiveItemGachaReceived, value))
+                {
+                    return;
+                }
+
+                _isActiveItemGachaReceived = value;
+                OnPropertyChanged(nameof(IsActiveItemGachaReceived));
+            }
+        }
+
+        private bool _isActiveItemGachaReceived;
 
         #endregion
 
@@ -149,18 +181,16 @@ namespace _Game.Features.Shop
             Items.Clear();
             Items.AddRange(itemSource.Where(v => v.Type == itemType));
         }
-
-        public event Action OnClickGacha;
         List<ShopItemTableRecord> _shopDataItemRecords = new List<ShopItemTableRecord>();
         List<ShopListingTableRecord> _shopDataItemGem = new List<ShopListingTableRecord>();
         List<ShopListingTableRecord> _shopDataSummons = new List<ShopListingTableRecord>();
         List<ShopRarityTableRecord> _shopDataRarityRecord = new List<ShopRarityTableRecord>();
         //
-        private void Awake()
+        private void OnEnable()
         {
             LoadDataShop();
             InitializeShopGem();
-            InitializeShopCommon();
+            InitializeShopSummon();
         }
 
 
@@ -208,7 +238,7 @@ namespace _Game.Features.Shop
             }
         }
 
-        private void InitializeShopCommon()
+        private void InitializeShopSummon()
         {
             foreach (var item in _shopDataSummons)
             {
@@ -217,11 +247,7 @@ namespace _Game.Features.Shop
                 shopSummonItem.Id = item.ItemId;
                 shopSummonItem.Price = item.PriceAmount.ToString();
                 shopSummonItem.GachaType = item.GachaType;
-                shopSummonItem.ListRarity = GameData.ShopItemTable.GetRarityById(item.ItemId);
-                shopSummonItem.ListWeightRarity = GameData.ShopItemTable.GetWeightRarityById(item.ItemId);
-                shopSummonItem.ListNameItem = GameData.ShopRarityTable.GetDataNames(item.GachaType);
-                shopSummonItem.ListWeightNameItem = GameData.ShopRarityTable.GetWeights(item.ItemId, shopSummonItem.CurentRarityItemGacha);
-                shopSummonItem.OnClickGacha += OnClickGacha;
+                shopSummonItem.SetUp(2, this);
                 SummonItems.Add(shopSummonItem);
             }
         }
@@ -240,12 +266,6 @@ namespace _Game.Features.Shop
         public void ToggleMultiSelect()
         {
             IsMultiSelect = !IsMultiSelect;
-        }
-
-        [Binding]
-        public void ClickGacha()
-        {
-            OnClickGacha?.Invoke();
         }
     }
 }
