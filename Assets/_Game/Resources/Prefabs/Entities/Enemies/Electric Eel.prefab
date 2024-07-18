@@ -190,21 +190,27 @@ MonoBehaviour:
     <FeverPoint>k__BackingField:
       statModifiers: []
       _baseValue: 0
-  anim: {fileID: 5696707011990469512}
   id: 0002
   gdConfig: {fileID: 11400000, guid: dafc4004e0133475f8d7f898a1f7342d, type: 2}
   statsTemplate: {fileID: 11400000, guid: 7b641c5f7ad3c493c9f6f71cb400fdee, type: 2}
   body: {fileID: 4714609694109140471}
-  EffectTakerCollider: {fileID: 2464650525156154373}
+  effectTakerCollider: {fileID: 2464650525156154373}
   effectHandler: {fileID: 961302212376726107}
   blackboard: {fileID: 291860766914543287}
-  MBTExecutor: {fileID: 6092494332393929708}
+  mbtExecutor: {fileID: 6092494332393929708}
   enemyController: {fileID: 3349221708042926482}
-  electricFx: {fileID: 1285242852396960929}
+  enemyView: {fileID: 5696707011990469512}
+  attackPatternProfile: {fileID: 0}
   findTargetBehaviour: {fileID: 7770344797633873571}
+  findTargetCollider: {fileID: 1288910632154343372}
   cooldownBehaviour: {fileID: 1637006819063413915}
+  chargeState: 0
+  electricFx: {fileID: 1285242852396960929}
   Projectile: {fileID: 326042506130949033, guid: f0e08edf84664b0478d53a2dffe30f52, type: 3}
   FindTargetCollider: {fileID: 1288910632154343372}
+  target: {fileID: 0}
+  syncAnimationPlayFxTime: 0.5
+  syncAnimationSpawnProjectileTime: 0.8
 --- !u!114 &3349221708042926482
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -217,11 +223,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75bad72ee5166304c8117a39c62cd8b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  electricFx: {fileID: 1285242852396960929}
-  Projectile: {fileID: 326042506130949033, guid: f0e08edf84664b0478d53a2dffe30f52, type: 3}
-  target: {fileID: 0}
-  syncAnimationPlayFxTime: 0.5
-  syncAnimationSpawnProjectileTime: 0.8
+  enemyView: {fileID: 5696707011990469512}
 --- !u!114 &2147891299371632106
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,8 +239,8 @@ MonoBehaviour:
   OnReachZero:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3349221708042926482}
-        m_TargetAssemblyTypeName: ElectricEelController, Assembly-CSharp
+      - m_Target: {fileID: 593926761375271006}
+        m_TargetAssemblyTypeName: _Game.Features.Gameplay.EnemyModel, Assembly-CSharp
         m_MethodName: Die
         m_Mode: 1
         m_Arguments:
@@ -716,7 +718,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1786719095
   m_SortingLayer: 2
-  m_SortingOrder: -738
+  m_SortingOrder: -276
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &8147785494522608060
 MonoBehaviour:
@@ -1384,17 +1386,13 @@ GameObject:
   - component: {fileID: 5580117186951969444}
   - component: {fileID: 5901448636202595226}
   - component: {fileID: 4382031657814544503}
-  - component: {fileID: 504841146570443309}
   - component: {fileID: 489186924485676746}
   - component: {fileID: 4793104390355839427}
   - component: {fileID: 4425502763461382094}
   - component: {fileID: 703355351557711488}
-  - component: {fileID: 2012537843382700621}
   - component: {fileID: 9191656538089645231}
   - component: {fileID: 149621412806234243}
   - component: {fileID: 6566917435121128353}
-  - component: {fileID: 2577254641970326530}
-  - component: {fileID: 7976023221219650416}
   - component: {fileID: 8607001507616054668}
   - component: {fileID: 1584583605352490474}
   - component: {fileID: 7434861432002634191}
@@ -1407,6 +1405,10 @@ GameObject:
   - component: {fileID: 3826834696898326724}
   - component: {fileID: 2256248938945240947}
   - component: {fileID: 8327156677661610839}
+  - component: {fileID: 2974673909128447136}
+  - component: {fileID: 6289740761219713959}
+  - component: {fileID: 5972644149637065698}
+  - component: {fileID: 8699976353200259352}
   m_Layer: 6
   m_Name: BehaviourTree
   m_TagString: Untagged
@@ -1447,8 +1449,8 @@ MonoBehaviour:
   - {fileID: 3232162239113911888}
   - {fileID: 5901448636202595226}
   - {fileID: 6566917435121128353}
-  - {fileID: 7976023221219650416}
   - {fileID: 8327156677661610839}
+  - {fileID: 2974673909128447136}
   masterBlackboard: {fileID: 0}
 --- !u!114 &3423505453605259068
 MonoBehaviour:
@@ -1547,8 +1549,8 @@ MonoBehaviour:
   title: Wander
   rect:
     serializedVersion: 2
-    x: 79
-    y: 632
+    x: 65
+    y: 724
     width: 160
     height: 45
   parent: {fileID: 918975567095667542}
@@ -1556,7 +1558,12 @@ MonoBehaviour:
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
-  SpineAnimationEnemyHandler: {fileID: 5696707011990469512}
+  Enemy:
+    useConstant: 0
+    mode: 0
+    blackboard: {fileID: 291860766914543287}
+    key: Enemy
+    constantValue: {fileID: 0}
   MoveableArea:
     useConstant: 0
     mode: 0
@@ -1603,8 +1610,8 @@ MonoBehaviour:
   title: Attack
   rect:
     serializedVersion: 2
-    x: -382
-    y: 875
+    x: -440
+    y: 962
     width: 160
     height: 45
   parent: {fileID: 8607001507616054668}
@@ -1612,7 +1619,7 @@ MonoBehaviour:
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
-  type: _Game.Features.Gameplay.ElectricEelController
+  type: _Game.Features.Gameplay.ElectricEelModel
   monoBehaviour: {fileID: 1637006819063413915}
   coroutineName: AttackSequence
 --- !u!114 &5901448636202595226
@@ -1628,7 +1635,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Enemy
-  val: {fileID: 3349221708042926482}
+  val: {fileID: 593926761375271006}
 --- !u!114 &4382031657814544503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1650,51 +1657,12 @@ MonoBehaviour:
     height: 45
   parent: {fileID: 4793104390355839427}
   children:
-  - {fileID: 504841146570443309}
+  - {fileID: 5972644149637065698}
   - {fileID: 489186924485676746}
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
   random: 0
---- !u!114 &504841146570443309
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8399095276866630800}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a99d6a2f81e3c34cb8175fa31765443, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  title: Hide
-  rect:
-    serializedVersion: 2
-    x: 238
-    y: 722
-    width: 160
-    height: 45
-  parent: {fileID: 4382031657814544503}
-  children: []
-  behaviourTree: {fileID: 0}
-  runtimePriority: 0
-  breakpoint: 0
-  UnityEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3349221708042926482}
-        m_TargetAssemblyTypeName: ElectricEelController, Assembly-CSharp
-        m_MethodName: Hide
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &489186924485676746
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1710,8 +1678,8 @@ MonoBehaviour:
   title: Wait
   rect:
     serializedVersion: 2
-    x: 443
-    y: 724
+    x: 421
+    y: 727
     width: 160
     height: 45
   parent: {fileID: 4382031657814544503}
@@ -1724,7 +1692,7 @@ MonoBehaviour:
     mode: 0
     blackboard: {fileID: 0}
     key: 
-    constantValue: 1
+    constantValue: 2
   randomDeviation: 0
   continueOnRestart: 0
 --- !u!114 &4793104390355839427
@@ -1770,8 +1738,8 @@ MonoBehaviour:
   title: UnderwaterMove
   rect:
     serializedVersion: 2
-    x: 575
-    y: 794
+    x: 540
+    y: 814
     width: 160
     height: 45
   parent: {fileID: 4793104390355839427}
@@ -1820,51 +1788,12 @@ MonoBehaviour:
     height: 45
   parent: {fileID: 4793104390355839427}
   children:
-  - {fileID: 2012537843382700621}
+  - {fileID: 6289740761219713959}
   - {fileID: 9191656538089645231}
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
   random: 0
---- !u!114 &2012537843382700621
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8399095276866630800}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a99d6a2f81e3c34cb8175fa31765443, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  title: Show
-  rect:
-    serializedVersion: 2
-    x: 642
-    y: 725
-    width: 160
-    height: 45
-  parent: {fileID: 703355351557711488}
-  children: []
-  behaviourTree: {fileID: 0}
-  runtimePriority: 0
-  breakpoint: 0
-  UnityEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3349221708042926482}
-        m_TargetAssemblyTypeName: ElectricEelController, Assembly-CSharp
-        m_MethodName: Show
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &9191656538089645231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1922,7 +1851,12 @@ MonoBehaviour:
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
-  FindTargetBehaviour: {fileID: 7770344797633873571}
+  enemyReference:
+    useConstant: 0
+    mode: 0
+    blackboard: {fileID: 291860766914543287}
+    key: Enemy
+    constantValue: {fileID: 0}
   abort: 2
   isHasTarget:
     useConstant: 0
@@ -1943,58 +1877,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: IsHasTarget
-  val: 0
---- !u!114 &2577254641970326530
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8399095276866630800}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e074f5c7cb160b943ad9ae79749bd261, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  title: Is Ready To Attack
-  rect:
-    serializedVersion: 2
-    x: -220
-    y: 486
-    width: 160
-    height: 45
-  parent: {fileID: 4146721067324264289}
-  children:
-  - {fileID: 6476150319703334821}
-  behaviourTree: {fileID: 0}
-  runtimePriority: 0
-  breakpoint: 0
-  enemyReference:
-    useConstant: 0
-    mode: 0
-    blackboard: {fileID: 291860766914543287}
-    key: Enemy
-    constantValue: {fileID: 0}
-  abort: 0
-  isReadyToAttack:
-    useConstant: 0
-    mode: 0
-    blackboard: {fileID: 291860766914543287}
-    key: IsReadyToAttack
-    constantValue: 0
---- !u!114 &7976023221219650416
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8399095276866630800}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ae15c5e6bcb1714080f2e8296c3d17a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  key: IsReadyToAttack
   val: 0
 --- !u!114 &8607001507616054668
 MonoBehaviour:
@@ -2039,8 +1921,8 @@ MonoBehaviour:
   title: Wait
   rect:
     serializedVersion: 2
-    x: -204
-    y: 873
+    x: -264
+    y: 901
     width: 160
     height: 45
   parent: {fileID: 8607001507616054668}
@@ -2053,7 +1935,7 @@ MonoBehaviour:
     mode: 0
     blackboard: {fileID: 0}
     key: 
-    constantValue: 1.5
+    constantValue: 2
   randomDeviation: 0
   continueOnRestart: 0
 --- !u!114 &7434861432002634191
@@ -2071,8 +1953,8 @@ MonoBehaviour:
   title: Decelerate
   rect:
     serializedVersion: 2
-    x: -563
-    y: 876
+    x: -570
+    y: 887
     width: 160
     height: 45
   parent: {fileID: 8607001507616054668}
@@ -2128,13 +2010,13 @@ MonoBehaviour:
   title: Selector
   rect:
     serializedVersion: 2
-    x: -64
-    y: 407
+    x: -53
+    y: 371
     width: 160
     height: 45
   parent: {fileID: 3711065613906591618}
   children:
-  - {fileID: 2577254641970326530}
+  - {fileID: 8699976353200259352}
   - {fileID: 7834660955722705572}
   behaviourTree: {fileID: 0}
   runtimePriority: 0
@@ -2159,7 +2041,7 @@ MonoBehaviour:
     y: 552
     width: 160
     height: 45
-  parent: {fileID: 2577254641970326530}
+  parent: {fileID: 8699976353200259352}
   children:
   - {fileID: 6496468220416208051}
   - {fileID: 3128012144155073256}
@@ -2182,8 +2064,8 @@ MonoBehaviour:
   title: Random Chance
   rect:
     serializedVersion: 2
-    x: 84
-    y: 521
+    x: 76
+    y: 574
     width: 160
     height: 45
   parent: {fileID: 7834660955722705572}
@@ -2213,8 +2095,8 @@ MonoBehaviour:
   title: Selector
   rect:
     serializedVersion: 2
-    x: 192
-    y: 435
+    x: 193
+    y: 461
     width: 160
     height: 45
   parent: {fileID: 4146721067324264289}
@@ -2279,13 +2161,18 @@ MonoBehaviour:
   interval: 0.5
   randomDeviation: 0
   callOnEnter: 1
-  IsTargetInRange:
+  IsHasTarget:
     useConstant: 0
     mode: 0
     blackboard: {fileID: 291860766914543287}
     key: IsHasTarget
     constantValue: 0
-  FindTargetBehaviour: {fileID: 7770344797633873571}
+  enemyReference:
+    useConstant: 0
+    mode: 0
+    blackboard: {fileID: 291860766914543287}
+    key: Enemy
+    constantValue: {fileID: 0}
 --- !u!114 &2256248938945240947
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2302,7 +2189,7 @@ MonoBehaviour:
   rect:
     serializedVersion: 2
     x: -115
-    y: 782
+    y: 789
     width: 160
     height: 45
   parent: {fileID: 3826834696898326724}
@@ -2349,6 +2236,120 @@ MonoBehaviour:
   val:
     statModifiers: []
     _baseValue: 0
+--- !u!114 &2974673909128447136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8399095276866630800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ae15c5e6bcb1714080f2e8296c3d17a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: IsInCooldown
+  val: 0
+--- !u!114 &6289740761219713959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8399095276866630800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f22d224715fa624a8758612343a0ade, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: Set State
+  rect:
+    serializedVersion: 2
+    x: 646
+    y: 732
+    width: 160
+    height: 45
+  parent: {fileID: 703355351557711488}
+  children: []
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+  enemyState: 1
+  enemyReference:
+    useConstant: 0
+    mode: 0
+    blackboard: {fileID: 291860766914543287}
+    key: Enemy
+    constantValue: {fileID: 0}
+--- !u!114 &5972644149637065698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8399095276866630800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f22d224715fa624a8758612343a0ade, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: Set State
+  rect:
+    serializedVersion: 2
+    x: 256
+    y: 730
+    width: 160
+    height: 45
+  parent: {fileID: 4382031657814544503}
+  children: []
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+  enemyState: 5
+  enemyReference:
+    useConstant: 0
+    mode: 0
+    blackboard: {fileID: 291860766914543287}
+    key: Enemy
+    constantValue: {fileID: 0}
+--- !u!114 &8699976353200259352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8399095276866630800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e074f5c7cb160b943ad9ae79749bd261, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: Is Ready To Attack
+  rect:
+    serializedVersion: 2
+    x: -213
+    y: 483
+    width: 160
+    height: 45
+  parent: {fileID: 4146721067324264289}
+  children:
+  - {fileID: 6476150319703334821}
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+  enemyReference:
+    useConstant: 0
+    mode: 0
+    blackboard: {fileID: 291860766914543287}
+    key: Enemy
+    constantValue: {fileID: 0}
+  abort: 2
+  isInCooldown:
+    useConstant: 0
+    mode: 0
+    blackboard: {fileID: 291860766914543287}
+    key: IsInCooldown
+    constantValue: 0
 --- !u!1 &8879532844825408350
 GameObject:
   m_ObjectHideFlags: 0
@@ -2812,21 +2813,61 @@ PrefabInstance:
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4498478607665456856, guid: 8023c7f2bd4aa6e48abe4932f8bf5835, type: 3}
+      propertyPath: Dead
+      value: dead
+      objectReference: {fileID: 0}
+    - target: {fileID: 4498478607665456856, guid: 8023c7f2bd4aa6e48abe4932f8bf5835, type: 3}
+      propertyPath: Idle
+      value: idle
+      objectReference: {fileID: 0}
+    - target: {fileID: 4498478607665456856, guid: 8023c7f2bd4aa6e48abe4932f8bf5835, type: 3}
       propertyPath: burn
       value: 
       objectReference: {fileID: 320181298029434684}
+    - target: {fileID: 4498478607665456856, guid: 8023c7f2bd4aa6e48abe4932f8bf5835, type: 3}
+      propertyPath: Entry
+      value: appear
+      objectReference: {fileID: 0}
     - target: {fileID: 4498478607665456856, guid: 8023c7f2bd4aa6e48abe4932f8bf5835, type: 3}
       propertyPath: rings
       value: 
       objectReference: {fileID: 1164255914469927669}
     - target: {fileID: 4498478607665456856, guid: 8023c7f2bd4aa6e48abe4932f8bf5835, type: 3}
+      propertyPath: Moving
+      value: move
+      objectReference: {fileID: 0}
+    - target: {fileID: 4498478607665456856, guid: 8023c7f2bd4aa6e48abe4932f8bf5835, type: 3}
+      propertyPath: attack
+      value: begin
+      objectReference: {fileID: 0}
+    - target: {fileID: 4498478607665456856, guid: 8023c7f2bd4aa6e48abe4932f8bf5835, type: 3}
+      propertyPath: burnFx
+      value: 
+      objectReference: {fileID: 320181298029434684}
+    - target: {fileID: 4498478607665456856, guid: 8023c7f2bd4aa6e48abe4932f8bf5835, type: 3}
+      propertyPath: Attacking
+      value: attack_toidle
+      objectReference: {fileID: 0}
+    - target: {fileID: 4498478607665456856, guid: 8023c7f2bd4aa6e48abe4932f8bf5835, type: 3}
+      propertyPath: HidingIdle
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4498478607665456856, guid: 8023c7f2bd4aa6e48abe4932f8bf5835, type: 3}
       propertyPath: enemyModel
       value: 
       objectReference: {fileID: 593926761375271006}
     - target: {fileID: 4498478607665456856, guid: 8023c7f2bd4aa6e48abe4932f8bf5835, type: 3}
+      propertyPath: HidingEntry
+      value: hide
+      objectReference: {fileID: 0}
+    - target: {fileID: 4498478607665456856, guid: 8023c7f2bd4aa6e48abe4932f8bf5835, type: 3}
       propertyPath: meshRenderer
       value: 
       objectReference: {fileID: 3915584311960475801}
+    - target: {fileID: 4498478607665456856, guid: 8023c7f2bd4aa6e48abe4932f8bf5835, type: 3}
+      propertyPath: skeletonAnim
+      value: 
+      objectReference: {fileID: 2021371003822631243}
     - target: {fileID: 4498478607665456856, guid: 8023c7f2bd4aa6e48abe4932f8bf5835, type: 3}
       propertyPath: visuals.Array.data[0]
       value: 
@@ -2900,6 +2941,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 754758921a026294882b79bfaea58a94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2021371003822631243 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7885328619971785755, guid: 8023c7f2bd4aa6e48abe4932f8bf5835, type: 3}
+  m_PrefabInstance: {fileID: 8170385890896305488}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d247ba06193faa74d9335f5481b2b56c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!23 &3915584311960475801 stripped

@@ -491,7 +491,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b25af8627659c6949b60949c3aa8d91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedEditorNode: {fileID: 8502797856831486152}
+  selectedEditorNode: {fileID: 0}
   repeatOnFinish: 0
   maxExecutionsPerTick: 6
   parent: {fileID: 0}
@@ -549,8 +549,8 @@ MonoBehaviour:
   title: Selector
   rect:
     serializedVersion: 2
-    x: 95
-    y: 174
+    x: 139
+    y: 171
     width: 160
     height: 45
   parent: {fileID: 7810754550779163363}
@@ -632,7 +632,7 @@ MonoBehaviour:
   rect:
     serializedVersion: 2
     x: -368
-    y: 459
+    y: 476
     width: 160
     height: 45
   parent: {fileID: 802726824081452670}
@@ -738,8 +738,8 @@ MonoBehaviour:
   title: Update Target In Range
   rect:
     serializedVersion: 2
-    x: 405
-    y: 266
+    x: 548
+    y: 259
     width: 160
     height: 45
   parent: {fileID: 170055326424479480}
@@ -1420,7 +1420,7 @@ MonoBehaviour:
   rect:
     serializedVersion: 2
     x: -367
-    y: 378
+    y: 397
     width: 160
     height: 45
   parent: {fileID: 5699953156240191337}
@@ -1436,7 +1436,7 @@ MonoBehaviour:
     key: Enemy
     constantValue: {fileID: 0}
   abort: 0
-  isReadyToAttack:
+  isInCooldown:
     useConstant: 0
     mode: 0
     blackboard: {fileID: 5620064205659582906}
@@ -1516,8 +1516,8 @@ MonoBehaviour:
   title: Selector
   rect:
     serializedVersion: 2
-    x: -266
-    y: 301
+    x: -263
+    y: 321
     width: 160
     height: 45
   parent: {fileID: 1792199623651829269}
@@ -1543,8 +1543,8 @@ MonoBehaviour:
   title: Set State
   rect:
     serializedVersion: 2
-    x: -160
-    y: 384
+    x: -154
+    y: 420
     width: 160
     height: 45
   parent: {fileID: 5699953156240191337}
@@ -1574,8 +1574,8 @@ MonoBehaviour:
   title: Is Has Target
   rect:
     serializedVersion: 2
-    x: -98
-    y: 228
+    x: -107
+    y: 255
     width: 160
     height: 45
   parent: {fileID: 170055326424479480}

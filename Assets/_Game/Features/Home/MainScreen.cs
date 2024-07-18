@@ -1,4 +1,5 @@
 using System;
+using _Base.Scripts.Audio;
 using _Game.Features.Inventory;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -56,7 +57,7 @@ namespace _Game.Features.Home
         // {
         //     ShowSheet(index).Forget();
         // }
-        
+
         // private async UniTaskVoid ShowSheet(int sheetId)
         // {
         //     if (_itemGridContainer.IsInTransition)
@@ -132,7 +133,14 @@ namespace _Game.Features.Home
         //     Debug.Log("XXX: DidPopExit");
         //
         // }
-        
+
+        public override UniTask Initialize(Memory<object> args)
+        {
+
+            AudioManager.Instance.PlayBgmHome();
+            return base.Initialize(args);
+        }
+
         // Return from other screen
         public override UniTask WillPopEnter(Memory<object> args)
         {

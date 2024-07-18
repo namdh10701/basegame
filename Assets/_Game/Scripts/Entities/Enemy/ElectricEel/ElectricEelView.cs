@@ -29,27 +29,22 @@ public class ElectricEelView : EnemyView
                 break;
         }
     }
-
-    public void PlayAttack()
+    protected override void OnStateEntered(EnemyState enemyState)
     {
-        skeletonAnim.AnimationState.SetAnimation(0, "attack_toidle", false);
-        OnAttack.Invoke();
+        base.OnStateEntered(enemyState);
+        switch (enemyState)
+        {
+            case EnemyState.Entry:
+                Appear();
+                break;
+        }
     }
-
-
     public void Appear()
     {
         foreach (Renderer renderer in visuals)
         {
             renderer.enabled = true;
         }
-        skeletonAnim.AnimationState.AddAnimation(0, "appear", false, 0);
-    }
-
-    public void Hide()
-    {
-        skeletonAnim.AnimationState.SetAnimation(0, "hide", false);
-        rings.gameObject.SetActive(false);
     }
 
     protected override void AnimationState_Complete(TrackEntry trackEntry)
@@ -60,6 +55,7 @@ public class ElectricEelView : EnemyView
             {
                 renderer.enabled = false;
             }
+            rings.SetActive(false);
         }
         if (trackEntry.Animation.Name == "appear")
         {

@@ -29,17 +29,28 @@ namespace _Base.Scripts.Audio
         [SerializeField] protected AudioSource _sampleSoundSource;
 
         [Header("Common - SFXs")]
-        [SerializeField] protected AudioClip _sfxTapButton;
+        Dictionary<SoundID, AudioClip> btnSfxDic = new Dictionary<SoundID, AudioClip>();
 
-        [Header("Gameplay - SFXs")]
-        [SerializeField] protected AudioClip _sfxAddObject;
-        [SerializeField] protected AudioClip _sfxThrowObject;
-        [SerializeField] protected AudioClip _sfxLevelComplete;
-        [SerializeField] protected AudioClip[] _sfxCombos;
+        [SerializeField] protected AudioClip btn_general;
+        [SerializeField] protected AudioClip btn_cancel;
+        [SerializeField] protected AudioClip btn_popup_open;
+        [SerializeField] protected AudioClip btn_popup_close;
+        [SerializeField] protected AudioClip btn_navigate_home;
+        [SerializeField] protected AudioClip btn_navigate_shop;
+        [SerializeField] protected AudioClip btn_navigate_myship;
+        [SerializeField] protected AudioClip btn_navigate_inventory;
+        [SerializeField] protected AudioClip btn_navigate_habor;
+        [SerializeField] protected AudioClip btn_turbo;
+        [SerializeField] protected AudioClip btn_confirm;
+
+
+        [SerializeField] protected AudioClip[] _monsterTakeHits;
+        [SerializeField] protected AudioClip _shipMoveForwad;
+        [SerializeField] protected AudioClip _shipidle;
 
         [Header("BGMs")]
         [SerializeField] protected AudioClip _bgmHome;
-        [SerializeField] protected AudioClip[] _bgmGameplay;
+        [SerializeField] protected AudioClip _bgmGameplay;
 
         const string KEY_SFX = "SFX";
         const string KEY_BGM = "BGM";
@@ -60,15 +71,42 @@ namespace _Base.Scripts.Audio
         public event Action<bool> OnEnableMusic;
 
 
-        public int CurrentBackground = 0;
-
         protected override void Awake()
         {
             _poolSounds = new ObjectPool<Transform>(_sampleSoundSource.transform);
+            btnSfxDic = new Dictionary<SoundID, AudioClip> {
+                { SoundID.btn_general, btn_general },
+                { SoundID.btn_confirm, btn_confirm},
+                { SoundID.btn_popup_open, btn_popup_open},
+                { SoundID.btn_popup_close, btn_popup_close},
+                { SoundID.btn_cancel, btn_cancel},
+                { SoundID.btn_navigate_home, btn_navigate_home},
+                { SoundID.btn_navigate_shop, btn_navigate_shop},
+                { SoundID.btn_navigate_myship, btn_navigate_myship},
+                { SoundID.btn_navigate_inventory, btn_navigate_inventory},
+                { SoundID.btn_navigate_habor, btn_navigate_habor},
+                { SoundID.btn_turbo, btn_turbo},
+            };
         }
 
         public void LoadSoundSettings()
         {
+            if (!PlayerPrefs.HasKey(KEY_SFX))
+            {
+                IsSfxOn = true;
+            }
+
+            if (PlayerPrefs.HasKey(KEY_BGM))
+            {
+                IsBgmOn = true;
+            }
+
+            if (PlayerPrefs.HasKey(KEY_VIBRATE))
+            {
+                IsVibrateOn = true;
+            }
+
+
             IsSfxOn = PlayerPrefs.GetInt(KEY_SFX, 1) > 0 ? true : false;
             IsBgmOn = PlayerPrefs.GetInt(KEY_BGM, 1) > 0 ? true : false;
             IsVibrateOn = PlayerPrefs.GetInt(KEY_VIBRATE, 1) > 0 ? true : false;
@@ -195,7 +233,6 @@ namespace _Base.Scripts.Audio
             source.clip = config.Clip;
             source.loop = config.Type == AudioConfig.AudioType.BGM;
             source.volume = (config.Type == AudioConfig.AudioType.SFX) ? _sfxVolume : _bgmVolume;
-
             if (config.Type == AudioConfig.AudioType.BGM)
             {
                 yield return FadeBGMsVolumes(0);
@@ -210,7 +247,6 @@ namespace _Base.Scripts.Audio
             yield return new WaitForSeconds(0.1f);
             while (source.isPlaying)
                 yield return null;
-
             source.Stop();
             _soundConfigs.Remove(config);
             _activeSources.Remove(source);
@@ -230,7 +266,7 @@ namespace _Base.Scripts.Audio
                 {
                     if (item.loop && item.isPlaying)
                     {
-                        item.volume = Mathf.Lerp(startVolume, 0f, timer / fadeDuration);
+                        item.volume = Mathf.Lerp(startVolume, targetVolume, timer / fadeDuration);
                     }
                 }
                 yield return null;
@@ -314,8 +350,8 @@ namespace _Base.Scripts.Audio
             vibrator.Call("vibrate", vibrationEffect);
         }
 #else
-           /* Debug.Log("Play Vibrate");
-            Handheld.Vibrate();*/
+            /* Debug.Log("Play Vibrate");
+             Handheld.Vibrate();*/
 #endif
         }
 
@@ -324,11 +360,11 @@ namespace _Base.Scripts.Audio
             //Handheld.Vibrate();
         }
 
-        public void PlaySfxTapButton()
+        public void PlaySfxTapButton(SoundID soundId)
         {
             PlaySound(new AudioConfig()
             {
-                Clip = _sfxTapButton,
+                Clip = btnSfxDic[soundId],
                 Type = AudioConfig.AudioType.SFX
             });
         }
@@ -337,74 +373,65 @@ namespace _Base.Scripts.Audio
         /// GAMEPLAY
         /// </summary>
 
-        public void PlaySfxAddedObject()
-        {
-            PlaySound(new AudioConfig()
-            {
-                Clip = _sfxAddObject,
-                Type = AudioConfig.AudioType.SFX
-            });
-        }
 
-        public void PlaySfxThrowObject()
-        {
-            PlaySound(new AudioConfig()
-            {
-                Clip = _sfxThrowObject,
-                Type = AudioConfig.AudioType.SFX
-            });
-        }
-
-        public void PlaySfxCombo(int index)
-        {
-            if (index < 0)
-                index = 0;
-            else if (index >= _sfxCombos.Length)
-                index = _sfxCombos.Length - 1;
-
-            PlaySound(new AudioConfig()
-            {
-                Clip = _sfxCombos[index],
-                Type = AudioConfig.AudioType.SFX
-            });
-        }
-
-        public void PlaySfxLevelComplete()
-        {
-            PlaySound(new AudioConfig()
-            {
-                Clip = _sfxLevelComplete,
-                Type = AudioConfig.AudioType.SFX
-            });
-        }
 
         /// <summary>
         /// BGM
         /// </summary>
         public void PlayBgmHome()
         {
-            // if (!IsBgmOn) return;
-            // playSound(new AudioConfig()
-            // {
-            //     Clip = _bgmHome,
-            //     Type = AudioConfig.AudioType.BGM
-            // });
+            if (!IsBgmOn) return;
+            PlaySound(new AudioConfig()
+            {
+                Clip = _bgmHome,
+                Type = AudioConfig.AudioType.BGM
+            });
         }
-
-        public void RandomeBGMGameplay()
-        {
-            // CurrentBackground = Random.Range(0, _bgmGameplay.Length);
-        }
-
         public void PlayBgmGameplay()
         {
-            // if (!IsBgmOn) return;
+            IsBgmOn = true;
+            if (!IsBgmOn) return;
+            PlaySound(new AudioConfig()
+            {
+                Clip = _bgmGameplay,
+                Type = AudioConfig.AudioType.BGM
+            });
+        }
 
-            // playSound(new AudioConfig()
-            // {
-            //     Clip = _bgmGameplay[CurrentBackground],
-            //     Type = AudioConfig.AudioType.BGM
-            // });
+        public void PlayShipMove()
+        {
+            PlaySound(new AudioConfig()
+            {
+                Clip = _shipMoveForwad,
+                Type = AudioConfig.AudioType.SFX
+            });
+        }
+
+        public void PlayShipIdle()
+        {
+            PlaySound(new AudioConfig()
+            {
+                Clip = _shipidle,
+                Type = AudioConfig.AudioType.SFX
+            });
+        }
+
+        internal void PlayPopupClose()
+        {
+            PlaySound(new AudioConfig()
+            {
+                Clip = btn_popup_close,
+                Type = AudioConfig.AudioType.SFX
+            });
+        }
+
+        internal void PlayPopupOpen()
+        {
+            PlaySound(new AudioConfig()
+            {
+                Clip = btn_popup_open,
+                Type = AudioConfig.AudioType.SFX
+            });
         }
     }
 }

@@ -131,16 +131,20 @@ namespace _Game.Features.Gameplay
             atkHandler = FindAnyObjectByType<GridAttackHandler>();
             State = EnemyState.Entry;
         }
-
+        private void Update()
+        {
+            Debug.Log(cooldownBehaviour.IsInCooldown);
+        }
         public override void ApplyStats()
         {
-            findTargetCollider.SetRadius(_stats.AttackRange.Value);
-            cooldownBehaviour.SetCooldownTime(_stats.ActionSequenceInterval.Value);
+            findTargetCollider?.SetRadius(_stats.AttackRange.Value);
+            cooldownBehaviour?.SetCooldownTime(_stats.ActionSequenceInterval.Value);
         }
         public void Active()
         {
             State = EnemyState.Idle;
             mbtExecutor.enabled = true;
+            cooldownBehaviour?.StartCooldown();
         }
 
         private void OnDestroy()
@@ -209,7 +213,7 @@ namespace _Game.Features.Gameplay
 
         public virtual bool IsInCooldown()
         {
-            if (cooldownBehaviour != null)
+            if (cooldownBehaviour == null)
             {
                 return false;
             }
@@ -238,20 +242,6 @@ namespace _Game.Features.Gameplay
             OnAttackEnd();
         }
 
-        public virtual bool IsReadyToAttack()
-        {
-            bool isInCooldown = false;
-            bool hasTarget = true;
-            if (cooldownBehaviour != null)
-            {
-                isInCooldown = cooldownBehaviour.IsInCooldown;
-            }
-            if (findTargetBehaviour != null)
-            {
-                hasTarget = findTargetBehaviour.MostTargets.Count > 0;
-            }
-            return !isInCooldown && hasTarget;
-        }
         public abstract IEnumerator AttackSequence();
 
         #region Effects

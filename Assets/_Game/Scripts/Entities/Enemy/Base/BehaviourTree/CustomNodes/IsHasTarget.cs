@@ -10,10 +10,13 @@ public class IsHasTarget : Condition
     public EnemyReference enemyReference;
     public Abort abort;
     public BoolReference isHasTarget = new BoolReference(VarRefMode.DisableConstant);
-
+    public FindTargetBehaviour FindTargetBehaviour;
     public override bool Check()
     {
-        isHasTarget.Value = enemyReference.Value.HasTarget();
+        if (FindTargetBehaviour == null)
+            isHasTarget.Value = enemyReference.Value.HasTarget();
+        else
+            isHasTarget.Value = FindTargetBehaviour.MostTargets.Count > 0;
         return isHasTarget.Value;
     }
 

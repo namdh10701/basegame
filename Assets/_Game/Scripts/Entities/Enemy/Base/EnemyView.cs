@@ -45,6 +45,7 @@ namespace _Game.Features.Gameplay
         bool isStunning;
         bool isFearing;
         bool isBurning;
+        bool first;
         public void Blink()
         {
             if (blinkCoroutine != null)
@@ -101,6 +102,7 @@ namespace _Game.Features.Gameplay
         public void PlayAttack()
         {
             skeletonAnim.AnimationState.SetAnimation(0, Attacking, false);
+            skeletonAnim.AnimationState.AddAnimation(0, Idle, true,0);
         }
 
         protected virtual void OnStateEntered(EnemyState enemyState)
@@ -108,7 +110,16 @@ namespace _Game.Features.Gameplay
             switch (enemyState)
             {
                 case EnemyState.Entry:
-                    StartCoroutine(EntryCoroutine());
+                    if (!first)
+                    {
+                        StartCoroutine(EntryCoroutine());
+                        first = true;
+                    }
+                    else
+                    {
+                        skeletonAnim.AnimationState.SetAnimation(0, Entry, false);
+                        skeletonAnim.AnimationState.AddAnimation(0, Idle, true,0);
+                    }
                     break;
                 case EnemyState.Idle:
                     skeletonAnim.AnimationState.SetAnimation(0, Idle, true);
@@ -129,7 +140,8 @@ namespace _Game.Features.Gameplay
                     break;
                 case EnemyState.Hiding:
                     skeletonAnim.AnimationState.SetAnimation(0, HidingEntry, false);
-                    skeletonAnim.AnimationState.AddAnimation(0, HidingIdle, true, 0);
+                    if (!string.IsNullOrEmpty(HidingIdle))
+                        skeletonAnim.AnimationState.AddAnimation(0, HidingIdle, true, 0);
                     break;
                 case EnemyState.Dead:
                     skeletonAnim.AnimationState.SetAnimation(0, Dead, true);

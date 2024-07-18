@@ -141,6 +141,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
+  - {fileID: 8932495199053268890}
   - {fileID: 319121703950278571}
   - {fileID: 8427063930449867751}
   - {fileID: 6062143284387266767}
@@ -596,6 +597,7 @@ MonoBehaviour:
   shootPosition: {fileID: 8013658354109649413}
   projectilePrefab: {fileID: 0}
   Animation: {fileID: 4065583088557786199}
+  rotateTransform: {fileID: 319121703950278571}
 --- !u!1 &6325944138744424202
 GameObject:
   m_ObjectHideFlags: 0
@@ -695,10 +697,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetTypeNames:
-  - _Game.Scripts.Entities.PufferFishModel
+  - _Game.Features.Gameplay.PufferFishModel
   - _Game.Features.Gameplay.JellyFishModel
-  - _Game.Scripts.SquidModel
-  - ElectricEelModel
+  - _Game.Features.Gameplay.ElectricEelModel
+  - _Game.Features.Gameplay.SquidModel
   - _Game.Features.Gameplay.PhunGaiModel
   - _Game.Features.Gameplay.SkeletonSword
   - _Game.Features.Gameplay.SkeletonBomb
@@ -747,7 +749,6 @@ Transform:
   - {fileID: 2317875615988028719}
   - {fileID: 575761695595097317}
   - {fileID: 4014578835850334057}
-  - {fileID: 8932495199053268890}
   - {fileID: 5237606428833196676}
   m_Father: {fileID: 4759703321050827762}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -799,7 +800,7 @@ MonoBehaviour:
   <Strategy>k__BackingField: {fileID: 3671976682769814746}
   <FindTargetBehaviour>k__BackingField: {fileID: 7147069703896698860}
   <IsCaughtUp>k__BackingField: 0
-  <Target>k__BackingField: {fileID: 0}
+  <Target>k__BackingField: {fileID: 319121703950278571}
 --- !u!114 &3671976682769814746
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -908,7 +909,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 319121703950278571}
+    m_TransformParent: {fileID: 4759703321050827762}
     m_Modifications:
     - target: {fileID: 2126084143196052278, guid: 126ede7f080fff74ba89b7de61f42a9d, type: 3}
       propertyPath: m_PresetInfoIsWorld

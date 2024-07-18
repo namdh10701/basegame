@@ -18,6 +18,7 @@ namespace _Base.Scripts.RPG.Behaviours.AttackTarget
         public Transform shootPosition;
         public CannonProjectile projectilePrefab;
         public SpineAnimationCannonHandler Animation;
+        public Transform rotateTransform;
 
         private void Awake()
         {
@@ -44,7 +45,7 @@ namespace _Base.Scripts.RPG.Behaviours.AttackTarget
                     attackStrategy.Consume(Ammo);
                 }
             }
-            attackStrategy.SetData(entity, shootPosition, projectilePrefab, entity.transform.up);
+            attackStrategy.SetData(entity, shootPosition, projectilePrefab, rotateTransform.up);
             attackStrategy.DoAttack();
         }
 

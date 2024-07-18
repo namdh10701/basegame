@@ -40,12 +40,14 @@ public class JellyFishView : EnemyView
     public void PlayAttackMeeleRightHand()
     {
         skeletonAnim.AnimationState.AddAnimation(0, "attack_r_hand_melee", false, 0);
+        skeletonAnim.AnimationState.AddAnimation(0, "idle", true, 0f);
     }
 
     public void PlayAttackMeeleLeftHand()
     {
 
         skeletonAnim.AnimationState.AddAnimation(0, "attack_l_hand_melee", false, 0);
+        skeletonAnim.AnimationState.AddAnimation(0, "idle", true, 0f);
     }
 
     protected override void AnimationState_Event(TrackEntry trackEntry, Spine.Event e)

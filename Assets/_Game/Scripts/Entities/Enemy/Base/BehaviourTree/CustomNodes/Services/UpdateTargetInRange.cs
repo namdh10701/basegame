@@ -10,9 +10,13 @@ namespace MBT
     {
         public BoolReference IsHasTarget;
         public EnemyReference enemyReference;
+        public FindTargetBehaviour FindTargetBehaviour;
         public override void Task()
         {
-            IsHasTarget.Value = enemyReference.Value.HasTarget();
+            if (FindTargetBehaviour == null)
+                IsHasTarget.Value = enemyReference.Value.HasTarget();
+            else
+                IsHasTarget.Value = FindTargetBehaviour.MostTargets.Count > 0;
         }
     }
 }

@@ -12,7 +12,7 @@ namespace _Game.Features.Gameplay
     {
         public ShipSetup ShipGrid;
 
-        public List<Cell> PickCells(Transform enemy, CellPickType pickType, CellPattern pattern, int size,int size2, out Cell centerCell)
+        public List<Cell> PickCells(Transform enemy, CellPickType pickType, CellPattern pattern, int size, int size2, out Cell centerCell)
         {
             List<Cell> cells = null;
             centerCell = null;
@@ -35,5 +35,9 @@ namespace _Game.Features.Gameplay
             return PickCells(enemy, profile.CellPickType, profile.CellPattern, profile.Size, profile.Size2, out centerCell);
         }
 
+        public Cell PickRandomCell()
+        {
+            return ShipGrid.AllCells.GetRandom();
+        }
     }
 }

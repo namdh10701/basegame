@@ -11,15 +11,15 @@ namespace _Game.Features.Gameplay
 {
     public class JellyFishController : EnemyController
     {
-        private JellyFishModel jellyFishModel;
-        private JellyFishView jellyFishAnimation;
-        private CooldownBehaviour cooldownBehaviour;
+        [SerializeField] JellyFishModel jellyFishModel;
+        [SerializeField] JellyFishView jellyFishView;
+        [SerializeField] CooldownBehaviour cooldownBehaviour;
         [SerializeField] private JellyFishAttack attack;
 
         public override void Initialize(EnemyModel enemyModel)
         {
-            jellyFishAnimation.OnAttack += Attack;
-            jellyFishAnimation.OnAttackMeele += AttackMelee;
+            jellyFishView.OnAttack += Attack;
+            jellyFishView.OnAttackMeele += AttackMelee;
         }
 
         public void Attack()
@@ -49,16 +49,16 @@ namespace _Game.Features.Gameplay
         {
             cooldownBehaviour.StartCooldown();
             isAttackLefthand = true;
-            jellyFishAnimation.PlayAttackMeeleLeftHand();
-            yield return new WaitForSeconds(1f);
+            jellyFishView.PlayAttackMeeleLeftHand();
+            yield return new WaitForSeconds(2f);
         }
 
         IEnumerator RightAttackSequence()
         {
             cooldownBehaviour.StartCooldown();
             isAttackLefthand = false;
-            jellyFishAnimation.PlayAttackMeeleRightHand();
-            yield return new WaitForSeconds(1f);
+            jellyFishView.PlayAttackMeeleRightHand();
+            yield return new WaitForSeconds(2f);
         }
     }
 }
