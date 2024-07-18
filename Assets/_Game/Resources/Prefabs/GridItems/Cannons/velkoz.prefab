@@ -64,7 +64,6 @@ Transform:
   - {fileID: 221109488582056744}
   - {fileID: 6016377551254626946}
   - {fileID: 1242733685509409226}
-  - {fileID: 5098441669943228459}
   - {fileID: 8296015697002349701}
   m_Father: {fileID: 9190685327355414140}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -201,7 +200,7 @@ Transform:
   m_GameObject: {fileID: 2212580474482555240}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.616, z: 0}
+  m_LocalPosition: {x: 0, y: 0.59, z: 0}
   m_LocalScale: {x: 0.95, y: 0.95, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -307,10 +306,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetTypeNames:
-  - _Game.Scripts.Entities.PufferFishModel
+  - _Game.Features.Gameplay.PufferFishModel
   - _Game.Features.Gameplay.JellyFishModel
-  - _Game.Scripts.SquidModel
-  - ElectricEelModel
+  - _Game.Features.Gameplay.ElectricEelModel
+  - _Game.Features.Gameplay.SquidModel
   - _Game.Features.Gameplay.PhunGaiModel
   - _Game.Features.Gameplay.SkeletonSword
   - _Game.Features.Gameplay.SkeletonBomb
@@ -507,7 +506,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d247ba06193faa74d9335f5481b2b56c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skeletonDataAsset: {fileID: 11400000, guid: fdd7815260cd23a4988ba43c88229c8f, type: 2}
+  skeletonDataAsset: {fileID: 11400000, guid: 1a3ff3a96720b5e438402af2a019535a, type: 2}
   initialSkinName: 
   fixPrefabOverrideViaMeshFilter: 2
   initialFlipX: 0
@@ -548,7 +547,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SkeletonAnimation: {fileID: 646439546184479025}
-  smoke: fire_effect
+  smoke: demo_fire_effect
 --- !u!1 &3530954529355723550
 GameObject:
   m_ObjectHideFlags: 0
@@ -853,7 +852,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33fa8754bde94080903d69f1555d4c10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <RotateTarget>k__BackingField: {fileID: 9190685327355414140}
+  <RotateTarget>k__BackingField: {fileID: 2797126293137118479}
   <Direction>k__BackingField: {x: 0, y: 0, z: 0}
   <Rotation>k__BackingField: {x: 0, y: 0, z: 0, w: 0}
   changeTargetTime: 2
@@ -1040,7 +1039,7 @@ SortingGroup:
   m_Enabled: 1
   m_SortingLayerID: -285313645
   m_SortingLayer: 3
-  m_SortingOrder: 633
+  m_SortingOrder: 53
   m_SortAtRoot: 0
 --- !u!114 &6717118283860126670
 MonoBehaviour:
@@ -1209,6 +1208,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
+  - {fileID: 5098441669943228459}
   - {fileID: 2797126293137118479}
   - {fileID: 8845265644250812785}
   - {fileID: 1760350717196905588}
@@ -1633,6 +1633,7 @@ MonoBehaviour:
   shootPosition: {fileID: 1367290653907484053}
   projectilePrefab: {fileID: 0}
   Animation: {fileID: 1607887254565068409}
+  rotateTransform: {fileID: 2797126293137118479}
 --- !u!1 &7170522438461123222
 GameObject:
   m_ObjectHideFlags: 0
@@ -1722,7 +1723,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -285313645
   m_SortingLayer: 3
-  m_SortingOrder: 634
+  m_SortingOrder: 54
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &1576384010440249490
 MonoBehaviour:
@@ -1736,7 +1737,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d247ba06193faa74d9335f5481b2b56c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skeletonDataAsset: {fileID: 11400000, guid: 724556ee3b3770a45874aeadbba3f425, type: 2}
+  skeletonDataAsset: {fileID: 11400000, guid: b301bc17dce89c44c8e1142f22db17ac, type: 2}
   initialSkinName: 
   fixPrefabOverrideViaMeshFilter: 2
   initialFlipX: 0
@@ -1837,7 +1838,7 @@ Transform:
   m_GameObject: {fileID: 8536386764850914981}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: 1, w: -0.00000004371139}
-  m_LocalPosition: {x: -0.0153000355, y: 0.8562999, z: 0}
+  m_LocalPosition: {x: -0.015299797, y: 0.85629994, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1963,7 +1964,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d247ba06193faa74d9335f5481b2b56c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skeletonDataAsset: {fileID: 11400000, guid: 57c6439100182494facf57569123c655, type: 2}
+  skeletonDataAsset: {fileID: 11400000, guid: 2074a05776ce9ae4c92eeba189ceb416, type: 2}
   initialSkinName: 
   fixPrefabOverrideViaMeshFilter: 2
   initialFlipX: 0
@@ -2169,7 +2170,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 2797126293137118479}
+    m_TransformParent: {fileID: 9190685327355414140}
     m_Modifications:
     - target: {fileID: 440961216384198427, guid: 126ede7f080fff74ba89b7de61f42a9d, type: 3}
       propertyPath: m_IsActive
@@ -2213,11 +2214,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8189990038011111303, guid: 126ede7f080fff74ba89b7de61f42a9d, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 1.25
+      value: 1.28
       objectReference: {fileID: 0}
     - target: {fileID: 8189990038011111303, guid: 126ede7f080fff74ba89b7de61f42a9d, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 1.3
+      value: 0.8219
       objectReference: {fileID: 0}
     - target: {fileID: 8189990038011111303, guid: 126ede7f080fff74ba89b7de61f42a9d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2253,7 +2254,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8189990038011111303, guid: 126ede7f080fff74ba89b7de61f42a9d, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.846
+      value: -0.336
       objectReference: {fileID: 0}
     - target: {fileID: 8189990038011111303, guid: 126ede7f080fff74ba89b7de61f42a9d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

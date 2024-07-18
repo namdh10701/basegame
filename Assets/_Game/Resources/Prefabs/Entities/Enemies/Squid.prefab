@@ -577,8 +577,8 @@ GameObject:
   - component: {fileID: 2667218337027694206}
   - component: {fileID: 2651914818716957583}
   - component: {fileID: 1398462479390615626}
-  - component: {fileID: 7984349400047426400}
   - component: {fileID: 4985974820303403186}
+  - component: {fileID: 1998711003680917824}
   m_Layer: 6
   m_Name: BehaviourTree
   m_TagString: Untagged
@@ -618,8 +618,8 @@ MonoBehaviour:
   - {fileID: 3143742268251881798}
   - {fileID: 385540518426301459}
   - {fileID: 1398462479390615626}
-  - {fileID: 7984349400047426400}
   - {fileID: 4985974820303403186}
+  - {fileID: 1998711003680917824}
   masterBlackboard: {fileID: 0}
 --- !u!114 &851421964308577174
 MonoBehaviour:
@@ -633,7 +633,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b25af8627659c6949b60949c3aa8d91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedEditorNode: {fileID: 2651914818716957583}
+  selectedEditorNode: {fileID: 2667218337027694206}
   repeatOnFinish: 1
   maxExecutionsPerTick: 1000
   parent: {fileID: 0}
@@ -652,8 +652,8 @@ MonoBehaviour:
   title: Root
   rect:
     serializedVersion: 2
-    x: 283
-    y: 49
+    x: 275
+    y: 130
     width: 160
     height: 45
   parent: {fileID: 0}
@@ -727,7 +727,12 @@ MonoBehaviour:
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
-  SpineAnimationEnemyHandler: {fileID: 243247705162881782}
+  Enemy:
+    useConstant: 0
+    mode: 0
+    blackboard: {fileID: 5341758609630521839}
+    key: Enemy
+    constantValue: {fileID: 0}
   MoveableArea:
     useConstant: 0
     mode: 0
@@ -774,7 +779,7 @@ MonoBehaviour:
   title: Selector
   rect:
     serializedVersion: 2
-    x: 283
+    x: 284
     y: 285
     width: 160
     height: 45
@@ -818,11 +823,11 @@ MonoBehaviour:
     key: Enemy
     constantValue: {fileID: 0}
   abort: 0
-  isReadyToAttack:
+  isInCooldown:
     useConstant: 0
     mode: 0
     blackboard: {fileID: 5341758609630521839}
-    key: IsReadyToAttack
+    key: IsInCooldown
     constantValue: 0
 --- !u!114 &2651914818716957583
 MonoBehaviour:
@@ -839,8 +844,8 @@ MonoBehaviour:
   title: Play Coroutine
   rect:
     serializedVersion: 2
-    x: 104
-    y: 527
+    x: 109
+    y: 522
     width: 160
     height: 45
   parent: {fileID: 2667218337027694206}
@@ -848,7 +853,7 @@ MonoBehaviour:
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
-  type: _Game.Features.Gameplay.SquidController
+  type: _Game.Features.Gameplay.SquidModel
   monoBehaviour: {fileID: 8289297811835334095}
   coroutineName: AttackSequence
 --- !u!114 &1398462479390615626
@@ -864,21 +869,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Enemy
-  val: {fileID: 9122971033754850652}
---- !u!114 &7984349400047426400
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5487576428607964545}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ae15c5e6bcb1714080f2e8296c3d17a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  key: IsReadyToAttack
-  val: 0
+  val: {fileID: 8289297811835334095}
 --- !u!114 &4985974820303403186
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -895,6 +886,20 @@ MonoBehaviour:
   val:
     statModifiers: []
     _baseValue: 0
+--- !u!114 &1998711003680917824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5487576428607964545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ae15c5e6bcb1714080f2e8296c3d17a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: IsInCooldown
+  val: 0
 --- !u!1 &6029242624141832124
 GameObject:
   m_ObjectHideFlags: 0
@@ -1320,7 +1325,7 @@ MonoBehaviour:
       _baseValue: 0
     <ActionSequenceInterval>k__BackingField:
       statModifiers: []
-      _baseValue: 0
+      _baseValue: 7
     <EvadeChance>k__BackingField:
       statModifiers: []
       _baseValue: 0
@@ -1336,16 +1341,21 @@ MonoBehaviour:
     <FeverPoint>k__BackingField:
       statModifiers: []
       _baseValue: 0
-  anim: {fileID: 243247705162881782}
   id: 0003
   gdConfig: {fileID: 11400000, guid: dafc4004e0133475f8d7f898a1f7342d, type: 2}
   statsTemplate: {fileID: 11400000, guid: 3c4145d76312eaa49bf2401ba0a86cbb, type: 2}
   body: {fileID: 8505113706736554174}
-  EffectTakerCollider: {fileID: 3945846091911806246}
+  effectTakerCollider: {fileID: 3945846091911806246}
   effectHandler: {fileID: 7379212253086196880}
   blackboard: {fileID: 5341758609630521839}
-  MBTExecutor: {fileID: 1623288628284439890}
+  mbtExecutor: {fileID: 1623288628284439890}
   enemyController: {fileID: 9122971033754850652}
+  enemyView: {fileID: 243247705162881782}
+  attackPatternProfile: {fileID: 11400000, guid: 58366f42f4411d84592c6c57915e0775, type: 2}
+  findTargetBehaviour: {fileID: 0}
+  findTargetCollider: {fileID: 0}
+  cooldownBehaviour: {fileID: 8631502049836452865}
+  chargeState: 0
   CooldownBehaviour: {fileID: 8631502049836452865}
   EvasionBuffArea: {fileID: 7414925066278507409}
 --- !u!114 &8631502049836452865
@@ -1372,7 +1382,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 259eb03fce04e5b4480420acbc6cc888, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  area: {fileID: 7414925066278507409}
+  enemyView: {fileID: 243247705162881782}
 --- !u!114 &2152454626335057488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1645,13 +1655,45 @@ PrefabInstance:
     m_TransformParent: {fileID: 7310936986431149851}
     m_Modifications:
     - target: {fileID: 1140883269233120307, guid: a3526514ffce8c44ea8475ce8a2e4c70, type: 3}
+      propertyPath: Dead
+      value: die
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140883269233120307, guid: a3526514ffce8c44ea8475ce8a2e4c70, type: 3}
+      propertyPath: Idle
+      value: idle
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140883269233120307, guid: a3526514ffce8c44ea8475ce8a2e4c70, type: 3}
       propertyPath: burn
       value: 
       objectReference: {fileID: 8666225210344546166}
     - target: {fileID: 1140883269233120307, guid: a3526514ffce8c44ea8475ce8a2e4c70, type: 3}
+      propertyPath: Entry
+      value: dive_out
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140883269233120307, guid: a3526514ffce8c44ea8475ce8a2e4c70, type: 3}
+      propertyPath: Moving
+      value: move
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140883269233120307, guid: a3526514ffce8c44ea8475ce8a2e4c70, type: 3}
+      propertyPath: attack
+      value: begin
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140883269233120307, guid: a3526514ffce8c44ea8475ce8a2e4c70, type: 3}
+      propertyPath: burnFx
+      value: 
+      objectReference: {fileID: 8666225210344546166}
+    - target: {fileID: 1140883269233120307, guid: a3526514ffce8c44ea8475ce8a2e4c70, type: 3}
+      propertyPath: Attacking
+      value: action
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140883269233120307, guid: a3526514ffce8c44ea8475ce8a2e4c70, type: 3}
       propertyPath: enemyModel
       value: 
       objectReference: {fileID: 8289297811835334095}
+    - target: {fileID: 1140883269233120307, guid: a3526514ffce8c44ea8475ce8a2e4c70, type: 3}
+      propertyPath: skeletonAnim
+      value: 
+      objectReference: {fileID: 4513230890034960967}
     - target: {fileID: 2947612624465916877, guid: a3526514ffce8c44ea8475ce8a2e4c70, type: 3}
       propertyPath: m_Name
       value: Squid - Spine
@@ -1670,7 +1712,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5806828696693767030, guid: a3526514ffce8c44ea8475ce8a2e4c70, type: 3}
       propertyPath: m_SortingOrder
-      value: 238
+      value: -54
       objectReference: {fileID: 0}
     - target: {fileID: 8209862057937884952, guid: a3526514ffce8c44ea8475ce8a2e4c70, type: 3}
       propertyPath: m_Layer
@@ -1755,6 +1797,17 @@ SortingGroup:
   m_SortingLayer: 2
   m_SortingOrder: 0
   m_SortAtRoot: 0
+--- !u!114 &4513230890034960967 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3609420298205566082, guid: a3526514ffce8c44ea8475ce8a2e4c70, type: 3}
+  m_PrefabInstance: {fileID: 915650426508545733}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2620265018058702088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d247ba06193faa74d9335f5481b2b56c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &8803208162931638783 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8547352812536074042, guid: a3526514ffce8c44ea8475ce8a2e4c70, type: 3}

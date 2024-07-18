@@ -1,3 +1,4 @@
+using _Base.Scripts.Audio;
 using _Game.Features.Gameplay;
 using _Game.Scripts.Gameplay;
 using Cysharp.Threading.Tasks;
@@ -17,6 +18,7 @@ namespace _Game.Features.Battle
         }
         public override UniTask Initialize(Memory<object> args)
         {
+            AudioManager.Instance.PlayBgmGameplay();
             GameplayRoot = GameObject.Find("Gameplay").transform.GetChild(0).gameObject;
             GameplayRoot.SetActive(true);
             BattleManager.Instance.Initialize(BattleViewModel);

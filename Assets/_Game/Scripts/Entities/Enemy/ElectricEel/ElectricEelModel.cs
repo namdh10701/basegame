@@ -47,11 +47,9 @@ namespace _Game.Features.Gameplay
             wander.UpdateTargetDirection(-50, 50);
             cooldownBehaviour.StartCooldown();
         }
-
         public override void DoAttack()
         {
-            Invoke("PlayAttackFx", syncAnimationPlayFxTime);
-            Invoke("SpawnProjectile", syncAnimationSpawnProjectileTime);
+
         }
 
         void PlayAttackFx()
@@ -80,8 +78,11 @@ namespace _Game.Features.Gameplay
                 Crew crew = findTargetBehaviour.MostTargets.First() as Crew;
                 target = crew.EffectTakerCollider.transform;
             }
-            chargeState = ChargeState.Charging;
+            ChargingState = ChargeState.Charging;
             yield return new WaitForSeconds(2);
+            ChargingState = ChargeState.None;
+            Invoke("PlayAttackFx", syncAnimationPlayFxTime);
+            Invoke("SpawnProjectile", syncAnimationSpawnProjectileTime);
             enemyView.PlayAttack();
             cooldownBehaviour.StartCooldown();
             yield break;

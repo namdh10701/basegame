@@ -14,6 +14,7 @@ namespace _Game.Features.Gameplay
         public override IEnumerator AttackSequence()
         {
             enemyView.PlayAttack();
+            cooldownBehaviour.StartCooldown();
             yield break;
         }
 

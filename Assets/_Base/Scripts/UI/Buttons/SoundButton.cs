@@ -8,7 +8,7 @@ namespace _Base.Scripts.UI.Buttons
     public class SoundButton : UIBehaviour
     {
         private Button button;
-        [SerializeField] private SoundID _soundId = SoundID.Button_Click;
+        [SerializeField] private SoundID _soundId = SoundID.btn_general;
 
         protected override void Awake()
         {
@@ -28,7 +28,7 @@ namespace _Base.Scripts.UI.Buttons
 
         private void PlaySound()
         {
-            AudioManager.Instance.PlaySfxTapButton();
+            AudioManager.Instance.PlaySfxTapButton(_soundId);
         }
     }
 }

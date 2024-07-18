@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using _Base.Scripts.Audio;
 using _Game.Features.Home;
 using _Game.Features.MyShipScreen;
 using _Game.Scripts.DB;
@@ -35,11 +36,9 @@ namespace _Game.Features
             Application.targetFrameRate = 120;
             UnityScreenNavigatorSettings.Initialize();
 
+            AudioManager.Instance.LoadSoundSettings();
             await GameData.Load();
-            
-            Debug.Log("Load" + "Database");
             Database.Load();
-            
             SaveSystem.LoadSave();
 
             // MapPlayerTracker.Instance.OnStagePassed += OnOnStagePassed;
@@ -48,7 +47,7 @@ namespace _Game.Features
 
         private void OnOnStagePassed()
         {
-            
+
         }
 
         private async UniTaskVoid ShowTopPage()

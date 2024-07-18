@@ -136,7 +136,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.69, y: 0.69}
+  m_Size: {x: 0.43, y: 0.42}
   m_EdgeRadius: 0
 --- !u!114 &6880831251077919418
 MonoBehaviour:
@@ -150,8 +150,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d5da867c3fc92145bd69948fdd04acc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Id: 
-  body: {fileID: 1601047746594518166}
   CellRenderer: {fileID: 7066386118732076852}
   X: 0
   Y: 0
@@ -172,6 +170,7 @@ MonoBehaviour:
   workingSlots: []
   EffectCollider: {fileID: 4081074454392886212}
   nodeGraph: {fileID: 0}
+  isBroken: 0
 --- !u!114 &7066386118732076852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -262,7 +261,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01bfda76cc6a4e3080de930ff8b94a3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entity: {fileID: 6880831251077919418}
   effects: []
 --- !u!114 &4081074454392886212
 MonoBehaviour:

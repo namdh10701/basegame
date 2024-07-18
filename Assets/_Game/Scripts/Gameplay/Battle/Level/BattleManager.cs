@@ -1,3 +1,4 @@
+using _Base.Scripts.Audio;
 using _Base.Scripts.EventSystem;
 using _Base.Scripts.RPG.Entities;
 using _Base.Scripts.RPGCommon.Entities;
@@ -59,6 +60,7 @@ namespace _Game.Features.Gameplay
 
         IEnumerator LevelEntryCoroutine()
         {
+            AudioManager.Instance.PlayBgmGameplay();
             yield return LevelStartSequence.Play();
             EnemyManager.StartLevel();
             MapPlayerTracker.Instance.OnGameStart();

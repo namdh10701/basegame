@@ -1,3 +1,4 @@
+using _Game.Features.GamePause;
 using _Game.Features.Quest;
 using _Game.Features.WorldMap;
 using _Game.Scripts.UI;
@@ -22,18 +23,18 @@ namespace _Game.Features.Home
             var options = new ViewOptions(nameof(WorldMapScreen));
             await ScreenContainer.Find(ContainerKey.Screens).PushAsync(options);
         }
-        
+
         [Binding]
         public async void ShowQuestPopup()
         {
             var options = new ViewOptions(nameof(QuestModal));
             await ModalContainer.Find(ContainerKey.Modals).PushAsync(options);
         }
-        
+
         [Binding]
         public async void ShowSettingPopup()
         {
-            var options = new ViewOptions("SettingModal");
+            var options = new ViewOptions(nameof(GameSettingsModal));
             await ModalContainer.Find(ContainerKey.Modals).PushAsync(options);
         }
     }

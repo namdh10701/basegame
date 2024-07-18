@@ -12,7 +12,7 @@ namespace MBT
         public EnemyReference enemyReference;
         public override void Task()
         {
-            isInCooldown.Value = enemyReference.Value.IsInCooldown();
+            isInCooldown.Value = !enemyReference.Value.IsInCooldown();
         }
     }
 }

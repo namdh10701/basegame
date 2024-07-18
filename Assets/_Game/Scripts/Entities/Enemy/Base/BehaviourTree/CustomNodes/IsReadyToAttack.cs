@@ -3,23 +3,23 @@ using MBT;
 using UnityEngine;
 
 [AddComponentMenu("")]
-[MBTNode("Enemy/Is Ready To Attack")]
-public class IsReadyToAttack : Condition
+[MBTNode("Enemy/Is In Cooldown")]
+public class IsInCooldown : Condition
 {
     public EnemyReference enemyReference;
     public Abort abort;
-    public BoolReference isReadyToAttack;
+    public BoolReference isInCooldown;
     public override bool Check()
     {
-        isReadyToAttack.Value = enemyReference.Value.IsReadyToAttack();
-        return isReadyToAttack.Value;
+        isInCooldown.Value = !enemyReference.Value.IsInCooldown();
+        return isInCooldown.Value;
     }
     public override void OnAllowInterrupt()
     {
         if (abort != Abort.None)
         {
             ObtainTreeSnapshot();
-            isReadyToAttack.GetVariable().AddListener(OnVariableChange);
+            isInCooldown.GetVariable().AddListener(OnVariableChange);
         }
     }
 
@@ -27,7 +27,7 @@ public class IsReadyToAttack : Condition
     {
         if (abort != Abort.None)
         {
-            isReadyToAttack.GetVariable().RemoveListener(OnVariableChange);
+            isInCooldown.GetVariable().RemoveListener(OnVariableChange);
         }
     }
 

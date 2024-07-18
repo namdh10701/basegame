@@ -66,6 +66,7 @@ MonoBehaviour:
   shootPosition: {fileID: 585281022002687167}
   projectilePrefab: {fileID: 9038214777133773486, guid: 5ca95de0050294232be82d462f376a92, type: 3}
   Animation: {fileID: 6864247153055890157}
+  rotateTransform: {fileID: 6472357837835627961}
 --- !u!1 &765863152523309877
 GameObject:
   m_ObjectHideFlags: 0
@@ -280,10 +281,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetTypeNames:
-  - _Game.Scripts.Entities.PufferFishModel
+  - _Game.Features.Gameplay.PufferFishModel
   - _Game.Features.Gameplay.JellyFishModel
-  - _Game.Scripts.SquidModel
-  - ElectricEelModel
+  - _Game.Features.Gameplay.ElectricEelModel
+  - _Game.Features.Gameplay.SquidModel
   - _Game.Features.Gameplay.PhunGaiModel
   - _Game.Features.Gameplay.SkeletonSword
   - _Game.Features.Gameplay.SkeletonBomb
@@ -334,6 +335,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
+  - {fileID: 5879166648857703730}
   - {fileID: 6472357837835627961}
   - {fileID: 2461236567741450463}
   - {fileID: 5565196354579600851}
@@ -731,7 +733,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5117164198865070997}
-  - {fileID: 5879166648857703730}
   - {fileID: 1210003148956185003}
   - {fileID: 870496088559109320}
   m_Father: {fileID: 983449567079087377}
@@ -846,8 +847,12 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 6472357837835627961}
+    m_TransformParent: {fileID: 983449567079087377}
     m_Modifications:
+    - target: {fileID: 2126084143196052278, guid: 126ede7f080fff74ba89b7de61f42a9d, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3800318333688558139, guid: 126ede7f080fff74ba89b7de61f42a9d, type: 3}
       propertyPath: m_Name
       value: Cannon HUD
@@ -878,11 +883,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8189990038011111303, guid: 126ede7f080fff74ba89b7de61f42a9d, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 1.68
+      value: 1.44
       objectReference: {fileID: 0}
     - target: {fileID: 8189990038011111303, guid: 126ede7f080fff74ba89b7de61f42a9d, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 1.3
+      value: 0.8219
       objectReference: {fileID: 0}
     - target: {fileID: 8189990038011111303, guid: 126ede7f080fff74ba89b7de61f42a9d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -918,7 +923,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8189990038011111303, guid: 126ede7f080fff74ba89b7de61f42a9d, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.379
+      value: -0.03
       objectReference: {fileID: 0}
     - target: {fileID: 8189990038011111303, guid: 126ede7f080fff74ba89b7de61f42a9d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

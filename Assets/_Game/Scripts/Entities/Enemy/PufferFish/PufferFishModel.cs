@@ -35,11 +35,6 @@ namespace _Game.Features.Gameplay
             DamageArea.SetDamage(stats.AttackDamage.Value, 0);
         }
 
-        public override bool IsReadyToAttack()
-        {
-            return findTargetBehaviour.MostTargets.Count > 0;
-        }
-
         public override void DoAttack()
         {
             effectTakerCollider.gameObject.SetActive(false);

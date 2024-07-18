@@ -40,13 +40,15 @@ namespace _Game.Features.Gameplay
 
         public override IEnumerator AttackSequence()
         {
+            State = EnemyState.Attacking;
             enemyView.PlayAttack();
-            yield break;
+            cooldownBehaviour.StartCooldown();
+            yield return new WaitForSeconds(1.75f);
         }
 
         public override void DoAttack()
         {
-            cooldownBehaviour.StartCooldown();
+            SpawnSkill();
         }
 
         void SpawnSkill()

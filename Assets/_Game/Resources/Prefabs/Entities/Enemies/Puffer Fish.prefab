@@ -114,7 +114,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b25af8627659c6949b60949c3aa8d91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedEditorNode: {fileID: 7687039662104936203}
+  selectedEditorNode: {fileID: 0}
   repeatOnFinish: 0
   maxExecutionsPerTick: 6
   parent: {fileID: 0}
@@ -308,8 +308,8 @@ MonoBehaviour:
   title: Wait
   rect:
     serializedVersion: 2
-    x: -108
-    y: 458
+    x: -74
+    y: 453
     width: 160
     height: 45
   parent: {fileID: 856751186372080755}
@@ -1234,20 +1234,44 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 471015614277371220, guid: d8077670f117daa4eba9f9ec9b37aaad, type: 3}
       propertyPath: m_SortingOrder
-      value: -1167
+      value: -728
       objectReference: {fileID: 0}
     - target: {fileID: 723308189963348702, guid: d8077670f117daa4eba9f9ec9b37aaad, type: 3}
       propertyPath: m_SortingOrder
       value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 1027300088920108140, guid: d8077670f117daa4eba9f9ec9b37aaad, type: 3}
+      propertyPath: Dead
+      value: bomb_ship_explo
+      objectReference: {fileID: 0}
+    - target: {fileID: 1027300088920108140, guid: d8077670f117daa4eba9f9ec9b37aaad, type: 3}
+      propertyPath: Idle
+      value: idle_move
+      objectReference: {fileID: 0}
+    - target: {fileID: 1027300088920108140, guid: d8077670f117daa4eba9f9ec9b37aaad, type: 3}
       propertyPath: burn
+      value: 
+      objectReference: {fileID: 7682097163430744167}
+    - target: {fileID: 1027300088920108140, guid: d8077670f117daa4eba9f9ec9b37aaad, type: 3}
+      propertyPath: Entry
+      value: idle_move
+      objectReference: {fileID: 0}
+    - target: {fileID: 1027300088920108140, guid: d8077670f117daa4eba9f9ec9b37aaad, type: 3}
+      propertyPath: Moving
+      value: idle_move
+      objectReference: {fileID: 0}
+    - target: {fileID: 1027300088920108140, guid: d8077670f117daa4eba9f9ec9b37aaad, type: 3}
+      propertyPath: burnFx
       value: 
       objectReference: {fileID: 7682097163430744167}
     - target: {fileID: 1027300088920108140, guid: d8077670f117daa4eba9f9ec9b37aaad, type: 3}
       propertyPath: enemyModel
       value: 
       objectReference: {fileID: 5255935956171750253}
+    - target: {fileID: 1027300088920108140, guid: d8077670f117daa4eba9f9ec9b37aaad, type: 3}
+      propertyPath: skeletonAnim
+      value: 
+      objectReference: {fileID: 2323713613168333727}
     - target: {fileID: 3387052645833027010, guid: d8077670f117daa4eba9f9ec9b37aaad, type: 3}
       propertyPath: m_Name
       value: Puffer Fish
@@ -1305,6 +1329,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d8077670f117daa4eba9f9ec9b37aaad, type: 3}
+--- !u!114 &2323713613168333727 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4784376482324135150, guid: d8077670f117daa4eba9f9ec9b37aaad, type: 3}
+  m_PrefabInstance: {fileID: 7087249882553708401}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d247ba06193faa74d9335f5481b2b56c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &2840733961665437198 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4987358678953636223, guid: d8077670f117daa4eba9f9ec9b37aaad, type: 3}
