@@ -19,7 +19,6 @@ namespace _Game.Scripts.GD.DataManager
                     types.Add(record.Type);
                 }
             }
-            // var temp = Records.Where(item => item.ItemId == id).Select(item => item.Type).ToList();
             return types;
         }
 
@@ -33,9 +32,7 @@ namespace _Game.Scripts.GD.DataManager
                     weights.Add(record.Weight);
                 }
             }
-            // var temp = Records.Where(item => item.ItemId == id).Select(item => item.Type).ToList();
             return weights;
-            // return Records.Where(item => item.ItemId == id).Select(item => item.Weight).ToList();
         }
 
         public int GetAmountById(string id)
@@ -49,10 +46,6 @@ namespace _Game.Scripts.GD.DataManager
 
             }
             return -1;
-            // return Records.Where(item => item.ItemId == id)
-            //     .Select(item => item.ItemAmount)
-            //     .FirstOrDefault();
-
         }
 
         public ShopItemTable(string downloadUrl, string dataFileName = null) : base(downloadUrl, dataFileName)

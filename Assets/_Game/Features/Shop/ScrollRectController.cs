@@ -5,7 +5,6 @@ public class ScrollRectController : MonoBehaviour
 {
     public ScrollRect scrollRect;  // Tham chiếu đến ScrollRect
     public Button nextButton;      // Tham chiếu đến nút Next
-    public Button prevButton;      // Tham chiếu đến nút Previous
 
     private float currentPage = 0;
     private float totalPages;
@@ -17,9 +16,6 @@ public class ScrollRectController : MonoBehaviour
         if (nextButton != null)
             nextButton.onClick.AddListener(ScrollToNextPage);
 
-        if (prevButton != null)
-            prevButton.onClick.AddListener(ScrollToPreviousPage);
-
         totalPages = scrollRect.content.childCount;
         pageWidth = 1 / (totalPages - 2);
     }
@@ -29,15 +25,6 @@ public class ScrollRectController : MonoBehaviour
         if (currentPage < totalPages - 2)
         {
             currentPage++;
-            ScrollToPage(currentPage);
-        }
-    }
-
-    void ScrollToPreviousPage()
-    {
-        if (currentPage > 0)
-        {
-            currentPage--;
             ScrollToPage(currentPage);
         }
     }

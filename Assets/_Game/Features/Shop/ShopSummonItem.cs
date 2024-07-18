@@ -1,16 +1,20 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using _Base.Scripts.UI.Managers;
-using _Game.Features.Inventory;
-using _Game.Scripts.GD;
 using _Game.Scripts.GD.DataManager;
+using _Game.Scripts.SaveLoad;
 using _Game.Scripts.UI;
-using UnityEngine;
 using UnityWeld.Binding;
 
 namespace _Game.Features.Shop
 {
+
+    [Serializable]
+    public class CountOfGacha
+    {
+        public int CountOfGacha_1 = 10;
+        public int CountOfGacha_2 = 100;
+    }
     [Binding]
     public class ShopSummonItem : SubViewModel
     {
@@ -41,8 +45,6 @@ namespace _Game.Features.Shop
         private string m_name;
 
         #endregion
-
-
 
         #region Binding Prop: IsSelected
 
@@ -120,7 +122,7 @@ namespace _Game.Features.Shop
         /// Amount
         /// </summary>
         [Binding]
-        public string Amount
+        public int Amount
         {
             get => _amount;
             set
@@ -134,7 +136,7 @@ namespace _Game.Features.Shop
                 OnPropertyChanged(nameof(Amount));
             }
         }
-        private string _amount;
+        private int _amount;
         #endregion
 
         #region Binding Prop: GachaType
@@ -185,13 +187,20 @@ namespace _Game.Features.Shop
         public string CurentRarityItemGacha;
         public string CurentNameItemGacha;
         public ShopSummonViewModel ShopSummonViewModel;
+        int _countGacha;
 
-        private int _numberGacha;
-
-        public void SetUp(int numberGacha, ShopSummonViewModel shopSummonViewModel)
+        public void SetUp(ShopSummonViewModel shopSummonViewModel)
         {
-            _numberGacha = numberGacha;
             ShopSummonViewModel = shopSummonViewModel;
+            _countGacha = GetNumberGacha();
+        }
+
+        private int GetNumberGacha()
+        {
+            if (Id == "gacha_cannon_1" || Id == "gacha_ammo_1")
+                return SaveSystem.GameSave.CountOfGacha.CountOfGacha_1;
+            else
+                return SaveSystem.GameSave.CountOfGacha.CountOfGacha_2;
         }
 
         public string GetRandomRarityByWeight()
@@ -210,6 +219,22 @@ namespace _Game.Features.Shop
                 if (randomNumber < ListWeightRarity[i])
                 {
                     CurentRarityItemGacha = ListRarity[i];
+
+                    if (CurentRarityItemGacha == "Rare" || CurentRarityItemGacha == "Epic")
+                    {
+                        _countGacha = GetNumberGacha();
+                    }
+                    else if (_countGacha == 1)
+                    {
+                        if (CurentRarityItemGacha == "Common" || CurentRarityItemGacha == "Good" || CurentRarityItemGacha == "Rare")
+                        {
+                            CurentRarityItemGacha = "Rare";
+                            _countGacha = GetNumberGacha();
+                        }
+                    }
+                    else
+                        _countGacha--;
+
                     return ListRarity[i];
                 }
                 randomNumber -= ListWeightRarity[i];
@@ -245,7 +270,7 @@ namespace _Game.Features.Shop
         public void GetIDItemGacha()
         {
             ShopSummonViewModel.ItemsGachaReceived.Clear();
-            for (int i = 0; i < _numberGacha; i++)
+            for (int i = 0; i < Amount; i++)
             {
                 ListRarity = GameData.ShopItemTable.GetRarityById(Id);
                 ListWeightRarity = GameData.ShopItemTable.GetWeightRarityById(Id);

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using _Game.Features.Shop;
 using _Game.Scripts.InventorySystem;
 using _Game.Scripts.SkillSystem;
 using UnityEngine;
@@ -13,6 +14,8 @@ namespace _Game.Scripts.SaveLoad
         // public SkillSaveData SkillSaveData;
         // public InventorySaveData InventorySaveData;
         public ShipSetupSaveData ShipSetupSaveData;
+
+        public CountOfGacha CountOfGacha;
 
         public SaveData(int saveId)
         {
@@ -51,7 +54,7 @@ namespace _Game.Scripts.SaveLoad
 
             defaultSave.ShipSetupSaveData = new ShipSetupSaveData();
             defaultSave.ShipSetupSaveData.Init();
-            
+
             return defaultSave;
         }
 

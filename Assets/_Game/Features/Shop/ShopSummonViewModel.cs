@@ -69,7 +69,8 @@ namespace _Game.Features.Shop
                 shopSummonItem.Id = item.ItemId;
                 shopSummonItem.Price = item.PriceAmount.ToString();
                 shopSummonItem.GachaType = item.GachaType;
-                shopSummonItem.SetUp(2, this);
+                shopSummonItem.Amount = GameData.ShopItemTable.GetAmountById(item.ItemId);
+                shopSummonItem.SetUp(this);
                 SummonItems.Add(shopSummonItem);
             }
         }
