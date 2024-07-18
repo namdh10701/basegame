@@ -90,6 +90,7 @@ namespace _Game.Features.Shop
             get
             {
                 var path = $"Items/item_{GachaType.ToLower()}_{Name.ToLower()}_{Rarity.ToLower()}";
+                Debug.Log("[Thumbnail]: " + path);
                 return Resources.Load<Sprite>(path);
             }
         }

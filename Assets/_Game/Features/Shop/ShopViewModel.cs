@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using _Game.Scripts.GD;
 using _Game.Scripts.GD.DataManager;
 using _Game.Scripts.UI;
 using Unity.VisualScripting;
@@ -247,7 +245,7 @@ namespace _Game.Features.Shop
                 shopSummonItem.Id = item.ItemId;
                 shopSummonItem.Price = item.PriceAmount.ToString();
                 shopSummonItem.GachaType = item.GachaType;
-                shopSummonItem.SetUp(2, this);
+                // shopSummonItem.SetUp(2, this);
                 SummonItems.Add(shopSummonItem);
             }
         }

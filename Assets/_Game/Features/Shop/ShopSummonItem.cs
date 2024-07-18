@@ -184,14 +184,14 @@ namespace _Game.Features.Shop
 
         public string CurentRarityItemGacha;
         public string CurentNameItemGacha;
-        public ShopViewModel ShopViewModel;
+        public ShopSummonViewModel ShopSummonViewModel;
 
         private int _numberGacha;
 
-        public void SetUp(int numberGacha, ShopViewModel shopViewModel)
+        public void SetUp(int numberGacha, ShopSummonViewModel shopSummonViewModel)
         {
             _numberGacha = numberGacha;
-            ShopViewModel = shopViewModel;
+            ShopSummonViewModel = shopSummonViewModel;
         }
 
         public string GetRandomRarityByWeight()
@@ -223,7 +223,6 @@ namespace _Game.Features.Shop
             if (ListNameItem.Count != ListWeightNameItem.Count || ListNameItem.Count == 0)
                 throw new InvalidOperationException("Lists must have the same number of elements and cannot be empty.");
 
-
             int totalWeight = ListWeightNameItem.Sum();
 
             System.Random random = new System.Random();
@@ -245,7 +244,7 @@ namespace _Game.Features.Shop
         [Binding]
         public void GetIDItemGacha()
         {
-            ShopViewModel.ItemsGachaReceived.Clear();
+            ShopSummonViewModel.ItemsGachaReceived.Clear();
             for (int i = 0; i < _numberGacha; i++)
             {
                 ListRarity = GameData.ShopItemTable.GetRarityById(Id);
@@ -260,9 +259,9 @@ namespace _Game.Features.Shop
                 shopItemGachaReceived.Name = CurentNameItemGacha;
                 shopItemGachaReceived.GachaType = GachaType;
                 shopItemGachaReceived.Rarity = CurentRarityItemGacha;
-                ShopViewModel.ItemsGachaReceived.Add(shopItemGachaReceived);
+                ShopSummonViewModel.ItemsGachaReceived.Add(shopItemGachaReceived);
             }
-            ShopViewModel.IsActiveItemGachaReceived = true;
+            ShopSummonViewModel.IsActiveItemGachaReceived = true;
         }
     }
 }
