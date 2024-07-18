@@ -11,7 +11,6 @@ namespace _Game.Scripts.SaveLoad
     [Serializable]
     public enum SetupProfile
     {
-        None = -1,
         Profile1,
         Profile2,
         Profile3,

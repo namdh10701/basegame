@@ -177,22 +177,9 @@ namespace _Game.Features.MyShip
             }
         }
 
-        private Dictionary<Vector2Int, InventoryItem> _itemPositions;
+        private Dictionary<Vector2Int, InventoryItem> _itemPositions = new();
 
         #endregion
-
-        protected override void Awake()
-        {
-            base.Awake();
-            for (int i = 0; i < 10; i++)
-            {
-                StashItems.Add(new StashItem(this));
-            }
-            
-            IOC.Register(this);
-
-            ShipSetupProfileIndex = (int)SaveSystem.GameSave.ShipSetupSaveData.CurrentProfile;
-        }
 
         #region Binding Prop: ShipId
 
@@ -241,10 +228,11 @@ namespace _Game.Features.MyShip
                 OnPropertyChanged(nameof(ShipSetupProfileIndex));
                 
                 LoadShipSetup(ShipId, (SetupProfile)_shipSetupProfileIndex);
+                SaveSetupProfile();
             }
         }
 
-        private int _shipSetupProfileIndex = (int)SetupProfile.None;
+        private int _shipSetupProfileIndex = (int)SetupProfile.Profile1;
 
         #endregion
 
@@ -366,12 +354,16 @@ namespace _Game.Features.MyShip
 
         public void SaveSetupProfile()
         {
+            var setup = SaveSystem.GameSave.ShipSetupSaveData.GetShipSetup(ShipId, ShipSetupProfile);
+            SaveSystem.GameSave.ShipSetupSaveData.CurrentShipId = ShipId;
+            SaveSystem.GameSave.ShipSetupSaveData.CurrentProfile = ShipSetupProfile;
+            
             // stash
             for (var i = 0; i < StashItems.Count; i++)
             {
                 var stash = StashItems[i];
 
-                SaveSystem.GameSave.ShipSetupSaveData.GetShipSetup(ShipId, ShipSetupProfile).StashData[i] 
+                setup.StashData[i] 
                     = stash.InventoryItem == null ? null : new ItemData()
                     {
                         ItemId = stash.InventoryItem.Id,
@@ -380,7 +372,14 @@ namespace _Game.Features.MyShip
             }
             
             // ship
-            // UnityWeld.Binding.BoundObservableList<>
+            foreach (var (pos, item) in ItemPositions)
+            {
+                setup.ShipData[pos] = new ItemData()
+                {
+                    ItemId = item.Id,
+                    ItemType = item.Type,
+                };
+            }
             SaveSystem.SaveGame();
 
         }
@@ -549,15 +548,20 @@ namespace _Game.Features.MyShip
         
         public override UniTask Initialize(Memory<object> args)
         {
-            // _btnShipEdit.onValueChanged.AddListener(OnShipEditClick);
-            // _btnRemoveAll.onClick.AddListener(OnRemoveAllClick);
-            // _btnRemove.onClick.AddListener(OnRemoveClick);
-            //
-            // Initialize(_shipsConfig.currentShipId);
-
-            ShipId = SaveSystem.GameSave.ShipSetupSaveData.CurrentShipId;
-            InitializeShip(ShipId);
+            IOC.Register(this);
+            for (int i = 0; i < 10; i++)
+            {
+                StashItems.Add(new StashItem(this));
+            }
             SetViewMode_Normal();
+
+            _shipId = SaveSystem.GameSave.ShipSetupSaveData.CurrentShipId;
+            _shipSetupProfileIndex = (int)SaveSystem.GameSave.ShipSetupSaveData.CurrentProfile;
+            
+            // OnPropertyChanged(nameof(ShipSetupProfileIndex));
+
+            InitializeShip(ShipId);
+            LoadShipSetup(ShipId, (SetupProfile)_shipSetupProfileIndex);
             return UniTask.CompletedTask;
         }
 
