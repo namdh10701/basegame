@@ -6,9 +6,9 @@ namespace _Game.Features.Inventory
 {
     public class InventoryDraggableItem : DraggableItem
     {
-        public override void OnDropCommit(PointerEventData eventData)
+        public override void OnDropCommit(PointerEventData eventData, object data)
         {
-            base.OnDropCommit(eventData);
+            base.OnDropCommit(eventData, data);
             IOC.Resolve<InventorySheet>().AddIgnore(DragDataProvider.GetData<InventoryItem>());
             IOC.Resolve<NewShipEditSheet>().SaveSetupProfile();
         }

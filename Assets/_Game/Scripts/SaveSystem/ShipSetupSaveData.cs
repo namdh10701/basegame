@@ -11,7 +11,6 @@ namespace _Game.Scripts.SaveLoad
     [Serializable]
     public enum SetupProfile
     {
-        None = -1,
         Profile1,
         Profile2,
         Profile3,
@@ -27,8 +26,8 @@ namespace _Game.Scripts.SaveLoad
     [Serializable]
     public class ShipSetupData
     {
-        public Dictionary<Vector2Int, ItemData> ShipData = new ();
-        public Dictionary<int, ItemData> StashData = new ();
+        public Dictionary<string, ItemData> ShipData = new ();
+        public Dictionary<string, ItemData> StashData = new ();
     }
     
     [Serializable]
@@ -36,24 +35,24 @@ namespace _Game.Scripts.SaveLoad
     {
         public string CurrentShipId;
         public SetupProfile CurrentProfile = SetupProfile.Profile1;
-        public Dictionary<string, Dictionary<SetupProfile, ShipSetupData>> ShipSetupData = new ();
+        public Dictionary<string, Dictionary<string, ShipSetupData>> ShipSetupData = new ();
 
-        // public ShipSetupData CurrentShipSetupData => ShipSetupData[CurrentShipId][CurrentProfile];
+        public ShipSetupData CurrentShipSetupData => GetShipSetup(CurrentShipId, CurrentProfile);
 
         public ShipSetupData GetShipSetup(string shipId, SetupProfile setupProfile)
         {
-            return ShipSetupData[shipId][setupProfile];
+            return ShipSetupData[shipId][setupProfile.ToString()];
         }
 
         public void Init()
         {
             GameData.ShipTable.GetRecords().ForEach(record =>
             {
-                ShipSetupData[record.Id] = new Dictionary<SetupProfile, ShipSetupData>()
+                ShipSetupData[record.Id] = new Dictionary<string, ShipSetupData>()
                 {
-                    { SetupProfile.Profile1, new ShipSetupData() },
-                    { SetupProfile.Profile2, new ShipSetupData() },
-                    { SetupProfile.Profile3, new ShipSetupData() },
+                    { SetupProfile.Profile1.ToString(), new ShipSetupData() },
+                    { SetupProfile.Profile2.ToString(), new ShipSetupData() },
+                    { SetupProfile.Profile3.ToString(), new ShipSetupData() },
                 };
             });
             

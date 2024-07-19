@@ -5,11 +5,18 @@ namespace _Game.Features.Inventory
 {
     public class StashDraggableItem : DraggableItem
     {
-        public override void OnDropCommit(PointerEventData eventData)
+        public override void OnDropCommit(PointerEventData eventData, object data)
         {
-            base.OnDropCommit(eventData);
+            base.OnDropCommit(eventData, data);
             var stashItem = GetComponent<Template>().GetViewModel() as MyShip.StashItem;
-            stashItem?.RemoveEquipment();
+            if (data != null)
+            {
+                stashItem.InventoryItem = (InventoryItem)data;
+            }
+            else
+            {
+                stashItem?.RemoveEquipment();
+            }
         }
     }
 }

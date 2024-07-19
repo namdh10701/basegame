@@ -17,9 +17,9 @@ namespace _Game.Features.Inventory
             
             var isDropCommitted = DropHandler.OnItemDrop(draggableItem);
 
-            if (isDropCommitted)
+            if (isDropCommitted.Cmd == ItemDroppedCallbackCommand.Command.COMMIT)
             {
-                draggableItem.OnDropCommit(eventData);
+                draggableItem.OnDropCommit(eventData, isDropCommitted.Data);
             }
         }
     }

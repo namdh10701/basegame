@@ -51,6 +51,7 @@ namespace _Game.Features.Inventory
                     }
                 });
             }
+            UpdateView();
         }
 
         private void UpdateView()

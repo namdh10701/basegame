@@ -212,10 +212,9 @@ namespace _Game.Features.Inventory
             Items.AddRange(pageItemList);
 
             
-            // OnPropertyChanged(nameof(Page));
-            // OnPropertyChanged(nameof(IsPrevPageAvailable));
-            // OnPropertyChanged(nameof(IsNextPageAvailable));
-            // Items.AddRange(dataSource.Where(v => v.Type == itemType));
+            OnPropertyChanged(nameof(Page));
+            OnPropertyChanged(nameof(IsPrevPageAvailable));
+            OnPropertyChanged(nameof(IsNextPageAvailable));
         }
 
         [Binding]

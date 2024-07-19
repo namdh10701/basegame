@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using _Base.Scripts.Utils;
 using _Game.Features.MyShip;
 using _Game.Features.MyShip.GridSystem;
@@ -11,6 +12,7 @@ namespace _Game.Features.Inventory
     [Binding]
     public class ShipSetupItem : RootViewModel//, IDragHandler, IBeginDragHandler, IEndDragHandler
     {
+        public Vector2Int Pos;
         public List<Vector2Int> Positions;
         public ItemShape Shape;
         public InventoryItem InventoryItem;
@@ -44,25 +46,32 @@ namespace _Game.Features.Inventory
         public void Remove()
         {
             var shipEditSheet = IOC.Resolve<NewShipEditSheet>();
-
-            MyShip.StashItem firstEmptyStashItem = null;
-            foreach (var stashItem in shipEditSheet.StashItems)
-            {
-                if (stashItem.InventoryItem == null)
-                {
-                    firstEmptyStashItem = stashItem;
-                    break;
-                }
-            }
-
-            if (firstEmptyStashItem == null)
-            {
-                return;
-            }
-            
-            firstEmptyStashItem.InventoryItem = InventoryItem;
-            Destroy(gameObject);
-            shipEditSheet.SaveSetupProfile();
+            shipEditSheet.Ship_RemoveItem(InventoryItem);
+            //
+            // MyShip.StashItem firstEmptyStashItem = null;
+            // foreach (var stashItem in shipEditSheet.StashItems)
+            // {
+            //     if (stashItem.InventoryItem == null)
+            //     {
+            //         firstEmptyStashItem = stashItem;
+            //         break;
+            //     }
+            // }
+            //
+            // if (firstEmptyStashItem == null)
+            // {
+            //     return;
+            // }
+            //
+            // firstEmptyStashItem.InventoryItem = InventoryItem;
+            // DestroyImmediate(gameObject);
+            // // shipEditSheet.SaveSetupProfile();
+            //
+            // var keys = shipEditSheet.ItemPositions.Where(v => v.Value == InventoryItem).Select(v => v.Key);
+            // foreach (var key in keys)
+            // {
+            //     shipEditSheet.ItemPositions.Remove(key);
+            // }
         }
     }
 }
