@@ -5,34 +5,9 @@ namespace _Game.Features.Inventory.Core
 
     public class InventoryManager
     {
-        public class InventoryItem
-        {
-            public List<Vector2Int> Shape { get; set; }
-            public string ItemId { get; set; }
 
-            public InventoryItem(List<Vector2Int> shape, string itemId)
-            {
-                Shape = shape;
-                ItemId = itemId;
-            }
-        }
-        
-        public class Slot
-        {
-            public bool IsDisabled { get; set; }
-            public bool IsHidden { get; set; }
-            public object Value { get; set; }
-
-            public Slot()
-            {
-                IsDisabled = false;
-                IsHidden = false;
-                Value = null;
-            }
-        }
-        
         private Slot[] gridData;
-        private Vector2Int gridSize;
+        public Vector2Int gridSize;
 
         public InventoryManager(Vector2Int gridSize)
         {
@@ -90,7 +65,7 @@ namespace _Game.Features.Inventory.Core
                 int row = startPosition.x + shape.x;
                 int col = startPosition.y + shape.y;
                 int index = row * gridSize.y + col;
-                gridData[index].Value = item.ItemId;
+                gridData[index].Value = item;
             }
         }
 
@@ -98,7 +73,7 @@ namespace _Game.Features.Inventory.Core
         {
             for (int i = 0; i < gridData.Length; i++)
             {
-                if (gridData[i].Value is string value && value == itemId)
+                if (gridData[i].Value is InventoryItem value && value.Id == itemId)
                 {
                     gridData[i].Value = null; // Reset to empty slot
                 }
@@ -110,20 +85,20 @@ namespace _Game.Features.Inventory.Core
             int index = position.x * gridSize.y + position.y;
             return gridData[index];
         }
-
-        public void SetSlot(Vector2Int position, Slot slot)
-        {
-            int index = position.x * gridSize.y + position.y;
-            gridData[index] = slot;
-        }
-
-        public void SetSlots(List<Vector2Int> positions, Slot slot)
-        {
-            foreach (var position in positions)
-            {
-                SetSlot(position, slot);
-            }
-        }
+        //
+        // public void SetSlot(Vector2Int position, Slot slot)
+        // {
+        //     int index = position.x * gridSize.y + position.y;
+        //     gridData[index] = slot;
+        // }
+        //
+        // public void SetSlots(List<Vector2Int> positions, Slot slot)
+        // {
+        //     foreach (var position in positions)
+        //     {
+        //         SetSlot(position, slot);
+        //     }
+        // }
 
         public void SetDisabledSlots(List<Vector2Int> positions)
         {
@@ -149,7 +124,7 @@ namespace _Game.Features.Inventory.Core
                 for (int c = 0; c < gridSize.y; c++)
                 {
                     var slot = gridData[r * gridSize.y + c];
-                    string value = slot.IsDisabled ? "D" : slot.IsHidden ? "H" : slot.Value?.ToString() ?? "0";
+                    string value = slot.IsDisabled ? "D" : slot.IsHidden ? "H" : slot.Value?.Id ?? "0";
                     row += value + " ";
                 }
 
@@ -160,40 +135,59 @@ namespace _Game.Features.Inventory.Core
         public bool MoveItem(Vector2Int currentPos, Vector2Int newPos)
         {
             Slot currentSlot = GetSlot(currentPos);
-            if (!(currentSlot.Value is string itemId) || string.IsNullOrEmpty(itemId))
+            if (currentSlot.Value == null || string.IsNullOrEmpty(currentSlot.Value.Id))
                 return false; // No valid item at the current position
 
-            // Create a temporary InventoryItem for shape and ID
-            InventoryItem tempItem = new InventoryItem(new List<Vector2Int>(), itemId);
+            var item = currentSlot.Value;
 
-            // Find all the cells occupied by this item
+            // Check if the item can be placed at the new position
+            if (!CanPlaceItem(newPos, item, out List<Vector2Int> placableCells))
+                return false;
+
+            // Remove the item from the current position
+            RemoveItem(item.Id);
+
+            // Place the item at the new position
+            PlaceItem(newPos, item);
+
+            return true;
+        }
+
+        public void RemoveItemAt(Vector2Int position)
+        {
+            int index = position.x * gridSize.y + position.y;
+            if (index < 0 || index >= gridData.Length) return; // Check if the index is out of bounds
+
+            Slot slot = gridData[index];
+            if (slot.Value == null || string.IsNullOrEmpty(slot.Value.Id))
+                return; // Check if there is an item at the given position
+
+            // Remove the item with the given ID
+            RemoveItem(slot.Value.Id);
+        }
+        
+        public void RemoveItemAt(Slot cell)
+        {
+            if (cell == null || cell.Value == null || string.IsNullOrEmpty(cell.Value.Id)) return; // Check if the cell or item is null
+
+            // Remove the item with the given ID
+            RemoveItem(cell.Value.Id);
+        }
+
+
+        public List<Vector2Int> GetItemCells(string itemId)
+        {
             List<Vector2Int> occupiedCells = new List<Vector2Int>();
+
             for (int i = 0; i < gridData.Length; i++)
             {
-                if (gridData[i].Value is string value && value == itemId)
+                if (gridData[i].Value is InventoryItem value && value.Id == itemId)
                 {
                     occupiedCells.Add(new Vector2Int(i / gridSize.y, i % gridSize.y));
                 }
             }
 
-            // Calculate shape based on occupied cells
-            Vector2Int origin = occupiedCells[0];
-            foreach (var cell in occupiedCells)
-            {
-                tempItem.Shape.Add(new Vector2Int(cell.x - origin.x, cell.y - origin.y));
-            }
-
-            // Check if the item can be placed at the new position
-            if (!CanPlaceItem(newPos, tempItem, out List<Vector2Int> placableCells))
-                return false;
-
-            // Remove the item from the current position
-            RemoveItem(itemId);
-
-            // Place the item at the new position
-            PlaceItem(newPos, tempItem);
-
-            return true;
+            return occupiedCells;
         }
     }
 }

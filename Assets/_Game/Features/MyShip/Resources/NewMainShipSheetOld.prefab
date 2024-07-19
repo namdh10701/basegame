@@ -379,10 +379,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1571347980294901151}
   - component: {fileID: 179272756727974986}
-  - component: {fileID: 4028304880164185892}
   - component: {fileID: 8110413389630306054}
+  - component: {fileID: 3577819597912359842}
   m_Layer: 5
-  m_Name: NewMainShipSheet
+  m_Name: NewMainShipSheetOld
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -417,34 +417,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 834336261382786804}
   m_CullTransparentMesh: 1
---- !u!114 &4028304880164185892
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 834336261382786804}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9af8538befdf48afb90c476cea0ee194, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _dontAddCanvasGroupAutomatically: 0
-  _usePrefabNameAsIdentifier: 1
-  _identifier: 
-  _rectTransform: {fileID: 0}
-  _canvasGroup: {fileID: 8110413389630306054}
-  _animationContainer:
-    _enterAnimations: []
-    _exitAnimations: []
-  _renderingOrder: 0
-  _shipsConfig: {fileID: 11400000, guid: 85cc12feb1e2e73449fe687ba245cd94, type: 2}
-  _tabEditShip: {fileID: 1522540304006385373}
-  _btnShipSelection: {fileID: 0}
-  _btnShipEdit: {fileID: 0}
-  _parentShip: {fileID: 5302135198597206264}
-  _btnRemoveAll: {fileID: 1210815593191092187}
-  _btnRemove: {fileID: 7959980857763231367}
 --- !u!225 &8110413389630306054
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -457,6 +429,27 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &3577819597912359842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 834336261382786804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6027534d5714fef891e92750c426177, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dontAddCanvasGroupAutomatically: 0
+  _usePrefabNameAsIdentifier: 1
+  _identifier: 
+  _rectTransform: {fileID: 0}
+  _canvasGroup: {fileID: 8110413389630306054}
+  _animationContainer:
+    _enterAnimations: []
+    _exitAnimations: []
+  _renderingOrder: 0
 --- !u!1 &978246022161160700
 GameObject:
   m_ObjectHideFlags: 0
@@ -2690,7 +2683,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &998405600644865632
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4588,8 +4581,30 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5372131827885761618, guid: 83c4c442d2c70481f9acb8191509a049, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4934239096314779345}
   m_SourcePrefab: {fileID: 100100000, guid: 83c4c442d2c70481f9acb8191509a049, type: 3}
+--- !u!1 &866283910731007965 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5372131827885761618, guid: 83c4c442d2c70481f9acb8191509a049, type: 3}
+  m_PrefabInstance: {fileID: 5082327365459207055}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4934239096314779345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 866283910731007965}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1360956885, guid: e650e72e8be47794994495fc15c0ba63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  viewModelMethodName: _Game.Features.MyShip.NewMainShipSheet.NavToShipEditSheet
+  viewEventName: UnityEngine.UI.Button.onClick
 --- !u!224 &5099742325065165423 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 21921443318712800, guid: 83c4c442d2c70481f9acb8191509a049, type: 3}

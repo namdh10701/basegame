@@ -10,7 +10,7 @@ namespace _Game.Scripts.SaveLoad
         public static void LoadSave()
         {
             // FIXME: Delete
-            SaveLoadManager.DeleteSave(1);
+            // SaveLoadManager.DeleteSave(1);
             
             GameSave = SaveLoadManager.ReadSave(1);
             if (GameSave == null)

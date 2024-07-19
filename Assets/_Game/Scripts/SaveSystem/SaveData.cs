@@ -13,6 +13,7 @@ namespace _Game.Scripts.SaveLoad
         // public SkillSaveData SkillSaveData;
         // public InventorySaveData InventorySaveData;
         public ShipSetupSaveData ShipSetupSaveData;
+        public List<string> OwnedShips = new();
 
         public SaveData(int saveId)
         {
@@ -51,6 +52,13 @@ namespace _Game.Scripts.SaveLoad
 
             defaultSave.ShipSetupSaveData = new ShipSetupSaveData();
             defaultSave.ShipSetupSaveData.Init();
+
+            defaultSave.OwnedShips = new()
+            {
+                "0001",
+                "0002",
+                "0003",
+            };
             
             return defaultSave;
         }

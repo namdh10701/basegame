@@ -8,6 +8,13 @@ namespace _Base.Scripts.Utils
 {
     public static class Vector2IntArrayUtils
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="list"></param>
+        /// <param name="offset"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
         public static List<Vector2Int> Shift(List<Vector2Int> list, Vector2Int offset)
         {
             if (list == null || list.Count == 0)
@@ -25,6 +32,13 @@ namespace _Base.Scripts.Utils
 
             return shiftedList;
         }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="list"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
         public static Vector2Int FindMostCentralPoint(List<Vector2Int> list)
         {
             if (list == null || list.Count == 0)
@@ -65,6 +79,12 @@ namespace _Base.Scripts.Utils
             return mostCentralPoint;
         }
         
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="list"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
         public static List<Vector2Int> ShiftToZero(List<Vector2Int> list)
         {
             if (list == null || list.Count == 0)
@@ -96,6 +116,87 @@ namespace _Base.Scripts.Utils
             }
 
             return shiftedList;
+        }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="points"></param>
+        /// <returns></returns>
+        public static Vector2Int GetDimensions(List<Vector2Int> points)
+        {
+            if (points == null || points.Count == 0)
+            {
+                return Vector2Int.zero;
+            }
+
+            int minX = int.MaxValue;
+            int maxX = int.MinValue;
+            int minY = int.MaxValue;
+            int maxY = int.MinValue;
+
+            foreach (var point in points)
+            {
+                if (point.x < minX) minX = point.x;
+                if (point.x > maxX) maxX = point.x;
+                if (point.y < minY) minY = point.y;
+                if (point.y > maxY) maxY = point.y;
+            }
+
+            int width = maxX - minX + 1;
+            int height = maxY - minY + 1;
+
+            return new Vector2Int(width, height);
+        }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="points"></param>
+        /// <returns></returns>
+        public static Vector2Int GetTopLeftPoint(List<Vector2Int> points)
+        {
+            if (points == null || points.Count == 0)
+            {
+                return Vector2Int.zero; // or throw an exception if that's preferred
+            }
+
+            Vector2Int topLeft = points[0];
+
+            foreach (var point in points)
+            {
+                if (point.y > topLeft.y || (point.y == topLeft.y && point.x < topLeft.x))
+                {
+                    topLeft = point;
+                }
+            }
+
+            return topLeft;
+        }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="points"></param>
+        /// <returns></returns>
+        public static Vector2Int GetBottomLeftPoint(List<Vector2Int> points)
+        {
+            if (points == null || points.Count == 0)
+            {
+                return Vector2Int.zero; // or throw an exception if that's preferred
+            }
+
+            Vector2Int bottomLeft = points[0];
+
+            foreach (var point in points)
+            {
+                if (point.y < bottomLeft.y || (point.y == bottomLeft.y && point.x < bottomLeft.x))
+                {
+                    bottomLeft = point;
+                }
+            }
+
+            return bottomLeft;
         }
     }
 }

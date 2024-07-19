@@ -8,6 +8,7 @@ using UnityEngine;
 using _Base.Scripts.Utils.Extensions;
 using _Base.Scripts.UI;
 using _Game.Scripts;
+using _Game.Scripts.SaveLoad;
 
 namespace _Game.Features.Gameplay
 {
@@ -63,40 +64,70 @@ namespace _Game.Features.Gameplay
 
         }
 
+        // void GetLoadOut()
+        // {
+        //     UsingGridItemDatas = new List<GridItemData>();
+        //     if (PlayerPrefs.HasKey(Ship.Id))
+        //     {
+        //         string jsonData = PlayerPrefs.GetString(Ship.Id);
+        //         InventoryData data = JsonUtility.FromJson<InventoryData>(jsonData);
+        //
+        //         List<InventoryItemData> items = data.InventoryItemsOnGrid;
+        //
+        //         foreach (InventoryItemData item in items)
+        //         {
+        //             GridItemData itemData = new();
+        //             itemData.Id = item.Id;
+        //             itemData.startY = item.startX;
+        //             itemData.startX = item.startY;
+        //             itemData.GridId = "1";
+        //
+        //             switch (item.Type)
+        //             {
+        //                 case ItemType.CANNON:
+        //                     itemData.GridItemType = GridItemType.Cannon;
+        //                     break;
+        //                 case ItemType.CREW:
+        //                     itemData.GridItemType = GridItemType.Crew;
+        //                     break;
+        //                 case ItemType.AMMO:
+        //                     itemData.GridItemType = GridItemType.Bullet;
+        //                     break;
+        //             }
+        //
+        //             UsingGridItemDatas.Add(itemData);
+        //
+        //         }
+        //     }
+        // }
+        
         void GetLoadOut()
         {
             UsingGridItemDatas = new List<GridItemData>();
-            if (PlayerPrefs.HasKey(Ship.Id))
+            
+            foreach (var (rawPos, gridItem) in SaveSystem.GameSave.ShipSetupSaveData.CurrentShipSetupData.ShipData)
             {
-                string jsonData = PlayerPrefs.GetString(Ship.Id);
-                InventoryData data = JsonUtility.FromJson<InventoryData>(jsonData);
-
-                List<InventoryItemData> items = data.InventoryItemsOnGrid;
-
-                foreach (InventoryItemData item in items)
+                var xy = rawPos.Split(",").Select(int.Parse).ToList();
+                GridItemData itemData = new();
+                itemData.Id = gridItem.ItemId;
+                itemData.startY = xy[0];
+                itemData.startX = xy[1];
+                itemData.GridId = "3"; // ????????
+                
+                switch (gridItem.ItemType)
                 {
-                    GridItemData itemData = new();
-                    itemData.Id = item.Id;
-                    itemData.startY = item.startX;
-                    itemData.startX = item.startY;
-                    itemData.GridId = "1";
-
-                    switch (item.Type)
-                    {
-                        case ItemType.CANNON:
-                            itemData.GridItemType = GridItemType.Cannon;
-                            break;
-                        case ItemType.CREW:
-                            itemData.GridItemType = GridItemType.Crew;
-                            break;
-                        case ItemType.AMMO:
-                            itemData.GridItemType = GridItemType.Bullet;
-                            break;
-                    }
-
-                    UsingGridItemDatas.Add(itemData);
-
+                    case ItemType.CANNON:
+                        itemData.GridItemType = GridItemType.Cannon;
+                        break;
+                    case ItemType.CREW:
+                        itemData.GridItemType = GridItemType.Crew;
+                        break;
+                    case ItemType.AMMO:
+                        itemData.GridItemType = GridItemType.Bullet;
+                        break;
                 }
+                
+                UsingGridItemDatas.Add(itemData);
             }
         }
 

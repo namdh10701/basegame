@@ -18,7 +18,7 @@ namespace _Game.Features.Inventory
             {
                 if (!_placementPane)
                 {
-                    _placementPane = GetComponentInChildren<PlacementPane>().transform as RectTransform;
+                    _placementPane = GetComponentInChildren<PlacementPane>(false).transform as RectTransform;
                 }
                 
                 return _placementPane;
@@ -34,66 +34,115 @@ namespace _Game.Features.Inventory
             shipConfigManager = GetComponent<ShipConfigManager>();
         }
 
-        public override bool OnItemDrop(DraggableItem droppedItem)
+        // public override ItemDroppedCallbackCommand OnItemDrop(DraggableItem droppedItem)
+        // {
+        //     var inventoryItem = droppedItem.DragDataProvider.GetData<InventoryItem>();
+        //
+        //     var cell = shipGridHighlighter.ActiveCells.LastOrDefault();
+        //     if (!cell || cell.Data != null) return new ItemDroppedCallbackCommand { Cmd = ItemDroppedCallbackCommand.Command.REJECT };
+        //
+        //     var beforeProcessData = cell.Data;
+        //     
+        //     var shipSetupItemPrefab = ShipSetupUtils.GetShipSetupItemPrefab(inventoryItem);
+        //     var shipSetupItem = Instantiate(shipSetupItemPrefab, PlacementPane);
+        //     shipSetupItem.Positions = shipGridHighlighter.ActiveCells.Select(v => v.Position).ToList();
+        //
+        //     var uiCell =
+        //         GridLayoutGroupUtils.GetCellAtPosition(shipGridHighlighter.Grid.GridLayoutGroup, cell.Position);
+        //
+        //     var rect = shipSetupItem.transform as RectTransform;
+        //     rect.anchorMin = Vector2.up;
+        //     rect.anchorMax = Vector2.up;
+        //     rect.pivot = Vector2.zero;
+        //     rect.anchoredPosition = uiCell.anchoredPosition;
+        //
+        //     shipGridHighlighter.Clear();
+        //
+        //     shipSetupItem.InventoryItem = inventoryItem;
+        //     shipSetupItem.Removable = true;
+        //     
+        //     shipGridHighlighter.ActiveCells.ForEach(v =>
+        //     {
+        //         v.Data = inventoryItem;
+        //     });
+        //     
+        //     IOC.Resolve<InventorySheet>().AddIgnore(inventoryItem);
+        //
+        //     Dictionary<Vector2Int, InventoryItem> ItemPositions = new();
+        //     foreach (var child in _placementPane.GetComponentsInChildren<DraggableItem>())
+        //     {
+        //         var item = child.DragDataProvider.GetData<InventoryItem>();
+        //         
+        //         var positions = child.GetComponent<ShipSetupItem>().Positions;
+        //         foreach (var pos in positions)
+        //         {
+        //             ItemPositions[pos] = item;
+        //         }
+        //     }
+        //     
+        //     IOC.Resolve<NewShipEditSheet>().ItemPositions = ItemPositions;
+        //     shipConfigManager.OnItemPositionChanged.Invoke(shipConfigManager.ItemPositions);
+        //     return new ItemDroppedCallbackCommand { Cmd = ItemDroppedCallbackCommand.Command.COMMIT, Data = beforeProcessData };
+        // }
+        
+        
+        public override ItemDroppedCallbackCommand OnItemDrop(DraggableItem droppedItem)
         {
             var inventoryItem = droppedItem.DragDataProvider.GetData<InventoryItem>();
 
-            var cell = shipGridHighlighter.ActiveCells.LastOrDefault();
-            if (!cell || cell.Data != null) return false;
-
-
-
-            var shipSetupItemPrefab = ShipSetupUtils.GetShipSetupItemPrefab(inventoryItem);
+            // var cell = shipGridHighlighter.ActiveCells.LastOrDefault();
+            var cellPos = Vector2IntArrayUtils.GetTopLeftPoint(shipGridHighlighter.ActiveCells.Select(v => v.Position).ToList());
+            var cell = shipGridHighlighter.ActiveCells.First(v => v.Position == cellPos);
             
-            var shipSetupItem = Instantiate(shipSetupItemPrefab, PlacementPane);
-            shipSetupItem.Positions = shipGridHighlighter.ActiveCells.Select(v => v.Position).ToList();
-
+            if (!cell || cell.Data != null) return new ItemDroppedCallbackCommand { Cmd = ItemDroppedCallbackCommand.Command.REJECT };
+            
+            
+            //
+            var beforeProcessData = cell.Data;
+            //
+            // var shipSetupItemPrefab = ShipSetupUtils.GetShipSetupItemPrefab(inventoryItem);
+            // var shipSetupItem = Instantiate(shipSetupItemPrefab, PlacementPane);
+            // shipSetupItem.Positions = shipGridHighlighter.ActiveCells.Select(v => v.Position).ToList();
+            //
             var uiCell =
                 GridLayoutGroupUtils.GetCellAtPosition(shipGridHighlighter.Grid.GridLayoutGroup, cell.Position);
-
-            // EditorGUIUtility.PingObject(uiCell);
             
-            var screenPoint = RectTransformUtility.WorldToScreenPoint(Camera.main, uiCell.position);
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(PlacementPane, screenPoint, Camera.main, out Vector2 localAnchoredPosition);
-            
-            var rect = shipSetupItem.transform as RectTransform;
-            // rect.anchorMin = Vector2.zero;
-            // rect.anchorMax = Vector2.zero;
-            rect.anchorMin = Vector2.up;
-            rect.anchorMax = Vector2.up;
-            rect.pivot = Vector2.zero;
-            // rect.anchoredPosition = localAnchoredPosition;
-            rect.anchoredPosition = uiCell.anchoredPosition;
-
+            var shipEditSheet = IOC.Resolve<NewShipEditSheet>();
+            shipEditSheet.Ship_SetSlot(cell.Position, inventoryItem);
+            //
+            // var rect = shipSetupItem.transform as RectTransform;
+            // rect.anchorMin = Vector2.up;
+            // rect.anchorMax = Vector2.up;
+            // rect.pivot = Vector2.zero;
+            // rect.anchoredPosition = uiCell.anchoredPosition;
+            //
             shipGridHighlighter.Clear();
-
-            shipSetupItem.InventoryItem = inventoryItem;
-            shipSetupItem.Removable = true;
-            
-            shipGridHighlighter.ActiveCells.ForEach(v =>
-            {
-                v.Data = inventoryItem;
-            });
-            
-            IOC.Resolve<InventorySheet>().AddIgnore(inventoryItem);
-
-            // OnDropCommitted?.Invoke();
-
-            Dictionary<Vector2Int, InventoryItem> ItemPositions = new();
-            foreach (var child in _placementPane.GetComponentsInChildren<DraggableItem>())
-            {
-                var item = child.DragDataProvider.GetData<InventoryItem>();
-                
-                var positions = child.GetComponent<ShipSetupItem>().Positions;
-                foreach (var pos in positions)
-                {
-                    ItemPositions[pos] = item;
-                }
-            }
-
-            shipConfigManager.ItemPositions = ItemPositions;
-            shipConfigManager.OnItemPositionChanged.Invoke(shipConfigManager.ItemPositions);
-            return true;
+            //
+            // shipSetupItem.InventoryItem = inventoryItem;
+            // shipSetupItem.Removable = true;
+            //
+            // shipGridHighlighter.ActiveCells.ForEach(v =>
+            // {
+            //     v.Data = inventoryItem;
+            // });
+            //
+            // IOC.Resolve<InventorySheet>().AddIgnore(inventoryItem);
+            //
+            // Dictionary<Vector2Int, InventoryItem> ItemPositions = new();
+            // foreach (var child in _placementPane.GetComponentsInChildren<DraggableItem>())
+            // {
+            //     var item = child.DragDataProvider.GetData<InventoryItem>();
+            //     
+            //     var positions = child.GetComponent<ShipSetupItem>().Positions;
+            //     foreach (var pos in positions)
+            //     {
+            //         ItemPositions[pos] = item;
+            //     }
+            // }
+            //
+            // IOC.Resolve<NewShipEditSheet>().ItemPositions = ItemPositions;
+            // shipConfigManager.OnItemPositionChanged.Invoke(shipConfigManager.ItemPositions);
+            return new ItemDroppedCallbackCommand { Cmd = ItemDroppedCallbackCommand.Command.COMMIT, Data = beforeProcessData };
         }
     }
 }
