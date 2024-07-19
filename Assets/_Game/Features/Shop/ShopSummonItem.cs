@@ -4,6 +4,7 @@ using System.Linq;
 using _Game.Scripts.GD.DataManager;
 using _Game.Scripts.SaveLoad;
 using _Game.Scripts.UI;
+using ExitGames.Client.Photon.StructWrapping;
 using UnityWeld.Binding;
 
 namespace _Game.Features.Shop
@@ -192,7 +193,6 @@ namespace _Game.Features.Shop
         public void SetUp(ShopSummonViewModel shopSummonViewModel)
         {
             ShopSummonViewModel = shopSummonViewModel;
-            _countGacha = GetNumberGacha();
         }
 
         private int GetNumberGacha()
@@ -201,6 +201,13 @@ namespace _Game.Features.Shop
                 return SaveSystem.GameSave.CountOfGacha.CountOfGacha_1;
             else
                 return SaveSystem.GameSave.CountOfGacha.CountOfGacha_2;
+        }
+        private void SaveCountGacha()
+        {
+            if (Id == "gacha_cannon_1" || Id == "gacha_ammo_1")
+                SaveSystem.GameSave.CountOfGacha.CountOfGacha_1 = _countGacha;
+            else
+                SaveSystem.GameSave.CountOfGacha.CountOfGacha_2 = _countGacha;
         }
 
         public string GetRandomRarityByWeight()
@@ -239,7 +246,6 @@ namespace _Game.Features.Shop
                 }
                 randomNumber -= ListWeightRarity[i];
             }
-
             return null;
         }
 
@@ -269,6 +275,7 @@ namespace _Game.Features.Shop
         [Binding]
         public void GetIDItemGacha()
         {
+            _countGacha = GetNumberGacha();
             ShopSummonViewModel.ItemsGachaReceived.Clear();
             for (int i = 0; i < Amount; i++)
             {
@@ -284,9 +291,18 @@ namespace _Game.Features.Shop
                 shopItemGachaReceived.Name = CurentNameItemGacha;
                 shopItemGachaReceived.GachaType = GachaType;
                 shopItemGachaReceived.Rarity = CurentRarityItemGacha;
+                shopItemGachaReceived.Shape = GameData.CannonTable.GetShapeByName(CurentNameItemGacha);
                 ShopSummonViewModel.ItemsGachaReceived.Add(shopItemGachaReceived);
             }
-            ShopSummonViewModel.IsActiveItemGachaReceived = true;
+            ShopSummonViewModel.OnClickToCotinue();
+            SaveCountGacha();
+            SaveSystem.SaveGame();
+        }
+
+        [Binding]
+        public void SetIdSummonItem()
+        {
+            ShopSummonViewModel.IdSummonItemSelected = Id;
         }
     }
 }

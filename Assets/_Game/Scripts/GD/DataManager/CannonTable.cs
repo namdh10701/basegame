@@ -16,7 +16,7 @@ namespace _Game.Scripts.GD.DataManager
         {
             foreach (var record in Records)
             {
-                if (record.Name == name)
+                if (record.OperationType == name)
                     return record.Shape;
             }
             return null;
@@ -99,6 +99,10 @@ namespace _Game.Scripts.GD.DataManager
         [Index(18)]
         [Default(0)]
         public float Angle { get; set; }
+
+        // [Index(19)]
+        // [Default(0)]
+        // public string Slot { get; set; }
 
         public override object GetId()
         {

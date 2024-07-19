@@ -51,7 +51,7 @@ namespace _Game.Scripts.SaveLoad
             // skillSaveData.SkillDatas.Add(new SkillData(2, 1));
             //
             // defaultSave.SkillSaveData = skillSaveData;
-
+            defaultSave.CountOfGacha = new CountOfGacha();
             defaultSave.ShipSetupSaveData = new ShipSetupSaveData();
             defaultSave.ShipSetupSaveData.Init();
 
