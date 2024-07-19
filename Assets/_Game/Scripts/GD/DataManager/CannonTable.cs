@@ -11,14 +11,24 @@ namespace _Game.Scripts.GD.DataManager
         public CannonTable(string downloadUrl, string dataFileName = null) : base(downloadUrl, dataFileName)
         {
         }
+
+        public string GetShapeByName(string name)
+        {
+            foreach (var record in Records)
+            {
+                if (record.Name == name)
+                    return record.Shape;
+            }
+            return null;
+        }
     }
-    
+
     /// <summary>
     /// 
     /// </summary>
-    public class CannonTableRecord: DataTableRecord
+    public class CannonTableRecord : DataTableRecord
     {
-        
+
         [Index(0)]
         public string Id { get; set; }
 
@@ -89,7 +99,7 @@ namespace _Game.Scripts.GD.DataManager
         [Index(18)]
         [Default(0)]
         public float Angle { get; set; }
-        
+
         public override object GetId()
         {
             return Id;
