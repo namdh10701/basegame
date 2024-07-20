@@ -11,20 +11,24 @@ namespace _Game.Features.Gameplay
         public ConsumedManaDisplay consumedManaDisplayPrefab;
         private void OnEnable()
         {
-            GlobalEvent<float, bool, Vector3>.Register("DAMAGE_INFLICTED", OnDamageInflicted);
+            GlobalEvent<float, bool, IEffectTaker>.Register("DAMAGE_INFLICTED", OnDamageInflicted);
             GlobalEvent<int, Vector3>.Register("MANA_CONSUMED", OnManaConsumed);
         }
 
         private void OnDisable()
         {
-            GlobalEvent<float, bool, Vector3>.Unregister("DAMAGE_INFLICTED", OnDamageInflicted);
+            GlobalEvent<float, bool, IEffectTaker>.Unregister("DAMAGE_INFLICTED", OnDamageInflicted);
             GlobalEvent<int, Vector3>.Register("MANA_CONSUMED", OnManaConsumed);
         }
 
-        void OnDamageInflicted(float amount, bool isCrit, Vector3 pos)
+        void OnDamageInflicted(float amount, bool isCrit, IEffectTaker effectTaker)
         {
+            if (effectTaker is Ship)
+            {
+                return;
+            }
             InflictedDamageDisplay idd = Instantiate(prefab, transform);
-            idd.Init(amount, isCrit, pos);
+            idd.Init(amount, isCrit, effectTaker.Transform.position);
         }
         void OnManaConsumed(int amount, Vector3 pos)
         {

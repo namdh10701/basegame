@@ -131,10 +131,6 @@ namespace _Game.Features.Gameplay
             atkHandler = FindAnyObjectByType<GridAttackHandler>();
             State = EnemyState.Entry;
         }
-        private void Update()
-        {
-            Debug.Log(cooldownBehaviour.IsInCooldown);
-        }
         public override void ApplyStats()
         {
             findTargetCollider?.SetRadius(_stats.AttackRange.Value);

@@ -100,20 +100,20 @@ namespace _Game.Features.Gameplay
         //         }
         //     }
         // }
-        
+
         void GetLoadOut()
         {
             UsingGridItemDatas = new List<GridItemData>();
-            
-            foreach (var (rawPos, gridItem) in SaveSystem.GameSave.ShipSetupSaveData.CurrentShipSetupData.ShipData)
+            foreach (var (rawPos, gridItem) in SaveSystem.GameSave.ShipSetupSaveData.GetShipSetup(Ship.Id, SaveSystem.GameSave.ShipSetupSaveData.CurrentProfile).ShipData)
             {
                 var xy = rawPos.Split(",").Select(int.Parse).ToList();
                 GridItemData itemData = new();
                 itemData.Id = gridItem.ItemId;
-                itemData.startY = xy[0];
-                itemData.startX = xy[1];
-                itemData.GridId = "3"; // ????????
-                
+                int translatedY = ShipGridProfile.GridDefinitions[0].Row - xy[1] - 1;
+                itemData.startY = translatedY;
+                itemData.startX = xy[0];
+                itemData.GridId = "1"; // ????????
+
                 switch (gridItem.ItemType)
                 {
                     case ItemType.CANNON:
@@ -126,7 +126,7 @@ namespace _Game.Features.Gameplay
                         itemData.GridItemType = GridItemType.Bullet;
                         break;
                 }
-                
+
                 UsingGridItemDatas.Add(itemData);
             }
         }

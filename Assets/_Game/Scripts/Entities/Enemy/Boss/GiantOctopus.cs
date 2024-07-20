@@ -6,12 +6,12 @@ using UnityEngine;
 
 namespace _Game.Features.Gameplay
 {
+    public enum OctopusState
+    {
+        None, Entry, State1, State2, Mad, Dead
+    }
     public class GiantOctopus : MonoBehaviour
     {
-        public enum OctopusState
-        {
-            None, State1, State2, State3, Dead
-        }
         OctopusState state;
         public OctopusState State
         {
@@ -30,11 +30,17 @@ namespace _Game.Features.Gameplay
         public Action<OctopusState> OnStateEntered;
 
 
-        public Part[] Parts;
+        public PartModel[] Parts;
+        public GiantOctopusView GiantOctopusView;
         public Action OnDied;
+        private void Start()
+        {
+            GiantOctopusView.Initialize(this);
+            State = OctopusState.State1;
+        }
         private void Awake()
         {
-            foreach (Part part in Parts)
+            foreach (PartModel part in Parts)
             {
                 part.EnemyStats.HealthPoint.OnValueChanged += HealthPoint_OnValueChanged;
             }
@@ -42,7 +48,7 @@ namespace _Game.Features.Gameplay
 
         private void OnDestroy()
         {
-            foreach (Part part in Parts)
+            foreach (PartModel part in Parts)
             {
                 part.EnemyStats.HealthPoint.OnValueChanged -= HealthPoint_OnValueChanged;
             }
@@ -63,7 +69,7 @@ namespace _Game.Features.Gameplay
 
         void CheckDie()
         {
-            foreach (Part part in Parts)
+            foreach (PartModel part in Parts)
             {
                 if (part.EnemyStats.HealthPoint.Value > 0)
                 {
