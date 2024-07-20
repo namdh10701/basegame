@@ -36,7 +36,17 @@ namespace _Game.Scripts.GD.DataManager
         {
             Debug.Log("Load: " + GetType());
             var filePath = GetFilePath(DataFileName);
-            await GSheetDownloader.Download(DownloadUrl, filePath);
+            
+            try
+            {
+                await GSheetDownloader.Download(DownloadUrl, filePath);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("Error loading: " + DownloadUrl);
+                Debug.LogError(e);
+                throw;
+            }
             await using var stream = File.OpenRead(filePath);
 
             _records = Parser.Parser.GetRecords<TRecordType>(stream);

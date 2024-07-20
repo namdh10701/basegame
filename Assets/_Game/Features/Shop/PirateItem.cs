@@ -7,20 +7,8 @@ using ZBase.UnityScreenNavigator.Core.Views;
 
 namespace _Game.Features.Shop
 {
-
-    public enum PirateItemType
-    {
-        GEM,
-        GOLD
-    }
-    public class InventoryPirateItemDto
-    {
-        public string Id;
-        public string Name;
-        public PirateItemType ItemType;
-    }
     [Binding]
-    public class PirateItem : SubViewModel
+    public class PirateItemGem : SubViewModel
     {
         public PirateViewModel PirateViewModel { get; set; }
 
@@ -79,38 +67,11 @@ namespace _Game.Features.Shop
         [Binding]
         public string PriceText => m_price.ToString();
 
+        // [Binding]
+        // public Sprite Thumbnail => Resources.Load<Sprite>($"PirateItems/{m_type.ToString()}_{Id}");
 
-
-        #region Binding Prop: ItemType
-
-        /// <summary>
-        /// ItemType
-        /// </summary>
-        [Binding]
-        public PirateItemType Type
-        {
-            get => m_type;
-            set
-            {
-                if (Equals(m_type, value))
-                {
-                    return;
-                }
-
-                m_type = value;
-                OnPropertyChanged(nameof(Type));
-            }
-        }
-
-        private PirateItemType m_type;
-
-        #endregion
-
-        [Binding]
-        public Sprite Thumbnail => Resources.Load<Sprite>($"PirateItems/{m_type.ToString()}_{Id}");
-
-        [Binding]
-        public Sprite IconButton => Resources.Load<Sprite>($"img_pirate_iconItem_{m_type.ToString()}");
+        // [Binding]
+        // public Sprite IconButton => Resources.Load<Sprite>($"img_pirate_iconItem_{m_type.ToString()}");
 
         #region Binding Prop: IsSelected
 
@@ -196,7 +157,7 @@ namespace _Game.Features.Shop
         [Binding]
         public void SetAsHighLightItem()
         {
-            PirateViewModel.HighlightItem = this;
+            // PirateViewModel.HighlightItem = this;
         }
 
         [Binding]
