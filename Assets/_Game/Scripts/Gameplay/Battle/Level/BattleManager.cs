@@ -7,6 +7,7 @@ using _Game.Features.Battle;
 using _Game.Scripts;
 using _Game.Scripts.Battle;
 using _Game.Scripts.Entities;
+using _Game.Scripts.SaveLoad;
 using Map;
 using System;
 using System.Collections;
@@ -44,7 +45,7 @@ namespace _Game.Features.Gameplay
 
             this.BattleViewModel = battleViewModel;
             BattleInputManager.gameObject.SetActive(false);
-            EntityManager.SpawnShip(BattleManager.SelectedShipId, shipStartPos.position);
+            EntityManager.SpawnShip(SaveSystem.GameSave.ShipSetupSaveData.CurrentShipId, shipStartPos.position);
             LevelStartSequence.shipSpeed = EntityManager.Ship.ShipSpeed;
             GridAttackHandler.ship = EntityManager.Ship;
             EntityManager.Ship.BattleViewModel = battleViewModel;
