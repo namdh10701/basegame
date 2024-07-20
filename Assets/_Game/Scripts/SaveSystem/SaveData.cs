@@ -17,6 +17,11 @@ namespace _Game.Scripts.SaveLoad
 
         public CountOfGacha CountOfGacha;
 
+        public int gold;
+        public int gem;
+        public int energy;
+        public int maxEnergy;
+
         public SaveData(int saveId)
         {
             SaveId = saveId;
@@ -29,6 +34,8 @@ namespace _Game.Scripts.SaveLoad
         public static SaveData GetDefaultSave()
         {
             SaveData defaultSave = new SaveData(1);
+            defaultSave.maxEnergy = 100;
+            defaultSave.energy = defaultSave.maxEnergy;
 
             // InventorySaveData inventorySaveData = new InventorySaveData();
             //
