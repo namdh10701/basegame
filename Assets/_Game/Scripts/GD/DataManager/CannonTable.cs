@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using CsvHelper.Configuration.Attributes;
 
@@ -21,7 +22,38 @@ namespace _Game.Scripts.GD.DataManager
             }
             return null;
         }
+
+        public string GetIdByNameAndRarityDefault(string name, string defaultRarity)
+        {
+            foreach (var record in Records)
+            {
+                if (record.OperationType == name && record.DefaultRarity == defaultRarity)
+                    return record.Id;
+            }
+            return null;
+        }
+
+        public float GetHPById(string id)
+        {
+            foreach (var record in Records)
+            {
+                if (record.Id == id)
+                    return record.Hp;
+            }
+            return -1;
+        }
+
+        public DataTableRecord GetDataTableRecord(string name, string defaultRarity)
+        {
+            foreach (var record in Records)
+            {
+                if (record.OperationType == name && record.DefaultRarity == defaultRarity)
+                    return record;
+            }
+            return null;
+        }
     }
+
 
     /// <summary>
     /// 
@@ -54,46 +86,57 @@ namespace _Game.Scripts.GD.DataManager
 
         [Index(7)]
         [Default(0)]
+        [Stat("HP")]
         public float Hp { get; set; }
 
         [Index(8)]
         [Default(0)]
+        [Stat("Attack")]
         public float Attack { get; set; }
 
         [Index(9)]
         [Default(0)]
+        [Stat("AttackSpeed")]
         public float AttackSpeed { get; set; }
 
         [Index(10)]
         [Default(0)]
+        [Stat("Accuracy")]
         public float Accuracy { get; set; }
 
         [Index(11)]
         [Default(0)]
+        [Stat("CritChance")]
         public float CritChance { get; set; }
 
         [Index(12)]
         [Default(0)]
+        [Stat("CritDamage")]
         public float CritDamage { get; set; }
 
         [Index(13)]
         [Default(0)]
+        [Stat("Range")]
         public float Range { get; set; }
 
         [Index(14)]
         [Default(0)]
+        [Stat("Skill")]
         public float Skill { get; set; }
 
         [Index(15)]
         [Default(0)]
+        [Stat("PrimaryProjectDmg")]
         public float PrimaryProjectDmg { get; set; }
 
         [Index(16)]
         [Default(0)]
+        [Stat("SecondaryProjectDmg")]
         public float SecondaryProjectDmg { get; set; }
 
         [Index(17)]
         [Default(0)]
+        [Stat("ProjectCount")]
         public float ProjectCount { get; set; }
 
         [Index(18)]
@@ -109,4 +152,6 @@ namespace _Game.Scripts.GD.DataManager
             return Id;
         }
     }
+
+
 }

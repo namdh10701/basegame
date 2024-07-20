@@ -283,17 +283,20 @@ namespace _Game.Features.Shop
                 ListWeightRarity = GameData.ShopItemTable.GetWeightRarityById(Id);
                 ListNameItem = GameData.ShopRarityTable.GetDataNames(GachaType, GetRandomRarityByWeight());
                 ListWeightNameItem = GameData.ShopRarityTable.GetWeights(GachaType, CurentRarityItemGacha);
+
                 GetRandomNameByWeight();
+
                 var IdGachaItem = GameData.ShopRarityTable.GetIdByNameAndRarity(CurentNameItemGacha, CurentRarityItemGacha);
 
                 ShopItemGachaReceived shopItemGachaReceived = new ShopItemGachaReceived();
-                shopItemGachaReceived.Id = IdGachaItem;
+                shopItemGachaReceived.IdItemGacha = IdGachaItem;
                 shopItemGachaReceived.Name = CurentNameItemGacha;
                 shopItemGachaReceived.GachaType = GachaType;
                 shopItemGachaReceived.Rarity = CurentRarityItemGacha;
-                shopItemGachaReceived.Shape = GameData.CannonTable.GetShapeByName(CurentNameItemGacha);
                 ShopSummonViewModel.ItemsGachaReceived.Add(shopItemGachaReceived);
+
             }
+
             ShopSummonViewModel.OnClickToCotinue();
             SaveCountGacha();
             SaveSystem.SaveGame();

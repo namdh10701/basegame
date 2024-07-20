@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Reflection;
+using _Base.Scripts.RPG.Stats;
 using _Game.Scripts.GD.DataManager;
 using _Game.Scripts.UI;
 using Cysharp.Threading.Tasks;
@@ -26,6 +28,13 @@ namespace _Game.Features.Shop
         public ObservableList<ShopItemGachaReceived> ItemsGachaReceived => itemsGachaReceived;
         #endregion
 
+        #region Binding: ItemStats
+        private ObservableList<ItemStat> itemStats = new ObservableList<ItemStat>();
+
+        [Binding]
+        public ObservableList<ItemStat> ItemStats => itemStats;
+        #endregion
+
         [Binding]
         public Sprite Thumbnail
         {
@@ -37,26 +46,43 @@ namespace _Game.Features.Shop
             }
         }
 
-        #region Binding Prop: GachaType
+        [Binding]
+        public Sprite SpriteReview
+        {
+            get
+            {
+                switch (GachaTypeItemReview.ToLower())
+                {
+                    case "cannon":
+                        return _Game.Scripts.DB.Database.GetCannonImage(IdItemReview);
+                    case "ammo":
+                        return _Game.Scripts.DB.Database.GetAmmoImage(IdItemReview);
+                    default:
+                        return null;
+                }
+            }
+        }
+
+        #region Binding Prop: IdItemReview
         /// <summary>
-        /// GachaType
+        /// IdItemReview
         /// </summary>
         [Binding]
-        public string GachaTypeItemReview
+        public string IdItemReview
         {
-            get => _gachaTypeItemReview;
+            get => _idItemReview;
             set
             {
-                if (Equals(_gachaTypeItemReview, value))
+                if (Equals(_idItemReview, value))
                 {
                     return;
                 }
 
-                _gachaTypeItemReview = value;
-                OnPropertyChanged(nameof(GachaTypeItemReview));
+                _idItemReview = value;
+                OnPropertyChanged(nameof(IdItemReview));
             }
         }
-        private string _gachaTypeItemReview;
+        private string _idItemReview;
         #endregion
 
         #region Binding Prop: NameItemReview
@@ -79,6 +105,28 @@ namespace _Game.Features.Shop
             }
         }
         private string _nameItemReview;
+        #endregion
+
+        #region Binding Prop: GachaType
+        /// <summary>
+        /// GachaType
+        /// </summary>
+        [Binding]
+        public string GachaTypeItemReview
+        {
+            get => _gachaTypeItemReview;
+            set
+            {
+                if (Equals(_gachaTypeItemReview, value))
+                {
+                    return;
+                }
+
+                _gachaTypeItemReview = value;
+                OnPropertyChanged(nameof(GachaTypeItemReview));
+            }
+        }
+        private string _gachaTypeItemReview;
         #endregion
 
         #region Binding Prop: SlotItemReview
@@ -125,6 +173,7 @@ namespace _Game.Features.Shop
         private string _rarityItemReview;
         #endregion
 
+
         #region Binding Prop: CurrentIndexItemReview
         /// <summary>
         /// CurrentIndexItemReview
@@ -142,6 +191,8 @@ namespace _Game.Features.Shop
 
                 _currentIndexItemReview = value;
                 OnPropertyChanged(nameof(CurrentIndexItemReview));
+                OnChangeCurrentIndexItemReview();
+
             }
         }
         private int _currentIndexItemReview = -1;
@@ -257,6 +308,28 @@ namespace _Game.Features.Shop
         private bool _isActivePopupReceived;
         #endregion
 
+        #region Binding Prop: IsActivePopupReview
+        /// <summary>
+        /// IsActivePopupReview
+        /// </summary>
+        [Binding]
+        public bool IsActivePopupReview
+        {
+            get => _isActivePopupReview;
+            set
+            {
+                if (Equals(_isActivePopupReview, value))
+                {
+                    return;
+                }
+
+                _isActivePopupReview = value;
+                OnPropertyChanged(nameof(IsActivePopupReview));
+            }
+        }
+        private bool _isActivePopupReview;
+        #endregion
+
         List<ShopListingTableRecord> _shopDataSummons = new List<ShopListingTableRecord>();
         public string IdSummonItemSelected;
         private void OnEnable()
@@ -279,7 +352,6 @@ namespace _Game.Features.Shop
                 shopSummonItem.Price = item.PriceAmount.ToString();
                 shopSummonItem.GachaType = item.GachaType;
                 shopSummonItem.Amount = GameData.ShopItemTable.GetAmountById(item.ItemId);
-
                 shopSummonItem.SetUp(this);
                 SummonItems.Add(shopSummonItem);
             }
@@ -291,19 +363,59 @@ namespace _Game.Features.Shop
             if (CurrentIndexItemReview <= ItemsGachaReceived.Count)
             {
                 CurrentIndexItemReview++;
-                GachaTypeItemReview = ItemsGachaReceived[CurrentIndexItemReview].GachaType;
-                NameItemReview = ItemsGachaReceived[CurrentIndexItemReview].Name;
-                RarityItemReview = ItemsGachaReceived[CurrentIndexItemReview].Rarity;
-                SlotItemReview = ItemsGachaReceived[CurrentIndexItemReview].Shape;
-                IsHighlight = RarityItemReview == "Rare" || RarityItemReview == "Epic" ? true : false;
-                OnPropertyChanged(nameof(Thumbnail));
             }
+        }
+
+        public void OnChangeCurrentIndexItemReview()
+        {
+            IdItemReview = ItemsGachaReceived[CurrentIndexItemReview].IdItemGacha;
+            GachaTypeItemReview = ItemsGachaReceived[CurrentIndexItemReview].GachaType;
+            NameItemReview = ItemsGachaReceived[CurrentIndexItemReview].Name;
+            RarityItemReview = ItemsGachaReceived[CurrentIndexItemReview].Rarity;
+            IsHighlight = RarityItemReview == "Rare" || RarityItemReview == "Epic" ? true : false;
+            OnPropertyChanged(nameof(Thumbnail));
+            SetDataItemStat();
+        }
+
+        private void SetDataItemStat()
+        {
+            DataTableRecord dataTableRecord;
+            if (GachaTypeItemReview == "cannon")
+            {
+                SlotItemReview = GameData.CannonTable.GetShapeByName(NameItemReview);
+                dataTableRecord = GameData.CannonTable.GetDataTableRecord(NameItemReview, RarityItemReview);
+            }
+            else
+            {
+                SlotItemReview = GameData.AmmoTable.GetShapeByName(NameItemReview);
+                dataTableRecord = GameData.AmmoTable.GetDataTableRecord(NameItemReview, RarityItemReview);
+            }
+
+            foreach (var item in dataTableRecord.GetType().GetProperties(BindingFlags.Default | BindingFlags.Public | BindingFlags.Instance))
+            {
+                var stat = item.GetCustomAttribute<StatAttribute>();
+                if (stat == null)
+                    continue;
+
+                ItemStat itemStat = new ItemStat();
+                itemStat.NameProperties = stat.Name;
+                itemStat.Value = item.GetValue(dataTableRecord).ToString();
+                itemStats.Add(itemStat);
+            }
+
         }
 
         [Binding]
         public void OnClickStartGacha()
         {
             IsActivePopupConfirm = true;
+        }
+
+        [Binding]
+        public void OnClickOperPopupReview()
+        {
+            IsActivePopupReview = true;
+            IsActivePopupReceived = false;
         }
 
         [Binding]
