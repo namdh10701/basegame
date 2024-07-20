@@ -5,6 +5,8 @@ using _Game.Scripts.GD.DataManager;
 using _Game.Scripts.SaveLoad;
 using _Game.Scripts.UI;
 using ExitGames.Client.Photon.StructWrapping;
+using Unity.VisualScripting;
+using UnityEngine;
 using UnityWeld.Binding;
 
 namespace _Game.Features.Shop
@@ -162,23 +164,15 @@ namespace _Game.Features.Shop
         private string _gachaType;
         #endregion
 
-        // [Binding]
-        // public Sprite Thumbnail
-        // {
-        //     get
-        //     {
-        //         switch (_gachaType)
-        //         {
-        //             case "cannon":
-        //                 return _Game.Scripts.DB.Database.GetCannonImage(IdGachaItem);
-        //             case "ammo":
-        //                 return _Game.Scripts.DB.Database.GetCrewImage(IdGachaItem);
-        //             default:
-        //                 Debug.LogWarning("null image");
-        //                 return Resources.Load<Sprite>("Images/Common/icon_plus");
-        //         }
-        //     }
-        // }
+        [Binding]
+        public Sprite Thumbnail
+        {
+            get
+            {
+                var path = Id == null ? $"Images/Summon/ammo_gacha_1" : $"Images/Summon/{Id.ToLower()}";
+                return Resources.Load<Sprite>(path);
+            }
+        }
 
         public List<string> ListRarity = new List<string>();
         public List<int> ListWeightRarity = new List<int>();

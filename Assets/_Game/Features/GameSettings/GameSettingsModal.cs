@@ -1,13 +1,8 @@
 using System;
-using System.Collections.Generic;
 using _Base.Scripts.Audio;
-using _Base.Scripts.EventSystem;
 using Cysharp.Threading.Tasks;
-using Unity.VisualScripting;
 using UnityWeld.Binding;
 using ZBase.UnityScreenNavigator.Core.Modals;
-using ZBase.UnityScreenNavigator.Core.Screens;
-using Random = UnityEngine.Random;
 
 namespace _Game.Features.GamePause
 {

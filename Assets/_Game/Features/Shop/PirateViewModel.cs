@@ -1,16 +1,18 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using _Game.Scripts.UI;
+using _Game.Scripts.GD.DataManager;
+using Cysharp.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityWeld.Binding;
+using ZBase.UnityScreenNavigator.Core.Modals;
 
 namespace _Game.Features.Shop
 {
     [Binding]
-    public class PirateViewModel : RootViewModel
+    public class PirateViewModel : ModalWithViewModel
     {
         #region Binding Prop: ActiveNavIndex
-
         private int _activeNavIndex = 0;
 
         [Binding]
@@ -28,70 +30,8 @@ namespace _Game.Features.Shop
 
                 OnPropertyChanged(nameof(ActiveNavIndex));
 
-                // NavTo((Nav)value);
-
             }
         }
-
-        #endregion
-
-        private List<PirateItem> itemSource = new List<PirateItem>();
-
-        #region Binding: Items
-
-        private ObservableList<PirateItem> items = new ObservableList<PirateItem>();
-
-        [Binding]
-        public ObservableList<PirateItem> Items => items;
-
-        #endregion
-
-        #region Binding Prop: IsMultiSelect
-
-        /// <summary>
-        /// IsMultiSelect
-        /// </summary>
-        [Binding]
-        public bool IsMultiSelect
-        {
-            get => _isMultiSelect;
-            set
-            {
-                if (Equals(_isMultiSelect, value))
-                {
-                    return;
-                }
-
-                _isMultiSelect = value;
-                OnPropertyChanged(nameof(IsMultiSelect));
-            }
-        }
-
-        private bool _isMultiSelect;
-
-        #endregion
-
-        public PirateItem HighlightItem
-        {
-            get => _highlightItem;
-            set
-            {
-                if (_highlightItem != null)
-                {
-                    _highlightItem.IsHighLight = false;
-                }
-
-                _highlightItem = value;
-                _highlightItem.IsHighLight = true;
-            }
-        }
-        private PirateItem _highlightItem;
-
-        #region Binding Prop: FilterItemType
-
-        [Binding]
-        public PirateItemType FilterItemType => (PirateItemType)_filterItemTypeIndex;
-
         #endregion
 
         #region Binding Prop: FilterItemTypeIndex
@@ -112,58 +52,55 @@ namespace _Game.Features.Shop
                 _filterItemTypeIndex = value;
 
                 OnPropertyChanged(nameof(FilterItemTypeIndex));
-                // OnPropertyChanged(nameof(FilterItemType));
-
-                DoFilter();
             }
         }
-
         #endregion
 
-        private void DoFilter()
-        {
-            var itemType = (PirateItemType)_filterItemTypeIndex;
-            Items.Clear();
-            Items.AddRange(itemSource.Where(v => v.Type == itemType));
-        }
+        #region Binding: ItemsGem
+        private ObservableList<PirateItemGem> itemsGem = new ObservableList<PirateItemGem>();
+        [Binding]
+        public ObservableList<PirateItemGem> ItemsGem => itemsGem;
+        #endregion
 
-        void Awake()
+
+        // #region Binding: ItemsDaily
+        // private ObservableList<PirateItem> itemDaily = new ObservableList<PirateItem>();
+        // [Binding]
+        // public ObservableList<PirateItem> ItemsDaily => itemDaily;
+        // #endregion
+
+
+        List<ShopListingTableRecord> _shopDataItemGem = new List<ShopListingTableRecord>();
+        List<ShopListingTableRecord> _shopDataItemDaily = new List<ShopListingTableRecord>();
+        public override async UniTask Initialize(Memory<object> args)
         {
+            _shopDataItemGem = GameData.ShopListingTable.GetData(ShopType.Pirate);
+            _shopDataItemDaily = GameData.ShopListingTable.GetData(ShopType.Other);
             InitializeInternal();
         }
 
         protected void InitializeInternal()
         {
-            for (int i = 0; i < 3; i++)
+            foreach (var item in itemsGem)
             {
-                itemSource.Add(new PirateItem { Id = "1", PirateViewModel = this, Type = PirateItemType.GOLD, Price = 100 * i, Name = "Rocket ammo" });
+
             }
-
-
-
-            for (int i = 0; i < 30; i++)
-            {
-                itemSource.Add(new PirateItem { Id = "1", PirateViewModel = this, Type = PirateItemType.GEM, Price = 100 * i, Name = "Rocket ammo" });
-            }
-
-            DoFilter();
         }
-
 
 
         [Binding]
         public void OnEquipSelectedItems()
         {
-            foreach (var item in Items.Where(v => v.IsSelected))
-            {
-                item.IsEquipped = true;
-            }
+            // foreach (var item in Items.Where(v => v.IsSelected))
+            // {
+            //     item.IsEquipped = true;
+            // }
         }
 
         [Binding]
-        public void ToggleMultiSelect()
+        public async void Close()
         {
-            IsMultiSelect = !IsMultiSelect;
+            await ModalContainer.Find(ContainerKey.Modals).PopAsync(true);
         }
     }
 }

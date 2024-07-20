@@ -4,6 +4,7 @@ using _Base.Scripts.RPG.Stats;
 using _Game.Scripts.GD.DataManager;
 using _Game.Scripts.UI;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using Fusion;
 using UnityEngine;
 using UnityEngine.UI;
@@ -40,8 +41,8 @@ namespace _Game.Features.Shop
         {
             get
             {
-                var path = $"Items/item_{GachaTypeItemReview.ToLower()}_{NameItemReview.ToLower()}_{RarityItemReview.ToLower()}";
-                Debug.Log("[Thumbnail]: " + path);
+                var path = GachaTypeItemReview == null || NameItemReview == null || RarityItemReview == null ? $"Items/item_ammo_arrow_common" :
+                 $"Items/item_{GachaTypeItemReview.ToLower()}_{NameItemReview.ToLower()}_{RarityItemReview.ToLower()}";
                 return Resources.Load<Sprite>(path);
             }
         }
@@ -332,6 +333,7 @@ namespace _Game.Features.Shop
 
         List<ShopListingTableRecord> _shopDataSummons = new List<ShopListingTableRecord>();
         public string IdSummonItemSelected;
+        public RectTransform Box;
         private void OnEnable()
         {
             LoadDataShop();
@@ -425,17 +427,21 @@ namespace _Game.Features.Shop
             IsActivePopupLoading = true;
             await UniTask.Delay(3000);
             IsActivePopupLoading = false;
-            // IsActivePopupAnimOpenBox = true;
-            IsActivePopupReceived = true;
+            IsActivePopupAnimOpenBox = true;
 
-            foreach (var item in SummonItems)
+            Box.DOAnchorPosY(-228, 1, false).OnComplete(() =>
             {
-                if (item.Id == IdSummonItemSelected)
+                IsActivePopupReceived = true;
+
+                foreach (var item in SummonItems)
                 {
-                    item.GetIDItemGacha();
-                    CurrentIndexItemReview = -1;
+                    if (item.Id == IdSummonItemSelected)
+                    {
+                        item.GetIDItemGacha();
+                        CurrentIndexItemReview = -1;
+                    }
                 }
-            }
+            });
         }
     }
 }

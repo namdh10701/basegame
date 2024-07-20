@@ -1,5 +1,6 @@
 using _Game.Features.GamePause;
 using _Game.Features.Quest;
+using _Game.Features.Shop;
 using _Game.Features.WorldMap;
 using _Game.Scripts.UI;
 using UnityWeld.Binding;
@@ -28,6 +29,13 @@ namespace _Game.Features.Home
         public async void ShowQuestPopup()
         {
             var options = new ViewOptions(nameof(QuestModal));
+            await ModalContainer.Find(ContainerKey.Modals).PushAsync(options);
+        }
+
+        [Binding]
+        public async void ShowShopGemPopup()
+        {
+            var options = new ViewOptions(nameof(ShopGemViewModel));
             await ModalContainer.Find(ContainerKey.Modals).PushAsync(options);
         }
 

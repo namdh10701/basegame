@@ -14,6 +14,7 @@ namespace _Game.Scripts.GD.DataManager
         {
             { ShopType.Gacha, new () },
             { ShopType.Gem, new () },
+            { ShopType.Pirate, new () },
             { ShopType.Other, new () },
         };
 
