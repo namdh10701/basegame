@@ -11,5 +11,7 @@ namespace _Game.Features.MyShip.GridSystem
         // {
         //     AddRange(points);
         // }
+
+        public static ItemShape Load(string shapeId) => Resources.Load<ItemShape>($"ItemShapes/ItemShape_{shapeId}");
     }
 }

@@ -21,7 +21,7 @@ namespace _Game.Features.Inventory
             {
                 if (!_grid)
                 {
-                    _grid = GetComponentInChildren<SlotGrid>();
+                    _grid = GetComponentInChildren<SlotGrid>(false);
                     if (!_grid)
                     {
                         throw new Exception("Grid in children not found");
@@ -71,12 +71,16 @@ namespace _Game.Features.Inventory
             //     out var localPointerPosition
             // );
 
+            var size = Vector2IntArrayUtils.GetDimensions(_shipSetupItem.Shape.Data);
 
-            var ww = (_shipSetupItem.Shape.Data.Max(v => v.x) + 1) * SlotCell.WIDTH;
-            var hh = (_shipSetupItem.Shape.Data.Max(v => v.y) + 1) * SlotCell.HEIGHT;
+            // var ww = (_shipSetupItem.Shape.Data.Max(v => v.x) + 1) * SlotCell.WIDTH;
+            // var hh = (_shipSetupItem.Shape.Data.Max(v => v.y) + 1) * SlotCell.HEIGHT;
             
-            mousePos.x += ww / 4f;
-            mousePos.y += hh / 4f;
+            // mousePos.x += size.x / 4f;
+            // mousePos.y += size.y / 4f;
+            
+            mousePos.x -= (SlotCell.WIDTH /2f * size.x / 2f);
+            mousePos.y += (SlotCell.HEIGHT /2f * size.y / 2f);
             
             var hoveredCell = RayTracker.FindSlotCell(mousePos);
             if (!hoveredCell) return;

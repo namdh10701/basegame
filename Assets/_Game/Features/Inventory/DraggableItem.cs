@@ -104,8 +104,8 @@ namespace _Game.Features.Inventory
                     eventData.pressEventCamera, out var localMousePos);
 
                 _previewDragItem.anchoredPosition += eventData.delta / Canvas.scaleFactor;
-                Debug.Log("anchoredPosition " + _previewDragItem.anchoredPosition);
-                Debug.Log("mousePos " + localMousePos);
+                // Debug.Log("anchoredPosition " + _previewDragItem.anchoredPosition);
+                // Debug.Log("mousePos " + localMousePos);
             }
             // else
             // {
@@ -116,16 +116,16 @@ namespace _Game.Features.Inventory
         public void OnEndDrag(PointerEventData eventData)
         {
             // if (!Interactable) return;
-            ProcessEndDrop(eventData);
+            ProcessEndDrop(eventData, null);
         }
 
-        public virtual void OnDropCommit(PointerEventData eventData)
+        public virtual void OnDropCommit(PointerEventData eventData, object data)
         {
-            ProcessEndDrop(eventData);
+            ProcessEndDrop(eventData, data);
         }
 
         private bool _processEndDrop = false;
-        public void ProcessEndDrop(PointerEventData eventData)
+        public void ProcessEndDrop(PointerEventData eventData, object data)
         {
             if (_processEndDrop) return;
             

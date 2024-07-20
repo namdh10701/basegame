@@ -514,9 +514,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 368025709d8d477488e54dd5c9c78d15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 
-  gdConfig: {fileID: 0}
-  statsTemplate: {fileID: 0}
+  id: 0001
+  gdConfig: {fileID: 11400000, guid: d642966b29b274991b7fe1310b128fef, type: 2}
+  statsTemplate: {fileID: 11400000, guid: ebdb8fecd029edc4a88386461dc1a143, type: 2}
   stats:
     <HealthPoint>k__BackingField:
       _value:
@@ -579,6 +579,7 @@ MonoBehaviour:
   CrewJobData: {fileID: 7873234573730837184}
   BattleViewModel: {fileID: 0}
   FeverModel: {fileID: 4227394144008822919}
+  HUD: {fileID: 0}
 --- !u!114 &4408094167755191158
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -594,7 +595,6 @@ MonoBehaviour:
   UsingGridItemDatas: []
   Ship: {fileID: 2628608560081248010}
   ShipSetupMockup: {fileID: 11400000, guid: a703312802ae80046a67d66f8d7e3667, type: 2}
-  ItemReferenceHolder: {fileID: 11400000, guid: 6215da2706b40c8458d3923b27c5984b, type: 2}
   ShipGridProfile: {fileID: 11400000, guid: 2fd1a10d24a9bba42a4c8ddf67ed25d3, type: 2}
   Grids:
   - {fileID: 5093113651232996704}
@@ -2219,7 +2219,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bounds:
-    m_Center: {x: -0.21, y: -2.5500002, z: 0}
+    m_Center: {x: -0.21, y: 0.19, z: 0}
     m_Extent: {x: 1.32, y: 1.19, z: 0}
   color: {r: 0.18396229, g: 0.62283343, b: 1, a: 1}
   offset: {x: 0, y: 0}

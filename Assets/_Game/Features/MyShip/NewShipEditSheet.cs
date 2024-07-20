@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using _Base.Scripts.Utils;
 using _Game.Features.Inventory;
+using _Game.Features.Inventory.Core;
 using _Game.Features.MyShip.GridSystem;
 using _Game.Scripts.GD.DataManager;
 using _Game.Scripts.SaveLoad;
@@ -9,13 +11,16 @@ using _Game.Scripts.UI;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityWeld.Binding;
+using InventoryItem = _Game.Features.Inventory.InventoryItem;
 
 namespace _Game.Features.MyShip
 {
     public enum ViewMode
     {
-        NORMAL,
+        VIEW,
+        CONFIG_NORMAL,
         CONFIG_SHIP,
         CONFIG_STASH,
     }
@@ -177,22 +182,9 @@ namespace _Game.Features.MyShip
             }
         }
 
-        private Dictionary<Vector2Int, InventoryItem> _itemPositions;
+        private Dictionary<Vector2Int, InventoryItem> _itemPositions = new();
 
         #endregion
-
-        protected override void Awake()
-        {
-            base.Awake();
-            for (int i = 0; i < 10; i++)
-            {
-                StashItems.Add(new StashItem(this));
-            }
-            
-            IOC.Register(this);
-
-            ShipSetupProfileIndex = (int)SaveSystem.GameSave.ShipSetupSaveData.CurrentProfile;
-        }
 
         #region Binding Prop: ShipId
 
@@ -241,10 +233,11 @@ namespace _Game.Features.MyShip
                 OnPropertyChanged(nameof(ShipSetupProfileIndex));
                 
                 LoadShipSetup(ShipId, (SetupProfile)_shipSetupProfileIndex);
+                SaveSetupProfile();
             }
         }
 
-        private int _shipSetupProfileIndex = (int)SetupProfile.None;
+        private int _shipSetupProfileIndex = (int)SetupProfile.Profile1;
 
         #endregion
 
@@ -309,12 +302,15 @@ namespace _Game.Features.MyShip
                     inventoryItem.Shape = rec.Shape;
                 }
                 
-                StashItems[pos].InventoryItem = inventoryItem;
+                StashItems[int.Parse(pos)].InventoryItem = inventoryItem;
                 inventorySheet.AddIgnore(inventoryItem);
             }
             
-            foreach (var (pos, itemData) in shipSetupData.ShipData)
+            ItemPositions.Clear();
+            foreach (var (rawPos, itemData) in shipSetupData.ShipData)
             {
+                var rawPosParts = rawPos.Split(',');
+                var pos = new Vector2Int(int.Parse(rawPosParts[0]), int.Parse(rawPosParts[1]));
                 if (itemData == null) continue;
                 var inventoryItem = new InventoryItem();
                 if (itemData.ItemType == ItemType.CREW)
@@ -362,16 +358,50 @@ namespace _Game.Features.MyShip
                 ItemPositions[pos] = inventoryItem;
                 inventorySheet.AddIgnore(inventoryItem);
             }
+
+            GetComponentInChildren<ShipConfigManager>().ClearPlacement();
+
+            HashSet<string> ignoreItemId = new();
+            Dictionary<string, Tuple<List<Vector2Int>, InventoryItem>> tmp = new(); 
+            foreach (var (pos, inventoryItem) in ItemPositions)
+            {
+                // // load data into inventory manager
+                // inventoryManager.GetSlot(pos).Value = new Inventory.Core.InventoryItem()
+                // {
+                //     Shape = ItemShape.Load(inventoryItem.Shape).Data,
+                //     Id = inventoryItem.Id,
+                //     Type = inventoryItem.Type,
+                // };
+
+                if (!tmp.ContainsKey(inventoryItem.Type + inventoryItem.Id))
+                {
+                    tmp[inventoryItem.Type + inventoryItem.Id] = new(new List<Vector2Int>(), inventoryItem);
+                }
+                
+                tmp[inventoryItem.Type + inventoryItem.Id].Item1.Add(pos);
+            }
+            
+            foreach (var (itemId, slots) in tmp)
+            {
+                // draw UI
+                GetComponentInChildren<ShipConfigManager>().PlaceInventoryItem(slots.Item2, FindTopLeftPoint(slots.Item1));
+            }
+
+            UpdateRemovable();
         }
 
         public void SaveSetupProfile()
         {
+            var setup = SaveSystem.GameSave.ShipSetupSaveData.GetShipSetup(ShipId, ShipSetupProfile);
+            SaveSystem.GameSave.ShipSetupSaveData.CurrentShipId = ShipId;
+            SaveSystem.GameSave.ShipSetupSaveData.CurrentProfile = ShipSetupProfile;
+            
             // stash
             for (var i = 0; i < StashItems.Count; i++)
             {
                 var stash = StashItems[i];
 
-                SaveSystem.GameSave.ShipSetupSaveData.GetShipSetup(ShipId, ShipSetupProfile).StashData[i] 
+                setup.StashData[i + ""] 
                     = stash.InventoryItem == null ? null : new ItemData()
                     {
                         ItemId = stash.InventoryItem.Id,
@@ -379,20 +409,55 @@ namespace _Game.Features.MyShip
                     };
             }
             
+            
             // ship
-            // UnityWeld.Binding.BoundObservableList<>
+            setup.ShipData.Clear();
+            foreach (var (pos, item) in ItemPositions)
+            {
+                
+                setup.ShipData[$"{pos.x},{pos.y}"] = new ItemData()
+                {
+                    ItemId = item.Id,
+                    ItemType = item.Type,
+                };
+            }
             SaveSystem.SaveGame();
 
         }
 
+        #region Binding Prop: IsViewMode
+
+        /// <summary>
+        /// IsViewMode
+        /// </summary>
+        [Binding]
+        public bool IsViewMode
+        {
+            get => _isViewMode;
+            set
+            {
+                if (Equals(_isViewMode, value))
+                {
+                    return;
+                }
+
+                _isViewMode = value;
+                OnPropertyChanged(nameof(IsViewMode));
+            }
+        }
+
+        private bool _isViewMode;
+
+        #endregion
+
         #region ViewMode
-        public ViewMode _viewMode = ViewMode.NORMAL;
+        public ViewMode _viewMode = ViewMode.CONFIG_NORMAL;
         
         private void SetViewMode(ViewMode viewMode)
         {
             _viewMode = viewMode;
 
-            if (viewMode == ViewMode.NORMAL)
+            if (viewMode == ViewMode.CONFIG_NORMAL)
             {
                 ConfigSheet_PosY = 0;
                 InventorySheet_PosY = 0;
@@ -407,8 +472,23 @@ namespace _Game.Features.MyShip
                 ConfigSheet_PosY = 700;
                 InventorySheet_PosY = (InventorySheet.transform as RectTransform)!.rect.height;
             }
-            
+
+            IsViewMode = viewMode == ViewMode.VIEW;
+
             OnPropertyChanged(nameof(IsConfigMode));
+            OnPropertyChanged(nameof(CanSwitchStashShip));
+            OnPropertyChanged(nameof(ShouldShowProfile));
+            
+            UpdateRemovable();
+        }
+
+        private void UpdateRemovable()
+        {
+            var placementPane = GetComponentInChildren<PlacementPane>(false).transform;
+            foreach (var shipItem in placementPane.GetComponentsInChildren<ShipSetupItem>(false))
+            {
+                shipItem.Removable = !IsViewMode;
+            }
         }
 
         #region Binding Prop: ConfigSheet_PosY
@@ -488,12 +568,25 @@ namespace _Game.Features.MyShip
         #endregion
 
         [Binding]
-        public bool IsConfigMode => _viewMode != ViewMode.NORMAL;
+        public bool IsConfigMode => _viewMode != ViewMode.CONFIG_NORMAL;
+        
+        [Binding]
+        public bool ShouldShowProfile => _viewMode == ViewMode.CONFIG_NORMAL || IsViewMode;
+        
+        [Binding]
+        public bool CanSwitchStashShip => _viewMode == ViewMode.CONFIG_STASH || _viewMode == ViewMode.CONFIG_SHIP;
+        
+        
+        [Binding]
+        public void SetViewMode_View()
+        {
+            SetViewMode(ViewMode.VIEW);
+        }
         
         [Binding]
         public void SetViewMode_Normal()
         {
-            SetViewMode(ViewMode.NORMAL);
+            SetViewMode(ViewMode.CONFIG_NORMAL);
         }
         
         [Binding]
@@ -547,31 +640,94 @@ namespace _Game.Features.MyShip
             // await ScreenContainer.Find(ContainerKey.Screens).PopAsync(true);
         }
         
-        public override UniTask Initialize(Memory<object> args)
+        public override async UniTask Initialize(Memory<object> args)
         {
-            // _btnShipEdit.onValueChanged.AddListener(OnShipEditClick);
-            // _btnRemoveAll.onClick.AddListener(OnRemoveAllClick);
-            // _btnRemove.onClick.AddListener(OnRemoveClick);
-            //
-            // Initialize(_shipsConfig.currentShipId);
+            IOC.Register(this);
+            for (int i = 0; i < 10; i++)
+            {
+                StashItems.Add(new StashItem(this));
+            }
 
-            ShipId = SaveSystem.GameSave.ShipSetupSaveData.CurrentShipId;
+            _shipId = SaveSystem.GameSave.ShipSetupSaveData.CurrentShipId;
+            _shipSetupProfileIndex = (int)SaveSystem.GameSave.ShipSetupSaveData.CurrentProfile;
+            OnPropertyChanged(nameof(ShipSetupProfileIndex));
             InitializeShip(ShipId);
-            SetViewMode_Normal();
-            return UniTask.CompletedTask;
+            
+            OnPropertyChanged(nameof(ShipPageInfo));
+
+            // init inventory manager
+            // var gridLayoutGroup = ship.GetComponentInChildren<SlotGrid>().GetComponent<GridLayoutGroup>();
+            // // var gridSize = GridLayoutGroupUtils.GetGridLayoutSize(gridLayoutGroup);
+            // var gridSize = new Vector2Int(4, 3);
+            // inventoryManager = new InventoryManager(gridSize);
+            SetViewMode_View();
         }
+
+        [Binding]
+        public async void NextShip()
+        {
+            var currentShipIdx = SaveSystem.GameSave.OwnedShips.IndexOf(SaveSystem.GameSave.ShipSetupSaveData.CurrentShipId);
+            var nextShipIdx = Math.Min(SaveSystem.GameSave.OwnedShips.Count - 1, currentShipIdx + 1);
+            _shipId = SaveSystem.GameSave.OwnedShips[nextShipIdx];
+            _shipSetupProfileIndex = 0;
+            OnPropertyChanged(nameof(ShipSetupProfileIndex));
+            SaveSystem.GameSave.ShipSetupSaveData.CurrentProfile = (SetupProfile)_shipSetupProfileIndex;
+            SaveSystem.GameSave.ShipSetupSaveData.CurrentShipId = _shipId;
+            
+            InitializeShip(_shipId);
+            
+            await UniTask.NextFrame();
+            LoadShipSetup(ShipId, (SetupProfile)_shipSetupProfileIndex);
+
+            OnPropertyChanged(nameof(ShipPageInfo));
+        }
+
+        [Binding]
+        public async void PrevShip()
+        {
+            var currentShipIdx = SaveSystem.GameSave.OwnedShips.IndexOf(SaveSystem.GameSave.ShipSetupSaveData.CurrentShipId);
+            var nextShipIdx = Math.Max(0, currentShipIdx - 1);
+            _shipId = SaveSystem.GameSave.OwnedShips[nextShipIdx];
+            _shipSetupProfileIndex = 0;
+            OnPropertyChanged(nameof(ShipSetupProfileIndex));
+            SaveSystem.GameSave.ShipSetupSaveData.CurrentProfile = (SetupProfile)_shipSetupProfileIndex;
+            SaveSystem.GameSave.ShipSetupSaveData.CurrentShipId = _shipId;
+            
+            InitializeShip(_shipId);
+            
+            await UniTask.NextFrame();
+            LoadShipSetup(ShipId, (SetupProfile)_shipSetupProfileIndex);
+            
+            OnPropertyChanged(nameof(ShipPageInfo));
+        }
+
+        [Binding] public string ShipPageInfo 
+            => $"{(SaveSystem.GameSave.OwnedShips.IndexOf(SaveSystem.GameSave.ShipSetupSaveData.CurrentShipId)+1).ToString().PadLeft(2, '0')}/{SaveSystem.GameSave.OwnedShips.Count.ToString().PadLeft(2, '0')}";
+
+        public override async void DidEnter(Memory<object> args)
+        {
+            // wait for grid initialized
+            await UniTask.NextFrame();
+            LoadShipSetup(ShipId, (SetupProfile)_shipSetupProfileIndex);
+        }
+
+        private InventoryManager inventoryManager;
+        private GameObject ship;
 
         void InitializeShip(string shipID)
         {
+            DestroyCurrentShip();
+            
             var shipPrefabs = Resources.Load<GameObject>($"Ships/Ship_{shipID}");
-            var ship = Instantiate(shipPrefabs, ShipSpawnPoint);
+            ship = Instantiate(shipPrefabs, ShipSpawnPoint);
+        }
 
-            ship.GetComponentsInChildren<SlotCell>();
-
-            // ShipConfigManager.Grid = ship.GetComponentInChildren<SlotGrid>();
-            // ShipConfigManager.PlacementPane = ship.GetComponentInChildren<PlacementPane>().transform;
-
-            // ShipSpawnPoint.parent.gameObject.GetComponent<ShipConfigManager>()
+        void DestroyCurrentShip()
+        {
+            foreach (Transform child in ShipSpawnPoint)
+            {
+                Destroy(child.gameObject);
+            }
         }
         
         public class InputData<T>
@@ -582,6 +738,154 @@ namespace _Game.Features.MyShip
             {
                 Value = data;
             }
+        }
+        
+        public static Vector2Int FindBottomLeftPoint(List<Vector2Int> points)
+        {
+            if (points == null || points.Count == 0)
+            {
+                Debug.LogError("The list of points is null or empty.");
+                return Vector2Int.zero;
+            }
+
+            Vector2Int bottomLeft = points[0];
+
+            foreach (var point in points)
+            {
+                if (point.y < bottomLeft.y || (point.y == bottomLeft.y && point.x < bottomLeft.x))
+                {
+                    bottomLeft = point;
+                }
+            }
+
+            return bottomLeft;
+        }
+        
+        public static Vector2Int FindTopLeftPoint(List<Vector2Int> points)
+        {
+            if (points == null || points.Count == 0)
+            {
+                Debug.LogError("The list of points is null or empty.");
+                return Vector2Int.zero;
+            }
+
+            Vector2Int topLeft = points[0];
+
+            foreach (var point in points)
+            {
+                if (point.y > topLeft.y || (point.y == topLeft.y && point.x < topLeft.x))
+                {
+                    topLeft = point;
+                }
+            }
+
+            return topLeft;
+        }
+
+        ///
+        ///
+        ///
+        ///
+        ///
+        public void Stash_SwapSlot(int posA, int posB)
+        {
+            (StashItems[posA].InventoryItem, StashItems[posB].InventoryItem) = (StashItems[posB].InventoryItem, StashItems[posA].InventoryItem);
+        }
+
+        public void Stash_SetSlot(int pos, InventoryItem data)
+        {
+            StashItems[pos].InventoryItem = data;
+        }
+        
+        public void Stash_RemoveSlot(int pos, InventoryItem data)
+        {
+            StashItems[pos].InventoryItem = null;
+        }
+        
+        
+
+        public void Ship_SetSlot(Vector2Int pos, InventoryItem inventoryItem)
+        {
+            var gridLayoutGroup = GetComponentInChildren<SlotGrid>().GetComponent<GridLayoutGroup>();
+            var placementPane = GetComponentInChildren<PlacementPane>(false).transform;
+            
+            foreach (var shipItem in placementPane.GetComponentsInChildren<ShipSetupItem>(false))
+            {
+                if (shipItem.InventoryItem == inventoryItem)
+                {
+                    Destroy(shipItem.gameObject);
+                }
+            }
+            
+            // Remove backed data
+            var pairs = ItemPositions.Where(v => v.Value == inventoryItem).ToList();
+            for (var i = 0; i < pairs.Count; i++)
+            {
+                ItemPositions.Remove(pairs[i].Key);
+            }
+            
+            var shipSetupItemPrefab = ShipSetupUtils.GetShipSetupItemPrefab(inventoryItem);
+            var shipSetupItem = Instantiate(shipSetupItemPrefab, placementPane);
+            shipSetupItem.Removable = true;
+            shipSetupItem.InventoryItem = inventoryItem;
+            shipSetupItem.Pos = pos;
+            
+            var uiCell = GridLayoutGroupUtils.GetCellAtPosition(gridLayoutGroup, pos);
+            var rect = shipSetupItem.transform as RectTransform;
+            rect.anchorMin = Vector2.up;
+            rect.anchorMax = Vector2.up;
+            rect.pivot = Vector2.zero;
+            rect.anchoredPosition = uiCell.anchoredPosition;
+            
+            // foreach (var shipItem in placementPane.GetComponentsInChildren<ShipSetupItem>(false))
+            // {
+            //     ItemPositions[shipItem.Pos] = shipItem.InventoryItem;
+            // }
+            ItemPositions[pos] = inventoryItem;
+            
+            SaveSetupProfile();
+            
+            // hide from inventory sheet
+            IOC.Resolve<InventorySheet>().AddIgnore(inventoryItem);
+        }
+
+        public void Ship_RemoveItem(InventoryItem item)
+        {
+            var placementPane = GetComponentInChildren<PlacementPane>(false).transform;
+            foreach (var shipItem in placementPane.GetComponentsInChildren<ShipSetupItem>(false))
+            {
+                if (shipItem.InventoryItem == item)
+                {
+                    Destroy(shipItem.gameObject);
+                }
+            }
+            
+            // Remove backed data
+            var pairs = ItemPositions.Where(v => v.Value == item).ToList();
+            for (var i = 0; i < pairs.Count; i++)
+            {
+                ItemPositions.Remove(pairs[i].Key);
+            }
+            
+            // back to stash
+            StashItem firstEmptyStashItem = null;
+            foreach (var stashItem in StashItems)
+            {
+                if (stashItem.InventoryItem == null)
+                {
+                    firstEmptyStashItem = stashItem;
+                    break;
+                }
+            }
+
+            if (firstEmptyStashItem == null)
+            {
+                return;
+            }
+            
+            firstEmptyStashItem.InventoryItem = item;
+            
+            SaveSetupProfile();
         }
     }
 }

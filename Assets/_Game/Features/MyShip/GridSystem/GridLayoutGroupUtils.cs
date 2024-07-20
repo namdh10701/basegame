@@ -161,5 +161,33 @@ namespace _Game.Features.MyShip.GridSystem
             }
             return null;
         }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="gridLayout"></param>
+        public static Vector2Int GetGridLayoutSize(GridLayoutGroup gridLayout)
+        {
+            var dimension = Vector2Int.zero;
+            
+            var rectTransform = gridLayout.GetComponent<RectTransform>();
+
+            if (gridLayout != null)
+            {
+                // Calculate the number of columns based on the width of the grid and cell size
+                float cellWidth = gridLayout.cellSize.x + gridLayout.spacing.x;
+                dimension.x = Mathf.FloorToInt(rectTransform.rect.width / cellWidth);
+
+                // Calculate the number of rows based on the height of the grid and cell size
+                float cellHeight = gridLayout.cellSize.y + gridLayout.spacing.y;
+                dimension.y = Mathf.FloorToInt(rectTransform.rect.height / cellHeight);
+            }
+            else
+            {
+                Debug.LogError("GridLayoutGroup component is null.");
+            }
+
+            return dimension;
+        }
     }
 }
