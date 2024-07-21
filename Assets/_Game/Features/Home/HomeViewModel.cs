@@ -40,6 +40,13 @@ namespace _Game.Features.Home
         }
 
         [Binding]
+        public async void ShowShopPopup()
+        {
+            var options = new ViewOptions(nameof(Shop));
+            await ModalContainer.Find(ContainerKey.Modals).PushAsync(options);
+        }
+
+        [Binding]
         public async void ShowSettingPopup()
         {
             var options = new ViewOptions(nameof(GameSettingsModal));

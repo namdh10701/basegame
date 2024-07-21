@@ -49,7 +49,6 @@ namespace _Game.Features.Shop
                     Price = item.PriceAmount.ToString(),
                     Amount = GameData.ShopItemTable.GetAmountById(item.ItemId).ToString(),
                     PackSize = item.PackSize,
-                    PriceType = item.PriceType
                 };
                 gemItems.Add(shopGemItem);
 

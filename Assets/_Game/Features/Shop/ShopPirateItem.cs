@@ -1,13 +1,14 @@
 using _Base.Scripts.UI.Managers;
-using _Game.Scripts.GD.DataManager;
 using _Game.Scripts.UI;
 using UnityEngine;
 using UnityWeld.Binding;
+using ZBase.UnityScreenNavigator.Core.Modals;
+using ZBase.UnityScreenNavigator.Core.Views;
 
 namespace _Game.Features.Shop
 {
     [Binding]
-    public class ShopGemItem : SubViewModel
+    public class PirateItem : SubViewModel
     {
         [Binding]
         public string Id { get; set; }
@@ -34,48 +35,26 @@ namespace _Game.Features.Shop
         private string m_name;
         #endregion
 
-        #region Binding Prop: PackSize
+        #region Binding Prop: PriceType
         /// <summary>
-        /// PackSize
+        /// PriceType
         /// </summary>
         [Binding]
-        public PackSize PackSize
+        public string PriceType
         {
-            get => m_PackSize;
+            get => _priceType;
             set
             {
-                if (Equals(m_PackSize, value))
+                if (Equals(_priceType, value))
                 {
                     return;
                 }
 
-                m_PackSize = value;
-                OnPropertyChanged(nameof(PackSize));
+                _priceType = value;
+                OnPropertyChanged(nameof(PriceType));
             }
         }
-        private PackSize m_PackSize;
-        #endregion
-
-        #region Binding Prop: IsSelected
-        /// <summary>
-        /// IsSelected
-        /// </summary>
-        [Binding]
-        public bool IsSelected
-        {
-            get => _isSelected;
-            set
-            {
-                if (Equals(_isSelected, value))
-                {
-                    return;
-                }
-
-                _isSelected = value;
-                OnPropertyChanged(nameof(IsSelected));
-            }
-        }
-        private bool _isSelected;
+        private string _priceType;
         #endregion
 
         #region Binding Prop: Price
@@ -85,19 +64,19 @@ namespace _Game.Features.Shop
         [Binding]
         public string Price
         {
-            get => _price;
+            get => m_price;
             set
             {
-                if (Equals(_price, value))
+                if (Equals(m_price, value))
                 {
                     return;
                 }
 
-                _price = value;
+                m_price = value;
                 OnPropertyChanged(nameof(Price));
             }
         }
-        private string _price;
+        private string m_price;
         #endregion
 
         #region Binding Prop: Amount
@@ -105,7 +84,7 @@ namespace _Game.Features.Shop
         /// Amount
         /// </summary>
         [Binding]
-        public string Amount
+        public int Amount
         {
             get => _amount;
             set
@@ -119,20 +98,48 @@ namespace _Game.Features.Shop
                 OnPropertyChanged(nameof(Amount));
             }
         }
-        private string _amount;
+        private int _amount;
         #endregion
 
-
         [Binding]
-        public void ShowItemDetail()
+        public Sprite Thumbnail
         {
-            PopupManager.Instance.ShowPopup<GearInfoPopup>();
+            get
+            {
+                var path = Id == null ? $"Images/ShopPirate/Gems/energy_1" :
+                $"Images/ShopPirate/Gems/{Id.ToLower()}";
+                return Resources.Load<Sprite>(path);
+            }
         }
 
+        #region Binding Prop: IsActiveButAd
+        /// <summary>
+        /// IsActiveButAd
+        /// </summary>
         [Binding]
-        public void SetAsHighLightItem()
+        public bool IsActiveButAd
         {
-            // InventoryViewModel.HighlightItem = this;
+            get => _isActiveButAd;
+            set
+            {
+                if (Equals(_isActiveButAd, value))
+                {
+                    return;
+                }
+
+                _isActiveButAd = value;
+                OnPropertyChanged(nameof(IsActiveButAd));
+            }
+        }
+        private bool _isActiveButAd;
+        #endregion
+
+        [Binding]
+        public void Buy()
+        {
+            Debug.Log("Buy");
+            var options = new ViewOptions("FightNodeInfoModal", true);
+            ModalContainer.Find(ContainerKey.Modals).Push(options);
         }
     }
 }
