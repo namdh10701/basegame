@@ -22,6 +22,10 @@ namespace _Game.Scripts.SaveLoad
         public int energy;
         public int maxEnergy;
 
+        public MapStatusSaveData MapStatus;
+
+        public SettingSaveData Settings;
+
         public SaveData(int saveId)
         {
             SaveId = saveId;
@@ -84,6 +88,19 @@ namespace _Game.Scripts.SaveLoad
             // }
             return gearDatas;
         }
+    }
+
+    public class SettingSaveData
+    {
+        public string Language;
+        public bool MuteBGM;
+        public bool MuteSFX;
+    }
+
+    public class MapStatusSaveData
+    {
+        public string StageId;
+        public Map.Map SeaMap;
     }
 }
 

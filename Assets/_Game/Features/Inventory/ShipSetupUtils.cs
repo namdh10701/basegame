@@ -8,8 +8,12 @@ namespace _Game.Features.Inventory
         {
             var shapePath = $"SetupItems/SetupItem_{item.Type.ToString().ToLower()}_{item.OperationType}";
             var prefab = Resources.Load<ShipSetupItem>(shapePath);
-            
-            // Debug.Log($"ShipSetupItem: {shapePath} {!Equals(prefab, null)}");
+
+            if (!prefab)
+            {
+                Debug.Log($"Error loading ShipSetupItem: {shapePath}");
+            }
+
             return prefab;
         }
     }

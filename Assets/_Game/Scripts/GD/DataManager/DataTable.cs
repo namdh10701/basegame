@@ -34,18 +34,23 @@ namespace _Game.Scripts.GD.DataManager
 
         public virtual async Task LoadData()
         {
-            Debug.Log("Load: " + GetType());
+            Debug.Log("Load: " + DataFileName);
             var filePath = GetFilePath(DataFileName);
+
+            var shouldDownloadData = !File.Exists(filePath);
+            // shouldDownloadData = true;
             
-            try
-            {
-                await GSheetDownloader.Download(DownloadUrl, filePath);
-            }
-            catch (Exception e)
-            {
-                Debug.LogError("Error loading: " + DownloadUrl);
-                Debug.LogError(e);
-                throw;
+            if (shouldDownloadData) {
+                try
+                {
+                    await GSheetDownloader.Download(DownloadUrl, filePath);
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError("Error loading: " + DownloadUrl);
+                    Debug.LogError(e);
+                    throw;
+                }
             }
             await using var stream = File.OpenRead(filePath);
 
@@ -63,7 +68,7 @@ namespace _Game.Scripts.GD.DataManager
 
         // protected abstract void HandleLoadedRecords(List<TRecordType> records);
 
-        private string GetFilePath(string dataFileName) => Path.Combine(Application.persistentDataPath, "Data", dataFileName);
+        private string GetFilePath(string dataFileName) => Path.Combine(RootFolderPath, dataFileName);
 
         // public static DataTable<TRecordType> CreateTable(string downloadUrl, string dataFileName = null)
         // {
@@ -74,5 +79,7 @@ namespace _Game.Scripts.GD.DataManager
         {
             return Records.Find(v => Equals(v.GetId(), id));
         }
+
+        private static string RootFolderPath = Path.Combine(Application.persistentDataPath, "Data");
     }
 }
