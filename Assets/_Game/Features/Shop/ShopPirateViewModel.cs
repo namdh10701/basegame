@@ -35,9 +35,9 @@ namespace _Game.Features.Shop
         #endregion
 
         #region Binding: ItemsGem
-        private ObservableList<PirateItem> itemsGem = new ObservableList<PirateItem>();
+        private ObservableList<ShopPirateItem> itemsGem = new ObservableList<ShopPirateItem>();
         [Binding]
-        public ObservableList<PirateItem> ItemsGem => itemsGem;
+        public ObservableList<ShopPirateItem> ItemsGem => itemsGem;
         #endregion
 
         List<ShopListingTableRecord> _shopDataPirate = new List<ShopListingTableRecord>();
@@ -60,11 +60,30 @@ namespace _Game.Features.Shop
             if (_shopDataPirate.Count <= 0) return;
             foreach (var item in _shopDataPirate)
             {
-                PirateItem itemGem = new PirateItem();
+                ShopPirateItem itemGem = new ShopPirateItem();
                 itemGem.Id = item.ItemId;
                 itemGem.Price = item.PriceAmount.ToString();
                 itemGem.PriceType = item.PriceType;
-                itemGem.Amount = GameData.ShopItemTable.GetAmountById(item.ItemId);
+                itemGem.ShopType = item.ShopType.ToString();
+
+                var amounts = GameData.ShopItemTable.GetAmountById(item.ItemId).Item1;
+                var types = GameData.ShopItemTable.GetAmountById(item.ItemId).Item2;
+                for (int i = 0; i < amounts.Count; i++)
+                {
+                    ShopPirateItemReceived shopPirateItemReceived = new ShopPirateItemReceived();
+                    shopPirateItemReceived.Type = types[i];
+
+                    if (shopPirateItemReceived.Type == "gold")
+                    {
+                        var level = 1;
+                        shopPirateItemReceived.Amount = (amounts[i] * level).ToString();
+                    }
+                    else
+                        shopPirateItemReceived.Amount = amounts[i].ToString();
+
+                    itemGem.ItemsDailyReceived.Add(shopPirateItemReceived);
+                }
+
                 itemGem.IsActiveButAd = item.PriceType == "ads" ? true : false;
                 ItemsGem.Add(itemGem);
             }

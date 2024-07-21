@@ -162,7 +162,7 @@ namespace _Game.Features.Shop
         {
             get
             {
-                var path = Id == null ? $"Images/Summon/ammo_gacha_1" : $"Images/Summon/{Id.ToLower()}";
+                var path = Id == null ? $"Images/ShopSummon/ammo_gacha_1" : $"Images/ShopSummon/{Id.ToLower()}";
                 return Resources.Load<Sprite>(path);
             }
         }

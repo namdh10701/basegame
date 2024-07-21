@@ -25,9 +25,9 @@ namespace _Game.Scripts.GD.DataManager
     {
         Gacha = 0,
         Gem = 1,
-        Pirate = 2,
-        Gold = 3,
-        Other = 4
+        Other = 2,
+        Pirate = 3,
+        Gold = 4,
     }
 
     /// <summary>

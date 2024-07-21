@@ -355,7 +355,7 @@ namespace _Game.Features.Shop
                 shopSummonItem.Id = item.ItemId;
                 shopSummonItem.Price = item.PriceAmount.ToString();
                 shopSummonItem.GachaType = item.GachaType;
-                shopSummonItem.Amount = GameData.ShopItemTable.GetAmountById(item.ItemId);
+                shopSummonItem.Amount = GameData.ShopItemTable.GetAmountById(item.ItemId).Item1[0];
                 shopSummonItem.PriceType = item.PriceType;
                 shopSummonItem.SetUp(this);
                 SummonItems.Add(shopSummonItem);

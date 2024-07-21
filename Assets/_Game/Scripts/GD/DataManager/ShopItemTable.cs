@@ -35,17 +35,20 @@ namespace _Game.Scripts.GD.DataManager
             return weights;
         }
 
-        public int GetAmountById(string id)
+        public (List<int>, List<string>) GetAmountById(string id)
         {
+            var amounts = new List<int>();
+            var stypes = new List<string>();
             foreach (var record in Records)
             {
                 if (record.ItemId == id)
                 {
-                    return record.ItemAmount;
+                    amounts.Add(record.ItemAmount);
+                    stypes.Add(record.Type);
                 }
 
             }
-            return -1;
+            return (amounts, stypes);
         }
 
         public ShopItemTable(string downloadUrl, string dataFileName = null) : base(downloadUrl, dataFileName)
