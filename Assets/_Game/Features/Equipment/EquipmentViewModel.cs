@@ -9,6 +9,12 @@ namespace _Game.Features.Equipment
     [Binding]
     public class EquipmentViewModel : InventoryViewModel
     {
+        protected override void Awake()
+        {
+            base.Awake();
+            ItemPerPage = 8;
+        }
+
         [Binding]
         public async void NavBack()
         {

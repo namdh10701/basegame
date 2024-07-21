@@ -252,7 +252,7 @@ namespace _Game.Features.MyShip
             }
 
             var inventorySheet = IOC.Resolve<InventorySheet>();
-            inventorySheet.ClearIgnoredItems();
+            inventorySheet?.ClearIgnoredItems();
             
             // load data
             var shipSetupData = SaveSystem.GameSave.ShipSetupSaveData.GetShipSetup(shipId, profile);

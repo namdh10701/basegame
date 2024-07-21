@@ -146,18 +146,27 @@ namespace _Game.Scripts.DB
 
         static void CreateCrewDic()
         {
-            Crew crew = Resources.Load<Crew>($"Prefabs/GridItems/Crews/Captain");
-            CrewDic.Add("0001", crew);
-            CrewDic.Add("0002", crew);
-            CrewDic.Add("0003", crew);
-            CrewDic.Add("0004", crew);
-            CrewDic.Add("0005", crew);
-            Crew crew1 = Resources.Load<Crew>($"Prefabs/GridItems/Crews/Crew");
-            CrewDic.Add("0006", crew1);
-            CrewDic.Add("0007", crew1);
-            CrewDic.Add("0008", crew1);
-            CrewDic.Add("0009", crew1);
-            CrewDic.Add("0010", crew1);
+            // Crew crew = Resources.Load<Crew>($"Prefabs/GridItems/Crews/Captain");
+            // CrewDic.Add("0001", crew);
+            // CrewDic.Add("0002", crew);
+            // CrewDic.Add("0003", crew);
+            // CrewDic.Add("0004", crew);
+            // CrewDic.Add("0005", crew);
+            // Crew crew1 = Resources.Load<Crew>($"Prefabs/GridItems/Crews/Crew");
+            // CrewDic.Add("0006", crew1);
+            // CrewDic.Add("0007", crew1);
+            // CrewDic.Add("0008", crew1);
+            // CrewDic.Add("0009", crew1);
+            // CrewDic.Add("0010", crew1);
+            
+            foreach (var rec in GameData.CrewTable.Records)
+            {
+                var resPath = rec.OperationType == "oneeyed"
+                    ? "Prefabs/GridItems/Crews/Captain"
+                    : "Prefabs/GridItems/Crews/Crew";
+                Crew crew = Resources.Load<Crew>(resPath);
+                CrewDic.Add(rec.Id, crew);
+            }
         }
 
         static void CreateOffsetDic()

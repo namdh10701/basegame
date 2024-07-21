@@ -150,7 +150,7 @@ namespace _Game.Features.Inventory
             }
         }
 
-        private int _itemPerPage = 8;
+        private int _itemPerPage = 0;
 
         #endregion
 
@@ -203,10 +203,13 @@ namespace _Game.Features.Inventory
                     && !IgnoreItems.Contains(v)
                 )
                 .ToList();
-            var pageItemList = itemList
-                .Skip(Page * ItemPerPage)
-                .Take(ItemPerPage);
-            
+            var pageItemList = itemList;
+
+            if (ItemPerPage > 0)
+            {
+                pageItemList = pageItemList.Skip(Page * ItemPerPage).Take(ItemPerPage).ToList();
+            }
+
             TotalItemCount = itemList.Count();
             
             Items.AddRange(pageItemList);
@@ -361,7 +364,7 @@ namespace _Game.Features.Inventory
                 inventoryItem.SelectionStateChanged += OnSelectionStateChanged;
             }
             
-            dataSource = dataSource.Where(v => v.Thumbnail != null).ToList();
+            // dataSource = dataSource.Where(v => v.Thumbnail != null).ToList();
             DoFilter();
         }
 

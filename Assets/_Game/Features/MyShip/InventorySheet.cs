@@ -10,6 +10,7 @@ namespace _Game.Features.MyShip
         protected override void Awake()
         {
             base.Awake();
+            ItemPerPage = 8;
             IOC.Register(this);
         }
     }

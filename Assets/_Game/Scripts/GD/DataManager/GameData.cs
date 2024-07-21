@@ -1,4 +1,7 @@
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using _Base.Scripts.Utils.Extensions;
 
 namespace _Game.Scripts.GD.DataManager
 {
@@ -42,23 +45,46 @@ namespace _Game.Scripts.GD.DataManager
         // {
         //     
         // }
-        public static Task Load() => Task.WhenAll(new[]
+        
+        
+        // public static Task Load()
+        // {
+        //     return TaskUtils.WaitAllWithConcurrencyControl(new List<Func<Task>>
+        //     {
+        //         () => ShopItemTable.LoadData(),
+        //         () => ShopListingTable.LoadData(),
+        //         () => ShopRarityTable.LoadData(),
+        //         () => CrewTable.LoadData(),
+        //         () => CannonTable.LoadData(),
+        //         () => CannonFeverTable.LoadData(),
+        //         () => AmmoTable.LoadData(),
+        //         () => ShipTable.LoadData(),
+        //         () => LevelWaveTable.LoadData(),
+        //         () => TalentTreeNormalTable.LoadData(),
+        //         () => TalentTreePremiumTable.LoadData(),
+        //         () => TalentTreeItemTable.LoadData(),
+        //         () => MonsterTable.LoadData(),
+        //         () => GDConfigLoader.Instance.Load(),
+        //     }, 5);
+        // }
+        //
+        public static async Task Load()
         {
-            ShopItemTable.LoadData(),
-            ShopListingTable.LoadData(),
-            ShopRarityTable.LoadData(),
-            CrewTable.LoadData(),
-            CannonTable.LoadData(),
-            CannonFeverTable.LoadData(),
-            AmmoTable.LoadData(),
-            ShipTable.LoadData(),
-            LevelWaveTable.LoadData(),
-            TalentTreeNormalTable.LoadData(),
-            TalentTreePremiumTable.LoadData(),
-            TalentTreeItemTable.LoadData(),
-            MonsterTable.LoadData(),
-            
-            GDConfigLoader.Instance.Load(),
-        });
+            await ShopItemTable.LoadData();
+            await ShopListingTable.LoadData();
+            await ShopRarityTable.LoadData();
+            await CrewTable.LoadData();
+            await CannonTable.LoadData();
+            await CannonFeverTable.LoadData();
+            await AmmoTable.LoadData();
+            await ShipTable.LoadData();
+            await LevelWaveTable.LoadData();
+            await TalentTreeNormalTable.LoadData();
+            await TalentTreePremiumTable.LoadData();
+            await TalentTreeItemTable.LoadData();
+            await MonsterTable.LoadData();
+        
+            await GDConfigLoader.Instance.Load();
+        }
     }
 }
