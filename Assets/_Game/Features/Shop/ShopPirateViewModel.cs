@@ -43,8 +43,7 @@ namespace _Game.Features.Shop
         List<ShopListingTableRecord> _shopDataPirate = new List<ShopListingTableRecord>();
         public override async UniTask Initialize(Memory<object> args)
         {
-            OnPropertyChanged(nameof(ActiveNavIndex));
-            // InitDataShopPirateGem(ActiveNavIndex);
+            InitDataShopPirateGem(ActiveNavIndex);
         }
 
         [Binding]
@@ -55,6 +54,7 @@ namespace _Game.Features.Shop
 
         protected void InitDataShopPirateGem(int activeNavIndex)
         {
+            ItemsGem.Clear();
             var type = (ShopType)(activeNavIndex + 2);
             _shopDataPirate = GameData.ShopListingTable.GetData(type);
             if (_shopDataPirate.Count <= 0) return;

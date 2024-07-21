@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Reflection;
 using _Base.Scripts.RPG.Stats;
+using _Base.Scripts.Utils;
+using _Game.Scripts.Gameplay;
 using _Game.Scripts.GD.DataManager;
 using _Game.Scripts.UI;
 using Cysharp.Threading.Tasks;
@@ -192,11 +194,10 @@ namespace _Game.Features.Shop
 
                 _currentIndexItemReview = value;
                 OnPropertyChanged(nameof(CurrentIndexItemReview));
-                OnChangeCurrentIndexItemReview();
-
+                OnChangeCurrentIndexItemReview(CurrentIndexItemReview);
             }
         }
-        private int _currentIndexItemReview = -1;
+        private int _currentIndexItemReview;
         #endregion
 
         #region Binding Prop: IsHighlight
@@ -333,6 +334,7 @@ namespace _Game.Features.Shop
 
         List<ShopListingTableRecord> _shopDataSummons = new List<ShopListingTableRecord>();
         public string IdSummonItemSelected;
+        public string PriceTypeSummonItemSelected;
         public RectTransform Box;
         private void OnEnable()
         {
@@ -354,6 +356,7 @@ namespace _Game.Features.Shop
                 shopSummonItem.Price = item.PriceAmount.ToString();
                 shopSummonItem.GachaType = item.GachaType;
                 shopSummonItem.Amount = GameData.ShopItemTable.GetAmountById(item.ItemId);
+                shopSummonItem.PriceType = item.PriceType;
                 shopSummonItem.SetUp(this);
                 SummonItems.Add(shopSummonItem);
             }
@@ -362,25 +365,27 @@ namespace _Game.Features.Shop
         [Binding]
         public void OnClickToCotinue()
         {
-            if (CurrentIndexItemReview <= ItemsGachaReceived.Count)
+            if (CurrentIndexItemReview <= ItemsGachaReceived.Count - 1)
             {
                 CurrentIndexItemReview++;
             }
         }
 
-        public void OnChangeCurrentIndexItemReview()
+        public void OnChangeCurrentIndexItemReview(int currentIndexItemReview)
         {
-            IdItemReview = ItemsGachaReceived[CurrentIndexItemReview].IdItemGacha;
-            GachaTypeItemReview = ItemsGachaReceived[CurrentIndexItemReview].GachaType;
-            NameItemReview = ItemsGachaReceived[CurrentIndexItemReview].Name;
-            RarityItemReview = ItemsGachaReceived[CurrentIndexItemReview].Rarity;
+            IdItemReview = ItemsGachaReceived[currentIndexItemReview].IdItemGacha;
+            GachaTypeItemReview = ItemsGachaReceived[currentIndexItemReview].GachaType;
+            NameItemReview = ItemsGachaReceived[currentIndexItemReview].Name;
+            RarityItemReview = ItemsGachaReceived[currentIndexItemReview].Rarity;
             IsHighlight = RarityItemReview == "Rare" || RarityItemReview == "Epic" ? true : false;
+            OnPropertyChanged(nameof(SpriteReview));
             OnPropertyChanged(nameof(Thumbnail));
             SetDataItemStat();
         }
 
         private void SetDataItemStat()
         {
+            itemStats.Clear();
             DataTableRecord dataTableRecord;
             if (GachaTypeItemReview == "cannon")
             {
@@ -423,25 +428,48 @@ namespace _Game.Features.Shop
         [Binding]
         public async void OnClickConfirmGacha()
         {
+            IOC.Resolve<MainViewModel>().IsActiveBotNavBar = false;
             IsActivePopupConfirm = false;
             IsActivePopupLoading = true;
-            await UniTask.Delay(3000);
+            await UniTask.Delay(1);
             IsActivePopupLoading = false;
             IsActivePopupAnimOpenBox = true;
-
+            Box.anchoredPosition = new Vector2(0, 941);
             Box.DOAnchorPosY(-228, 1, false).OnComplete(() =>
             {
+                IsActivePopupAnimOpenBox = false;
                 IsActivePopupReceived = true;
 
                 foreach (var item in SummonItems)
                 {
-                    if (item.Id == IdSummonItemSelected)
+                    if (item.Id == IdSummonItemSelected && item.PriceType == PriceTypeSummonItemSelected)
                     {
                         item.GetIDItemGacha();
-                        CurrentIndexItemReview = -1;
                     }
                 }
             });
         }
+
+        [Binding]
+        public void OnClickAgain()
+        {
+            ItemsGachaReceived.Clear();
+            IsActivePopupReview = false;
+            IsActivePopupReceived = false;
+            OnClickConfirmGacha();
+        }
+
+        [Binding]
+        public void OnClickConfirm()
+        {
+            IOC.Resolve<MainViewModel>().IsActiveBotNavBar = true;
+            IsActivePopupConfirm = false;
+            IsActivePopupLoading = false;
+            IsActivePopupAnimOpenBox = false;
+            IsActivePopupReview = false;
+            IsActivePopupReceived = false;
+        }
+
+
     }
 }

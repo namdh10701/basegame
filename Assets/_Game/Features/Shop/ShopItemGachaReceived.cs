@@ -79,6 +79,50 @@ namespace _Game.Features.Shop
         private string _name;
         #endregion
 
+        #region Binding Prop: IsHighLight
+        /// <summary>
+        /// IsHighLight
+        /// </summary>
+        [Binding]
+        public bool IsHighLight
+        {
+            get => _isHighLight;
+            set
+            {
+                if (Equals(_isHighLight, value))
+                {
+                    return;
+                }
+
+                _isHighLight = value;
+                OnPropertyChanged(nameof(IsHighLight));
+            }
+        }
+        private bool _isHighLight;
+        #endregion
+
+        #region Binding Prop: IsSelected
+        /// <summary>
+        /// IsSelected
+        /// </summary>
+        [Binding]
+        public bool IsSelected
+        {
+            get => _isSelected;
+            set
+            {
+                if (Equals(_isSelected, value))
+                {
+                    return;
+                }
+
+                _isSelected = value;
+                OnPropertyChanged(nameof(IsSelected));
+            }
+        }
+        private bool _isSelected;
+        #endregion
+
         [Binding]
         public Sprite Thumbnail
         {
