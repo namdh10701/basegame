@@ -17,16 +17,17 @@ namespace _Game.Scripts.GD.DataManager
         Legend,
         Other,
     }
-    
+
     /// <summary>
     /// 
     /// </summary>
     public enum ShopType
     {
-        Gacha,
-        Gem,
-        Pirate,
-        Other
+        Gacha = 0,
+        Gem = 1,
+        Pirate = 2,
+        Gold = 3,
+        Other = 4
     }
 
     /// <summary>
@@ -39,9 +40,9 @@ namespace _Game.Scripts.GD.DataManager
         Big,
         Other
     }
-    
-    
-    
+
+
+
     /// <summary>
     /// 
     /// </summary>

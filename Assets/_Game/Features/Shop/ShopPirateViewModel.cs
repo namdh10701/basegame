@@ -39,10 +39,12 @@ namespace _Game.Features.Shop
         [Binding]
         public ObservableList<PirateItem> ItemsGem => itemsGem;
         #endregion
-        
+
         List<ShopListingTableRecord> _shopDataPirate = new List<ShopListingTableRecord>();
         public override async UniTask Initialize(Memory<object> args)
         {
+            OnPropertyChanged(nameof(ActiveNavIndex));
+            // InitDataShopPirateGem(ActiveNavIndex);
         }
 
         [Binding]
@@ -53,7 +55,7 @@ namespace _Game.Features.Shop
 
         protected void InitDataShopPirateGem(int activeNavIndex)
         {
-            var type = (ShopType)activeNavIndex;
+            var type = (ShopType)(activeNavIndex + 2);
             _shopDataPirate = GameData.ShopListingTable.GetData(type);
             if (_shopDataPirate.Count <= 0) return;
             foreach (var item in _shopDataPirate)
@@ -64,6 +66,7 @@ namespace _Game.Features.Shop
                 itemGem.PriceType = item.PriceType;
                 itemGem.Amount = GameData.ShopItemTable.GetAmountById(item.ItemId);
                 itemGem.IsActiveButAd = item.PriceType == "ads" ? true : false;
+                ItemsGem.Add(itemGem);
             }
         }
     }

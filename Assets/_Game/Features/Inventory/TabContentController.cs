@@ -11,6 +11,7 @@ namespace _Game.Features.Inventory
     [Binding]
     public class TabContentController : MonoBehaviour
     {
+        [Binding]
         public int ActiveTabIndex
         {
             get => _activeTabIndex;
@@ -21,10 +22,10 @@ namespace _Game.Features.Inventory
             }
         }
 
-        private int _activeTabIndex;
-        
+        private int _activeTabIndex = 0;
+
         public Transform[] contents;
-        
+
         private void UpdateView()
         {
             for (var index = 0; index < contents.Length; index++)

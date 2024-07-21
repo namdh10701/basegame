@@ -15,6 +15,7 @@ namespace _Game.Scripts.GD.DataManager
             { ShopType.Gacha, new () },
             { ShopType.Gem, new () },
             { ShopType.Pirate, new () },
+            { ShopType.Gold, new () },
             { ShopType.Other, new () },
         };
 
@@ -46,7 +47,7 @@ namespace _Game.Scripts.GD.DataManager
     /// <summary>
     /// 
     /// </summary>
-    public class ShopListingTableRecord: DataTableRecord
+    public class ShopListingTableRecord : DataTableRecord
     {
         [Index(0)]
         public string ItemId { get; set; }
@@ -81,7 +82,7 @@ namespace _Game.Scripts.GD.DataManager
 
         [Index(9)]
         public string EndDate { get; set; }
-        
+
         public override object GetId()
         {
             return ItemId;
