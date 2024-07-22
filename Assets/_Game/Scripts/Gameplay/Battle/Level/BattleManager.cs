@@ -46,6 +46,7 @@ namespace _Game.Features.Gameplay
             this.BattleViewModel = battleViewModel;
             BattleInputManager.gameObject.SetActive(false);
             EntityManager.SpawnShip(SaveSystem.GameSave.ShipSetupSaveData.CurrentShipId, shipStartPos.position);
+            EntityManager.Ship.Initialize(BattleViewModel);
             LevelStartSequence.shipSpeed = EntityManager.Ship.ShipSpeed;
             GridAttackHandler.ship = EntityManager.Ship;
             EntityManager.Ship.BattleViewModel = battleViewModel;
@@ -115,7 +116,10 @@ namespace _Game.Features.Gameplay
             await ModalContainer.Find(ContainerKey.Modals).PushAsync(options);
         }
 
-
+        private void OnDestroy()
+        {
+            CleanUp();
+        }
         public void CleanUp()
         {
             GlobalEvent.Unregister("UseFullFever", UseFullFever);

@@ -21,6 +21,7 @@ namespace _Game.Features.Gameplay
         {
             crews.Add(crew);
             crew.Ship = Ship;
+            crew.CrewMovement.pathfinder = Ship.PathfindingController;
         }
 
 

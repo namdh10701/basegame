@@ -436,6 +436,7 @@ MonoBehaviour:
     blackboard: {fileID: 5194563963806863679}
     key: Enemy
     constantValue: {fileID: 0}
+  FindTargetBehaviour: {fileID: 0}
 --- !u!114 &2476544222336883779
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1519,6 +1520,7 @@ MonoBehaviour:
     blackboard: {fileID: 5194563963806863679}
     key: IsHasTarget
     constantValue: 0
+  FindTargetBehaviour: {fileID: 0}
 --- !u!114 &696976641855122385
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1977,7 +1979,7 @@ CircleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 15863
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -1991,7 +1993,7 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -2025,8 +2027,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9e4bb51cfdd4891a326b0efa5fecc17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetTypeNames:
-  - _Game.Features.Gameplay.Ship
   closestTo: {fileID: 5887077759218277640}
 --- !u!1 &7750803122113050896
 GameObject:
@@ -2305,6 +2305,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8198101950313118468}
     m_Modifications:
+    - target: {fileID: 770607700215528692, guid: d67dc24830cd9da44b24e9265d61e667, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1711a8de3a311ad4b9c4cdd1b8db9cc5, type: 2}
+    - target: {fileID: 833476788799283099, guid: d67dc24830cd9da44b24e9265d61e667, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 2947612624465916877, guid: d67dc24830cd9da44b24e9265d61e667, type: 3}
       propertyPath: m_Name
       value: Skeleton Sword - Spine
@@ -2313,10 +2321,18 @@ PrefabInstance:
       propertyPath: _animationName
       value: APPEAR
       objectReference: {fileID: 0}
+    - target: {fileID: 3609420298205566082, guid: d67dc24830cd9da44b24e9265d61e667, type: 3}
+      propertyPath: skeletonDataAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: b2044699f771462428aff853511c6a24, type: 2}
     - target: {fileID: 5806828696693767030, guid: d67dc24830cd9da44b24e9265d61e667, type: 3}
       propertyPath: m_SortingOrder
-      value: -525
+      value: -1181
       objectReference: {fileID: 0}
+    - target: {fileID: 5806828696693767030, guid: d67dc24830cd9da44b24e9265d61e667, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1711a8de3a311ad4b9c4cdd1b8db9cc5, type: 2}
     - target: {fileID: 7442658906485186670, guid: d67dc24830cd9da44b24e9265d61e667, type: 3}
       propertyPath: burn
       value: 

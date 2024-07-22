@@ -32,7 +32,6 @@ namespace _Game.Features.Gameplay
         }
         public override IEnumerator DoExecute()
         {
-            Debug.Log("EXECUTE IDLE");
             yield return new WaitForSeconds(2);
         }
         public override void Interupt()

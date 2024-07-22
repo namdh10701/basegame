@@ -295,7 +295,6 @@ namespace _Game.Features.Gameplay
         void InitOccupyCell(string id, ItemType type, IGridItem gridItem, GridItemData data, Grid grid)
         {
             gridItem.GridId = data.GridId;
-            Debug.Log(Database.GetShapeByTypeAndOperationType(id, type).GetLength(1) + id);
             gridItem.OccupyCells =
                 GridHelper.GetCoveredCellsIfPutShapeAtCell(
                     Database.GetShapeByTypeAndOperationType(id, type), grid.Cells[data.startY, data.startX]
@@ -309,7 +308,6 @@ namespace _Game.Features.Gameplay
                 }
                 else
                 {
-                    Debug.Log(cell.ToString());
                     cell.GridItem = gridItem;
                 }
             }
@@ -396,6 +394,14 @@ namespace _Game.Features.Gameplay
                 }
             }
 
+        }
+
+        public void HideHUD()
+        {
+            foreach (Cannon cannon in Cannons)
+            {
+                cannon.HUD.gameObject.SetActive(false);
+            }
         }
     }
 }

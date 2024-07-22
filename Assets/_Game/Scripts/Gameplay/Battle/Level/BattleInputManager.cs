@@ -28,6 +28,10 @@ namespace _Game.Features.Gameplay
 
         public Ship Ship;
         public ShipHUD ShipHUD;
+        private void Start()
+        {
+            _camera = Camera.main;
+        }
         private void Update()
         {
             HandleTouch();
@@ -176,7 +180,8 @@ namespace _Game.Features.Gameplay
         }
         void OnCanvasPointerUp()
         {
-            if(draggingOrb != null){
+            if (draggingOrb != null)
+            {
                 draggingOrb.OnDrop(worldPointerPos);
             }
         }

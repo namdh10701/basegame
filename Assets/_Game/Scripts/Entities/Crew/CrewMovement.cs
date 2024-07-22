@@ -7,11 +7,11 @@ namespace _Game.Features.Gameplay
     public class CrewMovement : MonoBehaviour
     {
         public Crew crew;
-        PathfindingController pathfinder;
+        public PathfindingController pathfinder;
 
         private void Start()
         {
-            pathfinder = FindAnyObjectByType<Ship>().PathfindingController;
+            //pathfinder = FindAnyObjectByType<Ship>().PathfindingController;
         }
 
         public Vector2 Velocity

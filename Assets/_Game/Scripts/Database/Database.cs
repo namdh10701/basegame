@@ -158,12 +158,10 @@ namespace _Game.Scripts.DB
             // CrewDic.Add("0008", crew1);
             // CrewDic.Add("0009", crew1);
             // CrewDic.Add("0010", crew1);
-            
+     
             foreach (var rec in GameData.CrewTable.Records)
             {
-                var resPath = rec.OperationType == "oneeyed"
-                    ? "Prefabs/GridItems/Crews/Captain"
-                    : "Prefabs/GridItems/Crews/Crew";
+                var resPath = $"Prefabs/GridItems/Crews/{rec.OperationType}";
                 Crew crew = Resources.Load<Crew>(resPath);
                 CrewDic.Add(rec.Id, crew);
             }

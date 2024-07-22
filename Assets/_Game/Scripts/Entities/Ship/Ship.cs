@@ -48,7 +48,9 @@ namespace _Game.Features.Gameplay
         public FeverModel FeverModel;
         public ShipHUD HUD;
 
-        private void Start()
+      
+
+        public void Initialize(BattleViewModel battleViewModel)
         {
             GlobalEvent<EnemyModel>.Register("EnemyDied", OnEnemyDied);
             //GlobalEvent<Cannon>.Register("CLICK_CANNON", ShowShipHUD);
@@ -75,7 +77,7 @@ namespace _Game.Features.Gameplay
                 cannon.HUD.RegisterJob(CrewJobData);
             }
             HUD.Initialize(ShipSetup.Ammos);
-            BattleViewModel = GameObject.Find("BattleScreen(Clone)").GetComponent<BattleViewModel>();
+            this.BattleViewModel = battleViewModel;
             BattleViewModel.FeverView.Init(FeverModel);
         }
 
@@ -168,6 +170,11 @@ namespace _Game.Features.Gameplay
         public override void ApplyStats()
         {
 
+        }
+
+        public void HideHUD()
+        {
+            ShipSetup.HideHUD();
         }
     }
 }

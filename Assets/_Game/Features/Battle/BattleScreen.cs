@@ -4,34 +4,36 @@ using _Game.Scripts.Gameplay;
 using Cysharp.Threading.Tasks;
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace _Game.Features.Battle
 {
     public class BattleScreen : ZBase.UnityScreenNavigator.Core.Screens.Screen
     {
-        public GameObject GameplayRoot;
         public BattleViewModel BattleViewModel;
-
-        public override void DidPopEnter(Memory<object> args)
+        public override UniTask WillPopEnter(Memory<object> args)
         {
-            base.DidPopEnter(args);
+            Debug.Log("WILL PUS CCCC");
+            return base.WillPopEnter(args);
         }
-        public override UniTask Initialize(Memory<object> args)
+        public override async UniTask WillPushEnter(Memory<object> args)
         {
+            Debug.Log("WILL PUS A");
+            await SceneManager.LoadSceneAsync("BattleScene", LoadSceneMode.Additive);
+            SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(1));
+            await base.WillPushEnter(args);
             AudioManager.Instance.PlayBgmGameplay();
-            GameplayRoot = GameObject.Find("Gameplay").transform.GetChild(0).gameObject;
-            GameplayRoot.SetActive(true);
             BattleManager.Instance.Initialize(BattleViewModel);
-            return base.Initialize(args);
+            Debug.Log("WILL PUS");
         }
 
-        public override UniTask WillPushExit(Memory<object> args)
+        public override async UniTask WillPushExit(Memory<object> args)
         {
             Debug.Log(" EXIT ");
             BattleViewModel.CleanUp();
-            GameplayRoot.SetActive(false);
-            BattleManager.Instance.CleanUp();
-            return base.WillPushExit(args);
+            Time.timeScale = 1;
+            await SceneManager.UnloadSceneAsync("BattleScene");
+            await base.WillPushExit(args);
         }
     }
 }

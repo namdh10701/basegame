@@ -3,6 +3,7 @@ using _Base.Scripts.Audio;
 using _Game.Features.Inventory;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using ZBase.UnityScreenNavigator.Core.Sheets;
 
@@ -11,11 +12,11 @@ namespace _Game.Features.Home
     public class MainScreen : ZBase.UnityScreenNavigator.Core.Screens.Screen
     {
         private const int ItemGridSheetCount = 5;
-        
+
         [SerializeField] private ToggleGroupInput _toggleGroupInput;
         [SerializeField] private SheetContainer _itemGridContainer;
         private readonly int[] _itemGridSheetIds = new int[ItemGridSheetCount];
-        
+
         [SerializeField] private Button _settingButton;
         [SerializeField] private Button _shopButton;
 
@@ -136,18 +137,35 @@ namespace _Game.Features.Home
 
         public override UniTask Initialize(Memory<object> args)
         {
-
-            AudioManager.Instance.PlayBgmHome();
             return base.Initialize(args);
         }
 
-        // Return from other screen
-        public override UniTask WillPopEnter(Memory<object> args)
+        public override async UniTask WillPushExit(Memory<object> args)
         {
-            Debug.Log("XXX: WillPopEnter");
-            return UniTask.CompletedTask;
+            Debug.Log("MAIN WILL PUSH EXIT");
+            await SceneManager.UnloadSceneAsync("HaborScene");
+            await base.WillPushExit(args);
         }
-        
+        public override async UniTask WillPushEnter(Memory<object> args)
+        {
+            Debug.Log("MAIN WILL PUSH ENTER");
+            AudioManager.Instance.PlayBgmHome();
+            await SceneManager.LoadSceneAsync("HaborScene", LoadSceneMode.Additive);
+            SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(2));
+            await base.WillPushEnter(args);
+        }
+
+
+        public override async UniTask WillPopEnter(Memory<object> args)
+        {
+            Debug.Log("MAIN WILL POP ENTER");
+
+            AudioManager.Instance.PlayBgmHome();
+            await SceneManager.LoadSceneAsync("HaborScene", LoadSceneMode.Additive);
+            SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(2));
+            await UniTask.CompletedTask;
+        }
+
         // Called just after this screen is displayed by the Pop transition.
         public override void DidPopEnter(Memory<object> args)
         {

@@ -15,7 +15,6 @@ namespace _Game.Features.Gameplay
             {
                 CrewActionBase action = actionQueue.Dequeue();
                 currentAction = action;
-                Debug.Log(action + " P");
                 yield return action.Execute();
             }
             currentAction = null;
@@ -23,7 +22,6 @@ namespace _Game.Features.Gameplay
 
         public IEnumerator Act(CrewActionBase crewAction)
         {
-            Debug.Log(crewAction + " A");
             currentAction = crewAction;
             yield return crewAction.Execute();
             currentAction = null;
@@ -32,7 +30,6 @@ namespace _Game.Features.Gameplay
         public void InteruptCurrentAction()
         {
             if (currentAction != null) { 
-            Debug.Log("INTERUPT" + currentAction);
             currentAction.Interupt();
             }
 

@@ -334,7 +334,7 @@ CircleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 15863
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -348,7 +348,7 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -382,8 +382,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9e4bb51cfdd4891a326b0efa5fecc17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetTypeNames:
-  - _Game.Features.Gameplay.Ship
   closestTo: {fileID: 5971402484587501539}
 --- !u!1 &8498814890599592609
 GameObject:
@@ -763,6 +761,7 @@ MonoBehaviour:
     blackboard: {fileID: 5620064205659582906}
     key: Enemy
     constantValue: {fileID: 0}
+  FindTargetBehaviour: {fileID: 0}
 --- !u!114 &3505578070539409560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1597,6 +1596,7 @@ MonoBehaviour:
     blackboard: {fileID: 5620064205659582906}
     key: IsHasTarget
     constantValue: 0
+  FindTargetBehaviour: {fileID: 0}
 --- !u!114 &5003182219642373381
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1833,9 +1833,8 @@ MonoBehaviour:
   OnReachZero:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7482542616865522489}
-        m_TargetAssemblyTypeName: _Game.Features.Gameplay.SkeletonSwordController,
-          Assembly-CSharp
+      - m_Target: {fileID: 6846669938179048866}
+        m_TargetAssemblyTypeName: _Game.Features.Gameplay.EnemyModel, Assembly-CSharp
         m_MethodName: Die
         m_Mode: 1
         m_Arguments:
@@ -1980,7 +1979,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5806828696693767030, guid: 8ad697fe9e633164a99a28a0853a31d1, type: 3}
       propertyPath: m_SortingOrder
-      value: -429
+      value: -29
       objectReference: {fileID: 0}
     - target: {fileID: 5806828696693767030, guid: 8ad697fe9e633164a99a28a0853a31d1, type: 3}
       propertyPath: m_Materials.Array.data[0]

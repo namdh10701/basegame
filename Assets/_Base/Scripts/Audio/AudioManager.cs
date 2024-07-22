@@ -381,7 +381,7 @@ namespace _Base.Scripts.Audio
         /// </summary>
         public void PlayBgmHome()
         {
-            // if (!IsBgmOn) return;
+             if (!IsBgmOn) return;
             PlaySound(new AudioConfig()
             {
                 Clip = _bgmHome,
@@ -390,7 +390,6 @@ namespace _Base.Scripts.Audio
         }
         public void PlayBgmGameplay()
         {
-            IsBgmOn = true;
             if (!IsBgmOn) return;
             PlaySound(new AudioConfig()
             {

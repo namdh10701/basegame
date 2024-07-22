@@ -392,6 +392,7 @@ Transform:
   - {fileID: 4592972223470066370}
   - {fileID: 7587897113944440685}
   - {fileID: 132311995552455797}
+  - {fileID: 5438093428670621574}
   m_Father: {fileID: 4855274573248865927}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1150075450525672260
@@ -459,6 +460,56 @@ MonoBehaviour:
   - {fileID: 5429910914178054678}
   - {fileID: 1958697661157588247}
   - {fileID: 176169644160206731}
+--- !u!1 &1261315235560672806
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5438093428670621574}
+  - component: {fileID: 2803625795599433931}
+  m_Layer: 0
+  m_Name: ShipBound
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5438093428670621574
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1261315235560672806}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.01, y: 0.51, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5007353685330837738}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2803625795599433931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1261315235560672806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 034581729bcdf5449adf21c2053e91e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bounds:
+    m_Center: {x: 0.55, y: -1.25, z: 0}
+    m_Extent: {x: 2.92, y: 1.63, z: 0}
+  color: {r: 0.18396229, g: 0.62283343, b: 1, a: 1}
+  offset: {x: 0, y: 0}
+  isDrawGizmos: 1
 --- !u!1 &2019623168102066363
 GameObject:
   m_ObjectHideFlags: 0
@@ -575,6 +626,7 @@ MonoBehaviour:
   PathfindingController: {fileID: 7135756796741525485}
   EffectCollider: {fileID: 7146891435442519243}
   ShipArea: {fileID: 1019742506738545521}
+  ShipBound: {fileID: 0}
   ShipSpeed: {fileID: 5817357046448799332}
   CrewJobData: {fileID: 7873234573730837184}
   BattleViewModel: {fileID: 0}
@@ -2219,7 +2271,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bounds:
-    m_Center: {x: -0.21, y: 0.19, z: 0}
+    m_Center: {x: 0.35000002, y: -1.1400001, z: 0}
     m_Extent: {x: 1.32, y: 1.19, z: 0}
   color: {r: 0.18396229, g: 0.62283343, b: 1, a: 1}
   offset: {x: 0, y: 0}
