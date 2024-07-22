@@ -666,7 +666,6 @@ GameObject:
   - component: {fileID: 3472134887174341717}
   - component: {fileID: 7147069703896698860}
   - component: {fileID: 3015704018446557585}
-  - component: {fileID: 696011279512913005}
   - component: {fileID: 3998683235849372507}
   m_Layer: 10
   m_Name: FindTarget
@@ -757,7 +756,7 @@ CircleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 16311
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -805,27 +804,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9e4bb51cfdd4891a326b0efa5fecc17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetTypeNames:
-  - _Game.Features.Gameplay.PufferFishModel
-  - _Game.Features.Gameplay.JellyFishModel
-  - _Game.Features.Gameplay.ElectricEelModel
-  - _Game.Features.Gameplay.SquidModel
-  - _Game.Features.Gameplay.PhunGaiModel
-  - _Game.Features.Gameplay.SkeletonSword
-  - _Game.Features.Gameplay.SkeletonBomb
   closestTo: {fileID: 575761695595097317}
---- !u!114 &696011279512913005
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6325944138744424202}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34a08875fb244deab6cc436dd01dfa11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &3998683235849372507
 MonoBehaviour:
   m_ObjectHideFlags: 0

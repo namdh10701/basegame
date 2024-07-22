@@ -70,7 +70,7 @@ namespace _Game.Features.Gameplay
             enemyAttackData.Effects = new List<Effect> { decreaseHp };
 
             gridAttackHandler.ProcessAttack(enemyAttackData);
-            cameraShake.Shake(.2f);
+            cameraShake.Shake(.2f, new Vector3(.1f,.1f,.1f));
         }
 
         public void DoRightMelleAttack()
@@ -84,7 +84,7 @@ namespace _Game.Features.Gameplay
             enemyAttackData.Effects = new List<Effect> { decreaseHp };
 
             gridAttackHandler.ProcessAttack(enemyAttackData);
-            cameraShake.Shake(.2f);
+            cameraShake.Shake(.2f, new Vector3(.1f, .1f, .1f));
         }
     }
 }

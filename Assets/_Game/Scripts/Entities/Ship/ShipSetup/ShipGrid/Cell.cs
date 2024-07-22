@@ -11,7 +11,7 @@ using UnityEngine;
 namespace _Game.Features.Gameplay
 {
     [System.Serializable]
-    public class Cell : MonoBehaviour, IStatsBearer, IEffectTaker, IWorkLocation
+    public class Cell : MonoBehaviour, IStatsBearer, IEffectTaker, IWorkLocation, IStunable
     {
         public CellRenderer CellRenderer;
         public int X;
@@ -78,6 +78,30 @@ namespace _Game.Features.Gameplay
         void IStatsBearer.ApplyStats()
         {
 
+        }
+
+        public void OnStun()
+        {
+            if (GridItem == null)
+            {
+                return;
+            }
+            if (GridItem is IStunable stunable)
+            {
+                stunable.OnStun();
+            }
+        }
+
+        public void OnAfterStun()
+        {
+            if (GridItem == null)
+            {
+                return;
+            }
+            if (GridItem is IStunable stunable)
+            {
+                stunable.OnAfterStun();
+            }
         }
     }
 }

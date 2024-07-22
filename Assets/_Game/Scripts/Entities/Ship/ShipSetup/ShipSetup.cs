@@ -9,6 +9,7 @@ using _Base.Scripts.Utils.Extensions;
 using _Base.Scripts.UI;
 using _Game.Scripts;
 using _Game.Scripts.SaveLoad;
+using Unity.VisualScripting;
 
 namespace _Game.Features.Gameplay
 {
@@ -62,6 +63,22 @@ namespace _Game.Features.Gameplay
             GetLoadOut();
             LoadShipItems();
 
+        }
+
+        public void Refresh()
+        {
+            ClearItems();
+            CrewController.crews.Clear();
+            GetLoadOut();
+            LoadShipItems();
+        }
+
+        private void ClearItems()
+        {
+            foreach (var item in spawnedItems)
+            {
+                Destroy(item.gameObject);
+            }
         }
 
         // void GetLoadOut()
@@ -190,7 +207,6 @@ namespace _Game.Features.Gameplay
                     }
                 }
             }
-            spawnedItems.Clear();
             foreach (Cell cell in AllCells)
             {
                 cell.WorkingSlots = new List<Scripts.PathFinding.Node>();

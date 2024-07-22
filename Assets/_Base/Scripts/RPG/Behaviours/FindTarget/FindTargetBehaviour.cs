@@ -15,13 +15,12 @@ namespace _Base.Scripts.RPG.Behaviours.FindTarget
         public FindTargetStrategy Strategy { get; set; }
 
         [field: SerializeField]
-        public List<Entity> Targets { get; private set; } = new();
+        public List<EffectTakerCollider> Targets { get; private set; } = new();
 
         [field: SerializeField]
-        public List<Entity> MostTargets { get; private set; } = new();
+        public List<EffectTakerCollider> MostTargets { get; private set; } = new();
 
         public ObjectCollisionDetector ObjectCollisionDetector;
-
         private void Awake()
         {
             ObjectCollisionDetector.OnObjectCollisionEnter += OnObjectCollisionEnter;
@@ -37,33 +36,33 @@ namespace _Base.Scripts.RPG.Behaviours.FindTarget
 
         private void OnObjectCollisionEnter(GameObject obj)
         {
-            var entity = obj.GetComponent<EntityProvider>();
+            var entity = obj.GetComponent<EffectTakerCollider>();
 
             if (entity == null)
             {
                 return;
             }
 
-            if (!Strategy.TryGetTargetEntity(entity.Entity.gameObject, out var target))
+            if (!Strategy.TryGetTargetEntity(entity.gameObject, out var target))
             {
                 return;
             }
-            Targets.Add(target);
+            Targets.Add(entity);
         }
 
         private void OnObjectCollisionExit(GameObject obj)
         {
-            var entity = obj.GetComponent<EntityProvider>();
+            var entity = obj.GetComponent<EffectTakerCollider>();
 
             if (entity == null)
             {
                 return;
             }
-            if (!Strategy.TryGetTargetEntity(entity.Entity.gameObject, out var target))
+            if (!Strategy.TryGetTargetEntity(entity.gameObject, out var target))
             {
                 return;
             }
-            Targets.Remove(target);
+            Targets.Remove(entity);
         }
 
         public void Disable()

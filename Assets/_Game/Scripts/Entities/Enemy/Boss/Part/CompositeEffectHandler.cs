@@ -1,0 +1,15 @@
+
+using System.Collections.Generic;
+
+namespace _Base.Scripts.RPG.Effects
+{
+    public class CompositeEffectHandler : EffectHandler
+    {
+        public IEffectTaker Other;
+        public override void Apply(Effect effect)
+        {
+            base.Apply(effect);
+            Other.EffectHandler.Apply(effect);
+        }
+    }
+}

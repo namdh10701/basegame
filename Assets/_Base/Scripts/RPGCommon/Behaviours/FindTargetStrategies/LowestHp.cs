@@ -10,17 +10,17 @@ namespace _Base.Scripts.RPGCommon.Behaviours.FindTargetStrategies
     [AddComponentMenu("RPG/FindTargetStrategy/[FindTargetStrategy] LowestHp")]
     public class LowestHp: FindTargetStrategy
     {
-        public override bool TryGetTargetEntity(GameObject go, out Entity entity)
+        public override bool TryGetTargetEntity(GameObject go, out EffectTakerCollider entity)
         {
             go.TryGetComponent<IAliveStats>(out var found);
-            entity = found as Entity;
+            entity = found as EffectTakerCollider;
             return entity != null;
         }
 
         [CanBeNull]
-        public override List<Entity> FindTheMostTargets(List<Entity> foundTargets)
+        public override List<EffectTakerCollider> FindTheMostTargets(List<EffectTakerCollider> foundTargets)
         {
-            Entity lowestHpTarget = null;
+            EffectTakerCollider lowestHpTarget = null;
             var lowestHp = Mathf.Infinity;
 
             foreach (var entity in foundTargets)
@@ -34,7 +34,7 @@ namespace _Base.Scripts.RPGCommon.Behaviours.FindTargetStrategies
                 // }
             }
 
-            return new List<Entity> { lowestHpTarget };
+            return new List<EffectTakerCollider> { lowestHpTarget };
         }
     }
 }

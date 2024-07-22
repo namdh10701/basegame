@@ -75,8 +75,7 @@ namespace _Game.Features.Gameplay
             }
             else
             {
-                Crew crew = findTargetBehaviour.MostTargets.First() as Crew;
-                target = crew.EffectTakerCollider.transform;
+                target = findTargetBehaviour.MostTargets.First().transform;
             }
             ChargingState = ChargeState.Charging;
             yield return new WaitForSeconds(2);

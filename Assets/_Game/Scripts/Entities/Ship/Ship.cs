@@ -41,6 +41,7 @@ namespace _Game.Features.Gameplay
         public PathfindingController PathfindingController;
         public EffectTakerCollider EffectCollider;
         public Area ShipArea;
+        public Area ShipBound;
         public ShipSpeed ShipSpeed;
         public CrewJobData CrewJobData;
         public BattleViewModel BattleViewModel;

@@ -40,11 +40,6 @@ namespace _Game.Features.Inventory
             }
         }
 
-        protected override void OnValidate()
-        {
-            base.OnValidate();
-            OnRectTransformDimensionsChange();
-        }
 
         protected override void OnRectTransformDimensionsChange()
         {

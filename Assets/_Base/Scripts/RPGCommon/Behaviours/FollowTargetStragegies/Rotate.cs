@@ -36,12 +36,12 @@ namespace _Base.Scripts.RPGCommon.Behaviours.FollowTargetStragegies
             if (_targetTransform == null)
             {
 
-                _targetTransform = findTargetBehaviour.MostTargets.First().transform.GetComponent<EnemyModel>();
+                _targetTransform = findTargetBehaviour.MostTargets.First();
                 changeTargetTimer = 0;
             }
             else
             {
-                if (!_targetTransform.EffectTakerCollider.gameObject.activeSelf)
+                if (!_targetTransform.gameObject.activeSelf)
                 {
                     _targetTransform = null;
                     return false;
@@ -51,7 +51,7 @@ namespace _Base.Scripts.RPGCommon.Behaviours.FollowTargetStragegies
                     changeTargetTimer += Time.deltaTime;
                     if (changeTargetTimer > changeTargetTime)
                     {
-                        _targetTransform = findTargetBehaviour.MostTargets.First().transform.GetComponent<EnemyModel>();
+                        _targetTransform = findTargetBehaviour.MostTargets.First();
                         changeTargetTimer = 0;
                     }
                 }
@@ -71,7 +71,7 @@ namespace _Base.Scripts.RPGCommon.Behaviours.FollowTargetStragegies
         }
 
 
-        public EnemyModel _targetTransform;
+        public EffectTakerCollider _targetTransform;
         private void OnDrawGizmos()
         {
             if (_targetTransform != null)

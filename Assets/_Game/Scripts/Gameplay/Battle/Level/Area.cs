@@ -1,3 +1,4 @@
+using _Game.Features.Gameplay;
 using UnityEngine;
 
 namespace _Game.Scripts.Battle
@@ -75,6 +76,29 @@ namespace _Game.Scripts.Battle
             closestPointOnBoundary += (Vector2)offset;
 
             return closestPointInBounds;
+        }
+
+        public Vector2 ClosetPointToLeft(Vector2 position)
+        {
+            // Determine the leftmost edge of the bounds
+            float leftEdge = bounds.center.x - bounds.extents.x;
+            Vector2 closestPointLeftSide = new Vector2(leftEdge, position.y);
+
+            // Apply offset
+            closestPointLeftSide += offset;
+
+            return closestPointLeftSide;
+        }
+
+        public Vector2 ClosetPointToRight(Vector2 position)
+        {
+            float rightEdge = bounds.center.x + bounds.extents.x;
+            Vector2 closestPointRightSide = new Vector2(rightEdge, position.y);
+
+            // Apply offset
+            closestPointRightSide += offset;
+
+            return closestPointRightSide;
         }
     }
 }

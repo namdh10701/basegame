@@ -16,6 +16,7 @@ namespace _Base.Scripts.RPG.Effects
     [Serializable]
     public abstract class Effect : MonoBehaviour
     {
+        public IEffectGiver Giver;
         public IEffectTaker Target;
         public virtual void Apply(IEffectTaker entity)
         {

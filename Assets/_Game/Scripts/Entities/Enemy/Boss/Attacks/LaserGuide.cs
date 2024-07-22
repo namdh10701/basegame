@@ -26,11 +26,13 @@ public class LaserGuide : MonoBehaviour, IEffectGiver
         collisionListener.CollisionHandler = CollisionHandler;
     }
 
+
     public class LaserGuideCollider : DefaultEffectCollisionHandler
     {
         LaserGuide laserGuide;
         Cell startCell;
-
+        float cellAffected = 4;
+        float count = 0;
         bool isActive;
         public LaserGuideCollider(LaserGuide laserGuide, Cell startCell)
         {
@@ -40,6 +42,7 @@ public class LaserGuide : MonoBehaviour, IEffectGiver
 
         public override void Process(IEffectGiver giver, IEffectTaker taker)
         {
+
             if (taker == startCell as IEffectTaker)
             {
                 isActive = true;
@@ -48,6 +51,13 @@ public class LaserGuide : MonoBehaviour, IEffectGiver
             {
                 return;
             }
+            count++;
+            if (count >= cellAffected)
+            {
+                return;
+            }
+            IEffectGiver clone = Instantiate(laserGuide, null);
+            base.Process(clone, taker);
         }
 
     }

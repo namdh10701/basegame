@@ -2,6 +2,7 @@ using _Base.Scripts.EventSystem;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace _Game.Features.Gameplay
 {
@@ -11,24 +12,20 @@ namespace _Game.Features.Gameplay
         public ConsumedManaDisplay consumedManaDisplayPrefab;
         private void OnEnable()
         {
-            GlobalEvent<float, bool, IEffectTaker>.Register("DAMAGE_INFLICTED", OnDamageInflicted);
+            GlobalEvent<float, bool, IEffectGiver, IEffectTaker, Vector3>.Register("DAMAGE_INFLICTED", OnDamageInflicted);
             GlobalEvent<int, Vector3>.Register("MANA_CONSUMED", OnManaConsumed);
         }
 
         private void OnDisable()
         {
-            GlobalEvent<float, bool, IEffectTaker>.Unregister("DAMAGE_INFLICTED", OnDamageInflicted);
+            GlobalEvent<float, bool, IEffectGiver, IEffectTaker, Vector3>.Unregister("DAMAGE_INFLICTED", OnDamageInflicted);
             GlobalEvent<int, Vector3>.Register("MANA_CONSUMED", OnManaConsumed);
         }
 
-        void OnDamageInflicted(float amount, bool isCrit, IEffectTaker effectTaker)
+        void OnDamageInflicted(float amount, bool isCrit, IEffectGiver effect, IEffectTaker effectTaker, Vector3 position)
         {
-            if (effectTaker is Ship)
-            {
-                return;
-            }
             InflictedDamageDisplay idd = Instantiate(prefab, transform);
-            idd.Init(amount, isCrit, effectTaker.Transform.position);
+            idd.Init(amount, isCrit, position);
         }
         void OnManaConsumed(int amount, Vector3 pos)
         {

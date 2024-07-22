@@ -11,8 +11,6 @@ namespace _Base.Scripts.RPGCommon.Behaviours.FindTargetStrategies
     [AddComponentMenu("RPG/FindTargetStrategy/[FindTargetStrategy] Closest")]
     public class Closest : FindTargetStrategy
     {
-        [MonoScript(typeof(Entity))]
-        public List<string> targetTypeNames;
 
         public Transform closestTo;
 
@@ -21,21 +19,21 @@ namespace _Base.Scripts.RPGCommon.Behaviours.FindTargetStrategies
             Assert.IsNotNull(closestTo);
         }
 
-        public override bool TryGetTargetEntity(GameObject go, out Entity entity)
+        public override bool TryGetTargetEntity(GameObject go, out EffectTakerCollider entity)
         {
-            go.TryGetComponent<Entity>(out var found);
+            go.TryGetComponent<EffectTakerCollider>(out var found);
             entity = found;
-            return found != null && targetTypeNames.Contains(found.GetType().FullName);
+            return found != null;
         }
 
         [CanBeNull]
-        public override List<Entity> FindTheMostTargets(List<Entity> foundTargets)
+        public override List<EffectTakerCollider> FindTheMostTargets(List<EffectTakerCollider> foundTargets)
         {
-            Entity closestTarget = null;
+            EffectTakerCollider closestTarget = null;
             var closestDistance = Mathf.Infinity;
             Vector2 currentPosition = closestTo.transform.position;
 
-            foreach (Entity entity in foundTargets)
+            foreach (EffectTakerCollider entity in foundTargets)
             {
                 Vector2 targetPosition = entity.transform.position;
                 float distanceToTarget = Vector2.Distance(currentPosition, targetPosition);
@@ -46,7 +44,7 @@ namespace _Base.Scripts.RPGCommon.Behaviours.FindTargetStrategies
                 }
             }
 
-            var results = new List<Entity>();
+            var results = new List<EffectTakerCollider>();
 
             if (closestTarget != null)
             {

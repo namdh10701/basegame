@@ -36,10 +36,5 @@ namespace _Game.Features.Gameplay
         }
 
         Tween tween;
-        public void Play()
-        {
-            SelectCells();
-            LaserGuide.Initialize(startCell, isLeft);
-        }
     }
 }

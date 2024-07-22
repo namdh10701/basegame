@@ -24,7 +24,7 @@ public class AimFK : MonoBehaviour
         {
             Vector3 targetPosition = root.position + (Vector3)aimDirection;
             //float d = (Y - root.position.y) / aimDirection.y;
-            targetPosition = root.position + (Vector3)aimDirection.normalized * 2.5f;
+            targetPosition = root.position + (Vector3)aimDirection.normalized * 3.7f;
             targetPosition.x = Mathf.Clamp(targetPosition.x, +boundXMin, +boundXMax);
             transform.position = targetPosition;
         }

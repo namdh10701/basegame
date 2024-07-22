@@ -16,7 +16,7 @@ using UnityEngine;
 
 namespace _Game.Scripts.Entities
 {
-    public class Cannon : Entity, IFighter, IGridItem, IWorkLocation, INodeOccupier, IEffectTaker, IGDConfigStatsTarget
+    public class Cannon : Entity, IFighter, IGridItem, IWorkLocation, INodeOccupier, IEffectTaker, IGDConfigStatsTarget, IStunable
     {
         [Header("GD Config Stats Target")]
         public string id;
@@ -82,6 +82,7 @@ namespace _Game.Scripts.Entities
         public CannonHUD HUD;
         bool isBroken;
         bool isOutOfAmmo;
+        bool isStuned;
 
         public void Initizalize()
         {
@@ -149,7 +150,7 @@ namespace _Game.Scripts.Entities
         }
         void UpdateVisual()
         {
-            if (!isOutOfAmmo && !isBroken)
+            if (!isOutOfAmmo && !isBroken && !isStuned)
             {
                 FindTargetBehaviour.Enable();
                 Animation.PlayNormal();
@@ -275,6 +276,26 @@ namespace _Game.Scripts.Entities
             {
                 value.ApplyGDConfig(_stats);
             }
+        }
+
+        public void OnStun()
+        {
+            if (isOnFever || isOnFullFever)
+            {
+                return;
+            }
+            isStuned = true;
+            FindTargetBehaviour.Disable();
+            UpdateVisual();
+
+
+        }
+
+        public void OnAfterStun()
+        {
+            isStuned = false;
+            UpdateVisual();
+            FindTargetBehaviour.Enable();
         }
 
         #endregion

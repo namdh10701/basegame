@@ -1,4 +1,8 @@
+using _Base.Scripts.RPG.Effects;
+using _Base.Scripts.RPG.Entities;
+using _Base.Scripts.RPG.Stats;
 using _Game.Scripts;
+using MBT;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,12 +12,13 @@ namespace _Game.Features.Gameplay
 {
     public enum PartState
     {
-        None, Entry, Idle, Attacking, Transforming, Dead
+        None, Entry, Idle, Attacking, Stunning, Transforming, Hidding, Dead, Moving
     }
-    public class PartModel : MonoBehaviour
+    public class PartModel : Entity, IEffectTaker, ISlowable, IBurnable
     {
 
-        PartState state;
+        [SerializeField] PartState lastpartState;
+        [SerializeField] PartState state;
         public PartState State
         {
             get { return state; }
@@ -21,25 +26,144 @@ namespace _Game.Features.Gameplay
             {
                 if (state != value)
                 {
-                    PartState lastState = state;
+                    lastpartState = state;
                     state = value;
                     OnStateEntered?.Invoke(state);
                     OnEnterState();
                 }
             }
         }
+
+        public override Stats Stats => stats;
+
+        public Transform Transform => transform;
+
+        public CompositeEffectHandler effectHandler;
+        public EffectHandler EffectHandler => effectHandler;
+
+        public List<Stat> SlowableStats => new List<Stat> { stats.MoveSpeed, stats.AnimationTimeScale };
+
+        public Action OnSlowedDown;
+        public Action OnSlowedDownStopped;
+        public Action OnBurned;
+        public Action OnBurnEnded;
+
+        public PartView partView;
         public Action<PartState> OnStateEntered;
+        protected GiantOctopus giantOctopus;
+        public bool IsMad;
+        public Action OnMad;
+        public EffectTakerCollider[] effectColliders;
 
-        void OnEnterState()
+
+        public virtual void OnEnterState()
         {
 
         }
 
-        public void Active()
+
+
+
+        public virtual void Active()
+        {
+            foreach (var item in effectColliders) { item.gameObject.SetActive(true); }
+        }
+
+        public virtual void Deactive()
+        {
+            foreach (var item in effectColliders) { item.gameObject.SetActive(false); }
+        }
+
+        public virtual void Initialize(GiantOctopus giantOctopus)
+        {
+            Debug.Log("INIT a");
+            this.giantOctopus = giantOctopus;
+            if (effectHandler != null)
+            {
+                effectHandler.Other = giantOctopus;
+                effectHandler.EffectTaker = this;
+            }
+            foreach (var item in effectColliders) { item.Taker = this; }
+            giantOctopus.OnStateEntered += OnOctopusStateEntered;
+            partView.Initnialize(this);
+            partView.OnAttack += DoAttack;
+        }
+
+        OctopusState lastState;
+        private void OnOctopusStateEntered(OctopusState state)
+        {
+            if (lastState == state)
+                return;
+
+            if (state != OctopusState.Stunning && this.state == PartState.Stunning)
+            {
+                AfterStun();
+            }
+
+            if (this.state != PartState.Hidding)
+            {
+                if (state == OctopusState.Stunning)
+                {
+                    State = PartState.Stunning;
+                }
+            }
+            if (state == OctopusState.Transforming)
+            {
+
+                if (this.state != PartState.Hidding)
+                {
+                    State = PartState.Transforming;
+                }
+                else
+                {
+                    IsMad = true;
+                    OnMad?.Invoke();
+                }
+            }
+            lastState = state;
+        }
+
+        public virtual void AfterStun()
+        {
+            State = lastpartState;
+        }
+
+        public virtual void DoAttack()
         {
 
         }
 
-        public EnemyStats EnemyStats;
+        public virtual IEnumerator TransformCoroutine()
+        {
+            yield return new WaitUntil(() => IsMad);
+            State = lastpartState;
+        }
+
+        public override void ApplyStats()
+        {
+
+        }
+
+        public void OnSlowed()
+        {
+            OnSlowedDown?.Invoke();
+        }
+
+        public void OnSlowEnded()
+        {
+            OnSlowedDownStopped?.Invoke();
+        }
+
+        public void OnBurn()
+        {
+            OnBurned?.Invoke();
+        }
+
+        public void OnBurnEnd()
+        {
+            OnBurnEnded?.Invoke();
+        }
+
+        public EnemyStats stats;
     }
 }

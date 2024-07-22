@@ -199,7 +199,6 @@ namespace _Game.Features.Gameplay
 
         private void OnSlowed()
         {
-            Debug.Log("sloes");
             isSlowing = true;
             mpb.SetColor("_Black", slowedColor);
             meshRenderer.SetPropertyBlock(mpb);

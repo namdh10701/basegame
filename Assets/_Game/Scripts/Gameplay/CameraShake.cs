@@ -15,21 +15,17 @@ namespace _Game.Scripts.Utils
         bool isActive;
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Z))
-            {
-                Shake(2);
-            }
 
             if (cameraShake != null && cameraShake.enabled && !GlobalDisableCameraShake)
             {
 
                 time += Time.deltaTime;
-#if UNITY_EDITOR
+
                 if (!cameraShake.isShaking)
                 {
                     cameraShake.fetchCameras();
                 }
-#endif
+
                 cameraShake.animate(time);
                 if (time > cameraShake.duration)
                 {
@@ -39,9 +35,10 @@ namespace _Game.Scripts.Utils
             }
         }
 
-        public void Shake(float duration)
+        public void Shake(float duration, Vector3 strength)
         {
             time = 0;
+            cameraShake.shakeStrength = strength;
             cameraShake.duration = duration;
             cameraShake.enabled = true;
         }

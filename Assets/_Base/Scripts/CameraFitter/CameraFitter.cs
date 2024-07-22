@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public enum FitType
@@ -16,7 +17,7 @@ public class CameraFitter : MonoBehaviour
     private void Awake()
     {
         instance = this;
-        ResizeCamera(cam);
+        //ResizeCamera(cam);
     }
 
     public static CameraFitter Instance => instance;
@@ -24,49 +25,35 @@ public class CameraFitter : MonoBehaviour
     public void RegisterMainCam(Camera camera)
     {
         mainCam = camera;
-        ResizeCamera(mainCam);
+        //ResizeCamera(mainCam);
     }
 
     public void RegisterUICam(Camera camera)
     {
         uiCam = camera;
-        ResizeCamera(uiCam);
+        //ResizeCamera(uiCam);
     }
 
-    private void ResizeCamera(Camera camera)
-    {
-        if (cameraRefRatio == null)
-            return;
 
-        float bgWidth = cameraRefRatio.bounds.size.x;
-        float bgHeight = cameraRefRatio.bounds.size.y;
+    public float GetOrthograpicSize(Camera mainCam, SpriteRenderer ratioRef)
+    {
+        float bgWidth = ratioRef.bounds.size.x;
+        float bgHeight = ratioRef.bounds.size.y;
         float targetOrthoSize = 5;
 
         switch (fitType)
         {
             case FitType.Both:
-                targetOrthoSize = Mathf.Max(bgWidth * 0.5f / camera.aspect, bgHeight * 0.5f);
+                targetOrthoSize = Mathf.Max(bgWidth * 0.5f / GetComponent<Camera>().aspect, bgHeight * 0.5f);
                 break;
             case FitType.FitX:
-                targetOrthoSize = bgWidth * 0.5f / camera.aspect;
+                targetOrthoSize = bgWidth * 0.5f / GetComponent<Camera>().aspect;
                 break;
             case FitType.FitY:
                 targetOrthoSize = bgHeight * .5f;
                 break;
         }
 
-        camera.orthographicSize = targetOrthoSize;
-    }
-
-    public void UnregisterMainCam(Camera camera)
-    {
-        if (mainCam == camera)
-            mainCam = null;
-    }
-
-    public void UnregisterUICam(Camera camera)
-    {
-        if (uiCam == camera)
-            uiCam = null;
+        return targetOrthoSize;
     }
 }

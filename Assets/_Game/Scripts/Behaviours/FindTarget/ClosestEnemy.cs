@@ -11,7 +11,7 @@ namespace _Game.Scripts.Behaviours.FindTarget
     {
         [MonoScript(typeof(Entity))]
         public List<string> TargetTypeNames;
-        public override bool TryGetTargetEntity(GameObject go, out Entity entity)
+        public override bool TryGetTargetEntity(GameObject go, out EffectTakerCollider entity)
         {
             entity = null;
             if (!base.TryGetTargetEntity(go, out var found) || !TargetTypeNames.Contains(found.GetType().FullName))
