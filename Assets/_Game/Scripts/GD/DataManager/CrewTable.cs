@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using CsvHelper.Configuration.Attributes;
 
 namespace _Game.Scripts.GD.DataManager
@@ -42,6 +41,39 @@ namespace _Game.Scripts.GD.DataManager
         [Index(6)]
         [Default(0)]
         public float RepairSpeed { get; set; }
+
+        [Index(7)]
+        [Default(0)]
+        public float FeverTimeProb { get; set; }
+
+        [Index(8)]
+        [Default(0)]
+        public float GoldIncome { get; set; }
+
+        [Index(9)]
+        [Default(0)]
+        public float StatusReduce { get; set; }
+
+        [Index(10)]
+        [Default(0)]
+        public float ZeroManaCost { get; set; }
+
+        [Index(11)]
+        [Default(0)]
+        public float Luck { get; set; }
+
+        [Index(12)]
+        [Default(0)]
+        public float BonusAmmo { get; set; }
+
+        [Index(13)]
+        public string SkillDesc1 { get; set; }
+
+        [Index(14)]
+        public string SkillDesc2 { get; set; }
+
+        [Index(15)]
+        public string SkillDesc3 { get; set; }
         
         public override object GetId()
         {

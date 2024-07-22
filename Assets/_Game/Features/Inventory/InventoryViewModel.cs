@@ -6,6 +6,7 @@ using _Game.Features.InventoryCustomScreen;
 using _Game.Features.InventoryItemInfo;
 using _Game.Scripts.GD;
 using _Game.Scripts.GD.DataManager;
+using _Game.Scripts.SaveLoad;
 using _Game.Scripts.UI;
 using Unity.VisualScripting;
 using UnityWeld.Binding;
@@ -287,49 +288,105 @@ namespace _Game.Features.Inventory
 
         protected void InitializeInternal()
         {
-            foreach (var (id, conf) in GDConfigLoader.Instance.Cannons)
+            foreach (var item in SaveSystem.GameSave.OwnedItems)
             {
-                Enum.TryParse(conf.rarity, true, out Rarity rarity);
-                dataSource.Add(new InventoryItem
+                InventoryItem inventoryItem = null;
+                
+                // cannon
+                if (item.ItemType == ItemType.CANNON)
                 {
-                    InventoryViewModel = this,
-                    Type = ItemType.CANNON,
-                    Id = id,
-                    Rarity = rarity,
-                    RarityLevel = conf.rarity_level,
-                    OperationType = conf.operation_type,
-                    Shape = conf.shape
-                });
-            }
-
-            foreach (var (id, conf) in GDConfigLoader.Instance.Ammos)
-            {
-                Enum.TryParse(conf.rarity, true, out Rarity rarity);
-                dataSource.Add(new InventoryItem
+                    var info = GameData.CannonTable.FindById(item.ItemId);
+                    inventoryItem = new InventoryItem
+                    {
+                        InventoryViewModel = this,
+                        Type = ItemType.CANNON,
+                        Id = info.Id,
+                        Rarity = info.Rarity,
+                        RarityLevel = info.RarityLevel.ToString(),
+                        OperationType = info.OperationType,
+                        Shape = info.Shape
+                    };
+                }
+                
+                // crew
+                else if (item.ItemType == ItemType.CREW)
                 {
-                    InventoryViewModel = this,
-                    Type = ItemType.AMMO,
-                    Id = id,
-                    Rarity = rarity,
-                    RarityLevel = conf.rarity_level,
-                    OperationType = conf.operation_type,
-                    Shape = conf.shape
-                });
-            }
-
-            foreach (var (id, conf) in GDConfigLoader.Instance.Crews)
-            {
-                Enum.TryParse(conf.rarity, true, out Rarity rarity);
-                dataSource.Add(new InventoryItem
+                    var info = GameData.CrewTable.FindById(item.ItemId);
+                    inventoryItem = new InventoryItem
+                    {
+                        InventoryViewModel = this,
+                        Type = ItemType.CREW,
+                        Id = info.Id,
+                        Rarity = info.Rarity,
+                        // RarityLevel = info.RarityLevel.ToString(),
+                        OperationType = info.OperationType,
+                        Shape = info.Shape
+                    };
+                }
+                
+                // ammo
+                else if (item.ItemType == ItemType.AMMO)
                 {
-                    InventoryViewModel = this,
-                    Type = ItemType.CREW,
-                    Id = id,
-                    Rarity = rarity,
-                    OperationType = conf.operation_type,
-                    Shape = conf.shape
-                });
+                    var info = GameData.AmmoTable.FindById(item.ItemId);
+                    inventoryItem = new InventoryItem
+                    {
+                        InventoryViewModel = this,
+                        Type = ItemType.AMMO,
+                        Id = info.Id,
+                        Rarity = info.Rarity,
+                        RarityLevel = info.RarityLevel.ToString(),
+                        OperationType = info.OperationType,
+                        Shape = info.Shape
+                    };
+                }
+                
+                if (inventoryItem == null) continue;
+                
+                dataSource.Add(inventoryItem);
             }
+            // foreach (var (id, conf) in GDConfigLoader.Instance.Cannons)
+            // {
+            //     Enum.TryParse(conf.rarity, true, out Rarity rarity);
+            //     dataSource.Add(new InventoryItem
+            //     {
+            //         InventoryViewModel = this,
+            //         Type = ItemType.CANNON,
+            //         Id = id,
+            //         Rarity = rarity,
+            //         RarityLevel = conf.rarity_level,
+            //         OperationType = conf.operation_type,
+            //         Shape = conf.shape
+            //     });
+            // }
+            //
+            // foreach (var (id, conf) in GDConfigLoader.Instance.Ammos)
+            // {
+            //     Enum.TryParse(conf.rarity, true, out Rarity rarity);
+            //     dataSource.Add(new InventoryItem
+            //     {
+            //         InventoryViewModel = this,
+            //         Type = ItemType.AMMO,
+            //         Id = id,
+            //         Rarity = rarity,
+            //         RarityLevel = conf.rarity_level,
+            //         OperationType = conf.operation_type,
+            //         Shape = conf.shape
+            //     });
+            // }
+            //
+            // foreach (var (id, conf) in GDConfigLoader.Instance.Crews)
+            // {
+            //     Enum.TryParse(conf.rarity, true, out Rarity rarity);
+            //     dataSource.Add(new InventoryItem
+            //     {
+            //         InventoryViewModel = this,
+            //         Type = ItemType.CREW,
+            //         Id = id,
+            //         Rarity = rarity,
+            //         OperationType = conf.operation_type,
+            //         Shape = conf.shape
+            //     });
+            // }
 
             foreach (var inventoryItem in dataSource)
             {

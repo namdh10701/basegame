@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using _Game.Features.Inventory;
 using _Game.Features.Shop;
 using _Game.Scripts.InventorySystem;
 
@@ -74,6 +75,14 @@ namespace _Game.Scripts.SaveLoad
                 "0001",
                 "0002",
                 "0003",
+            };
+
+            defaultSave.OwnedItems = new List<ItemData>()
+            {
+                new(ItemType.CREW, "2011"),
+                new(ItemType.CANNON, "0001"),
+                new(ItemType.CANNON, "0012"),
+                new(ItemType.AMMO, "1001"),
             };
             
             return defaultSave;

@@ -21,6 +21,16 @@ namespace _Game.Scripts.SaveLoad
     {
         public ItemType ItemType = ItemType.None;
         public string ItemId;
+
+        public ItemData()
+        {
+        }
+
+        public ItemData(ItemType itemType, string itemId)
+        {
+            ItemType = itemType;
+            ItemId = itemId;
+        }
     }
     
     [Serializable]
