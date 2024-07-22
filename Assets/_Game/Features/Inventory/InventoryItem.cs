@@ -292,27 +292,6 @@ namespace _Game.Features.Inventory
         private int _slot;
         #endregion
 
-        #region Binding Prop: NumbStars
-        /// <summary>
-        /// NumbStars
-        /// </summary>
-        [Binding]
-        public int NumbStars
-        {
-            get => _numbStars;
-            set
-            {
-                if (Equals(_numbStars, value))
-                {
-                    return;
-                }
-
-                _numbStars = value;
-                OnPropertyChanged(nameof(NumbStars));
-            }
-        }
-        private int _numbStars;
-        #endregion
 
         #region Binding Prop: Level
         /// <summary>
@@ -357,10 +336,7 @@ namespace _Game.Features.Inventory
 
         void Awake()
         {
-            for (int i = 0; i < NumbStars; i++)
-            {
-                Stars.Add(new Star());
-            }
+            
         }
 
         public override bool Equals(object obj)
