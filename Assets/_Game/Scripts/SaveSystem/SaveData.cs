@@ -14,6 +14,7 @@ namespace _Game.Scripts.SaveLoad
         // public InventorySaveData InventorySaveData;
         public ShipSetupSaveData ShipSetupSaveData;
         public List<string> OwnedShips = new();
+        public List<ItemData> OwnedItems = new();
 
         public CountOfGacha CountOfGacha;
 
@@ -65,6 +66,8 @@ namespace _Game.Scripts.SaveLoad
             defaultSave.CountOfGacha = new CountOfGacha();
             defaultSave.ShipSetupSaveData = new ShipSetupSaveData();
             defaultSave.ShipSetupSaveData.Init();
+
+            defaultSave.Settings = new SettingSaveData();
 
             defaultSave.OwnedShips = new()
             {
