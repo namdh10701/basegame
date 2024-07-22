@@ -42,7 +42,7 @@ namespace _Game.Features.Home
         [Binding]
         public async void ShowShopPopup()
         {
-            var options = new ViewOptions(nameof(Shop));
+            var options = new ViewOptions(nameof(ShopPirateViewModel));
             await ModalContainer.Find(ContainerKey.Modals).PushAsync(options);
         }
 

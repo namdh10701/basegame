@@ -9,6 +9,7 @@ using _Game.Scripts.GD.Parser;
 using _Game.Scripts.SaveLoad;
 using Cysharp.Threading.Tasks;
 using Map;
+using Online;
 using UnityEngine;
 using ZBase.UnityScreenNavigator.Core;
 using ZBase.UnityScreenNavigator.Core.Screens;
@@ -44,6 +45,7 @@ namespace _Game.Features
             AudioManager.Instance.IsBgmOn = !SaveSystem.GameSave.Settings.MuteBGM;
             AudioManager.Instance.IsSfxOn = !SaveSystem.GameSave.Settings.MuteSFX;
 
+            PlayfabManager.Instance.Login();
             // MapPlayerTracker.Instance.OnStagePassed += OnOnStagePassed;
             ShowTopPage().Forget();
         }

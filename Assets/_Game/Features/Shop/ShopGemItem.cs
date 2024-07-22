@@ -122,6 +122,15 @@ namespace _Game.Features.Shop
         private string _amount;
         #endregion
 
+        [Binding]
+        public Sprite Thumbnail
+        {
+            get
+            {
+                var path = Id == null ? $"Images/ShopGem/ammo_gacha_1" : $"Images/ShopGem/{Id.ToLower()}";
+                return Resources.Load<Sprite>(path);
+            }
+        }
 
         [Binding]
         public void ShowItemDetail()

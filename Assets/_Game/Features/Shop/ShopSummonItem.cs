@@ -25,7 +25,6 @@ namespace _Game.Features.Shop
         public string Id { get; set; }
 
         #region Binding Prop: Name
-
         /// <summary>
         /// Name
         /// </summary>
@@ -44,13 +43,10 @@ namespace _Game.Features.Shop
                 OnPropertyChanged(nameof(Name));
             }
         }
-
         private string m_name;
-
         #endregion
 
         #region Binding Prop: IsSelected
-
         /// <summary>
         /// IsSelected
         /// </summary>
@@ -69,32 +65,7 @@ namespace _Game.Features.Shop
                 OnPropertyChanged(nameof(IsSelected));
             }
         }
-
         private bool _isSelected;
-
-        #endregion
-        #region Binding Prop: IsHighLight
-
-        /// <summary>
-        /// IsHighLight
-        /// </summary>
-        [Binding]
-        public bool IsHighLight
-        {
-            get => _isHighLight;
-            set
-            {
-                if (Equals(_isHighLight, value))
-                {
-                    return;
-                }
-
-                _isHighLight = value;
-                OnPropertyChanged(nameof(IsHighLight));
-            }
-        }
-
-        private bool _isHighLight;
         #endregion
 
         #region Binding Prop: Price
@@ -119,6 +90,27 @@ namespace _Game.Features.Shop
         private string _price;
         #endregion
 
+        #region Binding Prop: PriceType
+        /// <summary>
+        /// PriceType
+        /// </summary>
+        [Binding]
+        public string PriceType
+        {
+            get => _priceType;
+            set
+            {
+                if (Equals(_priceType, value))
+                {
+                    return;
+                }
+
+                _priceType = value;
+                OnPropertyChanged(nameof(PriceType));
+            }
+        }
+        private string _priceType;
+        #endregion
 
         #region Binding Prop: Amount
         /// <summary>
@@ -164,12 +156,13 @@ namespace _Game.Features.Shop
         private string _gachaType;
         #endregion
 
+
         [Binding]
         public Sprite Thumbnail
         {
             get
             {
-                var path = Id == null ? $"Images/Summon/ammo_gacha_1" : $"Images/Summon/{Id.ToLower()}";
+                var path = Id == null ? $"Images/ShopSummon/ammo_gacha_1" : $"Images/ShopSummon/{Id.ToLower()}";
                 return Resources.Load<Sprite>(path);
             }
         }
@@ -189,21 +182,6 @@ namespace _Game.Features.Shop
             ShopSummonViewModel = shopSummonViewModel;
         }
 
-        private int GetNumberGacha()
-        {
-            if (Id == "gacha_cannon_1" || Id == "gacha_ammo_1")
-                return SaveSystem.GameSave.CountOfGacha.CountOfGacha_1;
-            else
-                return SaveSystem.GameSave.CountOfGacha.CountOfGacha_2;
-        }
-        private void SaveCountGacha()
-        {
-            if (Id == "gacha_cannon_1" || Id == "gacha_ammo_1")
-                SaveSystem.GameSave.CountOfGacha.CountOfGacha_1 = _countGacha;
-            else
-                SaveSystem.GameSave.CountOfGacha.CountOfGacha_2 = _countGacha;
-        }
-
         public string GetRandomRarityByWeight()
         {
             if (ListRarity.Count != ListWeightRarity.Count || ListRarity.Count == 0)
@@ -220,22 +198,6 @@ namespace _Game.Features.Shop
                 if (randomNumber < ListWeightRarity[i])
                 {
                     CurentRarityItemGacha = ListRarity[i];
-
-                    if (CurentRarityItemGacha == "Rare" || CurentRarityItemGacha == "Epic")
-                    {
-                        _countGacha = GetNumberGacha();
-                    }
-                    else if (_countGacha == 1)
-                    {
-                        if (CurentRarityItemGacha == "Common" || CurentRarityItemGacha == "Good" || CurentRarityItemGacha == "Rare")
-                        {
-                            CurentRarityItemGacha = "Rare";
-                            _countGacha = GetNumberGacha();
-                        }
-                    }
-                    else
-                        _countGacha--;
-
                     return ListRarity[i];
                 }
                 randomNumber -= ListWeightRarity[i];
@@ -269,7 +231,6 @@ namespace _Game.Features.Shop
         [Binding]
         public void GetIDItemGacha()
         {
-            _countGacha = GetNumberGacha();
             ShopSummonViewModel.ItemsGachaReceived.Clear();
             for (int i = 0; i < Amount; i++)
             {
@@ -285,21 +246,23 @@ namespace _Game.Features.Shop
                 ShopItemGachaReceived shopItemGachaReceived = new ShopItemGachaReceived();
                 shopItemGachaReceived.IdItemGacha = IdGachaItem;
                 shopItemGachaReceived.Name = CurentNameItemGacha;
+                shopItemGachaReceived.Slot = GameData.CannonTable.GetSlotByName(CurentNameItemGacha);
                 shopItemGachaReceived.GachaType = GachaType;
                 shopItemGachaReceived.Rarity = CurentRarityItemGacha;
+                shopItemGachaReceived.IsHighLight = CurentRarityItemGacha == "Rare" || CurentRarityItemGacha == "Epic" ? true : false;
                 ShopSummonViewModel.ItemsGachaReceived.Add(shopItemGachaReceived);
-
             }
-
-            ShopSummonViewModel.OnClickToCotinue();
-            SaveCountGacha();
-            SaveSystem.SaveGame();
+            // ShopSummonViewModel.CurrentIndexItemReview = 0;
+            ShopSummonViewModel.OnChangeCurrentIndexItemReview(0);
+ 
         }
 
         [Binding]
         public void SetIdSummonItem()
         {
             ShopSummonViewModel.IdSummonItemSelected = Id;
+            ShopSummonViewModel.PriceTypeSummonItemSelected = PriceType;
+            ShopSummonViewModel.IsHighlight = CurentRarityItemGacha == "Rare" || CurentRarityItemGacha == "Epic" ? true : false;
         }
     }
 }

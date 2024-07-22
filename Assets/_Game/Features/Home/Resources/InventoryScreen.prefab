@@ -3353,8 +3353,30 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5372131827885761618, guid: 83c4c442d2c70481f9acb8191509a049, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2131939347631138981}
   m_SourcePrefab: {fileID: 100100000, guid: 83c4c442d2c70481f9acb8191509a049, type: 3}
+--- !u!1 &1250211868484236327 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5372131827885761618, guid: 83c4c442d2c70481f9acb8191509a049, type: 3}
+  m_PrefabInstance: {fileID: 6616914290681679989}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2131939347631138981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1250211868484236327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1360956885, guid: e650e72e8be47794994495fc15c0ba63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  viewModelMethodName: _Game.Features.Inventory.InventoryViewModel.OnClickInfo
+  viewEventName: UnityEngine.UI.Button.onClick
 --- !u!224 &6600554198674200981 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 21921443318712800, guid: 83c4c442d2c70481f9acb8191509a049, type: 3}

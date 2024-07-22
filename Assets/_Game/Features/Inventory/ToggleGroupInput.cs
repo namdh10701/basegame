@@ -28,7 +28,7 @@ namespace _Game.Features.Inventory
         private int _value;
         private bool _suspendValueChangeListeners = false;
 
-        private void Awake()
+        private void OnEnable()
         {
             _toggleGroup = GetComponent<ToggleGroup>();
             _toggles = GetComponentsInChildren<Toggle>();

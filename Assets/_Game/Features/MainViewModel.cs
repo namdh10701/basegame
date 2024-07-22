@@ -1,10 +1,11 @@
+using _Base.Scripts.Utils;
 using _Game.Scripts.UI;
 using UnityWeld.Binding;
 
 namespace _Game.Scripts.Gameplay
 {
     [Binding]
-    public class MainViewModel: RootViewModel 
+    public class MainViewModel : RootViewModel
     {
         public enum Nav
         {
@@ -14,7 +15,7 @@ namespace _Game.Scripts.Gameplay
             INVENTORY,
             RUG,
         }
-        
+
         #region Binding Prop: CanvasGroupAlpha
 
         private float _canvasGroupAlpha = 1f;
@@ -32,7 +33,7 @@ namespace _Game.Scripts.Gameplay
         }
 
         #endregion
-        
+
         #region Binding Prop: ActiveMainNavIndex
 
         private int _activeMainNavIndex = 0;
@@ -89,12 +90,34 @@ namespace _Game.Scripts.Gameplay
             // // }
         }
 
+        #region Binding Prop: IsActiveBotNavBar
+        /// <summary>
+        /// IsActiveBotNavBar
+        /// </summary>
+        [Binding]
+        public bool IsActiveBotNavBar
+        {
+            get => _isActiveBotNavBar;
+            set
+            {
+                if (Equals(_isActiveBotNavBar, value))
+                {
+                    return;
+                }
+
+                _isActiveBotNavBar = value;
+                OnPropertyChanged(nameof(IsActiveBotNavBar));
+            }
+        }
+        private bool _isActiveBotNavBar = true;
+        #endregion
+
         public static MainViewModel Instance;
 
         private async void Awake()
         {
             Instance = this;
-            // IOC.Register(this);
+            IOC.Register(this);
             // // GDConfigLoader.Instance.OnLoaded += Init;
             // await GDConfigLoader.Instance.Load();
         }

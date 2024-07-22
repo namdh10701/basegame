@@ -34,20 +34,23 @@ namespace _Game.Features.Shop
 
         public override async UniTask Initialize(Memory<object> args)
         {
-            _shopDataItemGem = GameData.ShopListingTable.GetData(ShopType.Gem);
             InitializeShopGem();
         }
         void InitializeShopGem()
         {
-            var gemItems = new List<ShopGemItem>();
+            BigGemItem.Clear();
+            MediumGemItem.Clear();
+            SmallGemItem.Clear();
+            _shopDataItemGem = GameData.ShopListingTable.GetData(ShopType.Gem);
 
+            var gemItems = new List<ShopGemItem>();
             foreach (var item in _shopDataItemGem)
             {
                 var shopGemItem = new ShopGemItem
                 {
                     Id = item.ItemId,
                     Price = item.PriceAmount.ToString(),
-                    Amount = GameData.ShopItemTable.GetAmountById(item.ItemId).ToString(),
+                    Amount = GameData.ShopItemTable.GetAmountById(item.ItemId).Item1[0].ToString(),
                     PackSize = item.PackSize,
                 };
                 gemItems.Add(shopGemItem);

@@ -1,11 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using _Game.Features.Gameplay;
+using _Game.Features.InventoryCustomScreen;
+using _Game.Features.InventoryItemInfo;
 using _Game.Scripts.GD;
 using _Game.Scripts.GD.DataManager;
 using _Game.Scripts.UI;
 using Unity.VisualScripting;
 using UnityWeld.Binding;
+using ZBase.UnityScreenNavigator.Core.Modals;
+using ZBase.UnityScreenNavigator.Core.Views;
 
 namespace _Game.Features.Inventory
 {
@@ -13,11 +18,11 @@ namespace _Game.Features.Inventory
     public class InventoryViewModel : RootViewModel
     {
         private List<InventoryItem> dataSource = new List<InventoryItem>();
-        
+
         public List<string> IgnoreIdList = new List<string>();
 
         public List<InventoryItem> SelectedItems => dataSource.Where(v => v.IsSelected).ToList();
-        
+
         #region Binding: Items
 
         private ObservableList<InventoryItem> items = new ObservableList<InventoryItem>();
@@ -25,7 +30,7 @@ namespace _Game.Features.Inventory
         [Binding]
         public ObservableList<InventoryItem> Items => items;
 
-        [Binding] 
+        [Binding]
         public ObservableList<InventoryItem> IgnoreItems { get; set; } = new();
 
         #endregion
@@ -192,13 +197,13 @@ namespace _Game.Features.Inventory
                     inventoryItem.IsSelected = false;
                 }
             }
-            
+
             var itemType = (ItemType)_filterItemTypeIndex;
             Items.Clear();
 
             var itemList = dataSource
-                .Where(v => 
-                    v.Type == itemType 
+                .Where(v =>
+                    v.Type == itemType
                     && IgnoreIdList.All(ignoredKey => ignoredKey != (v.Type + v.Id))
                     && !IgnoreItems.Contains(v)
                 )
@@ -211,25 +216,25 @@ namespace _Game.Features.Inventory
             }
 
             TotalItemCount = itemList.Count();
-            
+
             Items.AddRange(pageItemList);
 
-            
+
             OnPropertyChanged(nameof(Page));
             OnPropertyChanged(nameof(IsPrevPageAvailable));
             OnPropertyChanged(nameof(IsNextPageAvailable));
         }
 
         [Binding]
-        public int MaxPage => Math.Max(0, (int) Math.Ceiling(1f *TotalItemCount / ItemPerPage) - 1);
+        public int MaxPage => Math.Max(0, (int)Math.Ceiling(1f * TotalItemCount / ItemPerPage) - 1);
 
-        [Binding] 
+        [Binding]
         public string PageInfo => $"{(Page + 1).ToString().PadLeft(2, '0')}/{(MaxPage + 1).ToString().PadLeft(2, '0')}";
 
-        [Binding] 
+        [Binding]
         public bool IsPrevPageAvailable => Page > 0 && MaxPage > 1;
-        
-        [Binding] 
+
+        [Binding]
         public bool IsNextPageAvailable => Page < MaxPage;
 
         #region Binding Prop: TotalItemCount
@@ -270,35 +275,6 @@ namespace _Game.Features.Inventory
         {
             Page = Math.Max(0, Page - 1);
         }
-        //
-        // private void Awake()
-        // {
-        //     GDConfigLoader.Instance.OnLoaded += Init;
-        //     GDConfigLoader.Instance.Load();
-        // }
-        //
-        // private void Init()
-        // {
-        //     
-        //     for (int i = 0; i < 3; i++)
-        //     {
-        //         itemSource.Add(new InventoryItem {  InventoryViewModel = this, Type = ItemType.CREW });
-        //     }
-        //     
-        //     // for (int i = 0; i < 5; i++)
-        //     // {
-        //     //     itemSource.Add(new InventoryItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0001"});
-        //     // }
-        //     // GDConfigLoader.Instance.Cannons["0001"];
-        //     itemSource.Add(new InventoryItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0001"});
-        //     itemSource.Add(new InventoryItem {  InventoryViewModel = this, Type = ItemType.CANNON, Id = "0012"});
-        //     
-        //     for (int i = 0; i < 30; i++)
-        //     {
-        //         itemSource.Add(new InventoryItem {  InventoryViewModel = this, Type = ItemType.AMMO });
-        //     }
-        //
-        // }
 
         protected virtual void Awake()
         {
@@ -316,29 +292,40 @@ namespace _Game.Features.Inventory
                 Enum.TryParse(conf.rarity, true, out Rarity rarity);
                 dataSource.Add(new InventoryItem
                 {
-                    InventoryViewModel = this, Type = ItemType.CANNON, Id = id, Rarity = rarity,
-                    RarityLevel = conf.rarity_level, OperationType = conf.operation_type,
+                    InventoryViewModel = this,
+                    Type = ItemType.CANNON,
+                    Id = id,
+                    Rarity = rarity,
+                    RarityLevel = conf.rarity_level,
+                    OperationType = conf.operation_type,
                     Shape = conf.shape
                 });
             }
-            
+
             foreach (var (id, conf) in GDConfigLoader.Instance.Ammos)
             {
-                Enum.TryParse(conf.rarity, true, out  Rarity rarity);
+                Enum.TryParse(conf.rarity, true, out Rarity rarity);
                 dataSource.Add(new InventoryItem
                 {
-                    InventoryViewModel = this, Type = ItemType.AMMO, Id = id, Rarity = rarity,
-                    RarityLevel = conf.rarity_level, OperationType = conf.operation_type,
+                    InventoryViewModel = this,
+                    Type = ItemType.AMMO,
+                    Id = id,
+                    Rarity = rarity,
+                    RarityLevel = conf.rarity_level,
+                    OperationType = conf.operation_type,
                     Shape = conf.shape
                 });
             }
-            
+
             foreach (var (id, conf) in GDConfigLoader.Instance.Crews)
             {
-                Enum.TryParse(conf.rarity, true, out  Rarity rarity);
+                Enum.TryParse(conf.rarity, true, out Rarity rarity);
                 dataSource.Add(new InventoryItem
                 {
-                    InventoryViewModel = this, Type = ItemType.CREW, Id = id, Rarity = rarity,
+                    InventoryViewModel = this,
+                    Type = ItemType.CREW,
+                    Id = id,
+                    Rarity = rarity,
                     OperationType = conf.operation_type,
                     Shape = conf.shape
                 });
@@ -358,12 +345,12 @@ namespace _Game.Features.Inventory
             //         });
             //     }
             // }
-            
+
             foreach (var inventoryItem in dataSource)
             {
                 inventoryItem.SelectionStateChanged += OnSelectionStateChanged;
             }
-            
+
             // dataSource = dataSource.Where(v => v.Thumbnail != null).ToList();
             DoFilter();
         }
@@ -385,7 +372,7 @@ namespace _Game.Features.Inventory
                 item.IsEquipped = true;
             }
         }
-        
+
         [Binding]
         public void ToggleMultiSelect()
         {
@@ -398,17 +385,40 @@ namespace _Game.Features.Inventory
 
             IgnoreItems.Add(item);
         }
-        
+
         public void RemoveIgnore(InventoryItem item)
         {
             if (!IgnoreItems.Contains(item)) return;
 
             IgnoreItems.Remove(item);
         }
-        
+
         public void ClearIgnoredItems()
         {
             IgnoreItems.Clear();
+        }
+
+        [Binding]
+        public async void OnClickInfo()
+        {
+            var options = new ViewOptions(nameof(InventoryItemInfoModal));
+            await ModalContainer.Find(ContainerKey.Modals).PushAsync(options);
+
+            
+            // var itemType = (ItemType)_filterItemTypeIndex;
+            // string screenName = itemType switch
+            // {
+            //     ItemType.CANNON => nameof(CannonCustomScreen),
+            //     ItemType.CREW => nameof(CrewCustomScreen),
+            //     _ => null
+            // };
+
+            // if (screenName != null)
+            // {
+            //     var options = new ViewOptions(screenName);
+            //     await ModalContainer.Find(ContainerKey.Modals).PushAsync(options);
+            // }
+
         }
     }
 }

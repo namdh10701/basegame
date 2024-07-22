@@ -8,7 +8,7 @@ using ZBase.UnityScreenNavigator.Core.Views;
 namespace _Game.Features.Shop
 {
     [Binding]
-    public class PirateItem : SubViewModel
+    public class ShopPirateItem : SubViewModel
     {
         [Binding]
         public string Id { get; set; }
@@ -57,6 +57,28 @@ namespace _Game.Features.Shop
         private string _priceType;
         #endregion
 
+        #region Binding Prop: ShopType
+        /// <summary>
+        /// ShopType
+        /// </summary>
+        [Binding]
+        public string ShopType
+        {
+            get => _shoptype;
+            set
+            {
+                if (Equals(_shoptype, value))
+                {
+                    return;
+                }
+
+                _shoptype = value;
+                OnPropertyChanged(nameof(ShopType));
+            }
+        }
+        private string _shoptype;
+        #endregion
+
         #region Binding Prop: Price
         /// <summary>
         /// Price
@@ -79,38 +101,21 @@ namespace _Game.Features.Shop
         private string m_price;
         #endregion
 
-        #region Binding Prop: Amount
-        /// <summary>
-        /// Amount
-        /// </summary>
-        [Binding]
-        public int Amount
-        {
-            get => _amount;
-            set
-            {
-                if (Equals(_amount, value))
-                {
-                    return;
-                }
-
-                _amount = value;
-                OnPropertyChanged(nameof(Amount));
-            }
-        }
-        private int _amount;
-        #endregion
-
         [Binding]
         public Sprite Thumbnail
         {
             get
             {
-                var path = Id == null ? $"Images/ShopPirate/Gems/energy_1" :
-                $"Images/ShopPirate/Gems/{Id.ToLower()}";
+                var path = Id == null|| ShopType == null ? $"Images/ShopPirate/Gems/energy_1" : $"Images/ShopPirate/{ShopType.ToLower()}/{Id.ToLower()}";
                 return Resources.Load<Sprite>(path);
             }
         }
+
+        #region Binding: ItemReceived
+        private ObservableList<ShopPirateItemReceived> itemsDailyReceived = new ObservableList<ShopPirateItemReceived>();
+        [Binding]
+        public ObservableList<ShopPirateItemReceived> ItemsDailyReceived => itemsDailyReceived;
+        #endregion
 
         #region Binding Prop: IsActiveButAd
         /// <summary>

@@ -5,6 +5,7 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityWeld.Binding;
+using ZBase.UnityScreenNavigator.Core.Modals;
 
 namespace _Game.Features.InventoryItemInfo
 {
@@ -140,30 +141,41 @@ namespace _Game.Features.InventoryItemInfo
         }
         #endregion
 
-        public override UniTask WillPushEnter(Memory<object> args)
+        public override async UniTask Initialize(Memory<object> args)
         {
-            var receivedObj = args.ToArray().FirstOrDefault();
-            if (receivedObj is not InventoryItem item)
-            {
-                return UniTask.CompletedTask;
-            }
-
-            InventoryItem = item;
-            //
-            // if (item.Type == ItemType.CANNON)
-            // {
-            //     var cannon = GDConfigLoader.Instance.Cannons[item.Id];
-            // } 
-            // else if (item.Type == ItemType.AMMO)
-            // {
-            //     var ammo = GDConfigLoader.Instance.Ammos[item.Id];
-            // }
-            // else if (item.Type == ItemType.CREW)
-            // {
-            //     var crew = GDConfigLoader.Instance.Ammos[item.Id];
-            // }
-            _enhance.SetActive((m_type == ItemType.CREW) ? true : false);
-            return UniTask.CompletedTask;
         }
+
+        [Binding]
+        public async void Close()
+        {
+            await ModalContainer.Find(ContainerKey.Modals).PopAsync(true);
+        }
+
+
+        // public override UniTask WillPushEnter(Memory<object> args)
+        // {
+        //     var receivedObj = args.ToArray().FirstOrDefault();
+        //     if (receivedObj is not InventoryItem item)
+        //     {
+        //         return UniTask.CompletedTask;
+        //     }
+
+        //     InventoryItem = item;
+        //     //
+        //     // if (item.Type == ItemType.CANNON)
+        //     // {
+        //     //     var cannon = GDConfigLoader.Instance.Cannons[item.Id];
+        //     // } 
+        //     // else if (item.Type == ItemType.AMMO)
+        //     // {
+        //     //     var ammo = GDConfigLoader.Instance.Ammos[item.Id];
+        //     // }
+        //     // else if (item.Type == ItemType.CREW)
+        //     // {
+        //     //     var crew = GDConfigLoader.Instance.Ammos[item.Id];
+        //     // }
+        //     _enhance.SetActive((m_type == ItemType.CREW) ? true : false);
+        //     return UniTask.CompletedTask;
+        // }
     }
 }

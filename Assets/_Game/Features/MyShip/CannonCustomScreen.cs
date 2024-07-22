@@ -1,12 +1,13 @@
 using System;
 using _Game.Features.Inventory;
 using _Game.Scripts.UI;
+using Cysharp.Threading.Tasks;
 using UnityWeld.Binding;
 
 namespace _Game.Features.InventoryCustomScreen
 {
     [Binding]
-    public class CannonCustomScreen : RootViewModel
+    public class CannonCustomScreen : ModalWithViewModel
     {
         #region Binding: SkillInfoCannons
         private ObservableList<SkillInfoItem> skillInfoItems = new ObservableList<SkillInfoItem>();
@@ -17,10 +18,15 @@ namespace _Game.Features.InventoryCustomScreen
         #endregion
         public static CannonCustomScreen Instance;
 
-        async void Awake()
+        public override async UniTask Initialize(Memory<object> args)
         {
             Instance = this;
             InitDataTest();
+        }
+
+        [Binding]
+        public async void Close()
+        {
         }
 
         private void InitDataTest()
