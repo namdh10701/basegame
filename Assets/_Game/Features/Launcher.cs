@@ -36,11 +36,14 @@ namespace _Game.Features
             // Debug.unityLogger.logEnabled = false;
             Application.targetFrameRate = 120;
             UnityScreenNavigatorSettings.Initialize();
-
-            AudioManager.Instance.LoadSoundSettings();
+            
             await GameData.Load();
             Database.Load();
             SaveSystem.LoadSave();
+
+            // AudioManager.Instance.LoadSoundSettings();
+            AudioManager.Instance.IsBgmOn = !SaveSystem.GameSave.Settings.MuteBGM;
+            AudioManager.Instance.IsSfxOn = !SaveSystem.GameSave.Settings.MuteSFX;
 
             PlayfabManager.Instance.Login();
             // MapPlayerTracker.Instance.OnStagePassed += OnOnStagePassed;

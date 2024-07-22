@@ -53,8 +53,8 @@ namespace _Base.Scripts.Audio
         [SerializeField] protected AudioClip _bgmHome;
         [SerializeField] protected AudioClip _bgmGameplay;
 
-        const string KEY_SFX = "SFX";
-        const string KEY_BGM = "BGM";
+        // const string KEY_SFX = "SFX";
+        // const string KEY_BGM = "BGM";
         const string KEY_VIBRATE = "VIBRATE";
 
         bool _isSfxOn;
@@ -90,28 +90,28 @@ namespace _Base.Scripts.Audio
             };
         }
 
-        public void LoadSoundSettings()
-        {
-            if (!PlayerPrefs.HasKey(KEY_SFX))
-            {
-                IsSfxOn = true;
-            }
-
-            if (PlayerPrefs.HasKey(KEY_BGM))
-            {
-                IsBgmOn = true;
-            }
-
-            if (PlayerPrefs.HasKey(KEY_VIBRATE))
-            {
-                IsVibrateOn = true;
-            }
-
-
-            IsSfxOn = PlayerPrefs.GetInt(KEY_SFX, 1) > 0 ? true : false;
-            IsBgmOn = PlayerPrefs.GetInt(KEY_BGM, 1) > 0 ? true : false;
-            IsVibrateOn = PlayerPrefs.GetInt(KEY_VIBRATE, 1) > 0 ? true : false;
-        }
+        // public void LoadSoundSettings()
+        // {
+        //     if (!PlayerPrefs.HasKey(KEY_SFX))
+        //     {
+        //         IsSfxOn = true;
+        //     }
+        //
+        //     if (PlayerPrefs.HasKey(KEY_BGM))
+        //     {
+        //         IsBgmOn = true;
+        //     }
+        //
+        //     if (PlayerPrefs.HasKey(KEY_VIBRATE))
+        //     {
+        //         IsVibrateOn = true;
+        //     }
+        //
+        //
+        //     IsSfxOn = PlayerPrefs.GetInt(KEY_SFX, 1) > 0 ? true : false;
+        //     IsBgmOn = PlayerPrefs.GetInt(KEY_BGM, 1) > 0 ? true : false;
+        //     IsVibrateOn = PlayerPrefs.GetInt(KEY_VIBRATE, 1) > 0 ? true : false;
+        // }
 
         public void ToggleSfx()
         {
@@ -140,8 +140,8 @@ namespace _Base.Scripts.Audio
                 if (value != _isSfxOn)
                 {
                     _isSfxOn = value;
-                    PlayerPrefs.SetInt(KEY_SFX, _isSfxOn ? 1 : 0);
-                    PlayerPrefs.Save();
+                    // PlayerPrefs.SetInt(KEY_SFX, _isSfxOn ? 1 : 0);
+                    // PlayerPrefs.Save();
                 }
 
 #if USE_ANDROID_NATIVE_AUDIO && !UNITY_EDITOR
@@ -164,8 +164,8 @@ namespace _Base.Scripts.Audio
                 if (value != _isBgmOn)
                 {
                     _isBgmOn = value;
-                    PlayerPrefs.SetInt(KEY_BGM, _isBgmOn ? 1 : 0);
-                    PlayerPrefs.Save();
+                    // PlayerPrefs.SetInt(KEY_BGM, _isBgmOn ? 1 : 0);
+                    // PlayerPrefs.Save();
                 }
 
 #if USE_ANDROID_NATIVE_AUDIO && !UNITY_EDITOR
@@ -175,8 +175,8 @@ namespace _Base.Scripts.Audio
 #endif
                 OnEnableMusic?.Invoke(_isBgmOn);
 
-                if (!value)
-                    StopBGMs();
+                // if (!value)
+                //     StopBGMs();
 
                 //GoogleMobileAds.Api.MobileAds.SetApplicationVolume(_isSfxOn ? 1f : 0f);
             }
@@ -381,7 +381,7 @@ namespace _Base.Scripts.Audio
         /// </summary>
         public void PlayBgmHome()
         {
-            if (!IsBgmOn) return;
+            // if (!IsBgmOn) return;
             PlaySound(new AudioConfig()
             {
                 Clip = _bgmHome,
