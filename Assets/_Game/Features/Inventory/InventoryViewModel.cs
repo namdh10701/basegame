@@ -330,21 +330,6 @@ namespace _Game.Features.Inventory
                     Shape = conf.shape
                 });
             }
-            //
-            // var crewNo = 1;
-            // for (int i = 1; i <= 2; i++)
-            // {
-            //     var rarities = Enum.GetValues(typeof(Rarity)).Cast<Rarity>();
-            //     foreach (var rarity in rarities)
-            //     {
-            //         dataSource.Add(new InventoryItem
-            //         {
-            //             InventoryViewModel = this, Type = ItemType.CREW,
-            //             Id = $"{(crewNo++).ToString().PadLeft(4, '0')}", Rarity = rarity, OperationType = $"{i}",
-            //             Shape = conf.shape
-            //         });
-            //     }
-            // }
 
             foreach (var inventoryItem in dataSource)
             {
@@ -398,13 +383,22 @@ namespace _Game.Features.Inventory
             IgnoreItems.Clear();
         }
 
+        private InventoryItem GetInventoryItemSelected()
+        {
+            foreach (var item in Items.Where(v => v.IsSelected))
+            {
+                return item;
+            }
+            return null;
+        }
+
         [Binding]
         public async void OnClickInfo()
         {
             var options = new ViewOptions(nameof(InventoryItemInfoModal));
-            await ModalContainer.Find(ContainerKey.Modals).PushAsync(options);
+            await ModalContainer.Find(ContainerKey.Modals).PushAsync(options, GetInventoryItemSelected());
 
-            
+
             // var itemType = (ItemType)_filterItemTypeIndex;
             // string screenName = itemType switch
             // {

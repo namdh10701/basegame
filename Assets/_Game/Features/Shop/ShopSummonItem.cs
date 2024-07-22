@@ -254,7 +254,7 @@ namespace _Game.Features.Shop
             }
             // ShopSummonViewModel.CurrentIndexItemReview = 0;
             ShopSummonViewModel.OnChangeCurrentIndexItemReview(0);
- 
+            SetIdSummonItem();
         }
 
         [Binding]

@@ -143,6 +143,7 @@ namespace _Game.Features.InventoryItemInfo
 
         public override async UniTask Initialize(Memory<object> args)
         {
+            InventoryItem = args.ToArray().FirstOrDefault() as InventoryItem;
         }
 
         [Binding]
