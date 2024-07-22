@@ -13,6 +13,28 @@ namespace _Game.Features.Shop
         [Binding]
         public string Id { get; set; }
 
+        #region Binding Prop: Slot
+        /// <summary>
+        /// Slot
+        /// </summary>
+        [Binding]
+        public string Slot
+        {
+            get => _slot;
+            set
+            {
+                if (Equals(_slot, value))
+                {
+                    return;
+                }
+
+                _slot = value;
+                OnPropertyChanged(nameof(Slot));
+            }
+        }
+        private string _slot;
+        #endregion
+
         #region Binding Prop: Rarity
         /// <summary>
         /// Rarity

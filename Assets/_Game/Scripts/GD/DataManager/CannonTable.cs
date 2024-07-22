@@ -13,12 +13,12 @@ namespace _Game.Scripts.GD.DataManager
         {
         }
 
-        public string GetShapeByName(string name)
+        public string GetSlotByName(string name)
         {
             foreach (var record in Records)
             {
                 if (record.OperationType == name)
-                    return record.Shape;
+                    return record.Slot;
             }
             return null;
         }
@@ -143,9 +143,14 @@ namespace _Game.Scripts.GD.DataManager
         [Default(0)]
         public float Angle { get; set; }
 
-        // [Index(19)]
-        // [Default(0)]
-        // public string Slot { get; set; }
+        public string Slot
+        {
+            get
+            {
+                var parts = Shape.Split("x");
+                return (int.Parse(parts[0]) * int.Parse(parts[1])).ToString();
+            }
+        }
 
         public override object GetId()
         {

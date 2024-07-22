@@ -389,7 +389,7 @@ namespace _Game.Features.Shop
             DataTableRecord dataTableRecord;
             if (GachaTypeItemReview == "cannon")
             {
-                SlotItemReview = GameData.CannonTable.GetShapeByName(NameItemReview);
+                SlotItemReview = GameData.CannonTable.GetSlotByName(NameItemReview);
                 dataTableRecord = GameData.CannonTable.GetDataTableRecord(NameItemReview, RarityItemReview);
             }
             else

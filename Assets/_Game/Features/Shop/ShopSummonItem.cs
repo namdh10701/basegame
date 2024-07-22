@@ -246,6 +246,7 @@ namespace _Game.Features.Shop
                 ShopItemGachaReceived shopItemGachaReceived = new ShopItemGachaReceived();
                 shopItemGachaReceived.IdItemGacha = IdGachaItem;
                 shopItemGachaReceived.Name = CurentNameItemGacha;
+                shopItemGachaReceived.Slot = GameData.CannonTable.GetSlotByName(CurentNameItemGacha);
                 shopItemGachaReceived.GachaType = GachaType;
                 shopItemGachaReceived.Rarity = CurentRarityItemGacha;
                 shopItemGachaReceived.IsHighLight = CurentRarityItemGacha == "Rare" || CurentRarityItemGacha == "Epic" ? true : false;
@@ -253,7 +254,7 @@ namespace _Game.Features.Shop
             }
             // ShopSummonViewModel.CurrentIndexItemReview = 0;
             ShopSummonViewModel.OnChangeCurrentIndexItemReview(0);
-
+ 
         }
 
         [Binding]
