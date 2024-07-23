@@ -1,3 +1,4 @@
+using _Base.Scripts.Audio;
 using _Base.Scripts.RPG.Entities;
 using _Base.Scripts.RPGCommon.Entities;
 using _Game.Scripts;
@@ -58,6 +59,7 @@ namespace _Game.Features.Gameplay
                     Handlers.Remove(handler);
                 }
             }
+            AudioManager.Instance.PlayMonsterGetHit();
             base.Process(giver, taker);
             if (Handlers.Count == 0)
             {

@@ -1,3 +1,4 @@
+using _Base.Scripts.Audio;
 using _Game.Scripts.Entities;
 using Spine;
 using Spine.Unity;
@@ -52,6 +53,7 @@ namespace _Game.Features.Gameplay
             {
                 StopCoroutine(blinkCoroutine);
             }
+            AudioManager.Instance.PlayMonsterGetHit();
             blinkCoroutine = StartCoroutine(BlinkCoroutine());
         }
         IEnumerator BlinkCoroutine()

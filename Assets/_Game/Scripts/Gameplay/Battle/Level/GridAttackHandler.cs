@@ -18,6 +18,10 @@ namespace _Game.Features.Gameplay
             {
                 foreach (Cell cell in cells)
                 {
+                    if(cell == null)
+                    {
+                        return;
+                    }
                     if (effect is DecreaseHealthEffect decrease)
                     {
                         if (cell.GridItem != null)

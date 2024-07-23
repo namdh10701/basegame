@@ -172,8 +172,7 @@ namespace _Game.Features.Gameplay
         {
             foreach (Cannon cannon in Cannons)
             {
-                if (Ammos.Count > 0)
-                    cannon.Reload(Ammos.GetRandom());
+                cannon.Reload(Ammos.GetRandom());
             }
         }
 
@@ -400,6 +399,7 @@ namespace _Game.Features.Gameplay
         {
             foreach (Cannon cannon in Cannons)
             {
+                cannon.Animation.PlayNormal();
                 cannon.HUD.gameObject.SetActive(false);
             }
         }

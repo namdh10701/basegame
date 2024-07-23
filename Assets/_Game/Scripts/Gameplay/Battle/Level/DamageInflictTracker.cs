@@ -24,6 +24,10 @@ namespace _Game.Features.Gameplay
 
         void OnDamageInflicted(float amount, bool isCrit, IEffectGiver effect, IEffectTaker effectTaker, Vector3 position)
         {
+            if (effectTaker is Cell)
+            {
+                return;
+            }
             InflictedDamageDisplay idd = Instantiate(prefab, transform);
             idd.Init(amount, isCrit, position);
         }

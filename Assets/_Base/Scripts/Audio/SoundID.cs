@@ -12,7 +12,16 @@ namespace _Base.Scripts.Audio
         btn_navigate_inventory,
         btn_navigate_habor,
         btn_turbo,
-        btn_confirm
+        btn_confirm,
+
+        battle_cannon_normal,
+        battle_cannon_fast,
+        battle_cannon_megacharge,
+        battle_cannon_charge,
+        battle_cannon_megafar,
+        battle_cannon_far,
+        battle_cannon_twin,
+        battle_cannon_chaining,
     }
 }
 

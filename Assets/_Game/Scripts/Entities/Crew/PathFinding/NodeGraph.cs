@@ -1,3 +1,4 @@
+using _Base.Scripts.Utils.Extensions;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -30,6 +31,19 @@ namespace _Game.Scripts.PathFinding
         public List<Node> GetNeighbors(Node node)
         {
             return node.neighbors;
+        }
+        public Node getRandomFreeNode()
+        {
+            List<Node> Frees = new List<Node>();
+
+            foreach (Node node in nodes)
+            {
+                if (node.State == NodeState.Free)
+                {
+                    Frees.Add(node);
+                }
+            }
+            return Frees.GetRandom();
         }
     }
 }

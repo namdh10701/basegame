@@ -1,3 +1,4 @@
+using _Base.Scripts.Audio;
 using _Game.Scripts;
 using DG.Tweening;
 using System.Collections;
@@ -13,6 +14,7 @@ namespace _Game.Features.Gameplay
         Sequence startSequence;
         public IEnumerator Play()
         {
+            AudioManager.Instance.PlayShipMove();
             background.AdjustSpeed(new Vector2(.3f, 0), 2f);
             startSequence = DOTween.Sequence();
             shipSpeed.AdjustSpeed(new Vector2(.75f, .1f), .1f);

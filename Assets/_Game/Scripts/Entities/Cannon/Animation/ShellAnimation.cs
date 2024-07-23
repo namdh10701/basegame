@@ -1,5 +1,6 @@
 using _Base.Scripts.Patterns.BuiltInPool;
 using Spine.Unity;
+using UnityEngine;
 
 public class ShellAnimation : PoolObject
 {
@@ -11,7 +12,8 @@ public class ShellAnimation : PoolObject
 
     private void AnimationState_Complete(Spine.TrackEntry trackEntry)
     {
-        Release();
+        if (trackEntry.Animation.Name == "shell_left" || trackEntry.Animation.Name == "shell_right")
+            Release();
     }
 
     public override void OnRelease()

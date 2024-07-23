@@ -8,6 +8,7 @@ namespace _Game.Features.Gameplay
     public abstract class CrewActionBase
     {
         public string Name;
+        public abstract bool IsAbleToDo { get; }
         public abstract void OnStart();
         public virtual IEnumerator Execute()
         {
@@ -24,6 +25,9 @@ namespace _Game.Features.Gameplay
     {
         Crew crew;
         public Node node;
+
+        public override bool IsAbleToDo => true;
+
         public Idle(Crew crew, Node node)
         {
             Name = "IDLE";
@@ -58,8 +62,10 @@ namespace _Game.Features.Gameplay
     public class MoveToNode : CrewActionBase
     {
         Node targetNode;
-        Crew crew;
-        public MoveToNode(Crew crew, Node node) { 
+        Crew crew; 
+        public override bool IsAbleToDo => crew.CrewMovement.IsAbleToMoveTo(targetNode);
+        public MoveToNode(Crew crew, Node node)
+        {
             this.crew = crew;
             this.targetNode = node;
         }
@@ -92,6 +98,7 @@ namespace _Game.Features.Gameplay
 
     public class RepairCell : CrewActionBase
     {
+        public override bool IsAbleToDo => true;
         Cell cell;
         Crew crew;
         public RepairCell(Crew crew, Cell cell)
@@ -132,6 +139,7 @@ namespace _Game.Features.Gameplay
 
     public class RepairGridItem : CrewActionBase
     {
+        public override bool IsAbleToDo => true;
         IGridItem cell;
         Crew crew;
         public RepairGridItem(Crew crew, IGridItem cell)

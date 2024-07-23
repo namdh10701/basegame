@@ -96,7 +96,6 @@ GameObject:
   - component: {fileID: 6378287381636292905}
   - component: {fileID: 5539928903893953687}
   - component: {fileID: 1364860213531301939}
-  - component: {fileID: 7472654597549970904}
   m_Layer: 0
   m_Name: JellyFish Projectile
   m_TagString: Untagged
@@ -119,6 +118,7 @@ Transform:
   m_Children:
   - {fileID: 78624587097238773}
   - {fileID: 1261429209024284028}
+  - {fileID: 3222059085468562660}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 152.861}
 --- !u!61 &6378287381636292905
@@ -211,14 +211,46 @@ MonoBehaviour:
   particle: {fileID: 762301619909457153, guid: 7f773e6beeef7b645913cd2944b760bc, type: 3}
   trail: {fileID: 5905496087259501523}
   isLaunched: 0
-  dmgEffect: {fileID: 7472654597549970904}
---- !u!114 &7472654597549970904
+  dmgEffect: {fileID: 7953683380947588971}
+--- !u!1 &5723060248363678360
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3222059085468562660}
+  - component: {fileID: 7953683380947588971}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3222059085468562660
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5723060248363678360}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 799629837489290485}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7953683380947588971
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3705404217252064837}
+  m_GameObject: {fileID: 5723060248363678360}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9c262613bbca45d296cc9e30cfb58f40, type: 3}

@@ -1,5 +1,54 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1251644667004924210
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 176725041432066216}
+  - component: {fileID: 8095147333055247109}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &176725041432066216
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1251644667004924210}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7753827203469773491}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8095147333055247109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1251644667004924210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c262613bbca45d296cc9e30cfb58f40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <IsDone>k__BackingField: 0
+  <Amount>k__BackingField: 0
+  <ArmorPenetrate>k__BackingField: 0
+  IsCrit: 0
+  ChanceAffectCell: 0.5
 --- !u!1 &1583398759059892792
 GameObject:
   m_ObjectHideFlags: 0
@@ -96,7 +145,6 @@ GameObject:
   - component: {fileID: 4198187643799755637}
   - component: {fileID: 8877157424524112995}
   - component: {fileID: 6503037721404064667}
-  - component: {fileID: -1886784215060696197}
   m_Layer: 0
   m_Name: Bomb Projectile
   m_TagString: Untagged
@@ -119,6 +167,7 @@ Transform:
   m_Children:
   - {fileID: 1937637101219945457}
   - {fileID: 6765660235901254277}
+  - {fileID: 176725041432066216}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &4198187643799755637
@@ -211,24 +260,7 @@ MonoBehaviour:
   particle: {fileID: 5206758805228048836, guid: 802180b50d95b7a4b8fe918c6636b94d, type: 3}
   trail: {fileID: 8181401096548619938}
   isLaunched: 0
-  dmgEffect: {fileID: -1886784215060696197}
---- !u!114 &-1886784215060696197
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5029947786734929616}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c262613bbca45d296cc9e30cfb58f40, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <IsDone>k__BackingField: 0
-  <Amount>k__BackingField: 0
-  <ArmorPenetrate>k__BackingField: 0
-  IsCrit: 0
-  ChanceAffectCell: 0.5
+  dmgEffect: {fileID: 8095147333055247109}
 --- !u!1001 &3437960852966124002
 PrefabInstance:
   m_ObjectHideFlags: 0

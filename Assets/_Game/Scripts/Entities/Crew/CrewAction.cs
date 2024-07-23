@@ -72,14 +72,12 @@ namespace _Game.Features.Gameplay
         {
             if (!isActive || crewController == null)
             {
-                Debug.Log("idle");
                 DoAction(new Idle(crew, crew.OccupyingNodes[0]));
                 return;
             }
             DoingTask = null;
             if (crewController.GetMostSuitableTaskForCrew(crew, out CrewTask task))
             {
-                Debug.Log("DO TASK AUTO");
                 DoTask(task);
             }
             else

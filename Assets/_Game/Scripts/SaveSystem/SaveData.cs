@@ -82,7 +82,19 @@ namespace _Game.Scripts.SaveLoad
                 new(ItemType.CREW, "2011"),
                 new(ItemType.CANNON, "0001"),
                 new(ItemType.CANNON, "0012"),
+                new(ItemType.CANNON, "0023"),
+                new(ItemType.CANNON, "0043"),
+                new(ItemType.CANNON, "0061"),
+                new(ItemType.CANNON, "0069"),
+                new(ItemType.CANNON, "0077"),
+                new(ItemType.CANNON, "0085"),
                 new(ItemType.AMMO, "1001"),
+                new(ItemType.AMMO, "1012"),
+                new(ItemType.AMMO, "1023"),
+                new(ItemType.AMMO, "1033"),
+                new(ItemType.AMMO, "1043"),
+                new(ItemType.AMMO, "1077"),
+                new(ItemType.AMMO, "1085"),
             };
             
             return defaultSave;

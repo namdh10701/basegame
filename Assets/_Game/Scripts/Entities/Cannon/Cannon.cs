@@ -171,13 +171,23 @@ namespace _Game.Scripts.Entities
 
         public void Reload(Ammo bullet)
         {
+            if (bullet == null)
+            {
 
-            usingBullet = bullet;
-            AmmoStats ammoStats = (AmmoStats)bullet.Stats;
+                _stats.Ammo.MaxStatValue.BaseValue = 1;
+                _stats.Ammo.StatValue.BaseValue = 0;
+                OnOutOfAmmo();
 
-            _stats.Ammo.MaxStatValue.BaseValue = ammoStats.MagazineSize.BaseValue;
-            _stats.Ammo.StatValue.BaseValue = ammoStats.MagazineSize.BaseValue;
-            AttackTargetBehaviour.projectilePrefab = bullet.Projectile;
+            }
+            else
+            {
+                usingBullet = bullet;
+                AmmoStats ammoStats = (AmmoStats)bullet.Stats;
+
+                _stats.Ammo.MaxStatValue.BaseValue = ammoStats.MagazineSize.BaseValue;
+                _stats.Ammo.StatValue.BaseValue = ammoStats.MagazineSize.BaseValue;
+                AttackTargetBehaviour.projectilePrefab = bullet.Projectile;
+            }
         }
 
         public bool IsOnFever => isOnFever;
@@ -308,6 +318,8 @@ namespace _Game.Scripts.Entities
             UpdateVisual();
             FindTargetBehaviour.Enable();
         }
+
+
 
         #endregion
     }

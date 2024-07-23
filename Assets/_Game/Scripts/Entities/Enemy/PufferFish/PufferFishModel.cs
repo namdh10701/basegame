@@ -39,7 +39,7 @@ namespace _Game.Features.Gameplay
         {
             effectTakerCollider.gameObject.SetActive(false);
             DamageArea da = Instantiate(DamageArea, transform.position, Quaternion.identity);
-
+            da.gameObject.SetActive(true);
             RaycastHit2D[] inRangeColliders = Physics2D.CircleCastAll(transform.position, _stats.AttackRange.Value, Vector2.zero, LayerMask.NameToLayer("Ship"));
             if (inRangeColliders != null && inRangeColliders.Length > 0)
             {

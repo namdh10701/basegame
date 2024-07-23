@@ -44,6 +44,16 @@ namespace _Base.Scripts.Audio
         [SerializeField] protected AudioClip btn_turbo;
         [SerializeField] protected AudioClip btn_confirm;
 
+        [Header("Battle - SFXs")]
+        [SerializeField] protected AudioClip[] gameplay_cannon_fast;
+        [SerializeField] protected AudioClip[] gameplay_cannon_far;
+        [SerializeField] protected AudioClip gameplay_cannon_megafar;
+        [SerializeField] protected AudioClip gameplay_cannon_charge;
+        [SerializeField] protected AudioClip gameplay_cannon_chaining;
+        [SerializeField] protected AudioClip gameplay_cannon_megacharge;
+        [SerializeField] protected AudioClip gameplay_cannon_normal;
+        [SerializeField] protected AudioClip gameplay_cannon_twin;
+
 
         [SerializeField] protected AudioClip[] _monsterTakeHits;
         [SerializeField] protected AudioClip _shipMoveForwad;
@@ -52,6 +62,8 @@ namespace _Base.Scripts.Audio
         [Header("BGMs")]
         [SerializeField] protected AudioClip _bgmHome;
         [SerializeField] protected AudioClip _bgmGameplay;
+
+        [Header("BGMs")]
 
         // const string KEY_SFX = "SFX";
         // const string KEY_BGM = "BGM";
@@ -381,7 +393,7 @@ namespace _Base.Scripts.Audio
         /// </summary>
         public void PlayBgmHome()
         {
-             if (!IsBgmOn) return;
+            if (!IsBgmOn) return;
             PlaySound(new AudioConfig()
             {
                 Clip = _bgmHome,
@@ -430,6 +442,78 @@ namespace _Base.Scripts.Audio
             PlaySound(new AudioConfig()
             {
                 Clip = btn_popup_open,
+                Type = AudioConfig.AudioType.SFX
+            });
+        }
+
+        internal void PlayCannonShoot(SoundID soundId)
+        {
+            switch (soundId)
+            {
+                case SoundID.battle_cannon_normal:
+                    PlaySound(new AudioConfig()
+                    {
+                        Clip = gameplay_cannon_normal,
+                        Type = AudioConfig.AudioType.SFX
+                    });
+                    break;
+                case SoundID.battle_cannon_fast:
+                    PlaySound(new AudioConfig()
+                    {
+                        Clip = gameplay_cannon_fast[UnityEngine.Random.Range(0, gameplay_cannon_fast.Length)],
+                        Type = AudioConfig.AudioType.SFX
+                    });
+                    break;
+                case SoundID.battle_cannon_megacharge:
+                    PlaySound(new AudioConfig()
+                    {
+                        Clip = gameplay_cannon_megacharge,
+                        Type = AudioConfig.AudioType.SFX
+                    });
+                    break;
+                case SoundID.battle_cannon_charge:
+                    PlaySound(new AudioConfig()
+                    {
+                        Clip = gameplay_cannon_megafar,
+                        Type = AudioConfig.AudioType.SFX
+                    });
+                    break;
+                case SoundID.battle_cannon_megafar:
+                    PlaySound(new AudioConfig()
+                    {
+                        Clip = gameplay_cannon_megafar,
+                        Type = AudioConfig.AudioType.SFX
+                    });
+                    break;
+                case SoundID.battle_cannon_far:
+                    PlaySound(new AudioConfig()
+                    {
+                        Clip = gameplay_cannon_far[UnityEngine.Random.Range(0, gameplay_cannon_far.Length)],
+                        Type = AudioConfig.AudioType.SFX
+                    });
+                    break;
+                case SoundID.battle_cannon_twin:
+                    PlaySound(new AudioConfig()
+                    {
+                        Clip = gameplay_cannon_twin,
+                        Type = AudioConfig.AudioType.SFX
+                    });
+                    break;
+                case SoundID.battle_cannon_chaining:
+                    PlaySound(new AudioConfig()
+                    {
+                        Clip = gameplay_cannon_chaining,
+                        Type = AudioConfig.AudioType.SFX
+                    });
+                    break;
+            }
+        }
+
+        internal void PlayMonsterGetHit()
+        {
+            PlaySound(new AudioConfig()
+            {
+                Clip = _monsterTakeHits[0],
                 Type = AudioConfig.AudioType.SFX
             });
         }

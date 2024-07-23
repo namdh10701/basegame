@@ -193,6 +193,7 @@ namespace _Game.Features.Gameplay
 
         public virtual void Die()
         {
+            StopAllCoroutines();
             State = EnemyState.Dead;
             effectHandler.Clear();
             body.velocity = Vector3.zero;

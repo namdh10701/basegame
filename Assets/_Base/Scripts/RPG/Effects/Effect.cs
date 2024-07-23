@@ -35,8 +35,6 @@ namespace _Base.Scripts.RPG.Effects
             OnEnded?.Invoke(this);
             IsActive = false;
             IsDone = true;
-
-            Destroy(gameObject);
         }
         public virtual bool CanEffect(IEffectTaker entity) => true;
     }
@@ -48,6 +46,12 @@ namespace _Base.Scripts.RPG.Effects
         {
             Duration = Mathf.Max(newEffect.Duration, elapsedTime);
             elapsedTime = 0;
+        }
+        public override void OnEnd(IEffectTaker entity)
+        {
+            base.OnEnd(entity);
+
+            Destroy(gameObject);
         }
     }
 

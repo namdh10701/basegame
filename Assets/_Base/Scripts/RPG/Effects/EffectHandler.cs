@@ -49,7 +49,7 @@ namespace _Base.Scripts.RPG.Effects
             }
         }
 
-        private void OnEffectEnded(Effect effect)
+        protected void OnEffectEnded(Effect effect)
         {
             if (effects.Contains(effect))
             {

@@ -47,7 +47,10 @@ namespace _Base.Scripts.RPG.Behaviours.FindTarget
             {
                 return;
             }
-            Targets.Add(entity);
+            if (!Targets.Contains(entity))
+            {
+                Targets.Add(entity);
+            }
         }
 
         private void OnObjectCollisionExit(GameObject obj)
@@ -62,7 +65,10 @@ namespace _Base.Scripts.RPG.Behaviours.FindTarget
             {
                 return;
             }
-            Targets.Remove(entity);
+            if (Targets.Contains(entity))
+            {
+                Targets.Remove(entity);
+            }
         }
 
         public void Disable()

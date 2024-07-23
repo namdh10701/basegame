@@ -36,7 +36,7 @@ namespace _Game.Features.Gameplay
         public MeshRenderer meshRenderer;
         public virtual void Initnialize(PartModel partModel)
         {
-            this.partModel = partModel; 
+            this.partModel = partModel;
             mpb = new MaterialPropertyBlock();
             partModel.stats.HealthPoint.OnValueChanged += HealthPoint_OnValueChanged;
             lastHP = partModel.stats.HealthPoint.Value;
@@ -59,23 +59,8 @@ namespace _Game.Features.Gameplay
             {
                 if (trackEntry.Animation.Name == transforming)
                 {
-                    ExposedList<Skin> listOfSkins = skeletonAnim.skeleton.Data.Skins;
-                    List<Skin> bodySkins = new List<Skin>();
-                    foreach (Skin skin in listOfSkins)
-                    {
-                        if (skin.Name.Contains("mad"))
-                        {
-                            skeletonAnim.Skeleton.SetSkin("mad");
-                            skeletonAnim.Skeleton.SetSlotsToSetupPose();
-                            skeletonAnim.LateUpdate();
-                        }
-                        if (skin.Name.Contains("MAD"))
-                        {
-                            skeletonAnim.Skeleton.SetSkin("MAD");
-                            skeletonAnim.Skeleton.SetSlotsToSetupPose();
-                            skeletonAnim.LateUpdate();
-                        }
-                    }
+                    partModel.IsMad = true;
+                    ChangeSkin();
                 }
             }
         }
@@ -149,9 +134,10 @@ namespace _Game.Features.Gameplay
                     StartCoroutine(HideCoroutine());
                     break;
                 case PartState.Transforming:
-                    if (string.IsNullOrEmpty(transforming))
+
+                    if (lastState == PartState.Hidding || string.IsNullOrEmpty(transforming))
                     {
-                        skeletonAnim.Skeleton.SetSkin("mad");
+                        ChangeSkin();
                         partModel.IsMad = true;
                     }
                     else
@@ -200,6 +186,7 @@ namespace _Game.Features.Gameplay
         }
         protected virtual IEnumerator TransformCoroutine()
         {
+            Debug.Log("SET SKIN ONLY coroutine");
             skeletonAnim.AnimationState.SetAnimation(0, transforming, false);
             yield return new WaitForSpineAnimationComplete(skeletonAnim.AnimationState.Tracks.ToArray()[0]);
             partModel.IsMad = true;
@@ -221,6 +208,26 @@ namespace _Game.Features.Gameplay
         public void PlayHide()
         {
             StartCoroutine(HideCoroutine());
+        }
+
+        internal void ChangeSkin()
+        {
+            ExposedList<Skin> listOfSkins = skeletonAnim.skeleton.Data.Skins;
+            foreach (Skin skin in listOfSkins)
+            {
+                if (skin.Name.Contains("mad"))
+                {
+                    skeletonAnim.Skeleton.SetSkin("mad");
+                    skeletonAnim.Skeleton.SetSlotsToSetupPose();
+                    skeletonAnim.LateUpdate();
+                }
+                if (skin.Name.Contains("MAD"))
+                {
+                    skeletonAnim.Skeleton.SetSkin("MAD");
+                    skeletonAnim.Skeleton.SetSlotsToSetupPose();
+                    skeletonAnim.LateUpdate();
+                }
+            }
         }
     }
 }

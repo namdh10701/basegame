@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 6880831251077919418}
   - component: {fileID: 7066386118732076852}
   - component: {fileID: 5596406785788352126}
-  - component: {fileID: 4455391952259539938}
   - component: {fileID: 4081074454392886212}
   - component: {fileID: 1601047746594518166}
+  - component: {fileID: 8840360953261117333}
   m_Layer: 11
   m_Name: Cell_Ship0002
   m_TagString: Cell
@@ -150,27 +150,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d5da867c3fc92145bd69948fdd04acc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  body: {fileID: 1601047746594518166}
   CellRenderer: {fileID: 7066386118732076852}
   X: 0
   Y: 0
   Grid: {fileID: 0}
-  effectHandler: {fileID: 4455391952259539938}
+  effectHandler: {fileID: 8840360953261117333}
   stats:
     <HealthPoint>k__BackingField:
       _value:
         statModifiers: []
-        _baseValue: 800
+        _baseValue: 1
       _minValue:
         statModifiers: []
         _baseValue: 0
       _maxValue:
         statModifiers: []
-        _baseValue: 800
+        _baseValue: 1
   template: {fileID: 11400000, guid: 313797c60a5acd54fa55937c0534ea96, type: 2}
   workingSlots: []
   EffectCollider: {fileID: 4081074454392886212}
   nodeGraph: {fileID: 0}
+  isBroken: 0
 --- !u!114 &7066386118732076852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -273,20 +273,6 @@ MonoBehaviour:
   OnIncreased:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &4455391952259539938
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1767797639983145989}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01bfda76cc6a4e3080de930ff8b94a3e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  entity: {fileID: 6880831251077919418}
-  effects: []
 --- !u!114 &4081074454392886212
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -326,6 +312,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &8840360953261117333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1767797639983145989}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ae36402ec5fb204c893b224576d3c35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effects: []
 --- !u!1 &2559570167425117720
 GameObject:
   m_ObjectHideFlags: 0

@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 6880831251077919418}
   - component: {fileID: 7066386118732076852}
   - component: {fileID: 5596406785788352126}
-  - component: {fileID: 4455391952259539938}
   - component: {fileID: 4081074454392886212}
   - component: {fileID: 1601047746594518166}
+  - component: {fileID: 9077868587926307701}
   m_Layer: 11
   m_Name: Cell
   m_TagString: Cell
@@ -154,7 +154,7 @@ MonoBehaviour:
   X: 0
   Y: 0
   Grid: {fileID: 0}
-  effectHandler: {fileID: 4455391952259539938}
+  effectHandler: {fileID: 9077868587926307701}
   stats:
     <HealthPoint>k__BackingField:
       _value:
@@ -249,19 +249,6 @@ MonoBehaviour:
   OnIncreased:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &4455391952259539938
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1767797639983145989}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01bfda76cc6a4e3080de930ff8b94a3e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  effects: []
 --- !u!114 &4081074454392886212
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -301,6 +288,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &9077868587926307701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1767797639983145989}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ae36402ec5fb204c893b224576d3c35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effects: []
 --- !u!1 &2559570167425117720
 GameObject:
   m_ObjectHideFlags: 0

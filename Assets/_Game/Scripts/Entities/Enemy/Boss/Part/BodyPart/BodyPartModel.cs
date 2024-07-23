@@ -8,7 +8,6 @@ namespace _Game.Features.Gameplay
 {
     public class BodyPartModel : PartModel
     {
-        GridPicker gridPicker;
         public LaserGuide laserGuide;
         Sequence sequence;
         Cell startCell;
@@ -37,7 +36,9 @@ namespace _Game.Features.Gameplay
             base.DoAttack();
             if (sequence != null)
                 return;
+            sequence = DOTween.Sequence();
             startCell = gridPicker.PickRandomCell();
+            Debug.Log(gridPicker);
             if (startCell.transform.position.x < gridPicker.ShipGrid.transform.position.x)
             {
                 isLeft = true;
@@ -46,9 +47,6 @@ namespace _Game.Features.Gameplay
             {
                 isLeft = false;
             }
-            sequence = DOTween.Sequence();
-
-            startCell = gridPicker.PickRandomCell();
             Vector3 startPos;
             Vector3 endPos;
             if (isLeft)
