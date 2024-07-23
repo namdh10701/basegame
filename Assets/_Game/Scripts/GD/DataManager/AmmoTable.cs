@@ -155,6 +155,14 @@ namespace _Game.Scripts.GD.DataManager
         [Default(0)]
         [Stat("HpThreshold")]
         public float HpThreshold { get; set; }
+        public string Slot
+        {
+            get
+            {
+                var parts = Shape.Split("x");
+                return (int.Parse(parts[0]) * int.Parse(parts[1])).ToString();
+            }
+        }
 
         [Index(24)]
         public string Type { get; set; }

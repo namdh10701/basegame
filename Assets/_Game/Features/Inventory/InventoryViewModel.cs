@@ -291,7 +291,7 @@ namespace _Game.Features.Inventory
             foreach (var item in SaveSystem.GameSave.OwnedItems)
             {
                 InventoryItem inventoryItem = null;
-                
+
                 // cannon
                 if (item.ItemType == ItemType.CANNON)
                 {
@@ -303,14 +303,17 @@ namespace _Game.Features.Inventory
                             InventoryViewModel = this,
                             Type = ItemType.CANNON,
                             Id = info.Id,
+                            Name = info.Name,
                             Rarity = info.Rarity,
                             RarityLevel = info.RarityLevel.ToString(),
                             OperationType = info.OperationType,
-                            Shape = info.Shape
+                            Shape = info.Shape,
+                            Slot = info.Slot,
                         };
+                        inventoryItem.LoadStarsItem();
                     }
                 }
-                
+
                 // crew
                 else if (item.ItemType == ItemType.CREW)
                 {
@@ -322,14 +325,16 @@ namespace _Game.Features.Inventory
                             InventoryViewModel = this,
                             Type = ItemType.CREW,
                             Id = info.Id,
+                            Name = info.Name,
                             Rarity = info.Rarity,
                             // RarityLevel = info.RarityLevel.ToString(),
                             OperationType = info.OperationType,
-                            Shape = info.Shape
+                            Shape = info.Shape,
+                            Slot = info.Slot,
                         };
                     }
                 }
-                
+
                 // ammo
                 else if (item.ItemType == ItemType.AMMO)
                 {
@@ -341,10 +346,12 @@ namespace _Game.Features.Inventory
                             InventoryViewModel = this,
                             Type = ItemType.AMMO,
                             Id = info.Id,
+                            Name = info.Name,
                             Rarity = info.Rarity,
                             RarityLevel = info.RarityLevel.ToString(),
                             OperationType = info.OperationType,
-                            Shape = info.Shape
+                            Shape = info.Shape,
+                            Slot = info.Slot,
                         };
                     }
                 }
@@ -418,23 +425,13 @@ namespace _Game.Features.Inventory
         [Binding]
         public async void OnClickInfo()
         {
-            var options = new ViewOptions(nameof(InventoryItemInfoModal));
-            await ModalContainer.Find(ContainerKey.Modals).PushAsync(options, GetInventoryItemSelected());
+            var inventoryItem = GetInventoryItemSelected();
+            if (inventoryItem != null)
+            {
+                var options = new ViewOptions(nameof(InventoryItemInfoModal));
+                await ModalContainer.Find(ContainerKey.Modals).PushAsync(options, inventoryItem);
+            }
 
-
-            // var itemType = (ItemType)_filterItemTypeIndex;
-            // string screenName = itemType switch
-            // {
-            //     ItemType.CANNON => nameof(CannonCustomScreen),
-            //     ItemType.CREW => nameof(CrewCustomScreen),
-            //     _ => null
-            // };
-
-            // if (screenName != null)
-            // {
-            //     var options = new ViewOptions(screenName);
-            //     await ModalContainer.Find(ContainerKey.Modals).PushAsync(options);
-            // }
 
         }
     }

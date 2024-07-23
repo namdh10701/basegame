@@ -141,6 +141,7 @@ namespace _Game.Scripts.GD.DataManager
 
         [Index(18)]
         [Default(0)]
+        [Stat("Angle")]
         public float Angle { get; set; }
         
         [Index(19)]

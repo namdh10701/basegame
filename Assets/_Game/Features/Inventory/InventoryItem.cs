@@ -70,7 +70,7 @@ namespace _Game.Features.Inventory
         private string m_name;
 
         #endregion
-        
+
         #region Binding Prop: ItemType
         /// <summary>
         /// ItemType
@@ -277,7 +277,7 @@ namespace _Game.Features.Inventory
         /// Slot
         /// </summary>
         [Binding]
-        public int Slot
+        public string Slot
         {
             get => _slot;
             set
@@ -291,7 +291,7 @@ namespace _Game.Features.Inventory
                 OnPropertyChanged(nameof(Slot));
             }
         }
-        private int _slot;
+        private string _slot;
         #endregion
 
 
@@ -318,11 +318,25 @@ namespace _Game.Features.Inventory
         #endregion
 
         #region Binding: Stars
-        private ObservableList<GameObject> stars = new ObservableList<GameObject>();
+        private ObservableList<Star> stars = new ObservableList<Star>();
 
         [Binding]
-        public ObservableList<GameObject> Stars => stars;
+        public ObservableList<Star> Stars => stars;
         #endregion
+
+        public InventoryItem()
+        {
+        }
+
+        public void LoadStarsItem()
+        {
+            if (Type == ItemType.CREW || Type == ItemType.AMMO) return;
+
+            for (int i = 0; i < int.Parse(RarityLevel); i++)
+            {
+                Stars.Add(new Star());
+            }
+        }
 
         [Binding]
         public void ShowItemDetail()
@@ -334,11 +348,6 @@ namespace _Game.Features.Inventory
         public void SetAsHighLightItem()
         {
             InventoryViewModel.HighlightItem = this;
-        }
-
-        void Awake()
-        {
-            
         }
 
         public override bool Equals(object obj)
