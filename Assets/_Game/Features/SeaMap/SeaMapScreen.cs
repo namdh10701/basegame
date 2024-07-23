@@ -32,12 +32,6 @@ namespace _Game.Features.SeaMap
         public async void ShowNormalFightPopupInfo()
         {
             var options = new ViewOptions(nameof(FightNodeInfoModal));
-            // Memory<object> args = new Memory<object>();
-            // new List<object>().ToArray().AsMemory();
-
-            // int[] array = { 1, 2, 3, 4, 5 };
-            // var args = new object[] { array }.AsMemory();
-
             await ModalContainer.Find(ContainerKey.Modals).PushAsync(options, _stageId);
         }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using _Base.Scripts.RPG.Stats;
 using _Base.Scripts.RPGCommon.Entities;
+using _Game.Scripts.GD.DataManager;
 using UnityEngine;
 
 namespace _Game.Scripts
@@ -43,6 +44,5 @@ namespace _Game.Scripts
         public Stat SecondaryDamage { get; set; } = new();
 
         public IFighterStats.AttackTypes AttackType { get; set; } = IFighterStats.AttackTypes.UNIT;
-
     }
 }

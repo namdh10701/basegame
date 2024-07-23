@@ -10,9 +10,11 @@ namespace _Game.Features.Inventory
 
     public enum ItemType
     {
+        SHIP,
         CREW,
         CANNON,
         AMMO,
+        MISC,
         None,
     }
 

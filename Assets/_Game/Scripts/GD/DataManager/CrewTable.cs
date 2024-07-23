@@ -75,6 +75,12 @@ namespace _Game.Scripts.GD.DataManager
         [Index(15)]
         public string SkillDesc3 { get; set; }
         
+        [Index(16)]
+        [Default(false)]
+        [BooleanFalseValues("0", "false")]
+        [BooleanTrueValues("1", "true")]
+        public bool Enable { get; set; }
+        
         public override object GetId()
         {
             return Id;

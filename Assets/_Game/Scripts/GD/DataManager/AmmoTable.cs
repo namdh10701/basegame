@@ -158,6 +158,12 @@ namespace _Game.Scripts.GD.DataManager
 
         [Index(24)]
         public string Type { get; set; }
+        
+        [Index(25)]
+        [Default(false)]
+        [BooleanFalseValues("0", "false")]
+        [BooleanTrueValues("1", "true")]
+        public bool Enable { get; set; }
 
         public override object GetId()
         {

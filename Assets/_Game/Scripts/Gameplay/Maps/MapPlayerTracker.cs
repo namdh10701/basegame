@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Linq;
 using _Game.Features;
+using _Game.Features.FightNodeInfoPopup;
 using _Game.Scripts.Battle;
 using _Game.Scripts.Managers;
+using _Game.Scripts.UI.Utils;
 using DG.Tweening;
 using UnityEngine;
 using ZBase.UnityScreenNavigator.Core.Modals;
@@ -197,13 +199,8 @@ namespace Map
 
         static async void ShowInfoPopup(Node mapNode)
         {
-
             EnemyManager.floorId = (mapNode.point.y + 1).ToString();
-            var options = new ViewOptions("FightNodeInfoModal", true);
-
-            var args = new object[] { mapNode }.AsMemory();
-
-            await ModalContainer.Find(ContainerKey.Modals).PushAsync(options, args);
+            await Nav.ShowModal<FightNodeInfoModal>(mapNode);
         }
     }
 }

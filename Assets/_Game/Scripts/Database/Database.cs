@@ -1,7 +1,6 @@
 using _Game.Features.Gameplay;
 using _Game.Features.Inventory;
 using _Game.Scripts.Entities;
-using _Game.Scripts.GD;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -70,34 +69,34 @@ namespace _Game.Scripts.DB
 
         static void CreateMonsterPowerDic()
         {
-            foreach (var enemy in GDConfigLoader.Instance.Enemies)
+            foreach (var enemy in GameData.MonsterTable.Records)
             {
-                EnemyPowerDic.Add(enemy.Value.id, enemy.Value.power_number);
+                EnemyPowerDic.Add(enemy.Id, enemy.PowerNumber);
             }
         }
 
         static void CreateImageDic()
         {
-            foreach (var ammo in GDConfigLoader.Instance.Ammos)
+            foreach (var ammo in GameData.AmmoTable.Records)
             {
-                string operationType = ammo.Value.operation_type;
+                string operationType = ammo.OperationType;
                 ItemType Type = ItemType.AMMO;
                 var itemType = Type.ToString().ToLower();
                 var itemOperationType = operationType.ToLower();
                 var path = $"Database/GridItem/{itemType}/{itemOperationType}";
                 Sprite sprite = Resources.Load<Sprite>(path);
-                AmmoImageDic.Add(ammo.Value.id, sprite);
+                AmmoImageDic.Add(ammo.Id, sprite);
             }
 
-            foreach (var cannon in GDConfigLoader.Instance.Cannons)
+            foreach (var cannon in GameData.CannonTable.Records)
             {
-                string operationType = cannon.Value.operation_type;
+                string operationType = cannon.OperationType;
                 ItemType Type = ItemType.CANNON;
                 var itemType = Type.ToString().ToLower();
                 var itemOperationType = operationType.ToLower();
                 var path = $"Database/GridItem/{itemType}/{itemOperationType}";
                 Sprite sprite = Resources.Load<Sprite>(path);
-                CannonImageDic.Add(cannon.Value.id, sprite);
+                CannonImageDic.Add(cannon.Id, sprite);
             }
 
             for (int i = 0; i <= 1; i++)
@@ -122,43 +121,30 @@ namespace _Game.Scripts.DB
 
         static void CreateCannonDic()
         {
-            foreach (var cannon in GDConfigLoader.Instance.Cannons)
+            foreach (var cannon in GameData.CannonTable.Records)
             {
-                string operationType = cannon.Value.operation_type.ToLower();
+                string operationType = cannon.OperationType.ToLower();
                 string path = $"Prefabs/GridItems/Cannons/{operationType}";
                 Cannon cannonPrefab = Resources.Load<Cannon>(path);
-                CannonDic.Add(cannon.Key, cannonPrefab);
-                CannonOperatorDic.Add(cannon.Key, operationType);
+                CannonDic.Add(cannon.Id, cannonPrefab);
+                CannonOperatorDic.Add(cannon.Id, operationType);
             }
         }
 
         static void CreateBulletDic()
         {
-            foreach (var ammo in GDConfigLoader.Instance.Ammos)
+            foreach (var ammo in GameData.AmmoTable.Records)
             {
-                string operationType = ammo.Value.operation_type.ToLower();
+                string operationType = ammo.OperationType.ToLower();
                 string path = $"Prefabs/GridItems/Ammos/{operationType}";
                 Ammo bulletPrefab = Resources.Load<Ammo>(path);
-                BulletDic.Add(ammo.Key, bulletPrefab);
-                BulletOperatorDic.Add(ammo.Key, operationType);
+                BulletDic.Add(ammo.Id, bulletPrefab);
+                BulletOperatorDic.Add(ammo.Id, operationType);
             }
         }
 
         static void CreateCrewDic()
         {
-            // Crew crew = Resources.Load<Crew>($"Prefabs/GridItems/Crews/Captain");
-            // CrewDic.Add("0001", crew);
-            // CrewDic.Add("0002", crew);
-            // CrewDic.Add("0003", crew);
-            // CrewDic.Add("0004", crew);
-            // CrewDic.Add("0005", crew);
-            // Crew crew1 = Resources.Load<Crew>($"Prefabs/GridItems/Crews/Crew");
-            // CrewDic.Add("0006", crew1);
-            // CrewDic.Add("0007", crew1);
-            // CrewDic.Add("0008", crew1);
-            // CrewDic.Add("0009", crew1);
-            // CrewDic.Add("0010", crew1);
-     
             foreach (var rec in GameData.CrewTable.Records)
             {
                 var resPath = $"Prefabs/GridItems/Crews/{rec.OperationType}";

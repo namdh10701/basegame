@@ -38,7 +38,7 @@ namespace _Game.Scripts.GD.DataManager
             var filePath = GetFilePath(DataFileName);
 
             var shouldDownloadData = !File.Exists(filePath);
-            shouldDownloadData = true;
+            // shouldDownloadData = true;
             
             if (shouldDownloadData) {
                 try

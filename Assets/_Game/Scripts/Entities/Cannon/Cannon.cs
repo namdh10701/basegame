@@ -10,6 +10,7 @@ using _Base.Scripts.RPG.Stats;
 using _Base.Scripts.RPGCommon.Entities;
 using _Game.Features.Gameplay;
 using _Game.Scripts.GD;
+using _Game.Scripts.GD.DataManager;
 using _Game.Scripts.InventorySystem;
 using _Game.Scripts.PathFinding;
 using UnityEngine;
@@ -261,21 +262,31 @@ namespace _Game.Scripts.Entities
             OnFeverEnded?.Invoke();
         }
 
+        private CannonStatsConfigLoader _configLoader;
+
+        public CannonStatsConfigLoader ConfigLoader
+        {
+            get
+            {
+                if (_configLoader == null)
+                {
+                    _configLoader = new CannonStatsConfigLoader();
+                }
+
+                return _configLoader;
+            }
+        }
+
         void ApplyFeverStats()
         {
-            if (GDConfigLoader.Instance.CannonFevers.TryGetValue(id, out CannonConfig value))
-            {
-                value.ApplyGDConfig(_stats);
-            }
-
+            var conf = GameData.CannonFeverTable.FindById(id);
+            ConfigLoader.LoadConfig(_stats, conf);
         }
 
         void ApplyNormalStats()
         {
-            if (GDConfigLoader.Instance.Cannons.TryGetValue(id, out CannonConfig value))
-            {
-                value.ApplyGDConfig(_stats);
-            }
+            var conf = GameData.CannonTable.FindById(id);
+            ConfigLoader.LoadConfig(_stats, conf);
         }
 
         public void OnStun()

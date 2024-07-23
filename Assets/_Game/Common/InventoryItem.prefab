@@ -249,6 +249,7 @@ GameObject:
   - component: {fileID: 5513308673878695548}
   - component: {fileID: 1444122753962808139}
   - component: {fileID: 1964069372653426924}
+  - component: {fileID: 4535541644814304590}
   m_Layer: 5
   m_Name: Stars
   m_TagString: Untagged
@@ -316,6 +317,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   viewModelPropertyName: _Game.Features.Inventory.InventoryItem.Stars
   templatesRoot: {fileID: 539656807117171948}
+--- !u!114 &4535541644814304590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 848258752713128823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c605e1df0b264e059c47978bb26fbdab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2357522381904059536
 GameObject:
   m_ObjectHideFlags: 0
@@ -1140,7 +1153,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   viewAdapterTypeName: UnityWeld.Binding.Adapters.IntToStringAdapter
   viewAdapterOptions: {fileID: 0}
-  viewModelPropertyName: _Game.Features.Inventory.InventoryItem.Level
+  viewModelPropertyName: _Game.Features.Inventory.InventoryItem.Slot
   viewPropertyName: TMPro.TextMeshProUGUI.text
 --- !u!1 &7688588344107229541
 GameObject:

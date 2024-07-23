@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using _Game.Features;
 using _Game.Scripts.GD;
+using _Game.Scripts.GD.DataManager;
 using UnityEngine;
 using UnityWeld.Binding;
 using ZBase.UnityScreenNavigator.Core.Screens;
@@ -48,13 +49,13 @@ namespace _Game.Scripts.Gameplay.TalentTree
 
         private void Awake()
         {
-            GDConfigLoader.Instance.OnLoaded += Init;
-            GDConfigLoader.Instance.Load();
+            // GDConfigLoader.Instance.OnLoaded += Init;
+            // GDConfigLoader.Instance.Load();
         }
 
         private void Init()
         {
-            var maxLevel = GDConfigLoader.Instance.TalentTreeNormals.Max(v => v.Value.main);
+            var maxLevel = GameData.TalentTreeNormalTable.Records.Max(v => v.Level);
             for (int lvl = 0; lvl < maxLevel + 1; lvl++)
             {
                 var normalItems = GDConfigLoader.Instance.TalentTreeNormals.Where(v => v.Value.main.ToString() == lvl.ToString()).ToList();

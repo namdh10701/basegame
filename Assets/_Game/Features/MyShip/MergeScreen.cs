@@ -245,16 +245,14 @@ namespace _Game.Features.MergeScreen
 
         protected void InitializeInternal()
         {
-            foreach (var (id, conf) in GDConfigLoader.Instance.Cannons)
+            foreach (var conf in GameData.CannonTable.Records)
             {
-                Enum.TryParse(conf.rarity, true, out Rarity rarity);
-                dataSource.Add(new InventoryItem { Type = ItemType.CANNON, Id = id, Rarity = rarity, RarityLevel = conf.rarity_level, OperationType = conf.operation_type });
+                dataSource.Add(new InventoryItem { Type = ItemType.CANNON, Id = conf.Id, Rarity = conf.Rarity, RarityLevel = conf.RarityLevel.ToString(), OperationType = conf.OperationType });
             }
 
-            foreach (var (id, conf) in GDConfigLoader.Instance.Ammos)
+            foreach (var conf in GameData.AmmoTable.Records)
             {
-                Enum.TryParse(conf.rarity, true, out Rarity rarity);
-                dataSource.Add(new InventoryItem { Type = ItemType.AMMO, Id = id, Rarity = rarity, RarityLevel = conf.rarity_level, OperationType = conf.operation_type });
+                dataSource.Add(new InventoryItem { Type = ItemType.AMMO, Id = conf.Id, Rarity = conf.Rarity, RarityLevel = conf.RarityLevel.ToString(), OperationType = conf.OperationType });
             }
 
             var crewNo = 1;

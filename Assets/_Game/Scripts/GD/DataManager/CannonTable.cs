@@ -142,6 +142,12 @@ namespace _Game.Scripts.GD.DataManager
         [Index(18)]
         [Default(0)]
         public float Angle { get; set; }
+        
+        [Index(19)]
+        [Default(false)]
+        [BooleanFalseValues("0", "false")]
+        [BooleanTrueValues("1", "true")]
+        public bool Enable { get; set; }
 
         public string Slot
         {
