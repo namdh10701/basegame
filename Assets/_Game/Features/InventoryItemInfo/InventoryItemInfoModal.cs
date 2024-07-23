@@ -1,12 +1,16 @@
 using System;
 using System.Linq;
+using System.Reflection;
 using _Game.Features.Inventory;
+using _Game.Features.InventoryCustomScreen;
+using _Game.Features.Shop;
 using _Game.Scripts.GD.DataManager;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityWeld.Binding;
 using ZBase.UnityScreenNavigator.Core.Modals;
+using ZBase.UnityScreenNavigator.Core.Views;
 
 namespace _Game.Features.InventoryItemInfo
 {
@@ -14,6 +18,8 @@ namespace _Game.Features.InventoryItemInfo
     public class InventoryItemInfoModal : ModalWithViewModel
     {
         [SerializeField] GameObject _enhance;
+        // [SerializeField] GameObject _stars;
+
         [Binding]
         public InventoryItem InventoryItem { get; set; }
 
@@ -135,7 +141,7 @@ namespace _Game.Features.InventoryItemInfo
         /// Slot
         /// </summary>
         [Binding]
-        public int Slot
+        public string Slot
         {
             get => _slot;
             set
@@ -149,7 +155,7 @@ namespace _Game.Features.InventoryItemInfo
                 OnPropertyChanged(nameof(Slot));
             }
         }
-        private int _slot;
+        private string _slot;
         #endregion
 
         #region Binding Prop: Level
@@ -188,6 +194,13 @@ namespace _Game.Features.InventoryItemInfo
         public ObservableList<SkillInvetoryItem> Skill => skill;
         #endregion
 
+        #region Binding: ItemStats
+        private ObservableList<ItemStat> itemStats = new ObservableList<ItemStat>();
+
+        [Binding]
+        public ObservableList<ItemStat> ItemStats => itemStats;
+        #endregion
+
         #region Binding Prop: SpriteMainItem
         /// <summary>
         /// Thumbnail
@@ -209,7 +222,14 @@ namespace _Game.Features.InventoryItemInfo
         public override async UniTask Initialize(Memory<object> args)
         {
             InventoryItem = args.ToArray().FirstOrDefault() as InventoryItem;
+            SetDataInventoryItem(InventoryItem);
+            SetupLayOutItem();
+            SetDataItemStat();
 
+        }
+
+        protected void SetDataInventoryItem(InventoryItem inventoryItem)
+        {
             Id = InventoryItem.Id;
             ItemName = InventoryItem.Name;
             Type = InventoryItem.Type;
@@ -218,12 +238,85 @@ namespace _Game.Features.InventoryItemInfo
             RarityLevel = InventoryItem.RarityLevel;
             Slot = InventoryItem.Slot;
             Level = InventoryItem.Level;
+            OnPropertyChanged(nameof(SpriteMainItem));
+        }
+
+        protected void SetupLayOutItem()
+        {
+            var enable = Type == ItemType.CANNON ? true : false;
+            _enhance.SetActive(enable);
+            // _stars.SetActive(enable);
+            LoadStarsItem();
+        }
+
+        protected void LoadStarsItem()
+        {
+            if (Type == ItemType.CREW || Type == ItemType.AMMO) return;
+
+            for (int i = 0; i < int.Parse(RarityLevel); i++)
+            {
+                Stars.Add(new Star());
+            }
+        }
+
+        private void SetDataItemStat()
+        {
+            itemStats.Clear();
+            DataTableRecord dataTableRecord = null;
+            if (Type == ItemType.CANNON)
+            {
+                dataTableRecord = GameData.CannonTable.GetDataTableRecord(OperationType, Rarity.ToString());
+            }
+            else if (Type == ItemType.CREW)
+            {
+                dataTableRecord = GameData.CrewTable.GetDataTableRecord(OperationType, Rarity.ToString());
+            }
+
+            if (dataTableRecord != null)
+            {
+                foreach (var item in dataTableRecord.GetType().GetProperties(BindingFlags.Default | BindingFlags.Public | BindingFlags.Instance))
+                {
+                    var stat = item.GetCustomAttribute<StatAttribute>();
+                    if (stat == null)
+                        continue;
+
+                    ItemStat itemStat = new ItemStat();
+                    itemStat.NameProperties = stat.Name;
+                    itemStat.Value = item.GetValue(dataTableRecord).ToString();
+                    itemStats.Add(itemStat);
+                }
+            }
+
         }
 
         [Binding]
         public async void Close()
         {
             await ModalContainer.Find(ContainerKey.Modals).PopAsync(true);
+        }
+
+        [Binding]
+        public async void OnClickCustom()
+        {
+            string screenName = Type switch
+            {
+                ItemType.CANNON => nameof(CannonCustomScreen),
+                ItemType.CREW => nameof(CrewCustomScreen),
+                _ => null
+            };
+
+            if (screenName != null)
+            {
+                var options = new ViewOptions(screenName);
+                await ModalContainer.Find(ContainerKey.Modals).PushAsync(options);
+            }
+        }
+
+        [Binding]
+        public async void OnClickEnhance()
+        {
+            var options = new ViewOptions(nameof(EnhanceItemInventoryModal));
+            await ModalContainer.Find(ContainerKey.Modals).PushAsync(options);
         }
 
     }

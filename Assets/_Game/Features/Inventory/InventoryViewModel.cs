@@ -1,10 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using _Game.Features.Gameplay;
-using _Game.Features.InventoryCustomScreen;
 using _Game.Features.InventoryItemInfo;
-using _Game.Scripts.GD;
 using _Game.Scripts.GD.DataManager;
 using _Game.Scripts.SaveLoad;
 using _Game.Scripts.UI;
@@ -291,7 +288,7 @@ namespace _Game.Features.Inventory
             foreach (var item in SaveSystem.GameSave.OwnedItems)
             {
                 InventoryItem inventoryItem = null;
-                
+
                 // cannon
                 if (item.ItemType == ItemType.CANNON)
                 {
@@ -301,13 +298,16 @@ namespace _Game.Features.Inventory
                         InventoryViewModel = this,
                         Type = ItemType.CANNON,
                         Id = info.Id,
+                        Name = info.Name,
                         Rarity = info.Rarity,
                         RarityLevel = info.RarityLevel.ToString(),
                         OperationType = info.OperationType,
-                        Shape = info.Shape
+                        Shape = info.Shape,
+                        Slot = info.Slot,
                     };
+                    inventoryItem.LoadStarsItem();
                 }
-                
+
                 // crew
                 else if (item.ItemType == ItemType.CREW)
                 {
@@ -317,13 +317,16 @@ namespace _Game.Features.Inventory
                         InventoryViewModel = this,
                         Type = ItemType.CREW,
                         Id = info.Id,
+                        Name = info.Name,
                         Rarity = info.Rarity,
                         // RarityLevel = info.RarityLevel.ToString(),
                         OperationType = info.OperationType,
-                        Shape = info.Shape
+                        Shape = info.Shape,
+                        Slot = info.Slot,
+
                     };
                 }
-                
+
                 // ammo
                 else if (item.ItemType == ItemType.AMMO)
                 {
@@ -333,67 +336,24 @@ namespace _Game.Features.Inventory
                         InventoryViewModel = this,
                         Type = ItemType.AMMO,
                         Id = info.Id,
+                        Name = info.Name,
                         Rarity = info.Rarity,
                         RarityLevel = info.RarityLevel.ToString(),
                         OperationType = info.OperationType,
-                        Shape = info.Shape
+                        Shape = info.Shape,
+                        Slot = info.Slot,
                     };
                 }
-                
+
                 if (inventoryItem == null) continue;
-                
+
                 dataSource.Add(inventoryItem);
             }
-            // foreach (var (id, conf) in GDConfigLoader.Instance.Cannons)
-            // {
-            //     Enum.TryParse(conf.rarity, true, out Rarity rarity);
-            //     dataSource.Add(new InventoryItem
-            //     {
-            //         InventoryViewModel = this,
-            //         Type = ItemType.CANNON,
-            //         Id = id,
-            //         Rarity = rarity,
-            //         RarityLevel = conf.rarity_level,
-            //         OperationType = conf.operation_type,
-            //         Shape = conf.shape
-            //     });
-            // }
-            //
-            // foreach (var (id, conf) in GDConfigLoader.Instance.Ammos)
-            // {
-            //     Enum.TryParse(conf.rarity, true, out Rarity rarity);
-            //     dataSource.Add(new InventoryItem
-            //     {
-            //         InventoryViewModel = this,
-            //         Type = ItemType.AMMO,
-            //         Id = id,
-            //         Rarity = rarity,
-            //         RarityLevel = conf.rarity_level,
-            //         OperationType = conf.operation_type,
-            //         Shape = conf.shape
-            //     });
-            // }
-            //
-            // foreach (var (id, conf) in GDConfigLoader.Instance.Crews)
-            // {
-            //     Enum.TryParse(conf.rarity, true, out Rarity rarity);
-            //     dataSource.Add(new InventoryItem
-            //     {
-            //         InventoryViewModel = this,
-            //         Type = ItemType.CREW,
-            //         Id = id,
-            //         Rarity = rarity,
-            //         OperationType = conf.operation_type,
-            //         Shape = conf.shape
-            //     });
-            // }
 
             foreach (var inventoryItem in dataSource)
             {
                 inventoryItem.SelectionStateChanged += OnSelectionStateChanged;
             }
-
-            // dataSource = dataSource.Where(v => v.Thumbnail != null).ToList();
             DoFilter();
         }
 
@@ -452,23 +412,13 @@ namespace _Game.Features.Inventory
         [Binding]
         public async void OnClickInfo()
         {
-            var options = new ViewOptions(nameof(InventoryItemInfoModal));
-            await ModalContainer.Find(ContainerKey.Modals).PushAsync(options, GetInventoryItemSelected());
+            var inventoryItem = GetInventoryItemSelected();
+            if (inventoryItem != null)
+            {
+                var options = new ViewOptions(nameof(InventoryItemInfoModal));
+                await ModalContainer.Find(ContainerKey.Modals).PushAsync(options, inventoryItem);
+            }
 
-
-            // var itemType = (ItemType)_filterItemTypeIndex;
-            // string screenName = itemType switch
-            // {
-            //     ItemType.CANNON => nameof(CannonCustomScreen),
-            //     ItemType.CREW => nameof(CrewCustomScreen),
-            //     _ => null
-            // };
-
-            // if (screenName != null)
-            // {
-            //     var options = new ViewOptions(screenName);
-            //     await ModalContainer.Find(ContainerKey.Modals).PushAsync(options);
-            // }
 
         }
     }

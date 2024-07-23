@@ -9,14 +9,24 @@ namespace _Game.Scripts.GD.DataManager
     {
         public CrewTable(string downloadUrl, string dataFileName = null) : base(downloadUrl, dataFileName)
         {
-            
+
+        }
+
+        public DataTableRecord GetDataTableRecord(string name, string defaultRarity)
+        {
+            foreach (var record in Records)
+            {
+                if (record.OperationType == name && record.Rarity.ToString() == defaultRarity)
+                    return record;
+            }
+            return null;
         }
     }
-    
+
     /// <summary>
     /// 
     /// </summary>
-    public class CrewTableRecord: DataTableRecord
+    public class CrewTableRecord : DataTableRecord
     {
         [Index(0)]
         public string Id { get; set; }
@@ -36,34 +46,42 @@ namespace _Game.Scripts.GD.DataManager
 
         [Index(5)]
         [Default(0)]
+        [Stat("MoveSpeed")]
         public float MoveSpeed { get; set; }
 
         [Index(6)]
         [Default(0)]
+        [Stat("RepairSpeed")]
         public float RepairSpeed { get; set; }
 
         [Index(7)]
         [Default(0)]
+        [Stat("FeverTimeProb")]
         public float FeverTimeProb { get; set; }
 
         [Index(8)]
         [Default(0)]
+        [Stat("GoldIncome")]
         public float GoldIncome { get; set; }
 
         [Index(9)]
         [Default(0)]
+        [Stat("StatusReduce")]
         public float StatusReduce { get; set; }
 
         [Index(10)]
         [Default(0)]
+        [Stat("ZeroManaCost")]
         public float ZeroManaCost { get; set; }
 
         [Index(11)]
         [Default(0)]
+        [Stat("Luck")]
         public float Luck { get; set; }
 
         [Index(12)]
         [Default(0)]
+        [Stat("BonusAmmo")]
         public float BonusAmmo { get; set; }
 
         [Index(13)]
@@ -74,7 +92,15 @@ namespace _Game.Scripts.GD.DataManager
 
         [Index(15)]
         public string SkillDesc3 { get; set; }
-        
+        public string Slot
+        {
+            get
+            {
+                var parts = Shape.Split("x");
+                return (int.Parse(parts[0]) * int.Parse(parts[1])).ToString();
+            }
+        }
+
         public override object GetId()
         {
             return Id;
