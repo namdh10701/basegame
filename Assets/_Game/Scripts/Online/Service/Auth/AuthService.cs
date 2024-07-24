@@ -1,5 +1,7 @@
+using Facebook.Unity;
 using Online.Enum;
 using Online.Interface;
+using PlayFab;
 using PlayFab.ClientModels;
 
 namespace Online.Service.Auth
