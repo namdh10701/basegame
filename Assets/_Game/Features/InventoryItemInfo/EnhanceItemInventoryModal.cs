@@ -9,6 +9,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityWeld.Binding;
 using ZBase.UnityScreenNavigator.Core.Modals;
+using ZBase.UnityScreenNavigator.Core.Views;
 
 namespace _Game.Features.InventoryItemInfo
 {
@@ -487,10 +488,13 @@ namespace _Game.Features.InventoryItemInfo
             }
             SaveSystem.SaveGame();
         }
-         [Binding]
+        [Binding]
         public async void Close()
         {
-            await ModalContainer.Find(ContainerKey.Modals).PopAsync(true, InventoryItem);
+            await ModalContainer.Find(ContainerKey.Modals).PopAsync(true);
+
+            // var options = new ViewOptions(nameof(InventoryItemInfoModal));
+            // await ModalContainer.Find(ContainerKey.Modals).PushAsync(options, InventoryItem);
         }
     }
 }
