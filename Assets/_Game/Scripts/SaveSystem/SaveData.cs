@@ -21,7 +21,7 @@ namespace _Game.Scripts.SaveLoad
 
         public int gold;
         public int gem;
-        public int energy; 
+        public int energy;
         public int maxEnergy;
 
         public MapStatusSaveData MapStatus;
@@ -95,6 +95,9 @@ namespace _Game.Scripts.SaveLoad
                 new(ItemType.AMMO, "1043", 0,0),
                 new(ItemType.AMMO, "1077", 0,0),
                 new(ItemType.AMMO, "1085", 0,0),
+                new(ItemType.MISC, "ship", 0,0),
+                new(ItemType.MISC, "ammo", 0,0),
+                new(ItemType.MISC, "cannon", 0,0),
             };
 
             return defaultSave;

@@ -192,11 +192,20 @@ namespace _Game.Features.Inventory
         {
             get
             {
-                var itemType = Type.ToString().ToLower();
-                var itemOperationType = OperationType.ToLower();
-                var itemRarity = Rarity.ToString().ToLower();
-                var path = $"Items/item_{itemType}_{itemOperationType}_{itemRarity}";
-                return Resources.Load<Sprite>(path);
+                if (Type != ItemType.MISC)
+                {
+                    var itemType = Type.ToString().ToLower();
+                    var itemOperationType = OperationType.ToLower();
+                    var itemRarity = Rarity.ToString().ToLower();
+                    var path = $"Items/item_{itemType}_{itemOperationType}_{itemRarity}";
+                    return Resources.Load<Sprite>(path);
+                }
+                else
+                {
+                    var path = Id == null ? $"Items/item_ammo_arrow_common" : $"Items/item_misc_{Id.ToString().ToLower()}";
+                    return Resources.Load<Sprite>(path);
+                }
+
             }
         }
 
@@ -294,7 +303,6 @@ namespace _Game.Features.Inventory
         private string _slot;
         #endregion
 
-
         #region Binding Prop: Level
         /// <summary>
         /// Slot
@@ -323,10 +331,6 @@ namespace _Game.Features.Inventory
         [Binding]
         public ObservableList<Star> Stars => stars;
         #endregion
-
-        public InventoryItem()
-        {
-        }
 
         public void LoadStarsItem()
         {

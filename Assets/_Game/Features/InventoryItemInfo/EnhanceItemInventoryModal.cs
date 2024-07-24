@@ -1,6 +1,8 @@
 using System;
 using System.Linq;
 using _Game.Features.Inventory;
+using _Game.Scripts.GD.DataManager;
+using _Game.Scripts.SaveLoad;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,9 +19,11 @@ namespace _Game.Features.InventoryItemInfo
         [Binding]
         public string Id { get; set; }
 
+        [Binding]
+        public string IdIngredients { get; set; }
+
 
         #region Binding Prop: ItemType
-
         /// <summary>
         /// ItemType
         /// </summary>
@@ -38,9 +42,102 @@ namespace _Game.Features.InventoryItemInfo
                 OnPropertyChanged(nameof(Type));
             }
         }
-
         private ItemType m_type;
+        #endregion
 
+        #region Binding Prop: ItemOperationType
+        /// <summary>
+        /// OperationType
+        /// </summary>
+        [Binding]
+        public string OperationType
+        {
+            get => _operationType;
+            set
+            {
+                if (Equals(_operationType, value))
+                {
+                    return;
+                }
+
+                _operationType = value;
+                OnPropertyChanged(nameof(OperationType));
+            }
+        }
+        private string _operationType;
+        #endregion
+
+        #region Binding Prop: Rarity
+        /// <summary>
+        /// Rarity
+        /// </summary>
+        [Binding]
+        public Rarity Rarity
+        {
+            get => _rarity;
+            set
+            {
+                if (Equals(_rarity, value))
+                {
+                    return;
+                }
+
+                _rarity = value;
+                OnPropertyChanged(nameof(Rarity));
+            }
+        }
+        private Rarity _rarity;
+        #endregion
+
+        #region Binding Prop: RarityLevel
+        /// <summary>
+        /// RarityLevel
+        /// </summary>
+        [Binding]
+        public string RarityLevel
+        {
+            get => _rarityLevel;
+            set
+            {
+                if (Equals(_rarityLevel, value))
+                {
+                    return;
+                }
+
+                _rarityLevel = value;
+                OnPropertyChanged(nameof(RarityLevel));
+            }
+        }
+        private string _rarityLevel;
+        #endregion
+
+        #region Binding Prop: Slot
+        /// <summary>
+        /// Slot
+        /// </summary>
+        [Binding]
+        public string Slot
+        {
+            get => _slot;
+            set
+            {
+                if (Equals(_slot, value))
+                {
+                    return;
+                }
+
+                _slot = value;
+                OnPropertyChanged(nameof(Slot));
+            }
+        }
+        private string _slot;
+        #endregion
+
+        #region Binding: Stars
+        private ObservableList<GameObject> stars = new ObservableList<GameObject>();
+
+        [Binding]
+        public ObservableList<GameObject> Stars => stars;
         #endregion
 
         #region Binding Prop: SpriteMainItem
@@ -52,17 +149,9 @@ namespace _Game.Features.InventoryItemInfo
         {
             get
             {
-                switch (Type)
-                {
-                    case ItemType.CANNON:
-                        return _Game.Scripts.DB.Database.GetCannonImage(Id);
-                    case ItemType.CREW:
-                        return _Game.Scripts.DB.Database.GetCrewImage(Id);
-                    case ItemType.AMMO:
-                        return _Game.Scripts.DB.Database.GetAmmoImage(Id);
-                    default:
-                        return null;
-                }
+                var path = Type == null || OperationType == null || Rarity == null ? $"Items/item_misc_ship" :
+                 $"Items/item_{Type.ToString().ToLower()}_{OperationType.ToLower()}_{Rarity.ToString().ToLower()}";
+                return Resources.Load<Sprite>(path);
             }
         }
         #endregion
@@ -76,213 +165,145 @@ namespace _Game.Features.InventoryItemInfo
         {
             get
             {
-                switch (Type)
-                {
-                    case ItemType.CANNON:
-                        return _Game.Scripts.DB.Database.GetCannonImage(Id);
-                    case ItemType.CREW:
-                        return _Game.Scripts.DB.Database.GetCrewImage(Id);
-                    case ItemType.AMMO:
-                        return _Game.Scripts.DB.Database.GetAmmoImage(Id);
-                    default:
-                        return null;
-                }
+                var path = IdIngredients == null ? $"Items/item_ammo_arrow_common" : $"Items/item_misc_{IdIngredients.ToString().ToLower()}";
+                return Resources.Load<Sprite>(path);
             }
         }
-        #endregion
-
-        #region Binding Prop: ItemType
-
-        /// <summary>
-        /// ItemType
-        /// </summary>
-        [Binding]
-        public ItemType IngredientsType
-        {
-            get => m_IngredientsType;
-            set
-            {
-                if (Equals(m_IngredientsType, value))
-                {
-                    return;
-                }
-
-                m_IngredientsType = value;
-                OnPropertyChanged(nameof(IngredientsType));
-            }
-        }
-
-        private ItemType m_IngredientsType;
-
-        #endregion
-
-        #region Binding Prop: GoldUser
-
-        /// <summary>
-        /// GoldUser
-        /// </summary>
-        [Binding]
-        public string GoldUser
-        {
-            get => m_GoldUser;
-            set
-            {
-                if (Equals(m_GoldUser, value))
-                {
-                    return;
-                }
-
-                m_GoldUser = value;
-                OnPropertyChanged(nameof(GoldUser));
-            }
-        }
-
-        private string m_GoldUser;
-        #endregion
-
-        #region Binding Prop: GoldEnhance
-        /// <summary>
-        /// GoldEnhance
-        /// </summary>
-        [Binding]
-        public string GoldEnhance
-        {
-            get => m_GoldEnhance;
-            set
-            {
-                if (Equals(m_GoldEnhance, value))
-                {
-                    return;
-                }
-
-                m_GoldEnhance = value;
-                OnPropertyChanged(nameof(GoldEnhance));
-            }
-        }
-
-        private string m_GoldEnhance;
-        #endregion
-
-        #region Binding Prop: IngredientUser
-
-        /// <summary>
-        /// IngredientUser
-        /// </summary>
-        [Binding]
-        public string IngredientUser
-        {
-            get => m_IngredientUser;
-            set
-            {
-                if (Equals(m_IngredientUser, value))
-                {
-                    return;
-                }
-
-                m_IngredientUser = value;
-                OnPropertyChanged(nameof(IngredientUser));
-            }
-        }
-
-        private string m_IngredientUser;
-        #endregion
-
-        #region Binding Prop: IngredientEnhance
-
-        /// <summary>
-        /// IngredientEnhance
-        /// </summary>
-        [Binding]
-        public string IngredientEnhance
-        {
-            get => m_IngredientEnhance;
-            set
-            {
-                if (Equals(m_IngredientEnhance, value))
-                {
-                    return;
-                }
-
-                m_IngredientEnhance = value;
-                OnPropertyChanged(nameof(IngredientEnhance));
-            }
-        }
-
-        private string m_IngredientEnhance;
         #endregion
 
         #region Binding Prop: PreviousLevel
-
         /// <summary>
         /// PreviousLevel
         /// </summary>
         [Binding]
-        public string PreviousLevel
+        public int CurrentLevel
         {
-            get => m_PreviousLevel;
+            get => _currentLevel;
             set
             {
-                if (Equals(m_PreviousLevel, value))
+                if (Equals(_currentLevel, value))
                 {
                     return;
                 }
 
-                m_PreviousLevel = value;
-                OnPropertyChanged(nameof(PreviousLevel));
+                _currentLevel = value;
+                OnPropertyChanged(nameof(CurrentLevel));
             }
         }
-
-        private string m_PreviousLevel;
+        private int _currentLevel;
         #endregion
 
-
         #region Binding Prop: PreviousLevel
-
         /// <summary>
         /// PreviousLevel
         /// </summary>
         [Binding]
-        public string NextLevel
+        public int NextLevel
         {
-            get => m_NextLevel;
+            get => _nextLevel;
             set
             {
-                if (Equals(m_NextLevel, value))
+                if (Equals(_nextLevel, value))
                 {
                     return;
                 }
 
-                m_NextLevel = value;
+                _nextLevel = value;
                 OnPropertyChanged(nameof(NextLevel));
             }
         }
-
-        private string m_NextLevel;
+        private int _nextLevel;
         #endregion
 
-        public override UniTask WillPushEnter(Memory<object> args)
+        #region Binding Prop: NumbMiscItemOwner
+        /// <summary>
+        /// NumbMiscItemOwner
+        /// </summary>
+        [Binding]
+        public int NumbMiscItemOwner
         {
-            var receivedObj = args.ToArray().FirstOrDefault();
-            if (receivedObj is not InventoryItem item)
+            get => _numbMiscItemOwner;
+            set
             {
-                return UniTask.CompletedTask;
+                if (Equals(_numbMiscItemOwner, value))
+                {
+                    return;
+                }
+
+                _numbMiscItemOwner = value;
+                OnPropertyChanged(nameof(NumbMiscItemOwner));
+            }
+        }
+        private int _numbMiscItemOwner;
+        #endregion
+
+        #region Binding Prop: NumbGoldOwner
+        /// <summary>
+        /// NumbGoldOwner
+        /// </summary>
+        [Binding]
+        public int NumbGoldOwner
+        {
+            get => _numbGoldOwner;
+            set
+            {
+                if (Equals(_numbGoldOwner, value))
+                {
+                    return;
+                }
+
+                _numbGoldOwner = value;
+                OnPropertyChanged(nameof(NumbGoldOwner));
+            }
+        }
+        private int _numbGoldOwner;
+        #endregion
+
+        public override async UniTask Initialize(Memory<object> args)
+        {
+            InventoryItem = args.ToArray().FirstOrDefault() as InventoryItem;
+            SetDataInventoryItem(InventoryItem);
+            GetResourcesOwner(Type);
+        }
+
+        protected void SetDataInventoryItem(InventoryItem inventoryItem)
+        {
+            Id = inventoryItem.Id;
+            Type = inventoryItem.Type;
+            OperationType = inventoryItem.OperationType;
+            Rarity = inventoryItem.Rarity;
+            RarityLevel = inventoryItem.RarityLevel;
+            Slot = inventoryItem.Slot;
+            CurrentLevel = inventoryItem.Level;
+            NextLevel = CurrentLevel + 1;
+            OnPropertyChanged(nameof(SpriteMainItem));
+            LoadStarsItem();
+        }
+
+        protected void GetResourcesOwner(ItemType itemType)
+        {
+            NumbMiscItemOwner = 0;
+            foreach (var item in SaveSystem.GameSave.OwnedItems)
+            {
+                if (item.ItemId == itemType.ToString().ToLower())
+                {
+                    IdIngredients = item.ItemId;
+                    OnPropertyChanged(nameof(Ingredients));
+                    NumbMiscItemOwner++;
+                }
             }
 
-            InventoryItem = item;
-            //
-            // if (item.Type == ItemType.CANNON)
-            // {
-            //     var cannon = GDConfigLoader.Instance.Cannons[item.Id];
-            // } 
-            // else if (item.Type == ItemType.AMMO)
-            // {
-            //     var ammo = GDConfigLoader.Instance.Ammos[item.Id];
-            // }
-            // else if (item.Type == ItemType.CREW)
-            // {
-            //     var crew = GDConfigLoader.Instance.Ammos[item.Id];
-            // }
-            return UniTask.CompletedTask;
+            NumbGoldOwner = SaveSystem.GameSave.gold;
+        }
+
+        protected void LoadStarsItem()
+        {
+            if (Type == ItemType.CREW || Type == ItemType.AMMO) return;
+
+            for (int i = 0; i < int.Parse(RarityLevel); i++)
+            {
+                Stars.Add(new Star());
+            }
         }
     }
 }
