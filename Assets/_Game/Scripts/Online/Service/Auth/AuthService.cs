@@ -28,5 +28,10 @@ namespace Online.Service.Auth
 		{
 			_basePlatformAuth.Login(onLoginSucceed);
 		}
+
+		public void LinkFacebook()
+		{
+			_basePlatformAuth.LinkFacebook();
+		}
 	}
 }

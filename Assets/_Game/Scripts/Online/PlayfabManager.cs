@@ -49,5 +49,10 @@ namespace Online
 				}
 			});
 		}
+
+		public void LinkFacebook()
+		{
+			Auth.LinkFacebook();
+		}
 	}
 }
