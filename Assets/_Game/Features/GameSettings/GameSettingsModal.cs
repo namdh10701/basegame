@@ -169,5 +169,11 @@ namespace _Game.Features.GamePause
         {
             await ModalContainer.Find(ContainerKey.Modals).PopAsync(true);
         }
+
+        [Binding]
+        public void OnClickSignInWithFacebook()
+        {
+            //TODO: DNguyen
+        }
     }
 }
