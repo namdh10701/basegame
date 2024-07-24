@@ -8,10 +8,12 @@ namespace _Game.Scripts.GD.DataManager
     public class StatAttribute : Attribute
     {
         public string Name { get; set; }
+        public bool IsPercentage { get; set; }
 
-        public StatAttribute(string name)
+        public StatAttribute(string name, bool isPercentage = false)
         {
             Name = name;
+            IsPercentage = isPercentage;
         }
     }
 }

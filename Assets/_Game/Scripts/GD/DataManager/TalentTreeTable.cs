@@ -1,3 +1,4 @@
+using System.Linq;
 using CsvHelper.Configuration.Attributes;
 
 namespace _Game.Scripts.GD.DataManager
@@ -10,6 +11,16 @@ namespace _Game.Scripts.GD.DataManager
         public TalentTreeTable(string downloadUrl, string dataFileName = null) : base(downloadUrl, dataFileName)
         {
         }
+
+        public int GetLevelRecordCount(int level)
+        {
+            return Records.Count(v => v.Level == level);
+        }
+        
+        public TalentTreeTableRecord FindByLevel(int level)
+        {
+            return Records.FirstOrDefault(v => v.Level == level);
+        }
     }
     
     /// <summary>
@@ -18,7 +29,8 @@ namespace _Game.Scripts.GD.DataManager
     public class TalentTreeTableRecord: DataTableRecord
     {
         [Index(0)]
-        public string Id { get; set; }
+        [Default(0)]
+        public int Id { get; set; }
         
         [Index(1)]
         [Default(0)]
