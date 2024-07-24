@@ -21,7 +21,7 @@ namespace _Game.Scripts.SaveLoad
 
         public int gold;
         public int gem;
-        public int energy;
+        public int energy; 
         public int maxEnergy;
 
         public MapStatusSaveData MapStatus;
@@ -79,24 +79,24 @@ namespace _Game.Scripts.SaveLoad
 
             defaultSave.OwnedItems = new List<ItemData>()
             {
-                new(ItemType.CREW, "2011"),
-                new(ItemType.CANNON, "0001"),
-                new(ItemType.CANNON, "0012"),
-                new(ItemType.CANNON, "0023"),
-                new(ItemType.CANNON, "0043"),
-                new(ItemType.CANNON, "0061"),
-                new(ItemType.CANNON, "0069"),
-                new(ItemType.CANNON, "0077"),
-                new(ItemType.CANNON, "0085"),
-                new(ItemType.AMMO, "1001"),
-                new(ItemType.AMMO, "1012"),
-                new(ItemType.AMMO, "1023"),
-                new(ItemType.AMMO, "1033"),
-                new(ItemType.AMMO, "1043"),
-                new(ItemType.AMMO, "1077"),
-                new(ItemType.AMMO, "1085"),
+                new(ItemType.CREW, "2011", 0,0),
+                new(ItemType.CANNON, "0001", 0,0),
+                new(ItemType.CANNON, "0012", 0,0),
+                new(ItemType.CANNON, "0023", 0,0),
+                new(ItemType.CANNON, "0043", 0,0),
+                new(ItemType.CANNON, "0061", 0,0),
+                new(ItemType.CANNON, "0069", 0,0),
+                new(ItemType.CANNON, "0077", 0,0),
+                new(ItemType.CANNON, "0085", 0,0),
+                new(ItemType.AMMO, "1001", 0,0),
+                new(ItemType.AMMO, "1012", 0,0),
+                new(ItemType.AMMO, "1023", 0,0),
+                new(ItemType.AMMO, "1033", 0,0),
+                new(ItemType.AMMO, "1043", 0,0),
+                new(ItemType.AMMO, "1077", 0,0),
+                new(ItemType.AMMO, "1085", 0,0),
             };
-            
+
             return defaultSave;
         }
 

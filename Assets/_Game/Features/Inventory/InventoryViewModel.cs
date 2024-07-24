@@ -305,7 +305,10 @@ namespace _Game.Features.Inventory
                             Id = info.Id,
                             Name = info.Name,
                             Rarity = info.Rarity,
-                            RarityLevel = info.RarityLevel.ToString(),
+
+                            RarityLevel = item.RarityLevel.ToString(),
+                            Level = item.Level,
+
                             OperationType = info.OperationType,
                             Shape = info.Shape,
                             Slot = info.Slot,
@@ -327,7 +330,10 @@ namespace _Game.Features.Inventory
                             Id = info.Id,
                             Name = info.Name,
                             Rarity = info.Rarity,
+
                             // RarityLevel = info.RarityLevel.ToString(),
+                            Level = item.Level,
+
                             OperationType = info.OperationType,
                             Shape = info.Shape,
                             Slot = info.Slot,
@@ -349,15 +355,18 @@ namespace _Game.Features.Inventory
                             Name = info.Name,
                             Rarity = info.Rarity,
                             RarityLevel = info.RarityLevel.ToString(),
+
+                            Level = item.Level,
+
                             OperationType = info.OperationType,
                             Shape = info.Shape,
                             Slot = info.Slot,
                         };
                     }
                 }
-                
+
                 if (inventoryItem == null) continue;
-                
+
                 dataSource.Add(inventoryItem);
             }
             // dataSource = dataSource.Where(v => v.Thumbnail != null).ToList();
