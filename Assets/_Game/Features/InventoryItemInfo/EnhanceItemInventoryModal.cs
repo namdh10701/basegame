@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using _Game.Features.Inventory;
 using _Game.Scripts.GD.DataManager;
@@ -7,6 +8,7 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityWeld.Binding;
+using ZBase.UnityScreenNavigator.Core.Modals;
 
 namespace _Game.Features.InventoryItemInfo
 {
@@ -165,7 +167,7 @@ namespace _Game.Features.InventoryItemInfo
         {
             get
             {
-                var path = IdIngredients == null ? $"Items/item_ammo_arrow_common" : $"Items/item_misc_{IdIngredients.ToString().ToLower()}";
+                var path = Type == null ? $"Items/item_ammo_arrow_common" : $"Items/item_misc_{Type.ToString().ToLower()}";
                 return Resources.Load<Sprite>(path);
             }
         }
@@ -259,6 +261,139 @@ namespace _Game.Features.InventoryItemInfo
         private int _numbGoldOwner;
         #endregion
 
+        #region Binding Prop: NumbGoldRequired
+        /// <summary>
+        /// NumbGoldRequired
+        /// </summary>
+        [Binding]
+        public int NumbGoldRequired
+        {
+            get => _numbGoldRequired;
+            set
+            {
+                if (Equals(_numbGoldRequired, value))
+                {
+                    return;
+                }
+
+                _numbGoldRequired = value;
+                OnPropertyChanged(nameof(NumbGoldRequired));
+            }
+        }
+        private int _numbGoldRequired;
+        #endregion
+
+        #region Binding Prop: NumbMiscItemRequired
+        /// <summary>
+        /// NumbMiscItemRequired
+        /// </summary>
+        [Binding]
+        public int NumbMiscItemRequired
+        {
+            get => _numbMiscItemRequired;
+            set
+            {
+                if (Equals(_numbMiscItemRequired, value))
+                {
+                    return;
+                }
+
+                _numbMiscItemRequired = value;
+                OnPropertyChanged(nameof(NumbMiscItemRequired));
+            }
+        }
+        private int _numbMiscItemRequired;
+        #endregion
+
+        #region Binding Prop: EligibleGold
+        /// <summary>
+        /// EligibleGold
+        /// </summary>
+        [Binding]
+        public bool EligibleGold
+        {
+            get => _eligibleGold;
+            set
+            {
+                if (Equals(_eligibleGold, value))
+                {
+                    return;
+                }
+
+                _eligibleGold = value;
+                OnPropertyChanged(nameof(EligibleGold));
+            }
+        }
+        private bool _eligibleGold;
+        #endregion
+
+        #region Binding Prop: EligibleMiscItem
+        /// <summary>
+        /// EligibleMiscItem
+        /// </summary>
+        [Binding]
+        public bool EligibleMiscItem
+        {
+            get => _eligibleMiscItem;
+            set
+            {
+                if (Equals(_eligibleMiscItem, value))
+                {
+                    return;
+                }
+
+                _eligibleMiscItem = value;
+                OnPropertyChanged(nameof(EligibleMiscItem));
+            }
+        }
+        private bool _eligibleMiscItem;
+        #endregion
+
+        #region Binding Prop: InteractableButtonConfirm
+        /// <summary>
+        /// InteractableButtonConfirm
+        /// </summary>
+        [Binding]
+        public bool InteractableButtonConfirm
+        {
+            get => _interactableButtonConfirm;
+            set
+            {
+                if (Equals(_interactableButtonConfirm, value))
+                {
+                    return;
+                }
+
+                _interactableButtonConfirm = value;
+                OnPropertyChanged(nameof(InteractableButtonConfirm));
+            }
+        }
+        private bool _interactableButtonConfirm;
+        #endregion
+
+        #region Binding Prop: IsActivePopupSuccess
+        /// <summary>
+        /// IsActivePopupSuccess
+        /// </summary>
+        [Binding]
+        public bool IsActivePopupSuccess
+        {
+            get => _isActivePopupSuccess;
+            set
+            {
+                if (Equals(_isActivePopupSuccess, value))
+                {
+                    return;
+                }
+
+                _isActivePopupSuccess = value;
+                OnPropertyChanged(nameof(IsActivePopupSuccess));
+            }
+        }
+        private bool _isActivePopupSuccess;
+        #endregion
+
+        List<ItemData> _miscs = new List<ItemData>();
         public override async UniTask Initialize(Memory<object> args)
         {
             InventoryItem = args.ToArray().FirstOrDefault() as InventoryItem;
@@ -277,6 +412,7 @@ namespace _Game.Features.InventoryItemInfo
             CurrentLevel = inventoryItem.Level;
             NextLevel = CurrentLevel + 1;
             OnPropertyChanged(nameof(SpriteMainItem));
+            OnPropertyChanged(nameof(Ingredients));
             LoadStarsItem();
         }
 
@@ -287,13 +423,18 @@ namespace _Game.Features.InventoryItemInfo
             {
                 if (item.ItemId == itemType.ToString().ToLower())
                 {
-                    IdIngredients = item.ItemId;
-                    OnPropertyChanged(nameof(Ingredients));
+                    _miscs.Add(item);
                     NumbMiscItemOwner++;
                 }
             }
 
             NumbGoldOwner = SaveSystem.GameSave.gold;
+            NumbGoldRequired = 0;
+            NumbMiscItemRequired = 2;
+
+            EligibleGold = NumbGoldOwner >= NumbGoldRequired;
+            EligibleMiscItem = NumbMiscItemOwner >= NumbMiscItemRequired;
+            InteractableButtonConfirm = EligibleMiscItem && EligibleGold;
         }
 
         protected void LoadStarsItem()
@@ -304,6 +445,52 @@ namespace _Game.Features.InventoryItemInfo
             {
                 Stars.Add(new Star());
             }
+        }
+
+        [Binding]
+        public async void OnUpgradeItem()
+        {
+            IsActivePopupSuccess = true;
+            RemoveItemMisc(Type);
+            await UniTask.Delay(2000);
+            IsActivePopupSuccess = false;
+            SetDataInventoryItem(InventoryItem);
+            GetResourcesOwner(Type);
+        }
+
+        protected void RemoveItemMisc(ItemType itemType)
+        {
+            int itemsRemoved = 0;
+            string targetItemId = itemType.ToString().ToLower();
+            for (int i = SaveSystem.GameSave.OwnedItems.Count - 1; i >= 0; i--)
+            {
+                foreach (var item in SaveSystem.GameSave.OwnedItems)
+                {
+                    if (item.ItemId == Id)
+                    {
+                        item.Level = NextLevel;
+                        InventoryItem.Level = NextLevel;
+                        break;
+                    }
+                }
+
+                if (SaveSystem.GameSave.OwnedItems[i].ItemId == targetItemId)
+                {
+                    SaveSystem.GameSave.OwnedItems.RemoveAt(i);
+                    itemsRemoved++;
+
+                    if (itemsRemoved >= NumbMiscItemRequired)
+                    {
+                        break;
+                    }
+                }
+            }
+            SaveSystem.SaveGame();
+        }
+         [Binding]
+        public async void Close()
+        {
+            await ModalContainer.Find(ContainerKey.Modals).PopAsync(true, InventoryItem);
         }
     }
 }

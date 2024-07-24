@@ -98,6 +98,8 @@ namespace _Game.Scripts.SaveLoad
                 new(ItemType.MISC, "ship", 0,0),
                 new(ItemType.MISC, "ammo", 0,0),
                 new(ItemType.MISC, "cannon", 0,0),
+                new(ItemType.MISC, "cannon", 0,0),
+                new(ItemType.MISC, "cannon", 0,0),
             };
 
             return defaultSave;
