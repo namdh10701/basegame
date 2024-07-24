@@ -19,6 +19,10 @@ namespace _Game.Scripts.Battle
             bounds.center = transform.position;
             Gizmos.DrawWireCube(bounds.center + (Vector3)offset, bounds.size);
         }
+        private void Update()
+        {
+            bounds.center = transform.position;
+        }
 
         public Vector2 SampleCircle(CircleCollider2D circleCollider, Vector2 position, float minDistance)
         {

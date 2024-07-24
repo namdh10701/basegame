@@ -14,6 +14,11 @@ namespace _Game.Features.Gameplay
             while (actionQueue.Count > 0)
             {
                 CrewActionBase action = actionQueue.Dequeue();
+                if (!action.IsAbleToDo)
+                {
+                    currentAction = null;
+                    yield break;
+                }
                 currentAction = action;
                 yield return action.Execute();
             }
@@ -29,8 +34,9 @@ namespace _Game.Features.Gameplay
 
         public void InteruptCurrentAction()
         {
-            if (currentAction != null) { 
-            currentAction.Interupt();
+            if (currentAction != null)
+            {
+                currentAction.Interupt();
             }
 
         }

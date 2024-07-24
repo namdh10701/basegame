@@ -54,7 +54,8 @@ namespace _Game.Features.Gameplay
         public bool IsMad;
         public Action OnMad;
         public EffectTakerCollider[] effectColliders;
-
+        protected GridPicker gridPicker;
+        protected GridAttackHandler gridAtk;
 
         public virtual void OnEnterState()
         {
@@ -76,7 +77,8 @@ namespace _Game.Features.Gameplay
 
         public virtual void Initialize(GiantOctopus giantOctopus)
         {
-            Debug.Log("INIT a");
+            gridPicker = FindAnyObjectByType<GridPicker>();
+            gridAtk = FindAnyObjectByType<GridAttackHandler>();
             this.giantOctopus = giantOctopus;
             if (effectHandler != null)
             {
@@ -104,20 +106,20 @@ namespace _Game.Features.Gameplay
             {
                 if (state == OctopusState.Stunning)
                 {
+                    Active();
                     State = PartState.Stunning;
                 }
             }
             if (state == OctopusState.Transforming)
             {
-
-                if (this.state != PartState.Hidding)
+                if (State != PartState.Hidding)
                 {
                     State = PartState.Transforming;
                 }
                 else
                 {
                     IsMad = true;
-                    OnMad?.Invoke();
+                    partView.ChangeSkin();
                 }
             }
             lastState = state;
@@ -136,7 +138,12 @@ namespace _Game.Features.Gameplay
         public virtual IEnumerator TransformCoroutine()
         {
             yield return new WaitUntil(() => IsMad);
-            State = lastpartState;
+            if (lastState == OctopusState.Stunning)
+            {
+                State = PartState.Idle;
+            }
+            else
+                State = lastpartState;
         }
 
         public override void ApplyStats()

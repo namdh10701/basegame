@@ -18,7 +18,7 @@ namespace _Game.Features.Gameplay
         public int Y;
         public Grid Grid;
         public IGridItem GridItem;
-        public EffectHandler effectHandler;
+        public CellEffectHandler effectHandler;
         public Transform Transform => transform;
 
         public EffectHandler EffectHandler => effectHandler;

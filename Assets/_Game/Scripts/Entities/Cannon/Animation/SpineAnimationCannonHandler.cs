@@ -1,7 +1,9 @@
+using _Base.Scripts.Audio;
 using _Game.Scripts;
 using Spine;
 using Spine.Unity;
 using System;
+using UnityEngine;
 
 public class SpineAnimationCannonHandler : SpineAnimationHandler
 {
@@ -11,11 +13,13 @@ public class SpineAnimationCannonHandler : SpineAnimationHandler
     public ShellAnimationPool ShellAnimationPool;
     public MuzzleAnimation muzzleAnimationPrefab;
 
+    public SoundID soundId;
     ShellAnimation shellAnimation;
     public float muzzleDelay;
     bool isLeft;
     public void PlayShootAnim(bool isLoop)
     {
+        AudioManager.Instance.PlayCannonShoot(soundId);
         skeletonAnimation.AnimationState.SetAnimation(0, spineShoot, isLoop);
     }
     protected virtual void Start()
@@ -45,6 +49,7 @@ public class SpineAnimationCannonHandler : SpineAnimationHandler
             OnShoot?.Invoke();
             isLeft = !isLeft;
             shellAnimation = (ShellAnimation)ShellAnimationPool.Pull();
+            Debug.Log(shellAnimation);
             if (isLeft) shellAnimation.PlayLeftShell();
             else shellAnimation.PlayRightShell();
             if (muzzleAnimationPrefab != null)

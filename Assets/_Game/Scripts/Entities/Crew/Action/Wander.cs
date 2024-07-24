@@ -17,6 +17,8 @@ namespace _Game.Scripts
             this.moveData = moveData;
         }
 
+        public override bool IsAbleToDo => true;
+
         public override IEnumerator DoExecute()
         {
             targetNode = moveData.GetFreeNode();

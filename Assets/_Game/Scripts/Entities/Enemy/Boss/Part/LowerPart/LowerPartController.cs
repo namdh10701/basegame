@@ -15,10 +15,14 @@ namespace _Game.Features.Gameplay
         public float grabDuration;
         public float dmgInterval;
         public CameraShake cameraShake;
+        public GridPicker gridPicker;
+        public GridAttackHandler gridAttack;
 
 
         private void Start()
         {
+            gridPicker = FindAnyObjectByType<GridPicker>();
+            gridAttack = FindAnyObjectByType<GridAttackHandler>();
             lowerPartLeft.OnAttack += CheckStartAttack;
             lowerPartRight.OnAttack += CheckStartAttack;
             lowerPartLeft.stats.HealthPoint.OnValueChanged += CheckHpStopAttack;
@@ -81,7 +85,7 @@ namespace _Game.Features.Gameplay
 
         void DoDmg()
         {
-            Debug.Log("DO DMG");
+
         }
 
         public override IEnumerator TransformCoroutine()

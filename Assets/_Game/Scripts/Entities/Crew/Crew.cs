@@ -48,7 +48,6 @@ namespace _Game.Features.Gameplay
         public CrewMovement CrewMovement;
         public CrewAction CrewAction;
         public CrewStats stats;
-        public CrewStatsTemplate _statTemplate;
 
         [Header("EffectTaker")]
         public EffectTakerCollider EffectTakerCollider;
@@ -66,12 +65,9 @@ namespace _Game.Features.Gameplay
         public StatsTemplate StatsTemplate => statsTemplate;
 
         public override Stats Stats => stats;
-        private void Awake()
-        {
-            GetComponent<GDConfigStatsApplier>().LoadStats(this);
-        }
         private void Start()
         {
+            GetComponent<GDConfigStatsApplier>().LoadStats(this);
             EffectHandler.EffectTaker = this;
             EffectTakerCollider.Taker = this;
         }

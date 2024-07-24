@@ -1,5 +1,7 @@
+using _Base.Scripts.RPG.Effects;
 using _Game.Features.Gameplay;
 using _Game.Scripts;
+using _Game.Scripts.Attributes;
 using _Game.Scripts.Utils;
 using MBT;
 using System;
@@ -16,9 +18,9 @@ namespace _Game.Features.Gameplay
         public Transform startPos;
         public MBTExecutor mbt;
         public Blackboard blackboard;
-        bool isAttacking;
+        public bool isAttacking;
         public CameraShake cameraShake;
-
+        public AttackPatternProfile attackPatternProfile;
         public override void Initialize(GiantOctopus octopus)
         {
             base.Initialize(octopus);
@@ -35,6 +37,19 @@ namespace _Game.Features.Gameplay
             {
                 IsAttacking = false;
             }
+        }
+        public override void OnEnterState()
+        {
+            base.OnEnterState();
+            if (State == PartState.Stunning)
+            {
+                mbt.enabled = false;
+            }
+        }
+        public override void AfterStun()
+        {
+            base.AfterStun();
+            mbt.enabled = true;
         }
 
         public bool IsAttacking
@@ -58,8 +73,18 @@ namespace _Game.Features.Gameplay
         public override void DoAttack()
         {
             base.DoAttack();
+            Cell cell = gridPicker.PickRandomCell();
+            EnemyAttackData enemyAttackData = new EnemyAttackData();
+            enemyAttackData.TargetCells = gridPicker.PickCells(transform, attackPatternProfile, out Cell centerCell);
+            enemyAttackData.CenterCell = centerCell;
+
+            DecreaseHealthEffect decreaseHp = new GameObject("", typeof(DecreaseHealthEffect)).GetComponent<DecreaseHealthEffect>();
+            decreaseHp.Amount = stats.AttackDamage.Value;
+            enemyAttackData.Effects = new List<Effect> { decreaseHp };
+
+            gridAtk.ProcessAttack(enemyAttackData);
+
             cameraShake.Shake(.1f, new Vector3(.1f, .1f, .1f));
-            DoneAttack();
         }
 
         public void DoneAttack()

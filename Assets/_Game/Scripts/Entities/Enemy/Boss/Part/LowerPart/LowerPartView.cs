@@ -20,7 +20,7 @@ namespace _Game.Features.Gameplay
             {
                 skeletonAnim.AnimationState.SetAnimation(0, start, false);
                 skeletonAnim.AnimationState.AddAnimation(0, charging, true, 0);
-                skeletonAnim.AnimationState.AddAnimation(0, action, false, Random.Range(2f, 3.5f));
+                skeletonAnim.AnimationState.AddAnimation(0, action, false, Random.Range(.0f, .5f));
                 skeletonAnim.AnimationState.AddAnimation(0, loop, true, 0);
             }
         }

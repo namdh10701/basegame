@@ -79,12 +79,27 @@ namespace _Game.Scripts.SaveLoad
 
             defaultSave.OwnedItems = new List<ItemData>()
             {
-                new(ItemType.CREW, "2011"),
-                new(ItemType.CANNON, "0001"),
-                new(ItemType.CANNON, "0012"),
-                new(ItemType.AMMO, "1001"),
+                new(ItemType.CREW, "2011", 0,0),
+                new(ItemType.CANNON, "0001", 0,0),
+                new(ItemType.CANNON, "0012", 0,0),
+                new(ItemType.CANNON, "0023", 0,0),
+                new(ItemType.CANNON, "0043", 0,0),
+                new(ItemType.CANNON, "0061", 0,0),
+                new(ItemType.CANNON, "0069", 0,0),
+                new(ItemType.CANNON, "0077", 0,0),
+                new(ItemType.CANNON, "0085", 0,0),
+                new(ItemType.AMMO, "1001", 0,0),
+                new(ItemType.AMMO, "1012", 0,0),
+                new(ItemType.AMMO, "1023", 0,0),
+                new(ItemType.AMMO, "1033", 0,0),
+                new(ItemType.AMMO, "1043", 0,0),
+                new(ItemType.AMMO, "1077", 0,0),
+                new(ItemType.AMMO, "1085", 0,0),
+                new(ItemType.MISC, "ship", 0,0),
+                new(ItemType.MISC, "ammo", 0,0),
+                new(ItemType.MISC, "cannon", 0,0),
             };
-            
+
             return defaultSave;
         }
 

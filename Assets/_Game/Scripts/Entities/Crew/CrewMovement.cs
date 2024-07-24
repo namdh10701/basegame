@@ -1,4 +1,6 @@
 using _Game.Scripts;
+using _Game.Scripts.PathFinding;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -94,6 +96,11 @@ namespace _Game.Features.Gameplay
                 crew.body.velocity = Vector3.zero;
             }
             yield break;
+        }
+
+        internal bool IsAbleToMoveTo(Node targetNode)
+        {
+            return pathfinder.GetPath(transform.position, targetNode.transform.position) == null;
         }
     }
 }

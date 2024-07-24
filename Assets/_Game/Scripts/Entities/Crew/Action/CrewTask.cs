@@ -75,7 +75,6 @@ namespace _Game.Features.Gameplay
                 .ToList();
          
             workingSlot = DistanceHelper.GetClosestToPosition(availableWorkingSlots.ToArray(), (slot) => slot, crew.transform.position); 
-            Debug.Log(workingSlot.cell.ToString() + " MOVE TO " + " THEN REPAIR");
             CrewActions.Enqueue(new MoveToNode(crew, workingSlot));
             CrewActions.Enqueue(new RepairCell(crew, cell));
         }

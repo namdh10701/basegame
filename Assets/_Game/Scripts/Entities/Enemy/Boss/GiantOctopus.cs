@@ -13,7 +13,7 @@ namespace _Game.Features.Gameplay
     {
         None, Entry, Stunning, Transforming, State1, State2, Dead
     }
-    public class GiantOctopus : MonoBehaviour, IEffectTaker
+    public class GiantOctopus : MonoBehaviour, IEffectTaker, IStatsBearer
     {
         [SerializeField] OctopusState state;
         [SerializeField] OctopusState lastState;
@@ -50,6 +50,8 @@ namespace _Game.Features.Gameplay
                 StopAllAttack();
                 StopAllCoroutines();
                 StartCoroutine(TransformCoroutine());
+                Debug.Log("TRANSFORM");
+
             }
             if (state == OctopusState.State2 || state == OctopusState.State1)
             {
@@ -73,7 +75,9 @@ namespace _Game.Features.Gameplay
             yield return upperTransform;
             yield return lowerTransform;
             yield return behindTransform;
-
+            Mad = true;
+            Debug.Log("COMPLETE TRANSFORM");
+            lastState = OctopusState.State2;
             State = OctopusState.State2;
         }
 
@@ -97,6 +101,7 @@ namespace _Game.Features.Gameplay
         public EnemyStats enemyStats;
         private void Start()
         {
+            effectHandler.EffectTaker = this;
 
             GiantOctopusView.Initialize(this);
             foreach (PartModel part in Parts)
@@ -155,6 +160,7 @@ namespace _Game.Features.Gameplay
             {
                 if (!Mad)
                 {
+                    Debug.Log("TRANSFORM 123");
                     State = OctopusState.Transforming;
                     Mad = true;
                 }
@@ -287,8 +293,10 @@ namespace _Game.Features.Gameplay
             }
         }
 
-        int attackIntervalState1 = 10;
-        int attackIntervalState2 = 7;
+        public Stats Stats => enemyStats;
+
+        public int attackIntervalState1 = 5;
+        public int attackIntervalState2 = 3;
         private string[] attackPoolState1 = { "Grab", "Upper", "Laser", "Behind", "Spawn" };
         private string[] attackPoolState2 = { "Grab", "Upper", "Laser", "Behind" };
         public int maxState1ActiveAttack = 2;
@@ -312,6 +320,11 @@ namespace _Game.Features.Gameplay
                     Attack(AvailableAttack.GetRandom());
                 }
             }
+        }
+
+        public void ApplyStats()
+        {
+
         }
     }
 }

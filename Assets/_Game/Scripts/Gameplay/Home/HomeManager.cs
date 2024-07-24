@@ -36,7 +36,7 @@ namespace _Game.Scripts
             {
                 PathfindingController nodeGraph = WalkingPosition[UnityEngine.Random.Range(0, 3)];
                 crew.CrewMovement.pathfinder = nodeGraph;
-                crew.transform.position = nodeGraph.NodeGraph.nodes[Random.Range(0, nodeGraph.NodeGraph.nodes.Count)].transform.position;
+                crew.transform.position = nodeGraph.NodeGraph.getRandomFreeNode().transform.position;
                 crew.transform.parent = nodeGraph.NodeGraph.transform;
             }
             ship.ShipSetup.CrewController.ActivateCrews();

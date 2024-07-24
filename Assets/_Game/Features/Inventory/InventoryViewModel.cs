@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using _Game.Features.Gameplay;
+using _Game.Features.Inventory.Core;
 using _Game.Features.InventoryCustomScreen;
 using _Game.Features.InventoryItemInfo;
 using _Game.Scripts.GD;
@@ -305,10 +306,13 @@ namespace _Game.Features.Inventory
                             Id = info.Id,
                             Name = info.Name,
                             Rarity = info.Rarity,
-                            RarityLevel = info.RarityLevel.ToString(),
+
+                            RarityLevel = item.RarityLevel.ToString(),
+                            Level = item.Level,
+
                             OperationType = info.OperationType,
                             Shape = info.Shape,
-                            Slot = info.Slot,
+                            Slot = info.Slot
                         };
                         inventoryItem.LoadStarsItem();
                     }
@@ -327,7 +331,10 @@ namespace _Game.Features.Inventory
                             Id = info.Id,
                             Name = info.Name,
                             Rarity = info.Rarity,
+
                             // RarityLevel = info.RarityLevel.ToString(),
+                            Level = item.Level,
+
                             OperationType = info.OperationType,
                             Shape = info.Shape,
                             Slot = info.Slot,
@@ -349,18 +356,34 @@ namespace _Game.Features.Inventory
                             Name = info.Name,
                             Rarity = info.Rarity,
                             RarityLevel = info.RarityLevel.ToString(),
+
+                            Level = item.Level,
+
                             OperationType = info.OperationType,
                             Shape = info.Shape,
                             Slot = info.Slot,
                         };
                     }
                 }
-                
+
+                // misc
+                else if (item.ItemType == ItemType.MISC)
+                {
+                    inventoryItem = new InventoryItem
+                    {
+                        InventoryViewModel = this,
+                        Type = ItemType.MISC,
+                        Id = item.ItemId,
+                        Slot = "",
+                        RarityLevel = "",
+                    };
+
+                }
+
                 if (inventoryItem == null) continue;
-                
+
                 dataSource.Add(inventoryItem);
             }
-            // dataSource = dataSource.Where(v => v.Thumbnail != null).ToList();
 
             foreach (var inventoryItem in dataSource)
             {

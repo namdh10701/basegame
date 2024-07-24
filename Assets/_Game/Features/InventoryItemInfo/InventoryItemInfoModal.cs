@@ -230,14 +230,14 @@ namespace _Game.Features.InventoryItemInfo
 
         protected void SetDataInventoryItem(InventoryItem inventoryItem)
         {
-            Id = InventoryItem.Id;
-            ItemName = InventoryItem.Name;
-            Type = InventoryItem.Type;
-            OperationType = InventoryItem.OperationType;
-            Rarity = InventoryItem.Rarity;
-            RarityLevel = InventoryItem.RarityLevel;
-            Slot = InventoryItem.Slot;
-            Level = InventoryItem.Level;
+            Id = inventoryItem.Id;
+            ItemName = inventoryItem.Name;
+            Type = inventoryItem.Type;
+            OperationType = inventoryItem.OperationType;
+            Rarity = inventoryItem.Rarity;
+            RarityLevel = inventoryItem.RarityLevel;
+            Slot = inventoryItem.Slot;
+            Level = inventoryItem.Level;
             OnPropertyChanged(nameof(SpriteMainItem));
         }
 
@@ -316,7 +316,7 @@ namespace _Game.Features.InventoryItemInfo
         public async void OnClickEnhance()
         {
             var options = new ViewOptions(nameof(EnhanceItemInventoryModal));
-            await ModalContainer.Find(ContainerKey.Modals).PushAsync(options);
+            await ModalContainer.Find(ContainerKey.Modals).PushAsync(options, InventoryItem);
         }
 
     }

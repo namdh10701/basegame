@@ -15,37 +15,41 @@ namespace _Game.Scripts.SaveLoad
         Profile2,
         Profile3,
     }
-    
+
     [Serializable]
     public class ItemData
     {
         public ItemType ItemType = ItemType.None;
         public string ItemId;
+        public int RarityLevel;
+        public int Level;
 
         public ItemData()
         {
         }
 
-        public ItemData(ItemType itemType, string itemId)
+        public ItemData(ItemType itemType, string itemId, int rarityLevel, int levelItem)
         {
             ItemType = itemType;
             ItemId = itemId;
+            RarityLevel = rarityLevel;
+            Level = levelItem;
         }
     }
-    
+
     [Serializable]
     public class ShipSetupData
     {
-        public Dictionary<string, ItemData> ShipData = new ();
-        public Dictionary<string, ItemData> StashData = new ();
+        public Dictionary<string, ItemData> ShipData = new();
+        public Dictionary<string, ItemData> StashData = new();
     }
-    
+
     [Serializable]
     public class ShipSetupSaveData
     {
         public string CurrentShipId;
         public SetupProfile CurrentProfile = SetupProfile.Profile1;
-        public Dictionary<string, Dictionary<string, ShipSetupData>> ShipSetupData = new ();
+        public Dictionary<string, Dictionary<string, ShipSetupData>> ShipSetupData = new();
 
         public ShipSetupData CurrentShipSetupData => GetShipSetup(CurrentShipId, CurrentProfile);
 
@@ -65,8 +69,8 @@ namespace _Game.Scripts.SaveLoad
                     { SetupProfile.Profile3.ToString(), new ShipSetupData() },
                 };
             });
-            
-            
+
+
             if (string.IsNullOrEmpty(CurrentShipId))
             {
                 CurrentShipId = GameData.ShipTable.GetRecords().FirstOrDefault()?.Id;

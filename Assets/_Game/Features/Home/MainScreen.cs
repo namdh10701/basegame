@@ -142,13 +142,11 @@ namespace _Game.Features.Home
 
         public override async UniTask WillPushExit(Memory<object> args)
         {
-            Debug.Log("MAIN WILL PUSH EXIT");
             await SceneManager.UnloadSceneAsync("HaborScene");
             await base.WillPushExit(args);
         }
         public override async UniTask WillPushEnter(Memory<object> args)
         {
-            Debug.Log("MAIN WILL PUSH ENTER");
             AudioManager.Instance.PlayBgmHome();
             await SceneManager.LoadSceneAsync("HaborScene", LoadSceneMode.Additive);
             SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(2));
@@ -158,8 +156,6 @@ namespace _Game.Features.Home
 
         public override async UniTask WillPopEnter(Memory<object> args)
         {
-            Debug.Log("MAIN WILL POP ENTER");
-
             AudioManager.Instance.PlayBgmHome();
             await SceneManager.LoadSceneAsync("HaborScene", LoadSceneMode.Additive);
             SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(2));

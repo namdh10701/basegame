@@ -36,6 +36,7 @@ namespace _Game.Features.Shop
         {
             InitializeShopGem();
         }
+        
         void InitializeShopGem()
         {
             BigGemItem.Clear();

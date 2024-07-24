@@ -47,8 +47,11 @@ namespace _Game.Features.Gameplay
         public BattleViewModel BattleViewModel;
         public FeverModel FeverModel;
         public ShipHUD HUD;
+        private void Start()
+        {
+            //Initialize(null);
+        }
 
-      
 
         public void Initialize(BattleViewModel battleViewModel)
         {
@@ -106,6 +109,10 @@ namespace _Game.Features.Gameplay
         public void UseFever(Cannon cannon)
         {
             //CrewJobData.ReloadCannonJobsDic[cannon].Status = JobStatus.Deactive;
+            if (cannon.usingBullet == null)
+            {
+                return;
+            }
             stats.Fever.StatValue.BaseValue -= 200;
             stats.Fever.StatValue.BaseValue = Mathf.Clamp(stats.Fever.StatValue.BaseValue, 0, stats.Fever.MaxStatValue.BaseValue);
             FeverModel.UpdateState();

@@ -118,22 +118,11 @@ namespace _Game.Features.Gameplay
 
         private void OnDestroy()
         {
-            CleanUp();
-        }
-        public void CleanUp()
-        {
-            GlobalEvent.Unregister("UseFullFever", UseFullFever);
             Time.timeScale = 1;
             GlobalEvent<bool>.Unregister("TOGGLE_PAUSE", TogglePause);
+            GlobalEvent.Unregister("UseFullFever", UseFullFever);
             currentRate = 1;
             BattleViewModel.SpeedUpRate = currentRate;
-            EntityManager.CleanUp();
-            EnemyManager.CleanUp();
-            EnemyModel[] a = GameObject.FindObjectsByType<EnemyModel>(FindObjectsSortMode.None);
-            foreach (EnemyModel enemy in a)
-            {
-                GameObject.Destroy(enemy.gameObject);
-            }
         }
 
         private readonly int _minSpeedUpRate = 1;

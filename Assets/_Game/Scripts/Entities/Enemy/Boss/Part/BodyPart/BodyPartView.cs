@@ -75,7 +75,7 @@ namespace _Game.Features.Gameplay
         void SwapAnimation()
         {
             idle = idle_Mad;
-            startAttack = attackToIdle_Mad;
+            startAttack = startAttack_Mad;
             charging = charging_Mad;
             chargingToAttack = chargingToAttack_Mad;
             attackToIdle = attackToIdle_Mad;
@@ -113,11 +113,11 @@ namespace _Game.Features.Gameplay
             base.OnStateEntered(state);
             if (state == PartState.Attacking)
             {
-                skeletonAnim.AnimationState.SetAnimation(0, startAttack_Norm, false);
-                skeletonAnim.AnimationState.AddAnimation(0, charging_Norm, true, 0);
-                skeletonAnim.AnimationState.AddAnimation(0, chargingToAttack_Norm, false, 2);
-                skeletonAnim.AnimationState.AddAnimation(0, shake_Norm, true, 0);
-                skeletonAnim.AnimationState.AddAnimation(1, aim, true, 3);
+                skeletonAnim.AnimationState.SetAnimation(0, startAttack, false);
+                skeletonAnim.AnimationState.AddAnimation(0, charging, true, 0);
+                skeletonAnim.AnimationState.AddAnimation(0, chargingToAttack, false, 2);
+                skeletonAnim.AnimationState.AddAnimation(0, shake, true, 0);
+                //skeletonAnim.AnimationState.AddAnimation(1, aim, true, 3);
             }
 
         }
@@ -137,8 +137,8 @@ namespace _Game.Features.Gameplay
 
         public override void StunAnim()
         {
-            skeletonAnim.AnimationState.SetAnimation(0, stunBegin_Norm, false);
-            skeletonAnim.AnimationState.AddAnimation(0, stunLoop_Norm, true, 0);
+            skeletonAnim.AnimationState.SetAnimation(0, stunBegin, false);
+            skeletonAnim.AnimationState.AddAnimation(0, stunLoop, true, 0);
         }
 
         public override void PlayEntry()
