@@ -5,12 +5,9 @@ using _Game.Features.Inventory;
 using _Game.Scripts.GD.DataManager;
 using _Game.Scripts.SaveLoad;
 using Cysharp.Threading.Tasks;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityWeld.Binding;
 using ZBase.UnityScreenNavigator.Core.Modals;
-using ZBase.UnityScreenNavigator.Core.Views;
 
 namespace _Game.Features.InventoryItemInfo
 {
