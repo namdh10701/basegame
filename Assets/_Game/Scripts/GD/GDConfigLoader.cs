@@ -57,7 +57,7 @@ namespace _Game.Scripts.GD
             Instance = this;
             DontDestroyOnLoad(this);
         }
-        public async Task Load()
+        public async UniTask Load()
         {
             // Cannon = await GetConfig<CannonConfig>(getSheetData("Cannon"));
             // Ammo = await GetConfig<AmmoConfig>(getSheetData("Ammo"));
@@ -71,6 +71,7 @@ namespace _Game.Scripts.GD
             TalentTreeNormalMap = await GetConfigMap(getSheetData("Normal Level"));
             TalentTreePreMap = await GetConfigMap(getSheetData("Pre Level"));
             CannonFeverMap = await GetConfigMap(getSheetData("Cannon_Fever"));
+            
             SetLocalData();
 
             OnLoaded?.Invoke();
@@ -255,7 +256,7 @@ namespace _Game.Scripts.GD
 
         public static void Load(ScriptableObject so, Dictionary<string, string> properties)
         {
-            Debug.Log($"Load SO: {so.name} | {string.Join(Environment.NewLine, properties)}");
+            // Debug.Log($"Load SO: {so.name} | {string.Join(Environment.NewLine, properties)}");
             foreach (var fieldInfo in so.GetType().GetFields(BindingFlags.Public | BindingFlags.Instance))
             {
                 object value = properties[fieldInfo.Name];

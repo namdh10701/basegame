@@ -17,30 +17,35 @@ namespace _Game.Scripts.GameStates
     {
         public override string Name => nameof(InitState);
 
+        // public override IEnumerator Execute()
+        // {
+        //     Game.Instance.AssetLoader.Load();
+        //     Game.Instance.GameManager.LoadDatabase();
+        //     SaveSystem.LoadSave();
+        //
+        //     // yield return new WaitForSeconds(10.0f);
+        //     Debug.unityLogger.logEnabled = false;
+        //     Application.targetFrameRate = 120;
+        //     // var asyncInitFunc = UniTask.RunOnThreadPool(async () => await AsyncInitFunc());
+        //     // yield return new WaitUntil(() => asyncInitFunc.Status.IsCompleted());
+        //     Database.Load();
+        // }
+
+        // private async Task AsyncInitFunc()
+        // {
+        //     // await UniTask.Delay(10000);
+        //
+        //
+        //     await UniTask.SwitchToMainThread();
+        //
+        //     var levelDesignLoadTask = LevelDesignConfigLoader.Instance.Load();
+        //     var gdConfigLoadTask = GDConfigLoader.Instance.Load();
+        //     await Task.WhenAll(levelDesignLoadTask, gdConfigLoadTask);
+        // }
+
         public override IEnumerator Execute()
         {
-            Game.Instance.AssetLoader.Load();
-            Game.Instance.GameManager.LoadDatabase();
-            SaveSystem.LoadSave();
-
-            // yield return new WaitForSeconds(10.0f);
-            Debug.unityLogger.logEnabled = false;
-            Application.targetFrameRate = 120;
-            var asyncInitFunc = UniTask.RunOnThreadPool(async () => await AsyncInitFunc());
-            yield return new WaitUntil(() => asyncInitFunc.Status.IsCompleted());
-            Database.Load();
-        }
-
-        private async Task AsyncInitFunc()
-        {
-            // await UniTask.Delay(10000);
-
-
-            await UniTask.SwitchToMainThread();
-
-            Task levelDesignLoadTask = LevelDesignConfigLoader.Instance.Load();
-            Task gdConfigLoadTask = GDConfigLoader.Instance.Load();
-            await Task.WhenAll(levelDesignLoadTask, gdConfigLoadTask);
+            throw new System.NotImplementedException();
         }
 
         public override void Exit()

@@ -31,9 +31,9 @@ namespace _Base.Scripts.Utils
         /// </summary>
         /// <param name="url"></param>
         /// <param name="saveTargetFile"></param>
-        public static async Task Download(string url, string saveTargetFile)
+        public static async UniTask Download(string url, string saveTargetFile)
         {
-            var contents = await GetHttpResponse(GetDownloadUrl(url));
+            var contents = await SendWebRequestAsync(GetDownloadUrl(url));
 
             var dir = Path.GetDirectoryName(saveTargetFile);
             if (dir != null && !Directory.Exists(dir))
@@ -44,9 +44,29 @@ namespace _Base.Scripts.Utils
             await File.WriteAllTextAsync(saveTargetFile, contents);
         }
         
-        static async Task<string> GetHttpResponse(string url)
+        // static async UniTask<string> GetHttpResponse(string url)
+        // {
+        //     return (await UnityWebRequest.Get(url).SendWebRequest()).downloadHandler.text;
+        // }
+        
+        private static async UniTask<string> SendWebRequestAsync(string url)
         {
-            return (await UnityWebRequest.Get(url).SendWebRequest()).downloadHandler.text;
+            UnityWebRequest webRequest = UnityWebRequest.Get(url);
+
+            // Send the request and wait for it to complete on the main thread
+            await webRequest.SendWebRequest().ToUniTask();
+
+            string result;
+            if (webRequest.result == UnityWebRequest.Result.ConnectionError || webRequest.result == UnityWebRequest.Result.ProtocolError)
+            {
+                result = webRequest.error;
+            }
+            else
+            {
+                result = webRequest.downloadHandler.text;
+            }
+
+            return result;
         }
     }
 }

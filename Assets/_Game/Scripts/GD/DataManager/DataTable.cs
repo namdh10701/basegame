@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using _Base.Scripts.Utils;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace _Game.Scripts.GD.DataManager
@@ -32,7 +33,7 @@ namespace _Game.Scripts.GD.DataManager
             DataFileName = dataFileName;
         }
 
-        public virtual async Task LoadData()
+        public virtual async UniTask LoadData()
         {
             Debug.Log("Load: " + DataFileName);
             var filePath = GetFilePath(DataFileName);

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CsvHelper.Configuration.Attributes;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace _Game.Scripts.GD.DataManager
@@ -14,7 +15,7 @@ namespace _Game.Scripts.GD.DataManager
         private Dictionary<string, Dictionary<string, List<LevelData>>> _normalLevelDataSource = new();
         private Dictionary<string, Dictionary<string, List<LevelData>>> _eliteLevelDataSource = new();
         
-        public override async Task LoadData()
+        public override async UniTask LoadData()
         {
             await base.LoadData();
             _normalLevelDataSource.Clear();

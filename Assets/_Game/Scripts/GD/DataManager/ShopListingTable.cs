@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CsvHelper.Configuration.Attributes;
+using Cysharp.Threading.Tasks;
 
 namespace _Game.Scripts.GD.DataManager
 {
@@ -19,7 +20,7 @@ namespace _Game.Scripts.GD.DataManager
             { ShopType.Other, new () },
         };
 
-        public override async Task LoadData()
+        public override async UniTask LoadData()
         {
             await base.LoadData();
             foreach (var record in Records)

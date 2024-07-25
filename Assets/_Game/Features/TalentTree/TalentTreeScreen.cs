@@ -1,6 +1,8 @@
 using System;
+using _Game.Features.Dialogs;
 using _Game.Scripts.Gameplay.TalentTree;
 using _Game.Scripts.GD.DataManager;
+using _Game.Scripts.SaveLoad;
 using _Game.Scripts.UI;
 using Cysharp.Threading.Tasks;
 using UnityWeld.Binding;
@@ -98,6 +100,12 @@ namespace _Game.Features.TalentTree
             public bool IsShow => !string.IsNullOrEmpty(Value);
 
             #endregion
+
+            [Binding]
+            public async void OnCLick()
+            {
+                var isConfirmed = await DialogConfirm.Show("Upgrade?");
+            }
         }
 
         [Binding]
@@ -147,6 +155,93 @@ namespace _Game.Features.TalentTree
         
         [Binding]
         public ObservableList<LevelNode> LevelNodes { get; } = new ();
+
+        #region Binding Prop: CurrentLevel
+
+        /// <summary>
+        /// CurrentLevel
+        /// </summary>
+        [Binding]
+        public string CurrentLevel
+        {
+            get => _currentLevel;
+            set
+            {
+                if (Equals(_currentLevel, value))
+                {
+                    return;
+                }
+
+                _currentLevel = value;
+                OnPropertyChanged(nameof(CurrentLevel));
+            }
+        }
+
+        private string _currentLevel;
+
+        #endregion
+
+        #region Binding Prop: NextLevelProgress
+
+        /// <summary>
+        /// NextLevelProgress
+        /// </summary>
+        [Binding]
+        public float NextLevelProgress => NextLevelCurrentResAmount / NextLevelNeedResAmount;
+
+        #endregion
+
+        #region Binding Prop: NextLevelNeedResAmount
+
+        /// <summary>
+        /// NextLevelNeedResAmount
+        /// </summary>
+        [Binding]
+        public int NextLevelNeedResAmount
+        {
+            get => _nextLevelNeedResAmount;
+            set
+            {
+                if (Equals(_nextLevelNeedResAmount, value))
+                {
+                    return;
+                }
+
+                _nextLevelNeedResAmount = value;
+                OnPropertyChanged(nameof(NextLevelNeedResAmount));
+                OnPropertyChanged(nameof(NextLevelProgress));
+            }
+        }
+
+        private int _nextLevelNeedResAmount;
+
+        #endregion
+
+        #region Binding Prop: NextLevelCurrentResAmount
+
+        /// <summary>
+        /// NextLevelCurrentResAmount
+        /// </summary>
+        [Binding]
+        public int NextLevelCurrentResAmount
+        {
+            get => _nextLevelCurrentResAmount;
+            set
+            {
+                if (Equals(_nextLevelCurrentResAmount, value))
+                {
+                    return;
+                }
+
+                _nextLevelCurrentResAmount = value;
+                OnPropertyChanged(nameof(NextLevelCurrentResAmount));
+                OnPropertyChanged(nameof(NextLevelProgress));
+            }
+        }
+
+        private int _nextLevelCurrentResAmount;
+
+        #endregion
         
         public override async UniTask Initialize(Memory<object> args)
         {
@@ -156,6 +251,7 @@ namespace _Game.Features.TalentTree
         
         private void InitData()
         {
+            var talent = SaveSystem.GameSave.Talent;
             var lv = -1;
             foreach (var normalNodeRec in GameData.TalentTreeNormalTable.Records)
             {
@@ -168,7 +264,7 @@ namespace _Game.Features.TalentTree
                     {
                         Value = $"+{info.Value}",
                         Content = info.Name,
-                        IsActive = true,
+                        IsActive = talent.CurrentLevel >= normalNodeRec.Id,
                     });
                 }
 
@@ -193,7 +289,7 @@ namespace _Game.Features.TalentTree
                         {
                             Value = $"+{preInfo.Value}",
                             Content = preInfo.Name,
-                            IsActive = true,
+                            IsActive = talent.CurrentLevel >= preNodeRec.Id,
                         });
                     
                         // title

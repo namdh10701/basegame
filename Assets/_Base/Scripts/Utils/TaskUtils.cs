@@ -1,33 +1,34 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 
 namespace _Base.Scripts.Utils.Extensions
 {
     public static class TaskUtils
     {
-        public static async Task WaitAllWithConcurrencyControl(
-            IEnumerable<Func<Task>> taskFactories,
-            int maxDegreeOfParallelism = 0)
+        public static async UniTask WaitAllWithConcurrencyControl(
+            IEnumerable<Func<UniTask>> taskFactories,
+            int maxDegreeOfParallelism = 0,
+            bool executeTasksInMainThread = true)
         {
             if (maxDegreeOfParallelism <= 0)
             {
-                await Task.WhenAll(taskFactories.Select(taskFactory => taskFactory()));
+                await UniTask.WhenAll(taskFactories.Select(taskFactory => taskFactory()));
             }
             else
             {
                 var semaphore = new SemaphoreSlim(maxDegreeOfParallelism);
-                var tasks = new List<Task>();
+                var tasks = new List<UniTask>();
 
                 foreach (var taskFactory in taskFactories)
                 {
                     await semaphore.WaitAsync();
-                    tasks.Add(Task.Run(async () =>
+                    tasks.Add(UniTask.RunOnThreadPool(async () =>
                     {
                         try
                         {
+                            await UniTask.SwitchToMainThread();
                             await taskFactory();
                         }
                         finally
@@ -37,7 +38,7 @@ namespace _Base.Scripts.Utils.Extensions
                     }));
                 }
 
-                await Task.WhenAll(tasks);
+                await UniTask.WhenAll(tasks);
             }
         }
         
@@ -91,23 +92,23 @@ namespace _Base.Scripts.Utils.Extensions
         /// </summary>
         /// <param name="tasks">task list</param>
         /// <param name="maxDegreeOfParallelism">0: unlimited</param>
-        public static async Task WhenAllLimitedConcurrency2(IEnumerable<Task> tasks, int maxDegreeOfParallelism = 0)
+        public static async UniTask WhenAllLimitedConcurrency2(IEnumerable<UniTask> tasks, int maxDegreeOfParallelism = 0)
         {
             if (maxDegreeOfParallelism <= 0)
             {
                 // If maxDegreeOfParallelism is 0 or less, run all tasks without limiting concurrency
-                await Task.WhenAll(tasks);
+                await UniTask.WhenAll(tasks);
                 return;
             }
 
             var semaphore = new SemaphoreSlim(maxDegreeOfParallelism);
-            var taskList = new List<Task>();
+            var taskList = new List<UniTask>();
 
             foreach (var task in tasks)
             {
                 await semaphore.WaitAsync();
 
-                taskList.Add(Task.Run(async () =>
+                taskList.Add(UniTask.Run(async () =>
                 {
                     try
                     {
@@ -120,7 +121,7 @@ namespace _Base.Scripts.Utils.Extensions
                 }));
             }
 
-            await Task.WhenAll(taskList);
+            await UniTask.WhenAll(taskList);
         }
     }
 }

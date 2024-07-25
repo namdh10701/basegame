@@ -26,6 +26,8 @@ namespace _Game.Scripts.SaveLoad
 
         public MapStatusSaveData MapStatus;
 
+        public TalentSaveData Talent;
+
         public SettingSaveData Settings;
 
         public SaveData(int saveId)
@@ -102,6 +104,8 @@ namespace _Game.Scripts.SaveLoad
                 new(ItemType.MISC, "cannon", 0,0),
             };
 
+            defaultSave.Talent = new TalentSaveData();
+
             return defaultSave;
         }
 
@@ -130,6 +134,13 @@ namespace _Game.Scripts.SaveLoad
     {
         public string StageId;
         public Map.Map SeaMap;
+    }
+
+    public class TalentSaveData
+    {
+        public int CurrentLevel;
+        public int OwnedNormalTalentId;
+        public int OwnedPreTalentId;
     }
 }
 
