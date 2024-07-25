@@ -28,7 +28,11 @@ namespace _Base.Scripts.Utils.Extensions
                     {
                         try
                         {
-                            await UniTask.SwitchToMainThread();
+                            if (executeTasksInMainThread)
+                            {
+                                await UniTask.SwitchToMainThread();
+                            }
+
                             await taskFactory();
                         }
                         finally
