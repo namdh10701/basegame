@@ -370,6 +370,28 @@ namespace _Game.Features.InventoryItemInfo
         private bool _interactableButtonConfirm;
         #endregion
 
+        // #region Binding Prop: IsActiveItemnMaterial
+        // /// <summary>
+        // /// IsActiveItemnMaterial
+        // /// </summary>
+        // [Binding]
+        // public bool IsActiveItemnMaterial
+        // {
+        //     get => _isActiveItemnMaterial;
+        //     set
+        //     {
+        //         if (Equals(_isActiveItemnMaterial, value))
+        //         {
+        //             return;
+        //         }
+
+        //         _isActiveItemnMaterial = value;
+        //         OnPropertyChanged(nameof(IsActiveItemnMaterial));
+        //     }
+        // }
+        // private bool _isActiveItemnMaterial;
+        // #endregion
+
         #region Binding Prop: IsActivePopupSuccess
         /// <summary>
         /// IsActivePopupSuccess
@@ -426,6 +448,7 @@ namespace _Game.Features.InventoryItemInfo
         {
             SetDataInventoryItem(InventoryItem);
             GetResourcesOwner(Type);
+            LoadConfigUpgrade();
         }
 
         protected void LoadConfigUpgrade()
@@ -445,6 +468,7 @@ namespace _Game.Features.InventoryItemInfo
 
             NumbGoldRequired = _inventoryItemUpgradeTableRecord.Gold;
             NumbMiscItemRequired = _inventoryItemUpgradeTableRecord.Blueprint;
+            // IsActiveItemnMaterial = NumbMiscItemRequired == 0 ? true : false;
         }
 
         protected void SetDataInventoryItem(InventoryItem inventoryItem)
