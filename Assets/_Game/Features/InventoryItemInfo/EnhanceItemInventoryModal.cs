@@ -392,6 +392,28 @@ namespace _Game.Features.InventoryItemInfo
         private bool _isActivePopupSuccess;
         #endregion
 
+        #region Binding Prop: ValuePropertyUpgrade
+        /// <summary>
+        /// ValuePropertyUpgrade
+        /// </summary>
+        [Binding]
+        public string ValueExtra
+        {
+            get => _valueExtra;
+            set
+            {
+                if (Equals(_valueExtra, value))
+                {
+                    return;
+                }
+
+                _valueExtra = value;
+                OnPropertyChanged(nameof(ValueExtra));
+            }
+        }
+        private string _valueExtra;
+        #endregion
+
         List<ItemData> _miscs = new List<ItemData>();
         InventoryItemUpgradeTableRecord _inventoryItemUpgradeTableRecord = new InventoryItemUpgradeTableRecord();
         public override async UniTask Initialize(Memory<object> args)
@@ -476,6 +498,7 @@ namespace _Game.Features.InventoryItemInfo
         {
             IsActivePopupSuccess = true;
             RemoveItemMisc(Type);
+            GetValuePropertyUpgrade();
             await UniTask.Delay(2000);
             IsActivePopupSuccess = false;
             LoadData();
@@ -510,6 +533,25 @@ namespace _Game.Features.InventoryItemInfo
             }
             SaveSystem.SaveGame();
         }
+
+        protected void GetValuePropertyUpgrade()
+        {
+            var dataTableRecord = GameData.CannonTable.GetDataTableRecord(OperationType, Rarity.ToString()) as CannonTableRecord;
+            if (Type == ItemType.AMMO || Type == ItemType.CANNON)
+            {
+                var damage = dataTableRecord.Attack * _inventoryItemUpgradeTableRecord.Effect;
+                ValueExtra = $"Attack (+{damage})";
+            }
+            else
+            {
+                var hp = dataTableRecord.Hp * _inventoryItemUpgradeTableRecord.Effect;
+                ValueExtra = $"HP (+{hp})";
+
+            }
+
+
+        }
+
         [Binding]
         public async void Close()
         {
