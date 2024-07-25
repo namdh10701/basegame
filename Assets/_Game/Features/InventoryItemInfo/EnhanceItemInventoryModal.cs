@@ -5,6 +5,7 @@ using _Game.Features.Inventory;
 using _Game.Scripts.GD.DataManager;
 using _Game.Scripts.SaveLoad;
 using Cysharp.Threading.Tasks;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityWeld.Binding;
@@ -395,11 +396,36 @@ namespace _Game.Features.InventoryItemInfo
         #endregion
 
         List<ItemData> _miscs = new List<ItemData>();
+        InventoryItemUpgradeTableRecord _inventoryItemUpgradeTableRecord = new InventoryItemUpgradeTableRecord();
         public override async UniTask Initialize(Memory<object> args)
         {
             InventoryItem = args.ToArray().FirstOrDefault() as InventoryItem;
+            LoadData();
+        }
+
+        private void LoadData()
+        {
             SetDataInventoryItem(InventoryItem);
             GetResourcesOwner(Type);
+        }
+
+        protected void LoadConfigUpgrade()
+        {
+            switch (Type)
+            {
+                case ItemType.CANNON:
+                    _inventoryItemUpgradeTableRecord = GameData.CannonUpgradeTable.GetGoldAndBlueprintByLevel(CurrentLevel);
+                    break;
+                case ItemType.AMMO:
+                    _inventoryItemUpgradeTableRecord = GameData.AmmoUpgradeTable.GetGoldAndBlueprintByLevel(CurrentLevel);
+                    break;
+                case ItemType.SHIP:
+                    _inventoryItemUpgradeTableRecord = GameData.ShipUpgradeTable.GetGoldAndBlueprintByLevel(CurrentLevel);
+                    break;
+            }
+
+            NumbGoldRequired = _inventoryItemUpgradeTableRecord.Gold;
+            NumbMiscItemRequired = _inventoryItemUpgradeTableRecord.Blueprint;
         }
 
         protected void SetDataInventoryItem(InventoryItem inventoryItem)
@@ -455,8 +481,7 @@ namespace _Game.Features.InventoryItemInfo
             RemoveItemMisc(Type);
             await UniTask.Delay(2000);
             IsActivePopupSuccess = false;
-            SetDataInventoryItem(InventoryItem);
-            GetResourcesOwner(Type);
+            LoadData();
         }
 
         protected void RemoveItemMisc(ItemType itemType)
@@ -492,9 +517,6 @@ namespace _Game.Features.InventoryItemInfo
         public async void Close()
         {
             await ModalContainer.Find(ContainerKey.Modals).PopAsync(true);
-
-            // var options = new ViewOptions(nameof(InventoryItemInfoModal));
-            // await ModalContainer.Find(ContainerKey.Modals).PushAsync(options, InventoryItem);
         }
     }
 }
