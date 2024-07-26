@@ -1,60 +1,74 @@
 using System.Collections.Generic;
-using Online.Enum;
+using _Game.Scripts.GD.DataManager;
 using Online.Interface;
-using PlayFab;
+using Online.Model;
 using PlayFab.ClientModels;
-using PlayFab.CloudScriptModels;
 
 namespace Online.Service.Profile
 {
-	public class ProfileService : IOnlineService, IProfile
+	public class ProfileService : IOnlineService
 	{
-		public IPlayfabManager Manager { get; protected set; }
+		public IPlayfabManager Manager { get; private set; }
 
-		public string PlayfabID => _playfabID;
 
-		#region IProfile
+		#region Properties
 
-		public string DisplayName { get; set; }
-		public Dictionary<EVirtualCurrency, int> Currencies { get; set; } = new();
-
-		#endregion
-
-		#region Variables
-
-		private string _playfabID = null;
+		public string PlayfabID { get; private set; }
+		public string DisplayName { get; private set; }
+		public LevelModel Level { get; private set; }
+		public EnergyModel Energy { get; private set; }
+		public Dictionary<string, EquipmentModel> EquipmentProfiles { get; private set; }
 
 		#endregion
 
 		public void Initialize(IPlayfabManager manager)
 		{
 			Manager = manager;
-			Currencies = new Dictionary<EVirtualCurrency, int>()
-			{
-				{
-					EVirtualCurrency.Coin, 0
-				},
-				{
-					EVirtualCurrency.Gem, 0
-				}
-			};
 		}
-		
-		public void LoadProfile(GetPlayerCombinedInfoResultPayload infoPayload)
+
+		public void LoadProfile(PlayerProfileModel playerProfile, Dictionary<string, UserDataRecord> userData, Dictionary<string, UserDataRecord> readOnlyData)
 		{
-			DisplayName = infoPayload.PlayerProfile.DisplayName;
-			foreach (EVirtualCurrency currency in System.Enum.GetValues(typeof(EVirtualCurrency)))
+			PlayfabID = playerProfile.PlayerId;
+			DisplayName = playerProfile.DisplayName;
+			EquipmentProfiles = new();
+
+			if (readOnlyData.TryGetValue(C.NameConfigs.Level, out var levelRecord))
 			{
-				if (infoPayload.UserVirtualCurrency.TryGetValue(C.NameConfigs.Currencies[currency], out int value))
+				Level = Newtonsoft.Json.JsonConvert.DeserializeObject<LevelModel>(levelRecord.Value);
+			}
+			else
+			{
+				Level = new LevelModel()
 				{
-					Currencies[currency] = value;
+					Level = 1,
+					Exp = 0
+				};
+			}
+
+			if (readOnlyData.TryGetValue(C.NameConfigs.Energy, out var energyRecord))
+			{
+				Energy = Newtonsoft.Json.JsonConvert.DeserializeObject<EnergyModel>(energyRecord.Value);
+			}
+			else
+			{
+				Energy = new EnergyModel()
+				{
+					Energy = 100
+				};
+			}
+
+			for (int i = 0; i < C.ProfileConfigs.TotalProfile; i++)
+			{
+				var keyProfile = string.Format(C.NameConfigs.EquipmentProfile, i);
+				if (userData.TryGetValue(keyProfile, out var equipmentRecord))
+				{
+					EquipmentProfiles.Add(keyProfile, Newtonsoft.Json.JsonConvert.DeserializeObject<EquipmentModel>(equipmentRecord.Value));
+				}
+				else
+				{
+					EquipmentProfiles.Add(keyProfile, new EquipmentModel());
 				}
 			}
-		}
-		
-		public void SetPlayfabID(string playfabId)
-		{
-			_playfabID = playfabId;
 		}
 	}
 }
