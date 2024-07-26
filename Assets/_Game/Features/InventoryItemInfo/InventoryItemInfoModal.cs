@@ -227,13 +227,13 @@ namespace _Game.Features.InventoryItemInfo
         public override async UniTask Initialize(Memory<object> args)
         {
             InventoryItem = args.Span[0] as InventoryItem;
-            _inventoryItemUpgradeTableRecord = LoadConfigUpgrade(InventoryItem);
             LoadData();
         }
 
         private void LoadData()
         {
             SetDataInventoryItem(InventoryItem);
+            _inventoryItemUpgradeTableRecord = LoadConfigUpgrade(InventoryItem);
             SetupLayOutItem();
             SetDataItemStat();
         }

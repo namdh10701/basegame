@@ -446,36 +446,18 @@ namespace _Game.Features.Inventory
             return null;
         }
 
-        InventoryItemUpgradeTableRecord _inventoryItemUpgradeTableRecord = new InventoryItemUpgradeTableRecord();
-
 
         [Binding]
         public async void OnClickInfo()
         {
             var inventoryItem = GetInventoryItemSelected();
-            _inventoryItemUpgradeTableRecord = LoadConfigUpgrade(inventoryItem);
             if (inventoryItem != null)
             {
                 var options = new ViewOptions(nameof(InventoryItemInfoModal));
-                await ModalContainer.Find(ContainerKey.Modals).PushAsync(options, inventoryItem, _inventoryItemUpgradeTableRecord);
+                await ModalContainer.Find(ContainerKey.Modals).PushAsync(options, inventoryItem);
             }
 
 
-        }
-
-        protected InventoryItemUpgradeTableRecord LoadConfigUpgrade(InventoryItem inventoryItem)
-        {
-            switch (inventoryItem.Type)
-            {
-                case ItemType.CANNON:
-                    return _inventoryItemUpgradeTableRecord = GameData.CannonUpgradeTable.GetGoldAndBlueprintByLevel(inventoryItem.Level);
-                case ItemType.AMMO:
-                    return _inventoryItemUpgradeTableRecord = GameData.AmmoUpgradeTable.GetGoldAndBlueprintByLevel(inventoryItem.Level);
-                case ItemType.SHIP:
-                    return _inventoryItemUpgradeTableRecord = GameData.ShipUpgradeTable.GetGoldAndBlueprintByLevel(inventoryItem.Level);
-
-            }
-            return null;
         }
     }
 }
