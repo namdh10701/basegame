@@ -6,10 +6,8 @@ using _Game.Scripts.GD.DataManager;
 using _Game.Scripts.SaveLoad;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityWeld.Binding;
 using ZBase.UnityScreenNavigator.Core.Modals;
-using ZBase.UnityScreenNavigator.Core.Views;
 
 namespace _Game.Features.InventoryItemInfo
 {
@@ -372,6 +370,28 @@ namespace _Game.Features.InventoryItemInfo
         private bool _interactableButtonConfirm;
         #endregion
 
+        // #region Binding Prop: IsActiveItemnMaterial
+        // /// <summary>
+        // /// IsActiveItemnMaterial
+        // /// </summary>
+        // [Binding]
+        // public bool IsActiveItemnMaterial
+        // {
+        //     get => _isActiveItemnMaterial;
+        //     set
+        //     {
+        //         if (Equals(_isActiveItemnMaterial, value))
+        //         {
+        //             return;
+        //         }
+
+        //         _isActiveItemnMaterial = value;
+        //         OnPropertyChanged(nameof(IsActiveItemnMaterial));
+        //     }
+        // }
+        // private bool _isActiveItemnMaterial;
+        // #endregion
+
         #region Binding Prop: IsActivePopupSuccess
         /// <summary>
         /// IsActivePopupSuccess
@@ -394,12 +414,61 @@ namespace _Game.Features.InventoryItemInfo
         private bool _isActivePopupSuccess;
         #endregion
 
+        #region Binding Prop: ValuePropertyUpgrade
+        /// <summary>
+        /// ValuePropertyUpgrade
+        /// </summary>
+        [Binding]
+        public string ValueExtra
+        {
+            get => _valueExtra;
+            set
+            {
+                if (Equals(_valueExtra, value))
+                {
+                    return;
+                }
+
+                _valueExtra = value;
+                OnPropertyChanged(nameof(ValueExtra));
+            }
+        }
+        private string _valueExtra;
+        #endregion
+
         List<ItemData> _miscs = new List<ItemData>();
+        InventoryItemUpgradeTableRecord _inventoryItemUpgradeTableRecord = new InventoryItemUpgradeTableRecord();
         public override async UniTask Initialize(Memory<object> args)
         {
             InventoryItem = args.ToArray().FirstOrDefault() as InventoryItem;
+            LoadData();
+        }
+
+        private void LoadData()
+        {
             SetDataInventoryItem(InventoryItem);
             GetResourcesOwner(Type);
+            LoadConfigUpgrade();
+        }
+
+        protected void LoadConfigUpgrade()
+        {
+            switch (Type)
+            {
+                case ItemType.CANNON:
+                    _inventoryItemUpgradeTableRecord = GameData.CannonUpgradeTable.GetGoldAndBlueprintByLevel(CurrentLevel);
+                    break;
+                case ItemType.AMMO:
+                    _inventoryItemUpgradeTableRecord = GameData.AmmoUpgradeTable.GetGoldAndBlueprintByLevel(CurrentLevel);
+                    break;
+                case ItemType.SHIP:
+                    _inventoryItemUpgradeTableRecord = GameData.ShipUpgradeTable.GetGoldAndBlueprintByLevel(CurrentLevel);
+                    break;
+            }
+
+            NumbGoldRequired = _inventoryItemUpgradeTableRecord.Gold;
+            NumbMiscItemRequired = _inventoryItemUpgradeTableRecord.Blueprint;
+            // IsActiveItemnMaterial = NumbMiscItemRequired == 0 ? true : false;
         }
 
         protected void SetDataInventoryItem(InventoryItem inventoryItem)
@@ -453,10 +522,10 @@ namespace _Game.Features.InventoryItemInfo
         {
             IsActivePopupSuccess = true;
             RemoveItemMisc(Type);
+            GetValuePropertyUpgrade();
             await UniTask.Delay(2000);
             IsActivePopupSuccess = false;
-            SetDataInventoryItem(InventoryItem);
-            GetResourcesOwner(Type);
+            LoadData();
         }
 
         protected void RemoveItemMisc(ItemType itemType)
@@ -488,13 +557,29 @@ namespace _Game.Features.InventoryItemInfo
             }
             SaveSystem.SaveGame();
         }
+
+        protected void GetValuePropertyUpgrade()
+        {
+            var dataTableRecord = GameData.CannonTable.GetDataTableRecord(OperationType, Rarity.ToString()) as CannonTableRecord;
+            if (Type == ItemType.AMMO || Type == ItemType.CANNON)
+            {
+                var damage = dataTableRecord.Attack * _inventoryItemUpgradeTableRecord.Effect;
+                ValueExtra = $"Attack (+{damage})";
+            }
+            else
+            {
+                var hp = dataTableRecord.Hp * _inventoryItemUpgradeTableRecord.Effect;
+                ValueExtra = $"HP (+{hp})";
+
+            }
+
+
+        }
+
         [Binding]
         public async void Close()
         {
             await ModalContainer.Find(ContainerKey.Modals).PopAsync(true);
-
-            // var options = new ViewOptions(nameof(InventoryItemInfoModal));
-            // await ModalContainer.Find(ContainerKey.Modals).PushAsync(options, InventoryItem);
         }
     }
 }

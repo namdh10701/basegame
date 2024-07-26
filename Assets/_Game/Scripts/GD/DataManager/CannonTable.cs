@@ -107,7 +107,7 @@ namespace _Game.Scripts.GD.DataManager
         [Index(11)]
         [Default(0)]
         [Stat("CritChance")]
-        public float CritChance { get; set; }
+        public float CritChance { get; set; } 
 
         [Index(12)]
         [Default(0)]

@@ -369,10 +369,18 @@ namespace _Game.Features.Shop
             {
                 CurrentIndexItemReview++;
             }
+            else
+                CurrentIndexItemReview = 0;
+
         }
 
         public void OnChangeCurrentIndexItemReview(int currentIndexItemReview)
         {
+            if (currentIndexItemReview > ItemsGachaReceived.Count - 1)
+            {
+                return;
+            }
+
             IdItemReview = ItemsGachaReceived[currentIndexItemReview].IdItemGacha;
             GachaTypeItemReview = ItemsGachaReceived[currentIndexItemReview].GachaType;
             NameItemReview = ItemsGachaReceived[currentIndexItemReview].Name;
@@ -423,6 +431,7 @@ namespace _Game.Features.Shop
         {
             IsActivePopupReview = true;
             IsActivePopupReceived = false;
+            CurrentIndexItemReview = 0;
         }
 
         [Binding]
@@ -434,6 +443,7 @@ namespace _Game.Features.Shop
             await UniTask.Delay(1);
             IsActivePopupLoading = false;
             IsActivePopupAnimOpenBox = true;
+            CurrentIndexItemReview = 0;
             Box.anchoredPosition = new Vector2(0, 941);
             Box.DOAnchorPosY(-228, 1, false).OnComplete(() =>
             {

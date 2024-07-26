@@ -222,10 +222,14 @@ namespace _Game.Features.InventoryItemInfo
         public override async UniTask Initialize(Memory<object> args)
         {
             InventoryItem = args.ToArray().FirstOrDefault() as InventoryItem;
+            LoadData();
+        }
+
+        private void LoadData()
+        {
             SetDataInventoryItem(InventoryItem);
             SetupLayOutItem();
             SetDataItemStat();
-
         }
 
         protected void SetDataInventoryItem(InventoryItem inventoryItem)
@@ -245,7 +249,6 @@ namespace _Game.Features.InventoryItemInfo
         {
             var enable = Type == ItemType.CANNON ? true : false;
             _enhance.SetActive(enable);
-            // _stars.SetActive(enable);
             LoadStarsItem();
         }
 
@@ -317,6 +320,12 @@ namespace _Game.Features.InventoryItemInfo
         {
             var options = new ViewOptions(nameof(EnhanceItemInventoryModal));
             await ModalContainer.Find(ContainerKey.Modals).PushAsync(options, InventoryItem);
+        }
+
+        public override UniTask WillPopEnter(Memory<object> args)
+        {
+            LoadData();
+            return UniTask.CompletedTask;
         }
 
     }
