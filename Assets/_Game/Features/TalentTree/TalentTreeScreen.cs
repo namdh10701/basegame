@@ -101,10 +101,22 @@ namespace _Game.Features.TalentTree
 
             #endregion
 
+            public int Id;
+
+            public bool IsPremiumNode;
+
             [Binding]
             public async void OnCLick()
             {
                 var isConfirmed = await DialogConfirm.Show("Upgrade?");
+                if (IsPremiumNode)
+                {
+                    SaveSystem.GameSave.Talent.OwnedNormalTalentId = Id;
+                }
+                else
+                {
+                    SaveSystem.GameSave.Talent.OwnedNormalTalentId = Id;
+                }
             }
         }
 
@@ -265,6 +277,7 @@ namespace _Game.Features.TalentTree
                         Value = $"+{info.Value}",
                         Content = info.Name,
                         IsActive = talent.CurrentLevel >= normalNodeRec.Id,
+                        Id = normalNodeRec.Id,
                     });
                 }
 
@@ -290,6 +303,8 @@ namespace _Game.Features.TalentTree
                             Value = $"+{preInfo.Value}",
                             Content = preInfo.Name,
                             IsActive = talent.CurrentLevel >= preNodeRec.Id,
+                            IsPremiumNode = true,
+                            Id = preNodeRec.Id,
                         });
                     
                         // title
