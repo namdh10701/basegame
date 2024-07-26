@@ -512,10 +512,10 @@ namespace _Game.Features.InventoryItemInfo
         public async void OnUpgradeItem()
         {
             IsActivePopupSuccess = true;
-            UpdataDataItemOwner(Type);
             ChangeValuePropertyUpgrade();
             await UniTask.Delay(2000);
             IsActivePopupSuccess = false;
+            UpdataDataItemOwner(Type);
             LoadData();
         }
 
@@ -557,17 +557,17 @@ namespace _Game.Features.InventoryItemInfo
             {
                 case ItemType.CANNON:
                     var cannonTable = GameData.CannonTable.GetDataTableRecord(OperationType, Rarity.ToString()) as CannonTableRecord;
-                    var damageCannonExtra = cannonTable.Attack * _inventoryItemUpgradeTableRecord.Effect;
+                    var damageCannonExtra = Math.Ceiling(cannonTable.Attack * _inventoryItemUpgradeTableRecord.Effect);
                     ValueExtra = $"Attack (+{damageCannonExtra})";
                     break;
                 case ItemType.AMMO:
                     var amoTable = GameData.AmmoTable.GetDataTableRecord(OperationType, Rarity.ToString()) as AmmoTableRecord;
-                    var damageAmmoExtra = amoTable.AmmoAttack * _inventoryItemUpgradeTableRecord.Effect;
+                    var damageAmmoExtra = Math.Ceiling(amoTable.AmmoAttack * _inventoryItemUpgradeTableRecord.Effect);
                     ValueExtra = $"Attack (+{damageAmmoExtra})";
                     break;
                 case ItemType.SHIP:
                     var shipTable = GameData.AmmoTable.GetDataTableRecord(OperationType, Rarity.ToString()) as ShipTableRecord;
-                    var hpExtra = shipTable.Hp * _inventoryItemUpgradeTableRecord.Effect;
+                    var hpExtra = Math.Ceiling(shipTable.Hp * _inventoryItemUpgradeTableRecord.Effect);
                     ValueExtra = $"Attack (+{hpExtra})";
                     break;
             }

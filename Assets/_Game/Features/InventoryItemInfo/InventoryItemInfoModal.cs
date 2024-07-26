@@ -272,7 +272,7 @@ namespace _Game.Features.InventoryItemInfo
         private void SetDataItemStat()
         {
             itemStats.Clear();
-            var valueExtra = GetValuePropertyUpgrade();
+            var valueExtra = (float)GetValuePropertyUpgrade();
 
             DataTableRecord dataTableRecord = null;
             if (Type == ItemType.CANNON)
@@ -311,20 +311,20 @@ namespace _Game.Features.InventoryItemInfo
 
         }
 
-        protected float GetValuePropertyUpgrade()
+        protected double GetValuePropertyUpgrade()
         {
             switch (Type)
             {
                 case ItemType.CANNON:
                     var cannonTable = GameData.CannonTable.GetDataTableRecord(OperationType, Rarity.ToString()) as CannonTableRecord;
-                    return cannonTable.Attack * _inventoryItemUpgradeTableRecord.Effect;
+                    return Math.Ceiling(cannonTable.Attack * _inventoryItemUpgradeTableRecord.Effect);
                 case ItemType.AMMO:
                     var amoTable = GameData.AmmoTable.GetDataTableRecord(OperationType, Rarity.ToString()) as AmmoTableRecord;
-                    return amoTable.AmmoAttack * _inventoryItemUpgradeTableRecord.Effect;
+                    return Math.Ceiling(amoTable.AmmoAttack * _inventoryItemUpgradeTableRecord.Effect);
 
                 case ItemType.SHIP:
                     var shipTable = GameData.AmmoTable.GetDataTableRecord(OperationType, Rarity.ToString()) as ShipTableRecord;
-                    return shipTable.Hp * _inventoryItemUpgradeTableRecord.Effect;
+                    return Math.Ceiling(shipTable.Hp * _inventoryItemUpgradeTableRecord.Effect);
 
             }
             return -1;
