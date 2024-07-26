@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using _Game.Features.Inventory;
+using _Game.Scripts.Bootstrap;
 using _Game.Scripts.GD.DataManager;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -21,6 +22,7 @@ namespace _Game.Scripts.SaveLoad
     {
         public ItemType ItemType = ItemType.None;
         public string ItemId;
+        public string OwnItemId;
         public int RarityLevel;
         public int Level;
 
@@ -28,9 +30,10 @@ namespace _Game.Scripts.SaveLoad
         {
         }
 
-        public ItemData(ItemType itemType, string itemId, int rarityLevel, int levelItem)
+        public ItemData(ItemType itemType, string ownItemId, string itemId, int rarityLevel, int levelItem)
         {
-            ItemType = itemType;
+            ItemType = itemType; 
+            OwnItemId = ownItemId;
             ItemId = itemId;
             RarityLevel = rarityLevel;
             Level = levelItem;

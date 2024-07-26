@@ -19,6 +19,8 @@ namespace _Game.Features.InventoryItemInfo
 
         [Binding]
         public string Id { get; set; }
+        [Binding]
+        public string OnwItemId { get; set; }
 
         [Binding]
         public string IdIngredients { get; set; }
@@ -440,7 +442,8 @@ namespace _Game.Features.InventoryItemInfo
         InventoryItemUpgradeTableRecord _inventoryItemUpgradeTableRecord = new InventoryItemUpgradeTableRecord();
         public override async UniTask Initialize(Memory<object> args)
         {
-            InventoryItem = args.ToArray().FirstOrDefault() as InventoryItem;
+            InventoryItem = args.Span[0] as InventoryItem;
+            _inventoryItemUpgradeTableRecord = LoadConfigUpgrade(InventoryItem);
             LoadData();
         }
 
@@ -448,32 +451,12 @@ namespace _Game.Features.InventoryItemInfo
         {
             SetDataInventoryItem(InventoryItem);
             GetResourcesOwner(Type);
-            LoadConfigUpgrade();
-        }
-
-        protected void LoadConfigUpgrade()
-        {
-            switch (Type)
-            {
-                case ItemType.CANNON:
-                    _inventoryItemUpgradeTableRecord = GameData.CannonUpgradeTable.GetGoldAndBlueprintByLevel(CurrentLevel);
-                    break;
-                case ItemType.AMMO:
-                    _inventoryItemUpgradeTableRecord = GameData.AmmoUpgradeTable.GetGoldAndBlueprintByLevel(CurrentLevel);
-                    break;
-                case ItemType.SHIP:
-                    _inventoryItemUpgradeTableRecord = GameData.ShipUpgradeTable.GetGoldAndBlueprintByLevel(CurrentLevel);
-                    break;
-            }
-
-            NumbGoldRequired = _inventoryItemUpgradeTableRecord.Gold;
-            NumbMiscItemRequired = _inventoryItemUpgradeTableRecord.Blueprint;
-            // IsActiveItemnMaterial = NumbMiscItemRequired == 0 ? true : false;
         }
 
         protected void SetDataInventoryItem(InventoryItem inventoryItem)
         {
             Id = inventoryItem.Id;
+            OnwItemId = inventoryItem.OwnItemId;
             Type = inventoryItem.Type;
             OperationType = inventoryItem.OperationType;
             Rarity = inventoryItem.Rarity;
@@ -497,15 +480,23 @@ namespace _Game.Features.InventoryItemInfo
                     NumbMiscItemOwner++;
                 }
             }
+            LoadConfigUpgrade();
 
+        }
+
+
+
+        protected void LoadConfigUpgrade()
+        {
+            NumbGoldRequired = _inventoryItemUpgradeTableRecord.Gold;
+            NumbMiscItemRequired = _inventoryItemUpgradeTableRecord.Blueprint;
             NumbGoldOwner = SaveSystem.GameSave.gold;
-            NumbGoldRequired = 0;
-            NumbMiscItemRequired = 2;
 
             EligibleGold = NumbGoldOwner >= NumbGoldRequired;
             EligibleMiscItem = NumbMiscItemOwner >= NumbMiscItemRequired;
             InteractableButtonConfirm = EligibleMiscItem && EligibleGold;
         }
+
 
         protected void LoadStarsItem()
         {
@@ -521,14 +512,14 @@ namespace _Game.Features.InventoryItemInfo
         public async void OnUpgradeItem()
         {
             IsActivePopupSuccess = true;
-            RemoveItemMisc(Type);
-            GetValuePropertyUpgrade();
+            UpdataDataItemOwner(Type);
+            ChangeValuePropertyUpgrade();
             await UniTask.Delay(2000);
             IsActivePopupSuccess = false;
             LoadData();
         }
 
-        protected void RemoveItemMisc(ItemType itemType)
+        protected void UpdataDataItemOwner(ItemType itemType)
         {
             int itemsRemoved = 0;
             string targetItemId = itemType.ToString().ToLower();
@@ -536,10 +527,12 @@ namespace _Game.Features.InventoryItemInfo
             {
                 foreach (var item in SaveSystem.GameSave.OwnedItems)
                 {
-                    if (item.ItemId == Id)
+                    if (item.ItemId == Id && item.OwnItemId == OnwItemId)
                     {
                         item.Level = NextLevel;
                         InventoryItem.Level = NextLevel;
+                        CurrentLevel = NextLevel;
+                        NextLevel = CurrentLevel + 1;
                         break;
                     }
                 }
@@ -558,22 +551,41 @@ namespace _Game.Features.InventoryItemInfo
             SaveSystem.SaveGame();
         }
 
-        protected void GetValuePropertyUpgrade()
+        protected void ChangeValuePropertyUpgrade()
         {
-            var dataTableRecord = GameData.CannonTable.GetDataTableRecord(OperationType, Rarity.ToString()) as CannonTableRecord;
-            if (Type == ItemType.AMMO || Type == ItemType.CANNON)
+            switch (Type)
             {
-                var damage = dataTableRecord.Attack * _inventoryItemUpgradeTableRecord.Effect;
-                ValueExtra = $"Attack (+{damage})";
+                case ItemType.CANNON:
+                    var cannonTable = GameData.CannonTable.GetDataTableRecord(OperationType, Rarity.ToString()) as CannonTableRecord;
+                    var damageCannonExtra = cannonTable.Attack * _inventoryItemUpgradeTableRecord.Effect;
+                    ValueExtra = $"Attack (+{damageCannonExtra})";
+                    break;
+                case ItemType.AMMO:
+                    var amoTable = GameData.AmmoTable.GetDataTableRecord(OperationType, Rarity.ToString()) as AmmoTableRecord;
+                    var damageAmmoExtra = amoTable.AmmoAttack * _inventoryItemUpgradeTableRecord.Effect;
+                    ValueExtra = $"Attack (+{damageAmmoExtra})";
+                    break;
+                case ItemType.SHIP:
+                    var shipTable = GameData.AmmoTable.GetDataTableRecord(OperationType, Rarity.ToString()) as ShipTableRecord;
+                    var hpExtra = shipTable.Hp * _inventoryItemUpgradeTableRecord.Effect;
+                    ValueExtra = $"Attack (+{hpExtra})";
+                    break;
             }
-            else
+        }
+
+        protected InventoryItemUpgradeTableRecord LoadConfigUpgrade(InventoryItem inventoryItem)
+        {
+            switch (inventoryItem.Type)
             {
-                var hp = dataTableRecord.Hp * _inventoryItemUpgradeTableRecord.Effect;
-                ValueExtra = $"HP (+{hp})";
+                case ItemType.CANNON:
+                    return _inventoryItemUpgradeTableRecord = GameData.CannonUpgradeTable.GetGoldAndBlueprintByLevel(inventoryItem.Level);
+                case ItemType.AMMO:
+                    return _inventoryItemUpgradeTableRecord = GameData.AmmoUpgradeTable.GetGoldAndBlueprintByLevel(inventoryItem.Level);
+                case ItemType.SHIP:
+                    return _inventoryItemUpgradeTableRecord = GameData.ShipUpgradeTable.GetGoldAndBlueprintByLevel(inventoryItem.Level);
 
             }
-
-
+            return null;
         }
 
         [Binding]

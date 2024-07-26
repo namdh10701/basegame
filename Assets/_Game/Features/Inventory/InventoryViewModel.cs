@@ -240,7 +240,6 @@ namespace _Game.Features.Inventory
         public bool IsNextPageAvailable => Page < MaxPage;
 
         #region Binding Prop: TotalItemCount
-
         /// <summary>
         /// TotalItemCount
         /// </summary>
@@ -261,9 +260,7 @@ namespace _Game.Features.Inventory
                 OnPropertyChanged(nameof(PageInfo));
             }
         }
-
         private int _totalItemCount;
-
         #endregion
 
         [Binding]
@@ -304,6 +301,7 @@ namespace _Game.Features.Inventory
                             InventoryViewModel = this,
                             Type = ItemType.CANNON,
                             Id = info.Id,
+                            OwnItemId = item.OwnItemId,
                             Name = info.Name,
                             Rarity = info.Rarity,
 
@@ -329,6 +327,7 @@ namespace _Game.Features.Inventory
                             InventoryViewModel = this,
                             Type = ItemType.CREW,
                             Id = info.Id,
+                            OwnItemId = item.OwnItemId,
                             Name = info.Name,
                             Rarity = info.Rarity,
 
@@ -354,6 +353,7 @@ namespace _Game.Features.Inventory
                             Type = ItemType.AMMO,
                             Id = info.Id,
                             Name = info.Name,
+                            OwnItemId = item.OwnItemId,
                             Rarity = info.Rarity,
                             RarityLevel = info.RarityLevel.ToString(),
 
@@ -374,6 +374,7 @@ namespace _Game.Features.Inventory
                         InventoryViewModel = this,
                         Type = ItemType.MISC,
                         Id = item.ItemId,
+
                         Slot = "",
                         RarityLevel = "",
                     };
@@ -445,17 +446,36 @@ namespace _Game.Features.Inventory
             return null;
         }
 
+        InventoryItemUpgradeTableRecord _inventoryItemUpgradeTableRecord = new InventoryItemUpgradeTableRecord();
+
+
         [Binding]
         public async void OnClickInfo()
         {
             var inventoryItem = GetInventoryItemSelected();
+            _inventoryItemUpgradeTableRecord = LoadConfigUpgrade(inventoryItem);
             if (inventoryItem != null)
             {
                 var options = new ViewOptions(nameof(InventoryItemInfoModal));
-                await ModalContainer.Find(ContainerKey.Modals).PushAsync(options, inventoryItem);
+                await ModalContainer.Find(ContainerKey.Modals).PushAsync(options, inventoryItem, _inventoryItemUpgradeTableRecord);
             }
 
 
+        }
+
+        protected InventoryItemUpgradeTableRecord LoadConfigUpgrade(InventoryItem inventoryItem)
+        {
+            switch (inventoryItem.Type)
+            {
+                case ItemType.CANNON:
+                    return _inventoryItemUpgradeTableRecord = GameData.CannonUpgradeTable.GetGoldAndBlueprintByLevel(inventoryItem.Level);
+                case ItemType.AMMO:
+                    return _inventoryItemUpgradeTableRecord = GameData.AmmoUpgradeTable.GetGoldAndBlueprintByLevel(inventoryItem.Level);
+                case ItemType.SHIP:
+                    return _inventoryItemUpgradeTableRecord = GameData.ShipUpgradeTable.GetGoldAndBlueprintByLevel(inventoryItem.Level);
+
+            }
+            return null;
         }
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using _Game.Features.Inventory;
 using _Game.Features.Shop;
+using _Game.Scripts.Bootstrap;
 using _Game.Scripts.InventorySystem;
 
 namespace _Game.Scripts.SaveLoad
@@ -19,7 +20,7 @@ namespace _Game.Scripts.SaveLoad
 
         public CountOfGacha CountOfGacha;
 
-        public int gold;
+        public int gold = 100000;
         public int gem;
         public int energy;
         public int maxEnergy;
@@ -81,27 +82,27 @@ namespace _Game.Scripts.SaveLoad
 
             defaultSave.OwnedItems = new List<ItemData>()
             {
-                new(ItemType.CREW, "2011", 0,1),
-                new(ItemType.CANNON, "0001", 0,1),
-                new(ItemType.CANNON, "0012", 0,1),
-                new(ItemType.CANNON, "0023", 0,1),
-                new(ItemType.CANNON, "0043", 0,1),
-                new(ItemType.CANNON, "0061", 0,1),
-                new(ItemType.CANNON, "0069", 0,1),
-                new(ItemType.CANNON, "0077", 0,1),
-                new(ItemType.CANNON, "0085", 0,1),
-                new(ItemType.AMMO, "1001", 0,1),
-                new(ItemType.AMMO, "1012", 0,1),
-                new(ItemType.AMMO, "1023", 0,1),
-                new(ItemType.AMMO, "1033", 0,1),
-                new(ItemType.AMMO, "1043", 0,1),
-                new(ItemType.AMMO, "1077", 0,1),
-                new(ItemType.AMMO, "1085", 0,1),
-                new(ItemType.MISC, "ship", 0,1),
-                new(ItemType.MISC, "ammo", 0,1),
-                new(ItemType.MISC, "cannon", 0,1),
-                new(ItemType.MISC, "cannon", 0,1),
-                new(ItemType.MISC, "cannon", 0,1),
+                new(ItemType.CREW, Game.IDGenerator.Next(), "2011", 0, 1),
+                new(ItemType.CANNON, Game.IDGenerator.Next(), "0001", 0, 1),
+                new(ItemType.CANNON, Game.IDGenerator.Next(), "0012", 0, 1),
+                new(ItemType.CANNON, Game.IDGenerator.Next(), "0023", 0, 1),
+                new(ItemType.CANNON, Game.IDGenerator.Next(), "0043", 0, 1),
+                new(ItemType.CANNON, Game.IDGenerator.Next(), "0061", 0, 1),
+                new(ItemType.CANNON, Game.IDGenerator.Next(), "0069", 0, 1),
+                new(ItemType.CANNON, Game.IDGenerator.Next(), "0077", 0, 1),
+                new(ItemType.CANNON, Game.IDGenerator.Next(), "0085", 0, 1),
+                new(ItemType.AMMO, Game.IDGenerator.Next(), "1001", 0, 1),
+                new(ItemType.AMMO, Game.IDGenerator.Next(), "1012", 0, 1),
+                new(ItemType.AMMO, Game.IDGenerator.Next(), "1023", 0, 1),
+                new(ItemType.AMMO, Game.IDGenerator.Next(), "1033", 0, 1),
+                new(ItemType.AMMO, Game.IDGenerator.Next(), "1043", 0, 1),
+                new(ItemType.AMMO, Game.IDGenerator.Next(), "1077", 0, 1),
+                new(ItemType.AMMO, Game.IDGenerator.Next(), "1085", 0, 1),
+                new(ItemType.MISC, Game.IDGenerator.Next(), "ship", 0, 1),
+                new(ItemType.MISC, Game.IDGenerator.Next(), "ammo", 0, 1),
+                new(ItemType.MISC, Game.IDGenerator.Next(), "cannon", 0, 1),
+                new(ItemType.MISC, Game.IDGenerator.Next(), "cannon", 0, 1),
+                new(ItemType.MISC, Game.IDGenerator.Next(), "cannon", 0, 1),
             };
 
             defaultSave.Talent = new TalentSaveData();
