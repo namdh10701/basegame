@@ -1,11 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using _Game.Features.Gameplay;
-using _Game.Features.Inventory.Core;
-using _Game.Features.InventoryCustomScreen;
 using _Game.Features.InventoryItemInfo;
-using _Game.Scripts.GD;
 using _Game.Scripts.GD.DataManager;
 using _Game.Scripts.SaveLoad;
 using _Game.Scripts.UI;
@@ -38,7 +34,6 @@ namespace _Game.Features.Inventory
         #endregion
 
         #region Binding Prop: IsMultiSelect
-
         /// <summary>
         /// IsMultiSelect
         /// </summary>
@@ -136,7 +131,6 @@ namespace _Game.Features.Inventory
         #endregion
 
         #region Binding Prop: ItemPerPage
-
         /// <summary>
         /// ItemPerPage
         /// </summary>
@@ -156,13 +150,10 @@ namespace _Game.Features.Inventory
                 DoFilter();
             }
         }
-
         private int _itemPerPage = 0;
-
         #endregion
 
         #region Binding Prop: Page
-
         /// <summary>
         /// Page
         /// </summary>
@@ -185,9 +176,7 @@ namespace _Game.Features.Inventory
                 DoFilter();
             }
         }
-
         private int _page;
-
         #endregion
 
         public void DoFilter(bool clearSelection = false)

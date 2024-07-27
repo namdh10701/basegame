@@ -324,7 +324,7 @@ namespace _Game.Features.Inventory
 
         public void LoadStarsItem()
         {
-            if (Type == ItemType.CREW || Type == ItemType.AMMO) return;
+            if (Type == ItemType.CREW || Type == ItemType.MISC) return;
 
             for (int i = 0; i < int.Parse(RarityLevel); i++)
             {

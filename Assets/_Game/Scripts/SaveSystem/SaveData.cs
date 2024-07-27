@@ -84,6 +84,9 @@ namespace _Game.Scripts.SaveLoad
             {
                 new(ItemType.CREW, Game.IDGenerator.Next(), "2011", 0, 1),
                 new(ItemType.CANNON, Game.IDGenerator.Next(), "0001", 0, 1),
+                new(ItemType.CANNON, Game.IDGenerator.Next(), "0001", 0, 2),
+                new(ItemType.CANNON, Game.IDGenerator.Next(), "0001", 0, 1),
+                new(ItemType.CANNON, Game.IDGenerator.Next(), "0001", 0, 4),
                 new(ItemType.CANNON, Game.IDGenerator.Next(), "0012", 0, 1),
                 new(ItemType.CANNON, Game.IDGenerator.Next(), "0023", 0, 1),
                 new(ItemType.CANNON, Game.IDGenerator.Next(), "0043", 0, 1),

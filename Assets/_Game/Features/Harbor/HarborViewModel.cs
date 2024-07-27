@@ -20,5 +20,13 @@ namespace _Game.Features.Harbor
             
             await ScreenContainer.Of(transform).PushAsync(options);
         }
+
+        [Binding]
+        public async void NavToMergeScreen()
+        {
+            var options = new ViewOptions("MergeScreen", false, loadAsync: false);
+            
+            await ScreenContainer.Of(transform).PushAsync(options);
+        }
     }
 }
