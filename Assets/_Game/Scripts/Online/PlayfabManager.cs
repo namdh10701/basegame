@@ -1,3 +1,4 @@
+using _Game.Scripts.SaveLoad;
 using Online.Enum;
 using Online.Interface;
 using Online.Service.Auth;
@@ -10,15 +11,17 @@ namespace Online
 	{
 		public static PlayfabManager Instance;
 
-		private BaseOnlineService _authService = null;
-		private BaseOnlineService _profileService = null;
-		private BaseOnlineService _inventoryService = null;
+		private AuthService _authService = null;
+		private ProfileService _profileService = null;
+		private InventoryService _inventoryService = null;
+		private EquipmentService _equipmentService = null;
 
 		#region Services
 
-		public AuthService Auth => _authService as AuthService;
-		public ProfileService Profile => _profileService as ProfileService;
-		public InventoryService Inventory => _inventoryService as InventoryService;
+		public AuthService Auth => _authService;
+		public ProfileService Profile => _profileService;
+		public InventoryService Inventory => _inventoryService;
+		public EquipmentService Equipment => _equipmentService;
 
 		#endregion
 
@@ -33,10 +36,12 @@ namespace Online
 			_authService = new AuthService();
 			_profileService = new ProfileService();
 			_inventoryService = new InventoryService();
+			_equipmentService = new EquipmentService();
 
 			_authService.Initialize(this);
 			_profileService.Initialize(this);
 			_inventoryService.Initialize(this);
+			_equipmentService.Initialize(this);
 		}
 
 		public void Login()
@@ -65,6 +70,7 @@ namespace Online
 							Inventory.LoadVirtualCurrency(infoPayload.UserVirtualCurrency);
 							Inventory.LoadItems(infoPayload.UserInventory);
 						}
+						UpdateEquipment(Newtonsoft.Json.JsonConvert.SerializeObject(SaveSystem.GameSave));
 						break;
 				}
 			});
