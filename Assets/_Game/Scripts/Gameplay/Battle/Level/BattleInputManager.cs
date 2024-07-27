@@ -34,8 +34,8 @@ namespace _Game.Features.Gameplay
         }
         private void Update()
         {
-            //HandleTouch();
-            HandleMouse();
+            HandleTouch();
+            //HandleMouse();
 
         }
         void OnCanvasPointerDown()

@@ -3,7 +3,6 @@ using _Game.Scripts.PathFinding;
 using _Game.Scripts.SaveLoad;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.AdaptivePerformance.Editor;
 using UnityEngine;
 
 namespace _Game.Scripts

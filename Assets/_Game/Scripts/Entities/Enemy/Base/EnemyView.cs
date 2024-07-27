@@ -1,5 +1,6 @@
 using _Base.Scripts.Audio;
 using _Game.Scripts.Entities;
+using JetBrains.Annotations;
 using Spine;
 using Spine.Unity;
 using System;
@@ -104,7 +105,7 @@ namespace _Game.Features.Gameplay
         public void PlayAttack()
         {
             skeletonAnim.AnimationState.SetAnimation(0, Attacking, false);
-            skeletonAnim.AnimationState.AddAnimation(0, Idle, true,0);
+            skeletonAnim.AnimationState.AddAnimation(0, Idle, true, 0);
         }
 
         protected virtual void OnStateEntered(EnemyState enemyState)
@@ -120,7 +121,7 @@ namespace _Game.Features.Gameplay
                     else
                     {
                         skeletonAnim.AnimationState.SetAnimation(0, Entry, false);
-                        skeletonAnim.AnimationState.AddAnimation(0, Idle, true,0);
+                        skeletonAnim.AnimationState.AddAnimation(0, Idle, true, 0);
                     }
                     break;
                 case EnemyState.Idle:
@@ -146,7 +147,7 @@ namespace _Game.Features.Gameplay
                         skeletonAnim.AnimationState.AddAnimation(0, HidingIdle, true, 0);
                     break;
                 case EnemyState.Dead:
-                    skeletonAnim.AnimationState.SetAnimation(0, Dead, true);
+                    skeletonAnim.AnimationState.SetAnimation(0, Dead, false);
                     break;
             }
             lastState = enemyState;

@@ -33,7 +33,7 @@ namespace _Game.Features
             {
                 PlayerPrefs.SetString("PlayingStage", "0001");
             }
-            // Debug.unityLogger.logEnabled = false;
+            //Debug.unityLogger.logEnabled = false;
             Application.targetFrameRate = 120;
             UnityScreenNavigatorSettings.Initialize();
             
@@ -45,7 +45,7 @@ namespace _Game.Features
             AudioManager.Instance.IsBgmOn = !SaveSystem.GameSave.Settings.MuteBGM;
             AudioManager.Instance.IsSfxOn = !SaveSystem.GameSave.Settings.MuteSFX;
 
-            PlayfabManager.Instance.Login();
+            //PlayfabManager.Instance.Login();
             // MapPlayerTracker.Instance.OnStagePassed += OnOnStagePassed;
             ShowTopPage().Forget();
         }

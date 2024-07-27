@@ -4,15 +4,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using _Game.Scripts.Entities;
 using _Game.Features.Gameplay;
+using _Base.Scripts.RPGCommon.Entities;
+using Fusion;
 
 namespace _Game.Scripts.Battle
 {
     public class EntityManager : MonoBehaviour
     {
-        public List<EnemyModel> aliveEnemies = new List<EnemyModel>();
+        public List<EnemyStats> aliveEnemies = new List<EnemyStats>();
         public Ship Ship;
-
-        void OnEnemyDied(EnemyModel enemyModel)
+        public GiantOctopus octopusPrefab;
+        void OnEnemyDied(EnemyStats enemyModel)
         {
             if (aliveEnemies.Contains(enemyModel))
             {
@@ -28,25 +30,27 @@ namespace _Game.Scripts.Battle
         }
         public void SpawnEnemy(string id, Vector3 position)
         {
-            EnemyModel enemy = ResourceLoader.LoadEnemy(id);
-            EnemyModel spawned = Instantiate(enemy, position, Quaternion.identity);
-            aliveEnemies.Add(spawned);
-        }
-
-        public void OnEnter()
-        {
-            GlobalEvent<EnemyModel>.Register("EnemyDied", OnEnemyDied);
-        }
-
-        public void CleanUp()
-        {
-            GlobalEvent<EnemyModel>.Unregister("EnemyDied", OnEnemyDied);
-            Destroy(Ship.gameObject);
-            foreach (Entity e in aliveEnemies)
+            if (id == "9999")
             {
-                if (e != null)
-                    Destroy(e.gameObject);
+                GiantOctopus giantOctopus = Instantiate(octopusPrefab, position, Quaternion.identity, null);
+                aliveEnemies.Add(giantOctopus.Stats as EnemyStats);
             }
+            else
+            {
+                EnemyModel enemy = ResourceLoader.LoadEnemy(id);
+                EnemyModel spawned = Instantiate(enemy, position, Quaternion.identity);
+                aliveEnemies.Add(spawned.Stats as EnemyStats);
+            }
+        }
+
+        private void Start()
+        {
+            GlobalEvent<EnemyStats>.Register("EnemyDied", OnEnemyDied);
+        }
+
+        private void OnDestroy()
+        {
+            GlobalEvent<EnemyStats>.Unregister("EnemyDied", OnEnemyDied);
         }
     }
 }

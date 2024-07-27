@@ -58,7 +58,6 @@ namespace _Game.Features.Gameplay
             {
                 view.PlayHide();
             }
-            yield return new WaitForSeconds(2);
             cameraShake.Shake(5, new Vector3(0.1f, .1f, .1f));
             bodyView.PlayEntry();
             yield return new WaitForSeconds(6.5f);
@@ -83,6 +82,7 @@ namespace _Game.Features.Gameplay
             }
             bodyView.StopShake();
             yield return new WaitForSeconds(2);
+            
             OnEntryCompleted?.Invoke();
         }
 

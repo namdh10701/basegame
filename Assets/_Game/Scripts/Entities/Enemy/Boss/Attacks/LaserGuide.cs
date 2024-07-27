@@ -31,7 +31,7 @@ public class LaserGuide : MonoBehaviour, IEffectGiver
     {
         LaserGuide laserGuide;
         Cell startCell;
-        float cellAffected = 4;
+        float cellAffected = 5;
         float count = 0;
         bool isActive;
         public LaserGuideCollider(LaserGuide laserGuide, Cell startCell)
@@ -56,8 +56,7 @@ public class LaserGuide : MonoBehaviour, IEffectGiver
             {
                 return;
             }
-            IEffectGiver clone = Instantiate(laserGuide, null);
-            base.Process(clone, taker);
+            base.Process(giver, taker);
         }
 
     }

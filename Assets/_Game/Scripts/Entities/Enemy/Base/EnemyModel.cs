@@ -7,6 +7,7 @@ using _Base.Scripts.RPG.Behaviours.FindTarget;
 using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.RPG.Entities;
 using _Base.Scripts.RPG.Stats;
+using _Base.Scripts.RPGCommon.Entities;
 using _Game.Features.Gameplay;
 using _Game.Scripts;
 using _Game.Scripts.Battle;
@@ -145,7 +146,7 @@ namespace _Game.Features.Gameplay
 
         private void OnDestroy()
         {
-            GlobalEvent<EnemyModel>.Send("EnemyDied", this);
+            GlobalEvent<EnemyStats>.Send("EnemyDied", _stats);
         }
         public ChargeState chargeState;
 
@@ -168,6 +169,10 @@ namespace _Game.Features.Gameplay
             get { return state; }
             set
             {
+                if (state == EnemyState.Dead)
+                {
+                    return;
+                }
                 if (state != value)
                 {
                     EnemyState lastState = state;

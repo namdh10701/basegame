@@ -64,7 +64,7 @@ namespace _Game.Features.Gameplay
         {
             moveData = FindAnyObjectByType<MoveData>();
             crewController = FindAnyObjectByType<CrewController>();
-            idle = new Idle(crew, crew.OccupyingNodes[0]);
+            idle = new Idle(crew, null);
             DoAction(idle);
         }
 

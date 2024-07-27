@@ -306,7 +306,6 @@ namespace _Game.Scripts.Entities
                 return;
             }
             isStuned = true;
-            FindTargetBehaviour.Disable();
             UpdateVisual();
 
 
@@ -316,7 +315,6 @@ namespace _Game.Scripts.Entities
         {
             isStuned = false;
             UpdateVisual();
-            FindTargetBehaviour.Enable();
         }
 
 

@@ -7,8 +7,14 @@ public enum AreaType
 }
 public class MoveAreaController : MonoBehaviour
 {
+    public static MoveAreaController Instance;
+    private void Awake()
+    {
+        Instance = this;
+    }
     public Area[] MoveAreas;
-
+    public Transform[] SkullGangMovePosPool;
+    public Transform SkullStartPos;
     public Area GetArea(AreaType areaType)
     {
         return MoveAreas[(int)areaType];
@@ -19,5 +25,9 @@ public class MoveAreaController : MonoBehaviour
         Area area = DistanceHelper.GetClosetToPosition(MoveAreas, position).GetComponent<Area>();
         return area;
     }
-    
+    public Vector3 GetSkullGangMovePos()
+    {
+        //
+        return SkullGangMovePosPool[UnityEngine.Random.Range(0, SkullGangMovePosPool.Length)].position;
+    }
 }

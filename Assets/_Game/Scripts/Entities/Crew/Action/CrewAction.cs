@@ -45,16 +45,24 @@ namespace _Game.Features.Gameplay
 
         public override void OnExit()
         {
+            if (node != null)
+            {
+                node.State = NodeState.Free;
+
+            }
             crew.State = CrewState.Idle;
-            node.State = NodeState.Free;
+
             crew.body.velocity = Vector2.zero;
             Debug.Log("exit idle");
         }
 
         public override void OnStart()
         {
+            if (node != null)
+            {
+                node.State = NodeState.Occupied;
+            }
             crew.body.velocity = Vector2.zero;
-            node.State = NodeState.Occupied;
             crew.State = CrewState.Idle;
         }
     }
@@ -62,7 +70,7 @@ namespace _Game.Features.Gameplay
     public class MoveToNode : CrewActionBase
     {
         Node targetNode;
-        Crew crew; 
+        Crew crew;
         public override bool IsAbleToDo => crew.CrewMovement.IsAbleToMoveTo(targetNode);
         public MoveToNode(Crew crew, Node node)
         {

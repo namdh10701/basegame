@@ -20,14 +20,18 @@ public class StunEffect : UnstackableEffect, IProbabilityEffect
         base.Apply(entity);
         IStunable stunable = entity as IStunable;
         Affected = stunable as IEffectTaker;
-        stunable.OnStun();
+        if (Affected != null)
+            stunable.OnStun();
     }
 
     public override void OnEnd(IEffectTaker entity)
     {
         base.OnEnd(entity);
-        IStunable stunable = entity as IStunable;
-        stunable.OnAfterStun();
+        if (Affected != null)
+        {
+            IStunable stunable = entity as IStunable;
+            stunable.OnAfterStun();
+        }
     }
 
     public override void RefreshEffect(UnstackableEffect effect)

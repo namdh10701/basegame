@@ -54,7 +54,7 @@ namespace _Game.Features.Gameplay
             skeletonAnim.AnimationState.Start += AnimationState_Start;
             skeletonAnim.AnimationState.End += AnimationState_End;
             stunToIdle = stunToIdle_Norm;
-            startAttack = attackToIdle_Norm;
+            startAttack = startAttack_Norm;
             charging = charging_Norm;
             chargingToAttack = chargingToAttack_Norm;
             attackToIdle = attackToIdle_Norm;
@@ -150,7 +150,7 @@ namespace _Game.Features.Gameplay
 
         public void PlayShake()
         {
-            skeletonAnim.AnimationState.SetAnimation(0, shake_Mad, true);
+            skeletonAnim.AnimationState.SetAnimation(0, shake_Norm, true);
         }
 
         public void StopShake()

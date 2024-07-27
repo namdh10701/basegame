@@ -1,6 +1,8 @@
+using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.RPG.Stats;
 using _Game.Features.Gameplay;
 using _Game.Scripts.Utils;
+using BehaviorDesigner.Runtime;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,7 +19,7 @@ namespace _Game.Features.Gameplay
         public CameraShake cameraShake;
         public GridPicker gridPicker;
         public GridAttackHandler gridAttack;
-
+        Coroutine atkCoroutine;
 
         private void Start()
         {
@@ -34,8 +36,10 @@ namespace _Game.Features.Gameplay
         {
             float currentHp = lowerPartLeft.stats.HealthPoint.Value + lowerPartRight.stats.HealthPoint.Value;
             float maxHp = lowerPartLeft.stats.HealthPoint.MaxValue + lowerPartRight.stats.HealthPoint.MaxValue;
+            Debug.LogError(currentHp + " " + maxHp);
             if (currentHp < maxHp / 2)
             {
+                Debug.Log("STOP ATTACK LOWER");
                 StopAttack();
             }
         }
@@ -45,7 +49,7 @@ namespace _Game.Features.Gameplay
         {
             if (lowerPartLeft.isGrabbing && lowerPartRight.isGrabbing)
             {
-                StartCoroutine(AttackCoroutine());
+                atkCoroutine =StartCoroutine(AttackCoroutine());
             }
         }
 
@@ -66,6 +70,7 @@ namespace _Game.Features.Gameplay
                 }
                 yield return null;
             }
+            atkCoroutine = null;
             StopAttack();
         }
         public override void StartAttack()
@@ -78,6 +83,11 @@ namespace _Game.Features.Gameplay
         }
         public override void StopAttack()
         {
+            if (atkCoroutine != null)
+            {
+                StopCoroutine(atkCoroutine);
+                atkCoroutine = null;
+            }
             lowerPartLeft.State = PartState.Hidding;
             lowerPartRight.State = PartState.Hidding;
             base.StopAttack();
@@ -85,13 +95,34 @@ namespace _Game.Features.Gameplay
 
         void DoDmg()
         {
+            Cell cell = gridPicker.PickRandomCell();
+            EnemyAttackData enemyAttackData = new EnemyAttackData();
+            enemyAttackData.TargetCells = new List<Cell>() { cell };
+            enemyAttackData.CenterCell = cell;
 
+            Debug.LogError(cell.ToString());
+
+            DecreaseHealthEffect decreaseHp = new GameObject("", typeof(DecreaseHealthEffect)).GetComponent<DecreaseHealthEffect>();
+            decreaseHp.Amount = 50;
+            decreaseHp.ChanceAffectCell = 1;
+            decreaseHp.transform.position = cell.transform.position;
+            enemyAttackData.Effects = new List<Effect> { decreaseHp };
+
+            gridAttack.ProcessAttack(enemyAttackData);
         }
 
         public override IEnumerator TransformCoroutine()
         {
             Coroutine a = StartCoroutine(lowerPartLeft.TransformCoroutine());
             Coroutine b = StartCoroutine(lowerPartRight.TransformCoroutine());
+            yield return a;
+            yield return b;
+        }
+
+        internal IEnumerator DeadCoroutine()
+        {
+            Coroutine a = StartCoroutine(lowerPartLeft.DeadCoroutine());
+            Coroutine b = StartCoroutine(lowerPartRight.DeadCoroutine());
             yield return a;
             yield return b;
         }
