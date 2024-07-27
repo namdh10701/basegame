@@ -52,6 +52,18 @@ namespace _Game.Scripts.GD.DataManager
             }
             return null;
         }
+
+        public DataTableRecord GetNextTableRecord(Rarity rarity, string operationType, string rarityLevel)
+        {
+            int index = Records.FindIndex(r => r.Rarity == rarity && r.OperationType == operationType && r.RarityLevel.ToString() == rarityLevel);
+
+            if (index == -1 || index + 1 >= Records.Count)
+            {
+                return null;
+            }
+
+            return Records[index + 1];
+        }
     }
 
 
@@ -107,7 +119,7 @@ namespace _Game.Scripts.GD.DataManager
         [Index(11)]
         [Default(0)]
         [Stat("CritChance")]
-        public float CritChance { get; set; } 
+        public float CritChance { get; set; }
 
         [Index(12)]
         [Default(0)]
@@ -143,7 +155,7 @@ namespace _Game.Scripts.GD.DataManager
         [Default(0)]
         [Stat("Angle")]
         public float Angle { get; set; }
-        
+
         [Index(19)]
         [Default(false)]
         [BooleanFalseValues("0", "false")]
