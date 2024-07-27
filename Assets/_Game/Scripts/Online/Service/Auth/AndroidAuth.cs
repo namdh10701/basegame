@@ -1,3 +1,4 @@
+using System;
 using Online.Enum;
 using Online.Interface;
 using PlayFab;
@@ -31,6 +32,12 @@ namespace Online.Service.Auth
 				onLoginSucceed?.Invoke(ELoginStatus.Failed, null);
 			});
 		}
+
+		public override void LinkPlatform(string token, Action<bool> cb = null)
+		{
+			cb?.Invoke(false);
+		}
+
 
 		public override void LogInfo(string logText)
 		{

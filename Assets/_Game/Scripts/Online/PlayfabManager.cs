@@ -1,21 +1,24 @@
 using Online.Enum;
 using Online.Interface;
 using Online.Service.Auth;
+using Online.Service.Leaderboard;
 using Online.Service.Profile;
 
 namespace Online
 {
-	public class PlayfabManager : UnityEngine.MonoBehaviour, IPlayfabManager
+	public partial class PlayfabManager : UnityEngine.MonoBehaviour, IPlayfabManager
 	{
 		public static PlayfabManager Instance;
 
-		private IOnlineService _authService = null;
-		private IOnlineService _profileService = null;
+		private BaseOnlineService _authService = null;
+		private BaseOnlineService _profileService = null;
+		private BaseOnlineService _inventoryService = null;
 
 		#region Services
 
 		public AuthService Auth => _authService as AuthService;
 		public ProfileService Profile => _profileService as ProfileService;
+		public InventoryService Inventory => _inventoryService as InventoryService;
 
 		#endregion
 
@@ -29,9 +32,11 @@ namespace Online
 		{
 			_authService = new AuthService();
 			_profileService = new ProfileService();
+			_inventoryService = new InventoryService();
 
 			_authService.Initialize(this);
 			_profileService.Initialize(this);
+			_inventoryService.Initialize(this);
 		}
 
 		public void Login()
@@ -44,10 +49,30 @@ namespace Online
 						break;
 
 					default:
-						Profile.LoadProfile(infoPayload);
+						if (result == ELoginStatus.Newly)
+						{
+							Profile.RequestNewProfile(result =>
+							{
+								if (result)
+								{
+									RequestInventory();
+								}
+							});
+						}
+						else
+						{
+							Profile.LoadProfile(infoPayload.PlayerProfile, infoPayload.UserData, infoPayload.UserReadOnlyData);
+							Inventory.LoadVirtualCurrency(infoPayload.UserVirtualCurrency);
+							Inventory.LoadItems(infoPayload.UserInventory);
+						}
 						break;
 				}
 			});
+		}
+
+		public void LinkFacebook()
+		{
+			Auth.LinkFacebook();
 		}
 	}
 }

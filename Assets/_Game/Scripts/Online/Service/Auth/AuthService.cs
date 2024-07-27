@@ -1,30 +1,45 @@
+using Facebook.Unity;
 using Online.Enum;
 using Online.Interface;
+using PlayFab;
 using PlayFab.ClientModels;
 
 namespace Online.Service.Auth
 {
-	public class AuthService : IOnlineService
+	public class AuthService : BaseOnlineService
 	{
-		public IPlayfabManager Manager { get; protected set; }
-		
 		private BasePlatformAuth _basePlatformAuth = null;
 
-		public void Initialize(IPlayfabManager manager)
+		public override void Initialize(IPlayfabManager manager)
 		{
-			Manager = manager;
+			base.Initialize(manager);
 #if UNITY_EDITOR
 			_basePlatformAuth = new EditorAuth();
 #elif UNITY_IOS
-			_platformWrapper = new iOSAuthWrapper();
+			_basePlatformAuth = new IOSAuth();
 #else
-			_platformWrapper = new AndroidAuthWrapper();
+			_basePlatformAuth = new AndroidAuth();
 #endif
 		}
 
 		public void Login(System.Action<ELoginStatus, GetPlayerCombinedInfoResultPayload> onLoginSucceed)
 		{
 			_basePlatformAuth.Login(onLoginSucceed);
+		}
+
+		public void LinkFacebook()
+		{
+			_basePlatformAuth.LinkFacebook();
+		}
+
+		public override void LogSuccess(string message)
+		{
+			LogEvent(false, message, "Auth");
+		}
+
+		public override void LogError(string error)
+		{
+			LogEvent(true, error, "Auth");
 		}
 	}
 }

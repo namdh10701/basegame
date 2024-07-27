@@ -2,6 +2,7 @@ using System;
 using _Base.Scripts.Audio;
 using _Game.Scripts.SaveLoad;
 using Cysharp.Threading.Tasks;
+using Online;
 using UnityWeld.Binding;
 using ZBase.UnityScreenNavigator.Core.Modals;
 
@@ -168,6 +169,12 @@ namespace _Game.Features.GamePause
         public async void Close()
         {
             await ModalContainer.Find(ContainerKey.Modals).PopAsync(true);
+        }
+
+        [Binding]
+        public void OnClickSignInWithFacebook()
+        {
+            PlayfabManager.Instance.LinkFacebook();
         }
     }
 }
