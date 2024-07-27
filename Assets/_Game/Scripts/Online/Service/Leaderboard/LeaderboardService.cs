@@ -1,13 +1,21 @@
 using Online.Interface;
 namespace Online.Service.Leaderboard
 {
-	public class LeaderboardService : IOnlineService
+	public class LeaderboardService : BaseOnlineService
 	{
-		public IPlayfabManager Manager { get; private set; }
-		
-		public void Initialize(IPlayfabManager manager)
+		public override void Initialize(IPlayfabManager manager)
 		{
-			Manager = manager;
+			base.Initialize(manager);
+		}
+		
+		public override void LogSuccess(string message)
+		{
+			LogEvent(false, message, "Leaderboard");
+		}
+		
+		public override void LogError(string error)
+		{
+			LogEvent(true, error, "Leaderboard");
 		}
 	}
 }
