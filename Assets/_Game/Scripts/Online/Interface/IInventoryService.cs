@@ -1,12 +1,12 @@
 using System.Collections.Generic;
-using PlayFab.EconomyModels;
+using PlayFab.ClientModels;
 
 namespace Online.Interface
 {
 	public interface IInventoryService
 	{
-		public List<InventoryItem> Items { get; }
+		public List<ItemInstance> Items { get; }
 
-		public void LoadInventory(System.Action<bool> cb = null);
+		public void RequestInventory(System.Action<bool> cb = null);
 	}
 }

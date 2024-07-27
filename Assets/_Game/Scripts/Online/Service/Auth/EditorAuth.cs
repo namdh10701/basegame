@@ -24,7 +24,8 @@ namespace Online.Service.Auth
 					GetUserVirtualCurrency = true,
 					GetUserData = true,
 					GetUserReadOnlyData = true,
-					GetTitleData = true
+					GetTitleData = true,
+					GetUserInventory = true
 				}
 			}, result =>
 			{

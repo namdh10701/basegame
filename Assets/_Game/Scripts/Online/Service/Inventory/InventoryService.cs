@@ -2,21 +2,18 @@ using System.Collections.Generic;
 using Online.Enum;
 using Online.Interface;
 using PlayFab;
-using PlayFab.EconomyModels;
-using UnityEngine;
-
+using PlayFab.ClientModels;
 namespace Online.Service.Leaderboard
 {
-	public class InventoryService : IOnlineService
+	public class InventoryService : BaseOnlineService
 	{
 		public Dictionary<EVirtualCurrency, int> Currencies { get; private set; }
-		public List<InventoryItem> Items { get; private set; }
+		public List<ItemInstance> Items { get; private set; }
 
-		public IPlayfabManager Manager { get; private set; }
-
-		public void Initialize(IPlayfabManager manager)
+		public override void Initialize(IPlayfabManager manager)
 		{
-			Manager = manager;
+			base.Initialize(manager);
+
 			Items = new();
 			Currencies = new Dictionary<EVirtualCurrency, int>()
 			{
@@ -29,27 +26,44 @@ namespace Online.Service.Leaderboard
 			};
 		}
 
-		public void LoadInventory(System.Action<bool> cb = null)
+		public void RequestInventory(System.Action<bool> cb = null)
 		{
-			PlayFabEconomyAPI.GetInventoryItems(new(), result =>
+			PlayFabClientAPI.GetUserInventory(new(), result =>
 			{
-				Items.Clear();
-				foreach (var item in result.Items)
-				{
-					if (item.Type == "currency")
-					{
-						
-					}
-					else if (item.Type == "catalogItem")
-					{
-						Items.Add(item);
-					}
-					cb?.Invoke(true);
-				}
+				LoadVirtualCurrency(result.VirtualCurrency);
+				LoadItems(result.Inventory);
+				cb?.Invoke(true);
 			}, error =>
 			{
+				LogError(error.ErrorMessage);
 				cb?.Invoke(false);
 			});
+		}
+
+		public void LoadVirtualCurrency(Dictionary<string, int> virtualCurrency)
+		{
+			foreach (EVirtualCurrency currency in System.Enum.GetValues(typeof(EVirtualCurrency)))
+			{
+				if (virtualCurrency.TryGetValue(currency.GetCode(), out int value))
+				{
+					Currencies[currency] = value;
+				}
+			}
+		}
+		
+		public void LoadItems(List<ItemInstance> items)
+		{
+			Items = items;
+		}
+
+		public override void LogSuccess(string message)
+		{
+			LogEvent(false, message, "Inventory");
+		}
+
+		public override void LogError(string error)
+		{
+			LogEvent(true, error, "Inventory");
 		}
 	}
 }

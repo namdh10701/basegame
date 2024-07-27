@@ -3,8 +3,6 @@ using Online.Interface;
 using Online.Service.Auth;
 using Online.Service.Leaderboard;
 using Online.Service.Profile;
-using PlayFab;
-using UnityEngine;
 
 namespace Online
 {
@@ -12,9 +10,9 @@ namespace Online
 	{
 		public static PlayfabManager Instance;
 
-		private IOnlineService _authService = null;
-		private IOnlineService _profileService = null;
-		private IOnlineService _inventoryService = null;
+		private BaseOnlineService _authService = null;
+		private BaseOnlineService _profileService = null;
+		private BaseOnlineService _inventoryService = null;
 
 		#region Services
 
@@ -53,12 +51,19 @@ namespace Online
 					default:
 						if (result == ELoginStatus.Newly)
 						{
-							RequestNewProfile();
+							Profile.RequestNewProfile(result =>
+							{
+								if (result)
+								{
+									RequestInventory();
+								}
+							});
 						}
 						else
 						{
 							Profile.LoadProfile(infoPayload.PlayerProfile, infoPayload.UserData, infoPayload.UserReadOnlyData);
-							LoadProfile();
+							Inventory.LoadVirtualCurrency(infoPayload.UserVirtualCurrency);
+							Inventory.LoadItems(infoPayload.UserInventory);
 						}
 						break;
 				}
@@ -68,20 +73,6 @@ namespace Online
 		public void LinkFacebook()
 		{
 			Auth.LinkFacebook();
-		}
-
-		public void RequestNewProfile()
-		{
-			PlayFabCloudScriptAPI.ExecuteFunction(new ()
-			{
-				FunctionName = C.CloudFunction.RequestNewProfile
-			}, (result) =>
-			{
-				Debug.LogError(result.FunctionResult.ToString());
-			}, (error) =>
-			{
-				Debug.LogError(error.GenerateErrorReport());
-			});
 		}
 	}
 }

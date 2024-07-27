@@ -58,6 +58,47 @@ handlers.helloWorld = function (args, context) {
     return { messageValue: message };
 };
 
+// Profile Script
+handlers.RequestNewProfile = function (args, context) {
+    // Default Profile
+    var beginLevel = {
+        Level: 1,
+        Exp: 0
+    }
+    var beginEnergy = {
+        Energy: 100
+    };
+    var reqReadOnlyData = {
+        PlayFabId: currentPlayerId,
+        Data: {
+            Level: JSON.stringify(beginLevel),
+            Energy: JSON.stringify(beginEnergy)
+        }
+    };
+    
+    var result = server.UpdateUserReadOnlyData(reqReadOnlyData);
+    
+    // Default Items
+    var reqItems = {
+        PlayFabId: currentPlayerId,
+        ItemIds: ["cannon_0001", "crew_2001", "ammo_1001"],
+        CatalogVersion: "Game"
+    };
+    var resultItem = server.GrantItemsToUser(reqItems);
+    log.debug(resultItem.ItemGrantResults);
+    
+    for(var i = 0; i < resultItem.ItemGrantResults.length; i++) {
+        var reqItem = {
+            PlayFabId: currentPlayerId,
+            ItemInstanceId: resultItem.ItemGrantResults[i].ItemInstanceId,
+            Data: {
+                Level: 1
+            }
+        };
+        server.UpdateUserInventoryItemCustomData(reqItem);
+    }
+};
+
 // This is a simple example of making a PlayFab server API call
 handlers.makeAPICall = function (args, context) {
     var request = {

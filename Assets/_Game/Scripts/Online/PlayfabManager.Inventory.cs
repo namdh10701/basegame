@@ -1,16 +1,19 @@
 using System.Collections.Generic;
+using Online.Enum;
 using Online.Interface;
-using PlayFab.EconomyModels;
+using PlayFab.ClientModels;
 
 namespace Online
 {
 	public partial class PlayfabManager : IInventoryService
 	{
-		public List<InventoryItem> Items => Inventory.Items;
+		public List<ItemInstance> Items => Inventory.Items;
+		public int Coin => Inventory.Currencies[EVirtualCurrency.Coin];
+		public int Gem => Inventory.Currencies[EVirtualCurrency.Gem];
 
-		public void LoadInventory(System.Action<bool> cb = null)
+		public void RequestInventory(System.Action<bool> cb = null)
 		{
-			Inventory.LoadInventory(cb);
+			Inventory.RequestInventory(cb);
 		}
 	}
 }
