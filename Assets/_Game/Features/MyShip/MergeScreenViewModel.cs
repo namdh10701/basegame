@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using _Game.Features.Inventory;
+using _Game.Scripts.Bootstrap;
 using _Game.Scripts.GD.DataManager;
 using _Game.Scripts.SaveLoad;
 using Unity.VisualScripting;
@@ -169,17 +170,25 @@ namespace _Game.Features.MergeScreen
         {
             get
             {
-                switch (TypeItemTarget)
+                if (ItemTarget == null)
+                    return Resources.Load<Sprite>($"Items/item_ammo_arrow_common");
+                else
                 {
-                    case ItemType.CANNON:
-                        return _Game.Scripts.DB.Database.GetCannonImage(IdItemTarget);
-                    case ItemType.CREW:
-                        return _Game.Scripts.DB.Database.GetCrewImage(IdItemTarget);
-                    case ItemType.AMMO:
-                        return _Game.Scripts.DB.Database.GetAmmoImage(IdItemTarget);
-                    default:
-                        return null;
+                    if (ItemTarget.Type != ItemType.MISC)
+                    {
+                        var itemType = ItemTarget.Type.ToString().ToLower();
+                        var itemOperationType = ItemTarget.OperationType.ToLower();
+                        var itemRarity = ItemTarget.Rarity.ToString().ToLower();
+                        var path = $"Items/item_{itemType}_{itemOperationType}_{itemRarity}";
+                        return Resources.Load<Sprite>(path);
+                    }
+                    else
+                    {
+                        var path = ItemTarget.Id == null ? $"Items/item_ammo_arrow_common" : $"Items/item_misc_{ItemMerge.Id.ToString().ToLower()}";
+                        return Resources.Load<Sprite>(path);
+                    }
                 }
+
             }
         }
         #endregion
@@ -287,7 +296,12 @@ namespace _Game.Features.MergeScreen
                 _filterItemTypeIndex = value;
 
                 OnPropertyChanged(nameof(FilterItemTypeIndex));
-
+                if (ItemMerge != null && ItemTarget != null)
+                {
+                    ItemMerge.IsSelected = false;
+                    ItemMerge = null;
+                    ItemTarget = null;
+                }
                 DoFilter();
             }
         }
@@ -450,7 +464,7 @@ namespace _Game.Features.MergeScreen
             DoFilter();
         }
 
-        public void DoFilter(bool clearSelection = false)
+        private void DoFilter(bool clearSelection = false)
         {
             if (clearSelection)
             {
@@ -505,8 +519,14 @@ namespace _Game.Features.MergeScreen
                 OnPropertyChanged(nameof(SpriteItemMerge));
                 LevelItemMerge = ItemMerge.Level;
                 SlotItemMerge = ItemMerge.Slot;
-                LoadStarsItem(ItemMerge, starsItemMerge);
+                LoadStarsItem(ItemMerge, StarsItemMerge);
                 DoFilterItemMerge(item);
+
+                if (ItemTarget == null)
+                {
+                    LoadDataItemTarget();
+                    LoadStarsItem(ItemTarget, StarsItemTarget);
+                }
 
             }
             else
@@ -514,13 +534,16 @@ namespace _Game.Features.MergeScreen
                 NumberItems--;
                 _itemsSelected.Remove(item);
                 if (NumberItems == 0)
+                {
                     DoFilter();
+                    ItemTarget = null;
+                }
             }
             IsActiveItemMerge = _itemsSelected.Count > 0;
             CanMerge = NumberItems == NumberItemsRequired ? true : false;
         }
 
-        public void LoadStarsItem(InventoryItem item, ObservableList<Star> stars)
+        private void LoadStarsItem(InventoryItem item, ObservableList<Star> stars)
         {
             if (item.Type == ItemType.CREW || item.Type == ItemType.MISC) return;
 
@@ -530,7 +553,7 @@ namespace _Game.Features.MergeScreen
             }
         }
 
-        protected void DoFilterItemMerge(InventoryItem item)
+        private void DoFilterItemMerge(InventoryItem item)
         {
             Items.Clear();
 
@@ -563,5 +586,58 @@ namespace _Game.Features.MergeScreen
 
             return highestLevelItem;
         }
+
+        private DataTableRecord GetNextRarityItem(InventoryItem inventoryItem)
+        {
+            switch (inventoryItem.Type)
+            {
+                case ItemType.CANNON:
+                    return GameData.CannonTable.GetNextTableRecord(inventoryItem.Rarity, inventoryItem.OperationType, inventoryItem.RarityLevel);
+                case ItemType.AMMO:
+                    return GameData.AmmoTable.GetNextTableRecord(inventoryItem.Rarity, inventoryItem.Id);
+
+            }
+            return null;
+        }
+
+        private void LoadDataItemTarget()
+        {
+            var record = GetNextRarityItem(ItemMerge);
+            ItemTarget = new InventoryItem();
+
+            switch (ItemMerge.Type)
+            {
+                case ItemType.CANNON:
+                    var cannonRecord = record as CannonTableRecord;
+
+                    ItemTarget.Id = cannonRecord.Id;
+                    ItemTarget.OwnItemId = Game.IDGenerator.Next();
+                    ItemTarget.Name = cannonRecord.Name;
+                    ItemTarget.Type = ItemMerge.Type;
+                    ItemTarget.OperationType = cannonRecord.OperationType;
+                    ItemTarget.Rarity = cannonRecord.Rarity;
+                    ItemTarget.RarityLevel = cannonRecord.RarityLevel.ToString();
+                    ItemTarget.Shape = cannonRecord.Shape;
+                    ItemTarget.Slot = cannonRecord.Slot;
+                    break;
+                case ItemType.AMMO:
+                    var ammoRecord = record as AmmoTableRecord;
+
+                    ItemTarget.Id = ammoRecord.Id;
+                    ItemTarget.OwnItemId = Game.IDGenerator.Next();
+                    ItemTarget.Name = ammoRecord.Name;
+                    ItemTarget.Type = ItemMerge.Type;
+                    ItemTarget.OperationType = ammoRecord.OperationType;
+                    ItemTarget.Rarity = ammoRecord.Rarity;
+                    ItemTarget.RarityLevel = ammoRecord.RarityLevel.ToString();
+                    ItemTarget.Shape = ammoRecord.Shape;
+                    ItemTarget.Slot = ammoRecord.Slot;
+                    break;
+            }
+
+
+        }
+
+
     }
 }

@@ -40,6 +40,18 @@ namespace _Game.Scripts.GD.DataManager
             }
             return null;
         }
+
+        public DataTableRecord GetNextTableRecord(Rarity rarity, string id)
+        {
+            int index = Records.FindIndex(r => r.Rarity == rarity && r.Id == id);
+
+            if (index == -1 || index + 1 >= Records.Count)
+            {
+                return null;
+            }
+
+            return Records[index + 1];
+        }
     }
 
     /// <summary>
@@ -166,7 +178,7 @@ namespace _Game.Scripts.GD.DataManager
 
         [Index(24)]
         public string Type { get; set; }
-        
+
         [Index(25)]
         [Default(false)]
         [BooleanFalseValues("0", "false")]
