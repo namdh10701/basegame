@@ -451,7 +451,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   viewAdapterTypeName: 
   viewAdapterOptions: {fileID: 0}
-  viewModelPropertyName: _Game.Features.InventoryItemInfo.EnhanceItemInventoryModal.Slot
+  viewModelPropertyName: _Game.Features.MergeScreen.MergeScreenViewModel.SlotItemMerge
   viewPropertyName: TMPro.TextMeshProUGUI.text
 --- !u!1 &694120786097959961
 GameObject:
@@ -5174,7 +5174,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7618973848632272061, guid: 3fb28f9f3dee840d7adfb78258981139, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7618973848632272061, guid: 3fb28f9f3dee840d7adfb78258981139, type: 3}
       propertyPath: m_AnchorMin.x
@@ -5182,15 +5182,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7618973848632272061, guid: 3fb28f9f3dee840d7adfb78258981139, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7618973848632272061, guid: 3fb28f9f3dee840d7adfb78258981139, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 228.04
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7618973848632272061, guid: 3fb28f9f3dee840d7adfb78258981139, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 225
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7618973848632272061, guid: 3fb28f9f3dee840d7adfb78258981139, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5222,11 +5222,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7618973848632272061, guid: 3fb28f9f3dee840d7adfb78258981139, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 114.02
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7618973848632272061, guid: 3fb28f9f3dee840d7adfb78258981139, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -112.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7618973848632272061, guid: 3fb28f9f3dee840d7adfb78258981139, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -5259,12 +5259,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6531634102295937396, guid: 3fb28f9f3dee840d7adfb78258981139, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8358864821972023235}
-    - targetCorrespondingSourceObject: {fileID: 6531634102295937396, guid: 3fb28f9f3dee840d7adfb78258981139, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2285442050544844259}
-    - targetCorrespondingSourceObject: {fileID: 6531634102295937396, guid: 3fb28f9f3dee840d7adfb78258981139, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 6394149461989697909}
   m_SourcePrefab: {fileID: 100100000, guid: 3fb28f9f3dee840d7adfb78258981139, type: 3}
 --- !u!224 &6665850776015626970 stripped
 RectTransform:
@@ -5302,34 +5296,6 @@ MonoBehaviour:
   onLongPress:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &2285442050544844259
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8041411552386385683}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1360956885, guid: e650e72e8be47794994495fc15c0ba63, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  viewModelMethodName: _Game.Features.Inventory.InventoryItem.ShowItemDetail
-  viewEventName: _Game.Common.PointerTracker.onLongPress
---- !u!114 &6394149461989697909
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8041411552386385683}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1360956885, guid: e650e72e8be47794994495fc15c0ba63, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  viewModelMethodName: _Game.Features.Inventory.InventoryItem.SetAsHighLightItem
-  viewEventName: _Game.Common.PointerTracker.onDown
 --- !u!1001 &5947176033290400991
 PrefabInstance:
   m_ObjectHideFlags: 0

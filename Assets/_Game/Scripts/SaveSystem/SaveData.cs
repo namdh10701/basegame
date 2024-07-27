@@ -83,7 +83,7 @@ namespace _Game.Scripts.SaveLoad
             defaultSave.OwnedItems = new List<ItemData>()
             {
                 new(ItemType.CREW, Game.IDGenerator.Next(), "2011", 0, 1),
-                new(ItemType.CANNON, Game.IDGenerator.Next(), "0001", 0, 1),
+                new(ItemType.CANNON, Game.IDGenerator.Next(), "0001", 1, 1),
                 new(ItemType.CANNON, Game.IDGenerator.Next(), "0001", 0, 2),
                 new(ItemType.CANNON, Game.IDGenerator.Next(), "0001", 0, 1),
                 new(ItemType.CANNON, Game.IDGenerator.Next(), "0001", 0, 4),

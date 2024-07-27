@@ -131,18 +131,23 @@ namespace _Game.Features.MergeScreen
         {
             get
             {
-                if (ItemMerge.Type != ItemType.MISC)
-                {
-                    var itemType = ItemMerge.Type.ToString().ToLower();
-                    var itemOperationType = ItemMerge.OperationType.ToLower();
-                    var itemRarity = ItemMerge.Rarity.ToString().ToLower();
-                    var path = $"Items/item_{itemType}_{itemOperationType}_{itemRarity}";
-                    return Resources.Load<Sprite>(path);
-                }
+                if (ItemMerge == null)
+                    return Resources.Load<Sprite>($"Items/item_ammo_arrow_common");
                 else
                 {
-                    var path = ItemMerge.Id == null ? $"Items/item_ammo_arrow_common" : $"Items/item_misc_{ItemMerge.Id.ToString().ToLower()}";
-                    return Resources.Load<Sprite>(path);
+                    if (ItemMerge.Type != ItemType.MISC)
+                    {
+                        var itemType = ItemMerge.Type.ToString().ToLower();
+                        var itemOperationType = ItemMerge.OperationType.ToLower();
+                        var itemRarity = ItemMerge.Rarity.ToString().ToLower();
+                        var path = $"Items/item_{itemType}_{itemOperationType}_{itemRarity}";
+                        return Resources.Load<Sprite>(path);
+                    }
+                    else
+                    {
+                        var path = ItemMerge.Id == null ? $"Items/item_ammo_arrow_common" : $"Items/item_misc_{ItemMerge.Id.ToString().ToLower()}";
+                        return Resources.Load<Sprite>(path);
+                    }
                 }
 
             }
@@ -296,22 +301,47 @@ namespace _Game.Features.MergeScreen
         [Binding]
         public int LevelItemMerge
         {
-            get => _highestLevelItem;
+            get => _levelItemMerge;
             set
             {
-                if (_highestLevelItem == value)
+                if (_levelItemMerge == value)
                 {
                     return;
                 }
 
-                _highestLevelItem = value;
+                _levelItemMerge = value;
 
                 OnPropertyChanged(nameof(LevelItemMerge));
 
                 DoFilter();
             }
         }
-        private int _highestLevelItem;
+        private int _levelItemMerge;
+        #endregion
+
+        #region Binding Prop: SlotItemMerge
+        /// <summary>
+        /// SlotItemMerge
+        /// </summary>
+        [Binding]
+        public string SlotItemMerge
+        {
+            get => _slotItemMerge;
+            set
+            {
+                if (_slotItemMerge == value)
+                {
+                    return;
+                }
+
+                _slotItemMerge = value;
+
+                OnPropertyChanged(nameof(SlotItemMerge));
+
+                DoFilter();
+            }
+        }
+        private string _slotItemMerge;
         #endregion
 
         private List<InventoryItem> _dataSource = new List<InventoryItem>();
@@ -462,7 +492,6 @@ namespace _Game.Features.MergeScreen
         {
             if (item.IsSelected)
             {
-                DoFilterItemMerge(item.Id);
 
                 if (_itemsSelected.Count < NumberItemsRequired)
                     _itemsSelected.Add(item);
@@ -472,18 +501,22 @@ namespace _Game.Features.MergeScreen
                     _itemsSelected.Add(item);
                 }
                 NumberItems++;
+                ItemMerge = FindHighestLevelItem(_itemsSelected);
+                OnPropertyChanged(nameof(SpriteItemMerge));
+                LevelItemMerge = ItemMerge.Level;
+                SlotItemMerge = ItemMerge.Slot;
+                LoadStarsItem(ItemMerge, starsItemMerge);
+                DoFilterItemMerge(item);
+
             }
             else
             {
                 NumberItems--;
                 _itemsSelected.Remove(item);
-                DoFilter();
+                if (NumberItems == 0)
+                    DoFilter();
             }
-            // IsActiveItemMerge = _itemsSelected.Count > 0;
-            // ItemMerge = FindHighestLevelItem(_itemsSelected);
-            // LevelItemMerge = ItemMerge.Level;
-            // OnPropertyChanged(nameof(SpriteItemMerge));
-            // LoadStarsItem(ItemMerge, starsItemMerge);
+            IsActiveItemMerge = _itemsSelected.Count > 0;
             CanMerge = NumberItems == NumberItemsRequired ? true : false;
         }
 
@@ -497,13 +530,13 @@ namespace _Game.Features.MergeScreen
             }
         }
 
-        protected void DoFilterItemMerge(string idFilter)
+        protected void DoFilterItemMerge(InventoryItem item)
         {
             Items.Clear();
 
             var itemList = _dataSource
                 .Where(v =>
-                    v.Id == idFilter
+                    v.Id == item.Id && v.RarityLevel == item.RarityLevel
                     && IgnoreIdList.All(ignoredKey => ignoredKey != (v.Type + v.Id))
                     && !IgnoreItems.Contains(v)
                 )
