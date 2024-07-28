@@ -66,11 +66,12 @@ namespace Online
 						}
 						else
 						{
-							Profile.LoadProfile(infoPayload.PlayerProfile, infoPayload.UserData, infoPayload.UserReadOnlyData);
+							Profile.LoadProfile(infoPayload.PlayerProfile, infoPayload.UserReadOnlyData); 
+							Equipment.LoadEquipmentShip(infoPayload.UserData);
 							Inventory.LoadVirtualCurrency(infoPayload.UserVirtualCurrency);
 							Inventory.LoadItems(infoPayload.UserInventory);
+							PlayfabManager.Instance.UpdateEquipShip(SaveSystem.GameSave.ShipSetupSaveData);
 						}
-						UpdateEquipment(Newtonsoft.Json.JsonConvert.SerializeObject(SaveSystem.GameSave));
 						break;
 				}
 			});
@@ -79,6 +80,14 @@ namespace Online
 		public void LinkFacebook()
 		{
 			Auth.LinkFacebook();
+		}
+
+		public void UpgradeItem(string itemInstanceId, System.Action<bool> cb = null)
+		{
+			Inventory.UpgradeItem(itemInstanceId, (result) =>
+			{
+				cb?.Invoke(true);
+			});
 		}
 	}
 }

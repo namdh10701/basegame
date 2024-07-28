@@ -14,8 +14,7 @@ namespace Online
 
 		public string DisplayName => Profile.DisplayName;
 		public int Level => Profile.Level.Level;
-		public long EXP => Profile.Level.Exp;
-		public int Energy => Profile.Energy.Energy;
+		public long Exp => Profile.Level.Exp;
 		
 		public void LoadProfile()
 		{
