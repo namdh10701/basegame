@@ -24,7 +24,7 @@ namespace Online.Service
 			Currencies = new Dictionary<EVirtualCurrency, int>()
 			{
 				{
-					EVirtualCurrency.Coin, 0
+					EVirtualCurrency.Gold, 0
 				},
 				{
 					EVirtualCurrency.Gem, 0

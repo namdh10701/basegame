@@ -2,7 +2,7 @@ namespace Online.Enum
 {
 	public enum EVirtualCurrency
 	{
-		Coin,
+		Gold,
 		Gem,
 		Energy
 	}

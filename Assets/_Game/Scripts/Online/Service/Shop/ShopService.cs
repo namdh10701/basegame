@@ -24,7 +24,8 @@ namespace Online.Service
 		public List<StoreItem> GemPackages { get; private set; }
 		public List<StoreItem> GoldPackages { get; private set; }
 		public List<StoreItem> EnergyPackages { get; private set; }
-
+		public Dictionary<string, string> PackageLocalizePrices { get; private set; } = new();
+		
 		#endregion
 
 		#region IAP
@@ -33,7 +34,7 @@ namespace Online.Service
 		private IExtensionProvider _extensionProvider = null;
 		private IGooglePlayStoreExtensions _googlePlayStoreExtensions;
 		private IAppleExtensions _appleExtensions;
-		private Dictionary<string, string> _packageLocalPrices = new Dictionary<string, string>();
+		private System.Action<bool> _purchaseCallback;
 
 		#endregion
 
@@ -114,10 +115,11 @@ namespace Online.Service
 				return;
 			}
 
-			var storeItem = GemPackages.Find(val => val.ItemId == storeId);
-			if (storeItem != null)
+			Product product = _storeController.products.WithID(storeId);
+			if (product != null)
 			{
-
+				_purchaseCallback = cb;
+				_storeController.InitiatePurchase(product);
 			}
 			else
 			{
@@ -136,6 +138,41 @@ namespace Online.Service
 			LogEvent(true, error, "Shop");
 		}
 
+		public void ValidateGooglePlayPurchase(string currencyCode, uint price, PayloadData receiptJson, System.Action<bool> cb = null)
+		{
+			PlayFabClientAPI.ValidateGooglePlayPurchase(new ValidateGooglePlayPurchaseRequest()
+			{
+				CurrencyCode = currencyCode,
+				PurchasePrice = price,
+				ReceiptJson = receiptJson.json,
+				Signature = receiptJson.signature
+			}, result =>
+			{
+				LogSuccess("Validate Purchase!");
+				cb?.Invoke(true);
+			}, error =>
+			{
+				LogError(error.ErrorMessage);
+				cb?.Invoke(false);
+			});
+		}
+
+		public void ValidateApplePurchase(string receiptData, System.Action<bool> cb = null)
+		{
+			PlayFabClientAPI.ValidateIOSReceipt(new ValidateIOSReceiptRequest()
+			{
+				ReceiptData = receiptData
+			}, result =>
+			{
+				LogSuccess("Validate Purchase!");
+				cb?.Invoke(true);
+			}, error =>
+			{
+				LogError(error.ErrorMessage);
+				cb?.Invoke(false);
+			});
+		}
+
 		#region Unity IAP
 
 		public void OnInitialized(IStoreController controller, IExtensionProvider extensions)
@@ -144,7 +181,11 @@ namespace Online.Service
 			_storeController = controller;
 			_extensionProvider = extensions;
 
-			_packageLocalPrices.Clear();
+			PackageLocalizePrices.Clear();
+			foreach (var product in _storeController.products.all)
+			{
+				PackageLocalizePrices.Add(product.definition.id, product.metadata.localizedPriceString);
+			}
 		}
 
 		public void OnInitializeFailed(InitializationFailureReason error)
@@ -169,10 +210,11 @@ namespace Online.Service
 			}
 
 #if UNITY_ANDROID
+			var product = purchaseEvent.purchasedProduct;
 			var googleReceipt = GooglePurchase.FromJson(purchaseEvent.purchasedProduct.receipt);
+			ValidateGooglePlayPurchase(product.metadata.isoCurrencyCode, (uint)product.metadata.localizedPrice * 100, googleReceipt.PayloadData, _purchaseCallback);
 #else
 #endif
-
 			return PurchaseProcessingResult.Complete;
 		}
 

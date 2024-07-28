@@ -14,5 +14,25 @@ namespace Online
 		{
 			_shopService.LoadAllStore();
 		}
+
+		public bool TryGetLocalizePrice(string packageId, out string priceString)
+		{
+			return _shopService.PackageLocalizePrices.TryGetValue(packageId, out priceString);
+		}
+
+		public void BuyStoreItem(string storeId, System.Action<bool> cb = null)
+		{
+			_shopService.BuyStoreItem(storeId, (succeed) =>
+			{
+				if (succeed)
+				{
+					_inventoryService.RequestInventory(cb);
+				}
+				else
+				{
+					cb?.Invoke(false);
+				}
+			});
+		}
 	}
 }
