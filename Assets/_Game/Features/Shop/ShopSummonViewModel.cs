@@ -310,6 +310,28 @@ namespace _Game.Features.Shop
         private bool _isActivePopupReceived;
         #endregion
 
+        #region Binding Prop: PriceSummonItem
+        /// <summary>
+        /// PriceSummonItem
+        /// </summary>
+        [Binding]
+        public string PriceSummonItem
+        {
+            get => _priceSummonItem;
+            set
+            {
+                if (Equals(_priceSummonItem, value))
+                {
+                    return;
+                }
+
+                _priceSummonItem = value;
+                OnPropertyChanged(nameof(PriceSummonItem));
+            }
+        }
+        private string _priceSummonItem;
+        #endregion
+
         #region Binding Prop: IsActivePopupReview
         /// <summary>
         /// IsActivePopupReview
