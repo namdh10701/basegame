@@ -1,3 +1,4 @@
+using System;
 using Online.Enum;
 using Online.Interface;
 using PlayFab;
@@ -21,6 +22,10 @@ namespace Online.Service.Auth
 				{
 					GetPlayerProfile = true,
 					GetUserVirtualCurrency = true,
+					GetUserData = true,
+					GetUserReadOnlyData = true,
+					GetTitleData = true,
+					GetUserInventory = true
 				}
 			}, result =>
 			{
@@ -31,6 +36,10 @@ namespace Online.Service.Auth
 				LogError($"Login Failed: {error.ErrorMessage}");
 				onLoginSucceed?.Invoke(ELoginStatus.Failed, null);
 			});
+		}
+
+		public override void LinkPlatform(string token, Action<bool> cb = null)
+		{
 		}
 
 		public override void LogInfo(string logText)

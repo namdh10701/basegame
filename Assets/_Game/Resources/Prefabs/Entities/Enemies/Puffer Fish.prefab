@@ -540,7 +540,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.35, y: 12.1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8198101950313118468}
@@ -714,8 +714,8 @@ MonoBehaviour:
   OnReachZero:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1264530026246775067}
-        m_TargetAssemblyTypeName: PufferFishController, Assembly-CSharp
+      - m_Target: {fileID: 5255935956171750253}
+        m_TargetAssemblyTypeName: _Game.Features.Gameplay.PufferFishModel, Assembly-CSharp
         m_MethodName: Die
         m_Mode: 1
         m_Arguments:
@@ -916,7 +916,7 @@ CircleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 15863
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -930,7 +930,7 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: -0.0031034946, y: 0.20793629}

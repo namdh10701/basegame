@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Linq;
 using _Base.Scripts.Bootstrap;
+using _Base.Scripts.Generators;
 using Newtonsoft.Json;
 using UnityEngine;
 
@@ -9,6 +10,7 @@ namespace _Game.Scripts.Bootstrap
 {
     public class Game : BaseGame
     {
+         public static IIdGenerator IDGenerator = new ShortUuidGenerator();
         public class MasterData
         {
             // https://docs.google.com/spreadsheets/d/1M91hXkFM9BvP5SsfMKz-oDndDaOx-hJLfFTE39kfEJM/export?gid=1915146529&format=csv

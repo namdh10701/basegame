@@ -7,16 +7,15 @@ namespace Online
 		public static class NameConfigs
 		{
 			public const string CurrencyCoin = "Coin";
-			public static Dictionary<EVirtualCurrency, string> Currencies = new()
-			{
-				{ EVirtualCurrency.Coin, "Coin" },
-				{ EVirtualCurrency.Gem, "Gem" }
-			};
+			public const string Level = "Level";
+			public const string Energy = "Energy";
+			public const string EquipmentShips = "EquipmentShips";
 		}
 		
 		public static class CloudFunction
 		{
-			public const string CreateProfile = "CreateProfile";
+			public const string RequestNewProfile = "RequestNewProfile";
+			public const string UpgradeItem = "UpgradeItem";
 		}
 	}
 }

@@ -38,7 +38,6 @@ namespace _Game.Features.Gameplay
                 return;
             sequence = DOTween.Sequence();
             startCell = gridPicker.PickRandomCell();
-            Debug.Log(gridPicker);
             if (startCell.transform.position.x < gridPicker.ShipGrid.transform.position.x)
             {
                 isLeft = true;
@@ -49,7 +48,7 @@ namespace _Game.Features.Gameplay
             }
             Vector3 startPos;
             Vector3 endPos;
-            if (isLeft)
+            if (!isLeft)
             {
                 Debug.LogError("LEFT");
                 startPos = gridPicker.ShipGrid.Ship.ShipBound.ClosetPointToRight(startCell.transform.position) + new Vector2(1, 0);

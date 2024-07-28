@@ -1,0 +1,20 @@
+using System.Collections.Generic;
+using _Game.Scripts.SaveLoad;
+using Online.Enum;
+using Online.Interface;
+
+namespace Online
+{
+	public partial class PlayfabManager : IInventoryService
+	{
+		public List<ItemData> Items => Inventory.Items;
+		public int Coin => Inventory.Currencies[EVirtualCurrency.Coin];
+		public int Gem => Inventory.Currencies[EVirtualCurrency.Gem];
+		public int Energy => Inventory.Currencies[EVirtualCurrency.Energy];
+
+		public void RequestInventory(System.Action<bool> cb = null)
+		{
+			Inventory.RequestInventory(cb);
+		}
+	}
+}

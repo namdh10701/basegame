@@ -23,7 +23,7 @@ namespace _Game.Features.Gameplay
 
         void CheckStartAttack()
         {
-
+            StopAttack();
         }
 
         public override void StartAttack()
@@ -52,6 +52,20 @@ namespace _Game.Features.Gameplay
         {
             Coroutine a = StartCoroutine(lowerPartLeft.TransformCoroutine());
             Coroutine b = StartCoroutine(lowerPartRight.TransformCoroutine());
+            yield return a;
+            yield return b;
+        }
+
+        internal void Active()
+        {
+            lowerPartLeft.Active();
+            lowerPartRight.Active();
+        }
+
+        internal IEnumerator DeadCoroutine()
+        {
+            Coroutine a = StartCoroutine(lowerPartLeft.DeadCoroutine());
+            Coroutine b = StartCoroutine(lowerPartRight.DeadCoroutine());
             yield return a;
             yield return b;
         }

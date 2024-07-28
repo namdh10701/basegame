@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static _Base.Scripts.UI.FlexibleGridLayout;
 
 namespace _Game.Features.Gameplay
 {
@@ -29,6 +28,12 @@ namespace _Game.Features.Gameplay
         public void FitCameraToRatio(SpriteRenderer ratioRef)
         {
             float size = GetOrthograpicSize(mainCam, ratioRef);
+            mainCam.orthographicSize = size;
+        }
+
+        public void SetSize(CameraSize cameraSize)
+        {
+            float size = GetOrthograpicSize(mainCam, refDic[cameraSize]);
             mainCam.orthographicSize = size;
         }
 

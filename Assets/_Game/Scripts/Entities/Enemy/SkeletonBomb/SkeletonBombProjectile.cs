@@ -1,4 +1,5 @@
 using _Base.Scripts.RPG.Effects;
+using _Base.Scripts.RPG.Stats;
 using _Base.Scripts.RPGCommon.Entities;
 using System.Collections;
 using System.Collections.Generic;

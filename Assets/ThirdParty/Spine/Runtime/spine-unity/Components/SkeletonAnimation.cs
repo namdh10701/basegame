@@ -31,6 +31,7 @@
 #define NEW_PREFAB_SYSTEM
 #endif
 
+using System;
 using UnityEngine;
 
 namespace Spine.Unity {
@@ -294,6 +295,6 @@ namespace Spine.Unity {
 			if (previousUpdateMode != UpdateMode.FullUpdate)
 				LateUpdate();
 		}
-	}
+    }
 
 }

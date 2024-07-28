@@ -12,7 +12,7 @@ namespace _Game.Features.Gameplay
     {
         [Header("Projectile")]
         public Rigidbody2D body;
-        public ParticleSystem onHitParticle;
+        public GameObject onHitParticle;
         public ProjectileStats _stats;
         public ProjectileMovement ProjectileMovement;
         public Transform trail;

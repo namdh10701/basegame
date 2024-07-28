@@ -26,6 +26,14 @@ namespace _Game.Features.Gameplay
             {
                 if (state != value)
                 {
+                    if (state == PartState.Dead)
+                    {
+                        return;
+                    }
+                    if (value == PartState.Hidding)
+                    {
+
+                    }
                     lastpartState = state;
                     state = value;
                     OnStateEntered?.Invoke(state);
@@ -52,6 +60,7 @@ namespace _Game.Features.Gameplay
         public Action<PartState> OnStateEntered;
         protected GiantOctopus giantOctopus;
         public bool IsMad;
+        public bool IsDead;
         public Action OnMad;
         public EffectTakerCollider[] effectColliders;
         protected GridPicker gridPicker;
@@ -67,7 +76,8 @@ namespace _Game.Features.Gameplay
 
         public virtual void Active()
         {
-            foreach (var item in effectColliders) { item.gameObject.SetActive(true); }
+            if (giantOctopus.State != OctopusState.Entry && giantOctopus.State != OctopusState.None)
+                foreach (var item in effectColliders) { item.gameObject.SetActive(true); }
         }
 
         public virtual void Deactive()
@@ -96,7 +106,10 @@ namespace _Game.Features.Gameplay
         {
             if (lastState == state)
                 return;
-
+            if (State == PartState.Dead)
+            {
+                return;
+            }
             if (state != OctopusState.Stunning && this.state == PartState.Stunning)
             {
                 AfterStun();
@@ -110,6 +123,14 @@ namespace _Game.Features.Gameplay
                     State = PartState.Stunning;
                 }
             }
+            if (this.state == PartState.Hidding)
+            {
+                if (state == OctopusState.Transforming)
+                {
+                    IsMad = true;
+                    partView.ChangeSkin();
+                }
+            }
             if (state == OctopusState.Transforming)
             {
                 if (State != PartState.Hidding)
@@ -120,6 +141,17 @@ namespace _Game.Features.Gameplay
                 {
                     IsMad = true;
                     partView.ChangeSkin();
+                }
+            }
+            if (state == OctopusState.Dead)
+            {
+                if (State != PartState.Hidding)
+                {
+                    State = PartState.Dead;
+                }
+                else
+                {
+                    IsDead = true;
                 }
             }
             lastState = state;
@@ -142,10 +174,14 @@ namespace _Game.Features.Gameplay
             {
                 State = PartState.Idle;
             }
-            else
+            else if (State != PartState.Hidding)
                 State = lastpartState;
         }
+        public virtual IEnumerator DeadCoroutine()
+        {
+            yield return new WaitUntil(() => IsDead);
 
+        }
         public override void ApplyStats()
         {
 

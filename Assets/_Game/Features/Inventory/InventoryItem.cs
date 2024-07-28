@@ -24,18 +24,6 @@ namespace _Game.Features.Inventory
 
     }
 
-    // [Binding]
-    // public abstract class AbstractInventoryItem<TBackedData> : SubViewModel
-    // {
-    //     public TBackedData BackedData;
-    // }
-    //
-    // [Binding]
-    // public class CrewInventoryItem : AbstractInventoryItem<CrewTableRecord>
-    // {
-    //     
-    // }
-
 
 
     [Binding]
@@ -47,6 +35,9 @@ namespace _Game.Features.Inventory
 
         [Binding]
         public string Id { get; set; }
+
+        [Binding]
+        public string OwnItemId { get; set; }
 
         #region Binding Prop: Name
         /// <summary>
@@ -68,7 +59,6 @@ namespace _Game.Features.Inventory
             }
         }
         private string m_name;
-
         #endregion
 
         #region Binding Prop: ItemType
@@ -334,7 +324,7 @@ namespace _Game.Features.Inventory
 
         public void LoadStarsItem()
         {
-            if (Type == ItemType.CREW || Type == ItemType.AMMO) return;
+            if (Type == ItemType.CREW || Type == ItemType.MISC) return;
 
             for (int i = 0; i < int.Parse(RarityLevel); i++)
             {

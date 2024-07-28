@@ -1,11 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using _Game.Features.Gameplay;
-using _Game.Features.Inventory.Core;
-using _Game.Features.InventoryCustomScreen;
 using _Game.Features.InventoryItemInfo;
-using _Game.Scripts.GD;
 using _Game.Scripts.GD.DataManager;
 using _Game.Scripts.SaveLoad;
 using _Game.Scripts.UI;
@@ -38,7 +34,6 @@ namespace _Game.Features.Inventory
         #endregion
 
         #region Binding Prop: IsMultiSelect
-
         /// <summary>
         /// IsMultiSelect
         /// </summary>
@@ -136,7 +131,6 @@ namespace _Game.Features.Inventory
         #endregion
 
         #region Binding Prop: ItemPerPage
-
         /// <summary>
         /// ItemPerPage
         /// </summary>
@@ -156,13 +150,10 @@ namespace _Game.Features.Inventory
                 DoFilter();
             }
         }
-
         private int _itemPerPage = 0;
-
         #endregion
 
         #region Binding Prop: Page
-
         /// <summary>
         /// Page
         /// </summary>
@@ -185,9 +176,7 @@ namespace _Game.Features.Inventory
                 DoFilter();
             }
         }
-
         private int _page;
-
         #endregion
 
         public void DoFilter(bool clearSelection = false)
@@ -240,7 +229,6 @@ namespace _Game.Features.Inventory
         public bool IsNextPageAvailable => Page < MaxPage;
 
         #region Binding Prop: TotalItemCount
-
         /// <summary>
         /// TotalItemCount
         /// </summary>
@@ -261,9 +249,7 @@ namespace _Game.Features.Inventory
                 OnPropertyChanged(nameof(PageInfo));
             }
         }
-
         private int _totalItemCount;
-
         #endregion
 
         [Binding]
@@ -304,6 +290,7 @@ namespace _Game.Features.Inventory
                             InventoryViewModel = this,
                             Type = ItemType.CANNON,
                             Id = info.Id,
+                            OwnItemId = item.OwnItemId,
                             Name = info.Name,
                             Rarity = info.Rarity,
 
@@ -329,6 +316,7 @@ namespace _Game.Features.Inventory
                             InventoryViewModel = this,
                             Type = ItemType.CREW,
                             Id = info.Id,
+                            OwnItemId = item.OwnItemId,
                             Name = info.Name,
                             Rarity = info.Rarity,
 
@@ -354,6 +342,7 @@ namespace _Game.Features.Inventory
                             Type = ItemType.AMMO,
                             Id = info.Id,
                             Name = info.Name,
+                            OwnItemId = item.OwnItemId,
                             Rarity = info.Rarity,
                             RarityLevel = info.RarityLevel.ToString(),
 
@@ -374,6 +363,7 @@ namespace _Game.Features.Inventory
                         InventoryViewModel = this,
                         Type = ItemType.MISC,
                         Id = item.ItemId,
+
                         Slot = "",
                         RarityLevel = "",
                     };
@@ -444,6 +434,7 @@ namespace _Game.Features.Inventory
             }
             return null;
         }
+
 
         [Binding]
         public async void OnClickInfo()

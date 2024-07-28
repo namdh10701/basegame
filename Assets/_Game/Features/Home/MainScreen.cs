@@ -1,5 +1,6 @@
 using System;
 using _Base.Scripts.Audio;
+using _Game.Features.Gameplay;
 using _Game.Features.Inventory;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -157,6 +158,7 @@ namespace _Game.Features.Home
         public override async UniTask WillPopEnter(Memory<object> args)
         {
             AudioManager.Instance.PlayBgmHome();
+            CameraController.Instance.SetSize(CameraSize.Normal);
             await SceneManager.LoadSceneAsync("HaborScene", LoadSceneMode.Additive);
             SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(2));
             await UniTask.CompletedTask;

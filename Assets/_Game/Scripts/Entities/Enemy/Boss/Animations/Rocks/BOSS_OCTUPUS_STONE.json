@@ -1,0 +1,50 @@
+{
+"skeleton": {
+	"hash": "b4uA7fcxMpI",
+	"spine": "4.1.17",
+	"x": -77,
+	"y": -86.5,
+	"width": 154,
+	"height": 173,
+	"images": "C:/Users/Admin/Downloads/BOSS-20240712T160227Z-001",
+	"audio": ""
+},
+"bones": [
+	{ "name": "root" }
+],
+"slots": [
+	{ "name": "STONE/images/cucda_boss_1", "bone": "root", "attachment": "STONE/images/cucda_boss_3" }
+],
+"skins": [
+	{
+		"name": "default",
+		"attachments": {
+			"STONE/images/cucda_boss_1": {
+				"STONE/images/cucda_boss_1": { "width": 159, "height": 176 },
+				"STONE/images/cucda_boss_2": { "width": 156, "height": 165 },
+				"STONE/images/cucda_boss_3": { "width": 154, "height": 173 }
+			}
+		}
+	}
+],
+"animations": {
+	"animation": {
+		"slots": {
+			"STONE/images/cucda_boss_1": {
+				"attachment": [
+					{ "name": "STONE/images/cucda_boss_1" },
+					{ "time": 0.1, "name": "STONE/images/cucda_boss_2" },
+					{ "time": 0.1667, "name": "STONE/images/cucda_boss_3" }
+				]
+			}
+		},
+		"bones": {
+			"root": {
+				"rotate": [
+					{ "value": -33.5 }
+				]
+			}
+		}
+	}
+}
+}

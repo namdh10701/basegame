@@ -64,6 +64,17 @@ namespace _Game.Features.Gameplay
                 }
             }
         }
+        public override IEnumerator TransformCoroutine()
+        {
+            mbt.enabled = false;
+            yield return base.TransformCoroutine();
+            mbt.enabled = true;
+        }
+        public override IEnumerator DeadCoroutine()
+        {
+            mbt.enabled = false;
+            yield return base.DeadCoroutine();
+        }
         public override void Deactive()
         {
             base.Deactive();
@@ -75,11 +86,15 @@ namespace _Game.Features.Gameplay
             base.DoAttack();
             Cell cell = gridPicker.PickRandomCell();
             EnemyAttackData enemyAttackData = new EnemyAttackData();
-            enemyAttackData.TargetCells = gridPicker.PickCells(transform, attackPatternProfile, out Cell centerCell);
-            enemyAttackData.CenterCell = centerCell;
+            enemyAttackData.TargetCells = new List<Cell>() { cell };
+            enemyAttackData.CenterCell = cell;
+
+            Debug.LogError(cell.ToString());
 
             DecreaseHealthEffect decreaseHp = new GameObject("", typeof(DecreaseHealthEffect)).GetComponent<DecreaseHealthEffect>();
             decreaseHp.Amount = stats.AttackDamage.Value;
+            decreaseHp.ChanceAffectCell = 1;
+            decreaseHp.transform.position = cell.transform.position;
             enemyAttackData.Effects = new List<Effect> { decreaseHp };
 
             gridAtk.ProcessAttack(enemyAttackData);

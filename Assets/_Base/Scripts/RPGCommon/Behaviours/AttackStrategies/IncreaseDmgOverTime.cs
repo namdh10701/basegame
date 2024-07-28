@@ -1,18 +1,23 @@
+using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.RPG.Stats;
 using UnityEngine;
 
 public class IncreaseDmgOverTime : MonoBehaviour
 {
-    StatModifier statModifer;
+    DecreaseHealthEffect dhe;
+    float orgAmount;
     float increaseRatePercent;
-    public void Init(Stat targetStat, float increaseRatePercent)
+    float totalIncrease = 0;
+    public void Init(DecreaseHealthEffect decreaseHealthEffect, float increaseRatePercent)
     {
-        statModifer = new StatModifier(0, StatModType.PercentAdd);
-        targetStat.AddModifier(statModifer);
+        dhe = decreaseHealthEffect;
+        orgAmount = decreaseHealthEffect.Amount;
         this.increaseRatePercent = increaseRatePercent;
     }
     private void Update()
     {
-        statModifer.Value += Time.deltaTime * increaseRatePercent;
+        totalIncrease += Time.deltaTime * increaseRatePercent;
+        if (dhe != null)
+            dhe.Amount = orgAmount + orgAmount * (totalIncrease / 100);
     }
 }

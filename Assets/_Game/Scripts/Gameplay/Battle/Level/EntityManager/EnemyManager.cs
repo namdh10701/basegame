@@ -19,6 +19,7 @@ namespace _Game.Scripts.Battle
         [SerializeField] Area pufferFishSpawnArea;
         [SerializeField] Area electricEelSpawnArea;
         [SerializeField] Area squidSpawnArea;
+        [SerializeField] Transform bossSpawnArea;
         [SerializeField] Vector3 jellyFishSpawnPoint;
 
         [SerializeField] Timer enemySpawnTimer;
@@ -28,10 +29,10 @@ namespace _Game.Scripts.Battle
         }
         void LoadLevelEnemyData()
         {
-            Debug.Log("AWAKE");
             stageId = PlayerPrefs.GetString("currentStage");
 
-            Debug.Log(stageId);
+            Debug.LogError(stageId);
+            Debug.LogError(floorId);
             levelDatas = GameData.LevelWaveTable.GetLevelData(stageId, floorId);
         }
         public void StartLevel()
@@ -58,7 +59,10 @@ namespace _Game.Scripts.Battle
         public void SpawnEnemy(string[] idPool, int total_power)
         {
             float currentPower = 0;
-
+            foreach (string id in idPool)
+            {
+                Debug.LogError(id);
+            }
             while (currentPower < total_power)
             {
                 string id = idPool[Random.Range(0, idPool.Length)];
@@ -83,6 +87,10 @@ namespace _Game.Scripts.Battle
                     case "0005":
                         position = jellyFishSpawnPoint;
                         break;
+                    case "9999":
+                        position = bossSpawnArea.position;
+                        break;
+
 
                 }
 
@@ -90,7 +98,18 @@ namespace _Game.Scripts.Battle
             }
         }
 
+        public void SpawnEnemy(string[] idPool, int total_power, Vector3 pos)
+        {
+            float currentPower = 0;
 
+            while (currentPower < total_power)
+            {
+                string id = idPool[Random.Range(0, idPool.Length)];
+                float enemyPower = Database.GetEnemyPower(id);
+                currentPower += enemyPower;
+                entityManager.SpawnEnemy(id, pos);
+            }
+        }
 
 
     }

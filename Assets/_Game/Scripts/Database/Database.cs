@@ -72,7 +72,8 @@ namespace _Game.Scripts.DB
             foreach (var enemy in GameData.MonsterTable.Records)
             {
                 EnemyPowerDic.Add(enemy.Id, enemy.PowerNumber);
-            }
+                
+            }EnemyPowerDic.Add("9999", 500);
         }
 
         static void CreateImageDic()
