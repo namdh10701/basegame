@@ -6,7 +6,7 @@ using PlayFab;
 using PlayFab.ClientModels;
 using UnityEngine;
 
-namespace Online.Service.Profile
+namespace Online.Service
 {
 	public class ProfileService : BaseOnlineService
 	{
