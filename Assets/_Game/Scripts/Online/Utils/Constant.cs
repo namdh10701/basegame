@@ -1,3 +1,4 @@
+using _Game.Features.Inventory;
 using Online.Enum;
 
 namespace Online
@@ -11,6 +12,18 @@ namespace Online
 				EVirtualCurrency.Coin => "CO",
 				EVirtualCurrency.Gem => "GE",
 				_ => string.Empty
+			};
+		}
+
+		public static ItemType GetItemType(this string item)
+		{
+			return item switch
+			{
+				"ship" => ItemType.SHIP,
+				"crew" => ItemType.CREW,
+				"cannon" => ItemType.CANNON,
+				"ammo" => ItemType.AMMO,
+				_ => ItemType.None
 			};
 		}
 	}
