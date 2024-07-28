@@ -6,6 +6,7 @@ using _Game.Scripts.DB;
 using _Game.Scripts.GD;
 using _Game.Scripts.SaveLoad;
 using _Game.Scripts.UI;
+using Online;
 using UnityWeld.Binding;
 using ZBase.UnityScreenNavigator.Core.Screens;
 
@@ -88,15 +89,16 @@ namespace _Game.Scripts.Gameplay
         private int _energy;
 
         #endregion
-
+//DNguyen Debug
         [Binding]
-        public string GoldInfo => $"{SaveSystem.GameSave.gold}";
+        public string GoldInfo => $"{PlayfabManager.Instance.Coin}";
         
         [Binding]
-        public string GemInfo => $"{SaveSystem.GameSave.gem}";
+        public string GemInfo => $"{PlayfabManager.Instance.Gem}";
         
         [Binding]
-        public string EnergyInfo => $"{SaveSystem.GameSave.energy}/{SaveSystem.GameSave.maxEnergy}";
+        public string EnergyInfo => $"{PlayfabManager.Instance.Energy}";
+        // public string EnergyInfo => $"{PlayfabManager.Instance.Gem}/{SaveSystem.GameSave.maxEnergy}";
 
         private async void Awake()
         {

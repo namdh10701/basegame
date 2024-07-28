@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using _Game.Scripts.GD.DataManager;
 using Cysharp.Threading.Tasks;
+using Online;
 using UnityWeld.Binding;
 using ZBase.UnityScreenNavigator.Core.Modals;
 
@@ -36,14 +37,13 @@ namespace _Game.Features.Shop
         {
             InitializeShopGem();
         }
-        
+
         void InitializeShopGem()
         {
             BigGemItem.Clear();
             MediumGemItem.Clear();
             SmallGemItem.Clear();
             _shopDataItemGem = GameData.ShopListingTable.GetData(ShopType.Gem);
-
             var gemItems = new List<ShopGemItem>();
             foreach (var item in _shopDataItemGem)
             {

@@ -1,6 +1,7 @@
 using _Base.Scripts.UI.Managers;
 using _Game.Scripts.GD.DataManager;
 using _Game.Scripts.UI;
+using Online;
 using UnityEngine;
 using UnityWeld.Binding;
 
@@ -139,9 +140,11 @@ namespace _Game.Features.Shop
         }
 
         [Binding]
-        public void SetAsHighLightItem()
+        public void OnClickBuy()
         {
-            // InventoryViewModel.HighlightItem = this;
+            // int amount = int.Parse(Amount);
+            // var curentGem = PlayfabManager.Instance.Gem + amount;
+            // PlayfabManager.Instance;
         }
     }
 }
