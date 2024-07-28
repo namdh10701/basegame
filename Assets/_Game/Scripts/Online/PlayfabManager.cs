@@ -1,9 +1,8 @@
+using System.Collections;
 using _Game.Scripts.SaveLoad;
 using Online.Enum;
 using Online.Interface;
-using Online.Service.Auth;
-using Online.Service.Leaderboard;
-using Online.Service.Profile;
+using Online.Service;
 
 namespace Online
 {
@@ -15,7 +14,8 @@ namespace Online
 		private ProfileService _profileService = null;
 		private InventoryService _inventoryService = null;
 		private EquipmentService _equipmentService = null;
-
+		private ShopService _shopService = null;
+			
 		#region Services
 
 		public AuthService Auth => _authService;
@@ -37,11 +37,13 @@ namespace Online
 			_profileService = new ProfileService();
 			_inventoryService = new InventoryService();
 			_equipmentService = new EquipmentService();
+			_shopService = new ShopService();
 
 			_authService.Initialize(this);
 			_profileService.Initialize(this);
 			_inventoryService.Initialize(this);
 			_equipmentService.Initialize(this);
+			_shopService.Initialize(this);
 		}
 
 		public void Login()
@@ -88,6 +90,11 @@ namespace Online
 			{
 				cb?.Invoke(true);
 			});
+		}
+
+		public void RunCoroutine(IEnumerator coroutine)
+		{
+			StartCoroutine(coroutine);
 		}
 	}
 }

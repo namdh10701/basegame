@@ -5,7 +5,8 @@ using Online.Enum;
 using Online.Interface;
 using PlayFab;
 using PlayFab.ClientModels;
-namespace Online.Service.Leaderboard
+
+namespace Online.Service
 {
 	public class EquipmentService : BaseOnlineService
 	{

@@ -1,5 +1,6 @@
 using Online.Interface;
-namespace Online.Service.Leaderboard
+
+namespace Online.Service
 {
 	public class LeaderboardService : BaseOnlineService
 	{

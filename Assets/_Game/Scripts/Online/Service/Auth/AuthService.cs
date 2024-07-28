@@ -1,10 +1,10 @@
 using Facebook.Unity;
 using Online.Enum;
 using Online.Interface;
-using PlayFab;
+using Online.Service.Auth;
 using PlayFab.ClientModels;
 
-namespace Online.Service.Auth
+namespace Online.Service
 {
 	public class AuthService : BaseOnlineService
 	{

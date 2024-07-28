@@ -8,7 +8,8 @@ using Online.Interface;
 using Online.Model.ApiRequest;
 using PlayFab;
 using PlayFab.ClientModels;
-namespace Online.Service.Leaderboard
+
+namespace Online.Service
 {
 	public class InventoryService : BaseOnlineService
 	{
