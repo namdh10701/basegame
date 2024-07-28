@@ -66,7 +66,7 @@ namespace _Game.Features.FightNodeInfoPopup
             await screenContainer.PushAsync(new 
                 ScreenOptions(nameof(BattleLoadingScreen), stack: false));
             
-            await UniTask.Delay(500);
+            await UniTask.Delay(3000);
             
             await screenContainer.PushAsync(
                 new ScreenOptions(nameof(BattleScreen), stack: false));

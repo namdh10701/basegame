@@ -5,6 +5,7 @@ using _Game.Scripts.GD.DataManager;
 using _Game.Scripts.SaveLoad;
 using _Game.Scripts.UI;
 using Cysharp.Threading.Tasks;
+using UnityEngine;
 using UnityWeld.Binding;
 using ZBase.UnityScreenNavigator.Core.Screens;
 
@@ -100,7 +101,7 @@ namespace _Game.Features.TalentTree
             public bool IsShow => !string.IsNullOrEmpty(Value);
 
             #endregion
-
+            
             public int Id;
 
             public bool IsPremiumNode;
@@ -109,6 +110,9 @@ namespace _Game.Features.TalentTree
             public async void OnCLick()
             {
                 var isConfirmed = await DialogConfirm.Show("Upgrade?");
+
+                if (!isConfirmed) return;
+                
                 if (IsPremiumNode)
                 {
                     SaveSystem.GameSave.Talent.OwnedNormalTalentId = Id;
@@ -117,6 +121,9 @@ namespace _Game.Features.TalentTree
                 {
                     SaveSystem.GameSave.Talent.OwnedNormalTalentId = Id;
                 }
+
+                IsActive = true;
+                SaveSystem.SaveGame();
             }
         }
 
@@ -193,15 +200,17 @@ namespace _Game.Features.TalentTree
 
         #endregion
 
-        #region Binding Prop: NextLevelProgress
-
         /// <summary>
         /// NextLevelProgress
         /// </summary>
         [Binding]
         public float NextLevelProgress => NextLevelCurrentResAmount / NextLevelNeedResAmount;
-
-        #endregion
+        
+        /// <summary>
+        /// ProgressInfo
+        /// </summary>
+        [Binding]
+        public string ProgressInfo => $"{NextLevelCurrentResAmount} / {NextLevelNeedResAmount}";
 
         #region Binding Prop: NextLevelNeedResAmount
 
@@ -260,7 +269,13 @@ namespace _Game.Features.TalentTree
             // await UniTask.Delay(TimeSpan.FromSeconds(1));
             InitData();
         }
-        
+
+        public override UniTask WillPopEnter(Memory<object> args)
+        {
+            InitData();
+            return base.WillPopEnter(args);
+        }
+
         private void InitData()
         {
             var talent = SaveSystem.GameSave.Talent;
@@ -276,7 +291,7 @@ namespace _Game.Features.TalentTree
                     {
                         Value = $"+{info.Value}",
                         Content = info.Name,
-                        IsActive = talent.CurrentLevel >= normalNodeRec.Id,
+                        IsActive = talent.OwnedNormalTalentId >= normalNodeRec.Id,
                         Id = normalNodeRec.Id,
                     });
                 }
@@ -302,7 +317,7 @@ namespace _Game.Features.TalentTree
                         {
                             Value = $"+{preInfo.Value}",
                             Content = preInfo.Name,
-                            IsActive = talent.CurrentLevel >= preNodeRec.Id,
+                            IsActive = talent.OwnedPreTalentId >= preNodeRec.Id,
                             IsPremiumNode = true,
                             Id = preNodeRec.Id,
                         });
