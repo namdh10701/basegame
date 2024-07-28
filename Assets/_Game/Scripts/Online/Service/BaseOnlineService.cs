@@ -1,5 +1,7 @@
+using Online.Interface;
 using UnityEngine;
-namespace Online.Interface
+
+namespace Online.Service
 {
 	public abstract class BaseOnlineService
 	{
