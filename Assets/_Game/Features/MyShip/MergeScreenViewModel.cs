@@ -5,6 +5,7 @@ using _Game.Features.Inventory;
 using _Game.Scripts.Bootstrap;
 using _Game.Scripts.GD.DataManager;
 using _Game.Scripts.SaveLoad;
+using Cysharp.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityWeld.Binding;
@@ -298,19 +299,19 @@ namespace _Game.Features.MergeScreen
                 OnPropertyChanged(nameof(FilterItemTypeIndex));
                 if (ItemMerge != null && ItemTarget != null)
                 {
-                    ItemMerge.IsSelected = false;
+                    _itemsSelected.Clear();
                     ItemMerge = null;
                     ItemTarget = null;
                 }
-                DoFilter();
+                DoFilter(true);
             }
         }
         private int _filterItemTypeIndex = 0;
         #endregion
 
-        #region Binding Prop: HighestLevelItem
+        #region Binding Prop: LevelItemMerge
         /// <summary>
-        /// HighestLevelItem
+        /// LevelItemMerge
         /// </summary>
         [Binding]
         public int LevelItemMerge
@@ -387,7 +388,12 @@ namespace _Game.Features.MergeScreen
         public ObservableList<Star> StarsItemTarget => starsItemTarget;
         #endregion
 
-        private void Awake()
+        void OnEnable()
+        {
+            LoadData();
+        }
+
+        private void LoadData()
         {
             InitializeInternal();
             IgnoreItems.CollectionChanged += (sender, args) =>
@@ -515,15 +521,14 @@ namespace _Game.Features.MergeScreen
                     _itemsSelected.Add(item);
                 }
                 NumberItems++;
-                ItemMerge = FindHighestLevelItem(_itemsSelected);
                 OnPropertyChanged(nameof(SpriteItemMerge));
-                LevelItemMerge = ItemMerge.Level;
                 SlotItemMerge = ItemMerge.Slot;
                 LoadStarsItem(ItemMerge, StarsItemMerge);
                 DoFilterItemMerge(item);
 
                 if (ItemTarget == null)
                 {
+                    LevelItemMerge = ItemMerge.Level;
                     LoadDataItemTarget();
                     LoadStarsItem(ItemTarget, StarsItemTarget);
                 }
@@ -532,6 +537,7 @@ namespace _Game.Features.MergeScreen
             else
             {
                 NumberItems--;
+                item.IsSelected = false;
                 _itemsSelected.Remove(item);
                 if (NumberItems == 0)
                 {
@@ -566,25 +572,6 @@ namespace _Game.Features.MergeScreen
                 .ToList();
             var pageItemList = itemList;
             Items.AddRange(pageItemList);
-        }
-
-        private InventoryItem FindHighestLevelItem(List<InventoryItem> items)
-        {
-            if (items == null || items.Count == 0)
-            {
-                return null;
-            }
-
-            InventoryItem highestLevelItem = items[0];
-            foreach (var item in items)
-            {
-                if (item.Level > highestLevelItem.Level)
-                {
-                    highestLevelItem = item;
-                }
-            }
-
-            return highestLevelItem;
         }
 
         private DataTableRecord GetNextRarityItem(InventoryItem inventoryItem)
@@ -635,7 +622,41 @@ namespace _Game.Features.MergeScreen
                     break;
             }
 
+        }
 
+        [Binding]
+        public async void OnClickConfirm()
+        {
+            int rarityLevel = int.Parse(ItemTarget.RarityLevel);
+            ItemData itemData = new ItemData(ItemTarget.Type, ItemTarget.Id, ItemTarget.OwnItemId, rarityLevel, ItemTarget.Level);
+            SaveSystem.GameSave.OwnedItems.Add(itemData);
+            RemoveItemData();
+            SaveSystem.SaveGame();
+
+            IsActiveSuccesFul = true;
+            await UniTask.Delay(2000);
+            IsActiveSuccesFul = false;
+            LoadData();
+
+        }
+
+        private void RemoveItemData()
+        {
+            var ownedItemsDict = SaveSystem.GameSave.OwnedItems.ToDictionary(item => item.OwnItemId);
+            var itemsRemove = new List<ItemData>();
+
+            foreach (var itemSelected in _itemsSelected)
+            {
+                if (ownedItemsDict.TryGetValue(itemSelected.OwnItemId, out var item))
+                {
+                    itemsRemove.Add(item);
+                }
+            }
+
+            foreach (var itemRemove in itemsRemove)
+            {
+                SaveSystem.GameSave.OwnedItems.Remove(itemRemove);
+            }
         }
 
 
