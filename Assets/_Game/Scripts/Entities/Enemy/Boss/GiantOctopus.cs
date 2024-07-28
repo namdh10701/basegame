@@ -58,7 +58,28 @@ namespace _Game.Features.Gameplay
                 mbtExecutor.enabled = true;
                 StartCoroutine(AttackCycle());
             }
+
+            if (state == OctopusState.Dead)
+            {
+                StopAllCoroutines();
+                StartCoroutine(DeadCoroutine());
+            }
         }
+
+        private IEnumerator DeadCoroutine()
+        {
+            Coroutine bodyTransform = StartCoroutine(body.DeadCoroutine());
+            Coroutine upperTransform = StartCoroutine(upperPartController.DeadCoroutine());
+            Coroutine lowerTransform = StartCoroutine(lowerPartController.DeadCoroutine());
+            Coroutine behindTransform = StartCoroutine(behindPartController.DeadCoroutine());
+
+            yield return bodyTransform;
+            yield return upperTransform;
+            yield return lowerTransform;
+            yield return behindTransform;
+            Destroy(gameObject);
+        }
+
         void StopAllAttack()
         {
 
@@ -77,8 +98,9 @@ namespace _Game.Features.Gameplay
             yield return behindTransform;
             Mad = true;
             Debug.Log("COMPLETE TRANSFORM");
-            lastState = OctopusState.State2;
             State = OctopusState.State2;
+            lastState = OctopusState.State2;
+
         }
 
         public Action<OctopusState> OnStateEntered;
@@ -115,6 +137,15 @@ namespace _Game.Features.Gameplay
             behindPartController.OnAttackEnded += OnBehindPartAttackEnded;
             spawnPartController.OnAttackEnded += OnSpawnPartAttackEnded;
             State = OctopusState.Entry;
+            enemyStats.HealthPoint.OnValueChanged += HealthPoint_OnValueChanged1;
+        }
+
+        private void HealthPoint_OnValueChanged1(_Base.Scripts.RPG.Stats.RangedStat obj)
+        {
+            if (obj.Value <= obj.MinValue)
+            {
+                State = OctopusState.Dead;
+            }
         }
 
         void OnBodyAttackEnded()
@@ -160,7 +191,6 @@ namespace _Game.Features.Gameplay
             {
                 if (!Mad)
                 {
-                    Debug.Log("TRANSFORM 123");
                     State = OctopusState.Transforming;
                     Mad = true;
                 }
@@ -172,6 +202,8 @@ namespace _Game.Features.Gameplay
         public void Active()
         {
             State = OctopusState.State1;
+            body.Active();
+            behindPartController.Active();
         }
 
         [ContextMenu("Grab Attack")]
@@ -306,12 +338,16 @@ namespace _Game.Features.Gameplay
         {
             while (true)
             {
-                yield return new WaitForSeconds(State == OctopusState.State1 ? attackIntervalState1 : attackIntervalState2); // Wait for 10 seconds
+                if (CurrentActiveAttack >= (State == OctopusState.State1 ? maxState1ActiveAttack : maxState2ActiveAttack))
+                {
+                    yield return null;
+                }
+                yield return new WaitForSeconds(State == OctopusState.State1 ? attackIntervalState1 / 2 : attackIntervalState2 / 2);
                 int maxAttack = State == OctopusState.State1 ? maxState1ActiveAttack : maxState2ActiveAttack;
                 int currentAttack = CurrentActiveAttack;
                 int remainAttack = maxAttack - currentAttack;
 
-                int numAttacks = UnityEngine.Random.Range(1, remainAttack + 1);
+                int numAttacks = UnityEngine.Random.Range(1, 2);
 
 
                 // Perform attacks
@@ -319,6 +355,7 @@ namespace _Game.Features.Gameplay
                 {
                     Attack(AvailableAttack.GetRandom());
                 }
+                yield return new WaitForSeconds(State == OctopusState.State1 ? attackIntervalState1 / 2 : attackIntervalState2 / 2); // Wait for 10 
             }
         }
 

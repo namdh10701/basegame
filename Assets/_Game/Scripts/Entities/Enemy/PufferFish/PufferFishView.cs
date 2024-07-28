@@ -14,8 +14,7 @@ namespace _Game.Scripts
     {
         protected override IEnumerator EntryVisualize()
         {
-            transform.localScale = Vector3.zero;
-            yield return new WaitForSeconds(1);
+            //transform.localScale = Vector3.zero;
             Tween tween = transform.DOScale(1, .5f).SetEase(Ease.OutBack);
             yield return tween.WaitForCompletion();
             yield return base.EntryVisualize();

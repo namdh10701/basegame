@@ -20,6 +20,8 @@ namespace _Base.Scripts.RPG.Effects
         }
         public override void Apply(IEffectTaker entity)
         {
+            if (entity is not ISlowable)
+                return;
             base.Apply(entity);
             Debug.Log("APLLY SLOW");
             ISlowable slowable = entity as ISlowable;
@@ -34,6 +36,8 @@ namespace _Base.Scripts.RPG.Effects
         public override void OnEnd(IEffectTaker entity)
         {
             base.OnEnd(entity);
+            if (entity is not ISlowable)
+                return;
             ISlowable slowable = entity as ISlowable;
             foreach (Stat stat in slowable.SlowableStats)
             {

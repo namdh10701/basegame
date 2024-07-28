@@ -10,6 +10,7 @@ namespace _Game.Features.Gameplay
         public Cell[,] Cells;
         public int Col => Cells.GetLength(1);
         public int Row => Cells.GetLength(0);
+        public Ship ship;
         public Transform CellRoot;
         public Transform GridItemRoot;
         public GridDefinition GridDefinition;

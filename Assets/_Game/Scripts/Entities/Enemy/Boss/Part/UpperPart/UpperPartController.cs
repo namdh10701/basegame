@@ -77,4 +77,12 @@ public class UpperPartController : PartController
         yield return a;
         yield return b;
     }
+
+    internal IEnumerator DeadCoroutine()
+    {
+        Coroutine a = StartCoroutine(left.DeadCoroutine());
+        Coroutine b = StartCoroutine(right.DeadCoroutine());
+        yield return a;
+        yield return b;
+    }
 }

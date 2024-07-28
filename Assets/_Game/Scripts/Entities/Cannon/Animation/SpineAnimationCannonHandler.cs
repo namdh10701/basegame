@@ -49,7 +49,6 @@ public class SpineAnimationCannonHandler : SpineAnimationHandler
             OnShoot?.Invoke();
             isLeft = !isLeft;
             shellAnimation = (ShellAnimation)ShellAnimationPool.Pull();
-            Debug.Log(shellAnimation);
             if (isLeft) shellAnimation.PlayLeftShell();
             else shellAnimation.PlayRightShell();
             if (muzzleAnimationPrefab != null)

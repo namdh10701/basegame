@@ -41,8 +41,6 @@ namespace _Game.Features.Gameplay
         public BattleViewModel BattleViewModel;
         public void Initialize(BattleViewModel battleViewModel)
         {
-            EntityManager.OnEnter();
-
             this.BattleViewModel = battleViewModel;
             BattleInputManager.gameObject.SetActive(false);
             EntityManager.SpawnShip(SaveSystem.GameSave.ShipSetupSaveData.CurrentShipId, shipStartPos.position);
@@ -85,11 +83,11 @@ namespace _Game.Features.Gameplay
                 if (EnemyManager.IsLevelDone)
                 {
                     bool ended = true;
-                    foreach (EnemyModel a in EntityManager.aliveEnemies)
+                    foreach (EnemyStats a in EntityManager.aliveEnemies)
                     {
                         if (a != null)
                         {
-                            EnemyStats stats = (EnemyStats)a.Stats;
+                            EnemyStats stats = a;
                             if (stats.HealthPoint.Value > 0)
                             {
                                 ended = false;
@@ -122,7 +120,6 @@ namespace _Game.Features.Gameplay
             GlobalEvent<bool>.Unregister("TOGGLE_PAUSE", TogglePause);
             GlobalEvent.Unregister("UseFullFever", UseFullFever);
             currentRate = 1;
-            BattleViewModel.SpeedUpRate = currentRate;
         }
 
         private readonly int _minSpeedUpRate = 1;

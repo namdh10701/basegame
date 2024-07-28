@@ -1,5 +1,6 @@
 using System;
 using _Base.Scripts.RPG.Entities;
+using _Base.Scripts.RPG.Stats;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 using Task = System.Threading.Tasks.Task;

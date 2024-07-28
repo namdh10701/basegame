@@ -19,7 +19,7 @@ namespace _Game.Features.Gameplay
         private void OnDisable()
         {
             GlobalEvent<float, bool, IEffectGiver, IEffectTaker, Vector3>.Unregister("DAMAGE_INFLICTED", OnDamageInflicted);
-            GlobalEvent<int, Vector3>.Register("MANA_CONSUMED", OnManaConsumed);
+            GlobalEvent<int, Vector3>.Unregister("MANA_CONSUMED", OnManaConsumed);
         }
 
         void OnDamageInflicted(float amount, bool isCrit, IEffectGiver effect, IEffectTaker effectTaker, Vector3 position)

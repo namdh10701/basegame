@@ -102,10 +102,14 @@ namespace _Game.Features.Gameplay
 
         public void OnSlowed()
         {
+            mpb.SetColor("_Black", slowedColor);
+            meshRenderer.SetPropertyBlock(mpb);
             isSlowing = true;
         }
         public void OnSlowEnded()
         {
+            mpb.SetColor("_Black", Color.black);
+            meshRenderer.SetPropertyBlock(mpb);
             isSlowing = false;
         }
         public void OnBurned()
@@ -131,6 +135,7 @@ namespace _Game.Features.Gameplay
                     HandleIdleEnter();
                     break;
                 case PartState.Hidding:
+                    StopAllCoroutines();
                     StartCoroutine(HideCoroutine());
                     break;
                 case PartState.Transforming:
@@ -152,10 +157,16 @@ namespace _Game.Features.Gameplay
 
                     break;
                 case PartState.Dead:
+                    StartCoroutine(DeadCoroutine());
                     break;
+            }
+            if(state!= PartState.Hidding)
+            {
+                meshRenderer.enabled = true;
             }
             lastState = state;
         }
+
         public virtual void HandleIdleEnter()
         {
             if (lastState == PartState.Attacking)
@@ -177,6 +188,20 @@ namespace _Game.Features.Gameplay
             skeletonAnim.AnimationState.SetAnimation(0, entry, false);
             skeletonAnim.AnimationState.AddAnimation(0, idle, true, 0);
         }
+        protected virtual IEnumerator DeadCoroutine()
+        {
+            if (!string.IsNullOrEmpty(dead))
+            {
+                skeletonAnim.AnimationState.SetAnimation(0, dead, false);
+                yield return new WaitForSpineAnimationComplete(skeletonAnim.AnimationState.Tracks.ToArray()[0]);
+                partModel.IsDead = true;
+            }
+            else
+            {
+                partModel.IsDead = true;
+                yield break;
+            }
+        }
 
         protected IEnumerator EntryCoroutine()
         {
@@ -186,23 +211,37 @@ namespace _Game.Features.Gameplay
         }
         protected virtual IEnumerator TransformCoroutine()
         {
-            Debug.Log("SET SKIN ONLY coroutine");
             skeletonAnim.AnimationState.SetAnimation(0, transforming, false);
             yield return new WaitForSpineAnimationComplete(skeletonAnim.AnimationState.Tracks.ToArray()[0]);
             partModel.IsMad = true;
         }
         protected virtual IEnumerator EntryVisualize()
         {
+            meshRenderer.enabled = true;
             skeletonAnim.AnimationState.SetAnimation(0, entry, false);
             yield return new WaitForSpineAnimationComplete(skeletonAnim.AnimationState.Tracks.ToArray()[0]);
         }
 
         protected virtual IEnumerator HideCoroutine()
         {
-            lastState = PartState.Hidding;
-            skeletonAnim.AnimationState.SetAnimation(0, hide, false);
-            yield return new WaitForSpineAnimationComplete(skeletonAnim.AnimationState.Tracks.ToArray()[0]);
-            partModel.Deactive();
+            mpb.SetColor("_Black", isSlowing ? slowedColor : Color.black);
+            meshRenderer.SetPropertyBlock(mpb);
+            if (lastState == PartState.Transforming)
+            {
+                lastState = PartState.Hidding;
+                skeletonAnim.AnimationState.AddAnimation(0, hide, false, 0);
+                yield return new WaitForSpineAnimationComplete(skeletonAnim.AnimationState.Tracks.ToArray()[0]);
+                meshRenderer.enabled = false;
+                partModel.Deactive();
+            }
+            else
+            {
+                lastState = PartState.Hidding;
+                skeletonAnim.AnimationState.SetAnimation(0, hide, false);
+                yield return new WaitForSpineAnimationComplete(skeletonAnim.AnimationState.Tracks.ToArray()[0]);
+                meshRenderer.enabled = false;
+                partModel.Deactive();
+            }
         }
 
         public void PlayHide()

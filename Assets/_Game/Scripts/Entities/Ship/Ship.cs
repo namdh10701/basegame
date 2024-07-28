@@ -49,13 +49,15 @@ namespace _Game.Features.Gameplay
         public ShipHUD HUD;
         private void Start()
         {
+            EffectCollider.Taker = this;
+            EffectHandler.EffectTaker = this;
             //Initialize(null);
         }
 
 
         public void Initialize(BattleViewModel battleViewModel)
         {
-            GlobalEvent<EnemyModel>.Register("EnemyDied", OnEnemyDied);
+            GlobalEvent<EnemyStats>.Register("EnemyDied", OnEnemyDied);
             //GlobalEvent<Cannon>.Register("CLICK_CANNON", ShowShipHUD);
             //GlobalEvent.Register("CloseHUD", CloseHUD);
             GetComponent<GDConfigStatsApplier>().LoadStats(this);
@@ -69,8 +71,6 @@ namespace _Game.Features.Gameplay
                 float fever = PlayerPrefs.GetFloat("fever", 0);
                 stats.Fever.StatValue.BaseValue = fever;
             }
-            EffectCollider.Taker = this;
-            EffectHandler.EffectTaker = this;
             FeverModel.SetFeverPointStats(stats.Fever);
             PathfindingController.Initialize();
             ShipSetup.Initialize();
@@ -121,17 +121,17 @@ namespace _Game.Features.Gameplay
 
         private void OnDestroy()
         {
-            GlobalEvent<EnemyModel>.Unregister("EnemyDied", OnEnemyDied);
+            GlobalEvent<EnemyStats>.Unregister("EnemyDied", OnEnemyDied);
             /*GlobalEvent<Cannon>.Unregister("ClickCannon", ShowShipHUD);
             GlobalEvent.Unregister("CloseHUD", CloseHUD);*/
         }
 
-        public void OnEnemyDied(EnemyModel enemyModel)
+        public void OnEnemyDied(EnemyStats enemyModel)
         {
             if (FeverModel.CurrentState != FeverState.Unleashing)
             {
 
-                float feverPointGained = ((EnemyStats)enemyModel.Stats).FeverPoint.Value;
+                float feverPointGained = enemyModel.FeverPoint.Value;
                 AddFeverPoint(feverPointGained);
 
             }

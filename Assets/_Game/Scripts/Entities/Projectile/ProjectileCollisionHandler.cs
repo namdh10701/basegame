@@ -59,7 +59,6 @@ namespace _Game.Features.Gameplay
                     Handlers.Remove(handler);
                 }
             }
-            AudioManager.Instance.PlayMonsterGetHit();
             base.Process(giver, taker);
             if (Handlers.Count == 0)
             {
@@ -81,8 +80,8 @@ namespace _Game.Features.Gameplay
 
     public class ParticleHandler : IHandler
     {
-        ParticleSystem onHitParticle;
-        public ParticleHandler(ParticleSystem onHitParticle)
+        GameObject onHitParticle;
+        public ParticleHandler(GameObject onHitParticle)
         {
             this.onHitParticle = onHitParticle;
         }

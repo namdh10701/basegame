@@ -1641,6 +1641,7 @@ GameObject:
   - component: {fileID: 1607887254565068409}
   - component: {fileID: 8199855565083361946}
   - component: {fileID: 211294797461468173}
+  - component: {fileID: 7071873916988800879}
   m_Layer: 0
   m_Name: Gun 4 (Fast) - Spine
   m_TagString: Untagged
@@ -1805,6 +1806,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sortPivot: {fileID: 2014087136452937997}
+--- !u!114 &7071873916988800879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7170522438461123222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 362bf06ac4fab534f8cacebc56ea4a83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mr: {fileID: 6107203405867059976}
+  refer: {fileID: 2797126293137118479}
 --- !u!1 &8536386764850914981
 GameObject:
   m_ObjectHideFlags: 0
@@ -2261,6 +2276,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8442617827093723664, guid: 126ede7f080fff74ba89b7de61f42a9d, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 6107203405867059976}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
