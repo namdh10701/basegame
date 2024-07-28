@@ -62,7 +62,9 @@ namespace _Game.Features.Shop
             {
                 ShopPirateItem itemGem = new ShopPirateItem();
                 itemGem.Id = item.ItemId;
+                itemGem.Name = item.Name;
                 itemGem.Price = item.PriceAmount.ToString();
+                itemGem.Amount = $"x{GameData.ShopItemTable.GetAmountById(item.ItemId).Item1[0]}";
                 itemGem.PriceType = item.PriceType;
                 itemGem.ShopType = item.ShopType.ToString();
 
@@ -77,6 +79,15 @@ namespace _Game.Features.Shop
                     {
                         var level = 1;
                         shopPirateItemReceived.Amount = (amounts[i] * level).ToString();
+                    }
+                    else if (shopPirateItemReceived.Type == "random_blueprint")
+                    {
+                        string[] blueprints = { "blueprint0", "blueprint1", "blueprint2" };
+                        System.Random random = new System.Random();
+                        int randomIndex = random.Next(blueprints.Length);
+
+                        shopPirateItemReceived.Type = blueprints[randomIndex];
+                        shopPirateItemReceived.Amount = amounts[i].ToString();
                     }
                     else
                         shopPirateItemReceived.Amount = amounts[i].ToString();

@@ -101,7 +101,29 @@ namespace _Game.Features.Shop
         private string m_price;
         #endregion
 
+        #region Binding Prop: Amount
+        /// <summary>
+        /// Amount
+        /// </summary>
         [Binding]
+        public string Amount
+        {
+            get => _amount;
+            set
+            {
+                if (Equals(_amount, value))
+                {
+                    return;
+                }
+
+                _amount = value;
+                OnPropertyChanged(nameof(Amount));
+            }
+        }
+        private string _amount;
+        #endregion
+
+        [Binding]   
         public Sprite Thumbnail
         {
             get

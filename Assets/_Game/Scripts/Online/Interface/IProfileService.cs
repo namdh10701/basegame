@@ -1,9 +1,6 @@
-using System.Collections.Generic;
-using fbg;
-using Online.Enum;
 namespace Online.Interface
 {
-	public interface IProfileService
+    public interface IProfileService
 	{
 		public string DisplayName { get; }
 		public int Level { get; }
