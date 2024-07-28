@@ -9,17 +9,13 @@ namespace Online
 			public const string CurrencyCoin = "Coin";
 			public const string Level = "Level";
 			public const string Energy = "Energy";
-			public const string EquipmentProfile = "EquipmentProfile{0}";
-		}
-		
-		public static class ProfileConfigs
-		{
-			public static int TotalProfile = 3;
+			public const string EquipmentShips = "EquipmentShips";
 		}
 		
 		public static class CloudFunction
 		{
 			public const string RequestNewProfile = "RequestNewProfile";
+			public const string UpgradeItem = "UpgradeItem";
 		}
 	}
 }

@@ -6,11 +6,6 @@ namespace Online.Model
 		public long Exp;
 	}
 
-	public class EnergyModel
-	{
-		public int Energy;
-	}
-
 	public class EquipmentModel
 	{
 		public string ShipID;

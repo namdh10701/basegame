@@ -4,8 +4,7 @@ namespace Online.Interface
 	{
 		public string DisplayName { get; }
 		public int Level { get; }
-		public long EXP { get; }
-		public int Energy { get; }
+		public long Exp { get; }
 		
 		// Profile
 		public void UpdateEquipmentProfile(int index, string shipID, object grid, object stack);
