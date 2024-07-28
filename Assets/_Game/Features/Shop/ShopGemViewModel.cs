@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using _Game.Scripts.GD.DataManager;
 using Cysharp.Threading.Tasks;
-using Online;
 using UnityWeld.Binding;
 using ZBase.UnityScreenNavigator.Core.Modals;
 

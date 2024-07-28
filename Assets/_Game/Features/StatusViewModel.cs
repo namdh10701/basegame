@@ -1,14 +1,7 @@
-using System.Threading.Tasks;
 using _Base.Scripts.Utils;
-using _Game.Features.Home;
-using _Game.Features.MyShipScreen;
-using _Game.Scripts.DB;
-using _Game.Scripts.GD;
-using _Game.Scripts.SaveLoad;
 using _Game.Scripts.UI;
 using Online;
 using UnityWeld.Binding;
-using ZBase.UnityScreenNavigator.Core.Screens;
 
 namespace _Game.Scripts.Gameplay
 {
