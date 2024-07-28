@@ -1,13 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using Online.Interface;
+using Online.Model.GooglePurchase;
 using PlayFab;
 using PlayFab.ClientModels;
 using UnityEngine.Purchasing;
+using UnityEngine.Purchasing.Extension;
 
 namespace Online.Service
 {
-	public class ShopService : BaseOnlineService, IStoreListener
+	public class ShopService : BaseOnlineService, IDetailedStoreListener
 	{
 		#region Shop ID
 
@@ -22,15 +24,21 @@ namespace Online.Service
 		public List<StoreItem> GemPackages { get; private set; }
 		public List<StoreItem> GoldPackages { get; private set; }
 		public List<StoreItem> EnergyPackages { get; private set; }
-
+		public Dictionary<string, string> PackageLocalizePrices { get; private set; } = new();
+		
 		#endregion
 
 		#region IAP
 
-		private IStoreController controller = null;
-		private IExtensionProvider extensions = null;
+		private IStoreController _storeController = null;
+		private IExtensionProvider _extensionProvider = null;
+		private IGooglePlayStoreExtensions _googlePlayStoreExtensions;
+		private IAppleExtensions _appleExtensions;
+		private System.Action<bool> _purchaseCallback;
 
 		#endregion
+
+		public bool IsInitialized => _storeController != null && _extensionProvider != null;
 
 		public void LoadAllStore()
 		{
@@ -48,6 +56,10 @@ namespace Online.Service
 			}
 
 			var builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
+			foreach (var gem in GemPackages)
+			{
+				builder.AddProduct(gem.ItemId, ProductType.Consumable);
+			}
 			UnityPurchasing.Initialize(this, builder);
 		}
 
@@ -94,6 +106,28 @@ namespace Online.Service
 			});
 		}
 
+		public void BuyStoreItem(string storeId, System.Action<bool> cb = null)
+		{
+			if (!IsInitialized)
+			{
+				LogError("UnityIAP not initialized!");
+				cb?.Invoke(false);
+				return;
+			}
+
+			Product product = _storeController.products.WithID(storeId);
+			if (product != null)
+			{
+				_purchaseCallback = cb;
+				_storeController.InitiatePurchase(product);
+			}
+			else
+			{
+				LogError($"Store Item {storeId} not initialized!");
+				cb?.Invoke(false);
+			}
+		}
+
 		public override void LogSuccess(string message)
 		{
 			LogEvent(false, message, "Shop");
@@ -104,27 +138,94 @@ namespace Online.Service
 			LogEvent(true, error, "Shop");
 		}
 
+		public void ValidateGooglePlayPurchase(string currencyCode, uint price, PayloadData receiptJson, System.Action<bool> cb = null)
+		{
+			PlayFabClientAPI.ValidateGooglePlayPurchase(new ValidateGooglePlayPurchaseRequest()
+			{
+				CurrencyCode = currencyCode,
+				PurchasePrice = price,
+				ReceiptJson = receiptJson.json,
+				Signature = receiptJson.signature
+			}, result =>
+			{
+				LogSuccess("Validate Purchase!");
+				cb?.Invoke(true);
+			}, error =>
+			{
+				LogError(error.ErrorMessage);
+				cb?.Invoke(false);
+			});
+		}
+
+		public void ValidateApplePurchase(string receiptData, System.Action<bool> cb = null)
+		{
+			PlayFabClientAPI.ValidateIOSReceipt(new ValidateIOSReceiptRequest()
+			{
+				ReceiptData = receiptData
+			}, result =>
+			{
+				LogSuccess("Validate Purchase!");
+				cb?.Invoke(true);
+			}, error =>
+			{
+				LogError(error.ErrorMessage);
+				cb?.Invoke(false);
+			});
+		}
+
 		#region Unity IAP
+
+		public void OnInitialized(IStoreController controller, IExtensionProvider extensions)
+		{
+			LogSuccess("UnitIAP, Initialized!");
+			_storeController = controller;
+			_extensionProvider = extensions;
+
+			PackageLocalizePrices.Clear();
+			foreach (var product in _storeController.products.all)
+			{
+				PackageLocalizePrices.Add(product.definition.id, product.metadata.localizedPriceString);
+			}
+		}
 
 		public void OnInitializeFailed(InitializationFailureReason error)
 		{
-			throw new System.NotImplementedException();
+			LogError("UnitIAP, Init failed: " + error);
 		}
+
 		public void OnInitializeFailed(InitializationFailureReason error, string message)
 		{
-			throw new System.NotImplementedException();
+			LogError("UnitIAP, Init failed: " + error + ", " + message);
 		}
+
 		public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs purchaseEvent)
 		{
-			throw new System.NotImplementedException();
+			if (!IsInitialized)
+				LogError("ProcessPurchase, UnityIAP not initialized!");
+
+			if (purchaseEvent.purchasedProduct == null)
+			{
+				LogError("ProcessPurchase, Unknow purchase product!");
+				return PurchaseProcessingResult.Complete;
+			}
+
+#if UNITY_ANDROID
+			var product = purchaseEvent.purchasedProduct;
+			var googleReceipt = GooglePurchase.FromJson(purchaseEvent.purchasedProduct.receipt);
+			ValidateGooglePlayPurchase(product.metadata.isoCurrencyCode, (uint)product.metadata.localizedPrice * 100, googleReceipt.PayloadData, _purchaseCallback);
+#else
+#endif
+			return PurchaseProcessingResult.Complete;
 		}
+
 		public void OnPurchaseFailed(Product product, PurchaseFailureReason failureReason)
 		{
-			throw new System.NotImplementedException();
+			LogError("OnPurchaseFailed, ProductId: " + product.definition.id + ", Reason: " + failureReason.ToString());
 		}
-		public void OnInitialized(IStoreController controller, IExtensionProvider extensions)
+
+		public void OnPurchaseFailed(Product product, PurchaseFailureDescription failureDescription)
 		{
-			throw new System.NotImplementedException();
+			LogError("OnPurchaseFailed, ProductId: " + product.definition.id + ", Reason: " + failureDescription.reason + ", Message: " + failureDescription.message);
 		}
 
 		#endregion

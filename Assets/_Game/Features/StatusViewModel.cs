@@ -91,7 +91,7 @@ namespace _Game.Scripts.Gameplay
         #endregion
 //DNguyen Debug
         [Binding]
-        public string GoldInfo => $"{PlayfabManager.Instance.Coin}";
+        public string GoldInfo => $"{PlayfabManager.Instance.Gold}";
         
         [Binding]
         public string GemInfo => $"{PlayfabManager.Instance.Gem}";

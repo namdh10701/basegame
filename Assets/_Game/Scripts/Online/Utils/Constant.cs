@@ -9,8 +9,9 @@ namespace Online
 		{
 			return currency switch
 			{
-				EVirtualCurrency.Coin => "CO",
+				EVirtualCurrency.Gold => "GO",
 				EVirtualCurrency.Gem => "GE",
+				EVirtualCurrency.Energy => "EN",
 				_ => string.Empty
 			};
 		}

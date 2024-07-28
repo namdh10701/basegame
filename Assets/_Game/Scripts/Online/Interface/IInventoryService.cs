@@ -5,7 +5,7 @@ namespace Online.Interface
 {
 	public interface IInventoryService
 	{
-		public int Coin { get; }
+		public int Gold { get; }
 		public int Gem { get; }
 		public int Energy { get; }
 		public List<ItemData> Items { get; }
