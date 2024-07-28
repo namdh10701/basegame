@@ -1,13 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using Online.Interface;
+using Online.Model.GooglePurchase;
 using PlayFab;
 using PlayFab.ClientModels;
 using UnityEngine.Purchasing;
+using UnityEngine.Purchasing.Extension;
 
 namespace Online.Service
 {
-	public class ShopService : BaseOnlineService, IStoreListener
+	public class ShopService : BaseOnlineService, IDetailedStoreListener
 	{
 		#region Shop ID
 
@@ -27,10 +29,15 @@ namespace Online.Service
 
 		#region IAP
 
-		private IStoreController controller = null;
-		private IExtensionProvider extensions = null;
+		private IStoreController _storeController = null;
+		private IExtensionProvider _extensionProvider = null;
+		private IGooglePlayStoreExtensions _googlePlayStoreExtensions;
+		private IAppleExtensions _appleExtensions;
+		private Dictionary<string, string> _packageLocalPrices = new Dictionary<string, string>();
 
 		#endregion
+
+		public bool IsInitialized => _storeController != null && _extensionProvider != null;
 
 		public void LoadAllStore()
 		{
@@ -48,6 +55,10 @@ namespace Online.Service
 			}
 
 			var builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
+			foreach (var gem in GemPackages)
+			{
+				builder.AddProduct(gem.ItemId, ProductType.Consumable);
+			}
 			UnityPurchasing.Initialize(this, builder);
 		}
 
@@ -94,6 +105,27 @@ namespace Online.Service
 			});
 		}
 
+		public void BuyStoreItem(string storeId, System.Action<bool> cb = null)
+		{
+			if (!IsInitialized)
+			{
+				LogError("UnityIAP not initialized!");
+				cb?.Invoke(false);
+				return;
+			}
+
+			var storeItem = GemPackages.Find(val => val.ItemId == storeId);
+			if (storeItem != null)
+			{
+
+			}
+			else
+			{
+				LogError($"Store Item {storeId} not initialized!");
+				cb?.Invoke(false);
+			}
+		}
+
 		public override void LogSuccess(string message)
 		{
 			LogEvent(false, message, "Shop");
@@ -106,25 +138,52 @@ namespace Online.Service
 
 		#region Unity IAP
 
-		public void OnInitializeFailed(InitializationFailureReason error)
-		{
-			throw new System.NotImplementedException();
-		}
-		public void OnInitializeFailed(InitializationFailureReason error, string message)
-		{
-			throw new System.NotImplementedException();
-		}
-		public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs purchaseEvent)
-		{
-			throw new System.NotImplementedException();
-		}
-		public void OnPurchaseFailed(Product product, PurchaseFailureReason failureReason)
-		{
-			throw new System.NotImplementedException();
-		}
 		public void OnInitialized(IStoreController controller, IExtensionProvider extensions)
 		{
-			throw new System.NotImplementedException();
+			LogSuccess("UnitIAP, Initialized!");
+			_storeController = controller;
+			_extensionProvider = extensions;
+
+			_packageLocalPrices.Clear();
+		}
+
+		public void OnInitializeFailed(InitializationFailureReason error)
+		{
+			LogError("UnitIAP, Init failed: " + error);
+		}
+
+		public void OnInitializeFailed(InitializationFailureReason error, string message)
+		{
+			LogError("UnitIAP, Init failed: " + error + ", " + message);
+		}
+
+		public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs purchaseEvent)
+		{
+			if (!IsInitialized)
+				LogError("ProcessPurchase, UnityIAP not initialized!");
+
+			if (purchaseEvent.purchasedProduct == null)
+			{
+				LogError("ProcessPurchase, Unknow purchase product!");
+				return PurchaseProcessingResult.Complete;
+			}
+
+#if UNITY_ANDROID
+			var googleReceipt = GooglePurchase.FromJson(purchaseEvent.purchasedProduct.receipt);
+#else
+#endif
+
+			return PurchaseProcessingResult.Complete;
+		}
+
+		public void OnPurchaseFailed(Product product, PurchaseFailureReason failureReason)
+		{
+			LogError("OnPurchaseFailed, ProductId: " + product.definition.id + ", Reason: " + failureReason.ToString());
+		}
+
+		public void OnPurchaseFailed(Product product, PurchaseFailureDescription failureDescription)
+		{
+			LogError("OnPurchaseFailed, ProductId: " + product.definition.id + ", Reason: " + failureDescription.reason + ", Message: " + failureDescription.message);
 		}
 
 		#endregion

@@ -74,6 +74,8 @@ namespace Online
 							Inventory.LoadItems(infoPayload.UserInventory);
 							PlayfabManager.Instance.UpdateEquipShip(SaveSystem.GameSave.ShipSetupSaveData);
 						}
+						
+						LoadShop();
 						break;
 				}
 			});
