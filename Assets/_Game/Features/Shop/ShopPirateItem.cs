@@ -156,7 +156,7 @@ namespace _Game.Features.Shop
                 }
 
                 _isActiveButAd = value;
-                OnPropertyChanged(nameof(IsActiveButAd));
+                OnPropertyChanged(nameof(IsActiveButAd)); 
             }
         }
         private bool _isActiveButAd;
