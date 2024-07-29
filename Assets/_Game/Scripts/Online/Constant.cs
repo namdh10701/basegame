@@ -6,7 +6,6 @@ namespace Online
 	{
 		public static class NameConfigs
 		{
-			public const string CurrencyCoin = "Coin";
 			public const string Level = "Level";
 			public const string Energy = "Energy";
 			public const string EquipmentShips = "EquipmentShips";

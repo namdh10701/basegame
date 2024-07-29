@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using _Game.Scripts.SaveLoad;
+using Cysharp.Threading.Tasks;
 using Online.Enum;
 using Online.Interface;
 
@@ -14,13 +15,7 @@ namespace Online
 		public int Gem => Inventory.Currencies[EVirtualCurrency.Gem];
 		public int Energy => Inventory.Currencies[EVirtualCurrency.Energy];
 
-		[Obsolete("Use RequestInventoryAsync instead")]
-		public void RequestInventory(System.Action<bool> cb = null)
-		{
-			Inventory.RequestInventory(cb);
-		}
-		
-		public async Task<bool> RequestInventoryAsync()
+		public async UniTask<bool> RequestInventoryAsync()
 		{
 			return await Inventory.RequestInventoryAsync();
 		}

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using PlayFab.ClientModels;
 
 namespace Online.Interface
@@ -13,6 +14,6 @@ namespace Online.Interface
 		
 		public bool TryGetLocalizePrice(string packageId, out string priceString);
 
-		public void BuyStoreItem(string storeId, System.Action<bool> cb = null);
+		public UniTask<bool> BuyStoreItem(string storeId);
 	}
 }
