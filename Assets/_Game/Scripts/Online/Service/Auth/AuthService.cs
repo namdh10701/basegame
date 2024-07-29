@@ -1,3 +1,5 @@
+using System;
+using System.Threading.Tasks;
 using Facebook.Unity;
 using Online.Enum;
 using Online.Interface;
@@ -26,6 +28,20 @@ namespace Online.Service
 		{
 			_basePlatformAuth.Login(onLoginSucceed);
 		}
+		
+		public async Task<LoginResult> LoginAsync()
+		{
+			TaskCompletionSource<LoginResult> signal = new TaskCompletionSource<LoginResult>();
+			_basePlatformAuth.Login((result, infoPayload) =>
+			{
+				signal.TrySetResult(new()
+				{
+					Status = result,
+					Payload = infoPayload
+				});
+			});
+			return await signal.Task;
+		}
 
 		public void LinkFacebook()
 		{
@@ -40,6 +56,12 @@ namespace Online.Service
 		public override void LogError(string error)
 		{
 			LogEvent(true, error, "Auth");
+		}
+
+		public class LoginResult
+		{
+			public ELoginStatus Status;
+			public GetPlayerCombinedInfoResultPayload Payload;
 		}
 	}
 }

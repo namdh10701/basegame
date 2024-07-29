@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using _Game.Features.Inventory;
 using _Game.Scripts.GD.DataManager;
 using _Game.Scripts.SaveLoad;
@@ -13,6 +14,10 @@ namespace Online.Service
 {
 	public class InventoryService : BaseOnlineService
 	{
+		/// <summary>
+		/// Trigger when a currency amount has changed
+		/// </summary>
+		public event Action<EVirtualCurrency, int> OnCurrencyChanged;
 		public Dictionary<EVirtualCurrency, int> Currencies { get; private set; }
 		public List<ItemData> Items { get; private set; }
 
@@ -48,6 +53,21 @@ namespace Online.Service
 				cb?.Invoke(false);
 			});
 		}
+		
+		public async Task<bool> RequestInventoryAsync()
+		{
+			var resp = await PlayFabAsync.PlayFabClientAPI.GetUserInventoryAsync(new());
+
+			if (resp.IsError)
+			{
+				LogError(resp.Error.ErrorMessage);
+				return false;
+			}
+			
+			LoadVirtualCurrency(resp.Result.VirtualCurrency);
+			LoadItems(resp.Result.Inventory);
+			return true;
+		}
 
 		public void LoadVirtualCurrency(Dictionary<string, int> virtualCurrency)
 		{
@@ -56,6 +76,7 @@ namespace Online.Service
 				if (virtualCurrency.TryGetValue(currency.GetCode(), out int value))
 				{
 					Currencies[currency] = value;
+					OnCurrencyChanged?.Invoke(currency, value);
 				}
 			}
 		}
