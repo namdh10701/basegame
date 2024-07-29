@@ -21,9 +21,9 @@ namespace Online.Service
 
 		#region Properties
 
-		public List<StoreItem> GemPackages { get; private set; }
-		public List<StoreItem> GoldPackages { get; private set; }
-		public List<StoreItem> EnergyPackages { get; private set; }
+		public List<StoreItem> GemPackages { get; private set; } = new();
+		public List<StoreItem> GoldPackages { get; private set; } = new();
+		public List<StoreItem> EnergyPackages { get; private set; } = new();
 		public Dictionary<string, string> PackageLocalizePrices { get; private set; } = new();
 		
 		#endregion
