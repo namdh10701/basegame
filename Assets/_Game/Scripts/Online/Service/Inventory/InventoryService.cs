@@ -12,146 +12,149 @@ using PlayFab.ClientModels;
 
 namespace Online.Service
 {
-	public class InventoryService : BaseOnlineService
-	{
-		/// <summary>
-		/// Trigger when a currency amount has changed
-		/// </summary>
-		public event Action<EVirtualCurrency, int> OnCurrencyChanged;
-		public Dictionary<EVirtualCurrency, int> Currencies { get; private set; }
-		public List<ItemData> Items { get; private set; }
+    public class InventoryService : BaseOnlineService
+    {
+        /// <summary>
+        /// Trigger when a currency amount has changed
+        /// </summary>
+        public event Action<EVirtualCurrency, int> OnCurrencyChanged;
 
-		public override void Initialize(IPlayfabManager manager)
-		{
-			base.Initialize(manager);
+        public Dictionary<EVirtualCurrency, int> Currencies { get; private set; }
+        public List<ItemData> Items { get; private set; }
 
-			Items = new();
-			Currencies = new Dictionary<EVirtualCurrency, int>()
-			{
-				{
-					EVirtualCurrency.Gold, 0
-				},
-				{
-					EVirtualCurrency.Gem, 0
-				},
-				{
-					EVirtualCurrency.Energy, 0
-				}
-			};
-		}
+        public override void Initialize(IPlayfabManager manager)
+        {
+            base.Initialize(manager);
 
-		[Obsolete("Use RequestInventoryAsync instead")]
-		public void RequestInventory(System.Action<bool> cb = null)
-		{
-			PlayFabClientAPI.GetUserInventory(new(), result =>
-			{
-				LoadVirtualCurrency(result.VirtualCurrency);
-				LoadItems(result.Inventory);
-				cb?.Invoke(true);
-			}, error =>
-			{
-				LogError(error.ErrorMessage);
-				cb?.Invoke(false);
-			});
-		}
-		
-		public async Task<bool> RequestInventoryAsync()
-		{
-			var resp = await PlayFabAsync.PlayFabClientAPI.GetUserInventoryAsync(new());
+            Items = new();
+            Currencies = new Dictionary<EVirtualCurrency, int>()
+            {
+                {
+                    EVirtualCurrency.Gold, 0
+                },
+                {
+                    EVirtualCurrency.Gem, 0
+                },
+                {
+                    EVirtualCurrency.Energy, 0
+                }
+            };
+        }
 
-			if (resp.IsError)
-			{
-				LogError(resp.Error.ErrorMessage);
-				return false;
-			}
-			
-			LoadVirtualCurrency(resp.Result.VirtualCurrency);
-			LoadItems(resp.Result.Inventory);
-			return true;
-		}
+        [Obsolete("Use RequestInventoryAsync instead")]
+        public void RequestInventory(System.Action<bool> cb = null)
+        {
+            PlayFabClientAPI.GetUserInventory(new(), result =>
+            {
+                LoadVirtualCurrency(result.VirtualCurrency);
+                LoadItems(result.Inventory);
+                cb?.Invoke(true);
+            }, error =>
+            {
+                LogError(error.ErrorMessage);
+                cb?.Invoke(false);
+            });
+        }
 
-		public void LoadVirtualCurrency(Dictionary<string, int> virtualCurrency)
-		{
-			foreach (EVirtualCurrency currency in System.Enum.GetValues(typeof(EVirtualCurrency)))
-			{
-				if (virtualCurrency.TryGetValue(currency.GetCode(), out int value))
-				{
-					Currencies[currency] = value;
-					OnCurrencyChanged?.Invoke(currency, value);
-				}
-			}
-		}
+        public async Task<bool> RequestInventoryAsync()
+        {
+            var resp = await PlayFabAsync.PlayFabClientAPI.GetUserInventoryAsync(new());
 
-		public void LoadItems(List<ItemInstance> items)
-		{
-			Items.Clear();
-			foreach (var itemData in items)
-			{
-				string[] idParts = itemData.ItemId.Split('_');
-				var itemType = idParts[0].GetItemType();
-				var itemId = idParts[1];
+            if (resp.IsError)
+            {
+                LogError(resp.Error.ErrorMessage);
+                return false;
+            }
 
-				int level = 1;
-				if (itemData.CustomData != null && itemData.CustomData.TryGetValue(C.NameConfigs.Level, out var levelData))
-				{
-					level = Convert.ToInt32(levelData);
-				}
+            LoadVirtualCurrency(resp.Result.VirtualCurrency);
+            LoadItems(resp.Result.Inventory);
+            return true;
+        }
 
-				int rarityLevel = 0;
-				switch (itemType)
-				{
-					case ItemType.CANNON:
-						rarityLevel = GameData.CannonTable.FindById(itemId)?.RarityLevel ?? 0;
-						break;
+        public void LoadVirtualCurrency(Dictionary<string, int> virtualCurrency)
+        {
+            foreach (EVirtualCurrency currency in System.Enum.GetValues(typeof(EVirtualCurrency)))
+            {
+                if (virtualCurrency.TryGetValue(currency.GetCode(), out int value))
+                {
+                    Currencies[currency] = value;
+                    OnCurrencyChanged?.Invoke(currency, value);
+                }
+            }
+        }
 
-					case ItemType.AMMO:
-						rarityLevel = GameData.AmmoTable.FindById(itemId)?.RarityLevel ?? 0;
-						break;
-				}
+        public void LoadItems(List<ItemInstance> items)
+        {
+            Items.Clear();
+            foreach (var itemData in items)
+            {
+                string[] idParts = itemData.ItemId.Split('_');
+                var itemType = idParts[0].GetItemType();
+                if (itemType == ItemType.None) continue;
 
-				Items.Add(new ItemData()
-				{
-					ItemType = itemType,
-					ItemId = itemId,
-					OwnItemId = itemData.ItemInstanceId,
-					Level = level,
-					RarityLevel = rarityLevel
-				});
-			}
-		}
+                var itemId = idParts[1];
 
-		public void UpgradeItem(string instanceId, System.Action<object> succeed = null, System.Action<EErrorCode> failed = null)
-		{
-			var itemData = Items.Find(val => val.OwnItemId == instanceId);
-			if (itemData != null)
-			{
-				PlayFabClientAPI.ExecuteCloudScript(new()
-				{
-					FunctionName = C.CloudFunction.UpgradeItem,
-					FunctionParameter = new RequestUpgradeItemModel()
-					{
-						ItemInstanceId = instanceId
-					}
-				}, result =>
-				{
-					LogSuccess("Upgraded Item!");
-					succeed?.Invoke(result.FunctionResult);
-				}, error =>
-				{
-					LogError(error.ErrorMessage);
-					failed?.Invoke(EErrorCode.PlayfabError);
-				});
-			}
-		}
+                int level = 1;
+                if (itemData.CustomData != null && itemData.CustomData.TryGetValue(C.NameConfigs.Level, out var levelData))
+                {
+                    level = Convert.ToInt32(levelData);
+                }
 
-		public override void LogSuccess(string message)
-		{
-			LogEvent(false, message, "Inventory");
-		}
+                int rarityLevel = 0;
+                switch (itemType)
+                {
+                    case ItemType.CANNON:
+                        rarityLevel = GameData.CannonTable.FindById(itemId)?.RarityLevel ?? 0;
+                        break;
 
-		public override void LogError(string error)
-		{
-			LogEvent(true, error, "Inventory");
-		}
-	}
+                    case ItemType.AMMO:
+                        rarityLevel = GameData.AmmoTable.FindById(itemId)?.RarityLevel ?? 0;
+                        break;
+                }
+
+                Items.Add(new ItemData()
+                {
+                    ItemType = itemType,
+                    ItemId = itemId,
+                    OwnItemId = itemData.ItemInstanceId,
+                    Level = level,
+                    RarityLevel = rarityLevel
+                });
+            }
+        }
+
+        public void UpgradeItem(string instanceId, System.Action<object> succeed = null, System.Action<EErrorCode> failed = null)
+        {
+            var itemData = Items.Find(val => val.OwnItemId == instanceId);
+            if (itemData != null)
+            {
+                PlayFabClientAPI.ExecuteCloudScript(new()
+                {
+                    FunctionName = C.CloudFunction.UpgradeItem,
+                    FunctionParameter = new RequestUpgradeItemModel()
+                    {
+                        ItemInstanceId = instanceId
+                    }
+                }, result =>
+                {
+                    LogSuccess("Upgraded Item!");
+                    succeed?.Invoke(result.FunctionResult);
+                }, error =>
+                {
+                    LogError(error.ErrorMessage);
+                    failed?.Invoke(EErrorCode.PlayfabError);
+                });
+            }
+        }
+
+        public override void LogSuccess(string message)
+        {
+            LogEvent(false, message, "Inventory");
+        }
+
+        public override void LogError(string error)
+        {
+            LogEvent(true, error, "Inventory");
+        }
+    }
 }

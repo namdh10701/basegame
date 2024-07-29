@@ -140,12 +140,9 @@ namespace _Game.Features.Shop
         }
 
         [Binding]
-        public void OnClickBuy()
+        public async void OnClickBuy()
         {
-            PlayfabManager.Instance.BuyStoreItem(Id, (success) =>
-            {
-
-            });
+            await PlayfabManager.Instance.BuyStoreItem(Id);
         }
     }
 }
