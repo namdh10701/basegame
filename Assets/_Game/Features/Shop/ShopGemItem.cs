@@ -142,9 +142,10 @@ namespace _Game.Features.Shop
         [Binding]
         public void OnClickBuy()
         {
-            // int amount = int.Parse(Amount);
-            // var curentGem = PlayfabManager.Instance.Gem + amount;
-            // PlayfabManager.Instance;
+            PlayfabManager.Instance.BuyStoreItem(Id, (success) =>
+            {
+
+            });
         }
     }
 }

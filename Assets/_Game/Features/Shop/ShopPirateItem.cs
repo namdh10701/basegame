@@ -1,5 +1,6 @@
 using _Base.Scripts.UI.Managers;
 using _Game.Scripts.UI;
+using Online;
 using UnityEngine;
 using UnityWeld.Binding;
 using ZBase.UnityScreenNavigator.Core.Modals;
@@ -123,12 +124,12 @@ namespace _Game.Features.Shop
         private string _amount;
         #endregion
 
-        [Binding]   
+        [Binding]
         public Sprite Thumbnail
         {
             get
             {
-                var path = Id == null|| ShopType == null ? $"Images/ShopPirate/Gems/energy_1" : $"Images/ShopPirate/{ShopType.ToLower()}/{Id.ToLower()}";
+                var path = Id == null || ShopType == null ? $"Images/ShopPirate/Gems/energy_1" : $"Images/ShopPirate/{ShopType.ToLower()}/{Id.ToLower()}";
                 return Resources.Load<Sprite>(path);
             }
         }
@@ -162,11 +163,18 @@ namespace _Game.Features.Shop
         #endregion
 
         [Binding]
-        public void Buy()
+        public void OnClickBuy()
         {
-            Debug.Log("Buy");
-            var options = new ViewOptions("FightNodeInfoModal", true);
-            ModalContainer.Find(ContainerKey.Modals).Push(options);
+            PlayfabManager.Instance.BuyStoreItem(Id, (isSucces) =>
+            {
+
+            });
+        }
+
+        [Binding]
+        public void OnClickAd()
+        {
+            
         }
     }
 }
