@@ -44,15 +44,19 @@ namespace _Game.Features.Shop
             MediumGemItem.Clear();
             SmallGemItem.Clear();
             _shopDataItemGem = GameData.ShopListingTable.GetData(ShopType.Gem);
+            
             var gemItems = new List<ShopGemItem>();
-            foreach (var item in _shopDataItemGem)
+            foreach (var item in PlayfabManager.Instance.GemPackages)
             {
+                var itemConfig = _shopDataItemGem.Find(x => x.ItemId == item.ItemId);
+                PlayfabManager.Instance.TryGetLocalizePrice(itemConfig.ItemId, out var price);
+                
                 var shopGemItem = new ShopGemItem
                 {
                     Id = item.ItemId,
-                    Price = item.PriceAmount.ToString(),
+                    Price = price,
                     Amount = GameData.ShopItemTable.GetAmountById(item.ItemId).Item1[0].ToString(),
-                    PackSize = item.PackSize,
+                    PackSize = itemConfig.PackSize,
                 };
                 gemItems.Add(shopGemItem);
 
