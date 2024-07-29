@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Online.Interface;
 using PlayFab.ClientModels;
 
@@ -10,9 +11,9 @@ namespace Online
 		public List<StoreItem> GoldPackages => _shopService.GoldPackages;
 		public List<StoreItem> EnergyPackages => _shopService.EnergyPackages;
 
-		public void LoadShop()
+		public async void LoadShop()
 		{
-			_shopService.LoadAllStore();
+			await _shopService.LoadAllStore();
 		}
 
 		public bool TryGetLocalizePrice(string packageId, out string priceString)
@@ -20,19 +21,9 @@ namespace Online
 			return _shopService.PackageLocalizePrices.TryGetValue(packageId, out priceString);
 		}
 
-		public void BuyStoreItem(string storeId, System.Action<bool> cb = null)
+		public async UniTask<bool> BuyStoreItem(string storeId)
 		{
-			_shopService.BuyStoreItem(storeId, (succeed) =>
-			{
-				if (succeed)
-				{
-					_inventoryService.RequestInventory(cb);
-				}
-				else
-				{
-					cb?.Invoke(false);
-				}
-			});
+			return await _shopService.BuyStoreItem(storeId);
 		}
 	}
 }
