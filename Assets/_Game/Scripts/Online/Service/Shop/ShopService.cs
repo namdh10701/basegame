@@ -25,7 +25,7 @@ namespace Online.Service
         public List<StoreItem> GoldPackages { get; private set; } = new();
         public List<StoreItem> EnergyPackages { get; private set; } = new();
         public Dictionary<string, string> PackageLocalizePrices { get; private set; } = new();
-        
+
         private readonly Dictionary<string, StoreItem> _storeItems = new();
 
         #endregion
@@ -115,20 +115,17 @@ namespace Online.Service
         {
             if (_storeItems.TryGetValue(storeId, out var storeItem))
             {
-                if (storeItem.RealCurrencyPrices.Count > 0)
+                if (storeItem.VirtualCurrencyPrices.TryGetValue(EVirtualCurrency.Gem.GetCode(), out var gemPrice))
                 {
-                    return await BuyInAppItem(storeId);
+                    return await BuyByGem(storeItem);
+                }
+                else if (storeItem.VirtualCurrencyPrices.TryGetValue(EVirtualCurrency.Gold.GetCode(), out var goldPrice))
+                {
+                    return await BuyByGold(storeItem);
                 }
                 else
                 {
-                    if (storeItem.VirtualCurrencyPrices.TryGetValue(EVirtualCurrency.Gem.GetCode(), out var goldPrice))
-                    {
-                        return await BuyByGem(storeItem);
-                    }
-                    else
-                    {
-                        return await BuyByGold(storeItem);
-                    }
+                    return await BuyInAppItem(storeId);
                 }
             }
             else
@@ -165,6 +162,7 @@ namespace Online.Service
 
         public async UniTask<bool> BuyByGem(StoreItem storeItem, System.Action<bool> cb = null)
         {
+            var vcCode = EVirtualCurrency.Gem.GetCode();
             string storeId = GoldPackages.Contains(storeItem) ? GOLD_PACKAGES_ID : ENERGY_PACKAGES_ID;
 
             UniTaskCompletionSource<bool> signal = new UniTaskCompletionSource<bool>();
@@ -172,7 +170,8 @@ namespace Online.Service
             {
                 ItemId = storeItem.ItemId,
                 StoreId = storeId,
-                VirtualCurrency = EVirtualCurrency.Gem.GetCode(),
+                VirtualCurrency = vcCode,
+                Price = (int)storeItem.VirtualCurrencyPrices[vcCode]
             }, result =>
             {
                 LogSuccess($"Bought {result.Items.Count} items" + storeItem.ItemId);
@@ -184,9 +183,10 @@ namespace Online.Service
             });
             return await signal.Task;
         }
-        
+
         public async UniTask<bool> BuyByGold(StoreItem storeItem, System.Action<bool> cb = null)
         {
+            var vcCode = EVirtualCurrency.Gold.GetCode();
             string storeId = GoldPackages.Contains(storeItem) ? GOLD_PACKAGES_ID : ENERGY_PACKAGES_ID;
 
             UniTaskCompletionSource<bool> signal = new UniTaskCompletionSource<bool>();
@@ -194,7 +194,8 @@ namespace Online.Service
             {
                 ItemId = storeItem.ItemId,
                 StoreId = storeId,
-                VirtualCurrency = EVirtualCurrency.Gold.GetCode(),
+                VirtualCurrency = vcCode,
+                Price = (int)storeItem.VirtualCurrencyPrices[vcCode]
             }, result =>
             {
                 LogSuccess($"Bought {result.Items.Count} items" + storeItem.ItemId);

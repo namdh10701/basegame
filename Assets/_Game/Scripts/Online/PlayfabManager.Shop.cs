@@ -23,7 +23,9 @@ namespace Online
 
 		public async UniTask<bool> BuyStoreItem(string storeId)
 		{
-			return await _shopService.BuyStoreItem(storeId);
+			var result = await _shopService.BuyStoreItem(storeId);
+			await RequestInventoryAsync();
+			return result;
 		}
 	}
 }
