@@ -36,12 +36,14 @@ namespace _Game.Features.Gameplay
 
         public GameObject feverFx;
         public GameObject normalFx;
+
         public bool IsFever
         {
             get => isFever;
             set
             {
                 isFever = value;
+                aura.gameObject.SetActive(isFever);
                 feverFx.SetActive(isFever);
                 feverTrail.SetActive(isFever);
                 normalFx.SetActive(!isFever);

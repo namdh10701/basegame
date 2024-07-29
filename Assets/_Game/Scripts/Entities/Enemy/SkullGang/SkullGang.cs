@@ -3,6 +3,7 @@ using _Base.Scripts.RPG;
 using _Base.Scripts.RPG.Effects;
 using _Game.Scripts;
 using _Game.Scripts.GD;
+using DG.Tweening;
 using MBT;
 using System;
 using System.Collections;
@@ -107,16 +108,16 @@ namespace _Game.Features.Gameplay
             {
                 if (!isDead1)
                 {
-                    isDead1 = true;
-                    OnDead1?.Invoke();
+                    //isDead1 = true;
+                    //OnDead1?.Invoke();
                 }
             }
-            if (obj.Value < obj.MaxValue / 3 )
+            if (obj.Value < obj.MaxValue / 3)
             {
                 if (!isDead2)
                 {
-                    isDead2 = true;
-                    OnDead2?.Invoke();
+                    //isDead2 = true;
+                    //OnDead2?.Invoke();
                 }
             }
             if (obj.Value <= 0)
@@ -124,14 +125,19 @@ namespace _Game.Features.Gameplay
                 State = SkullGangState.Dead;
             }
         }
-
+        public AttackPatternProfile patternProfile;
         private void DoThrowFishAttack(Vector3 vector)
         {
             Debug.Log("throw fish");
             PufferFishModel pufferFish = Instantiate(pufferFishModel, null);
             pufferFish.transform.position = vector;
             pufferFish.transform.localScale = Vector3.one;
-            pufferFish.Body.AddForce(Vector2.down * 5, ForceMode2D.Impulse);
+            //pufferFish.Body.AddForce(Vector2.down * 5, ForceMode2D.Impulse);
+            pufferFish.attackPatternProfile = patternProfile;
+            Cell cell = gridPicker.PickRandomCell();
+            pufferFish.pufferFishCollider.SetActive(false);
+            pufferFish.SortLayer = "Projectile";
+            pufferFish.transform.DOMove(cell.transform.position, 2f);
         }
 
         private void DoSpearAttack(Vector3 vector)
@@ -158,7 +164,7 @@ namespace _Game.Features.Gameplay
             Debug.LogError(cell.ToString());
 
             DecreaseHealthEffect decreaseHp = new GameObject("", typeof(DecreaseHealthEffect)).GetComponent<DecreaseHealthEffect>();
-            decreaseHp.Amount = 50;
+            decreaseHp.Amount = stats.AttackDamage.Value;
             decreaseHp.ChanceAffectCell = 1;
             decreaseHp.transform.position = cell.transform.position;
             enemyAttackData.Effects = new List<Effect> { decreaseHp };

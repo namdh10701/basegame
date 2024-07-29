@@ -32,7 +32,7 @@ namespace _Game.Features.Gameplay
         public Transform shipStartPos;
         public EntityManager EntityManager;
         public LevelStartSequence LevelStartSequence;
-        public EnemyManager EnemyManager;
+        public EnemyWaveManager EnemyManager;
         public BattleInputManager BattleInputManager;
         public GridAttackHandler GridAttackHandler;
         public GridPicker GridPicker;

@@ -17,6 +17,11 @@ namespace _Game.Features.Gameplay
         public PufferFishMove PufferFishMove;
         public DamageArea DamageArea;
 
+        public string SortLayer { set { 
+                enemyView.SortLayer = value;     
+            } }
+       
+        public GameObject pufferFishCollider;
         public override void OnSlowed()
         {
             base.OnSlowed();

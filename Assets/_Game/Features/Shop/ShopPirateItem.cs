@@ -163,12 +163,9 @@ namespace _Game.Features.Shop
         #endregion
 
         [Binding]
-        public void OnClickBuy()
+        public async void OnClickBuy()
         {
-            PlayfabManager.Instance.BuyStoreItem(Id, (isSucces) =>
-            {
-
-            });
+            await PlayfabManager.Instance.BuyStoreItem(Id);
         }
 
         [Binding]

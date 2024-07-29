@@ -15,7 +15,7 @@ namespace _Game.Features.Gameplay
     }
     public class ProjectileCollisionHandler : DefaultEffectCollisionHandler
     {
-        Projectile projectile;
+        protected Projectile projectile;
         public List<IHandler> Handlers = new List<IHandler>();
         public List<IHandler> LoopHandlers = new List<IHandler>();
         public List<IEffectTaker> IgnoreCollideEntities = new List<IEffectTaker>();
@@ -67,7 +67,7 @@ namespace _Game.Features.Gameplay
 
         }
 
-        public void FinalAct()
+        public virtual void FinalAct()
         {
             if (projectile.trail != null)
             {

@@ -131,17 +131,11 @@ namespace _Game.Scripts
             { "0006", "Big Puffer Fish" },
             { "0007", "Spike Fish" },
             { "0008", "Skeleton Sword" },
-            { "0009", "Skeleton Bomb" }
+            { "0009", "Skeleton Bomb" },
+            { "0010", "SkullGang"},
+            { "0011", "Crab" }
 
         };
 
-
-        public static Dictionary<string, string> cannonIdNameDic = new Dictionary<string, string>()
-        {
-            { "0001", "Puffer Fish"},
-            { "0002", "Electric Eel"},
-            { "0003","Squid"},
-            { "0004","Jelly Fish" }
-        };
     }
 }

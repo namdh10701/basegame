@@ -58,7 +58,7 @@ namespace _Game.Features.Gameplay
         };
 
         [Header("Enemy Stats")]
-        [SerializeField] protected EnemyStats _stats;
+        [SerializeField] public EnemyStats _stats;
 
         [Header("Configuration")]
         [SerializeField] private string id;
@@ -81,9 +81,9 @@ namespace _Game.Features.Gameplay
         [SerializeField] protected EnemyView enemyView;
 
         [Header("Attack")]
-        protected GridAttackHandler atkHandler;
-        protected GridPicker gridPicker;
-        [SerializeField] protected AttackPatternProfile attackPatternProfile;
+        public GridAttackHandler atkHandler;
+        public GridPicker gridPicker;
+        [SerializeField] public AttackPatternProfile attackPatternProfile;
         [SerializeField] protected FindTargetBehaviour findTargetBehaviour;
         [SerializeField] protected ObjectCollisionDetector findTargetCollider;
         [SerializeField] protected CooldownBehaviour cooldownBehaviour;
@@ -123,9 +123,9 @@ namespace _Game.Features.Gameplay
             blackboard.GetVariable<ShipVariable>("Ship").Value = ship;
             Debug.Log("HERE");
             blackboard.GetVariable<StatVariable>("MoveSpeed").Value = _stats.MoveSpeed;
-            _stats.AttackDamage.BaseValue *= (1 + dmgModifer[EnemyManager.stageId]);
-            _stats.HealthPoint.StatValue.BaseValue *= (1 + hpModifer[EnemyManager.stageId]);
-            _stats.HealthPoint.MaxStatValue.BaseValue *= (1 + hpModifer[EnemyManager.stageId]);
+            _stats.AttackDamage.BaseValue *= (1 + dmgModifer[EnemyWaveManager.stageId]);
+            _stats.HealthPoint.StatValue.BaseValue *= (1 + hpModifer[EnemyWaveManager.stageId]);
+            _stats.HealthPoint.MaxStatValue.BaseValue *= (1 + hpModifer[EnemyWaveManager.stageId]);
 
 
             gridPicker = FindAnyObjectByType<GridPicker>();

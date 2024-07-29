@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using _Game.Scripts.SaveLoad;
+using Cysharp.Threading.Tasks;
 
 namespace Online.Interface
 {
@@ -10,6 +11,6 @@ namespace Online.Interface
 		public int Energy { get; }
 		public List<ItemData> Items { get; }
 
-		public void RequestInventory(System.Action<bool> cb = null);
+		public UniTask<bool> RequestInventoryAsync();
 	}
 }

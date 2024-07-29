@@ -62,7 +62,7 @@ namespace _Game.Features.Gameplay
             //GlobalEvent.Register("CloseHUD", CloseHUD);
             GetComponent<GDConfigStatsApplier>().LoadStats(this);
 
-            if (EnemyManager.floorId == "1")
+            if (EnemyWaveManager.floorId == "1")
             {
                 stats.Fever.StatValue.BaseValue = 0;
             }
