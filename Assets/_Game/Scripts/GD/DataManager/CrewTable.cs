@@ -21,12 +21,22 @@ namespace _Game.Scripts.GD.DataManager
             }
             return null;
         }
+
+        public (string, string) GetDataSkillDefault(string name, string defaultRarity)
+        {
+            foreach (var record in Records)
+            {
+                if (record.OperationType == name && record.Rarity.ToString() == defaultRarity)
+                    return (record.OperationType, record.SkillDesc1);
+            }
+            return (null, null);
+        }
     }
 
     /// <summary>
     /// 
     /// </summary>
-    public class CrewTableRecord: DataTableRecord
+    public class CrewTableRecord : DataTableRecord
     {
         [Index(0)]
         public string Id { get; set; }
@@ -85,20 +95,25 @@ namespace _Game.Scripts.GD.DataManager
         public float BonusAmmo { get; set; }
 
         [Index(13)]
-        public string SkillDesc1 { get; set; }
+        [Default(0)]
+        [Stat("Skill_Name")]
+        public string Skill_Name_1 { get; set; }
 
         [Index(14)]
-        public string SkillDesc2 { get; set; }
+        public string SkillDesc1 { get; set; }
 
         [Index(15)]
-        public string SkillDesc3 { get; set; }
-        
+        public string SkillDesc2 { get; set; }
+
         [Index(16)]
+        public string SkillDesc3 { get; set; }
+
+        [Index(17)]
         [Default(false)]
         [BooleanFalseValues("0", "false")]
         [BooleanTrueValues("1", "true")]
         public bool Enable { get; set; }
-        
+
         public string Slot
         {
             get

@@ -192,10 +192,10 @@ namespace _Game.Features.InventoryItemInfo
         #endregion
 
         #region Binding: Stars
-        private ObservableList<SkillInvetoryItem> skill = new ObservableList<SkillInvetoryItem>();
+        private ObservableList<SkillInvetoryItem> skills = new ObservableList<SkillInvetoryItem>();
 
         [Binding]
-        public ObservableList<SkillInvetoryItem> Skill => skill;
+        public ObservableList<SkillInvetoryItem> Skills => skills;
         #endregion
 
         #region Binding: ItemStats
@@ -236,6 +236,48 @@ namespace _Game.Features.InventoryItemInfo
             _inventoryItemUpgradeTableRecord = LoadConfigUpgrade(InventoryItem);
             SetupLayOutItem();
             SetDataItemStat();
+            SetSkillData();
+        }
+
+        private void SetSkillData()
+        {
+            switch (Type)
+            {
+                case ItemType.CANNON:
+                    var skilDataCannonDefault = GameData.CannonTable.GetDataSkillDefault(OperationType, Rarity.ToString());
+                    SkillInvetoryItem skillCannonDefault = new SkillInvetoryItem()
+                    {
+                        OperationType = skilDataCannonDefault.Item1,
+                        Details = skilDataCannonDefault.Item2,
+                        Type = Type,
+                    };
+                    Skills.Add(skillCannonDefault);
+
+                    var skillDataFever = GameData.CannonFeverTable.GetDataSkillDefault(OperationType, Rarity.ToString());
+                    SkillInvetoryItem skillFever = new SkillInvetoryItem()
+                    {
+                        OperationType = skillDataFever.Item1,
+                        Details = skillDataFever.Item2,
+                    };
+                    Skills.Add(skillFever);
+                    break;
+                case ItemType.AMMO:
+                    var skillDataAmmoDefault = GameData.AmmoTable.GetDataSkillDefault(OperationType, Rarity.ToString());
+                    SkillInvetoryItem skillAmmo = new SkillInvetoryItem()
+                    {
+                        OperationType = skillDataAmmoDefault.Item1,
+                        Details = skillDataAmmoDefault.Item2,
+                    };
+                    break;
+                case ItemType.CREW:
+                    var skillDataCrewDefault = GameData.CrewTable.GetDataSkillDefault(OperationType, Rarity.ToString());
+                    SkillInvetoryItem skillCrew = new SkillInvetoryItem()
+                    {
+                        OperationType = skillDataCrewDefault.Item1,
+                        Details = skillDataCrewDefault.Item2,
+                    };
+                    break;
+            }
         }
 
         protected void SetDataInventoryItem(InventoryItem inventoryItem)

@@ -16,43 +16,21 @@ namespace _Game.Features.InventoryItemInfo
         /// Name
         /// </summary>
         [Binding]
-        public string Name
+        public string OperationType
         {
-            get => m_name;
+            get => _operationType;
             set
             {
-                if (Equals(m_name, value))
+                if (Equals(_operationType, value))
                 {
                     return;
                 }
 
-                m_name = value;
-                OnPropertyChanged(nameof(Name));
+                _operationType = value;
+                OnPropertyChanged(nameof(OperationType));
             }
         }
-        private string m_name;
-        #endregion
-
-        #region Binding Prop: Rarity
-        /// <summary>
-        /// Rarity
-        /// </summary>
-        [Binding]
-        public Rarity Rarity
-        {
-            get => _rarity;
-            set
-            {
-                if (Equals(_rarity, value))
-                {
-                    return;
-                }
-
-                _rarity = value;
-                OnPropertyChanged(nameof(Rarity));
-            }
-        }
-        private Rarity _rarity;
+        private string _operationType;
         #endregion
 
         #region Binding Prop: ItemType
@@ -104,11 +82,18 @@ namespace _Game.Features.InventoryItemInfo
         {
             get
             {
-                var itemType = Type.ToString().ToLower();
-                var name = Name.ToLower();
-                var itemRarity = Rarity.ToString().ToLower();
-                var path = $"Items/item_{itemType}_{itemRarity}_{name}";
-                return Resources.Load<Sprite>(path);
+                if (Type != null && OperationType != null)
+                {
+                    var itemType = Type.ToString().ToLower();
+                    var name = OperationType.ToLower();
+                    var path = $"Items/item_{itemType}_{name}";
+                    return Resources.Load<Sprite>(path);
+                }
+                else
+                {
+                    return Resources.Load<Sprite>($"Items/itemskill_crew_blonde");
+                }
+
             }
         }
 
