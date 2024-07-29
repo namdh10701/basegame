@@ -173,17 +173,12 @@ namespace _Game.Scripts.GD.DataManager
         public bool Enable { get; set; }
 
         [Index(21)]
-        [Default(0)]
         [Stat("Skill_Name")]
         public string Skill_Name { get; set; }
 
         [Index(22)]
-        [Default(0)]
         [Stat("Skill_Desc")]
         public string Skill_Desc { get; set; }
-
-
-
 
         public string Slot
         {

@@ -95,20 +95,24 @@ namespace _Game.Scripts.GD.DataManager
         public float BonusAmmo { get; set; }
 
         [Index(13)]
-        [Default(0)]
-        [Stat("Skill_Name")]
         public string Skill_Name_1 { get; set; }
 
         [Index(14)]
         public string SkillDesc1 { get; set; }
 
         [Index(15)]
-        public string SkillDesc2 { get; set; }
+        public string Skill_Name_2 { get; set; }
 
         [Index(16)]
-        public string SkillDesc3 { get; set; }
+        public string SkillDesc2 { get; set; }
 
         [Index(17)]
+        public string Skill_Name_3 { get; set; }
+
+        [Index(18)]
+        public string SkillDesc3 { get; set; }
+
+        [Index(19)]
         [Default(false)]
         [BooleanFalseValues("0", "false")]
         [BooleanTrueValues("1", "true")]

@@ -179,12 +179,10 @@ namespace _Game.Scripts.GD.DataManager
         public float HpThreshold { get; set; }
 
         [Index(26)]
-        [Default(0)]
         [Stat("Skill_Name")]
         public string Skill_Name { get; set; }
 
         [Index(27)]
-        [Default(0)]
         [Stat("Skill_Desc")]
         public string Skill_Desc { get; set; }
 
