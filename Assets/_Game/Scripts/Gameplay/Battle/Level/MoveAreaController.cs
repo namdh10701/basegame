@@ -14,6 +14,7 @@ public class MoveAreaController : MonoBehaviour
     }
     public Area[] MoveAreas;
     public Transform[] SkullGangMovePosPool;
+    public Transform[] CrabMovePosPool;
     public Transform SkullStartPos;
     public Area GetArea(AreaType areaType)
     {
@@ -29,5 +30,11 @@ public class MoveAreaController : MonoBehaviour
     {
         //
         return SkullGangMovePosPool[UnityEngine.Random.Range(0, SkullGangMovePosPool.Length)].position;
+    }
+
+    public Vector3 GetCrabMovePos()
+    {
+        //
+        return CrabMovePosPool[UnityEngine.Random.Range(0, CrabMovePosPool.Length)].position;
     }
 }

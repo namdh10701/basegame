@@ -47,6 +47,6 @@ namespace _Game.Scripts
         public Stat AnimationTimeScale { get; set; } = new();
         [field: SerializeField]
         public Stat FeverPoint { get; set; } = new();
-        public List<Stat> SlowableStats => new List<Stat> { MoveSpeed, AnimationTimeScale};
+        public List<Stat> SlowableStats => new List<Stat> { MoveSpeed, AnimationTimeScale };
     }
 }

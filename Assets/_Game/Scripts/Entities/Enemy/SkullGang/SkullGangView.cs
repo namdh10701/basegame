@@ -216,7 +216,8 @@ namespace _Game.Features.Gameplay
         public bool behindDead;
         IEnumerator DeadCoroutine()
         {
-
+            behindEvent.PlayDead();
+            yield return new WaitUntil(() => behindDead);
             skeletonAnim.AnimationState.SetAnimation(0, Dead, false);
             left.gameObject.SetActive(false);
             right.gameObject.SetActive(false);

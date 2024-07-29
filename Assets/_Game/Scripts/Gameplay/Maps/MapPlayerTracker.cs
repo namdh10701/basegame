@@ -185,7 +185,7 @@ namespace Map
                 PlayerPrefs.SetString("currentStage", nextStage.ToString("D4"));
 
                 mapManager.GenerateNewMap();
-                int stage = int.Parse(EnemyManager.stageId) + 1;
+                int stage = int.Parse(EnemyWaveManager.stageId) + 1;
                 PlayerPrefs.SetString("PlayingStage", stage.ToString("#4"));
             }
             mapManager.SaveMap();
@@ -199,7 +199,8 @@ namespace Map
 
         static async void ShowInfoPopup(Node mapNode)
         {
-            EnemyManager.floorId = (mapNode.point.y + 1).ToString();
+            EnemyWaveManager.floorId = (mapNode.point.y + 1).ToString();
+            EnemyWaveManager.nodeType = mapNode.nodeType;
             await Nav.ShowModal<FightNodeInfoModal>(mapNode);
         }
     }

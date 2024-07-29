@@ -54155,6 +54155,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5994973465307648352}
+  - component: {fileID: 427048155940799836}
   m_Layer: 7
   m_Name: Aura
   m_TagString: Untagged
@@ -54179,6 +54180,21 @@ Transform:
   - {fileID: 2742297222309916404}
   m_Father: {fileID: 7691449450847267648}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &427048155940799836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3617411901082781730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27dce1364098ef5498eaea48ed5bf70a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fxs:
+  - {fileID: 1653903303065892291}
+  - {fileID: 5107884632005430385}
 --- !u!1 &3852702178732064238
 GameObject:
   m_ObjectHideFlags: 0
@@ -78646,7 +78662,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4710549362613424449
 Transform:
   m_ObjectHideFlags: 0
@@ -112861,18 +112877,18 @@ MonoBehaviour:
   outGoingEffects: []
   collisionListener: {fileID: 8188687111802640695}
   isCrit: 0
+  aura: {fileID: 3617411901082781730}
   id: 
   gDConfig: {fileID: 11400000, guid: d0ed2d75ef03e46a89a69e09a4a544d5, type: 2}
   statsTemplate: {fileID: 11400000, guid: b8c7bf0392ef49743b470ae98921bfda, type: 2}
   isFever: 0
-  feverTrail: {fileID: 0}
-  normalTrail: {fileID: 0}
-  feverFx: {fileID: 0}
-  normalFx: {fileID: 0}
+  feverTrail: {fileID: 3852702178732064238}
+  normalTrail: {fileID: 7712572091165599831}
+  feverFx: {fileID: 5656280870055673010}
+  normalFx: {fileID: 3016031193376255102}
   AreaEffectGivers:
   - {fileID: 2228654522212447844}
   - {fileID: 6810932666386366660}
-  explosionFx: {fileID: 0}
 --- !u!50 &1933465007915484115
 Rigidbody2D:
   serializedVersion: 4

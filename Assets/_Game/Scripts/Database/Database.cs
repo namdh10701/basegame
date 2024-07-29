@@ -72,8 +72,9 @@ namespace _Game.Scripts.DB
             foreach (var enemy in GameData.MonsterTable.Records)
             {
                 EnemyPowerDic.Add(enemy.Id, enemy.PowerNumber);
-                
-            }EnemyPowerDic.Add("9999", 500);
+
+            }
+            EnemyPowerDic.Add("9999", 500);
         }
 
         static void CreateImageDic()
@@ -150,6 +151,7 @@ namespace _Game.Scripts.DB
             {
                 var resPath = $"Prefabs/GridItems/Crews/{rec.OperationType}";
                 Crew crew = Resources.Load<Crew>(resPath);
+                Debug.Log(rec.Id);
                 CrewDic.Add(rec.Id, crew);
             }
         }

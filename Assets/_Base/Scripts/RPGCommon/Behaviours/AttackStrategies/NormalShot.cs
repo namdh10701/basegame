@@ -36,16 +36,16 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
             var projectile = SpawnProjectile(shootDirection, shootPosition);
         }
 
-        protected virtual Projectile SpawnProjectile(Quaternion shootDirection, Transform ShootPosition = null)
+        protected virtual CannonProjectile SpawnProjectile(Quaternion shootDirection, Transform ShootPosition = null)
         {
             var projectileEntity = Object.Instantiate(projectilePrefab, ShootPosition.position, shootDirection, null);
-            var projectile = projectileEntity.GetComponent<Projectile>();
+            var projectile = projectileEntity.GetComponent<CannonProjectile>();
             projectile.gameObject.SetActive(true);
             AddProjectileModifiers(projectile);
             return projectile;
         }
 
-        protected void AddProjectileModifiers(Projectile projectile)
+        protected void AddProjectileModifiers(CannonProjectile projectile)
         {
             CannonStats cannonStats = (CannonStats)Cannon.Stats;
             projectile.AddCritChance(new StatModifier(cannonStats.CriticalChance.Value, StatModType.Flat, 1));
@@ -62,7 +62,7 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
             {
                 finalDmg = totalDmg;
             }
-
+            projectile.IsFever = Cannon.IsOnFever || Cannon.IsOnFullFever;
             projectile.SetDamage(finalDmg, isCrit);
 
 
