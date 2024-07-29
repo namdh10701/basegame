@@ -21,6 +21,10 @@ namespace Online.Service.Auth
 				{
 					GetPlayerProfile = true,
 					GetUserVirtualCurrency = true,
+					GetUserData = true,
+					GetUserReadOnlyData = true,
+					GetTitleData = true,
+					GetUserInventory = true
 				}
 			}, result =>
 			{
