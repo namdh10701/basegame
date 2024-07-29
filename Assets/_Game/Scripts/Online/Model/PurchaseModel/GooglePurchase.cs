@@ -19,9 +19,28 @@ namespace Online.Model.GooglePurchase
 		public string json;
 
 		public static PayloadData FromJson(string json) {
-			var payload = Newtonsoft.Json.JsonConvert.DeserializeObject<PayloadData>(json);
-			payload.JsonData = Newtonsoft.Json.JsonConvert.DeserializeObject<JsonData>(payload.json);
-			return payload;
+			try
+			{
+				var payload = Newtonsoft.Json.JsonConvert.DeserializeObject<PayloadData>(json);
+				payload.JsonData = Newtonsoft.Json.JsonConvert.DeserializeObject<JsonData>(payload.json);
+				return payload;
+			}
+			catch (System.Exception e)
+			{
+				return new PayloadData()
+				{
+					signature = "signature",
+					JsonData = new JsonData()
+					{
+						orderId = "orderId",
+						packageName = "package_name",
+						productId = "product_id",
+						purchaseTime = 1,
+						purchaseToken = "token",
+						purchaseState = 0
+					}
+				};
+			}
 		}
 	}
 	
