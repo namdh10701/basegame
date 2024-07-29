@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Online.Interface;
 using Online.Model.GooglePurchase;
 using PlayFab;
@@ -40,21 +41,14 @@ namespace Online.Service
 
 		public bool IsInitialized => _storeController != null && _extensionProvider != null;
 
-		public void LoadAllStore()
+		public async UniTask LoadAllStore()
 		{
-			LoadGemPackages();
-			LoadGoldPackages();
-			LoadEnergyPackages();
+			await UniTask.WhenAll(LoadGemPackages(), LoadGoldPackages(), LoadEnergyPackages());
 
-			Manager.RunCoroutine(InitIAP());
+			InitIAP();
 		}
-		public IEnumerator InitIAP()
+		void InitIAP()
 		{
-			while (GemPackages == null)
-			{
-				yield return null;
-			}
-
 			var builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
 			foreach (var gem in GemPackages)
 			{
@@ -62,48 +56,44 @@ namespace Online.Service
 			}
 			UnityPurchasing.Initialize(this, builder);
 		}
-
-		public void LoadGemPackages(System.Action<bool> cb = null)
+		
+		public async UniTask<List<StoreItem>> LoadGemPackages()
 		{
-			LoadStore(GEM_PACKAGES_ID, result =>
-			{
-				GemPackages = result;
-				cb?.Invoke(GemPackages != null);
-			});
+			var storeResult = await LoadStore(GEM_PACKAGES_ID);
+			GemPackages = storeResult?.Store ?? null;
+			return GemPackages;
 		}
 
-		public void LoadGoldPackages(System.Action<bool> cb = null)
+		public async UniTask<List<StoreItem>> LoadGoldPackages()
 		{
-			LoadStore(GOLD_PACKAGES_ID, result =>
-			{
-				GoldPackages = result;
-				cb?.Invoke(GoldPackages != null);
-			});
+			var storeResult = await LoadStore(GOLD_PACKAGES_ID);
+			GoldPackages = storeResult?.Store ?? null;
+			return GoldPackages;
 		}
 
-		public void LoadEnergyPackages(System.Action<bool> cb = null)
+		public async UniTask<List<StoreItem>> LoadEnergyPackages()
 		{
-			LoadStore(ENERGY_PACKAGES_ID, result =>
-			{
-				EnergyPackages = result;
-				cb?.Invoke(EnergyPackages != null);
-			});
+			var storeResult = await LoadStore(ENERGY_PACKAGES_ID);
+			EnergyPackages = storeResult?.Store ?? null;
+			return EnergyPackages;
 		}
 
-		private void LoadStore(string storeId, System.Action<List<StoreItem>> cb = null)
+		private async UniTask<GetStoreItemsResult> LoadStore(string storeId)
 		{
+			UniTaskCompletionSource<GetStoreItemsResult> signal = new UniTaskCompletionSource<GetStoreItemsResult>();
 			PlayFabClientAPI.GetStoreItems(new()
 			{
 				StoreId = storeId
 			}, result =>
 			{
 				LogSuccess("Loaded store: " + storeId);
-				cb?.Invoke(result.Store);
+				signal.TrySetResult(result);
 			}, error =>
 			{
 				LogError(error.ErrorMessage);
-				cb?.Invoke(null);
+				signal.TrySetResult(null);
 			});
+			return await signal.Task;
 		}
 
 		public void BuyStoreItem(string storeId, System.Action<bool> cb = null)
