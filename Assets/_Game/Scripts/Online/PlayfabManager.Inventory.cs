@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using _Game.Scripts.SaveLoad;
@@ -13,6 +14,7 @@ namespace Online
 		public int Gem => Inventory.Currencies[EVirtualCurrency.Gem];
 		public int Energy => Inventory.Currencies[EVirtualCurrency.Energy];
 
+		[Obsolete("Use RequestInventoryAsync instead")]
 		public void RequestInventory(System.Action<bool> cb = null)
 		{
 			Inventory.RequestInventory(cb);

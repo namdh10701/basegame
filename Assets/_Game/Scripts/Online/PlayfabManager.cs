@@ -49,6 +49,7 @@ namespace Online
 			_shopService.Initialize(this);
 		}
 		
+		[Obsolete("Use LoginAsync instead")]
 		public void Login()
 		{
 			Auth.Login((result, infoPayload) =>

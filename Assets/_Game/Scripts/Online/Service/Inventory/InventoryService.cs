@@ -40,6 +40,7 @@ namespace Online.Service
 			};
 		}
 
+		[Obsolete("Use RequestInventoryAsync instead")]
 		public void RequestInventory(System.Action<bool> cb = null)
 		{
 			PlayFabClientAPI.GetUserInventory(new(), result =>

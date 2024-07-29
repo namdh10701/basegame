@@ -1,9 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Online.Model;
 using PlayFab;
 using PlayFab.ClientModels;
-using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Online.Service
 {
@@ -36,6 +37,7 @@ namespace Online.Service
 			}
 		}
 
+		[Obsolete("Use RequestNewProfileAsync instead")]
 		public void RequestNewProfile(System.Action<bool> cb = null)
 		{
 			PlayFabClientAPI.UpdateUserTitleDisplayName(new()

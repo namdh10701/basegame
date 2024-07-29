@@ -24,6 +24,7 @@ namespace Online.Service
 #endif
 		}
 
+		[Obsolete("Use LoginAsync instead")]
 		public void Login(System.Action<ELoginStatus, GetPlayerCombinedInfoResultPayload> onLoginSucceed)
 		{
 			_basePlatformAuth.Login(onLoginSucceed);
