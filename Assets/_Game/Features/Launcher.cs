@@ -45,7 +45,7 @@ namespace _Game.Features
             AudioManager.Instance.IsBgmOn = !SaveSystem.GameSave.Settings.MuteBGM;
             AudioManager.Instance.IsSfxOn = !SaveSystem.GameSave.Settings.MuteSFX;
 
-            PlayfabManager.Instance.Login();
+            await PlayfabManager.Instance.LoginAsync();
             // MapPlayerTracker.Instance.OnStagePassed += OnOnStagePassed;
             ShowTopPage().Forget();
         }
