@@ -1,6 +1,5 @@
 using System;
 using System.Threading.Tasks;
-using Facebook.Unity;
 using Online.Enum;
 using Online.Interface;
 using Online.Service.Auth;
