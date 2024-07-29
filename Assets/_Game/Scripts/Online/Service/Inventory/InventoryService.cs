@@ -48,6 +48,21 @@ namespace Online.Service
 				cb?.Invoke(false);
 			});
 		}
+		
+		public async Task<bool> RequestInventoryAsync()
+		{
+			var resp = await PlayFabAsync.PlayFabClientAPI.GetUserInventoryAsync(new());
+
+			if (resp.IsError)
+			{
+				LogError(resp.Error.ErrorMessage);
+				return false;
+			}
+			
+			LoadVirtualCurrency(resp.Result.VirtualCurrency);
+			LoadItems(resp.Result.Inventory);
+			return true;
+		}
 
 		public void LoadVirtualCurrency(Dictionary<string, int> virtualCurrency)
 		{

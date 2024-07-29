@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Online.Model;
 using PlayFab;
 using PlayFab.ClientModels;
@@ -60,6 +61,25 @@ namespace Online.Service
 				LogError(error.ErrorMessage);
 				cb?.Invoke(false);
 			});
+		}
+		
+		public async Task<bool> RequestNewProfileAsync()
+		{
+			var updateUserTitleDisplayName 
+				= await PlayFabAsync.PlayFabClientAPI.UpdateUserTitleDisplayNameAsync(new()
+			{
+				DisplayName = "User" + Random.Range(0, 10000).ToString("D5")
+			});
+			LogSuccess("New name: " + updateUserTitleDisplayName.Result.DisplayName);
+
+			var requestNewProfile  
+				= await PlayFabAsync.PlayFabClientAPI.ExecuteCloudScriptAsync(new()
+			{
+				FunctionName = C.CloudFunction.RequestNewProfile
+			});
+			LogSuccess("Create new profile!");
+
+			return !updateUserTitleDisplayName.IsError && !requestNewProfile.IsError;
 		}
 
 		public override void LogSuccess(string message)
