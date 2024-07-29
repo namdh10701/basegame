@@ -1,15 +1,13 @@
 using System.Collections.Generic;
 using System.Reflection;
-using _Base.Scripts.RPG.Stats;
 using _Base.Scripts.Utils;
+using _Game.Features.InventoryItemInfo;
 using _Game.Scripts.Gameplay;
 using _Game.Scripts.GD.DataManager;
 using _Game.Scripts.UI;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
-using Fusion;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityWeld.Binding;
 
 namespace _Game.Features.Shop

@@ -16,6 +16,28 @@ namespace _Game.Features.InventoryItemInfo
         /// Name
         /// </summary>
         [Binding]
+        public string Name
+        {
+            get => _name;
+            set
+            {
+                if (Equals(_name, value))
+                {
+                    return;
+                }
+
+                _name = value;
+                OnPropertyChanged(nameof(Name));
+            }
+        }
+        private string _name;
+        #endregion
+        
+        #region Binding Prop: OperationType
+        /// <summary>
+        /// OperationType
+        /// </summary>
+        [Binding]
         public string OperationType
         {
             get => _operationType;
@@ -86,7 +108,7 @@ namespace _Game.Features.InventoryItemInfo
                 {
                     var itemType = Type.ToString().ToLower();
                     var name = OperationType.ToLower();
-                    var path = $"Items/item_{itemType}_{name}";
+                    var path = $"Items/itemskill_{itemType}_{name}";
                     return Resources.Load<Sprite>(path);
                 }
                 else
@@ -95,6 +117,11 @@ namespace _Game.Features.InventoryItemInfo
                 }
 
             }
+        }
+
+        public void Setup()
+        {
+            OnPropertyChanged(nameof(Thumbnail));
         }
 
     }

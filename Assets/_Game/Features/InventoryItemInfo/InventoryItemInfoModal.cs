@@ -1,13 +1,10 @@
 using System;
-using System.Linq;
 using System.Reflection;
 using _Game.Features.Inventory;
 using _Game.Features.InventoryCustomScreen;
-using _Game.Features.Shop;
 using _Game.Scripts.GD.DataManager;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityWeld.Binding;
 using ZBase.UnityScreenNavigator.Core.Modals;
 using ZBase.UnityScreenNavigator.Core.Views;
@@ -185,13 +182,13 @@ namespace _Game.Features.InventoryItemInfo
         #endregion
 
         #region Binding: Stars
-        private ObservableList<GameObject> stars = new ObservableList<GameObject>();
+        private ObservableList<Star> stars = new ObservableList<Star>();
 
         [Binding]
-        public ObservableList<GameObject> Stars => stars;
+        public ObservableList<Star> Stars => stars;
         #endregion
 
-        #region Binding: Stars
+        #region Binding: Skills
         private ObservableList<SkillInvetoryItem> skills = new ObservableList<SkillInvetoryItem>();
 
         [Binding]
@@ -241,6 +238,7 @@ namespace _Game.Features.InventoryItemInfo
 
         private void SetSkillData()
         {
+            skills.Clear();
             switch (Type)
             {
                 case ItemType.CANNON:
@@ -250,7 +248,10 @@ namespace _Game.Features.InventoryItemInfo
                         OperationType = skilDataCannonDefault.Item1,
                         Details = skilDataCannonDefault.Item2,
                         Type = Type,
+                        Name = skilDataCannonDefault.Item3
+
                     };
+                    skillCannonDefault.Setup();
                     Skills.Add(skillCannonDefault);
 
                     var skillDataFever = GameData.CannonFeverTable.GetDataSkillDefault(OperationType, Rarity.ToString());
@@ -258,7 +259,11 @@ namespace _Game.Features.InventoryItemInfo
                     {
                         OperationType = skillDataFever.Item1,
                         Details = skillDataFever.Item2,
+                        Type = Type,
+                        Name = skillDataFever.Item3
+
                     };
+                    skillFever.Setup();
                     Skills.Add(skillFever);
                     break;
                 case ItemType.AMMO:
@@ -267,7 +272,12 @@ namespace _Game.Features.InventoryItemInfo
                     {
                         OperationType = skillDataAmmoDefault.Item1,
                         Details = skillDataAmmoDefault.Item2,
+                        Type = Type,
+                        Name = skillDataAmmoDefault.Item3
+
                     };
+                    skillAmmo.Setup();
+                    Skills.Add(skillAmmo);
                     break;
                 case ItemType.CREW:
                     var skillDataCrewDefault = GameData.CrewTable.GetDataSkillDefault(OperationType, Rarity.ToString());
@@ -275,7 +285,12 @@ namespace _Game.Features.InventoryItemInfo
                     {
                         OperationType = skillDataCrewDefault.Item1,
                         Details = skillDataCrewDefault.Item2,
+                        Type = Type,
+                        Name = skillDataCrewDefault.Item3
+
                     };
+                    skillCrew.Setup();
+                    Skills.Add(skillCrew);
                     break;
             }
         }
@@ -305,36 +320,52 @@ namespace _Game.Features.InventoryItemInfo
         {
             if (Type == ItemType.CREW || Type == ItemType.AMMO) return;
 
-            for (int i = 0; i < int.Parse(RarityLevel); i++)
+            stars.Clear();
+
+            if (int.TryParse(RarityLevel, out int rarityLevel))
             {
-                Stars.Add(new Star());
+                for (int i = 0; i < rarityLevel; i++)
+                {
+                    stars.Add(new Star());
+                }
+            }
+            else
+            {
+                // Handle the case where RarityLevel is not a valid integer
+                Debug.LogError($"Invalid RarityLevel: {RarityLevel}");
             }
         }
 
+
         private void SetDataItemStat()
         {
-            itemStats.Clear();
+            ItemStats.Clear();
             var valueExtra = (float)GetValuePropertyUpgrade();
 
             DataTableRecord dataTableRecord = null;
-            if (Type == ItemType.CANNON)
+            switch (Type)
             {
-                dataTableRecord = GameData.CannonTable.GetDataTableRecord(OperationType, Rarity.ToString());
-                var cannonRecord = dataTableRecord as CannonTableRecord;
-                cannonRecord.Attack = cannonRecord.Attack + valueExtra;
+                case ItemType.CANNON:
+                    dataTableRecord = GameData.CannonTable.GetDataTableRecord(OperationType, Rarity.ToString());
+                    var cannonRecord = dataTableRecord as CannonTableRecord;
+                    cannonRecord.Attack = cannonRecord.Attack + valueExtra;
+                    break;
+                case ItemType.AMMO:
+                    dataTableRecord = GameData.AmmoTable.GetDataTableRecord(OperationType, Rarity.ToString());
+                    var ammoRecord = dataTableRecord as AmmoTableRecord;
+                    ammoRecord.AmmoAttack = ammoRecord.AmmoAttack + valueExtra;
+                    break;
+                case ItemType.CREW:
+                    dataTableRecord = GameData.CrewTable.GetDataTableRecord(OperationType, Rarity.ToString());
+                    var crewRecord = dataTableRecord as CrewTableRecord;
+                    break;
+                case ItemType.SHIP:
+                    dataTableRecord = GameData.ShipTable.GetDataTableRecord(Id, ItemName);
+                    var shipRecord = dataTableRecord as ShipTableRecord;
+                    shipRecord.Hp = shipRecord.Hp + valueExtra;
+                    break;
             }
-            else if (Type == ItemType.CREW)
-            {
-                dataTableRecord = GameData.CrewTable.GetDataTableRecord(OperationType, Rarity.ToString());
-                var ammoRecord = dataTableRecord as AmmoTableRecord;
-                ammoRecord.AmmoAttack = ammoRecord.AmmoAttack + valueExtra;
-            }
-            else if (Type == ItemType.SHIP)
-            {
-                dataTableRecord = GameData.ShipTable.GetDataTableRecord(Id, ItemName);
-                var shipRecord = dataTableRecord as ShipTableRecord;
-                shipRecord.Hp = shipRecord.Hp + valueExtra;
-            }
+
 
             if (dataTableRecord != null)
             {
@@ -347,7 +378,7 @@ namespace _Game.Features.InventoryItemInfo
                     ItemStat itemStat = new ItemStat();
                     itemStat.NameProperties = stat.Name;
                     itemStat.Value = item.GetValue(dataTableRecord).ToString();
-                    itemStats.Add(itemStat);
+                    ItemStats.Add(itemStat);
                 }
             }
 
@@ -406,7 +437,7 @@ namespace _Game.Features.InventoryItemInfo
             if (screenName != null)
             {
                 var options = new ViewOptions(screenName);
-                await ModalContainer.Find(ContainerKey.Modals).PushAsync(options);
+                await ModalContainer.Find(ContainerKey.Modals).PushAsync(options, InventoryItem, Skills, itemStats);
             }
         }
 

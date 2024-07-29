@@ -7,7 +7,7 @@ using UnityWeld.Binding;
 namespace _Game.Features.InventoryCustomScreen
 {
     [Binding]
-    public class CrewCustomScreen : RootViewModel
+    public class CrewCustomScreen : ModalWithViewModel
     {
         #region Binding Prop: IsActive
 
