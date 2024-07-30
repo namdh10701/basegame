@@ -1,16 +1,108 @@
+using System;
 using System.Linq;
 using _Game.Features.Inventory;
-using _Game.Scripts.UI;
+using _Game.Features.InventoryItemInfo;
+using _Game.Scripts.GD.DataManager;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityWeld.Binding;
+using ZBase.UnityScreenNavigator.Core.Views;
 
 namespace _Game.Features.InventoryCustomScreen
 {
     [Binding]
     public class CrewCustomScreen : ModalWithViewModel
     {
-        #region Binding Prop: IsActive
+        #region Binding Prop: Slot
+        /// <summary>
+        /// Slot
+        /// </summary>
+        [Binding]
+        public string Slot
+        {
+            get => _slot;
+            set
+            {
+                if (Equals(_slot, value))
+                {
+                    return;
+                }
 
+                _slot = value;
+                OnPropertyChanged(nameof(Slot));
+            }
+        }
+        private string _slot;
+        #endregion
+
+        #region Binding Prop: ItemName
+        /// <summary>
+        /// ItemName
+        /// </summary>
+        [Binding]
+        public string ItemName
+        {
+            get => _itemName;
+            set
+            {
+                if (Equals(_itemName, value))
+                {
+                    return;
+                }
+
+                _itemName = value;
+                OnPropertyChanged(nameof(ItemName));
+            }
+        }
+        private string _itemName;
+        #endregion
+
+        #region Binding Prop: RarityItem
+        /// <summary>
+        /// RarityItem
+        /// </summary>
+        [Binding]
+        public string RarityItem
+        {
+            get => _rarityItem;
+            set
+            {
+                if (Equals(_rarityItem, value))
+                {
+                    return;
+                }
+
+                _rarityItem = value;
+                OnPropertyChanged(nameof(RarityItem));
+            }
+        }
+        private string _rarityItem;
+        #endregion
+
+        #region Binding Prop: ColorRarity
+        /// <summary>
+        /// ColorRarity
+        /// </summary>
+        [Binding]
+        public Color ColorRarity
+        {
+            get => _colorRarity;
+            set
+            {
+                if (Equals(_colorRarity, value))
+                {
+                    return;
+                }
+
+                _colorRarity = value;
+                OnPropertyChanged(nameof(ColorRarity));
+            }
+        }
+        private Color _colorRarity;
+        #endregion
+
+        #region Binding Prop: IsActive
         /// <summary>
         /// IsActive
         /// </summary>
@@ -30,14 +122,10 @@ namespace _Game.Features.InventoryCustomScreen
                 OnPropertyChanged(nameof(IsActive));
             }
         }
-
         private bool _isActive;
 
         #endregion
-
         #region Binding Prop: IsActiveAttach
-        private bool _isActiveAttach;
-
         /// <summary>
         /// IsActiveAttach
         /// </summary>
@@ -58,12 +146,10 @@ namespace _Game.Features.InventoryCustomScreen
 
             }
         }
-
-
+        private bool _isActiveAttach;
         #endregion
 
         #region Binding Prop: IndexButton
-
         private int _indexButton = 0;
         /// <summary>
         /// IndexButton
@@ -84,32 +170,41 @@ namespace _Game.Features.InventoryCustomScreen
                 OnPropertyChanged(nameof(IndexButton));
             }
         }
-
         #endregion
+
+        // [Binding]
+        // public UICrew UICrew
+        // {
+        //     get
+        //     {
+        //         switch (InventoryItem.Type)
+        //         {
+        //             case ItemType.CREW:
+        //                 return _Game.Scripts.DB.Database.GetUICrew(InventoryItem.Id);
+        //             default:
+        //                 return null;
+        //         }
+        //     }
+        // }
 
         public ItemType AttachItemType = ItemType.None;
         public string AttachItemId { get; set; }
 
-        #region Binding: SkillInfoItems
-
-        private ObservableList<SkillInfoItem> skillInfoItems = new ObservableList<SkillInfoItem>();
+        #region Binding: Skills
+        private ObservableList<SkillInvetoryItem> skills = new ObservableList<SkillInvetoryItem>();
 
         [Binding]
-        public ObservableList<SkillInfoItem> SkillInfoItems => skillInfoItems;
-
+        public ObservableList<SkillInvetoryItem> Skills => skills;
         #endregion
 
-        #region Binding: SkinInfoItems
-
-        private ObservableList<SkinInfoItem> skinInfoItems = new ObservableList<SkinInfoItem>();
+        #region Binding: ItemStats
+        private ObservableList<ItemStat> stats = new ObservableList<ItemStat>();
 
         [Binding]
-        public ObservableList<SkinInfoItem> SkinInfoItems => skinInfoItems;
-
+        public ObservableList<ItemStat> Stats => stats;
         #endregion
 
         #region Binding: AttachInfoItems
-
         private ObservableList<AttachInfoItem> attachInfoItems = new ObservableList<AttachInfoItem>();
 
         [Binding]
@@ -126,11 +221,37 @@ namespace _Game.Features.InventoryCustomScreen
 
         #endregion
         [SerializeField] ButtonGroupInput _buttonGroupInput;
-        public static CrewCustomScreen Instance;
-        async void Awake()
+        public InventoryItem InventoryItem { get; set; }
+        public GameObject MainItem;
+        public UICrew UICrew;
+
+        public override async UniTask Initialize(Memory<object> args)
         {
-            Instance = this;
-            InitDataTest();
+            InventoryItem = args.Span[0] as InventoryItem;
+            var itemSkill = args.Span[1] as ObservableList<SkillInvetoryItem>;
+            foreach (var item in itemSkill)
+            {
+                Skills.Add(item);
+            }
+
+            var itemStats = args.Span[2] as ObservableList<ItemStat>;
+            foreach (var item in itemStats)
+            {
+                Stats.Add(item);
+            }
+            LoadData();
+
+        }
+
+        private void LoadData()
+        {
+            ItemName = InventoryItem.Name;
+            Slot = InventoryItem.Slot;
+            RarityItem = $"[{InventoryItem.Rarity.ToString()}]";
+            SetColorRarity();
+            UICrew = _Game.Scripts.DB.Database.GetUICrew(InventoryItem.Id);
+            UICrew.transform.parent = MainItem.transform;
+            UICrew.transform.localPosition = Vector3.zero;
         }
 
         public void OnAddItem(int indexButtom)
@@ -185,22 +306,6 @@ namespace _Game.Features.InventoryCustomScreen
 
         public void InitDataTest()
         {
-            for (int i = 0; i < 2; i++)
-            {
-                var SkillInfoItem = new SkillInfoItem();
-                SkillInfoItem.Id = "0001";
-                SkillInfoItem.SkillName = "Skill Nam 1";
-                SkillInfoItem.Type = ItemType.CREW;
-                SkillInfoItem.Details = "111111111111111111111111111111111111111111";
-                skillInfoItems.Add(SkillInfoItem);
-            }
-
-
-            var SkinInfoItem = new SkinInfoItem();
-            SkinInfoItem.Id = "0001";
-            SkinInfoItem.Type = ItemType.CANNON;
-            SkinInfoItem.Details = "22222222222";
-            skinInfoItems.Add(SkinInfoItem);
 
 
             for (int i = 0; i < 3; i++)
@@ -218,6 +323,28 @@ namespace _Game.Features.InventoryCustomScreen
                 toggle.Type = ItemType.None;
                 toggle.SlotName = $"Slot {i}";
                 buttonSlots.Add(toggle);
+            }
+        }
+
+        private void SetColorRarity()
+        {
+            switch (InventoryItem.Rarity)
+            {
+                case Rarity.Common:
+                    ColorRarity = Color.grey;
+                    break;
+                case Rarity.Good:
+                    ColorRarity = Color.green;
+                    break;
+                case Rarity.Rare:
+                    ColorRarity = Color.cyan;
+                    break;
+                case Rarity.Epic:
+                    ColorRarity = new Color(194, 115, 241, 255);
+                    break;
+                case Rarity.Legend:
+                    ColorRarity = Color.yellow;
+                    break;
             }
         }
     }

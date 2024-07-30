@@ -18,6 +18,7 @@ namespace _Game.Scripts.DB
         private static Dictionary<string, Cannon> CannonDic = new Dictionary<string, Cannon>();
         private static Dictionary<string, Ammo> BulletDic = new Dictionary<string, Ammo>();
         private static Dictionary<string, Crew> CrewDic = new Dictionary<string, Crew>();
+        private static Dictionary<string, UICrew> CrewUIDic = new Dictionary<string, UICrew>();
 
         private static Dictionary<string, string> CannonOperatorDic = new Dictionary<string, string>();
         private static Dictionary<string, string> BulletOperatorDic = new Dictionary<string, string>();
@@ -36,6 +37,7 @@ namespace _Game.Scripts.DB
             CreateCannonDic();
             CreateBulletDic();
             CreateCrewDic();
+            CreateCrewUIDic();
             CreateOffsetDic();
             CreateShapeDic();
             CreateMonsterPowerDic();
@@ -156,6 +158,17 @@ namespace _Game.Scripts.DB
             }
         }
 
+        static void CreateCrewUIDic()
+        {
+            foreach (var rec in GameData.CrewTable.Records)
+            {
+                var resPath = $"Prefabs/GridItems/CrewsUI/{rec.OperationType}";
+                UICrew crew = Resources.Load<UICrew>(resPath);
+                Debug.Log(rec.Id);
+                CrewUIDic.Add(rec.Id, crew);
+            }
+        }
+
         static void CreateOffsetDic()
         {
             CannonOffsetDic.Add(new KeyValuePair<string, string>("normal", "0001"), new Vector3(0, 0.41f, 0));
@@ -221,6 +234,10 @@ namespace _Game.Scripts.DB
         public static Crew GetCrew(string id)
         {
             return CrewDic[id];
+        }
+        public static UICrew GetUICrew(string id)
+        {
+            return CrewUIDic[id];
         }
 
         public static Sprite GetAmmoImage(string id)

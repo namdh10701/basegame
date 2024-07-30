@@ -238,11 +238,11 @@ namespace _Game.Features.InventoryItemInfo
 
         private void SetSkillData()
         {
-            skills.Clear();
+            Skills.Clear();
             switch (Type)
             {
                 case ItemType.CANNON:
-                    var skilDataCannonDefault = GameData.CannonTable.GetDataSkillDefault(OperationType, Rarity.ToString());
+                    var skilDataCannonDefault = GameData.CannonTable.GetDataSkillDefault(OperationType, RarityLevel);
                     SkillInvetoryItem skillCannonDefault = new SkillInvetoryItem()
                     {
                         OperationType = skilDataCannonDefault.Item1,
@@ -259,10 +259,10 @@ namespace _Game.Features.InventoryItemInfo
 
                     }
 
-                    var skillDataFever = GameData.CannonFeverTable.GetDataSkillDefault(OperationType, Rarity.ToString());
+                    var skillDataFever = GameData.CannonFeverTable.GetDataSkillDefault(OperationType, RarityLevel);
                     SkillInvetoryItem skillFever = new SkillInvetoryItem()
                     {
-                        OperationType = skillDataFever.Item1,
+                        OperationType = "fever",
                         Details = skillDataFever.Item2,
                         Type = Type,
                         Name = skillDataFever.Item3
@@ -276,7 +276,7 @@ namespace _Game.Features.InventoryItemInfo
                     }
                     break;
                 case ItemType.AMMO:
-                    var skillDataAmmoDefault = GameData.AmmoTable.GetDataSkillDefault(OperationType, Rarity.ToString());
+                    var skillDataAmmoDefault = GameData.AmmoTable.GetDataSkillDefault(OperationType, RarityLevel);
                     SkillInvetoryItem skillAmmo = new SkillInvetoryItem()
                     {
                         OperationType = skillDataAmmoDefault.Item1,
@@ -411,7 +411,6 @@ namespace _Game.Features.InventoryItemInfo
                 case ItemType.AMMO:
                     var amoTable = GameData.AmmoTable.GetDataTableRecord(OperationType, Rarity.ToString()) as AmmoTableRecord;
                     return Math.Ceiling(amoTable.AmmoAttack * _inventoryItemUpgradeTableRecord.Effect);
-
                 case ItemType.SHIP:
                     var shipTable = GameData.AmmoTable.GetDataTableRecord(OperationType, Rarity.ToString()) as ShipTableRecord;
                     return Math.Ceiling(shipTable.Hp * _inventoryItemUpgradeTableRecord.Effect);
@@ -447,6 +446,7 @@ namespace _Game.Features.InventoryItemInfo
             string screenName = Type switch
             {
                 ItemType.CANNON => nameof(CannonCustomScreen),
+                ItemType.AMMO => nameof(CannonCustomScreen),
                 ItemType.CREW => nameof(CrewCustomScreen),
                 _ => null
             };
@@ -454,7 +454,7 @@ namespace _Game.Features.InventoryItemInfo
             if (screenName != null)
             {
                 var options = new ViewOptions(screenName);
-                await ModalContainer.Find(ContainerKey.Modals).PushAsync(options, InventoryItem, Skills, itemStats);
+                await ModalContainer.Find(ContainerKey.Modals).PushAsync(options, InventoryItem, Skills, ItemStats);
             }
         }
 
