@@ -1,10 +1,8 @@
-using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using Online.Model;
 using PlayFab;
 using PlayFab.ClientModels;
-using Random = UnityEngine.Random;
 
 namespace Online.Service
 {
@@ -37,51 +35,23 @@ namespace Online.Service
 			}
 		}
 
-		[Obsolete("Use RequestNewProfileAsync instead")]
-		public void RequestNewProfile(System.Action<bool> cb = null)
+		public async UniTask<string> UpdateDisplayName(string displayName)
 		{
+			var signal = new UniTaskCompletionSource<string>();
 			PlayFabClientAPI.UpdateUserTitleDisplayName(new()
 			{
-				DisplayName = "User" + Random.Range(0, 10000).ToString("D5")
+				DisplayName = displayName
 			}, (result) =>
 			{
-				LogSuccess("New name: " + result.DisplayName);
+				LogSuccess("New DisplayName: " + result.DisplayName);
+				DisplayName = result.DisplayName;
+				signal.TrySetResult(DisplayName);
 			}, (error) =>
 			{
 				LogError(error.ErrorMessage);
+				signal.TrySetResult(DisplayName);
 			});
-			
-			PlayFabClientAPI.ExecuteCloudScript(new()
-			{
-				FunctionName = C.CloudFunction.RequestNewProfile
-			}, (result) =>
-			{
-				LogSuccess("Create new profile!");
-				cb?.Invoke(true);
-			}, (error) =>
-			{
-				LogError(error.ErrorMessage);
-				cb?.Invoke(false);
-			});
-		}
-		
-		public async Task<bool> RequestNewProfileAsync()
-		{
-			var updateUserTitleDisplayName 
-				= await PlayFabAsync.PlayFabClientAPI.UpdateUserTitleDisplayNameAsync(new()
-			{
-				DisplayName = "User" + Random.Range(0, 10000).ToString("D5")
-			});
-			LogSuccess("New name: " + updateUserTitleDisplayName.Result.DisplayName);
-
-			var requestNewProfile  
-				= await PlayFabAsync.PlayFabClientAPI.ExecuteCloudScriptAsync(new()
-			{
-				FunctionName = C.CloudFunction.RequestNewProfile
-			});
-			LogSuccess("Create new profile!");
-
-			return !updateUserTitleDisplayName.IsError && !requestNewProfile.IsError;
+			return await signal.Task;
 		}
 
 		public override void LogSuccess(string message)

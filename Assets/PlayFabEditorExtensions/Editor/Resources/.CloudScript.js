@@ -61,36 +61,22 @@ handlers.helloWorld = function (args, context) {
 // Profile Script
 handlers.RequestNewProfile = function (args, context) {
     // Default Profile
-    var beginLevel = {
-        Level: 1,
-        Exp: 0
-    }
     var reqReadOnlyData = {
         PlayFabId: currentPlayerId,
         Data: {
-            Level: JSON.stringify(beginLevel)
+            Level: 1,
+            Exp: 0
         }
     };
     var resultData = server.UpdateUserReadOnlyData(reqReadOnlyData);
 
-    // Default Items
-    var reqItems = {
+    // Update Display Name
+    const displayName = "User" + Math.floor(Math.random() * 10000).toString().padStart(5, '0');
+    var reqDisplayName = {
         PlayFabId: currentPlayerId,
-        ItemIds: ["cannon_0001", "crew_2001", "ammo_1001"],
-        CatalogVersion: "Game"
-    };
-    var resultItem = server.GrantItemsToUser(reqItems);
-
-    for (var i = 0; i < resultItem.ItemGrantResults.length; i++) {
-        var reqItem = {
-            PlayFabId: currentPlayerId,
-            ItemInstanceId: resultItem.ItemGrantResults[i].ItemInstanceId,
-            Data: {
-                Level: 1
-            }
-        };
-        server.UpdateUserInventoryItemCustomData(reqItem);
+        DisplayName: displayName
     }
+    var resultUpdateName = server.UpdateUserTitleDisplayName(reqDisplayName);
 };
 
 handlers.CombineItems = function (args, context) {
@@ -98,17 +84,17 @@ handlers.CombineItems = function (args, context) {
         PlayFabId: currentPlayerId
     };
     var resultInventory = server.GetUserInventory(reqInventory);
-    
+
     var combineItems = [];
-    for(int i=0; i<args.CombineItemIds.length; i++) {
-        var combineItem = resultInventory.Inventory.find(val => val.ItemInstanceId == args.CombineItemIds[i]);
-        if(combineItem != null) {
-            combineItems.push(combineItem);
-        }
-    }
-    
+    // for(int i=0; i<args.CombineItemIds.length; i++) {
+    //     var combineItem = resultInventory.Inventory.find(val => val.ItemInstanceId == args.CombineItemIds[i]);
+    //     if(combineItem != null) {
+    //         combineItems.push(combineItem);
+    //     }
+    // }
+
     if(combineItems.length == 3) {
-        
+
     }
 };
 
@@ -118,22 +104,25 @@ handlers.UpgradeItem = function (args, context) {
     };
     var resultInventory = server.GetUserInventory(reqInventory);
 
-    var item = resultInventory.Inventory.find(val => val.ItemInstanceId == args.ItemInstanceId);
-    if (item != null) {
-        item.CustomData.Level = parseInt(item.CustomData.Level) + 1;
-        var reqUpgrade = {
-            PlayFabId: currentPlayerId,
-            ItemInstanceId: args.ItemInstanceId,
-            Data: {
-                Level: item.CustomData.Level
-            }
-        };
-        var resUpgrade = server.UpdateUserInventoryItemCustomData(reqUpgrade);
+    var upgradeItem = resultInventory.Inventory.find(val => val.ItemInstanceId == args.ItemInstanceId);
+    if (upgradeItem != null) {
+        log.debug(upgradeItem);
+        // var blueprintItem = resultInventory.Inventory.find(val => val.ItemId == upgradeItem.CustomData.BlueprintId);
 
-        return {
-            Result: true,
-            ItemUpgrade: item
-        }
+        // upgradeItem.CustomData.Level = parseInt(upgradeItem.CustomData.Level) + 1;
+        // var reqUpgrade = {
+        //     PlayFabId: currentPlayerId,
+        //     ItemInstanceId: args.ItemInstanceId,
+        //     Data: {
+        //         Level: upgradeItem.CustomData.Level
+        //     }
+        // };
+        // var resUpgrade = server.UpdateUserInventoryItemCustomData(reqUpgrade);
+        //
+        // return {
+        //     Result: true,
+        //     ItemUpgrade: upgradeItem
+        // }
     }
 
     return {
@@ -143,7 +132,7 @@ handlers.UpgradeItem = function (args, context) {
 };
 
 handlers.CampaignComplete = function (args, context) {
-    
+
 };
 
 // This is a simple example of making a PlayFab server API call

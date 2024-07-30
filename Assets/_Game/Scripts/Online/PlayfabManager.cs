@@ -18,7 +18,7 @@ namespace Online
 		private InventoryService _inventoryService = null;
 		private EquipmentService _equipmentService = null;
 		private ShopService _shopService = null;
-			
+
 		#region Services
 
 		public AuthService Auth => _authService;
@@ -48,7 +48,7 @@ namespace Online
 			_equipmentService.Initialize(this);
 			_shopService.Initialize(this);
 		}
-		
+
 		public async Task LoginAsync()
 		{
 			var loginResult = await Auth.LoginAsync();
@@ -57,26 +57,13 @@ namespace Online
 				Debug.LogError("Login failed");
 				return;
 			}
-			
-			if (loginResult.Status == ELoginStatus.Newly)
-			{
-				var requestOk = await Profile.RequestNewProfileAsync();
-				if (!requestOk)
-				{
-					return;
-				}
 
-				await RequestInventoryAsync();
-			}
-			else
-			{
-				var infoPayload = loginResult.Payload;
-				Profile.LoadProfile(infoPayload.PlayerProfile, infoPayload.UserReadOnlyData);
-				Equipment.LoadEquipmentShip(infoPayload.UserData);
-				Inventory.LoadVirtualCurrency(infoPayload.UserVirtualCurrency);
-				Inventory.LoadItems(infoPayload.UserInventory);
-				UpdateEquipShip(SaveSystem.GameSave.ShipSetupSaveData);
-			}
+			var infoPayload = loginResult.Payload;
+			Profile.LoadProfile(infoPayload.PlayerProfile, infoPayload.UserReadOnlyData);
+			Equipment.LoadEquipmentShip(infoPayload.UserData);
+			Inventory.LoadVirtualCurrency(infoPayload.UserVirtualCurrency);
+			Inventory.LoadItems(infoPayload.UserInventory);
+			UpdateEquipShip(SaveSystem.GameSave.ShipSetupSaveData);
 
 			LoadShop();
 		}
