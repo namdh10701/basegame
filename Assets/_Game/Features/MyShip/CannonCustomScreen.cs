@@ -4,6 +4,7 @@ using _Game.Features.InventoryItemInfo;
 using _Game.Scripts.GD.DataManager;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityWeld.Binding;
 using ZBase.UnityScreenNavigator.Core.Modals;
 
@@ -100,6 +101,28 @@ namespace _Game.Features.InventoryCustomScreen
         private Color _colorRarity;
         #endregion
 
+        #region Binding Prop: IsSetActiveSprite
+        /// <summary>
+        /// IsSetActiveSprite
+        /// </summary>
+        [Binding]
+        public bool IsSetActiveSprite
+        {
+            get => _isSetActiveSprite;
+            set
+            {
+                if (Equals(_isSetActiveSprite, value))
+                {
+                    return;
+                }
+
+                _isSetActiveSprite = value;
+                OnPropertyChanged(nameof(IsSetActiveSprite));
+            }
+        }
+        private bool _isSetActiveSprite;
+        #endregion
+
         [Binding]
         public Sprite SpriteReview
         {
@@ -132,12 +155,14 @@ namespace _Game.Features.InventoryCustomScreen
         #endregion
 
         public InventoryItem InventoryItem { get; set; }
+        public Image MainItem;
 
 
         public override async UniTask Initialize(Memory<object> args)
         {
+            Skills.Clear();
+            Stats.Clear();
             InventoryItem = args.Span[0] as InventoryItem;
-
             var itemSkill = args.Span[1] as ObservableList<SkillInvetoryItem>;
             foreach (var item in itemSkill)
             {
@@ -160,7 +185,7 @@ namespace _Game.Features.InventoryCustomScreen
             RarityItem = $"[{InventoryItem.Rarity.ToString()}]";
             SetColorRarity();
             OnPropertyChanged(nameof(SpriteReview));
-
+            MainItem.SetNativeSize();
         }
 
         private void SetColorRarity()

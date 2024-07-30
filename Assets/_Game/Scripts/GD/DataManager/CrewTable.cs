@@ -22,11 +22,11 @@ namespace _Game.Scripts.GD.DataManager
             return null;
         }
 
-        public (string, string, string) GetDataSkillDefault(string operationType, string defaultRarity)
+        public (string, string, string) GetDataSkillDefault(string operationType, string rarity)
         {
             foreach (var record in Records)
             {
-                if (record.OperationType == operationType && record.Rarity.ToString() == defaultRarity)
+                if (record.OperationType == operationType && record.Rarity.ToString() == rarity)
                     return (record.OperationType, record.SkillDesc1, record.Skill_Name_1);
             }
             return (null, null, null);
