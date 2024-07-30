@@ -1,6 +1,7 @@
 using System;
 using _Game.Features.Inventory;
 using _Game.Features.InventoryItemInfo;
+using _Game.Scripts.GD.DataManager;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityWeld.Binding;
@@ -55,26 +56,48 @@ namespace _Game.Features.InventoryCustomScreen
         private string _itemName;
         #endregion
 
-        #region Binding Prop: Rarity
+        #region Binding Prop: RarityItem
         /// <summary>
-        /// Rarity
+        /// RarityItem
         /// </summary>
         [Binding]
-        public string Rarity
+        public string RarityItem
         {
-            get => _rarity;
+            get => _rarityItem;
             set
             {
-                if (Equals(_rarity, value))
+                if (Equals(_rarityItem, value))
                 {
                     return;
                 }
 
-                _rarity = value;
-                OnPropertyChanged(nameof(Rarity));
+                _rarityItem = value;
+                OnPropertyChanged(nameof(RarityItem));
             }
         }
-        private string _rarity;
+        private string _rarityItem;
+        #endregion
+
+        #region Binding Prop: ColorRarity
+        /// <summary>
+        /// ColorRarity
+        /// </summary>
+        [Binding]
+        public Color ColorRarity
+        {
+            get => _colorRarity;
+            set
+            {
+                if (Equals(_colorRarity, value))
+                {
+                    return;
+                }
+
+                _colorRarity = value;
+                OnPropertyChanged(nameof(ColorRarity));
+            }
+        }
+        private Color _colorRarity;
         #endregion
 
         [Binding]
@@ -102,10 +125,10 @@ namespace _Game.Features.InventoryCustomScreen
         #endregion
 
         #region Binding: ItemStats
-        private ObservableList<ItemStat> itemStats = new ObservableList<ItemStat>();
+        private ObservableList<ItemStat> stats = new ObservableList<ItemStat>();
 
         [Binding]
-        public ObservableList<ItemStat> ItemStats => itemStats;
+        public ObservableList<ItemStat> Stats => stats;
         #endregion
 
         public InventoryItem InventoryItem { get; set; }
@@ -114,8 +137,19 @@ namespace _Game.Features.InventoryCustomScreen
         public override async UniTask Initialize(Memory<object> args)
         {
             InventoryItem = args.Span[0] as InventoryItem;
-            skills = args.Span[1] as ObservableList<SkillInvetoryItem>;
-            itemStats = args.Span[2] as ObservableList<ItemStat>;
+
+            var itemSkill = args.Span[1] as ObservableList<SkillInvetoryItem>;
+            foreach (var item in itemSkill)
+            {
+                Skills.Add(item);
+            }
+
+            var itemStats = args.Span[2] as ObservableList<ItemStat>;
+            foreach (var item in itemStats)
+            {
+                Stats.Add(item);
+            }
+
             LoadData();
         }
 
@@ -123,7 +157,32 @@ namespace _Game.Features.InventoryCustomScreen
         {
             ItemName = InventoryItem.Name;
             Slot = InventoryItem.Slot;
-            Rarity = $"[{InventoryItem.Rarity.ToString()}]";
+            RarityItem = $"[{InventoryItem.Rarity.ToString()}]";
+            SetColorRarity();
+            OnPropertyChanged(nameof(SpriteReview));
+
+        }
+
+        private void SetColorRarity()
+        {
+            switch (InventoryItem.Rarity)
+            {
+                case Rarity.Common:
+                    ColorRarity = Color.grey;
+                    break;
+                case Rarity.Good:
+                    ColorRarity = Color.green;
+                    break;
+                case Rarity.Rare:
+                    ColorRarity = Color.cyan;
+                    break;
+                case Rarity.Epic:
+                    ColorRarity = new Color(194, 115, 241, 255);
+                    break;
+                case Rarity.Legend:
+                    ColorRarity = Color.yellow;
+                    break;
+            }
         }
 
         [Binding]

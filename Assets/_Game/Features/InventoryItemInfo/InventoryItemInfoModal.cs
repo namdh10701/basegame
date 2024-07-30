@@ -251,8 +251,13 @@ namespace _Game.Features.InventoryItemInfo
                         Name = skilDataCannonDefault.Item3
 
                     };
-                    skillCannonDefault.Setup();
-                    Skills.Add(skillCannonDefault);
+
+                    if (!string.IsNullOrEmpty(skilDataCannonDefault.Item2))
+                    {
+                        skillCannonDefault.Setup();
+                        Skills.Add(skillCannonDefault);
+
+                    }
 
                     var skillDataFever = GameData.CannonFeverTable.GetDataSkillDefault(OperationType, Rarity.ToString());
                     SkillInvetoryItem skillFever = new SkillInvetoryItem()
@@ -263,8 +268,12 @@ namespace _Game.Features.InventoryItemInfo
                         Name = skillDataFever.Item3
 
                     };
-                    skillFever.Setup();
-                    Skills.Add(skillFever);
+
+                    if (!string.IsNullOrEmpty(skillDataFever.Item2))
+                    {
+                        skillFever.Setup();
+                        Skills.Add(skillFever);
+                    }
                     break;
                 case ItemType.AMMO:
                     var skillDataAmmoDefault = GameData.AmmoTable.GetDataSkillDefault(OperationType, Rarity.ToString());
@@ -276,8 +285,12 @@ namespace _Game.Features.InventoryItemInfo
                         Name = skillDataAmmoDefault.Item3
 
                     };
-                    skillAmmo.Setup();
-                    Skills.Add(skillAmmo);
+
+                    if (!string.IsNullOrEmpty(skillDataAmmoDefault.Item2))
+                    {
+                        skillAmmo.Setup();
+                        Skills.Add(skillAmmo);
+                    }
                     break;
                 case ItemType.CREW:
                     var skillDataCrewDefault = GameData.CrewTable.GetDataSkillDefault(OperationType, Rarity.ToString());
@@ -289,8 +302,12 @@ namespace _Game.Features.InventoryItemInfo
                         Name = skillDataCrewDefault.Item3
 
                     };
-                    skillCrew.Setup();
-                    Skills.Add(skillCrew);
+
+                    if (!string.IsNullOrEmpty(skillDataCrewDefault.Item2))
+                    {
+                        skillCrew.Setup();
+                        Skills.Add(skillCrew);
+                    }
                     break;
             }
         }
