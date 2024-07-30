@@ -7,8 +7,8 @@ namespace Online
 		#region Profile Service
 
 		public string DisplayName => Profile.DisplayName;
-		public int Level => Profile.Level.Level;
-		public long Exp => Profile.Level.Exp;
+		public int Level => Profile.Level;
+		public long Exp => Profile.Exp;
 		
 		public void LoadProfile()
 		{

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Online.Model;
@@ -12,8 +13,9 @@ namespace Online.Service
 
 		public string PlayfabID { get; private set; }
 		public string DisplayName { get; private set; }
-		public LevelModel Level { get; private set; }
-
+		public int Level { get; private set; }
+		public long Exp { get; private set; }
+		
 		#endregion
 
 		public void LoadProfile(PlayerProfileModel playerProfile, Dictionary<string, UserDataRecord> readOnlyData)
@@ -21,17 +23,14 @@ namespace Online.Service
 			PlayfabID = playerProfile.PlayerId;
 			DisplayName = playerProfile.DisplayName;
 
-			if (readOnlyData.TryGetValue(C.NameConfigs.Level, out var levelRecord))
+			if (readOnlyData.TryGetValue(C.NameConfigs.Level, out var level))
 			{
-				Level = Newtonsoft.Json.JsonConvert.DeserializeObject<LevelModel>(levelRecord.Value);
+				Level = Convert.ToInt32(level.Value);
 			}
-			else
+			
+			if (readOnlyData.TryGetValue(C.NameConfigs.Exp, out var exp))
 			{
-				Level = new LevelModel()
-				{
-					Level = 1,
-					Exp = 0
-				};
+				Exp = Convert.ToInt32(exp.Value);
 			}
 		}
 
