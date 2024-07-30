@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using Online.Model;
 using PlayFab;
 using PlayFab.ClientModels;
-using Random = UnityEngine.Random;
 
 namespace Online.Service
 {
@@ -14,8 +13,9 @@ namespace Online.Service
 
 		public string PlayfabID { get; private set; }
 		public string DisplayName { get; private set; }
-		public LevelModel Level { get; private set; }
-
+		public int Level { get; private set; }
+		public long Exp { get; private set; }
+		
 		#endregion
 
 		public void LoadProfile(PlayerProfileModel playerProfile, Dictionary<string, UserDataRecord> readOnlyData)
@@ -23,65 +23,34 @@ namespace Online.Service
 			PlayfabID = playerProfile.PlayerId;
 			DisplayName = playerProfile.DisplayName;
 
-			if (readOnlyData.TryGetValue(C.NameConfigs.Level, out var levelRecord))
+			if (readOnlyData.TryGetValue(C.NameConfigs.Level, out var level))
 			{
-				Level = Newtonsoft.Json.JsonConvert.DeserializeObject<LevelModel>(levelRecord.Value);
+				Level = Convert.ToInt32(level.Value);
 			}
-			else
+			
+			if (readOnlyData.TryGetValue(C.NameConfigs.Exp, out var exp))
 			{
-				Level = new LevelModel()
-				{
-					Level = 1,
-					Exp = 0
-				};
+				Exp = Convert.ToInt32(exp.Value);
 			}
 		}
 
-		[Obsolete("Use RequestNewProfileAsync instead")]
-		public void RequestNewProfile(System.Action<bool> cb = null)
+		public async UniTask<string> UpdateDisplayName(string displayName)
 		{
+			var signal = new UniTaskCompletionSource<string>();
 			PlayFabClientAPI.UpdateUserTitleDisplayName(new()
 			{
-				DisplayName = "User" + Random.Range(0, 10000).ToString("D5")
+				DisplayName = displayName
 			}, (result) =>
 			{
-				LogSuccess("New name: " + result.DisplayName);
+				LogSuccess("New DisplayName: " + result.DisplayName);
+				DisplayName = result.DisplayName;
+				signal.TrySetResult(DisplayName);
 			}, (error) =>
 			{
 				LogError(error.ErrorMessage);
+				signal.TrySetResult(DisplayName);
 			});
-			
-			PlayFabClientAPI.ExecuteCloudScript(new()
-			{
-				FunctionName = C.CloudFunction.RequestNewProfile
-			}, (result) =>
-			{
-				LogSuccess("Create new profile!");
-				cb?.Invoke(true);
-			}, (error) =>
-			{
-				LogError(error.ErrorMessage);
-				cb?.Invoke(false);
-			});
-		}
-		
-		public async Task<bool> RequestNewProfileAsync()
-		{
-			var updateUserTitleDisplayName 
-				= await PlayFabAsync.PlayFabClientAPI.UpdateUserTitleDisplayNameAsync(new()
-			{
-				DisplayName = "User" + Random.Range(0, 10000).ToString("D5")
-			});
-			LogSuccess("New name: " + updateUserTitleDisplayName.Result.DisplayName);
-
-			var requestNewProfile  
-				= await PlayFabAsync.PlayFabClientAPI.ExecuteCloudScriptAsync(new()
-			{
-				FunctionName = C.CloudFunction.RequestNewProfile
-			});
-			LogSuccess("Create new profile!");
-
-			return !updateUserTitleDisplayName.IsError && !requestNewProfile.IsError;
+			return await signal.Task;
 		}
 
 		public override void LogSuccess(string message)

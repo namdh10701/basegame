@@ -7,6 +7,7 @@ namespace Online
 		public static class NameConfigs
 		{
 			public const string Level = "Level";
+			public const string Exp = "Exp";
 			public const string Energy = "Energy";
 			public const string EquipmentShips = "EquipmentShips";
 		}
