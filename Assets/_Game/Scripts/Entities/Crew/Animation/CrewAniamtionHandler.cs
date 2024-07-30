@@ -41,6 +41,15 @@ namespace _Game.Scripts
             crew.OnStateChanged -= OnStateEnter;
         }
         public CrewState lastState = CrewState.Idle;
+
+        public string SortingGroup
+        {
+            set
+            {
+                skeletonAnimation.GetComponent<MeshRenderer>().sortingLayerName = value;
+            }
+        }
+
         public void OnStateEnter(CrewState state)
         {
             switch (state)

@@ -1,18 +1,29 @@
 using _Game.Features.Gameplay;
-using _Game.Scripts.PathFinding;
+using _Game.Scripts;
 using _Game.Scripts.SaveLoad;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace _Game.Scripts
+namespace _Game.Features.Home
 {
     public class HomeManager : MonoBehaviour
     {
+        private static HomeManager instance;
+        public static HomeManager Instance => instance;
         public Ship ship;
         public PathfindingController[] WalkingPosition;
         public Ship[] ships;
         private void Awake()
+        {
+            Debug.Log("RERESH 2");
+            instance = this;
+
+            foreach (PathfindingController pathfinding in WalkingPosition)
+            {
+                pathfinding.Initialize();
+            }
+            Refresh();
+        }
+        public void Refresh()
         {
             string currentShip = SaveSystem.GameSave.ShipSetupSaveData.CurrentShipId;
             foreach (Ship ship in ships)
@@ -22,14 +33,15 @@ namespace _Game.Scripts
                     this.ship = ship;
                     ship.gameObject.SetActive(true);
                 }
+                else
+                {
+                    ship.gameObject.SetActive(false);
+                    ship.ShipSetup.ClearItems();
+                }
             }
-            ship.ShipSetup.Initialize();
-            ship.HideHUD();
             WalkingPosition[2] = ship.PathfindingController;
-            foreach (PathfindingController pathfinding in WalkingPosition)
-            {
-                pathfinding.Initialize();
-            }
+            ship.ShipSetup.Refresh();
+            ship.HideHUD();
 
             foreach (Crew crew in ship.ShipSetup.CrewController.crews)
             {
@@ -37,15 +49,18 @@ namespace _Game.Scripts
                 crew.CrewMovement.pathfinder = nodeGraph;
                 crew.transform.position = nodeGraph.NodeGraph.getRandomFreeNode().transform.position;
                 crew.transform.parent = nodeGraph.NodeGraph.transform;
+                if (nodeGraph.name == "Home_Top")
+                {
+                    crew.Animation.SortingGroup = "WaterEnemy";
+                }
+                else
+                if (nodeGraph.name == "Home_Bottom")
+                {
+                    crew.Animation.SortingGroup = "AboveShipFront";
+
+                }
             }
             ship.ShipSetup.CrewController.ActivateCrews();
-        }
-        public void Refresh()
-        {
-            //if(selecting Ship != spawned ship) hide last ship, enable selecting ship
-            //ship setup refresh
-            //get loadout
-            //same awake
         }
     }
 }

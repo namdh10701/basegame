@@ -23,12 +23,12 @@ namespace _Game.Common
             _button.onClick.RemoveListener(OnClick);
         }
 
-        private void OnClick()
+        private async void OnClick()
         {
             var modalContainer = string.IsNullOrEmpty(_containerName)
                 ? ModalContainer.Of(transform)
                 : ModalContainer.Find(_containerName);
-            modalContainer.Pop(_playAnimation);
+            await modalContainer.PopAsync(_playAnimation);
         }
     }
 }

@@ -17,10 +17,14 @@ namespace _Game.Features.Gameplay
         public PufferFishMove PufferFishMove;
         public DamageArea DamageArea;
 
-        public string SortLayer { set { 
-                enemyView.SortLayer = value;     
-            } }
-       
+        public string SortLayer
+        {
+            set
+            {
+                enemyView.SortLayer = value;
+            }
+        }
+
         public GameObject pufferFishCollider;
         public override void OnSlowed()
         {
@@ -71,12 +75,17 @@ namespace _Game.Features.Gameplay
                     DecreaseHealthEffect dhe = new GameObject("", typeof(DecreaseHealthEffect)).GetComponent<DecreaseHealthEffect>();
                     dhe.transform.position = centerCell.transform.position;
                     dhe.Amount = _stats.AttackDamage.Value;
-
+                    if (IsThrow)
+                    {
+                        dhe.ChanceAffectCell = .5f;
+                    }
                     enemyAtk.Effects = new List<Effect> { dhe };
                     atk.ProcessAttack(enemyAtk);
                 }
             }
         }
+
+        public bool IsThrow;
 
         public override void Die()
         {

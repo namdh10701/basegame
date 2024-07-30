@@ -3,6 +3,7 @@ using _Base.Scripts.RPG.Entities;
 using _Base.Scripts.RPGCommon.Entities;
 using _Game.Scripts;
 using _Game.Scripts.Entities;
+using BehaviorDesigner.Runtime.Tasks.Unity.UnityGameObject;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -15,13 +16,15 @@ namespace _Game.Features.Gameplay
     }
     public class ProjectileCollisionHandler : DefaultEffectCollisionHandler
     {
+        public GameObject[] destroyAlongProjectile;
         protected Projectile projectile;
         public List<IHandler> Handlers = new List<IHandler>();
         public List<IHandler> LoopHandlers = new List<IHandler>();
         public List<IEffectTaker> IgnoreCollideEntities = new List<IEffectTaker>();
 
-        public ProjectileCollisionHandler(Projectile projectile)
+        public ProjectileCollisionHandler(Projectile projectile, GameObject[] destroyAlongProjectiles = null)
         {
+            this.destroyAlongProjectile = destroyAlongProjectiles;
             this.projectile = projectile;
         }
 
@@ -69,6 +72,13 @@ namespace _Game.Features.Gameplay
 
         public virtual void FinalAct()
         {
+            if (destroyAlongProjectile != null)
+            {
+                foreach (GameObject gameObject in destroyAlongProjectile)
+                {
+                    Object.Destroy(gameObject);
+                }
+            }
             if (projectile.trail != null)
             {
                 projectile.trail.parent = null;

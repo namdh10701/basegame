@@ -18,6 +18,7 @@ namespace Online
 		private InventoryService _inventoryService = null;
 		private EquipmentService _equipmentService = null;
 		private ShopService _shopService = null;
+		private RankingService _rankingService = null;
 
 		#region Services
 
@@ -25,6 +26,7 @@ namespace Online
 		public ProfileService Profile => _profileService;
 		public InventoryService Inventory => _inventoryService;
 		public EquipmentService Equipment => _equipmentService;
+		public RankingService Ranking => _rankingService;
 
 		#endregion
 
@@ -41,12 +43,14 @@ namespace Online
 			_inventoryService = new InventoryService();
 			_equipmentService = new EquipmentService();
 			_shopService = new ShopService();
+			_rankingService = new RankingService();
 
 			_authService.Initialize(this);
 			_profileService.Initialize(this);
 			_inventoryService.Initialize(this);
 			_equipmentService.Initialize(this);
 			_shopService.Initialize(this);
+			_rankingService.Initialize(this);
 		}
 
 		public async Task LoginAsync()
@@ -63,6 +67,8 @@ namespace Online
 			Equipment.LoadEquipmentShip(infoPayload.UserData);
 			Inventory.LoadVirtualCurrency(infoPayload.UserVirtualCurrency);
 			Inventory.LoadItems(infoPayload.UserInventory);
+			await Ranking.LoadUserRankInfo();
+			await Ranking.LoadRewardBundleInfo();
 			UpdateEquipShip(SaveSystem.GameSave.ShipSetupSaveData);
 
 			LoadShop();

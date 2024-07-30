@@ -1,8 +1,11 @@
 using _Game.Features.GamePause;
 using _Game.Features.Quest;
+using _Game.Features.Ranking;
 using _Game.Features.Shop;
 using _Game.Features.WorldMap;
+using _Game.Scripts;
 using _Game.Scripts.UI;
+using UnityEngine;
 using UnityWeld.Binding;
 using ZBase.UnityScreenNavigator.Core.Modals;
 using ZBase.UnityScreenNavigator.Core.Screens;
@@ -51,6 +54,35 @@ namespace _Game.Features.Home
         {
             var options = new ViewOptions(nameof(GameSettingsModal));
             await ModalContainer.Find(ContainerKey.Modals).PushAsync(options);
+        }
+
+        private void OnEnable()
+        {
+            if (HomeManager.Instance != null)
+            {
+                Debug.Log("RERESH 1");
+                HomeManager.Instance.Refresh();
+            }
+        }
+        [Binding]
+        public async void NavToRankingScreen()
+        {
+            var options = new ViewOptions(nameof(RankingScreen));
+            await ScreenContainer.Find(ContainerKey.Screens).PushAsync(options);
+        }
+        
+        [Binding]
+        public async void ShowMailBoxPopup()
+        {
+            // var options = new ViewOptions(nameof(GameSettingsModal));
+            // await ModalContainer.Find(ContainerKey.Modals).PushAsync(options);
+        }
+        
+        [Binding]
+        public async void ShowDailyLoginPopup()
+        {
+            // var options = new ViewOptions(nameof(GameSettingsModal));
+            // await ModalContainer.Find(ContainerKey.Modals).PushAsync(options);
         }
     }
 }

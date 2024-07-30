@@ -16,6 +16,10 @@ namespace _Game.Features.Gameplay
         public ProjectileStats _stats;
         public ProjectileMovement ProjectileMovement;
         public Transform trail;
+
+
+        public GameObject[] destroyAlongProjectiles;
+
         public override Stats Stats => _stats;
 
         public Transform Transform => transform;
@@ -32,7 +36,7 @@ namespace _Game.Features.Gameplay
         public GameObject aura;
         protected virtual void Awake()
         {
-            CollisionHandler = new ProjectileCollisionHandler(this);
+            CollisionHandler = new ProjectileCollisionHandler(this, destroyAlongProjectiles);
             collisionListener.CollisionHandler = CollisionHandler;
 
         }

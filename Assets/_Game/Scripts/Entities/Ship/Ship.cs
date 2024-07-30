@@ -47,16 +47,17 @@ namespace _Game.Features.Gameplay
         public BattleViewModel BattleViewModel;
         public FeverModel FeverModel;
         public ShipHUD HUD;
-        private void Start()
+        private void Awake()
         {
             EffectCollider.Taker = this;
             EffectHandler.EffectTaker = this;
-            //Initialize(null);
+            Initialize();
         }
 
 
-        public void Initialize(BattleViewModel battleViewModel)
+        public void Initialize()
         {
+            BattleViewModel = FindAnyObjectByType<BattleViewModel>();
             GlobalEvent<EnemyStats>.Register("EnemyDied", OnEnemyDied);
             //GlobalEvent<Cannon>.Register("CLICK_CANNON", ShowShipHUD);
             //GlobalEvent.Register("CloseHUD", CloseHUD);
@@ -80,8 +81,10 @@ namespace _Game.Features.Gameplay
                 cannon.HUD.RegisterJob(CrewJobData);
             }
             HUD.Initialize(ShipSetup.Ammos);
-            this.BattleViewModel = battleViewModel;
-            BattleViewModel.FeverView.Init(FeverModel);
+            if (BattleViewModel != null)
+            {
+                BattleViewModel.FeverView.Init(FeverModel);
+            }
         }
 
         public void UseFullFever()

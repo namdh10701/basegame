@@ -40,7 +40,6 @@ namespace _Game.Scripts.Entities
             get => _stats;
             set => _stats = (CannonStats)value;
         }
-        public CannonRenderer CannonRenderer;
 
         [field: SerializeReference]
         public AttackStrategy AttackStrategy { get; set; }

@@ -116,7 +116,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4759703321050827762}
-  - component: {fileID: 4194977101597096630}
   - component: {fileID: 94858937819000496}
   - component: {fileID: 1607559049652280926}
   - component: {fileID: 938970807463937090}
@@ -149,19 +148,6 @@ Transform:
   - {fileID: 7709065919766025091}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4194977101597096630
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2506795332634619781}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2db5889c0d8047768bb0cd74766f0f4f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _skeletonAnimation: {fileID: 833248850820385029}
 --- !u!114 &94858937819000496
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -231,7 +217,6 @@ MonoBehaviour:
       _baseValue: 0
   _statsTemplate: {fileID: 11400000, guid: 14077db5de1824e3abe122b6685a11ce, type: 2}
   border: {fileID: 7346194835978534371}
-  CannonRenderer: {fileID: 4194977101597096630}
   <AttackStrategy>k__BackingField: {fileID: 938970807463937090}
   <OccupyCells>k__BackingField: []
   effectHandler: {fileID: 1093922780712145661}
@@ -313,8 +298,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 362bf06ac4fab534f8cacebc56ea4a83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mr: {fileID: 1374580898860634852}
+  mainRenderer: {fileID: 1374580898860634852}
   refer: {fileID: 319121703950278571}
+  sortPivot: {fileID: 2413406710124730714}
 --- !u!1 &2738015328258581795
 GameObject:
   m_ObjectHideFlags: 0
@@ -828,7 +814,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5855873391654536940
 Transform:
   m_ObjectHideFlags: 0
@@ -883,7 +869,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -285313645
-  m_SortingLayer: 3
+  m_SortingLayer: 9
   m_SortingOrder: -174
   m_Sprite: {fileID: 21300000, guid: 6b2a06bfe7320dc4e9c42f4905acd566, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1136,58 +1122,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1076558936485634277, guid: b097179f18b097f4eb4b03e1ec238244, type: 3}
-      propertyPath: m_SortingLayer
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 1076558936485634277, guid: b097179f18b097f4eb4b03e1ec238244, type: 3}
-      propertyPath: m_SortingLayerID
-      value: -2117973603
-      objectReference: {fileID: 0}
     - target: {fileID: 1091295624909372268, guid: b097179f18b097f4eb4b03e1ec238244, type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 1499756341846085449, guid: b097179f18b097f4eb4b03e1ec238244, type: 3}
-      propertyPath: soundId
-      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 2873837428386250235, guid: b097179f18b097f4eb4b03e1ec238244, type: 3}
       propertyPath: m_Name
       value: Gun 6 (Slow) - Spine
       objectReference: {fileID: 0}
-    - target: {fileID: 4570742587718422711, guid: b097179f18b097f4eb4b03e1ec238244, type: 3}
-      propertyPath: m_SortingOrder
-      value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 4867781954721716507, guid: b097179f18b097f4eb4b03e1ec238244, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.963
-      objectReference: {fileID: 0}
-    - target: {fileID: 5022497625863009003, guid: b097179f18b097f4eb4b03e1ec238244, type: 3}
-      propertyPath: m_SortingOrder
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 5136839274860472885, guid: b097179f18b097f4eb4b03e1ec238244, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6611897554376847247, guid: b097179f18b097f4eb4b03e1ec238244, type: 3}
       propertyPath: rotateTransform
       value: 
-      objectReference: {fileID: 4759703321050827762}
-    - target: {fileID: 8595158877210297382, guid: b097179f18b097f4eb4b03e1ec238244, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.014400005
-      objectReference: {fileID: 0}
-    - target: {fileID: 8595158877210297382, guid: b097179f18b097f4eb4b03e1ec238244, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.39959997
-      objectReference: {fileID: 0}
-    - target: {fileID: 8637381182204016981, guid: b097179f18b097f4eb4b03e1ec238244, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.115
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 319121703950278571}
     - target: {fileID: 8816640359104004130, guid: b097179f18b097f4eb4b03e1ec238244, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -1202,20 +1148,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5810155769175136432, guid: b097179f18b097f4eb4b03e1ec238244, type: 3}
   m_PrefabInstance: {fileID: 6241990121129680911}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &833248850820385029 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6714950177121659146, guid: b097179f18b097f4eb4b03e1ec238244, type: 3}
-  m_PrefabInstance: {fileID: 6241990121129680911}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d247ba06193faa74d9335f5481b2b56c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!23 &1374580898860634852 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 5022497625863009003, guid: b097179f18b097f4eb4b03e1ec238244, type: 3}
+  m_PrefabInstance: {fileID: 6241990121129680911}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2413406710124730714 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8637381182204016981, guid: b097179f18b097f4eb4b03e1ec238244, type: 3}
   m_PrefabInstance: {fileID: 6241990121129680911}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &4787384145167691590 stripped

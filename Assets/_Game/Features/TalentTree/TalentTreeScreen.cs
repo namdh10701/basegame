@@ -109,7 +109,7 @@ namespace _Game.Features.TalentTree
             [Binding]
             public async void OnCLick()
             {
-                var isConfirmed = await DialogConfirm.Show("Upgrade?");
+                var isConfirmed = await ConfirmModal.Show("Upgrade?");
 
                 if (!isConfirmed) return;
                 
