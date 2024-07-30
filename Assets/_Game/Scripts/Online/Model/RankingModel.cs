@@ -30,17 +30,17 @@ namespace Online.Model
 		public string SeasonNo;
 		public string SeasonName;
 		public UserRank Rank;
-		public List<RankRecord> Records;
+		public List<RankRecord> Records = new();
 	}
 	
 	public class ClaimRewardBundle
 	{
-		public List<RankReward> Records;
+		public List<RankReward> Records = new();
 		public bool IsClaimed;
 	}
 
 	public class RewardBundleInfo
 	{
-		public List<ClaimRewardBundle> Bundles;
+		public List<ClaimRewardBundle> Bundles = new();
 	}
 }
