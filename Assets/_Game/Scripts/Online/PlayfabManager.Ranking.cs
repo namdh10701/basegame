@@ -13,6 +13,11 @@ namespace Online
 		{
 			await Ranking.LoadUserRankInfo();
 		}
+
+		public async void LoadRewardBundleInfo()
+		{
+			await Ranking.LoadRewardBundleInfo();
+		}
 		
 		#endregion
 	}

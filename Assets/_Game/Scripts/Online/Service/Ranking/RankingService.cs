@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Online.Interface;
 using Online.Model;
@@ -19,7 +21,6 @@ namespace Online.Service
 			var signal = new UniTaskCompletionSource<UserRankInfo>();
 
 			//TODO: DNGUYEN - ranking loading
-			
 			// dummy data >>>>
 			var rankInfo = new UserRankInfo
 			{
@@ -41,6 +42,34 @@ namespace Online.Service
 			UserRankInfo = rankInfo;
 			signal.TrySetResult(rankInfo);
 			return await signal.Task;
+		}
+
+		public async UniTask<RewardBundleInfo> LoadRewardBundleInfo()
+		{
+			var signal = new UniTaskCompletionSource<RewardBundleInfo>();
+			
+			//TODO: DNGUYEN - reward loading
+			// dummy data >>>>
+			var bundles = new RewardBundleInfo();
+			var bundle = new ClaimRewardBundle();
+			for (int i = 0; i < 5; i++)
+			{
+				bundle.Records.Add(new RankReward()
+				{
+					ItemId = "Cannon_0001",
+					Amount = 10
+				});
+			}
+			bundles.Bundles.Add(bundle);
+			// <<<< dummy data
+
+			signal.TrySetResult(bundles);
+			return await signal.Task;
+		}
+
+		public async UniTask<UserRankInfo> StartBattle()
+		{
+			throw new NotImplementedException();
 		}
 		
 		public override void LogSuccess(string message)

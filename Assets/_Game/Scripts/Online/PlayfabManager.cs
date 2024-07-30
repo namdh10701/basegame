@@ -68,6 +68,7 @@ namespace Online
 			Inventory.LoadVirtualCurrency(infoPayload.UserVirtualCurrency);
 			Inventory.LoadItems(infoPayload.UserInventory);
 			await Ranking.LoadUserRankInfo();
+			await Ranking.LoadRewardBundleInfo();
 			UpdateEquipShip(SaveSystem.GameSave.ShipSetupSaveData);
 
 			LoadShop();

@@ -32,4 +32,15 @@ namespace Online.Model
 		public UserRank Rank;
 		public List<RankRecord> Records;
 	}
+	
+	public class ClaimRewardBundle
+	{
+		public List<RankReward> Records;
+		public bool IsClaimed;
+	}
+
+	public class RewardBundleInfo
+	{
+		public List<ClaimRewardBundle> Bundles;
+	}
 }
