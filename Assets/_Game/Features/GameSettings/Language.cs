@@ -52,7 +52,7 @@ namespace _Game.Features.GamePause
         [Binding]
         public async Task SetLanguage()
         {
-            if (!await DialogConfirm.Show($"Change language to {Name} ?"))
+            if (!await ConfirmModal.Show($"Change language to {Name} ?"))
             {
                 return;
             }
