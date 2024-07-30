@@ -1,6 +1,6 @@
 using _Game.Scripts.UI;
 using UnityWeld.Binding;
-namespace _Game.Features.Shop
+namespace _Game.Features.InventoryItemInfo
 {
     [Binding]
     public class ItemStat : SubViewModel
