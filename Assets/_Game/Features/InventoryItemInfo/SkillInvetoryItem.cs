@@ -18,41 +18,41 @@ namespace _Game.Features.InventoryItemInfo
         [Binding]
         public string Name
         {
-            get => m_name;
+            get => _name;
             set
             {
-                if (Equals(m_name, value))
+                if (Equals(_name, value))
                 {
                     return;
                 }
 
-                m_name = value;
+                _name = value;
                 OnPropertyChanged(nameof(Name));
             }
         }
-        private string m_name;
+        private string _name;
         #endregion
-
-        #region Binding Prop: Rarity
+        
+        #region Binding Prop: OperationType
         /// <summary>
-        /// Rarity
+        /// OperationType
         /// </summary>
         [Binding]
-        public Rarity Rarity
+        public string OperationType
         {
-            get => _rarity;
+            get => _operationType;
             set
             {
-                if (Equals(_rarity, value))
+                if (Equals(_operationType, value))
                 {
                     return;
                 }
 
-                _rarity = value;
-                OnPropertyChanged(nameof(Rarity));
+                _operationType = value;
+                OnPropertyChanged(nameof(OperationType));
             }
         }
-        private Rarity _rarity;
+        private string _operationType;
         #endregion
 
         #region Binding Prop: ItemType
@@ -104,12 +104,24 @@ namespace _Game.Features.InventoryItemInfo
         {
             get
             {
-                var itemType = Type.ToString().ToLower();
-                var name = Name.ToLower();
-                var itemRarity = Rarity.ToString().ToLower();
-                var path = $"Items/item_{itemType}_{itemRarity}_{name}";
-                return Resources.Load<Sprite>(path);
+                if (Type != null && OperationType != null)
+                {
+                    var itemType = Type.ToString().ToLower();
+                    var name = OperationType.ToLower();
+                    var path = $"Items/itemskill_{itemType}_{name}";
+                    return Resources.Load<Sprite>(path);
+                }
+                else
+                {
+                    return Resources.Load<Sprite>($"Items/itemskill_crew_blonde");
+                }
+
             }
+        }
+
+        public void Setup()
+        {
+            OnPropertyChanged(nameof(Thumbnail));
         }
 
     }

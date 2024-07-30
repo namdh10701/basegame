@@ -52,6 +52,16 @@ namespace _Game.Scripts.GD.DataManager
 
             return Records[index + 1];
         }
+
+        public (string, string, string) GetDataSkillDefault(string operationType, string defaultRarity)
+        {
+            foreach (var record in Records)
+            {
+                if (record.OperationType == operationType && record.DefaultRarity == defaultRarity)
+                    return (record.OperationType, record.Skill_Desc, record.Skill_Name);
+            }
+            return (null, null, null);
+        }
     }
 
     /// <summary>
@@ -167,6 +177,15 @@ namespace _Game.Scripts.GD.DataManager
         [Default(0)]
         [Stat("HpThreshold")]
         public float HpThreshold { get; set; }
+
+        [Index(26)]
+        [Stat("Skill_Name")]
+        public string Skill_Name { get; set; }
+
+        [Index(27)]
+        [Stat("Skill_Desc")]
+        public string Skill_Desc { get; set; }
+
         public string Slot
         {
             get

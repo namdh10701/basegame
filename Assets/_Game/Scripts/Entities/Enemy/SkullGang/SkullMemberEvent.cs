@@ -80,8 +80,8 @@ namespace _Game.Features.Gameplay
         {
             if (!isDead)
             {
-                Debug.Log(name);
                 skeletonAnimation.AnimationState.SetAnimation(0, dead, false);
+                skeletonAnimation.AnimationState.AddAnimation(0, deadIdle, true, 0);
                 isDead = true;
             }
         }

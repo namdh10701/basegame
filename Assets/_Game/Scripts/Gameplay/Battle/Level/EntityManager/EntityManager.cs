@@ -14,6 +14,7 @@ namespace _Game.Scripts.Battle
         public List<EnemyStats> aliveEnemies = new List<EnemyStats>();
         public Ship Ship;
         public GiantOctopus octopusPrefab;
+        public SkullGang skullGangPrefab;
         void OnEnemyDied(EnemyStats enemyModel)
         {
             if (aliveEnemies.Contains(enemyModel))
@@ -34,6 +35,12 @@ namespace _Game.Scripts.Battle
             {
                 GiantOctopus giantOctopus = Instantiate(octopusPrefab, position, Quaternion.identity, null);
                 aliveEnemies.Add(giantOctopus.Stats as EnemyStats);
+            }
+            else
+            if (id == "0010")
+            {
+                SkullGang skullGang = Instantiate(skullGangPrefab, position, Quaternion.identity, null);
+                aliveEnemies.Add(skullGang.Stats as EnemyStats);
             }
             else
             {

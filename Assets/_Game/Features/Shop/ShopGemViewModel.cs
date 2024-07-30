@@ -44,6 +44,7 @@ namespace _Game.Features.Shop
             MediumGemItem.Clear();
             SmallGemItem.Clear();
             _shopDataItemGem = GameData.ShopListingTable.GetData(ShopType.Gem);
+
             var gemItems = new List<ShopGemItem>();
             foreach (var item in _shopDataItemGem)
             {

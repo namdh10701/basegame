@@ -49,42 +49,6 @@ namespace Online
 			_shopService.Initialize(this);
 		}
 		
-		[Obsolete("Use LoginAsync instead")]
-		public void Login()
-		{
-			Auth.Login((result, infoPayload) =>
-			{
-				switch (result)
-				{
-					case ELoginStatus.Failed:
-						break;
-
-					default:
-						if (result == ELoginStatus.Newly)
-						{
-							Profile.RequestNewProfile(result =>
-							{
-								if (result)
-								{
-									RequestInventory();
-								}
-							});
-						}
-						else
-						{
-							Profile.LoadProfile(infoPayload.PlayerProfile, infoPayload.UserReadOnlyData); 
-							Equipment.LoadEquipmentShip(infoPayload.UserData);
-							Inventory.LoadVirtualCurrency(infoPayload.UserVirtualCurrency);
-							Inventory.LoadItems(infoPayload.UserInventory);
-							PlayfabManager.Instance.UpdateEquipShip(SaveSystem.GameSave.ShipSetupSaveData);
-						}
-						
-						LoadShop();
-						break;
-				}
-			});
-		}
-
 		public async Task LoginAsync()
 		{
 			var loginResult = await Auth.LoginAsync();

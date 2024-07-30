@@ -48,14 +48,23 @@ namespace _Game.Features.Gameplay
         bool isFearing;
         bool isBurning;
         bool first;
+
+        public string SortLayer
+        {
+            set
+            {
+                meshRenderer.sortingLayerName = value;
+            }
+        }
+
         public void Blink()
         {
             if (blinkCoroutine != null)
             {
                 StopCoroutine(blinkCoroutine);
             }
-            AudioManager.Instance.PlayMonsterGetHit();
             blinkCoroutine = StartCoroutine(BlinkCoroutine());
+            AudioManager.Instance?.PlayMonsterGetHit();
         }
         IEnumerator BlinkCoroutine()
         {

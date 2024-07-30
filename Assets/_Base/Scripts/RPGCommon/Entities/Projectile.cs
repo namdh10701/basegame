@@ -29,7 +29,7 @@ namespace _Game.Features.Gameplay
         public EffectCollisionHandler CollisionHandler;
 
         public bool isCrit;
-
+        public GameObject aura;
         protected virtual void Awake()
         {
             CollisionHandler = new ProjectileCollisionHandler(this);

@@ -7,18 +7,18 @@ namespace _Game.Features.Gameplay
     public class BombProjectile : CannonProjectile
     {
         public AreaEffectGiver[] AreaEffectGivers;
-        public ExplosionFx explosionFx;
         protected override void Awake()
         {
             base.Awake();
-            ProjectileCollisionHandler projectileCollisionHandler = (ProjectileCollisionHandler)collisionListener.CollisionHandler;
+            collisionListener.CollisionHandler = new CannonProjectileCollisionHandler(this);
+            CannonProjectileCollisionHandler projectileCollisionHandler = (CannonProjectileCollisionHandler)collisionListener.CollisionHandler;
             projectileCollisionHandler.LoopHandlers.Add(new ExplodeHandler(AreaEffectGivers));
         }
 
         public override void ApplyStats()
         {
             base.ApplyStats();
-            explosionFx.SetSize(_stats.AttackAOE.Value);
+
             foreach (AreaEffectGiver areaEffectGiver in AreaEffectGivers)
             {
                 areaEffectGiver.SetRange(_stats.AttackAOE.Value);
@@ -57,6 +57,24 @@ namespace _Game.Features.Gameplay
                 }
                 isCompleted = true;
             }
+        }
+
+
+    }
+    public class CannonProjectileCollisionHandler : ProjectileCollisionHandler
+    {
+        public CannonProjectileCollisionHandler(CannonProjectile projectile) : base(projectile)
+        {
+
+        }
+        public override void FinalAct()
+        {
+            CannonProjectile cp = this.projectile as CannonProjectile;
+            if (cp.IsFever)
+            {
+                cp.aura.transform.parent = null;
+            }
+            base.FinalAct();
         }
     }
 }

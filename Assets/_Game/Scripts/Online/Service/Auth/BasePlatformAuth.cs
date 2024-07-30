@@ -1,10 +1,12 @@
 using System.Collections.Generic;
-using Facebook.Unity;
-using JetBrains.Annotations;
 using Online.Enum;
 using PlayFab;
 using PlayFab.ClientModels;
 using UnityEngine;
+
+#if ENABLE_FACEBOOK
+using Facebook.Unity;
+#endif
 
 namespace Online.Interface
 {
@@ -20,6 +22,7 @@ namespace Online.Interface
 
 		private void InitFacebook(System.Action<bool> cb = null)
 		{
+#if ENABLE_FACEBOOK
 			if (!FB.IsInitialized)
 			{
 				FB.Init(() =>
@@ -40,10 +43,14 @@ namespace Online.Interface
 				FB.ActivateApp();
 				cb?.Invoke(true);
 			}
+#else
+			cb?.Invoke(false);
+#endif
 		}
 
 		public void LoginFacebook(System.Action<bool, string> cb)
 		{
+#if ENABLE_FACEBOOK
 			if (FB.IsLoggedIn)
 			{
 				cb?.Invoke(true, FB.ClientToken);
@@ -69,6 +76,9 @@ namespace Online.Interface
 					}
 				});
 			}
+#else
+			cb?.Invoke(false, "Not init!");
+#endif
 		}
 
 		public void LinkFacebook(System.Action<bool> cb = null)
