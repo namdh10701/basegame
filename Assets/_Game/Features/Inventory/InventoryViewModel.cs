@@ -124,7 +124,7 @@ namespace _Game.Features.Inventory
                 // OnPropertyChanged(nameof(FilterItemType));
 
                 Page = 0;
-                DoFilter();
+                DoFilter(true);
             }
         }
 

@@ -18,13 +18,15 @@ namespace Online
 		private InventoryService _inventoryService = null;
 		private EquipmentService _equipmentService = null;
 		private ShopService _shopService = null;
-			
+		private RankingService _rankingService = null;
+
 		#region Services
 
 		public AuthService Auth => _authService;
 		public ProfileService Profile => _profileService;
 		public InventoryService Inventory => _inventoryService;
 		public EquipmentService Equipment => _equipmentService;
+		public RankingService Ranking => _rankingService;
 
 		#endregion
 
@@ -41,14 +43,16 @@ namespace Online
 			_inventoryService = new InventoryService();
 			_equipmentService = new EquipmentService();
 			_shopService = new ShopService();
+			_rankingService = new RankingService();
 
 			_authService.Initialize(this);
 			_profileService.Initialize(this);
 			_inventoryService.Initialize(this);
 			_equipmentService.Initialize(this);
 			_shopService.Initialize(this);
+			_rankingService.Initialize(this);
 		}
-		
+
 		public async Task LoginAsync()
 		{
 			var loginResult = await Auth.LoginAsync();
@@ -57,26 +61,15 @@ namespace Online
 				Debug.LogError("Login failed");
 				return;
 			}
-			
-			if (loginResult.Status == ELoginStatus.Newly)
-			{
-				var requestOk = await Profile.RequestNewProfileAsync();
-				if (!requestOk)
-				{
-					return;
-				}
 
-				await RequestInventoryAsync();
-			}
-			else
-			{
-				var infoPayload = loginResult.Payload;
-				Profile.LoadProfile(infoPayload.PlayerProfile, infoPayload.UserReadOnlyData);
-				Equipment.LoadEquipmentShip(infoPayload.UserData);
-				Inventory.LoadVirtualCurrency(infoPayload.UserVirtualCurrency);
-				Inventory.LoadItems(infoPayload.UserInventory);
-				UpdateEquipShip(SaveSystem.GameSave.ShipSetupSaveData);
-			}
+			var infoPayload = loginResult.Payload;
+			Profile.LoadProfile(infoPayload.PlayerProfile, infoPayload.UserReadOnlyData);
+			Equipment.LoadEquipmentShip(infoPayload.UserData);
+			Inventory.LoadVirtualCurrency(infoPayload.UserVirtualCurrency);
+			Inventory.LoadItems(infoPayload.UserInventory);
+			await Ranking.LoadUserRankInfo();
+			await Ranking.LoadRewardBundleInfo();
+			UpdateEquipShip(SaveSystem.GameSave.ShipSetupSaveData);
 
 			LoadShop();
 		}

@@ -53,14 +53,14 @@ namespace _Game.Scripts.GD.DataManager
             return null;
         }
 
-        public (string, string) GetDataSkillDefault(string name, string defaultRarity)
+        public (string, string, string) GetDataSkillDefault(string operationType, string rarityLevel)
         {
             foreach (var record in Records)
             {
-                if (record.OperationType == name && record.DefaultRarity == defaultRarity)
-                    return (record.OperationType, record.Skill_Desc);
+                if (record.OperationType == operationType && record.RarityLevel.ToString() == rarityLevel)
+                    return (record.OperationType, record.Skill_Desc, record.Skill_Name);
             }
-            return (null, null);
+            return (null, null, null);
         }
 
         public DataTableRecord GetNextTableRecord(Rarity rarity, string operationType, string rarityLevel)
@@ -173,11 +173,9 @@ namespace _Game.Scripts.GD.DataManager
         public bool Enable { get; set; }
 
         [Index(21)]
-        [Stat("Skill_Name")]
         public string Skill_Name { get; set; }
 
         [Index(22)]
-        [Stat("Skill_Desc")]
         public string Skill_Desc { get; set; }
 
         public string Slot

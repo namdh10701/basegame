@@ -53,14 +53,14 @@ namespace _Game.Scripts.GD.DataManager
             return Records[index + 1];
         }
 
-        public (string, string) GetDataSkillDefault(string name, string defaultRarity)
+        public (string, string, string) GetDataSkillDefault(string operationType, string rarityLevel)
         {
             foreach (var record in Records)
             {
-                if (record.OperationType == name && record.DefaultRarity == defaultRarity)
-                    return (record.OperationType, record.Skill_Desc);
+                if (record.OperationType == operationType && record.RarityLevel.ToString() == rarityLevel)
+                    return (record.OperationType, record.Skill_Desc, record.Skill_Name);
             }
-            return (null, null);
+            return (null, null, null);
         }
     }
 
@@ -178,11 +178,11 @@ namespace _Game.Scripts.GD.DataManager
         [Stat("HpThreshold")]
         public float HpThreshold { get; set; }
 
-        [Index(26)]
+        [Index(27)]
         [Stat("Skill_Name")]
         public string Skill_Name { get; set; }
 
-        [Index(27)]
+        [Index(28)]
         [Stat("Skill_Desc")]
         public string Skill_Desc { get; set; }
 
