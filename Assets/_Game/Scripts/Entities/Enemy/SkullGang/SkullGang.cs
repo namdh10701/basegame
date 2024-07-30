@@ -128,16 +128,17 @@ namespace _Game.Features.Gameplay
         public AttackPatternProfile patternProfile;
         private void DoThrowFishAttack(Vector3 vector)
         {
-            Debug.Log("throw fish");
             PufferFishModel pufferFish = Instantiate(pufferFishModel, null);
             pufferFish.transform.position = vector;
             pufferFish.transform.localScale = Vector3.one;
+            pufferFish.IsThrow = true;
             //pufferFish.Body.AddForce(Vector2.down * 5, ForceMode2D.Impulse);
             pufferFish.attackPatternProfile = patternProfile;
             Cell cell = gridPicker.PickRandomCell();
             pufferFish.pufferFishCollider.SetActive(false);
             pufferFish.SortLayer = "Projectile";
             pufferFish.transform.DOMove(cell.transform.position, 2f);
+
         }
 
         private void DoSpearAttack(Vector3 vector)

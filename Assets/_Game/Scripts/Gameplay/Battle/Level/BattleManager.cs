@@ -39,15 +39,13 @@ namespace _Game.Features.Gameplay
         public FeverSpeedFx FeverSpeedFx;
 
         public BattleViewModel BattleViewModel;
-        public void Initialize(BattleViewModel battleViewModel)
+        public void Initialize()
         {
-            this.BattleViewModel = battleViewModel;
+            this.BattleViewModel = FindAnyObjectByType<BattleViewModel>();
             BattleInputManager.gameObject.SetActive(false);
             EntityManager.SpawnShip(SaveSystem.GameSave.ShipSetupSaveData.CurrentShipId, shipStartPos.position);
-            EntityManager.Ship.Initialize(BattleViewModel);
             LevelStartSequence.shipSpeed = EntityManager.Ship.ShipSpeed;
             GridAttackHandler.ship = EntityManager.Ship;
-            EntityManager.Ship.BattleViewModel = battleViewModel;
             GridPicker.ShipGrid = EntityManager.Ship.ShipSetup;
 
             BattleInputManager.ShipHUD = EntityManager.Ship.HUD;

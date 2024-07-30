@@ -2,8 +2,10 @@ using _Base.Scripts.Patterns.BuiltInPool;
 using Spine.Unity;
 using UnityEngine;
 
-public class ShellAnimation : PoolObject
+public class ShellAnimation : PoolObject, ICannonVisualElement
 {
+    public int offsetSort = 1;
+    public MeshRenderer meshRenderer;
     public SkeletonAnimation SkeletonAnimation;
     private void Start()
     {
@@ -28,5 +30,11 @@ public class ShellAnimation : PoolObject
     public void PlayRightShell()
     {
         SkeletonAnimation.AnimationState.SetAnimation(0, "shell_right", false);
+    }
+
+    public void UpdateSorting(Renderer mainRenderer)
+    {
+        meshRenderer.sortingLayerName = mainRenderer.sortingLayerName;
+        meshRenderer.sortingOrder = mainRenderer.sortingOrder + offsetSort;
     }
 }

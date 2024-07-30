@@ -65,6 +65,7 @@ namespace _Game.Features.Gameplay
 
         }
 
+
         public void Refresh()
         {
             ClearItems();
@@ -73,12 +74,16 @@ namespace _Game.Features.Gameplay
             LoadShipItems();
         }
 
-        private void ClearItems()
+        public void ClearItems()
         {
+            Debug.Log(spawnedItems.Count + " items");
             foreach (var item in spawnedItems)
             {
                 Destroy(item.gameObject);
             }
+            Ammos.Clear();
+            Cannons.Clear();
+            spawnedItems.Clear();
         }
 
         // void GetLoadOut()
@@ -146,6 +151,9 @@ namespace _Game.Features.Gameplay
 
                 UsingGridItemDatas.Add(itemData);
             }
+
+
+            Debug.Log(UsingGridItemDatas.Count + " items using");
         }
 
         public void LoadShipItems()
@@ -400,6 +408,11 @@ namespace _Game.Features.Gameplay
             foreach (Cannon cannon in Cannons)
             {
                 cannon.Animation.PlayNormal();
+                cannon.HUD.gameObject.SetActive(false);
+            }
+
+            foreach (Ammo cannon in Ammos)
+            {
                 cannon.HUD.gameObject.SetActive(false);
             }
         }
