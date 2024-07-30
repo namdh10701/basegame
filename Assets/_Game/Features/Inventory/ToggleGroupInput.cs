@@ -1,3 +1,4 @@
+using _Game.Features.InventoryCustomScreen;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -54,10 +55,36 @@ namespace _Game.Features.Inventory
             UpdateView();
         }
 
+        public void Setup()
+        {
+            _toggleGroup = GetComponent<ToggleGroup>();
+            _toggles = GetComponentsInChildren<Toggle>();
+            for (var index = 0; index < _toggles.Length; index++)
+            {
+                var toggle = _toggles[index];
+                // _toggleGroup.RegisterToggle(toggle);
+                toggle.group = _toggleGroup;
+
+                var index1 = index;
+                toggle.onValueChanged.AddListener(selected =>
+                {
+                    if (_suspendValueChangeListeners)
+                    {
+                        return;
+                    }
+                    if (selected)
+                    {
+                        OnValueChanged(index1);
+                    }
+                });
+            }
+            UpdateView();
+        }
+
         private void UpdateView()
         {
             _suspendValueChangeListeners = true;
-            
+
             if (_toggles != null)
             {
                 _toggles[Value].isOn = true;
@@ -79,6 +106,26 @@ namespace _Game.Features.Inventory
             Value = selectedIndex;
             onValueChanged?.Invoke(selectedIndex);
             Debug.Log("Selected: " + Value);
+        }
+
+        public void RemoveToggleItem(int index)
+        {
+            if (_toggles == null || _toggles.Length == 0 || index < 0 || index >= _toggles.Length)
+            {
+                return;
+            }
+
+            Toggle[] newToggles = new Toggle[_toggles.Length - 1];
+
+            for (int i = 0, j = 0; i < _toggles.Length; i++)
+            {
+                if (i != index)
+                {
+                    newToggles[j++] = _toggles[i];
+                }
+            }
+
+            _toggles = newToggles;
         }
     }
 }

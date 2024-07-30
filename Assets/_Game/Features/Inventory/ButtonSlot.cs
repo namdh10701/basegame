@@ -74,12 +74,9 @@ namespace _Game.Features.InventoryCustomScreen
             {
                 switch (Type)
                 {
-                    case ItemType.CANNON:
-                        return _Game.Scripts.DB.Database.GetCannonImage(Id);
-                    case ItemType.CREW:
-                        return _Game.Scripts.DB.Database.GetCrewImage(Id);
-                    case ItemType.AMMO:
-                        return _Game.Scripts.DB.Database.GetAmmoImage(Id);
+                    case ItemType.MISC:
+                        var path = Id == null ? $"Items/item_misc_eq2_com" : $"Items/item_misc_eq2_com";
+                        return Resources.Load<Sprite>(path);
                     default:
                         Debug.LogWarning("Images/Common/icon_plus");
                         return Resources.Load<Sprite>("Images/Common/icon_plus");
