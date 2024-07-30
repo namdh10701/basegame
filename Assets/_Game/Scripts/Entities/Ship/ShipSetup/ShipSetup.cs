@@ -10,6 +10,7 @@ using _Base.Scripts.UI;
 using _Game.Scripts;
 using _Game.Scripts.SaveLoad;
 using Unity.VisualScripting;
+using _Base.Scripts.RPG.Stats;
 
 namespace _Game.Features.Gameplay
 {
@@ -33,8 +34,12 @@ namespace _Game.Features.Gameplay
 
         public List<GameObject> spawnedItems = new List<GameObject>();
 
+        bool initialized;
         public void Initialize()
         {
+            if (initialized)
+                return;
+            initialized = true;
             for (int i = 0; i < Grids.Count; i++)
             {
                 Grids[i].Initialize(ShipGridProfile.GridDefinitions[i]);
@@ -62,9 +67,20 @@ namespace _Game.Features.Gameplay
 
             GetLoadOut();
             LoadShipItems();
-
+            AddStatsModifersFromItems();
         }
 
+        void AddStatsModifersFromItems()
+        {
+            foreach (var crew in CrewController.crews)
+            {
+                Ship.stats.Luck.AddModifier(new StatModifier(crew.stats.Luck.Value, StatModType.Flat));
+                Ship.stats.FeverTimeProb.AddModifier(new StatModifier(crew.stats.FeverTimeProb.Value, StatModType.Flat));
+                Ship.stats.GoldIncome.AddModifier(new StatModifier(crew.stats.GoldIncome.Value, StatModType.Flat));
+                Ship.stats.ZeroManaCost.AddModifier(new StatModifier(crew.stats.ZeroManaCost.Value, StatModType.Flat));
+                Ship.stats.BonusAmmo.AddModifier(new StatModifier(crew.stats.BonusAmmo.Value, StatModType.Flat));
+            }
+        }
 
         public void Refresh()
         {
@@ -72,6 +88,7 @@ namespace _Game.Features.Gameplay
             CrewController.crews.Clear();
             GetLoadOut();
             LoadShipItems();
+
         }
 
         public void ClearItems()

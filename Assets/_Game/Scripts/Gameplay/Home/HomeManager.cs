@@ -59,6 +59,10 @@ namespace _Game.Features.Home
                     crew.Animation.SortingGroup = "AboveShipFront";
 
                 }
+                else
+                {
+                    crew.Animation.SortingGroup = "OnShip";
+                }
             }
             ship.ShipSetup.CrewController.ActivateCrews();
         }

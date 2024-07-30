@@ -98,9 +98,9 @@ namespace _Game.Features.Gameplay
             yield break;
         }
 
-        internal bool IsAbleToMoveTo(Node targetNode)
+        public bool IsAbleToMoveTo(Node targetNode)
         {
-            return pathfinder.GetPath(transform.position, targetNode.transform.position) == null;
+            return pathfinder.GetPath(transform.position, targetNode.transform.position) != null;
         }
     }
 }

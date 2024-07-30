@@ -1,5 +1,6 @@
 using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.RPG.Entities;
+using _Base.Scripts.RPG.Stats;
 using _Game.Scripts;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,10 +11,11 @@ public interface IEffectGiver
     public List<Effect> OutGoingEffects { get; set; }
 }
 
-public interface IEffectTaker
+public interface IEffectTaker 
 {
     public Transform Transform { get; }
     public EffectHandler EffectHandler { get; }
+    public Stat StatusResist { get; }
 }
 
 public interface IPhysicsEffectTaker : IEffectTaker

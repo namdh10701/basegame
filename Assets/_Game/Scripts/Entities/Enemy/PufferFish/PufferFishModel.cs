@@ -97,6 +97,7 @@ namespace _Game.Features.Gameplay
             mbtExecutor.enabled = false;
             body.velocity = Vector2.zero;
             ChargingState = ChargeState.Charging;
+            _stats.Poise.BaseValue = .5f;
             yield return new WaitForSeconds(2);
             base.Die();
         }

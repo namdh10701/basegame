@@ -286,6 +286,8 @@ namespace _Game.Scripts.Entities
             }
         }
 
+        public Stat StatusResist => null;
+
         void ApplyFeverStats()
         {
             var conf = GameData.CannonFeverTable.FindById(id);

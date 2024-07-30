@@ -6,17 +6,8 @@ using UnityEngine;
 namespace _Game.Scripts
 {
     [Serializable]
-    public class CrewStats : Stats
+    public class BattleStats : Stats
     {
-        [field: SerializeField]
-        public Stat MoveSpeed { get; set; } = new();
-
-        [field: SerializeField]
-        public Stat RepairSpeed { get; set; } = new();
-
-        [field: SerializeField]
-        public Stat StatusReduce { get; set; } = new();
-
         [field: SerializeField]
         public Stat ZeroManaCost { get; set; } = new();
 

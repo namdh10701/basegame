@@ -1,6 +1,7 @@
 ﻿using _Base.Scripts.EventSystem;
 using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.RPG.Entities;
+using _Base.Scripts.RPG.Stats;
 using _Game.Features.Battle;
 using _Game.Scripts;
 using _Game.Scripts.Battle;
@@ -37,6 +38,8 @@ namespace _Game.Features.Gameplay
         public Transform Transform => transform;
 
         public EffectHandler EffectHandler => effectHandler;
+
+        public Stat StatusResist => null;
 
         public PathfindingController PathfindingController;
         public EffectTakerCollider EffectCollider;
@@ -133,7 +136,6 @@ namespace _Game.Features.Gameplay
         {
             if (FeverModel.CurrentState != FeverState.Unleashing)
             {
-
                 float feverPointGained = enemyModel.FeverPoint.Value;
                 AddFeverPoint(feverPointGained);
 

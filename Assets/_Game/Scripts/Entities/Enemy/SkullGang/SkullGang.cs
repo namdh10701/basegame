@@ -1,6 +1,7 @@
 using _Base.Scripts.ImageEffects;
 using _Base.Scripts.RPG;
 using _Base.Scripts.RPG.Effects;
+using _Base.Scripts.RPG.Stats;
 using _Game.Scripts;
 using _Game.Scripts.GD;
 using DG.Tweening;
@@ -54,6 +55,8 @@ namespace _Game.Features.Gameplay
         public GDConfig GDConfig => gdConfig;
 
         public StatsTemplate StatsTemplate => statsTemplate;
+
+        public Stat StatusResist => null;
 
         protected void OnEnterState()
         {

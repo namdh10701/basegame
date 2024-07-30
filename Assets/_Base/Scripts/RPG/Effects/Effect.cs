@@ -54,6 +54,15 @@ namespace _Base.Scripts.RPG.Effects
 
             Destroy(gameObject);
         }
+
+        public override void Apply(IEffectTaker entity)
+        {
+            if (entity.StatusResist != null)
+            {
+                Duration = Duration * (1 - entity.StatusResist.Value);
+            }
+            base.Apply(entity);
+        }
     }
 
 

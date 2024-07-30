@@ -18,7 +18,7 @@ namespace _Game.Features.Gameplay
         public override void ApplyStats()
         {
             base.ApplyStats();
-
+            Debug.Log("APPL STAT");
             foreach (AreaEffectGiver areaEffectGiver in AreaEffectGivers)
             {
                 areaEffectGiver.SetRange(_stats.AttackAOE.Value);

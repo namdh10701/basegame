@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7188977587407966902}
   - component: {fileID: 292029460558565649}
+  - component: {fileID: 6138157233043721411}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -84,6 +85,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
+--- !u!114 &6138157233043721411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 894044787491279002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e415c148d4ef3d41a4aff13427bf9f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortPivot: {fileID: 7691449450847267648}
 --- !u!1 &7099963840742418997
 GameObject:
   m_ObjectHideFlags: 0
@@ -118,7 +132,6 @@ Transform:
   m_Children:
   - {fileID: 7188977587407966902}
   - {fileID: 1902150805391406463}
-  - {fileID: 9173159092366329504}
   - {fileID: 1229228631541060555}
   - {fileID: 3539353264967947330}
   m_Father: {fileID: 0}
@@ -286,37 +299,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   collider: {fileID: 5625832027668065710}
   Item: {fileID: 7099963840742418997}
---- !u!1 &8284918489110610702
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 9173159092366329504}
-  m_Layer: 0
-  m_Name: Anchor
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &9173159092366329504
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8284918489110610702}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.375, y: -0.497, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 7691449450847267648}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2228085953411720900
 PrefabInstance:
   m_ObjectHideFlags: 0

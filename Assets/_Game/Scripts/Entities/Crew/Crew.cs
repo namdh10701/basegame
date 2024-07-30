@@ -1,5 +1,6 @@
 using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.RPG.Entities;
+using _Base.Scripts.RPG.Stats;
 using _Game.Scripts;
 using _Game.Scripts.Entities;
 using _Game.Scripts.GD;
@@ -65,6 +66,9 @@ namespace _Game.Features.Gameplay
         public StatsTemplate StatsTemplate => statsTemplate;
 
         public override Stats Stats => stats;
+
+        public Stat StatusResist => stats.StatusReduce;
+
         private void Start()
         {
             GetComponent<GDConfigStatsApplier>().LoadStats(this);
