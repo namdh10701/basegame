@@ -360,7 +360,6 @@ namespace _Game.Features.Gameplay
             spawned.Id = data.Id;
 
             Cannons.Add(spawned);
-            spawned.Def.Type = ItemType.CANNON;
 
             IGridItem gridItem = spawned.GetComponent<IGridItem>();
             InitOccupyCell(spawned.Id, ItemType.CANNON, gridItem, data, grid);

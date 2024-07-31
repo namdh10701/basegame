@@ -83,13 +83,11 @@ namespace _Game.Features.Gameplay
             {
                 if (closestHit.collider.TryGetComponent(out ItemClickDetector icd))
                 {
-                    IWorkLocation workLocation = icd.Item.GetComponent<IWorkLocation>();
                     IGridItem gridItem = icd.Item.GetComponent<IGridItem>();
                     if (gridItem != null)
                     {
-                        if (gridItem.Def.Type == ItemType.CANNON)
+                        if (gridItem is Cannon cannon)
                         {
-                            Cannon cannon = gridItem as Cannon;
                             return cannon;
                         }
                     }
