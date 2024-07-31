@@ -107,25 +107,5 @@ namespace _Game.Features.Inventory
             onValueChanged?.Invoke(selectedIndex);
             Debug.Log("Selected: " + Value);
         }
-
-        public void RemoveToggleItem(int index)
-        {
-            if (_toggles == null || _toggles.Length == 0 || index < 0 || index >= _toggles.Length)
-            {
-                return;
-            }
-
-            Toggle[] newToggles = new Toggle[_toggles.Length - 1];
-
-            for (int i = 0, j = 0; i < _toggles.Length; i++)
-            {
-                if (i != index)
-                {
-                    newToggles[j++] = _toggles[i];
-                }
-            }
-
-            _toggles = newToggles;
-        }
     }
 }
