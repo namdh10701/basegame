@@ -5,9 +5,9 @@ namespace _Game.Scripts.GD.DataManager
     /// <summary>
     /// 
     /// </summary>
-    public class CrewTable : DataTable<CrewTableRecord>
+    public class CrewTable : LocalDataTable<CrewTableRecord>
     {
-        public CrewTable(string downloadUrl, string dataFileName = null) : base(downloadUrl, dataFileName)
+        public CrewTable(string fileName) : base(fileName)
         {
 
         }

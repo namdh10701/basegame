@@ -5,9 +5,9 @@ namespace _Game.Scripts.GD.DataManager
     /// <summary>
     /// 
     /// </summary>
-    public class InventoryItemUpgradeTable : DataTable<InventoryItemUpgradeTableRecord>
+    public class InventoryItemUpgradeTable : LocalDataTable<InventoryItemUpgradeTableRecord>
     {
-        public InventoryItemUpgradeTable(string downloadUrl, string dataFileName = null) : base(downloadUrl, dataFileName)
+        public InventoryItemUpgradeTable(string fileName = null) : base(fileName)
         {
         }
 

@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using _Base.Scripts.Utils.Extensions;
 using Cysharp.Threading.Tasks;
+using Online;
 
 namespace _Game.Scripts.GD.DataManager
 {
@@ -19,17 +20,12 @@ namespace _Game.Scripts.GD.DataManager
             = new("https://docs.google.com/spreadsheets/d/1lg1LNncm8kVlASyTctlJqWU7dw5JWz2SKmbD82R8uM0/edit?gid=1364617036#gid=1364617036");
         public static ShopRarityTable ShopRarityTable 
             = new("https://docs.google.com/spreadsheets/d/1lg1LNncm8kVlASyTctlJqWU7dw5JWz2SKmbD82R8uM0/edit?gid=809979341#gid=809979341");
-        
-        public static CrewTable CrewTable 
-            = new("https://docs.google.com/spreadsheets/d/1M91hXkFM9BvP5SsfMKz-oDndDaOx-hJLfFTE39kfEJM/edit?gid=99718053#gid=99718053");
-        public static CannonTable CannonTable 
-            = new("https://docs.google.com/spreadsheets/d/1M91hXkFM9BvP5SsfMKz-oDndDaOx-hJLfFTE39kfEJM/edit?gid=1936044627#gid=1936044627");
-        public static CannonTable CannonFeverTable 
-            = new("https://docs.google.com/spreadsheets/d/1M91hXkFM9BvP5SsfMKz-oDndDaOx-hJLfFTE39kfEJM/edit?gid=1608471390#gid=1608471390", "CannonFeverTable");
-        public static AmmoTable AmmoTable 
-            = new("https://docs.google.com/spreadsheets/d/1M91hXkFM9BvP5SsfMKz-oDndDaOx-hJLfFTE39kfEJM/edit?gid=1915146529#gid=1915146529");
-        public static ShipTable ShipTable 
-            = new("https://docs.google.com/spreadsheets/d/1M91hXkFM9BvP5SsfMKz-oDndDaOx-hJLfFTE39kfEJM/edit?gid=1273073460#gid=1273073460");
+
+        public static CrewTable CrewTable => PlayfabManager.Instance.CrewTable;
+        public static CannonTable CannonTable => PlayfabManager.Instance.CannonTable;
+        public static CannonTable CannonFeverTable => PlayfabManager.Instance.CannonFeverTable;
+        public static AmmoTable AmmoTable => PlayfabManager.Instance.AmmoTable;
+        public static ShipTable ShipTable => PlayfabManager.Instance.ShipTable;
         
         public static LevelWaveTable LevelWaveTable 
             = new ("https://docs.google.com/spreadsheets/d/16zvsN6iALnKVByPfI9BGuvyW44DHVhBZVg07CDoUyOY/edit?gid=755631495#gid=755631495");
@@ -41,8 +37,7 @@ namespace _Game.Scripts.GD.DataManager
         public static TalentTreeItemTable TalentTreeItemTable
             = new("https://docs.google.com/spreadsheets/d/1M91hXkFM9BvP5SsfMKz-oDndDaOx-hJLfFTE39kfEJM/edit?gid=1712483375#gid=1712483375");
 
-        public static MonsterTable MonsterTable
-            = new("https://docs.google.com/spreadsheets/d/1M91hXkFM9BvP5SsfMKz-oDndDaOx-hJLfFTE39kfEJM/edit?gid=2019962973#gid=2019962973");
+        public static MonsterTable MonsterTable => PlayfabManager.Instance.MonsterTable;
         
         public static InventoryItemUpgradeTable CannonUpgradeTable
             = new("https://docs.google.com/spreadsheets/d/1GT5jPQFREA2wldlQkaVaSaFwYkfeBS__LDfkTjgzimM/edit?gid=1522252696#gid=1522252696");

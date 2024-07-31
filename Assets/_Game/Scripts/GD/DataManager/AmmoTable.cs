@@ -5,9 +5,9 @@ namespace _Game.Scripts.GD.DataManager
     /// <summary>
     /// 
     /// </summary>
-    public class AmmoTable : DataTable<AmmoTableRecord>
+    public class AmmoTable : LocalDataTable<AmmoTableRecord>
     {
-        public AmmoTable(string downloadUrl, string dataFileName = null) : base(downloadUrl, dataFileName)
+        public AmmoTable(string fileName) : base(fileName)
         {
         }
 

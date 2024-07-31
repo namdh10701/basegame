@@ -6,11 +6,12 @@ namespace _Game.Scripts.GD.DataManager
     /// <summary>
     /// 
     /// </summary>
-    public class ShipTable : DataTable<ShipTableRecord>
+    public class ShipTable : LocalDataTable<ShipTableRecord>
     {
-        public ShipTable(string downloadUrl, string dataFileName = null) : base(downloadUrl, dataFileName)
+        public ShipTable(string fileName) : base(fileName)
         {
         }
+        
         public DataTableRecord GetDataTableRecord(string id, string name)
         {
             foreach (var record in Records)

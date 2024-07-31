@@ -6,9 +6,9 @@ namespace _Game.Scripts.GD.DataManager
     /// <summary>
     /// 
     /// </summary>
-    public class MonsterTable : DataTable<MonsterTableRecord>
+    public class MonsterTable : LocalDataTable<MonsterTableRecord>
     {
-        public MonsterTable(string downloadUrl, string dataFileName = null) : base(downloadUrl, dataFileName)
+        public MonsterTable() : base("monsters_db.json")
         {
         }
     }

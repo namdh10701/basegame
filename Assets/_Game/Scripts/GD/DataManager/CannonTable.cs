@@ -7,9 +7,9 @@ namespace _Game.Scripts.GD.DataManager
     /// <summary>
     /// 
     /// </summary>
-    public class CannonTable : DataTable<CannonTableRecord>
+    public class CannonTable : LocalDataTable<CannonTableRecord>
     {
-        public CannonTable(string downloadUrl, string dataFileName = null) : base(downloadUrl, dataFileName)
+        public CannonTable(string name) : base(name)
         {
         }
 
