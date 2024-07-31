@@ -62,7 +62,6 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
             {
                 finalDmg = totalDmg;
             }
-            projectile.IsFever = Cannon.IsOnFever || Cannon.IsOnFullFever;
             projectile.SetDamage(finalDmg, isCrit);
 
 

@@ -56,10 +56,11 @@ namespace _Game.Features.Gameplay
                 if (clickedObject.TryGetComponent(out AmmoButton ammoButton))
                 {
                     Ammo ammo = ammoButton.ammo;
-                    if (ammo.IsBroken)
+                    if (ammo.GridItemStateManager.GridItemState == GridItemState.Broken)
                     {
                         return;
                     }
+                    //TODO: RELOAD AMMO BUFF HERE
                     ShipStats shipStats = Ship.Stats as ShipStats;
 
                     if (shipStats.ManaPoint.Value >= ammo.stats.EnergyCost.Value)
@@ -67,7 +68,7 @@ namespace _Game.Features.Gameplay
                         shipStats.ManaPoint.StatValue.BaseValue -= ammo.stats.EnergyCost.Value;
                         GlobalEvent<int, Vector3>.Send("MANA_CONSUMED", (int)ammo.stats.EnergyCost.Value, worldPointerPos);
                     }
-                    selectingCannon.Reload(ammo);
+                    selectingCannon.Reload(ammo );
                     DeselectCannon();
                     ShipHUD.Hide();
                     return;
@@ -88,7 +89,7 @@ namespace _Game.Features.Gameplay
         {
             if (selectingCannon != null)
             {
-                selectingCannon.border.SetActive(false);
+                selectingCannon.View.Border.SetActive(false);
                 selectingCannon = null;
             }
         }
@@ -146,9 +147,9 @@ namespace _Game.Features.Gameplay
                         ShipHUD.FilterCannonUsingAmmo(cannon);
                         ShipHUD.Show();
                         selectingCannon = cannon;
-                        selectingCannon.border.SetActive(true);
+                        selectingCannon.View.Border.SetActive(true);
 
-                        if (cannon.IsBroken)
+                        if (cannon.GridItemStateManager.GridItemState == GridItemState.Broken)
                         {
                             GlobalEvent<Cannon, int>.Send("FixCannon", cannon, int.MaxValue);
                         }
@@ -157,7 +158,7 @@ namespace _Game.Features.Gameplay
                     {
                         Debug.Log("click mmo");
 
-                        if (ammo.IsBroken)
+                        if (ammo.GridItemStateManager.GridItemState == GridItemState.Broken)
                         {
                             GlobalEvent<Cannon, int>.Send("FixAmmo", cannon, int.MaxValue);
                         }

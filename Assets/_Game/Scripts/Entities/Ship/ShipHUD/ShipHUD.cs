@@ -33,7 +33,7 @@ namespace _Game.Features.Gameplay
         {
             foreach (AmmoButton am in actives)
             {
-                if (am.ammo == cannon.usingBullet)
+                if (am.ammo == cannon.UsingAmmo)
                 {
                     am.ToggleSelect(true);
                 }

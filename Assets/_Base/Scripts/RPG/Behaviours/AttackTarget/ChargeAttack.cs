@@ -1,4 +1,5 @@
 using _Base.Scripts.RPG.Behaviours.AttackTarget;
+using _Game.Features.Gameplay;
 using System.Collections;
 using UnityEngine;
 
@@ -13,7 +14,7 @@ public class ChargeAttack : AttackTargetBehaviour
     IEnumerator AttackCoroutine()
     {
         Animation.PlayChargeAnim();
-        if (entity.IsOnFever || entity.IsOnFullFever)
+        if (entity.FeverState != CannonFeverState.None)
         {
             yield return new WaitForSeconds(ChargeTime / 1.5f);
         }
