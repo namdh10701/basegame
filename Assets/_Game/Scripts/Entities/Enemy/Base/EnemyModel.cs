@@ -182,6 +182,9 @@ namespace _Game.Features.Gameplay
                 }
             }
         }
+
+        public Stat StatusResist => null;
+
         public Action<EnemyState> OnStateEntered;
         protected virtual void OnEnterState()
         {

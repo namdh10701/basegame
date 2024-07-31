@@ -226,6 +226,8 @@ MonoBehaviour:
   mbtExecutor: {fileID: 6764331205060662260}
   enemyController: {fileID: 40291501738919957}
   enemyView: {fileID: 1581404908438099686}
+  atkHandler: {fileID: 0}
+  gridPicker: {fileID: 0}
   attackPatternProfile: {fileID: 11400000, guid: 58366f42f4411d84592c6c57915e0775, type: 2}
   findTargetBehaviour: {fileID: 6148797155671868749}
   findTargetCollider: {fileID: 3405972684606934045}
@@ -247,7 +249,7 @@ MonoBehaviour:
   IsLeftHandAttack: 1
   leftShootPos: {fileID: 2324791113131924790}
   rightShootPos: {fileID: 2589825236078666943}
-  projectilePrefab: {fileID: 1364860213531301939, guid: ec6d4d31d716e944f83b2a1a480051ab, type: 3}
+  projectilePrefab: {fileID: 1364860213531301939, guid: 499ecad4ac130654a8ec7bd6c079e64c, type: 3}
   AttackPatternProfile: {fileID: 11400000, guid: 58366f42f4411d84592c6c57915e0775, type: 2}
   meeleAttackProfile: {fileID: 11400000, guid: b49bf91977863c045a41f7baf9c2f44d, type: 2}
   gridAttackHandler: {fileID: 0}
@@ -2712,9 +2714,17 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5392517042907898983, guid: 46f21a2cea182034aa9ef095cd474d50, type: 3}
+      propertyPath: m_SortingLayer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5392517042907898983, guid: 46f21a2cea182034aa9ef095cd474d50, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 1786719095
+      objectReference: {fileID: 0}
     - target: {fileID: 6080003365391893744, guid: 46f21a2cea182034aa9ef095cd474d50, type: 3}
       propertyPath: m_SortingOrder
-      value: 182
+      value: -428
       objectReference: {fileID: 0}
     - target: {fileID: 7414120992175594364, guid: 46f21a2cea182034aa9ef095cd474d50, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2735,6 +2745,14 @@ PrefabInstance:
     - target: {fileID: 7935441606453301843, guid: 46f21a2cea182034aa9ef095cd474d50, type: 3}
       propertyPath: m_Name
       value: Jelly Fish - Spine
+      objectReference: {fileID: 0}
+    - target: {fileID: 8617908463585722898, guid: 46f21a2cea182034aa9ef095cd474d50, type: 3}
+      propertyPath: m_SortingLayer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8617908463585722898, guid: 46f21a2cea182034aa9ef095cd474d50, type: 3}
+      propertyPath: m_SortingLayerID
+      value: -285313645
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

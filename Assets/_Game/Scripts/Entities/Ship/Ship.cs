@@ -1,6 +1,7 @@
 ﻿using _Base.Scripts.EventSystem;
 using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.RPG.Entities;
+using _Base.Scripts.RPG.Stats;
 using _Game.Features.Battle;
 using _Game.Scripts;
 using _Game.Scripts.Battle;
@@ -38,6 +39,8 @@ namespace _Game.Features.Gameplay
 
         public EffectHandler EffectHandler => effectHandler;
 
+        public Stat StatusResist => null;
+
         public PathfindingController PathfindingController;
         public EffectTakerCollider EffectCollider;
         public Area ShipArea;
@@ -47,16 +50,17 @@ namespace _Game.Features.Gameplay
         public BattleViewModel BattleViewModel;
         public FeverModel FeverModel;
         public ShipHUD HUD;
-        private void Start()
+        private void Awake()
         {
             EffectCollider.Taker = this;
             EffectHandler.EffectTaker = this;
-            //Initialize(null);
+            Initialize();
         }
 
 
-        public void Initialize(BattleViewModel battleViewModel)
+        public void Initialize()
         {
+            BattleViewModel = FindAnyObjectByType<BattleViewModel>();
             GlobalEvent<EnemyStats>.Register("EnemyDied", OnEnemyDied);
             //GlobalEvent<Cannon>.Register("CLICK_CANNON", ShowShipHUD);
             //GlobalEvent.Register("CloseHUD", CloseHUD);
@@ -80,8 +84,10 @@ namespace _Game.Features.Gameplay
                 cannon.HUD.RegisterJob(CrewJobData);
             }
             HUD.Initialize(ShipSetup.Ammos);
-            this.BattleViewModel = battleViewModel;
-            BattleViewModel.FeverView.Init(FeverModel);
+            if (BattleViewModel != null)
+            {
+                BattleViewModel.FeverView.Init(FeverModel);
+            }
         }
 
         public void UseFullFever()
@@ -130,7 +136,6 @@ namespace _Game.Features.Gameplay
         {
             if (FeverModel.CurrentState != FeverState.Unleashing)
             {
-
                 float feverPointGained = enemyModel.FeverPoint.Value;
                 AddFeverPoint(feverPointGained);
 

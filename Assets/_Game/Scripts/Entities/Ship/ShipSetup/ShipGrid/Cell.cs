@@ -1,6 +1,7 @@
 using _Base.Scripts.EventSystem;
 using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.RPG.Entities;
+using _Base.Scripts.RPG.Stats;
 using _Game.Scripts;
 using _Game.Scripts.Entities;
 using _Game.Scripts.PathFinding;
@@ -27,6 +28,9 @@ namespace _Game.Features.Gameplay
         public Stats Stats => stats;
 
         public List<Node> WorkingSlots { get => workingSlots; set => workingSlots = value; }
+
+        public Stat StatusResist => null;
+
         public List<Node> workingSlots;
         public EffectTakerCollider EffectCollider;
         public NodeGraph nodeGraph;

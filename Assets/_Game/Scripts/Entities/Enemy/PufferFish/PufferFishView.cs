@@ -15,7 +15,8 @@ namespace _Game.Scripts
         protected override IEnumerator EntryVisualize()
         {
             //transform.localScale = Vector3.zero;
-            Tween tween = transform.DOScale(1, .5f).SetEase(Ease.OutBack);
+            Debug.Log("ENTRY PUFFER FIZZ");
+            Tween tween = enemyModel.transform.DOScale(1, .5f).SetEase(Ease.OutBack);
             yield return tween.WaitForCompletion();
             yield return base.EntryVisualize();
         }

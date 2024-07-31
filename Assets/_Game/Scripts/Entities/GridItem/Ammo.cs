@@ -51,6 +51,8 @@ namespace _Game.Scripts.Entities
         public string Id { get => id; set => id = value; }
         public GDConfig GDConfig { get => gdConfig; }
 
+        public Stat StatusResist => null;
+
         public AmmoStats stats;
 
         public SpriteRenderer sprite;

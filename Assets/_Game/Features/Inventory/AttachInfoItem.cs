@@ -1,5 +1,7 @@
+using System;
 using _Game.Features.Inventory;
 using _Game.Scripts.DB;
+using _Game.Scripts.GD.DataManager;
 using _Game.Scripts.UI;
 using UnityEngine;
 using UnityWeld.Binding;
@@ -8,12 +10,10 @@ namespace _Game.Features.InventoryCustomScreen
     [Binding]
     public class AttachInfoItem : SubViewModel
     {
-
         [Binding]
         public string Id { get; set; }
 
         #region Binding Prop: ItemType
-
         /// <summary>
         /// ItemType
         /// </summary>
@@ -32,9 +32,29 @@ namespace _Game.Features.InventoryCustomScreen
                 OnPropertyChanged(nameof(Type));
             }
         }
-
         private ItemType m_type;
+        #endregion
 
+        #region Binding Prop: ItemType
+        /// <summary>
+        /// ItemType
+        /// </summary>
+        [Binding]
+        public Rarity Rarity
+        {
+            get => _rarity;
+            set
+            {
+                if (Equals(_rarity, value))
+                {
+                    return;
+                }
+
+                _rarity = value;
+                OnPropertyChanged(nameof(Type));
+            }
+        }
+        private Rarity _rarity;
         #endregion
 
         #region Binding Prop: Thumbnail
@@ -46,17 +66,9 @@ namespace _Game.Features.InventoryCustomScreen
         {
             get
             {
-                switch (Type)
-                {
-                    case ItemType.CANNON:
-                        return _Game.Scripts.DB.Database.GetCannonImage(Id);
-                    case ItemType.CREW:
-                        return _Game.Scripts.DB.Database.GetCrewImage(Id);
-                    case ItemType.AMMO:
-                        return _Game.Scripts.DB.Database.GetAmmoImage(Id);
-                    default:
-                        return null;
-                }
+                // var path = Id == null ? $"Items/item_misc_eq2_com" : $"Items/item_misc_{Rarity.ToString().ToLower()}_{Id.ToString().ToLower()}";
+                var path = Id == null ? $"Items/item_misc_eq2_com" : $"Items/item_misc_eq2_com";
+                return Resources.Load<Sprite>(path);
             }
         }
         #endregion
@@ -83,6 +95,12 @@ namespace _Game.Features.InventoryCustomScreen
                 OnPropertyChanged(nameof(IsHighlight));
 
             }
+        }
+
+        internal void Setup()
+        {
+            OnPropertyChanged(nameof(Thumbnail));
+
         }
         #endregion
 

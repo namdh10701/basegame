@@ -32,5 +32,19 @@ namespace _Game.Scripts
         [field: SerializeField]
         public RangedStat HealthRegenerationRate { get; set; } = new(1, 0, 10);
 
+        [field: SerializeField]
+        public Stat ZeroManaCost { get; set; } = new();
+
+        [field: SerializeField]
+        public Stat Luck { get; set; } = new();
+
+        [field: SerializeField]
+        public Stat BonusAmmo { get; set; } = new();
+
+        [field: SerializeField]
+        public Stat FeverTimeProb { get; set; } = new();
+        [field: SerializeField]
+        public Stat GoldIncome { get; set; } = new();
+
     }
 }

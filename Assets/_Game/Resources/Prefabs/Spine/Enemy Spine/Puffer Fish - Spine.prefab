@@ -82,7 +82,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -550172201
   m_SortingLayer: 1
-  m_SortingOrder: -500
+  m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &1549125421554023365
 MonoBehaviour:
@@ -176,7 +176,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1786719095
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &4784376482324135150
@@ -258,18 +258,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43628b570e92515459f0bdc14a390d97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skeletonAnimation: {fileID: 4784376482324135150}
-  idle: idle_move
-  dead: bomb_ship_explo
-  move: idle_move
-  enemyModel: {fileID: 0}
-  meshRenderer: {fileID: 471015614277371220}
-  onHitduration: 0.1
-  burn: {fileID: 0}
+  lastState: 0
+  skeletonAnim: {fileID: 4784376482324135150}
+  Entry: idle_move
+  Idle: idle_move
+  Moving: idle_move
+  Attacking: 
+  HidingEntry: 
+  HidingIdle: 
+  Dead: bomb_ship_explo
   attack: attack
-  OnAttack:
-    m_PersistentCalls:
-      m_Calls: []
+  meshRenderer: {fileID: 471015614277371220}
+  burnFx: {fileID: 632389184138100502}
+  stunFx: {fileID: 0}
 --- !u!1 &4372278686383186467
 GameObject:
   m_ObjectHideFlags: 0
@@ -352,8 +353,8 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1786719095
-  m_SortingLayer: 2
-  m_SortingOrder: -1167
+  m_SortingLayer: 3
+  m_SortingOrder: -1820
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &5935923140178606406
 MonoBehaviour:
@@ -468,6 +469,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 52f1b57d2df0d0b46b373b91c0ca5ec2, type: 3}
+--- !u!198 &632389184138100502 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 4638694073926940457, guid: 52f1b57d2df0d0b46b373b91c0ca5ec2, type: 3}
+  m_PrefabInstance: {fileID: 5231284126149396543}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7536018519879492780 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2309240331170278547, guid: 52f1b57d2df0d0b46b373b91c0ca5ec2, type: 3}

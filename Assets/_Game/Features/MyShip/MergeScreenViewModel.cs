@@ -512,7 +512,7 @@ namespace _Game.Features.MergeScreen
         {
             if (item.IsSelected)
             {
-
+                ItemMerge = item;
                 if (_itemsSelected.Count < NumberItemsRequired)
                     _itemsSelected.Add(item);
                 else

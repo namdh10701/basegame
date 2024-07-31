@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 
 namespace _Game.Features.Gameplay
 {
-    public class CannonHUD : MonoBehaviour
+    public class CannonHUD : MonoBehaviour, ICannonVisualElement
     {
         Cannon cannon;
         public ProgressBarDisplay AmmoBar;
@@ -16,6 +16,11 @@ namespace _Game.Features.Gameplay
         public ReloadSign Reload;
         bool isFixing;
         bool isReloading;
+
+        public Canvas canvas;
+        public int offsetSort;
+        public int offset => offsetSort;
+
         public void SetCannon(Cannon cannon)
         {
             this.cannon = cannon;
@@ -123,6 +128,11 @@ namespace _Game.Features.Gameplay
                 HpBar.gameObject.SetActive(true);
                 HpBar.SetProgress((float)amount);
             }
+        }
+
+        public void UpdateSorting(Renderer mainRenderer)
+        {
+            canvas.sortingOrder = mainRenderer.sortingOrder + offset;
         }
     }
 }

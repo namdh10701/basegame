@@ -1,5 +1,6 @@
 using _Base.Scripts.RPG;
 using _Base.Scripts.RPG.Effects;
+using _Base.Scripts.RPG.Stats;
 using _Game.Scripts;
 using JetBrains.Annotations;
 using System;
@@ -18,6 +19,9 @@ namespace _Game.Features.Gameplay
         public EffectHandler EffectHandler => effectHandler;
 
         public Stats Stats => enemyStats;
+
+        public Stat StatusResist => null;
+
         public EffectTakerCollider effectCollider;
         public Crab crab;
         public CrabView crabView;

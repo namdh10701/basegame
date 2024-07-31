@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -23,7 +20,7 @@ namespace _Game.Features.Inventory
             }
         }
 
-        void Awake()
+        public void Setup()
         {
             _buttons = GetComponentsInChildren<Button>();
             for (int i = 0; i < _buttons.Length; i++)

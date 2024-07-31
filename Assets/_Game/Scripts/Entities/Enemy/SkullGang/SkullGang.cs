@@ -1,6 +1,7 @@
 using _Base.Scripts.ImageEffects;
 using _Base.Scripts.RPG;
 using _Base.Scripts.RPG.Effects;
+using _Base.Scripts.RPG.Stats;
 using _Game.Scripts;
 using _Game.Scripts.GD;
 using DG.Tweening;
@@ -54,6 +55,8 @@ namespace _Game.Features.Gameplay
         public GDConfig GDConfig => gdConfig;
 
         public StatsTemplate StatsTemplate => statsTemplate;
+
+        public Stat StatusResist => null;
 
         protected void OnEnterState()
         {
@@ -128,16 +131,17 @@ namespace _Game.Features.Gameplay
         public AttackPatternProfile patternProfile;
         private void DoThrowFishAttack(Vector3 vector)
         {
-            Debug.Log("throw fish");
             PufferFishModel pufferFish = Instantiate(pufferFishModel, null);
             pufferFish.transform.position = vector;
             pufferFish.transform.localScale = Vector3.one;
+            pufferFish.IsThrow = true;
             //pufferFish.Body.AddForce(Vector2.down * 5, ForceMode2D.Impulse);
             pufferFish.attackPatternProfile = patternProfile;
             Cell cell = gridPicker.PickRandomCell();
             pufferFish.pufferFishCollider.SetActive(false);
             pufferFish.SortLayer = "Projectile";
             pufferFish.transform.DOMove(cell.transform.position, 2f);
+
         }
 
         private void DoSpearAttack(Vector3 vector)

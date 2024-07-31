@@ -6,21 +6,29 @@ using UnityEngine;
 namespace _Game.Scripts
 {
     [Serializable]
-    public class CrewStats : Stats, IAliveStats
+    public class CrewStats : Stats
     {
-        [field: SerializeField]
-        public RangedStat HealthPoint { get; set; } = new(500, 0, 800);
-
-        [field: SerializeField]
-        public Stat BlockChance { get; set; } = new();
-
         [field: SerializeField]
         public Stat MoveSpeed { get; set; } = new();
 
         [field: SerializeField]
-        public Stat EvadeChance { get; set; } = new();
+        public Stat RepairSpeed { get; set; } = new();
 
         [field: SerializeField]
-        public Stat RepairSpeed { get; set; } = new();
+        public Stat StatusReduce { get; set; } = new();
+
+        [field: SerializeField]
+        public Stat ZeroManaCost { get; set; } = new();
+
+        [field: SerializeField]
+        public Stat Luck { get; set; } = new();
+
+        [field: SerializeField]
+        public Stat BonusAmmo { get; set; } = new();
+
+        [field: SerializeField]
+        public Stat FeverTimeProb { get; set; } = new();
+        [field: SerializeField]
+        public Stat GoldIncome { get; set; } = new();
     }
 }

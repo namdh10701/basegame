@@ -1,4 +1,5 @@
 using _Base.Scripts.RPG.Effects;
+using _Base.Scripts.RPG.Stats;
 using _Base.Scripts.Utils.Extensions;
 using _Game.Scripts;
 using MBT;
@@ -326,6 +327,8 @@ namespace _Game.Features.Gameplay
         }
 
         public Stats Stats => enemyStats;
+
+        public Stat StatusResist => null;
 
         public int attackIntervalState1 = 5;
         public int attackIntervalState2 = 3;

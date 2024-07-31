@@ -51,6 +51,8 @@ namespace _Game.Features.Gameplay
 
         public List<Stat> SlowableStats => new List<Stat> { stats.MoveSpeed, stats.AnimationTimeScale };
 
+        public Stat StatusResist => null;
+
         public Action OnSlowedDown;
         public Action OnSlowedDownStopped;
         public Action OnBurned;
