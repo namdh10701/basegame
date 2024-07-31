@@ -14,6 +14,7 @@ namespace Online.Model
 	public class RankReward
 	{
 		public string ItemId;
+		public string ItemType;
 		public int Amount;
 	}
 		
