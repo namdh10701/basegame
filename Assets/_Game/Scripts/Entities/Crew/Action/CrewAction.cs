@@ -159,7 +159,7 @@ namespace _Game.Features.Gameplay
         public override IEnumerator DoExecute()
         {
             yield return new WaitForSeconds(2);
-            cell.OnFixed();
+            cell.GridItemStateManager.GridItemState = GridItemState.Active;
         }
 
         public override void Interupt()

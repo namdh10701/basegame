@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using _Game.Features.Inventory;
 
 namespace Online.Model
 {
@@ -14,6 +15,7 @@ namespace Online.Model
 	public class RankReward
 	{
 		public string ItemId;
+		public ItemType ItemType;
 		public int Amount;
 	}
 		

@@ -14,6 +14,7 @@ namespace _Game.Features.Inventory
         CREW,
         CANNON,
         AMMO,
+        CARPET,
         MISC,
         None,
     }

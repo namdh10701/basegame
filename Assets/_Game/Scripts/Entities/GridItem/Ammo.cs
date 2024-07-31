@@ -19,6 +19,8 @@ namespace _Game.Scripts.Entities
 {
     public class Ammo : Entity, IEffectTaker, IGridItem, IWorkLocation, INodeOccupier, IGDConfigStatsTarget
     {
+        [SerializeField] private GridItemStateManager gridItemStateManager;
+
         public string id;
         public GDConfig gdConfig;
         public StatsTemplate statsTemplate;
@@ -52,6 +54,38 @@ namespace _Game.Scripts.Entities
         public GDConfig GDConfig { get => gdConfig; }
 
         public Stat StatusResist => null;
+
+        GridItemState state;
+        public GridItemState GridItemState
+        {
+            get => state;
+            set
+            {
+                lastState = state;
+                state = value;
+
+                if (lastState != state)
+                {
+                    OnStateEntered?.Invoke(state);
+                    OnStateEnter(state);
+                }
+            }
+        }
+        public GridItemStateManager GridItemStateManager => gridItemStateManager;
+
+        public Action<GridItemState> OnStateEntered;
+        GridItemState lastState;
+        void OnStateEnter(GridItemState state)
+        {
+            switch (state)
+            {
+                case GridItemState.Active:
+                    break;
+                case GridItemState.Broken:
+                    break;
+            }
+        }
+
 
         public AmmoStats stats;
 
@@ -100,5 +134,9 @@ namespace _Game.Scripts.Entities
         }
 
         public override void ApplyStats() { }
+
+        public void Active()
+        {
+        }
     }
 }

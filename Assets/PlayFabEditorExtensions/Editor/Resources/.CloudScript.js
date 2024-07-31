@@ -29,6 +29,20 @@
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
+const EItemType = Object.freeze({
+    Ship: 'ship', // 0
+    Crew: 'crew', // 
+    Cannon: 'cannon',
+    Ammo: 'ammo',
+    Blueprint: 'blueprint',
+});
+
+const EVirtualCurrency = Object.freeze({
+    Gold: 'GO',
+    Gem: 'GE',
+    Energy: 'EN',
+    Ticket: 'TI',
+});
 
 // This is a Cloud Script function. "args" is set to the value of the "FunctionParameter" 
 // parameter of the ExecuteCloudScript API.
@@ -80,22 +94,107 @@ handlers.RequestNewProfile = function (args, context) {
 };
 
 handlers.CombineItems = function (args, context) {
+    if (args.ItemInstanceIds.length < 2) {
+        return {
+            Result: false,
+            Error: "Not_Enough_Item"
+        };
+    }
+
     var reqInventory = {
         PlayFabId: currentPlayerId
     };
-    var resultInventory = server.GetUserInventory(reqInventory);
+    var resInventory = server.GetUserInventory(reqInventory);
 
-    var combineItems = [];
-    // for(int i=0; i<args.CombineItemIds.length; i++) {
-    //     var combineItem = resultInventory.Inventory.find(val => val.ItemInstanceId == args.CombineItemIds[i]);
-    //     if(combineItem != null) {
-    //         combineItems.push(combineItem);
-    //     }
-    // }
-
-    if(combineItems.length == 3) {
-
+    let CombineItems = [];
+    for (let i = 0; i < args.ItemInstanceIds.length; i++) {
+        var item = resInventory.Inventory.find(val => val.ItemInstanceId == args.ItemInstanceIds[i]);
+        if (item != null) {
+            CombineItems.push(item);
+        } else {
+            return {
+                Result: false,
+                Error: "Item_Invalid"
+            }
+        }
     }
+
+    const parts = CombineItems[0].ItemId.split('_');
+    var itemLevel = CombineItems[0].CustomData?.Level ?? 0;
+    const itemType = parts[0];
+    var configId = CombineItems[0].ItemId;
+
+    for (let i = 1; i < CombineItems.length; i++) {
+        if (CombineItems[i].ItemId != configId) {
+            return {
+                Result: false,
+                Error: "Item_Not_Match"
+            }
+        }
+    }
+
+    // Revoke Item and refund blueprint
+    var blueprints = RefundBlueprints(itemType, CombineItems);
+
+    configId = parts[1];
+    return CombineItem(configId, itemType, itemLevel, blueprints);
+};
+
+const RefundBlueprints = function (itemType, combineItems) {
+    var resUpgrade = server.GetTitleData({Keys: ['upgrade_' + itemType]});
+    var itemUpgrade = JSON.parse(resUpgrade.Data['upgrade_' + itemType]);
+
+    let grantBlueprints = [];
+    let revokeItems = [];
+    combineItems.forEach(item => {
+        const level = parseInt(item.CustomData?.Level ?? 0) + 1;
+        for (let lv = 1; lv <= level; lv++) {
+            var upgradeConfig = itemUpgrade.find(val => val.level === lv);
+            for (let j = 0; j < upgradeConfig.blueprint; j++)
+                grantBlueprints.push('blueprint_' + itemType);
+        }
+        revokeItems.push({
+            PlayFabId: currentPlayerId,
+            ItemInstanceId: item.ItemInstanceId,
+        });
+    });
+
+    var resRevokeItems = server.RevokeInventoryItems({
+        Items: revokeItems
+    });
+
+    return grantBlueprints;
+}
+
+const CombineItem = function (configId, itemType, itemLevel, items) {
+    let resConfig = server.GetTitleData({Keys: [itemType + '_config']});
+    let itemConfig = JSON.parse(resConfig.Data[itemType + '_config']);
+
+    let curConfig = itemConfig.find(val => val.id == configId);
+    let newCannonConfig = itemConfig.find(val => val.id == curConfig.upgrade_id);
+    let itemId = itemType + '_' + newCannonConfig.id;
+
+    items.push(itemId);
+    let resGrantItems = server.GrantItemsToUser({
+        PlayFabId: currentPlayerId,
+        ItemIds: items,
+    });
+
+    let upgradeItem = resGrantItems.ItemGrantResults.find(val => val.ItemId == itemId);
+    upgradeItem.CustomData = {
+        Level: itemLevel
+    };
+    
+    var updateItem = server.UpdateUserInventoryItemCustomData({
+        PlayFabId: currentPlayerId,
+        ItemInstanceId: upgradeItem.ItemInstanceId,
+        Data: upgradeItem.CustomData
+    });
+
+    return {
+        Result: true,
+        Item: upgradeItem
+    };
 };
 
 handlers.UpgradeItem = function (args, context) {
@@ -106,23 +205,81 @@ handlers.UpgradeItem = function (args, context) {
 
     var upgradeItem = resultInventory.Inventory.find(val => val.ItemInstanceId == args.ItemInstanceId);
     if (upgradeItem != null) {
-        log.debug(upgradeItem);
-        // var blueprintItem = resultInventory.Inventory.find(val => val.ItemId == upgradeItem.CustomData.BlueprintId);
+        const nextLevel = parseInt(upgradeItem.CustomData?.Level ?? 0) + 1;
+        const parts = upgradeItem.ItemId.split('_');
+        const itemType = parts[0];
 
-        // upgradeItem.CustomData.Level = parseInt(upgradeItem.CustomData.Level) + 1;
-        // var reqUpgrade = {
-        //     PlayFabId: currentPlayerId,
-        //     ItemInstanceId: args.ItemInstanceId,
-        //     Data: {
-        //         Level: upgradeItem.CustomData.Level
-        //     }
-        // };
-        // var resUpgrade = server.UpdateUserInventoryItemCustomData(reqUpgrade);
-        //
-        // return {
-        //     Result: true,
-        //     ItemUpgrade: upgradeItem
-        // }
+        let blueprintId = "";
+        switch (itemType) {
+            case EItemType.Ship:
+                blueprintId = EItemType.Blueprint + '_' + EItemType.Ship;
+                break;
+            case EItemType.Cannon:
+                blueprintId = EItemType.Blueprint + '_' + EItemType.Cannon;
+                break;
+            case EItemType.Ammo:
+                blueprintId = EItemType.Blueprint + '_' + EItemType.Ammo;
+                break;
+        }
+
+        // Get Upgrade Config
+        var resConfig = server.GetTitleData({
+            Keys: ['upgrade_' + itemType]
+        });
+        var nextLevelConfig = JSON.parse(resConfig.Data['upgrade_' + itemType]).find(val => val.level === nextLevel);
+
+        // Get Player Virtual Currency
+        var resInventory = server.GetUserInventory({PlayFabId: currentPlayerId});
+        if (resInventory.VirtualCurrency[EVirtualCurrency.Gold] < nextLevelConfig.gold) {
+            return {
+                Result: false,
+                Error: "Not_Enough_Gold"
+            };
+        }
+
+        // Get Player Blueprints
+        var blueprints = resultInventory.Inventory.filter(val => val.ItemId == blueprintId);
+        if (blueprints.length < nextLevelConfig.blueprint) {
+            return {
+                Result: false,
+                Error: "Not_Enough_Blueprint"
+            };
+        }
+
+        // Increase Level Item
+        upgradeItem.CustomData = {
+            Level: nextLevel,
+        };
+        var reqUpgrade = {
+            PlayFabId: currentPlayerId,
+            ItemInstanceId: args.ItemInstanceId,
+            Data: {
+                Level: upgradeItem.CustomData.Level
+            }
+        };
+        var resUpgrade = server.UpdateUserInventoryItemCustomData(reqUpgrade);
+
+        // Substract Gold
+        var resSubGold = server.SubtractUserVirtualCurrency({
+            PlayFabId: currentPlayerId,
+            VirtualCurrency: EVirtualCurrency.Gold,
+            Amount: nextLevelConfig.gold
+        });
+
+        // Substract Blueprint
+        for (let i = 0; i < nextLevelConfig.blueprint; i++) {
+            var reqConsume = {
+                PlayFabId: currentPlayerId,
+                ItemInstanceId: blueprints[i].ItemInstanceId,
+                ConsumeCount: 1
+            };
+            var resSubBlueprint = server.ConsumeItem(reqConsume);
+        }
+
+        return {
+            Result: true,
+            ItemUpgrade: upgradeItem
+        }
     }
 
     return {

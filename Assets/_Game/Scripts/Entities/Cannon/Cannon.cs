@@ -28,6 +28,9 @@ namespace _Game.Scripts.Entities
         [field: SerializeField]
         private GridItemDef def;
 
+        [SerializeField] private GridItemStateManager gridItemStateManager;
+
+
         [SerializeField]
         private CannonStats _stats;
 
@@ -288,6 +291,8 @@ namespace _Game.Scripts.Entities
 
         public Stat StatusResist => null;
 
+        public GridItemStateManager GridItemStateManager => gridItemStateManager;
+
         void ApplyFeverStats()
         {
             var conf = GameData.CannonFeverTable.FindById(id);
@@ -316,6 +321,11 @@ namespace _Game.Scripts.Entities
         {
             isStuned = false;
             UpdateVisual();
+        }
+
+        public void Active()
+        {
+
         }
 
 
