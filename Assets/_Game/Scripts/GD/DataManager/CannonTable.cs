@@ -41,11 +41,11 @@ namespace _Game.Scripts.GD.DataManager
             return -1;
         }
 
-        public DataTableRecord GetDataTableRecord(string name, string defaultRarity)
+        public DataTableRecord GetDataTableRecord(string name, string rarity)
         {
             foreach (var record in Records)
             {
-                if (record.OperationType == name && record.DefaultRarity == defaultRarity)
+                if (record.OperationType == name && record.Rarity.ToString() == rarity)
                     return record;
             }
             return null;
@@ -103,36 +103,45 @@ namespace _Game.Scripts.GD.DataManager
         public float Hp { get; set; }
 
         [JsonProperty("attack")]
+        [Stat("Attack")]
         public float Attack { get; set; }
 
         [JsonProperty("attack_speed")]
+        [Stat("AttackSpeed")]
         public float AttackSpeed { get; set; }
 
         [JsonProperty("accuracy")]
+        [Stat("Accuracy")]
         public float Accuracy { get; set; }
 
         [JsonProperty("crit_chance")]
+        [Stat("CritChance")]
         public float CritChance { get; set; }
 
         [JsonProperty("crit_damage")]
+        [Stat("CritDamage")]
         public float CritDamage { get; set; }
 
         [JsonProperty("range")]
+        [Stat("Range")]
         public float Range { get; set; }
 
         [JsonProperty("skill")]
         public float Skill { get; set; }
 
         [JsonProperty("primary_project_dmg")]
+        [Stat("PrimaryProjectDmg")]
         public float PrimaryProjectDmg { get; set; }
 
         [JsonProperty("secondary_project_dmg")]
+        [Stat("SecondaryProjectDmg")]
         public float SecondaryProjectDmg { get; set; }
 
         [JsonProperty("project_count")]
         public float ProjectCount { get; set; }
 
         [JsonProperty("angle")]
+        [Stat("Angle")]
         public float Angle { get; set; }
 
         [JsonProperty("enable")]
@@ -143,9 +152,9 @@ namespace _Game.Scripts.GD.DataManager
 
         [JsonProperty("skill_desc")]
         public string Skill_Desc { get; set; }
-        
+
         public string DefaultRarity => Rarity.ToString() + RarityLevel;
-        
+
         public string Slot
         {
             get

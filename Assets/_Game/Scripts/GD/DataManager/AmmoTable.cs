@@ -26,17 +26,17 @@ namespace _Game.Scripts.GD.DataManager
         {
             foreach (var record in Records)
             {
-                if (record.OperationType == name && record.DefaultRarity == rarity)
+                if (record.OperationType == name && record.Rarity.ToString() == rarity)
                     return record.Id;
             }
             return null;
 
         }
-        public DataTableRecord GetDataTableRecord(string name, string defaultRarity)
+        public DataTableRecord GetDataTableRecord(string name, string rarity)
         {
             foreach (var record in Records)
             {
-                if (record.OperationType == name && record.DefaultRarity == defaultRarity)
+                if (record.OperationType == name && record.Rarity.ToString() == rarity)
                     return record;
             }
             return null;
@@ -89,21 +89,26 @@ namespace _Game.Scripts.GD.DataManager
         public string Name { get; set; }
 
         [JsonProperty("hp")]
+        [Stat("Hp")]
         public float Hp { get; set; }
 
         [JsonProperty("energy_cost")]
         public float EnergyCost { get; set; }
 
         [JsonProperty("magazine_size")]
+        [Stat("MagazineSize")]
         public float MagazineSize { get; set; }
 
         [JsonProperty("ammo_attack")]
+        [Stat("AmmoAttack")]
         public float AmmoAttack { get; set; }
 
         [JsonProperty("attack_aoe")]
+        [Stat("AttackAoe")]
         public float AttackAoe { get; set; }
 
         [JsonProperty("armor_pen")]
+        [Stat("ArmorPen")]
         public float ArmorPen { get; set; }
 
         [JsonProperty("project_piercing")]
@@ -113,30 +118,38 @@ namespace _Game.Scripts.GD.DataManager
         public float ProjectSpeed { get; set; }
 
         [JsonProperty("ammo_accuracy")]
+        [Stat("AmmoAccuracy")]
         public float AmmoAccuracy { get; set; }
 
         [JsonProperty("ammo_crit_chance")]
+        [Stat("AmmoCritChance")]
         public float AmmoCritChance { get; set; }
 
         [JsonProperty("ammo_crit_damage")]
+        [Stat("AmmoCritDamage")]
         public float AmmoCritDamage { get; set; }
 
         [JsonProperty("trigger_prob")]
         public float TriggerProb { get; set; }
 
         [JsonProperty("duration")]
+        [Stat("Duration")]
         public float Duration { get; set; }
 
         [JsonProperty("speed_modifier")]
+        [Stat("SpeedModifer")]
         public float SpeedModifer { get; set; }
 
         [JsonProperty("dps")]
+        [Stat("Dps")]
         public float Dps { get; set; }
 
         [JsonProperty("pierc_count")]
+        [Stat("PiercCount")]
         public float PiercCount { get; set; }
 
         [JsonProperty("hp_threshold")]
+        [Stat("HpThreshold")]
         public float HpThreshold { get; set; }
 
         [JsonProperty("skill_name")]
@@ -155,9 +168,9 @@ namespace _Game.Scripts.GD.DataManager
         {
             return Id;
         }
-        
+
         public string DefaultRarity => Rarity.ToString() + RarityLevel;
-        
+
         public string Slot
         {
             get

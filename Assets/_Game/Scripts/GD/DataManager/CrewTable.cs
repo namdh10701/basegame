@@ -13,11 +13,11 @@ namespace _Game.Scripts.GD.DataManager
 
         }
 
-        public DataTableRecord GetDataTableRecord(string name, string defaultRarity)
+        public DataTableRecord GetDataTableRecord(string name, string rarity)
         {
             foreach (var record in Records)
             {
-                if (record.OperationType == name && record.Rarity.ToString() == defaultRarity)
+                if (record.OperationType == name && record.Rarity.ToString() == rarity)
                     return record;
             }
             return null;
@@ -55,15 +55,19 @@ namespace _Game.Scripts.GD.DataManager
         public Rarity Rarity { get; set; }
 
         [JsonProperty("move_speed")]
+        [Stat("MoveSpeed")]
         public float MoveSpeed { get; set; }
 
         [JsonProperty("repair_speed")]
+        [Stat("RepairSpeed")]
         public float RepairSpeed { get; set; }
 
         [JsonProperty("fever_time_prob")]
+        [Stat("FeverTimeProb")]
         public float FeverTimeProb { get; set; }
 
         [JsonProperty("gold_income")]
+        [Stat("GoldIncome")]
         public float GoldIncome { get; set; }
 
         [JsonProperty("status_reduce")]
@@ -73,9 +77,11 @@ namespace _Game.Scripts.GD.DataManager
         public float ZeroManaCost { get; set; }
 
         [JsonProperty("luck")]
+        [Stat("Luck")]
         public float Luck { get; set; }
 
         [JsonProperty("bonus_ammo")]
+        [Stat("BonusAmmo")]
         public float BonusAmmo { get; set; }
 
         [JsonProperty("skill_name_1")]

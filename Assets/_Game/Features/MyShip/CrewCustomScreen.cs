@@ -1,15 +1,12 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using _Game.Features.Inventory;
 using _Game.Features.InventoryItemInfo;
 using _Game.Scripts.GD.DataManager;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityWeld.Binding;
 using ZBase.UnityScreenNavigator.Core.Modals;
-using ZBase.UnityScreenNavigator.Core.Views;
 
 namespace _Game.Features.InventoryCustomScreen
 {
