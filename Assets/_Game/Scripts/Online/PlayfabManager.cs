@@ -61,6 +61,8 @@ namespace Online
 				Debug.LogError("Login failed");
 				return;
 			}
+			
+			await LoadDatabase();
 
 			var infoPayload = loginResult.Payload;
 			Profile.LoadProfile(infoPayload.PlayerProfile, infoPayload.UserReadOnlyData);
@@ -69,9 +71,6 @@ namespace Online
 			Inventory.LoadItems(infoPayload.UserInventory);
 			await Ranking.LoadUserRankInfo();
 			await Ranking.LoadRewardBundleInfo();
-			UpdateEquipShip(SaveSystem.GameSave.ShipSetupSaveData);
-
-			LoadShop();
 		}
 
 		public void LinkFacebook()

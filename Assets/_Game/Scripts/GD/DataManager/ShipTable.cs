@@ -1,16 +1,18 @@
 using System.Collections.Generic;
 using CsvHelper.Configuration.Attributes;
+using Newtonsoft.Json;
 
 namespace _Game.Scripts.GD.DataManager
 {
     /// <summary>
     /// 
     /// </summary>
-    public class ShipTable : DataTable<ShipTableRecord>
+    public class ShipTable : LocalDataTable<ShipTableRecord>
     {
-        public ShipTable(string downloadUrl, string dataFileName = null) : base(downloadUrl, dataFileName)
+        public ShipTable(string fileName) : base(fileName)
         {
         }
+        
         public DataTableRecord GetDataTableRecord(string id, string name)
         {
             foreach (var record in Records)
@@ -27,34 +29,28 @@ namespace _Game.Scripts.GD.DataManager
     /// </summary>
     public class ShipTableRecord : DataTableRecord
     {
-        [Index(0)]
+        [JsonProperty("id")]
         public string Id { get; set; }
 
-        [Index(1)]
+        [JsonProperty("name")]
         public string Name { get; set; }
 
-        [Index(2)]
-        [Default(0)]
+        [JsonProperty("hp")]
         public float Hp { get; set; }
 
-        [Index(3)]
-        [Default(0)]
+        [JsonProperty("block_chance")]
         public float BlockChance { get; set; }
 
-        [Index(4)]
-        [Default(0)]
+        [JsonProperty("max_mana")]
         public float MaxMana { get; set; }
 
-        [Index(5)]
-        [Default(0)]
+        [JsonProperty("mana_regen_rate")]
         public float ManaRegenRate { get; set; }
 
-        [Index(6)]
-        [Default(0)]
+        [JsonProperty("cannon_limit")]
         public float CannonLimit { get; set; }
 
-        [Index(7)]
-        [Default(0)]
+        [JsonProperty("ammo_limit")]
         public float AmmoLimit { get; set; }
 
         public override object GetId()

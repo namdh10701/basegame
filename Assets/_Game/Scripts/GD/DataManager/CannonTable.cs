@@ -1,15 +1,13 @@
-using System;
-using System.Collections.Generic;
-using CsvHelper.Configuration.Attributes;
+using Newtonsoft.Json;
 
 namespace _Game.Scripts.GD.DataManager
 {
     /// <summary>
     /// 
     /// </summary>
-    public class CannonTable : DataTable<CannonTableRecord>
+    public class CannonTable : LocalDataTable<CannonTableRecord>
     {
-        public CannonTable(string downloadUrl, string dataFileName = null) : base(downloadUrl, dataFileName)
+        public CannonTable(string name) : base(name)
         {
         }
 
@@ -82,102 +80,72 @@ namespace _Game.Scripts.GD.DataManager
     /// </summary>
     public class CannonTableRecord : DataTableRecord
     {
-
-        [Index(0)]
+        [JsonProperty("id")]
         public string Id { get; set; }
 
-        [Index(1)]
+        [JsonProperty("operation_type")]
         public string OperationType { get; set; }
 
-        [Index(2)]
+        [JsonProperty("shape")]
         public string Shape { get; set; }
 
-        [Index(3)]
-        [TypeConverter(typeof(RarityConverter))]
+        [JsonProperty("rarity")]
         public Rarity Rarity { get; set; }
 
-        [Index(4)]
-        [Default(0)]
+        [JsonProperty("rarity_level")]
         public int RarityLevel { get; set; }
 
-        [Index(5)]
+        [JsonProperty("name")]
         public string Name { get; set; }
 
-        [Index(6)]
-        public string DefaultRarity { get; set; }
-
-        [Index(7)]
-        [Default(0)]
+        [JsonProperty("hp")]
         [Stat("HP")]
         public float Hp { get; set; }
 
-        [Index(8)]
-        [Default(0)]
-        [Stat("Attack")]
+        [JsonProperty("attack")]
         public float Attack { get; set; }
 
-        [Index(9)]
-        [Default(0)]
-        [Stat("AttackSpeed")]
+        [JsonProperty("attack_speed")]
         public float AttackSpeed { get; set; }
 
-        [Index(10)]
-        [Default(0)]
-        [Stat("Accuracy")]
+        [JsonProperty("accuracy")]
         public float Accuracy { get; set; }
 
-        [Index(11)]
-        [Default(0)]
-        [Stat("CritChance")]
+        [JsonProperty("crit_chance")]
         public float CritChance { get; set; }
 
-        [Index(12)]
-        [Default(0)]
-        [Stat("CritDamage")]
+        [JsonProperty("crit_damage")]
         public float CritDamage { get; set; }
 
-        [Index(13)]
-        [Default(0)]
-        [Stat("Range")]
+        [JsonProperty("range")]
         public float Range { get; set; }
 
-        [Index(14)]
-        [Default(0)]
-        [Stat("Skill")]
+        [JsonProperty("skill")]
         public float Skill { get; set; }
 
-        [Index(15)]
-        [Default(0)]
-        [Stat("PrimaryProjectDmg")]
+        [JsonProperty("primary_project_dmg")]
         public float PrimaryProjectDmg { get; set; }
 
-        [Index(16)]
-        [Default(0)]
-        [Stat("SecondaryProjectDmg")]
+        [JsonProperty("secondary_project_dmg")]
         public float SecondaryProjectDmg { get; set; }
 
-        [Index(17)]
-        [Default(0)]
-        [Stat("ProjectCount")]
+        [JsonProperty("project_count")]
         public float ProjectCount { get; set; }
 
-        [Index(18)]
-        [Default(0)]
-        [Stat("Angle")]
+        [JsonProperty("angle")]
         public float Angle { get; set; }
 
-        [Index(19)]
-        [Default(false)]
-        [BooleanFalseValues("0", "false")]
-        [BooleanTrueValues("1", "true")]
+        [JsonProperty("enable")]
         public bool Enable { get; set; }
 
-        [Index(20)]
+        [JsonProperty("skill_name")]
         public string Skill_Name { get; set; }
 
-        [Index(21)]
+        [JsonProperty("skill_desc")]
         public string Skill_Desc { get; set; }
-
+        
+        public string DefaultRarity => Rarity.ToString() + RarityLevel;
+        
         public string Slot
         {
             get

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Online.Interface;
 using Online.Model;
+using PlayFab;
 using Random = UnityEngine.Random;
 
 namespace Online.Service
@@ -19,7 +20,34 @@ namespace Online.Service
 		public async UniTask<UserRankInfo> LoadUserRankInfo()
 		{
 			var signal = new UniTaskCompletionSource<UserRankInfo>();
+			PlayFabClientAPI.GetUserReadOnlyData(new ()
+			{
+				
+			}, result =>
+			{
+				var rankInfo = new UserRankInfo
+				{
+					SeasonNo = "99",
+					SeasonName = "Cyborg Octopus",
+					Rank = UserRank.Hunter,
+				};
+				
+				for (int i = 0; i < 50; i++)
+				{
+					var rec = new RankRecord();
+					rec.No = i + 1;
+					rec.Username = $"User{rec.No}";
+					rec.Score = (int)Random.Range(100f, 10000f);
+					rankInfo.Records.Add(rec);
+				}
 
+				UserRankInfo = rankInfo;
+				signal.TrySetResult(rankInfo);
+			}, error =>
+			{
+				signal.TrySetException(new Exception(error.ErrorMessage));
+			});
+			
 			//TODO: DNGUYEN - ranking loading
 			// dummy data >>>>
 			var rankInfo = new UserRankInfo
