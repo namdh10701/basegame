@@ -1,4 +1,5 @@
 using CsvHelper.Configuration.Attributes;
+using Newtonsoft.Json;
 
 namespace _Game.Scripts.GD.DataManager
 {
@@ -69,123 +70,94 @@ namespace _Game.Scripts.GD.DataManager
     /// </summary>
     public class AmmoTableRecord : DataTableRecord
     {
-        [Index(0)]
+        [JsonProperty("id")]
         public string Id { get; set; }
 
-        [Index(1)]
+        [JsonProperty("operation_type")]
         public string OperationType { get; set; }
 
-        [Index(2)]
+        [JsonProperty("shape")]
         public string Shape { get; set; }
 
-        [Index(3)]
-        [TypeConverter(typeof(RarityConverter))]
+        [JsonProperty("rarity")]
         public Rarity Rarity { get; set; }
 
-        [Index(4)]
-        [Default(0)]
+        [JsonProperty("rarity_level")]
         public int RarityLevel { get; set; }
 
-        [Index(5)]
+        [JsonProperty("name")]
         public string Name { get; set; }
 
-        [Index(6)]
-        public string DefaultRarity { get; set; }
-
-        [Index(7)]
-        [Default(0)]
-        [Stat("Hp")]
+        [JsonProperty("hp")]
         public float Hp { get; set; }
 
-        [Index(8)]
-        [Default(0)]
-        [Stat("EnergyCost")]
+        [JsonProperty("energy_cost")]
         public float EnergyCost { get; set; }
 
-        [Index(9)]
-        [Default(0)]
-
-        [Stat("MagazineSize")]
+        [JsonProperty("magazine_size")]
         public float MagazineSize { get; set; }
 
-        [Index(10)]
-        [Default(0)]
-        [Stat("AmmoAttack")]
+        [JsonProperty("ammo_attack")]
         public float AmmoAttack { get; set; }
 
-        [Index(11)]
-        [Default(0)]
-        [Stat("AttackAoe")]
+        [JsonProperty("attack_aoe")]
         public float AttackAoe { get; set; }
 
-        [Index(12)]
-        [Default(0)]
-        [Stat("ArmorPen")]
+        [JsonProperty("armor_pen")]
         public float ArmorPen { get; set; }
 
-        [Index(13)]
-        [Default(0)]
-        [Stat("ProjectPiercing")]
+        [JsonProperty("project_piercing")]
         public float ProjectPiercing { get; set; }
 
-        [Index(14)]
-        [Default(0)]
-        [Stat("ProjectSpeed")]
+        [JsonProperty("project_speed")]
         public float ProjectSpeed { get; set; }
 
-        [Index(15)]
-        [Default(0)]
-        [Stat("AmmoAccuracy")]
+        [JsonProperty("ammo_accuracy")]
         public float AmmoAccuracy { get; set; }
 
-        [Index(16)]
-        [Default(0)]
-        [Stat("AmmoCritChance")]
+        [JsonProperty("ammo_crit_chance")]
         public float AmmoCritChance { get; set; }
 
-        [Index(17)]
-        [Default(0)]
-        [Stat("AmmoCritDamage")]
+        [JsonProperty("ammo_crit_damage")]
         public float AmmoCritDamage { get; set; }
 
-        [Index(18)]
-        [Default(0)]
-        [Stat("TriggerProb")]
+        [JsonProperty("trigger_prob")]
         public float TriggerProb { get; set; }
 
-        [Index(19)]
-        [Default(0)]
-        [Stat("Duration")]
+        [JsonProperty("duration")]
         public float Duration { get; set; }
 
-        [Index(20)]
-        [Default(0)]
-        [Stat("SpeedModifer")]
+        [JsonProperty("speed_modifier")]
         public float SpeedModifer { get; set; }
 
-        [Index(21)]
-        [Default(0)]
-        [Stat("Dps")]
+        [JsonProperty("dps")]
         public float Dps { get; set; }
 
-        [Index(22)]
-        [Default(0)]
-        [Stat("PiercCount")]
+        [JsonProperty("pierc_count")]
         public float PiercCount { get; set; }
 
-        [Index(23)]
-        [Default(0)]
-        [Stat("HpThreshold")]
+        [JsonProperty("hp_threshold")]
         public float HpThreshold { get; set; }
 
-        [Index(27)]
-        [Stat("Skill_Name")]
+        [JsonProperty("skill_name")]
         public string Skill_Name { get; set; }
 
-        [Index(28)]
-        [Stat("Skill_Desc")]
+        [JsonProperty("skill_desc")]
         public string Skill_Desc { get; set; }
 
+        [JsonProperty("type")]
+        public string Type { get; set; }
+
+        [JsonProperty("enable")]
+        public bool Enable { get; set; }
+
+        public override object GetId()
+        {
+            return Id;
+        }
+        
+        public string DefaultRarity => Rarity.ToString() + RarityLevel;
+        
         public string Slot
         {
             get
@@ -193,20 +165,6 @@ namespace _Game.Scripts.GD.DataManager
                 var parts = Shape.Split("x");
                 return (int.Parse(parts[0]) * int.Parse(parts[1])).ToString();
             }
-        }
-
-        [Index(24)]
-        public string Type { get; set; }
-
-        [Index(25)]
-        [Default(false)]
-        [BooleanFalseValues("0", "false")]
-        [BooleanTrueValues("1", "true")]
-        public bool Enable { get; set; }
-
-        public override object GetId()
-        {
-            return Id;
         }
     }
 }

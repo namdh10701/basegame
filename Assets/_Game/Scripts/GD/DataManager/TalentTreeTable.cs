@@ -1,14 +1,15 @@
 using System.Linq;
 using CsvHelper.Configuration.Attributes;
+using Newtonsoft.Json;
 
 namespace _Game.Scripts.GD.DataManager
 {
     /// <summary>
     /// 
     /// </summary>
-    public class TalentTreeTable : DataTable<TalentTreeTableRecord>
+    public class TalentTreeTable : LocalDataTable<TalentTreeTableRecord>
     {
-        public TalentTreeTable(string downloadUrl, string dataFileName = null) : base(downloadUrl, dataFileName)
+        public TalentTreeTable(string fileName) : base(fileName)
         {
         }
 
@@ -28,19 +29,16 @@ namespace _Game.Scripts.GD.DataManager
     /// </summary>
     public class TalentTreeTableRecord: DataTableRecord
     {
-        [Index(0)]
-        [Default(0)]
+        [JsonProperty("id")]
         public int Id { get; set; }
         
-        [Index(1)]
-        [Default(0)]
+        [JsonProperty("level")]
         public int Level { get; set; }
         
-        [Index(2)]
-        [Default(0)]
+        [JsonProperty("cost")]
         public int Cost { get; set; }
         
-        [Index(3)]
+        [JsonProperty("stat_id")]
         public string ItemId { get; set; }
         
         public override object GetId()

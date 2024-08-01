@@ -1,5 +1,5 @@
-using CsvHelper.Configuration.Attributes;
 
+using Newtonsoft.Json;
 namespace _Game.Scripts.GD.DataManager
 {
     /// <summary>
@@ -27,20 +27,16 @@ namespace _Game.Scripts.GD.DataManager
     /// </summary>
     public class InventoryItemUpgradeTableRecord : DataTableRecord
     {
-        [Index(0)]
-        [Default(0)]
+        [JsonProperty("level")]
         public int Level { get; set; }
 
-        [Index(1)]
-        [Default(0)]
+        [JsonProperty("gold")]
         public int Gold { get; set; }
 
-        [Index(2)]
-        [Default(0)]
+        [JsonProperty("blueprint")]
         public int Blueprint { get; set; }
 
-        [Index(3)]
-        [Default(0)]
+        [JsonProperty("value")]
         public float Effect { get; set; }
 
         public override object GetId()

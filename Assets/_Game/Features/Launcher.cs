@@ -33,14 +33,17 @@ namespace _Game.Features
             {
                 PlayerPrefs.SetString("PlayingStage", "0001");
             }
-            //Debug.unityLogger.logEnabled = false;
+            
             Application.targetFrameRate = 120;
             UnityScreenNavigatorSettings.Initialize();
 
             await PlayfabManager.Instance.LoginAsync();
+            PlayfabManager.Instance.LoadShop();
             
             await GameData.Load();
+            
             Database.Load();
+            
             SaveSystem.LoadSave();
 
             // AudioManager.Instance.LoadSoundSettings();

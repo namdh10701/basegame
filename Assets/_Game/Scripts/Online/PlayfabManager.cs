@@ -71,8 +71,6 @@ namespace Online
 			Inventory.LoadItems(infoPayload.UserInventory);
 			await Ranking.LoadUserRankInfo();
 			await Ranking.LoadRewardBundleInfo();
-
-			LoadShop();
 		}
 
 		public void LinkFacebook()

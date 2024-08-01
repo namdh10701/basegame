@@ -10,12 +10,12 @@ namespace _Game.Scripts.GD.DataManager
     /// </summary>
     public enum Rarity
     {
-        Common,
-        Good,
-        Rare,
-        Epic,
-        Legend,
-        Other,
+        Common = 0,
+        Good = 1,
+        Rare = 2,
+        Epic = 3,
+        Legend = 4,
+        Other = 5,
     }
 
     /// <summary>

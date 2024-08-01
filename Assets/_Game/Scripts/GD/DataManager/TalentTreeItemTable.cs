@@ -3,15 +3,16 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using CsvHelper.Configuration.Attributes;
+using Newtonsoft.Json;
 
 namespace _Game.Scripts.GD.DataManager
 {
     /// <summary>
     /// 
     /// </summary>
-    public class TalentTreeItemTable : DataTable<TalentTreeItemTableRecord>
+    public class TalentTreeItemTable : LocalDataTable<TalentTreeItemTableRecord>
     {
-        public TalentTreeItemTable(string downloadUrl, string dataFileName = null) : base(downloadUrl, dataFileName)
+        public TalentTreeItemTable(string fileName = null) : base(fileName)
         {
         }
     }
@@ -21,48 +22,35 @@ namespace _Game.Scripts.GD.DataManager
     /// </summary>
     public class TalentTreeItemTableRecord: DataTableRecord
     {
-        [Index(0)]
+        [JsonProperty("id")]
         public string Id { get; set; }
 
-        [Index(1)]
-        [Default(0)]
-        [Stat("Attack")]
+        [JsonProperty("atk")]
         public float Atk { get; set; }
 
-        [Index(2)]
-        [Default(0)]
-        [Stat("HP")]
+        [JsonProperty("hp")]
         public float Hp { get; set; }
 
-        [Index(3)]
-        [Default(0)]
-        [Stat("Max MP")]
+        [JsonProperty("max_mana")]
         public float MaxMana { get; set; }
 
-        [Index(4)]
-        [Default(0)]
-        [Stat("MP Regen")]
+        [JsonProperty("mana_regen")]
         public float ManaRegen { get; set; }
 
-        [Index(5)]
-        [Default(0)]
-        [Stat("Ship slot")]
+        [JsonProperty("ship_slot")]
         public float ShipSlot { get; set; }
 
-        [Index(6)]
-        [Default(0)]
-        [Stat("Gold earning", true)]
+        [JsonProperty("gold_earning")]
         public float GoldEarning { get; set; }
 
-        [Index(7)]
-        [Default(0)]
-        [Stat("Crit change", true)]
+        [JsonProperty("crit_chance")]
         public float CritChance { get; set; }
 
-        [Index(8)]
-        [Default(0)]
-        [Stat("Crit damage", true)]
+        [JsonProperty("crit_dmg")]
         public float CritDmg { get; set; }
+
+        [JsonProperty("luck")]
+        public float Luck { get; set; }
         
         public override object GetId()
         {

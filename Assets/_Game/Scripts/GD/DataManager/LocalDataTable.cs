@@ -14,13 +14,12 @@ namespace _Game.Scripts.GD.DataManager
             DataFileName = dataFileName;
         }
 
-        public virtual async UniTask LoadData()
+        public virtual UniTask LoadData()
         {
-            Debug.Log("Load Local: " + DataFileName);
             var filePath = GetFilePath(DataFileName);
-
-            await using var stream = File.OpenRead(filePath);
-            _records = Parser.Parser.GetRecords<TRecordType>(stream);
+            var allText = File.ReadAllText(filePath);
+            _records = Newtonsoft.Json.JsonConvert.DeserializeObject<List<TRecordType>>(allText);
+            return default;
         }
         
         private List<TRecordType> _records = new();
