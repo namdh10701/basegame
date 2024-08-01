@@ -81,7 +81,7 @@ namespace _Game.Features.Gameplay
             CrewJobData.Initialize();
             foreach (Cannon cannon in ShipSetup.Cannons)
             {
-                cannon.HUD.RegisterJob(CrewJobData);
+                cannon.View.cannonHUD.RegisterJob(CrewJobData);
             }
             HUD.Initialize(ShipSetup.Ammos);
             if (BattleViewModel != null)
@@ -106,7 +106,7 @@ namespace _Game.Features.Gameplay
                     FeverModel.UpdateState();
                     foreach (Cannon cannon in ShipSetup.Cannons)
                     {
-                        cannon.OnFullFeverEffectExit();
+                        cannon.OnFeverEffectExit();
                     }
 
                 });
@@ -115,7 +115,7 @@ namespace _Game.Features.Gameplay
         public void UseFever(Cannon cannon)
         {
             //CrewJobData.ReloadCannonJobsDic[cannon].Status = JobStatus.Deactive;
-            if (cannon.usingBullet == null)
+            if (cannon.UsingAmmo == null)
             {
                 return;
             }

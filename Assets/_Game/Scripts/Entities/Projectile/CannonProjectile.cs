@@ -23,9 +23,6 @@ namespace _Game.Features.Gameplay
         protected override void Awake()
         {
             base.Awake();
-        }
-        private void Start()
-        {
             GDConfigStatsApplier gDConfigStatsApplier = GetComponent<GDConfigStatsApplier>();
             gDConfigStatsApplier.LoadStats(this);
         }

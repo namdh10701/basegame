@@ -12,6 +12,7 @@ namespace _Game.Scripts.Entities
 
     public interface IGridItem
     {
+        public Stats Stats { get; }
         public string GridId { get; set; }
         public List<Cell> OccupyCells { get; set; }
         public Transform Transform { get; }
@@ -20,6 +21,5 @@ namespace _Game.Scripts.Entities
 
         public void OnBroken();
         public void Active();
-        public bool IsBroken { get; set; }
     }
 }

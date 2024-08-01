@@ -40,18 +40,6 @@ namespace _Game.Features.Gameplay
             }
             cannonStats.HealthPoint.OnValueChanged += HealthPoint_OnValueChanged;
             cannonStats.Ammo.OnValueChanged += Ammo_OnValueChanged;
-            cannon.OnFeverStart += Cannon_OnFeverStart;
-            cannon.OnFeverEnded += Cannon_OnFeverEnded;
-
-        }
-
-        void Cannon_OnFeverStart()
-        {
-
-        }
-
-        void Cannon_OnFeverEnded()
-        {
 
         }
 

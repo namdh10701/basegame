@@ -37,10 +37,10 @@ namespace _Game.Features.Gameplay
             if (cannon != null)
             {
                 TargetPosition = cannon.transform.position;
-                if (!cannon.IsBroken)
+                if (cannon.GridItemStateManager.GridItemState == GridItemState.Active)
                 {
+                    //TODO FEVER BUFF GO HERE
                     StartCoroutine(ActivateFever(cannon));
-                    ActivateFever(cannon);
                     return;
                 }
             }

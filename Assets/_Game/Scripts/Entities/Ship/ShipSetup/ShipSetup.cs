@@ -193,6 +193,7 @@ namespace _Game.Features.Gameplay
             ReloadCannons();
         }
 
+
         void ReloadCannons()
         {
             foreach (Cannon cannon in Cannons)
@@ -421,15 +422,16 @@ namespace _Game.Features.Gameplay
 
         public void HideHUD()
         {
-            foreach (Cannon cannon in Cannons)
-            {
-                cannon.Animation.PlayNormal();
-                cannon.HUD.gameObject.SetActive(false);
-            }
+            CannonHUD[] cannonHUDs = transform.GetComponentsInChildren<CannonHUD>();
+            AmmoHUD[] ammoHUDs = transform.GetComponentsInChildren<AmmoHUD>();
 
-            foreach (Ammo cannon in Ammos)
+            foreach (var cannonHUD in cannonHUDs)
             {
-                cannon.HUD.gameObject.SetActive(false);
+                cannonHUD.gameObject.SetActive(false);
+            }
+            foreach (var ammoHUD in ammoHUDs)
+            {
+                ammoHUD.gameObject.SetActive(false);
             }
         }
     }
