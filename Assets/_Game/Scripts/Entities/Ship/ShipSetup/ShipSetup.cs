@@ -103,43 +103,6 @@ namespace _Game.Features.Gameplay
             spawnedItems.Clear();
         }
 
-        // void GetLoadOut()
-        // {
-        //     UsingGridItemDatas = new List<GridItemData>();
-        //     if (PlayerPrefs.HasKey(Ship.Id))
-        //     {
-        //         string jsonData = PlayerPrefs.GetString(Ship.Id);
-        //         InventoryData data = JsonUtility.FromJson<InventoryData>(jsonData);
-        //
-        //         List<InventoryItemData> items = data.InventoryItemsOnGrid;
-        //
-        //         foreach (InventoryItemData item in items)
-        //         {
-        //             GridItemData itemData = new();
-        //             itemData.Id = item.Id;
-        //             itemData.startY = item.startX;
-        //             itemData.startX = item.startY;
-        //             itemData.GridId = "1";
-        //
-        //             switch (item.Type)
-        //             {
-        //                 case ItemType.CANNON:
-        //                     itemData.GridItemType = GridItemType.Cannon;
-        //                     break;
-        //                 case ItemType.CREW:
-        //                     itemData.GridItemType = GridItemType.Crew;
-        //                     break;
-        //                 case ItemType.AMMO:
-        //                     itemData.GridItemType = GridItemType.Bullet;
-        //                     break;
-        //             }
-        //
-        //             UsingGridItemDatas.Add(itemData);
-        //
-        //         }
-        //     }
-        // }
-
         void GetLoadOut()
         {
             UsingGridItemDatas = new List<GridItemData>();
@@ -198,7 +161,7 @@ namespace _Game.Features.Gameplay
         {
             foreach (Cannon cannon in Cannons)
             {
-                cannon.Reload(Ammos.GetRandom());
+                cannon.Reload(Ammos.GetRandom(), false);
             }
         }
 

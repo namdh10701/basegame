@@ -43,6 +43,8 @@ namespace _Game.Scripts
         [field: SerializeField]
         public Stat SecondaryDamage { get; set; } = new();
 
+        public Stat Angle { get; set; } = new();
+
         public IFighterStats.AttackTypes AttackType { get; set; } = IFighterStats.AttackTypes.UNIT;
     }
 }

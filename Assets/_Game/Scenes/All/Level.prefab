@@ -51,7 +51,6 @@ MonoBehaviour:
   BattleInputManager: {fileID: 8722419511731812512}
   GridAttackHandler: {fileID: 8414391988157680252}
   GridPicker: {fileID: 4199722477159872837}
-  FeverSpeedFx: {fileID: 7449159799057038346}
   BattleViewModel: {fileID: 0}
 --- !u!1 &536145051742433489
 GameObject:
@@ -1791,7 +1790,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7513265509156764640}
   - component: {fileID: 2985685409058613849}
-  - component: {fileID: 4708510313415109215}
   m_Layer: 0
   m_Name: EntityManager
   m_TagString: Untagged
@@ -1830,18 +1828,6 @@ MonoBehaviour:
   Ship: {fileID: 0}
   octopusPrefab: {fileID: 4327544819897116352, guid: 494f6834d1df73747ae5be3ef2d11a26, type: 3}
   skullGangPrefab: {fileID: 2772472425767169918, guid: 78e95ffe0365d0c4aaf48904ff08a1cf, type: 3}
---- !u!114 &4708510313415109215
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4900965129100032768}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 033656ff7ff09b54984301494ec92474, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &4937405513835690396
 GameObject:
   m_ObjectHideFlags: 0
@@ -2392,6 +2378,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3266845731487561424}
   - component: {fileID: 8722419511731812512}
+  - component: {fileID: 7485252990927369795}
+  - component: {fileID: 5329938619221959914}
   m_Layer: 0
   m_Name: BattleInputManager
   m_TagString: Untagged
@@ -2430,9 +2418,41 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 256
-  prefab: {fileID: 3765705809884468111, guid: 678b98496b2d3414b93c65c51b2e4188, type: 3}
-  Ship: {fileID: 0}
-  ShipHUD: {fileID: 0}
+  worldPointerPos: {x: 0, y: 0}
+  EntityManager: {fileID: 2985685409058613849}
+  reloadCannonController: {fileID: 7485252990927369795}
+  useFeverController: {fileID: 5329938619221959914}
+--- !u!114 &7485252990927369795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6136626812691566467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31c829eb71550c545a8cb3d433bf20a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  battleInputManager: {fileID: 8722419511731812512}
+--- !u!114 &5329938619221959914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6136626812691566467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7f005c0ab80ec94cadaaaa884442a82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clickDetectorLayerMask:
+    serializedVersion: 2
+    m_Bits: 256
+  feverOrbPrefab: {fileID: 3765705809884468111, guid: 678b98496b2d3414b93c65c51b2e4188, type: 3}
+  FeverSpeedFx: {fileID: 7449159799057038346}
+  EntityManager: {fileID: 2985685409058613849}
 --- !u!1 &6520827684485351340
 GameObject:
   m_ObjectHideFlags: 0

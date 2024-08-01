@@ -62,8 +62,7 @@ namespace _Game.Features.Gameplay
         {
             BattleViewModel = FindAnyObjectByType<BattleViewModel>();
             GlobalEvent<EnemyStats>.Register("EnemyDied", OnEnemyDied);
-            //GlobalEvent<Cannon>.Register("CLICK_CANNON", ShowShipHUD);
-            //GlobalEvent.Register("CloseHUD", CloseHUD);
+            BattleViewModel.Init(this);
             GetComponent<GDConfigStatsApplier>().LoadStats(this);
 
             if (EnemyWaveManager.floorId == "1")
@@ -90,39 +89,22 @@ namespace _Game.Features.Gameplay
             }
         }
 
-        public void UseFullFever()
+        public void EnterFullFever()
         {
             FeverModel.OnUseFever();
             foreach (Cannon cannon in ShipSetup.Cannons)
             {
-                //CrewJobData.ReloadCannonJobsDic[cannon].Status = JobStatus.Deactive;
                 cannon.OnFullFeverEffectEnter();
             }
-            BattleManager.Instance.FeverSpeedFx.Activate();
-            DOTween.To(() => stats.Fever.StatValue.BaseValue, x => stats.Fever.StatValue.BaseValue = x, 0, 10).OnComplete(
-                () =>
-                {
-                    BattleManager.Instance.FeverSpeedFx.Deactivate();
-                    FeverModel.UpdateState();
-                    foreach (Cannon cannon in ShipSetup.Cannons)
-                    {
-                        cannon.OnFeverEffectExit();
-                    }
-
-                });
 
         }
-        public void UseFever(Cannon cannon)
+        public void ExitFullFever()
         {
-            //CrewJobData.ReloadCannonJobsDic[cannon].Status = JobStatus.Deactive;
-            if (cannon.UsingAmmo == null)
-            {
-                return;
-            }
-            stats.Fever.StatValue.BaseValue -= 200;
-            stats.Fever.StatValue.BaseValue = Mathf.Clamp(stats.Fever.StatValue.BaseValue, 0, stats.Fever.MaxStatValue.BaseValue);
             FeverModel.UpdateState();
-            cannon.OnFeverEffectEnter();
+            foreach (Cannon cannon in ShipSetup.Cannons)
+            {
+                cannon.OnFeverEffectExit();
+            }
         }
 
         private void OnDestroy()
@@ -145,31 +127,13 @@ namespace _Game.Features.Gameplay
         void AddFeverPoint(float point)
         {
             stats.Fever.StatValue.BaseValue += point;
-            stats.Fever.StatValue.BaseValue = Mathf.Clamp(stats.Fever.StatValue.BaseValue, 0, stats.Fever.MaxStatValue.BaseValue);
-            FeverModel.UpdateState();
         }
 
         private void Update()
         {
             RegenMP();
-            UpdateBattleView();
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                AddFeverPoint(50);
-            }
         }
 
-        void UpdateBattleView()
-        {
-            if (BattleViewModel != null)
-            {
-                BattleViewModel.HP = stats.HealthPoint.Value;
-                BattleViewModel.MaxHP = stats.HealthPoint.MaxValue;
-                BattleViewModel.MP = stats.ManaPoint.Value;
-                BattleViewModel.MaxMP = stats.ManaPoint.MaxValue;
-                BattleViewModel.Fever = stats.Fever.Value;
-            }
-        }
 
         void RegenMP()
         {

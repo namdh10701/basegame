@@ -24,6 +24,7 @@ namespace _Game.Scripts
             stats.ProjectileCount.BaseValue = tableRecord.ProjectCount;
             stats.PrimaryDamage.BaseValue = tableRecord.PrimaryProjectDmg;
             stats.SecondaryDamage.BaseValue = tableRecord.SecondaryProjectDmg;
+            stats.Angle.BaseValue = tableRecord.Angle;
         }
     }
 }

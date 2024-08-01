@@ -10,6 +10,7 @@ using UnityEngine.UI;
 public class AmmoButton : MonoBehaviour
 {
     public Image image;
+    public GameObject fixOverlay;
     public Image selector;
     public Ammo ammo;
     public TextMeshProUGUI manaText;
@@ -19,7 +20,19 @@ public class AmmoButton : MonoBehaviour
         this.ammo = ammo;
         image.sprite = Database.GetAmmoImage(ammo.Id);
         manaText.text = ammoStats.EnergyCost.Value.ToString();
+        ammo.GridItemStateManager.OnStateEntered += OnAmmoStateChanged;
     }
+
+    private void OnDestroy()
+    {
+        ammo.GridItemStateManager.OnStateEntered -= OnAmmoStateChanged;
+    }
+
+    void OnAmmoStateChanged(GridItemState state)
+    {
+        fixOverlay.SetActive(state == GridItemState.Broken);
+    }
+
 
     public void ToggleSelect(bool isOn)
     {

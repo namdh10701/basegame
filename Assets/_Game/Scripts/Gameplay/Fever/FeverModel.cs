@@ -12,40 +12,66 @@ namespace _Game.Features.Battle
     }
     public class FeverModel : MonoBehaviour
     {
-        public int[] thresholdSteps = new int[5] { 0, 200, 400, 600, 800 };
-        public RangedStat FeverPoint;
-        public FeverState CurrentState;
-        public Action<FeverState> OnStateChanged;
+        private FeverState currentState;
+        private FeverState lastState;
 
+        public int[] thresholdSteps = new int[5] { 0, 200, 400, 600, 800 };
+        public RangedStat FeverStat;
+        public FeverState CurrentState
+        {
+            get => currentState;
+            set
+            {
+                lastState = currentState;
+                currentState = value;
+                if (lastState != currentState)
+                {
+                    OnStateChanged?.Invoke(currentState);
+                }
+            }
+        }
+        public Action<FeverState> OnStateChanged;
+        public Action<RangedStat> OnStatChanged;
         public void OnUseFever()
         {
             CurrentState = FeverState.Unleashing;
-            OnStateChanged.Invoke(CurrentState);
+            FeverStat.StatValue.BaseValue = 0;
         }
 
         public void SetFeverPointStats(RangedStat feverPoint)
         {
-            this.FeverPoint = feverPoint;
+            this.FeverStat = feverPoint;
+            this.FeverStat.OnValueChanged += FeverPoint_OnValueChanged;
             UpdateState();
+        }
+
+        private void FeverPoint_OnValueChanged(RangedStat obj)
+        {
+            UpdateState();
+            OnStatChanged?.Invoke(obj);
         }
 
         public void UpdateState()
         {
+            if (CurrentState == FeverState.Unleashing)
+            {
+                return;
+            }
+
             for (int i = 0; i < thresholdSteps.Length; i++)
             {
-                if (FeverPoint.StatValue.BaseValue < thresholdSteps[i])
+                if (FeverStat.StatValue.BaseValue < thresholdSteps[i])
                 {
-                    ChangeState((FeverState)i);
+                    CurrentState = (FeverState)i;
                     return;
                 }
             }
-            ChangeState(FeverState.State4);
+            CurrentState = FeverState.State4;
         }
 
         public void ChangeState(FeverState nextState)
         {
             CurrentState = nextState;
-            OnStateChanged?.Invoke(CurrentState);
         }
     }
 }

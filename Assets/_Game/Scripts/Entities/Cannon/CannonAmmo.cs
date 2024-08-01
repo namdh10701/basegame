@@ -75,7 +75,7 @@ namespace _Game.Features.Gameplay
             }
         }
 
-        public void Reload(Ammo ammo)
+        public void Reload(Ammo ammo, bool isDoubleAmmo)
         {
             if (ammo == null)
             {
@@ -86,14 +86,10 @@ namespace _Game.Features.Gameplay
             {
                 this.usingAmmo = ammo;
                 usingAmmo.Projectile.IsFever = false;
-                ammoStat.MaxStatValue.BaseValue = ammo.stats.MagazineSize.Value;
-                ammoStat.StatValue.BaseValue = ammo.stats.MagazineSize.Value;
+                ammoStat.MaxStatValue.BaseValue = ammo.stats.MagazineSize.Value * (isDoubleAmmo ? 2 : 1);
+                ammoStat.StatValue.BaseValue = ammo.stats.MagazineSize.Value * (isDoubleAmmo ? 2 : 1);
                 attackTargetBehaviour.projectilePrefab = ammo.Projectile;
             }
-
-            this.usingAmmo = ammo;
-            ammoStat.MaxStatValue.BaseValue = ammo.stats.MagazineSize.Value;
-            ammoStat.StatValue.BaseValue = ammo.stats.MagazineSize.Value;
         }
     }
 }

@@ -325,7 +325,6 @@ MonoBehaviour:
     _pushExitAnimations: []
     _popEnterAnimations: []
     _popExitAnimations: []
-  GameplayRoot: {fileID: 0}
   BattleViewModel: {fileID: 6432503293486840475}
 --- !u!114 &6432503293486840475
 MonoBehaviour:
@@ -3343,6 +3342,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06aba2218e31cfa4083fcc65f88aa7d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  feverText: {fileID: 1698064186718787082}
+  feverProgress: {fileID: 5164127558461869453}
   SkeletonGraphic: {fileID: 5990407080486990998}
   appear: 1_startup_normal
   idle: 2_normal_idle
@@ -3499,8 +3500,6 @@ GameObject:
   - component: {fileID: 6541207832358882197}
   - component: {fileID: 5407154843355574244}
   - component: {fileID: 4944961462448443560}
-  - component: {fileID: 2424534695335738551}
-  - component: {fileID: 7681087079946590288}
   m_Layer: 5
   m_Name: Slider_feaver
   m_TagString: Untagged
@@ -3601,38 +3600,6 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &2424534695335738551
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5297620283317467872}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1670825535, guid: e650e72e8be47794994495fc15c0ba63, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  viewAdapterTypeName: 
-  viewAdapterOptions: {fileID: 0}
-  viewModelPropertyName: _Game.Features.Battle.BattleViewModel.Fever
-  viewPropertyName: UnityEngine.UI.Slider.value
---- !u!114 &7681087079946590288
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5297620283317467872}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1670825535, guid: e650e72e8be47794994495fc15c0ba63, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  viewAdapterTypeName: 
-  viewAdapterOptions: {fileID: 0}
-  viewModelPropertyName: _Game.Features.Battle.BattleViewModel.MaxFever
-  viewPropertyName: UnityEngine.UI.Slider.maxValue
 --- !u!1 &5517349558539002589
 GameObject:
   m_ObjectHideFlags: 0
@@ -5160,7 +5127,6 @@ GameObject:
   - component: {fileID: 10334709167784258}
   - component: {fileID: 6613771882477290757}
   - component: {fileID: 1698064186718787082}
-  - component: {fileID: 2426648991649729580}
   m_Layer: 5
   m_Name: Text_Slider
   m_TagString: Untagged
@@ -5284,22 +5250,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &2426648991649729580
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8273360669031426921}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1670825535, guid: e650e72e8be47794994495fc15c0ba63, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  viewAdapterTypeName: 
-  viewAdapterOptions: {fileID: 0}
-  viewModelPropertyName: _Game.Features.Battle.BattleViewModel.FeverText
-  viewPropertyName: TMPro.TextMeshProUGUI.text
 --- !u!1 &8303070783092494069
 GameObject:
   m_ObjectHideFlags: 0

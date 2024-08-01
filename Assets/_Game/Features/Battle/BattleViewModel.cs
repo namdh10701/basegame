@@ -1,8 +1,10 @@
 using _Base.Scripts.EventSystem;
 using _Game.Features.Gameplay;
+using _Game.Scripts;
 using _Game.Scripts.Gameplay;
 using _Game.Scripts.UI;
 using Cysharp.Threading.Tasks;
+using JetBrains.Annotations;
 using System;
 using UnityWeld.Binding;
 using ZBase.UnityScreenNavigator.Core.Modals;
@@ -121,7 +123,7 @@ namespace _Game.Features.Battle
 
         #endregion
 
-        #region Binding Prop: Fever
+/*        #region Binding Prop: Fever
 
         /// <summary>
         /// Fever
@@ -132,10 +134,10 @@ namespace _Game.Features.Battle
             get => _fever;
             set
             {
-                /*                if (Equals(_fever, value))
+                *//*                if (Equals(_fever, value))
                                 {
                                     return;
-                                }*/
+                                }*//*
 
                 _fever = value;
                 OnPropertyChanged(nameof(Fever));
@@ -171,7 +173,7 @@ namespace _Game.Features.Battle
 
         private float _maxFever;
 
-        #endregion
+        #endregion*/
 
         #region Binding Prop: IsPause
 
@@ -227,7 +229,6 @@ namespace _Game.Features.Battle
         [Binding] public string SpeedUpRateText => $"X{SpeedUpRate}";
         [Binding] public string HPText => $"{Math.Round(HP)}/{MaxHP}";
         [Binding] public string MPText => $"{Math.Round(MP)}/{MaxMP}";
-        [Binding] public string FeverText => $"{Math.Round(Fever)}/{MaxFever}";
 
         [Binding]
         public async void PauseGame()
@@ -266,5 +267,24 @@ namespace _Game.Features.Battle
             var options = new ScreenOptions("MyShipScreen", true);
             await ScreenContainer.Find(ContainerKey.Screens).PushAsync(options);
         }
+
+        public void Init(Ship ship)
+        {
+            ShipStats shipStats = ship.Stats as ShipStats;
+            shipStats.HealthPoint.OnValueChanged += HealthPoint_OnValueChanged;
+            shipStats.ManaPoint.OnValueChanged += ManaPoint_OnValueChanged;
+            FeverView.Init(ship.FeverModel);
+        }
+        private void ManaPoint_OnValueChanged(_Base.Scripts.RPG.Stats.RangedStat obj)
+        {
+            MP = obj.Value;
+            MaxMP = obj.MaxValue;
+        }
+        private void HealthPoint_OnValueChanged(_Base.Scripts.RPG.Stats.RangedStat obj)
+        {
+            HP = obj.Value;
+            MaxHP = obj.MaxValue;
+        }
+
     }
 }

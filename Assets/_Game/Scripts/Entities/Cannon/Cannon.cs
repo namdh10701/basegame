@@ -80,8 +80,9 @@ namespace _Game.Scripts.Entities
         public void Initizalize()
         {
             EffectHandler.EffectTaker = this;
-            GDConfigStatsApplier gdLoad = GetComponent<GDConfigStatsApplier>();
-            gdLoad.LoadStats(this);
+            var conf = GameData.CannonTable.FindById(id);
+            ConfigLoader.LoadConfig(_stats, conf);
+
             GridItemStateManager.gridItem = this;
             _stats.HealthPoint.OnValueChanged += HealthPoint_OnValueChanged;
 
@@ -145,9 +146,9 @@ namespace _Game.Scripts.Entities
             }
         }
 
-        public void Reload(Ammo bullet)
+        public void Reload(Ammo bullet, bool isDoubleAmmo)
         {
-            CannonAmmo.Reload(bullet);
+            CannonAmmo.Reload(bullet, isDoubleAmmo);
         }
 
         public void OnFeverEffectEnter()
