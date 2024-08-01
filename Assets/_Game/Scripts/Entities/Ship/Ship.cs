@@ -62,7 +62,8 @@ namespace _Game.Features.Gameplay
         {
             BattleViewModel = FindAnyObjectByType<BattleViewModel>();
             GlobalEvent<EnemyStats>.Register("EnemyDied", OnEnemyDied);
-            BattleViewModel.Init(this);
+            if (BattleViewModel != null)
+                BattleViewModel.Init(this);
             GetComponent<GDConfigStatsApplier>().LoadStats(this);
 
             if (EnemyWaveManager.floorId == "1")
