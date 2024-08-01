@@ -53,11 +53,11 @@ namespace _Game.Scripts.GD.DataManager
             return null;
         }
 
-        public (string, string, string) GetDataSkillDefault(string operationType, string rarityLevel)
+        public (string, string, string) GetDataSkillDefault(string operationType, Rarity rarity, string rarityLevel)
         {
             foreach (var record in Records)
             {
-                if (record.OperationType == operationType && record.RarityLevel.ToString() == rarityLevel)
+                if (record.OperationType == operationType && record.Rarity == rarity && record.RarityLevel.ToString() == rarityLevel)
                     return (record.OperationType, record.Skill_Desc, record.Skill_Name);
             }
             return (null, null, null);
@@ -172,10 +172,10 @@ namespace _Game.Scripts.GD.DataManager
         [BooleanTrueValues("1", "true")]
         public bool Enable { get; set; }
 
-        [Index(21)]
+        [Index(20)]
         public string Skill_Name { get; set; }
 
-        [Index(22)]
+        [Index(21)]
         public string Skill_Desc { get; set; }
 
         public string Slot

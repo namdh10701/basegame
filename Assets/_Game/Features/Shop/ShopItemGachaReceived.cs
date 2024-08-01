@@ -84,21 +84,21 @@ namespace _Game.Features.Shop
         /// Name
         /// </summary>
         [Binding]
-        public string Name
+        public string Operation
         {
-            get => _name;
+            get => _operation;
             set
             {
-                if (Equals(_name, value))
+                if (Equals(_operation, value))
                 {
                     return;
                 }
 
-                _name = value;
-                OnPropertyChanged(nameof(Name));
+                _operation = value;
+                OnPropertyChanged(nameof(Operation));
             }
         }
-        private string _name;
+        private string _operation;
         #endregion
 
         #region Binding Prop: IsHighLight
@@ -150,8 +150,8 @@ namespace _Game.Features.Shop
         {
             get
             {
-                var path = GachaType == null || Name == null || Rarity == null ? $"Items/item_ammo_arrow_common" :
-                 $"Items/item_{GachaType.ToLower()}_{Name.ToLower()}_{Rarity.ToLower()}";
+                var path = GachaType == null || Operation == null || Rarity == null ? $"Items/item_ammo_arrow_common" :
+                 $"Items/item_{GachaType.ToLower()}_{Operation.ToLower()}_{Rarity.ToLower()}";
                 return Resources.Load<Sprite>(path);
             }
         }

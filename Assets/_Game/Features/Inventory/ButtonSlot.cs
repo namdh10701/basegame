@@ -101,14 +101,13 @@ namespace _Game.Features.InventoryCustomScreen
                         return Resources.Load<Sprite>(path);
                     default:
                         Debug.LogWarning("Images/Common/icon_plus");
-                        return Resources.Load<Sprite>("Images/Common/icon_plus");
+                        return Resources.Load<Sprite>("Images/Common/but");
                 }
             }
         }
         #endregion
 
         #region Binding Prop: Interactable
-
         private bool _interactable = true;
         /// <summary>
         /// Interactable
@@ -129,7 +128,29 @@ namespace _Game.Features.InventoryCustomScreen
                 OnPropertyChanged(nameof(Interactable));
             }
         }
+        #endregion
 
+        #region Binding Prop: HasItemAtatch
+        /// <summary>
+        /// HasItemAtatch
+        /// </summary>
+        [Binding]
+        public bool HasItemAttach
+        {
+            get => _hasItemAtatch;
+            set
+            {
+                if (_hasItemAtatch == value)
+                {
+                    return;
+                }
+
+                _hasItemAtatch = value;
+
+                OnPropertyChanged(nameof(HasItemAttach));
+            }
+        }
+        private bool _hasItemAtatch = true;
         #endregion
 
 
@@ -138,6 +159,7 @@ namespace _Game.Features.InventoryCustomScreen
             Id = id;
             Type = itemType;
             Rarity = rarity;
+            HasItemAttach = string.IsNullOrEmpty(Id);
             OnPropertyChanged(nameof(Thumbnail));
 
         }

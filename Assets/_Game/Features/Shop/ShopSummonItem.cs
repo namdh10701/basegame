@@ -173,7 +173,7 @@ namespace _Game.Features.Shop
         public List<int> ListWeightNameItem = new List<int>();
 
         public string CurentRarityItemGacha;
-        public string CurentNameItemGacha;
+        public string CurentOperationItemGacha;
         public ShopSummonViewModel ShopSummonViewModel;
         int _countGacha;
 
@@ -219,7 +219,7 @@ namespace _Game.Features.Shop
             {
                 if (randomNumber < ListWeightNameItem[i])
                 {
-                    CurentNameItemGacha = ListNameItem[i];
+                    CurentOperationItemGacha = ListNameItem[i];
                     return ListNameItem[i];
                 }
                 randomNumber -= ListWeightNameItem[i];
@@ -241,12 +241,12 @@ namespace _Game.Features.Shop
 
                 GetRandomNameByWeight();
 
-                var IdGachaItem = GameData.ShopRarityTable.GetIdByNameAndRarity(CurentNameItemGacha, CurentRarityItemGacha);
+                var IdGachaItem = GameData.ShopRarityTable.GetIdByNameAndRarity(CurentOperationItemGacha, CurentRarityItemGacha);
 
                 ShopItemGachaReceived shopItemGachaReceived = new ShopItemGachaReceived();
                 shopItemGachaReceived.IdItemGacha = IdGachaItem;
-                shopItemGachaReceived.Name = CurentNameItemGacha;
-                shopItemGachaReceived.Slot = GameData.CannonTable.GetSlotByName(CurentNameItemGacha);
+                shopItemGachaReceived.Operation = CurentOperationItemGacha;
+                shopItemGachaReceived.Slot = GameData.CannonTable.GetSlotByName(CurentOperationItemGacha);
                 shopItemGachaReceived.GachaType = GachaType;
                 shopItemGachaReceived.Rarity = CurentRarityItemGacha;
                 shopItemGachaReceived.IsHighLight = CurentRarityItemGacha == "Rare" || CurentRarityItemGacha == "Epic" ? true : false;
@@ -263,6 +263,7 @@ namespace _Game.Features.Shop
             ShopSummonViewModel.IdSummonItemSelected = Id;
             ShopSummonViewModel.PriceTypeSummonItemSelected = PriceType;
             ShopSummonViewModel.IsHighlight = CurentRarityItemGacha == "Rare" || CurentRarityItemGacha == "Epic" ? true : false;
+            ShopSummonViewModel.IsHighlight = true;
         }
     }
 }

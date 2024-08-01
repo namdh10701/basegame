@@ -8,6 +8,7 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityWeld.Binding;
+using ZBase.UnityScreenNavigator.Core.Modals;
 using ZBase.UnityScreenNavigator.Core.Views;
 
 namespace _Game.Features.InventoryCustomScreen
@@ -277,6 +278,8 @@ namespace _Game.Features.InventoryCustomScreen
 
                 var index = GetIndexAttachInfoItemsById(attachInfoItem.Id, attachInfoItem.Rarity);
                 AttachInfoItems.Remove(attachInfoItem);
+                OnPropertyChanged(nameof(AttachInfoItems));
+
             }
             else
             {
@@ -290,6 +293,8 @@ namespace _Game.Features.InventoryCustomScreen
 
                 AttachInfoItems[index] = attachInfoItemReturn;
                 AttachInfoItems[index].Setup();
+                OnPropertyChanged(nameof(AttachInfoItems));
+
                 buttonSlots[_indexButton].UpdateData(attachInfoItem.Id, attachInfoItem.Type, attachInfoItem.Rarity);
 
 
@@ -345,6 +350,7 @@ namespace _Game.Features.InventoryCustomScreen
                     break;
             }
         }
+
         public int GetIndexAttachInfoItemsById(string id, Rarity rarity)
         {
             for (int i = 0; i < AttachInfoItems.Count; i++)
@@ -355,6 +361,12 @@ namespace _Game.Features.InventoryCustomScreen
                 }
             }
             return -1; // Trả về -1 nếu không tìm thấy
+        }
+
+        [Binding]
+        public async void Close()
+        {
+            await ModalContainer.Find(ContainerKey.Modals).PopAsync(true);
         }
     }
 }
