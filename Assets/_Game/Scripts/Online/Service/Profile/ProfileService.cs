@@ -1,9 +1,10 @@
-using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
-using Online.Model;
+using Online.Model.ApiRequest;
 using PlayFab;
 using PlayFab.ClientModels;
+using UnityEngine;
 
 namespace Online.Service
 {
@@ -15,22 +16,84 @@ namespace Online.Service
 		public string DisplayName { get; private set; }
 		public int Level { get; private set; }
 		public long Exp { get; private set; }
-		
+
 		#endregion
 
-		public void LoadProfile(PlayerProfileModel playerProfile, Dictionary<string, UserDataRecord> readOnlyData)
+		public UniTask RequestUserProfileAsync()
 		{
-			PlayfabID = playerProfile.PlayerId;
-			DisplayName = playerProfile.DisplayName;
+			return UniTask.WhenAll(GetProfileAsync(), GetUserReadOnlyDataAsync());
+		}
+		
+		public async UniTask<BaseResponse> RequestDisplayNameAsync()
+		{
+			var signal = new UniTaskCompletionSource<BaseResponse>();
+			PlayFabClientAPI.UpdateUserTitleDisplayName(new()
+			{
+				DisplayName = "User" + Random.Range(1, 99999).ToString("D5")
+			}, (result) =>
+			{
+				DisplayName = result.DisplayName;
+				LogSuccess("Display Name: " + result.DisplayName);
+				signal.TrySetResult(new() { Result = true });
+			}, (error) =>
+			{
+				LogError(error.ErrorMessage);
+				signal.TrySetResult(new() { Result = false, Error = error.ErrorMessage});
+			});
+			return await signal.Task;
+		}
 
+		private async UniTask<BaseResponse> GetProfileAsync()
+		{
+			var signal = new UniTaskCompletionSource<BaseResponse>();
+			PlayFabClientAPI.GetPlayerProfile(new()
+			{
+				PlayFabId = PlayfabID
+			}, (result) =>
+			{
+				LoadProfile(result.PlayerProfile);
+				signal.TrySetResult(new() { Result = true });
+			}, (error) =>
+			{
+				LogError(error.ErrorMessage);
+				signal.TrySetResult(new() { Result = false, Error = error.ErrorMessage });
+			});
+			return await signal.Task;
+		}
+		
+		private async UniTask<BaseResponse> GetUserReadOnlyDataAsync()
+		{
+			var signal = new UniTaskCompletionSource<BaseResponse>();
+			PlayFabClientAPI.GetUserReadOnlyData(new()
+			{
+				PlayFabId = PlayfabID
+			}, (result) =>
+			{
+				LoadUserReadOnlyData(result.Data);
+				signal.TrySetResult(new() { Result = true });
+			}, (error) =>
+			{
+				LogError(error.ErrorMessage);
+				signal.TrySetResult(new() { Result = false, Error = error.ErrorMessage });
+			});
+			return await signal.Task;
+		}
+
+		public void LoadProfile(PlayerProfileModel playerProfile)
+		{
+			DisplayName = playerProfile.DisplayName;
+		}
+		
+		public void LoadUserReadOnlyData(Dictionary<string, UserDataRecord> readOnlyData)
+		{
 			if (readOnlyData.TryGetValue(C.NameConfigs.Level, out var level))
 			{
-				Level = Convert.ToInt32(level.Value);
+				Level = System.Convert.ToInt32(level.Value);
 			}
-			
+
 			if (readOnlyData.TryGetValue(C.NameConfigs.Exp, out var exp))
 			{
-				Exp = Convert.ToInt32(exp.Value);
+				Exp = System.Convert.ToInt32(exp.Value);
 			}
 		}
 

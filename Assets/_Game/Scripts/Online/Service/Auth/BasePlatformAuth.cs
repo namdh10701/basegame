@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Online.Enum;
+using Online.Model.ApiRequest;
 using PlayFab;
 using PlayFab.ClientModels;
 using UnityEngine;
@@ -12,7 +14,7 @@ namespace Online.Interface
 {
 	public abstract class BasePlatformAuth
 	{
-		public abstract void Login(System.Action<ELoginStatus, GetPlayerCombinedInfoResultPayload> onLoginSucceed = null);
+		public abstract UniTask<LoginResponse> LoginAsync();
 		public abstract void LinkPlatform(string token, System.Action<bool> cb = null);
 
 		protected BasePlatformAuth()

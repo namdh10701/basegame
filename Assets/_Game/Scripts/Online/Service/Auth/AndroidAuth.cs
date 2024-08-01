@@ -1,6 +1,8 @@
 using System;
+using Cysharp.Threading.Tasks;
 using Online.Enum;
 using Online.Interface;
+using Online.Model.ApiRequest;
 using PlayFab;
 using PlayFab.ClientModels;
 using UnityEngine.Device;
@@ -9,8 +11,9 @@ namespace Online.Service.Auth
 {
 	public class AndroidAuth : BasePlatformAuth
 	{
-		public override void Login(System.Action<ELoginStatus, GetPlayerCombinedInfoResultPayload> onLoginSucceed = null)
+		public override async UniTask<LoginResponse> LoginAsync()
 		{
+			UniTaskCompletionSource<LoginResponse> signal = new UniTaskCompletionSource<LoginResponse>();
 			PlayFabClientAPI.LoginWithAndroidDeviceID(new LoginWithAndroidDeviceIDRequest()
 			{
 				TitleId = PlayFabSettings.TitleId,
@@ -23,18 +26,30 @@ namespace Online.Service.Auth
 					GetUserVirtualCurrency = true,
 					GetUserData = true,
 					GetUserReadOnlyData = true,
-					GetTitleData = true,
 					GetUserInventory = true
 				}
 			}, result =>
 			{
-				LogInfo($"Login result [PlayfabID: {result.PlayFabId}]");
-				onLoginSucceed?.Invoke(result.NewlyCreated ? ELoginStatus.Newly : ELoginStatus.Succeed, result.InfoResultPayload);
+				LogInfo($"Login result [PlayfabID: {Newtonsoft.Json.JsonConvert.SerializeObject(result.InfoResultPayload)}]");
+				signal.TrySetResult(new()
+				{
+					Result = true,
+					Status = result.NewlyCreated ? ELoginStatus.Newly : ELoginStatus.Succeed,
+					PlayfabID = result.PlayFabId,
+					ResultPayload = result.InfoResultPayload
+				});
 			}, error =>
 			{
 				LogError($"Login Failed: {error.ErrorMessage}");
-				onLoginSucceed?.Invoke(ELoginStatus.Failed, null);
+				signal.TrySetResult(new()
+				{
+					Result = false,
+					Status = ELoginStatus.Failed,
+					PlayfabID = null,
+					ResultPayload = null
+				});
 			});
+			return await signal.Task;
 		}
 
 		public override void LinkPlatform(string token, Action<bool> cb = null)
