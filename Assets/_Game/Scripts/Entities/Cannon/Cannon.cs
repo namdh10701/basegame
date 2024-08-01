@@ -79,9 +79,12 @@ namespace _Game.Scripts.Entities
 
         public void Initizalize()
         {
-            EffectHandler.EffectTaker = this;
             var conf = GameData.CannonTable.FindById(id);
             ConfigLoader.LoadConfig(_stats, conf);
+            ApplyStats();
+
+            EffectHandler.EffectTaker = this;
+
 
             GridItemStateManager.gridItem = this;
             _stats.HealthPoint.OnValueChanged += HealthPoint_OnValueChanged;
@@ -190,6 +193,7 @@ namespace _Game.Scripts.Entities
         public Ammo UsingAmmo => CannonAmmo.UsingAmmo;
 
         public CannonFeverState FeverState => CannonFeverStateManager.FeverState;
+
 
         public Action<bool> OnStunStatusChanged;
 

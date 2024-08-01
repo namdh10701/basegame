@@ -12,6 +12,7 @@ using _Game.Features.Gameplay;
 using _Game.Scripts;
 using _Game.Scripts.Battle;
 using _Game.Scripts.GD;
+using _Game.Scripts.GD.DataManager;
 using MBT;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -110,9 +111,27 @@ namespace _Game.Features.Gameplay
         public Action OnFearEnded;
         public Action OnStuned;
         public Action OnStunEnded;
+
+        private EnemyStatsConfigLoader _configLoader;
+
+        public EnemyStatsConfigLoader ConfigLoader
+        {
+            get
+            {
+                if (_configLoader == null)
+                {
+                    _configLoader = new EnemyStatsConfigLoader();
+                }
+
+                return _configLoader;
+            }
+        }
         protected virtual void Awake()
         {
-            GetComponent<GDConfigStatsApplier>().LoadStats(this);
+            var conf = GameData.MonsterTable.FindById(id);
+            ConfigLoader.LoadConfig(_stats, conf);
+            ApplyStats();
+
             enemyController.Initialize(this);
             enemyView.Initialize(this);
 

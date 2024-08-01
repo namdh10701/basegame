@@ -179,7 +179,7 @@ LineRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -285313645
-  m_SortingLayer: 8
+  m_SortingLayer: 9
   m_SortingOrder: 0
   m_Positions:
   - {x: -5.035, y: 0.76749974, z: 0}
@@ -324,7 +324,7 @@ LineRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -285313645
-  m_SortingLayer: 8
+  m_SortingLayer: 9
   m_SortingOrder: 0
   m_Positions:
   - {x: 1.0130002, y: -3.7450001, z: 0}
@@ -561,7 +561,7 @@ MonoBehaviour:
   neighbors:
   - {fileID: 6272100322455661560}
   - {fileID: 56542984410064065}
-  - {fileID: 883705859923168145}
+  - {fileID: 5735084666377431645}
   parent: {fileID: 0}
   gCost: 0
   hCost: 0
@@ -638,7 +638,7 @@ LineRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -285313645
-  m_SortingLayer: 8
+  m_SortingLayer: 9
   m_SortingOrder: 0
   m_Positions:
   - {x: 0.0050002337, y: -3.7450001, z: 0}
@@ -1457,7 +1457,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 489432649
-  m_SortingLayer: 4
+  m_SortingLayer: 5
   m_SortingOrder: -300
   m_Sprite: {fileID: 21300000, guid: d9871783f199c9e40a7512bcca5e1032, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2040,7 +2040,7 @@ LineRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -285313645
-  m_SortingLayer: 8
+  m_SortingLayer: 9
   m_SortingOrder: 0
   m_Positions:
   - {x: -4.027, y: -3.7450001, z: 0}
@@ -2401,7 +2401,7 @@ LineRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -285313645
-  m_SortingLayer: 8
+  m_SortingLayer: 9
   m_SortingOrder: 0
   m_Positions:
   - {x: -2.0109997, y: -3.7450001, z: 0}
@@ -2706,7 +2706,7 @@ LineRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -285313645
-  m_SortingLayer: 8
+  m_SortingLayer: 9
   m_SortingOrder: 0
   m_Positions:
   - {x: -5.035, y: -1.9400002, z: 0}
@@ -3110,7 +3110,7 @@ LineRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -285313645
-  m_SortingLayer: 8
+  m_SortingLayer: 9
   m_SortingOrder: 0
   m_Positions:
   - {x: -5.035, y: -3.7450001, z: 0}
@@ -3309,7 +3309,7 @@ LineRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -285313645
-  m_SortingLayer: 8
+  m_SortingLayer: 9
   m_SortingOrder: 0
   m_Positions:
   - {x: -1.0029998, y: -3.7450001, z: 0}
@@ -3881,7 +3881,7 @@ LineRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -285313645
-  m_SortingLayer: 8
+  m_SortingLayer: 9
   m_SortingOrder: 0
   m_Positions:
   - {x: -3.0189998, y: -3.7450001, z: 0}
@@ -4290,7 +4290,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 852482161
-  m_SortingLayer: 7
+  m_SortingLayer: 8
   m_SortingOrder: 300
   m_Sprite: {fileID: 21300000, guid: 8abbc0acfb876a946ad3eb7be7286c45, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -4481,7 +4481,7 @@ LineRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -285313645
-  m_SortingLayer: 8
+  m_SortingLayer: 9
   m_SortingOrder: 0
   m_Positions:
   - {x: -5.035, y: -2.8425002, z: 0}
@@ -4753,6 +4753,21 @@ MonoBehaviour:
       _maxValue:
         statModifiers: []
         _baseValue: 10
+    <ZeroManaCost>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <Luck>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <BonusAmmo>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <FeverTimeProb>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <GoldIncome>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
   ShipSetup: {fileID: 2990291223794117489}
   effectHandler: {fileID: 1806109551573912214}
   PathfindingController: {fileID: 8003648089759299810}
@@ -4993,7 +5008,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thresholdSteps: c8000000900100005802000020030000
-  FeverPoint:
+  FeverStat:
     _value:
       statModifiers: []
       _baseValue: 0
@@ -5003,7 +5018,6 @@ MonoBehaviour:
     _maxValue:
       statModifiers: []
       _baseValue: 0
-  CurrentState: 0
 --- !u!114 &5458927958159504464
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5175,7 +5189,7 @@ LineRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -285313645
-  m_SortingLayer: 8
+  m_SortingLayer: 9
   m_SortingOrder: 0
   m_Positions:
   - {x: 2.0210004, y: -3.7450001, z: 0}
@@ -5422,7 +5436,7 @@ LineRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -285313645
-  m_SortingLayer: 8
+  m_SortingLayer: 9
   m_SortingOrder: 0
   m_Positions:
   - {x: -5.035, y: -3.7450001, z: 0}
@@ -5620,7 +5634,7 @@ LineRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -285313645
-  m_SortingLayer: 8
+  m_SortingLayer: 9
   m_SortingOrder: 0
   m_Positions:
   - {x: 3.0290003, y: -3.7450001, z: 0}
@@ -5738,7 +5752,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bounds:
-    m_Center: {x: 0.48, y: -2.7700002, z: 0}
+    m_Center: {x: 0.48, y: 3.22, z: 0}
     m_Extent: {x: 5.8, y: 3.28, z: 0}
   color: {r: 1, g: 0.11694199, b: 0, a: 1}
   offset: {x: 0, y: 0}
@@ -5815,7 +5829,7 @@ LineRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -285313645
-  m_SortingLayer: 8
+  m_SortingLayer: 9
   m_SortingOrder: 0
   m_Positions:
   - {x: -5.035, y: -0.13500023, z: 0}
@@ -5960,7 +5974,7 @@ LineRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -285313645
-  m_SortingLayer: 8
+  m_SortingLayer: 9
   m_SortingOrder: 0
   m_Positions:
   - {x: -5.035, y: -1.0375001, z: 0}

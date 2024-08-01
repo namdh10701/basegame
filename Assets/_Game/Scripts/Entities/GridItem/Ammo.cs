@@ -6,6 +6,7 @@ using _Base.Scripts.RPGCommon.Entities;
 using _Base.Scripts.Shared;
 using _Game.Features.Gameplay;
 using _Game.Scripts.GD;
+using _Game.Scripts.GD.DataManager;
 using _Game.Scripts.PathFinding;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,19 @@ namespace _Game.Scripts.Entities
 {
     public class Ammo : Entity, IEffectTaker, IGridItem, IWorkLocation, INodeOccupier, IGDConfigStatsTarget
     {
+        private AmmoStatsConfigLoader _configLoader;
+        public AmmoStatsConfigLoader ConfigLoader
+        {
+            get
+            {
+                if (_configLoader == null)
+                {
+                    _configLoader = new AmmoStatsConfigLoader();
+                }
+
+                return _configLoader;
+            }
+        }
         [SerializeField] private GridItemStateManager gridItemStateManager;
         [SerializeField] public GridItemView view;
         public string id;
@@ -56,6 +70,8 @@ namespace _Game.Scripts.Entities
 
         public GridItemStateManager GridItemStateManager => gridItemStateManager;
 
+        public StatsConfigLoader<Stats, DataTableRecord> configLoader => throw new NotImplementedException();
+
         public AmmoStats stats;
 
 
@@ -69,9 +85,11 @@ namespace _Game.Scripts.Entities
 
         public void Initialize()
         {
+            var conf = GameData.AmmoTable.FindById(id);
+            ConfigLoader.LoadConfig(stats, conf);
+            ApplyStats();
+
             EffectHandler.EffectTaker = this;
-            GDConfigStatsApplier GDConfigStatsApplier = GetComponent<GDConfigStatsApplier>();
-            GDConfigStatsApplier.LoadStats(this);
             stats.HealthPoint.OnValueChanged += HealthPoint_OnValueChanged;
             gridItemStateManager.gridItem = this;
             view.Init(this);
@@ -82,6 +100,7 @@ namespace _Game.Scripts.Entities
         {
             if (stat.Value <= stat.MinValue)
             {
+                Debug.Log("CHANGED");
                 gridItemStateManager.GridItemState = GridItemState.Broken;
             }
             else

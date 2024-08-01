@@ -7,6 +7,7 @@ using _Game.Scripts;
 using _Game.Scripts.Battle;
 using _Game.Scripts.Entities;
 using _Game.Scripts.GD;
+using _Game.Scripts.GD.DataManager;
 using DG.Tweening;
 using System;
 using UnityEngine;
@@ -56,15 +57,32 @@ namespace _Game.Features.Gameplay
             EffectHandler.EffectTaker = this;
             Initialize();
         }
+        private ShipStatsConfigLoader _configLoader;
 
+        public ShipStatsConfigLoader ConfigLoader
+        {
+            get
+            {
+                if (_configLoader == null)
+                {
+                    _configLoader = new ShipStatsConfigLoader();
+                }
+
+                return _configLoader;
+            }
+        }
 
         public void Initialize()
         {
+            var conf = GameData.ShipTable.FindById(id);
+            ConfigLoader.LoadConfig(stats, conf);
+            ApplyStats();
+
             BattleViewModel = FindAnyObjectByType<BattleViewModel>();
             GlobalEvent<EnemyStats>.Register("EnemyDied", OnEnemyDied);
             if (BattleViewModel != null)
                 BattleViewModel.Init(this);
-            GetComponent<GDConfigStatsApplier>().LoadStats(this);
+
 
             if (EnemyWaveManager.floorId == "1")
             {
@@ -84,10 +102,6 @@ namespace _Game.Features.Gameplay
                 cannon.View.cannonHUD.RegisterJob(CrewJobData);
             }
             HUD.Initialize(ShipSetup.Ammos);
-            if (BattleViewModel != null)
-            {
-                BattleViewModel.FeverView.Init(FeverModel);
-            }
         }
 
         public void EnterFullFever()
