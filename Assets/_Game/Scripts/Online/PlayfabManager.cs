@@ -58,22 +58,31 @@ namespace Online
 
 		public async Task LoginAsync()
 		{
-			var loginResult = await Auth.LoginAsync();
-			if (loginResult.Status == ELoginStatus.Failed)
+			var loginResponse = await Auth.LoginAsync();
+			if (loginResponse.Status == ELoginStatus.Failed)
 			{
 				Debug.LogError("Login failed");
 				return;
 			}
 			
 			await LoadDatabase();
-
-			await LoadDatabase();
 			
-			var infoPayload = loginResult.Payload;
-			Profile.LoadProfile(infoPayload.PlayerProfile, infoPayload.UserReadOnlyData);
-			Equipment.LoadEquipmentShip(infoPayload.UserData);
-			Inventory.LoadVirtualCurrency(infoPayload.UserVirtualCurrency);
-			Inventory.LoadItems(infoPayload.UserInventory);
+			if (loginResponse.Status == ELoginStatus.Newly)
+			{
+				await Profile.RequestDisplayNameAsync();
+				await Profile.RequestUserProfileAsync();
+				await Inventory.RequestInventoryAsync();
+			}
+			else
+			{
+				var infoPayload = loginResponse.ResultPayload;
+				Profile.LoadProfile(infoPayload.PlayerProfile);
+				Profile.LoadUserReadOnlyData(infoPayload.UserReadOnlyData);
+				Equipment.LoadEquipmentShip(infoPayload.UserData);
+				Inventory.LoadVirtualCurrency(infoPayload.UserVirtualCurrency);
+				Inventory.LoadItems(infoPayload.UserInventory);
+			}
+
 			await Ranking.LoadUserRankInfo();
 			await Ranking.LoadRewardBundleInfo();
 			// UpdateEquipShip(SaveSystem.GameSave.ShipSetupSaveData);
