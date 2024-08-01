@@ -6,6 +6,8 @@ using _Game.Scripts.UI;
 using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
 using System;
+using UnityEngine;
+using UnityEngine.UI;
 using UnityWeld.Binding;
 using ZBase.UnityScreenNavigator.Core.Modals;
 using ZBase.UnityScreenNavigator.Core.Screens;
@@ -31,10 +33,10 @@ namespace _Game.Features.Battle
             get => _hp;
             set
             {
-                /*if (Equals(_hp, value))
+                if (Equals(_hp, value))
                 {
                     return;
-                }*/
+                }
                 _hp = value;
                 OnPropertyChanged(nameof(HP));
                 OnPropertyChanged(nameof(HPText));
@@ -56,10 +58,10 @@ namespace _Game.Features.Battle
             get => _maxHP;
             set
             {
-                /*if (Equals(_maxHP, value))
+                if (Equals(_maxHP, value))
                 {
                     return;
-                }*/
+                }
 
                 _maxHP = value;
                 OnPropertyChanged(nameof(MaxHP));
@@ -82,10 +84,10 @@ namespace _Game.Features.Battle
             get => _mp;
             set
             {
-                /*if (Equals(_mp, value))
+                if (Equals(_mp, value))
                 {
                     return;
-                }*/
+                }
 
                 _mp = value;
                 OnPropertyChanged(nameof(MP));
@@ -123,57 +125,57 @@ namespace _Game.Features.Battle
 
         #endregion
 
-/*        #region Binding Prop: Fever
+        /*        #region Binding Prop: Fever
 
-        /// <summary>
-        /// Fever
-        /// </summary>
-        [Binding]
-        public float Fever
-        {
-            get => _fever;
-            set
-            {
-                *//*                if (Equals(_fever, value))
-                                {
-                                    return;
-                                }*//*
-
-                _fever = value;
-                OnPropertyChanged(nameof(Fever));
-                OnPropertyChanged(nameof(FeverText));
-            }
-        }
-
-        private float _fever;
-
-        #endregion
-
-        #region Binding Prop: MaxFever
-
-        /// <summary>
-        /// MaxFever
-        /// </summary>
-        [Binding]
-        public float MaxFever
-        {
-            get => 800;
-            set
-            {
-                if (Equals(800, value))
+                /// <summary>
+                /// Fever
+                /// </summary>
+                [Binding]
+                public float Fever
                 {
-                    return;
+                    get => _fever;
+                    set
+                    {
+                        *//*                if (Equals(_fever, value))
+                                        {
+                                            return;
+                                        }*//*
+
+                        _fever = value;
+                        OnPropertyChanged(nameof(Fever));
+                        OnPropertyChanged(nameof(FeverText));
+                    }
                 }
 
-                _maxFever = value;
-                OnPropertyChanged(nameof(MaxFever));
-                OnPropertyChanged(nameof(FeverText));
-            }
-        }
+                private float _fever;
 
-        private float _maxFever;
+                #endregion
 
-        #endregion*/
+                #region Binding Prop: MaxFever
+
+                /// <summary>
+                /// MaxFever
+                /// </summary>
+                [Binding]
+                public float MaxFever
+                {
+                    get => 800;
+                    set
+                    {
+                        if (Equals(800, value))
+                        {
+                            return;
+                        }
+
+                        _maxFever = value;
+                        OnPropertyChanged(nameof(MaxFever));
+                        OnPropertyChanged(nameof(FeverText));
+                    }
+                }
+
+                private float _maxFever;
+
+                #endregion*/
 
         #region Binding Prop: IsPause
 
@@ -268,9 +270,22 @@ namespace _Game.Features.Battle
             await ScreenContainer.Find(ContainerKey.Screens).PushAsync(options);
         }
 
+
         public void Init(Ship ship)
         {
             ShipStats shipStats = ship.Stats as ShipStats;
+
+            MaxMP = shipStats.ManaPoint.Value;
+            MP = shipStats.ManaPoint.Value;
+
+            MaxHP = shipStats.HealthPoint.Value;
+            HP = shipStats.HealthPoint.Value;
+            
+            //hpSlider.value = shipStats.HealthPoint.Value;
+            //mpSlider.value = shipStats.ManaPoint.Value;
+
+
+            Debug.Log(MP + " " + shipStats.HealthPoint.PercentageValue);
             shipStats.HealthPoint.OnValueChanged += HealthPoint_OnValueChanged;
             shipStats.ManaPoint.OnValueChanged += ManaPoint_OnValueChanged;
             FeverView.Init(ship.FeverModel);

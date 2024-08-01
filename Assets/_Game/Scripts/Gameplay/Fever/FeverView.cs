@@ -1,4 +1,5 @@
 using _Game.Features.Battle;
+using Online.Model;
 using Spine.Unity;
 using System.Collections;
 using TMPro;
@@ -10,7 +11,7 @@ namespace _Game.Features.Gameplay
     public class FeverView : MonoBehaviour
     {
         public TextMeshProUGUI feverText;
-        public Image feverProgress;
+        public Slider feverProgress;
 
         public SkeletonGraphic SkeletonGraphic;
 
@@ -36,8 +37,11 @@ namespace _Game.Features.Gameplay
         {
             this.FeverModel = feverModel;
 
-            SkeletonGraphic.AnimationState.AddAnimation(0, appear, false, 0);
+            SkeletonGraphic.AnimationState.SetAnimation(0, appear, false);
             SkeletonGraphic.AnimationState.AddAnimation(0, idle, true, 0);
+            feverText.text = ((int)feverModel.FeverStat.Value).ToString();
+            feverProgress.value = feverModel.FeverStat.Value;
+            Debug.Log(feverModel.FeverStat.Value + " " + feverModel.FeverStat.MaxValue + " "+ feverModel.FeverStat.PercentageValue);
             OnStateEnter(feverModel.CurrentState);
             lastState = feverModel.CurrentState;
             feverModel.OnStatChanged += FeverStat_OnValueChanged;
@@ -49,6 +53,7 @@ namespace _Game.Features.Gameplay
             if (FeverModel.CurrentState != FeverState.Unleashing)
             {
                 feverText.text = $"{stat.Value.ToString()} / {stat.MaxValue.ToString()}";
+                feverProgress.value = stat.Value;
             }
         }
 
@@ -158,7 +163,7 @@ namespace _Game.Features.Gameplay
             {
                 progress = elapsedTime / duration;
                 elapsedTime += Time.deltaTime;
-                feverProgress.fillAmount = Mathf.Lerp(0, 1, progress);
+                feverProgress.value = Mathf.Lerp(0, 1, progress);
                 yield return null;
             }
         }

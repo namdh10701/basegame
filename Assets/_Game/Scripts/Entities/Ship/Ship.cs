@@ -78,10 +78,9 @@ namespace _Game.Features.Gameplay
             ConfigLoader.LoadConfig(stats, conf);
             ApplyStats();
 
-            BattleViewModel = FindAnyObjectByType<BattleViewModel>();
+          
             GlobalEvent<EnemyStats>.Register("EnemyDied", OnEnemyDied);
-            if (BattleViewModel != null)
-                BattleViewModel.Init(this);
+        
 
 
             if (EnemyWaveManager.floorId == "1")
@@ -101,6 +100,10 @@ namespace _Game.Features.Gameplay
             {
                 cannon.View.cannonHUD.RegisterJob(CrewJobData);
             }
+
+            BattleViewModel = FindAnyObjectByType<BattleViewModel>();
+            if (BattleViewModel != null)
+                BattleViewModel.Init(this);
             HUD.Initialize(ShipSetup.Ammos);
         }
 

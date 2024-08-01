@@ -88,6 +88,9 @@ namespace _Game.Features.Gameplay
         private void Start()
         {
             var conf = GameData.CrewTable.FindById(id);
+            Debug.Log(id);
+            Debug.Log(conf.FeverTimeProb);
+            Debug.Log(conf.Luck);
             ConfigLoader.LoadConfig(stats, conf);
             ApplyStats();
 

@@ -208,7 +208,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1130488251
-  m_SortingLayer: 6
+  m_SortingLayer: 7
   m_SortingOrder: -300
   m_Sprite: {fileID: 21300000, guid: d75779bd3d8051b409679269a3393697, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -293,7 +293,7 @@ LineRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -285313645
-  m_SortingLayer: 8
+  m_SortingLayer: 9
   m_SortingOrder: 0
   m_Positions:
   - {x: -5.035, y: -0.13500023, z: 0}
@@ -545,7 +545,7 @@ LineRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -285313645
-  m_SortingLayer: 8
+  m_SortingLayer: 9
   m_SortingOrder: 0
   m_Positions:
   - {x: -5.035, y: -1.0375001, z: 0}
@@ -852,7 +852,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bounds:
-    m_Center: {x: 0.049999997, y: -2.88, z: 0}
+    m_Center: {x: 0.04, y: -6.7999997, z: 0}
     m_Extent: {x: 2.4, y: 1.73, z: 0}
   color: {r: 0, g: 0.53904295, b: 1, a: 1}
   offset: {x: 0, y: 0}
@@ -929,7 +929,7 @@ LineRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -285313645
-  m_SortingLayer: 8
+  m_SortingLayer: 9
   m_SortingOrder: 0
   m_Positions:
   - {x: 0.0050002337, y: -3.7450001, z: 0}
@@ -1679,7 +1679,7 @@ LineRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -285313645
-  m_SortingLayer: 8
+  m_SortingLayer: 9
   m_SortingOrder: 0
   m_Positions:
   - {x: -4.027, y: -3.7450001, z: 0}
@@ -1983,7 +1983,7 @@ LineRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -285313645
-  m_SortingLayer: 8
+  m_SortingLayer: 9
   m_SortingOrder: 0
   m_Positions:
   - {x: -5.035, y: 0.76749974, z: 0}
@@ -2334,7 +2334,7 @@ LineRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -285313645
-  m_SortingLayer: 8
+  m_SortingLayer: 9
   m_SortingOrder: 0
   m_Positions:
   - {x: -1.0029998, y: -3.7450001, z: 0}
@@ -2564,7 +2564,7 @@ LineRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -285313645
-  m_SortingLayer: 8
+  m_SortingLayer: 9
   m_SortingOrder: 0
   m_Positions:
   - {x: -2.0109997, y: -3.7450001, z: 0}
@@ -2924,7 +2924,7 @@ LineRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -285313645
-  m_SortingLayer: 8
+  m_SortingLayer: 9
   m_SortingOrder: 0
   m_Positions:
   - {x: 1.0130002, y: -3.7450001, z: 0}
@@ -3104,7 +3104,7 @@ LineRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -285313645
-  m_SortingLayer: 8
+  m_SortingLayer: 9
   m_SortingOrder: 0
   m_Positions:
   - {x: -5.035, y: -3.7450001, z: 0}
@@ -3538,7 +3538,7 @@ LineRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -285313645
-  m_SortingLayer: 8
+  m_SortingLayer: 9
   m_SortingOrder: 0
   m_Positions:
   - {x: -5.035, y: -3.7450001, z: 0}
@@ -3683,7 +3683,7 @@ LineRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -285313645
-  m_SortingLayer: 8
+  m_SortingLayer: 9
   m_SortingOrder: 0
   m_Positions:
   - {x: -5.035, y: -1.9400002, z: 0}
@@ -3814,7 +3814,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 368025709d8d477488e54dd5c9c78d15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0003
+  id: 0004
   gdConfig: {fileID: 11400000, guid: d642966b29b274991b7fe1310b128fef, type: 2}
   statsTemplate: {fileID: 11400000, guid: ebdb8fecd029edc4a88386461dc1a143, type: 2}
   stats:
@@ -3870,6 +3870,21 @@ MonoBehaviour:
       _maxValue:
         statModifiers: []
         _baseValue: 10
+    <ZeroManaCost>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <Luck>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <BonusAmmo>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <FeverTimeProb>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <GoldIncome>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
   ShipSetup: {fileID: 4341670414827705971}
   effectHandler: {fileID: 6440157039823941134}
   PathfindingController: {fileID: 3664914042150180116}
@@ -3968,50 +3983,30 @@ MonoBehaviour:
   - {fileID: 871198176242051275}
   - {fileID: 1225217679655429382}
   - {fileID: 3394016908242656609}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 2666433186765319924}
   - {fileID: 2443020686272556874}
   - {fileID: 1632083228019096446}
   - {fileID: 105009844219332194}
   - {fileID: 6462140858035383363}
   - {fileID: 1281167138727969641}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 4787407785418034913}
   - {fileID: 5980661313032681255}
   - {fileID: 6841909837925244122}
   - {fileID: 3436220915226482422}
   - {fileID: 5372221518726032089}
   - {fileID: 4417375530587049089}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 5376424605084606789}
   - {fileID: 7553815634118063183}
   - {fileID: 7805325904141370068}
   - {fileID: 2263862772320528000}
   - {fileID: 8311131109126262197}
   - {fileID: 826792853181520749}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 328419339158635067}
   - {fileID: 4406355197463685650}
   - {fileID: 6551978189202784466}
   - {fileID: 1524682752354998387}
   - {fileID: 5392614856516786656}
   - {fileID: 3884722070283986422}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   nodes:
   - {fileID: 7716852688766586543}
   - {fileID: 365432979631981756}
@@ -4019,50 +4014,30 @@ MonoBehaviour:
   - {fileID: 2933433839481026835}
   - {fileID: 799981903394590393}
   - {fileID: 4442385036222904999}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 4662106559596738282}
   - {fileID: 17218111660283121}
   - {fileID: 6640375684165746156}
   - {fileID: 1900136761447124590}
   - {fileID: 5318285035654633009}
   - {fileID: 3054192015620452606}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 2231598833798946192}
   - {fileID: 1831358065024054936}
   - {fileID: 2765799370296973650}
   - {fileID: 2716894022717556480}
   - {fileID: 1408767224158376797}
   - {fileID: 1530733681684854397}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 1575840651626107162}
   - {fileID: 7065479474228201835}
   - {fileID: 3247854036340635326}
   - {fileID: 1602247506055316669}
   - {fileID: 6490029704711055730}
   - {fileID: 6143281636475115246}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 5138867577073416414}
   - {fileID: 7669337866947096154}
   - {fileID: 4497432986072669110}
   - {fileID: 3214445183435705834}
   - {fileID: 7059921457719897918}
   - {fileID: 6832829983235542825}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!114 &5666675239926736461
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4130,7 +4105,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thresholdSteps: c8000000900100005802000020030000
-  FeverPoint:
+  FeverStat:
     _value:
       statModifiers: []
       _baseValue: 0
@@ -4140,7 +4115,6 @@ MonoBehaviour:
     _maxValue:
       statModifiers: []
       _baseValue: 0
-  CurrentState: 0
 --- !u!114 &7684177054595500851
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4379,7 +4353,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bounds:
-    m_Center: {x: 0.29, y: -2.9900002, z: 0}
+    m_Center: {x: 0.28, y: -6.91, z: 0}
     m_Extent: {x: 4.31, y: 3.09, z: 0}
   color: {r: 1, g: 0.11694199, b: 0, a: 1}
   offset: {x: 0, y: 0}
@@ -5039,7 +5013,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 852482161
-  m_SortingLayer: 7
+  m_SortingLayer: 8
   m_SortingOrder: 300
   m_Sprite: {fileID: 21300000, guid: 4777dbea380612244971a30e3b523d3d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -5137,7 +5111,7 @@ LineRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -285313645
-  m_SortingLayer: 8
+  m_SortingLayer: 9
   m_SortingOrder: 0
   m_Positions:
   - {x: -3.0189998, y: -3.7450001, z: 0}
@@ -5282,7 +5256,7 @@ LineRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -285313645
-  m_SortingLayer: 8
+  m_SortingLayer: 9
   m_SortingOrder: 0
   m_Positions:
   - {x: -5.035, y: -2.8425002, z: 0}

@@ -163,7 +163,6 @@ namespace _Game.Scripts.DB
             {
                 var resPath = $"Prefabs/GridItems/CrewsUI/{rec.OperationType}";
                 UICrew crew = Resources.Load<UICrew>(resPath);
-                Debug.Log(rec.Id);
                 CrewUIDic.Add(rec.Id, crew);
             }
         }

@@ -2,6 +2,7 @@
 using _Game.Features.Gameplay;
 using _Game.Scripts.Attributes;
 using _Game.Scripts.GD.DataManager;
+using UnityEngine;
 using UnityWeld.Binding;
 
 namespace _Game.Scripts
@@ -105,6 +106,8 @@ namespace _Game.Scripts
 
             shipStats.AmmoLimit.BaseValue = tableRecord.AmmoLimit;
             shipStats.CannonLimit.BaseValue = tableRecord.CannonLimit;
+
+            Debug.Log(shipStats.Fever.Value + " " + shipStats.Fever.MaxValue);
         }
     }
 }
