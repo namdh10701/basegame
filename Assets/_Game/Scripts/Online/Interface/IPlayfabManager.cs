@@ -7,8 +7,7 @@ namespace Online.Interface
 	public interface IPlayfabManager
 	{
 		UniTask UpgradeItem(string itemInstanceId);
-		
-		void MergeItem(List<string> itemInstanceIds, System.Action<bool> cb = null);
+		UniTask CombineItems(List<string> itemInstanceIds);
 		
 		void RunCoroutine(IEnumerator coroutine);
 	}

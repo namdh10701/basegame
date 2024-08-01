@@ -139,7 +139,7 @@ handlers.CombineItems = function (args, context) {
     if (args.ItemInstanceIds.length < 2) {
         return {
             Result: false,
-            Error: "Not_Enough_Item"
+            Error: "NOT_ENOUGH_ITEM"
         };
     }
 
@@ -156,7 +156,7 @@ handlers.CombineItems = function (args, context) {
         } else {
             return {
                 Result: false,
-                Error: "Item_Invalid"
+                Error: "ITEM_NOT_FOUND"
             }
         }
     }
@@ -170,12 +170,12 @@ handlers.CombineItems = function (args, context) {
         if (CombineItems[i].ItemId != configId) {
             return {
                 Result: false,
-                Error: "Item_Not_Match"
+                Error: "ITEM_NOT_MATCH"
             }
         }
     }
 
-    // Revoke Item and refund blueprint
+    // Refund Blueprints
     var blueprints = RefundBlueprints(itemType, CombineItems);
 
     configId = parts[1];
@@ -209,35 +209,38 @@ const RefundBlueprints = function (itemType, combineItems) {
     return grantBlueprints;
 }
 
-const CombineItem = function (configId, itemType, itemLevel, items) {
-    var keyDB = GetItemUpgradeDB(itemType);
+const CombineItem = function (configId, itemType, itemLevel, blueprints) {
+    var keyDB = GetItemDB(itemType);
     let resConfig = server.GetTitleData({Keys: keyDB});
     let itemConfig = JSON.parse(resConfig.Data[keyDB]);
-
+    
     let curConfig = itemConfig.find(val => val.id == configId);
     let newCannonConfig = itemConfig.find(val => val.id == curConfig.upgrade_id);
+    log.debug("id", newCannonConfig.id);
     let itemId = itemType + '_' + newCannonConfig.id;
-
-    items.push(itemId);
+    
+    blueprints.push(itemId);
     let resGrantItems = server.GrantItemsToUser({
         PlayFabId: currentPlayerId,
-        ItemIds: items,
+        ItemIds: blueprints,
     });
 
-    let upgradeItem = resGrantItems.ItemGrantResults.find(val => val.ItemId == itemId);
-    upgradeItem.CustomData = {
+    let craftItem = resGrantItems.ItemGrantResults.find(val => val.ItemId == itemId);
+    let refundBlueprints = resGrantItems.ItemGrantResults.filter(val => val.ItemId != itemId);
+    craftItem.CustomData = {
         Level: itemLevel
     };
 
     var updateItem = server.UpdateUserInventoryItemCustomData({
         PlayFabId: currentPlayerId,
-        ItemInstanceId: upgradeItem.ItemInstanceId,
-        Data: upgradeItem.CustomData
+        ItemInstanceId: craftItem.ItemInstanceId,
+        Data: craftItem.CustomData
     });
 
     return {
         Result: true,
-        Item: upgradeItem
+        Item: craftItem,
+        RefundBlueprints: refundBlueprints
     };
 };
 
@@ -278,7 +281,7 @@ handlers.UpgradeItem = function (args, context) {
         if (resInventory.VirtualCurrency[EVirtualCurrency.Gold] < nextLevelConfig.gold) {
             return {
                 Result: false,
-                Error: "Not_Enough_Gold"
+                Error: "NOT_ENOUGH_GOLD"
             };
         }
 
@@ -287,7 +290,7 @@ handlers.UpgradeItem = function (args, context) {
         if (blueprints.length < nextLevelConfig.blueprint) {
             return {
                 Result: false,
-                Error: "Not_Enough_Blueprint"
+                Error: "NOT_ENOUGH_BLUEPRINT"
             };
         }
 

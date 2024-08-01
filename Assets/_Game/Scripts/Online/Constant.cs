@@ -16,6 +16,7 @@ namespace Online
 		{
 			public const string RequestNewProfile = "RequestNewProfile";
 			public const string UpgradeItem = "UpgradeItem";
+			public const string CombineItems = "CombineItems";
 		}
 	}
 }

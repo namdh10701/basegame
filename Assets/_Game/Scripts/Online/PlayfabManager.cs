@@ -76,11 +76,9 @@ namespace Online
 			Inventory.LoadItems(infoPayload.UserInventory);
 			await Ranking.LoadUserRankInfo();
 			await Ranking.LoadRewardBundleInfo();
-			UpdateEquipShip(SaveSystem.GameSave.ShipSetupSaveData);
+			// UpdateEquipShip(SaveSystem.GameSave.ShipSetupSaveData);
 
 			LoadShop();
-			
-			await UpgradeItem("54A4209DC4A2951E");
 		}
 
 		public void LinkFacebook()
@@ -95,12 +93,10 @@ namespace Online
 			Inventory.RevokeBlueprints(resUpgrade.RevokeBlueprintIDs);
 		}
 
-		public void MergeItem(List<string> itemInstanceIds, System.Action<bool> cb = null)
+		public async UniTask CombineItems(List<string> itemInstanceIds)
 		{
-			// Inventory.MergeItem(itemInstanceIds, (result) =>
-			// {
-			// 	cb?.Invoke(true);
-			// });
+			var resUpgrade = await Inventory.CombineItems(itemInstanceIds);
+			Inventory.RefundBlueprints(resUpgrade.RefundBlueprints);
 		}
 
 		public void RunCoroutine(IEnumerator coroutine)

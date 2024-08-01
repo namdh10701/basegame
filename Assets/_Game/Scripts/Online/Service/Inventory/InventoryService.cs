@@ -131,6 +131,12 @@ namespace Online.Service
 			if (revokeBlueprints == null) return;
 			Items.RemoveAll(val => revokeBlueprints.Contains(val.OwnItemId));
 		}
+		
+		public void RefundBlueprints(List<ItemInstance> refundBlueprints)
+		{
+			// if (revokeBlueprints == null) return;
+			// Items.RemoveAll(val => revokeBlueprints.Contains(val.OwnItemId));
+		}
 
 		public async UniTask<UpgradeItemResponse> UpgradeItem(string instanceId)
 		{
@@ -141,7 +147,7 @@ namespace Online.Service
 				PlayFabClientAPI.ExecuteCloudScript(new()
 				{
 					FunctionName = C.CloudFunction.UpgradeItem,
-					FunctionParameter = new RequestUpgradeItemModel()
+					FunctionParameter = new UpgradeItemRequest()
 					{
 						ItemInstanceId = instanceId
 					}
@@ -160,6 +166,32 @@ namespace Online.Service
 				});
 			}
 			return await signal.Task;
+		}
+		
+		public UniTask<CombineItemsResponse> CombineItems(List<string> itemInstanceIds)
+		{
+			UniTaskCompletionSource<CombineItemsResponse> signal = new UniTaskCompletionSource<CombineItemsResponse>();
+			PlayFabClientAPI.ExecuteCloudScript(new()
+			{
+				FunctionName = C.CloudFunction.CombineItems,
+				FunctionParameter = new CombineItemsRequest()
+				{
+					ItemInstanceIds = itemInstanceIds
+				}
+			}, result =>
+			{
+				LogSuccess("Combine Item!");
+				signal.TrySetResult(JsonConvert.DeserializeObject<CombineItemsResponse>(result.FunctionResult.ToString()));
+			}, error =>
+			{
+				LogError(error.ErrorMessage);
+				signal.TrySetResult(new()
+				{
+					Result = false,
+					Error = error.ErrorMessage
+				});
+			});
+			return signal.Task;
 		}
 
 		public override void LogSuccess(string message)
