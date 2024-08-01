@@ -1,10 +1,13 @@
 using System.Collections;
+using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 
 namespace Online.Interface
 {
 	public interface IPlayfabManager
 	{
-		void UpgradeItem(string itemInstanceId, System.Action<bool> cb = null);
+		UniTask UpgradeItem(string itemInstanceId);
+		UniTask CombineItems(List<string> itemInstanceIds);
 		
 		void RunCoroutine(IEnumerator coroutine);
 	}
