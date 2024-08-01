@@ -1,5 +1,5 @@
 using System;
-using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using Online.Enum;
 using Online.Interface;
 using Online.Service.Auth;
@@ -29,9 +29,9 @@ namespace Online.Service
 			_basePlatformAuth.Login(onLoginSucceed);
 		}
 		
-		public async Task<LoginResult> LoginAsync()
+		public async UniTask<LoginResult> LoginAsync()
 		{
-			TaskCompletionSource<LoginResult> signal = new TaskCompletionSource<LoginResult>();
+			UniTaskCompletionSource<LoginResult> signal = new UniTaskCompletionSource<LoginResult>();
 			_basePlatformAuth.Login((result, infoPayload) =>
 			{
 				signal.TrySetResult(new()

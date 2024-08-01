@@ -1,7 +1,10 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using _Game.Scripts.SaveLoad;
+using Cysharp.Threading.Tasks;
+using Newtonsoft.Json;
 using Online.Enum;
 using Online.Interface;
 using Online.Service;
@@ -64,6 +67,8 @@ namespace Online
 			
 			await LoadDatabase();
 
+			await LoadDatabase();
+			
 			var infoPayload = loginResult.Payload;
 			Profile.LoadProfile(infoPayload.PlayerProfile, infoPayload.UserReadOnlyData);
 			Equipment.LoadEquipmentShip(infoPayload.UserData);
@@ -71,6 +76,9 @@ namespace Online
 			Inventory.LoadItems(infoPayload.UserInventory);
 			await Ranking.LoadUserRankInfo();
 			await Ranking.LoadRewardBundleInfo();
+			// UpdateEquipShip(SaveSystem.GameSave.ShipSetupSaveData);
+
+			LoadShop();
 		}
 
 		public void LinkFacebook()
@@ -78,12 +86,17 @@ namespace Online
 			Auth.LinkFacebook();
 		}
 
-		public void UpgradeItem(string itemInstanceId, System.Action<bool> cb = null)
+		public async UniTask UpgradeItem(string itemInstanceId)
 		{
-			Inventory.UpgradeItem(itemInstanceId, (result) =>
-			{
-				cb?.Invoke(true);
-			});
+			var resUpgrade = await Inventory.UpgradeItem(itemInstanceId);
+			Inventory.LoadVirtualCurrency(resUpgrade.VirtualCurrency);
+			Inventory.RevokeBlueprints(resUpgrade.RevokeBlueprintIDs);
+		}
+
+		public async UniTask CombineItems(List<string> itemInstanceIds)
+		{
+			var resUpgrade = await Inventory.CombineItems(itemInstanceIds);
+			Inventory.RefundBlueprints(resUpgrade.RefundBlueprints);
 		}
 
 		public void RunCoroutine(IEnumerator coroutine)

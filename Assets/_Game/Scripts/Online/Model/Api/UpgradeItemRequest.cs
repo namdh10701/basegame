@@ -1,6 +1,6 @@
 namespace Online.Model.ApiRequest
 {
-	public class RequestUpgradeItemModel
+	public class UpgradeItemRequest
 	{
 		public string ItemInstanceId { get; set; }
 	}
