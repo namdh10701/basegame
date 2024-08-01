@@ -2,6 +2,7 @@ using System;
 using Cysharp.Threading.Tasks;
 using Online.Enum;
 using Online.Interface;
+using Online.Model.ApiRequest;
 using Online.Service.Auth;
 using PlayFab.ClientModels;
 
@@ -23,24 +24,9 @@ namespace Online.Service
 #endif
 		}
 
-		[Obsolete("Use LoginAsync instead")]
-		public void Login(System.Action<ELoginStatus, GetPlayerCombinedInfoResultPayload> onLoginSucceed)
+		public UniTask<LoginResponse> LoginAsync()
 		{
-			_basePlatformAuth.Login(onLoginSucceed);
-		}
-		
-		public async UniTask<LoginResult> LoginAsync()
-		{
-			UniTaskCompletionSource<LoginResult> signal = new UniTaskCompletionSource<LoginResult>();
-			_basePlatformAuth.Login((result, infoPayload) =>
-			{
-				signal.TrySetResult(new()
-				{
-					Status = result,
-					Payload = infoPayload
-				});
-			});
-			return await signal.Task;
+			return _basePlatformAuth.LoginAsync();
 		}
 
 		public void LinkFacebook()

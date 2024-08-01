@@ -125,14 +125,6 @@ handlers.RequestNewProfile = function (args, context) {
         }
     };
     var resultData = server.UpdateUserReadOnlyData(reqReadOnlyData);
-
-    // Update Display Name
-    const displayName = "User" + Math.floor(Math.random() * 10000).toString().padStart(5, '0');
-    var reqDisplayName = {
-        PlayFabId: currentPlayerId,
-        DisplayName: displayName
-    }
-    var resultUpdateName = server.UpdateUserTitleDisplayName(reqDisplayName);
 };
 
 handlers.CombineItems = function (args, context) {
