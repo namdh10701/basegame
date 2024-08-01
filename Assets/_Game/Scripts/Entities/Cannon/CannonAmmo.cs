@@ -88,7 +88,8 @@ namespace _Game.Features.Gameplay
                 usingAmmo.Projectile.IsFever = false;
                 ammoStat.MaxStatValue.BaseValue = ammo.stats.MagazineSize.Value * (isDoubleAmmo ? 2 : 1);
                 ammoStat.StatValue.BaseValue = ammo.stats.MagazineSize.Value * (isDoubleAmmo ? 2 : 1);
-                attackTargetBehaviour.projectilePrefab = ammo.Projectile;
+                if (attackTargetBehaviour != null)
+                    attackTargetBehaviour.projectilePrefab = ammo.Projectile;
             }
         }
     }
