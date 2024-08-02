@@ -5,9 +5,8 @@ using _Game.Features.InventoryItemInfo;
 using _Game.Scripts.GD.DataManager;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityWeld.Binding;
-using ZBase.UnityScreenNavigator.Core.Views;
+using ZBase.UnityScreenNavigator.Core.Modals;
 
 namespace _Game.Features.InventoryCustomScreen
 {
@@ -172,9 +171,6 @@ namespace _Game.Features.InventoryCustomScreen
         }
         #endregion
 
-        public ItemType AttachItemType = ItemType.None;
-        public string AttachItemId { get; set; }
-
         #region Binding: Skills
         private ObservableList<SkillInvetoryItem> skills = new ObservableList<SkillInvetoryItem>();
 
@@ -206,7 +202,6 @@ namespace _Game.Features.InventoryCustomScreen
 
         #endregion
         [SerializeField] ButtonGroupInput _buttonGroupInput;
-        [SerializeField] ToggleGroupInput _toggleGroupInput;
         public InventoryItem InventoryItem { get; set; }
         public GameObject MainItem;
         UICrew _uiCrew;
@@ -254,7 +249,6 @@ namespace _Game.Features.InventoryCustomScreen
         public void OnEnableAttachItems()
         {
             IsActiveAttach = true;
-            // _buttonGroupInput.Interactable(false);
 
         }
 
@@ -272,33 +266,35 @@ namespace _Game.Features.InventoryCustomScreen
             var attachInfoItem = new AttachInfoItem();
             foreach (var item in AttachInfoItems.Where(v => v.IsHighlight))
             {
-                AttachItemId = item.Id;
-                AttachItemType = item.Type;
                 attachInfoItem = item;
             }
 
             if (buttonSlots[_indexButton].Type == ItemType.None)
             {
-                buttonSlots[_indexButton].UpdateData(AttachItemId, AttachItemType);
+                buttonSlots[_indexButton].UpdateData(attachInfoItem.Id, attachInfoItem.Type, attachInfoItem.Rarity);
+
+                var index = GetIndexAttachInfoItemsById(attachInfoItem.Id, attachInfoItem.Rarity);
                 AttachInfoItems.Remove(attachInfoItem);
-                _toggleGroupInput.Setup();
-                // var index = GetIndexAttachInfoItemsById(attachInfoItem.Id);
-                // _toggleGroupInput.RemoveToggleItem(index);
+                OnPropertyChanged(nameof(AttachInfoItems));
+
             }
             else
             {
-                buttonSlots[_indexButton].UpdateData(AttachItemId, AttachItemType);
-                AttachInfoItems.Remove(attachInfoItem);
-                _toggleGroupInput.Setup();
-                // var index = GetIndexAttachInfoItemsById(attachInfoItem.Id);
-                // _toggleGroupInput.RemoveToggleItem(index);
+                var index = GetIndexAttachInfoItemsById(attachInfoItem.Id, attachInfoItem.Rarity);
 
                 var attachInfoItemReturn = new AttachInfoItem();
                 attachInfoItemReturn.Id = buttonSlots[_indexButton].Id;
                 attachInfoItemReturn.Type = buttonSlots[_indexButton].Type;
+                attachInfoItemReturn.Rarity = buttonSlots[_indexButton].Rarity;
                 attachInfoItemReturn.IsHighlight = false;
-                AttachInfoItems.Add(attachInfoItemReturn);
-                _toggleGroupInput.Setup();
+
+                AttachInfoItems[index] = attachInfoItemReturn;
+                AttachInfoItems[index].Setup();
+                OnPropertyChanged(nameof(AttachInfoItems));
+
+                buttonSlots[_indexButton].UpdateData(attachInfoItem.Id, attachInfoItem.Type, attachInfoItem.Rarity);
+
+
             }
             _buttonGroupInput.Interactable(true);
 
@@ -316,20 +312,17 @@ namespace _Game.Features.InventoryCustomScreen
             }
             _buttonGroupInput.Setup();
 
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 4; i++)
             {
                 AttachInfoItem attachInfoItem = new AttachInfoItem()
                 {
-                    Id = i.ToString(),
-                    Type = ItemType.MISC
-
+                    Id = "eq2",
+                    Type = ItemType.MISC,
+                    Rarity = (Rarity)i
                 };
                 attachInfoItem.Setup();
                 AttachInfoItems.Add(attachInfoItem);
-                _toggleGroupInput.Setup();
-
             }
-
 
         }
 
@@ -354,16 +347,23 @@ namespace _Game.Features.InventoryCustomScreen
                     break;
             }
         }
-        public int GetIndexAttachInfoItemsById(string id)
+
+        public int GetIndexAttachInfoItemsById(string id, Rarity rarity)
         {
             for (int i = 0; i < AttachInfoItems.Count; i++)
             {
-                if (AttachInfoItems[i].Id == id)
+                if (AttachInfoItems[i].Id == id && AttachInfoItems[i].Rarity == rarity)
                 {
                     return i;
                 }
             }
             return -1; // Trả về -1 nếu không tìm thấy
+        }
+
+        [Binding]
+        public async void Close()
+        {
+            await ModalContainer.Find(ContainerKey.Modals).PopAsync(true);
         }
     }
 }

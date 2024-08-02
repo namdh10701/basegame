@@ -5,15 +5,21 @@ using UnityEngine;
 
 namespace _Game.Scripts.Entities
 {
+    public enum GridItemState
+    {
+        Active, Broken
+    }
+
     public interface IGridItem
     {
+        public Stats Stats { get; }
         public string GridId { get; set; }
         public List<Cell> OccupyCells { get; set; }
-        public GridItemDef Def { get; }
         public Transform Transform { get; }
-        public void OnBroken();
-        public void OnFixed();
 
-        public bool IsBroken { get; set; }
+        public GridItemStateManager GridItemStateManager { get; }
+
+        public void OnBroken();
+        public void Active();
     }
 }

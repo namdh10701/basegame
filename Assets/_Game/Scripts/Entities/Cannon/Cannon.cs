@@ -25,16 +25,16 @@ namespace _Game.Scripts.Entities
         public StatsTemplate statsTemplate;
 
         [Header("Cannon")]
-        [field: SerializeField]
-        private GridItemDef def;
+
+        [SerializeField] private GridItemStateManager gridItemStateManager;
+        [SerializeField] public GridItemView gridItemView;
+        [SerializeField] public CannonFeverStateManager CannonFeverStateManager;
 
         [SerializeField]
         private CannonStats _stats;
 
         [SerializeField]
         private CannonStatsTemplate _statsTemplate;
-
-        public GameObject border;
         public IFighterStats FighterStats
         {
             get => _stats;
@@ -45,31 +45,27 @@ namespace _Game.Scripts.Entities
         public AttackStrategy AttackStrategy { get; set; }
         [field: SerializeField]
         public List<Cell> OccupyCells { get; set; }
-        public GridItemDef Def { get => def; set => def = value; }
         public string GridId { get; set; }
         public List<Node> WorkingSlots { get => workingSlots; set => workingSlots = value; }
         public List<Node> OccupyingNodes { get => occupyingNodes; set => occupyingNodes = value; }
-        public bool IsBroken { get => isBroken; set => isBroken = value; }
 
         public EffectHandler effectHandler;
         public EffectHandler EffectHandler { get => effectHandler; }
-
         public Transform Transform => transform;
+
         public string Id { get => id; set => id = value; }
         public GDConfig GDConfig => gdConfig;
         public StatsTemplate StatsTemplate => statsTemplate;
+
         public override Stats Stats => _stats;
 
         public List<Node> workingSlots = new List<Node>();
         public List<Node> occupyingNodes = new List<Node>();
 
         public ObjectCollisionDetector FindTargetCollider;
-        public AttackTargetBehaviour AttackTargetBehaviour;
         public FindTargetBehaviour FindTargetBehaviour;
 
-        public Ammo usingBullet;
-        public SpineAnimationCannonHandler Animation;
-        public GDConfigStatsApplier GDConfigStatsApplier;
+        public CannonAmmo CannonAmmo;
         public override void ApplyStats()
         {
             CannonStats stst = Stats as CannonStats;
@@ -78,34 +74,66 @@ namespace _Game.Scripts.Entities
         }
 
         #region Controller
-
-        public CannonHUD HUD;
-        bool isBroken;
         bool isOutOfAmmo;
         bool isStuned;
 
         public void Initizalize()
         {
-            EffectHandler.EffectTaker = this;
-            GDConfigStatsApplier = GetComponent<GDConfigStatsApplier>();
-            GDConfigStatsApplier.LoadStats(this);
-            border.SetActive(false);
-            _stats.HealthPoint.OnValueChanged += HealthPoint_OnValueChanged;
-            _stats.Ammo.OnValueChanged += Ammo_OnValueChanged;
+            var conf = GameData.CannonTable.FindById(id);
+            ConfigLoader.LoadConfig(_stats, conf);
+            ApplyStats();
 
-            HUD.SetCannon(this);
+            EffectHandler.EffectTaker = this;
+
+
+            GridItemStateManager.gridItem = this;
+            _stats.HealthPoint.OnValueChanged += HealthPoint_OnValueChanged;
+
+            CannonAmmo.OutOfAmmoStateChaged += OutOfAmmoStateChanged;
+            GridItemStateManager.OnStateEntered += OnGridItemStateChanged;
+            CannonFeverStateManager.OnStateEntered += OnFeverStateEntered;
+            CannonAmmo.Init(this);
+            gridItemView.Init(this);
         }
 
-        private void Ammo_OnValueChanged(RangedStat stat)
+        private void OnFeverStateEntered(CannonFeverState state)
         {
-
-            if (stat.StatValue.Value == stat.MinValue)
+            switch (state)
             {
-                OnOutOfAmmo();
+                case CannonFeverState.None:
+                    ApplyNormalStats();
+                    break;
+                case CannonFeverState.Fever:
+                case CannonFeverState.FullFever:
+                    ApplyFeverStats();
+                    break;
             }
-            else if (stat.StatValue.Value > 0)
+        }
+
+
+
+        private void OnGridItemStateChanged(GridItemState state)
+        {
+            UpdateModel();
+        }
+
+        private void OutOfAmmoStateChanged(bool isOutOfAmmo)
+        {
+            this.isOutOfAmmo = isOutOfAmmo;
+            UpdateModel();
+        }
+
+
+
+        void UpdateModel()
+        {
+            if (!isOutOfAmmo && gridItemStateManager.GridItemState == GridItemState.Active && !isStuned)
             {
-                OnReloaded();
+                FindTargetBehaviour.Enable();
+            }
+            else
+            {
+                FindTargetBehaviour.Disable();
             }
         }
 
@@ -113,162 +141,34 @@ namespace _Game.Scripts.Entities
         {
             if (stat.StatValue.Value <= stat.MinValue)
             {
-                OnBroken();
-            }
-        }
-
-        public void OnOutOfAmmo()
-        {
-            if (usingBullet.AmmoType == AmmoType.Bomb && isOnFever)
-            {
-                //OnFeverEffectExit();
-            }
-            isOutOfAmmo = true;
-            GlobalEvent<Cannon, Ammo, int>.Send("Reload", this, usingBullet, 15);
-            OutOfAmmo?.Invoke();
-            UpdateVisual();
-            FindTargetBehaviour.Disable();
-        }
-        public void OnBroken()
-        {
-            Debug.Log("SEND");
-            isBroken = true;
-            GlobalEvent<Cannon, int>.Send("FixCannon", this, CrewJobData.DefaultPiority[typeof(FixCannonTask)]);
-            Broken?.Invoke();
-            UpdateVisual();
-
-            FindTargetBehaviour.Disable();
-        }
-
-        public Action OutOfAmmo;
-        public Action Broken;
-
-        public void OnReloaded()
-        {
-            isOutOfAmmo = false;
-            UpdateVisual();
-        }
-        void UpdateVisual()
-        {
-            if (!isOutOfAmmo && !isBroken && !isStuned)
-            {
-                FindTargetBehaviour.Enable();
-                Animation.PlayNormal();
+                gridItemStateManager.GridItemState = GridItemState.Broken;
             }
             else
             {
-                Animation.PlayBroken();
+                gridItemStateManager.GridItemState = GridItemState.Active;
             }
         }
 
-        public void OnFixed()
+        public void Reload(Ammo bullet, bool isDoubleAmmo)
         {
-            isBroken = false;
-            _stats.HealthPoint.StatValue.BaseValue = _stats.HealthPoint.MaxStatValue.Value / 100 * 30;
-            UpdateVisual();
+            CannonAmmo.Reload(bullet, isDoubleAmmo);
         }
-
-        public void Reload(Ammo bullet)
-        {
-            if (bullet == null)
-            {
-
-                _stats.Ammo.MaxStatValue.BaseValue = 1;
-                _stats.Ammo.StatValue.BaseValue = 0;
-                OnOutOfAmmo();
-
-            }
-            else
-            {
-                usingBullet = bullet;
-                AmmoStats ammoStats = (AmmoStats)bullet.Stats;
-
-                _stats.Ammo.MaxStatValue.BaseValue = ammoStats.MagazineSize.BaseValue;
-                _stats.Ammo.StatValue.BaseValue = ammoStats.MagazineSize.BaseValue;
-                AttackTargetBehaviour.projectilePrefab = bullet.Projectile;
-            }
-        }
-
-        public bool IsOnFever => isOnFever;
-        public bool IsOnFullFever => isOnFullFever;
-
-        public ParticleSystem feverFx;
-        public ParticleSystem feverEnterFx;
-
-        bool isOnFever;
-        bool isOnFullFever;
-
-        public Action OnFeverStart;
-        public Action OnFeverEnded;
 
         public void OnFeverEffectEnter()
         {
-            isOnFever = true;
-            feverEnterFx.Play();
-            if (feverFx != null)
-            {
-                feverFx.Play();
-            }
-            OnFeverStart?.Invoke();
-            ApplyFeverStats();
-            // code change stats go here 
-            if (usingBullet.AmmoType == AmmoType.Bomb)
-            {
-                _stats.Ammo.StatValue.BaseValue = usingBullet.stats.MagazineSize.BaseValue + 5;
-            }
-            else
-            {
-                _stats.Ammo.StatValue.BaseValue = usingBullet.stats.MagazineSize.BaseValue;
-            }
+            CannonFeverStateManager.FeverState = CannonFeverState.Fever;
             Invoke("OnFeverEffectExit", 5);
 
         }
         public void OnFullFeverEffectEnter()
         {
-            feverEnterFx.Play();
-            if (feverFx != null)
-            {
-                feverFx.Play();
-            }
-            isOnFullFever = true;
-            ApplyFeverStats();
-            if (usingBullet.AmmoType == AmmoType.Bomb)
-            {
-                _stats.Ammo.StatValue.BaseValue = usingBullet.stats.MagazineSize.BaseValue + 10;
-            }
-            else
-            {
-                _stats.Ammo.StatValue.BaseValue = usingBullet.stats.MagazineSize.BaseValue;
-            }
-        }
-
-        public void OnFullFeverEffectExit()
-        {
-
-            if (!isOnFullFever)
-                return;
-            ApplyNormalStats();
-            isOnFullFever = false;
-            if (feverFx != null)
-            {
-                feverFx.Stop();
-            }
-            OnFeverEnded?.Invoke();
-
+            CannonFeverStateManager.FeverState = CannonFeverState.FullFever;
+            Invoke("OnFeverEffectExit", 5);
         }
 
         public void OnFeverEffectExit()
         {
-
-            if (!isOnFever)
-                return;
-            ApplyNormalStats();
-            isOnFever = false;
-            if (feverFx != null)
-            {
-                feverFx.Stop();
-            }
-            OnFeverEnded?.Invoke();
+            CannonFeverStateManager.FeverState = CannonFeverState.None;
         }
 
         private CannonStatsConfigLoader _configLoader;
@@ -288,6 +188,17 @@ namespace _Game.Scripts.Entities
 
         public Stat StatusResist => null;
 
+        public GridItemStateManager GridItemStateManager => gridItemStateManager;
+
+        public Ammo UsingAmmo => CannonAmmo.UsingAmmo;
+
+        public CannonFeverState FeverState => CannonFeverStateManager.FeverState;
+
+
+        public Action<bool> OnStunStatusChanged;
+
+        public CannonView View;
+
         void ApplyFeverStats()
         {
             var conf = GameData.CannonFeverTable.FindById(id);
@@ -300,25 +211,31 @@ namespace _Game.Scripts.Entities
             ConfigLoader.LoadConfig(_stats, conf);
         }
 
+        #region Effect status state
         public void OnStun()
         {
-            if (isOnFever || isOnFullFever)
-            {
+            if (CannonFeverStateManager.FeverState != CannonFeverState.None)
                 return;
-            }
             isStuned = true;
-            UpdateVisual();
-
-
+            OnStunStatusChanged.Invoke(isStuned);
         }
-
         public void OnAfterStun()
         {
             isStuned = false;
-            UpdateVisual();
+            OnStunStatusChanged.Invoke(isStuned);
         }
+        #endregion
 
-
+        #region Grid Item State
+        public void Active()
+        {
+            UpdateModel();
+        }
+        public void OnBroken()
+        {
+            GlobalEvent<Cannon, int>.Send("FixCannon", this, CrewJobData.DefaultPiority[typeof(FixCannonTask)]);
+        }
+        #endregion
 
         #endregion
     }

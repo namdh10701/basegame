@@ -42,11 +42,13 @@ namespace Online.Service
 
         public bool IsInitialized => _storeController != null && _extensionProvider != null;
 
-        public async UniTask LoadAllStore()
+        public async UniTask<bool> LoadAllStore()
         {
             await UniTask.WhenAll(LoadGemPackages(), LoadGoldPackages(), LoadEnergyPackages());
 
             InitIAP();
+
+            return true;
         }
 
         void InitIAP()

@@ -37,12 +37,54 @@ const EItemType = Object.freeze({
     Blueprint: 'blueprint',
 });
 
+const EDatabase = Object.freeze({
+    ShipsDB: 'ShipsDB',
+    CrewsDB: 'CrewsDB',
+    CannonsDB: 'CannonsDB',
+    CannonFeversDB: 'CannonsDB',
+    AmmosDB: 'AmmosDB',
+    CannonUpgradeDB: 'CannonUpgradeDB',
+    AmmoUpgradeDB: 'AmmoUpgradeDB',
+    ShipUpgradeDB: 'ShipUpgradeDB',
+});
+
 const EVirtualCurrency = Object.freeze({
     Gold: 'GO',
     Gem: 'GE',
     Energy: 'EN',
     Ticket: 'TI',
 });
+
+const GetItemUpgradeDB = function (itemType) {
+    switch (itemType) {
+        case EItemType.Ship:
+            return EDatabase.ShipUpgradeDB;
+
+        case EItemType.Cannon:
+            return EDatabase.CannonUpgradeDB;
+
+        case EItemType.Ammo:
+            return EDatabase.AmmoUpgradeDB;
+    }
+    return "";
+};
+
+const GetItemDB = function (itemType) {
+    switch (itemType) {
+        case EItemType.Ship:
+            return EDatabase.ShipsDB;
+
+        case EItemType.Cannon:
+            return EDatabase.CannonsDB;
+
+        case EItemType.Ammo:
+            return EDatabase.AmmosDB;
+
+        case EItemType.Crew:
+            return EDatabase.CrewsDB;
+    }
+    return "";
+};
 
 // This is a Cloud Script function. "args" is set to the value of the "FunctionParameter" 
 // parameter of the ExecuteCloudScript API.
@@ -83,21 +125,13 @@ handlers.RequestNewProfile = function (args, context) {
         }
     };
     var resultData = server.UpdateUserReadOnlyData(reqReadOnlyData);
-
-    // Update Display Name
-    const displayName = "User" + Math.floor(Math.random() * 10000).toString().padStart(5, '0');
-    var reqDisplayName = {
-        PlayFabId: currentPlayerId,
-        DisplayName: displayName
-    }
-    var resultUpdateName = server.UpdateUserTitleDisplayName(reqDisplayName);
 };
 
 handlers.CombineItems = function (args, context) {
     if (args.ItemInstanceIds.length < 2) {
         return {
             Result: false,
-            Error: "Not_Enough_Item"
+            Error: "NOT_ENOUGH_ITEM"
         };
     }
 
@@ -114,7 +148,7 @@ handlers.CombineItems = function (args, context) {
         } else {
             return {
                 Result: false,
-                Error: "Item_Invalid"
+                Error: "ITEM_NOT_FOUND"
             }
         }
     }
@@ -128,12 +162,12 @@ handlers.CombineItems = function (args, context) {
         if (CombineItems[i].ItemId != configId) {
             return {
                 Result: false,
-                Error: "Item_Not_Match"
+                Error: "ITEM_NOT_MATCH"
             }
         }
     }
 
-    // Revoke Item and refund blueprint
+    // Refund Blueprints
     var blueprints = RefundBlueprints(itemType, CombineItems);
 
     configId = parts[1];
@@ -141,8 +175,9 @@ handlers.CombineItems = function (args, context) {
 };
 
 const RefundBlueprints = function (itemType, combineItems) {
-    var resUpgrade = server.GetTitleData({Keys: ['upgrade_' + itemType]});
-    var itemUpgrade = JSON.parse(resUpgrade.Data['upgrade_' + itemType]);
+    var keyDB = GetItemUpgradeDB(itemType);
+    var resUpgrade = server.GetTitleData({Keys: keyDB});
+    var itemUpgrade = JSON.parse(resUpgrade.Data[keyDB]);
 
     let grantBlueprints = [];
     let revokeItems = [];
@@ -166,34 +201,38 @@ const RefundBlueprints = function (itemType, combineItems) {
     return grantBlueprints;
 }
 
-const CombineItem = function (configId, itemType, itemLevel, items) {
-    let resConfig = server.GetTitleData({Keys: [itemType + '_config']});
-    let itemConfig = JSON.parse(resConfig.Data[itemType + '_config']);
-
+const CombineItem = function (configId, itemType, itemLevel, blueprints) {
+    var keyDB = GetItemDB(itemType);
+    let resConfig = server.GetTitleData({Keys: keyDB});
+    let itemConfig = JSON.parse(resConfig.Data[keyDB]);
+    
     let curConfig = itemConfig.find(val => val.id == configId);
     let newCannonConfig = itemConfig.find(val => val.id == curConfig.upgrade_id);
+    log.debug("id", newCannonConfig.id);
     let itemId = itemType + '_' + newCannonConfig.id;
-
-    items.push(itemId);
+    
+    blueprints.push(itemId);
     let resGrantItems = server.GrantItemsToUser({
         PlayFabId: currentPlayerId,
-        ItemIds: items,
+        ItemIds: blueprints,
     });
 
-    let upgradeItem = resGrantItems.ItemGrantResults.find(val => val.ItemId == itemId);
-    upgradeItem.CustomData = {
+    let craftItem = resGrantItems.ItemGrantResults.find(val => val.ItemId == itemId);
+    let refundBlueprints = resGrantItems.ItemGrantResults.filter(val => val.ItemId != itemId);
+    craftItem.CustomData = {
         Level: itemLevel
     };
-    
+
     var updateItem = server.UpdateUserInventoryItemCustomData({
         PlayFabId: currentPlayerId,
-        ItemInstanceId: upgradeItem.ItemInstanceId,
-        Data: upgradeItem.CustomData
+        ItemInstanceId: craftItem.ItemInstanceId,
+        Data: craftItem.CustomData
     });
 
     return {
         Result: true,
-        Item: upgradeItem
+        Item: craftItem,
+        RefundBlueprints: refundBlueprints
     };
 };
 
@@ -223,17 +262,18 @@ handlers.UpgradeItem = function (args, context) {
         }
 
         // Get Upgrade Config
+        var keyUpgradeDB = GetItemUpgradeDB(itemType);
         var resConfig = server.GetTitleData({
-            Keys: ['upgrade_' + itemType]
+            Keys: [keyUpgradeDB]
         });
-        var nextLevelConfig = JSON.parse(resConfig.Data['upgrade_' + itemType]).find(val => val.level === nextLevel);
+        var nextLevelConfig = JSON.parse(resConfig.Data[keyUpgradeDB]).find(val => val.level === nextLevel);
 
         // Get Player Virtual Currency
         var resInventory = server.GetUserInventory({PlayFabId: currentPlayerId});
         if (resInventory.VirtualCurrency[EVirtualCurrency.Gold] < nextLevelConfig.gold) {
             return {
                 Result: false,
-                Error: "Not_Enough_Gold"
+                Error: "NOT_ENOUGH_GOLD"
             };
         }
 
@@ -242,7 +282,7 @@ handlers.UpgradeItem = function (args, context) {
         if (blueprints.length < nextLevelConfig.blueprint) {
             return {
                 Result: false,
-                Error: "Not_Enough_Blueprint"
+                Error: "NOT_ENOUGH_BLUEPRINT"
             };
         }
 
@@ -267,6 +307,7 @@ handlers.UpgradeItem = function (args, context) {
         });
 
         // Substract Blueprint
+        var revokeIDs = [];
         for (let i = 0; i < nextLevelConfig.blueprint; i++) {
             var reqConsume = {
                 PlayFabId: currentPlayerId,
@@ -274,17 +315,24 @@ handlers.UpgradeItem = function (args, context) {
                 ConsumeCount: 1
             };
             var resSubBlueprint = server.ConsumeItem(reqConsume);
+            revokeIDs.push(resSubBlueprint.ItemInstanceId);
         }
 
-        return {
+        var resultResponse = {
             Result: true,
-            ItemUpgrade: upgradeItem
-        }
+            ItemUpgrade: upgradeItem,
+            VirtualCurrency: { },
+            RevokeBlueprintIDs: revokeIDs
+        };
+
+        resultResponse.VirtualCurrency[EVirtualCurrency.Gold] = resSubGold.Balance;
+        
+        return resultResponse;
     }
 
     return {
         Result: false,
-        Error: "PlayfabError"
+        Error: "ITEM_NOT_FOUND"
     }
 };
 

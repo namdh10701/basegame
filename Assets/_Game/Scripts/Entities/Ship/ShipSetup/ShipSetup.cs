@@ -103,43 +103,6 @@ namespace _Game.Features.Gameplay
             spawnedItems.Clear();
         }
 
-        // void GetLoadOut()
-        // {
-        //     UsingGridItemDatas = new List<GridItemData>();
-        //     if (PlayerPrefs.HasKey(Ship.Id))
-        //     {
-        //         string jsonData = PlayerPrefs.GetString(Ship.Id);
-        //         InventoryData data = JsonUtility.FromJson<InventoryData>(jsonData);
-        //
-        //         List<InventoryItemData> items = data.InventoryItemsOnGrid;
-        //
-        //         foreach (InventoryItemData item in items)
-        //         {
-        //             GridItemData itemData = new();
-        //             itemData.Id = item.Id;
-        //             itemData.startY = item.startX;
-        //             itemData.startX = item.startY;
-        //             itemData.GridId = "1";
-        //
-        //             switch (item.Type)
-        //             {
-        //                 case ItemType.CANNON:
-        //                     itemData.GridItemType = GridItemType.Cannon;
-        //                     break;
-        //                 case ItemType.CREW:
-        //                     itemData.GridItemType = GridItemType.Crew;
-        //                     break;
-        //                 case ItemType.AMMO:
-        //                     itemData.GridItemType = GridItemType.Bullet;
-        //                     break;
-        //             }
-        //
-        //             UsingGridItemDatas.Add(itemData);
-        //
-        //         }
-        //     }
-        // }
-
         void GetLoadOut()
         {
             UsingGridItemDatas = new List<GridItemData>();
@@ -193,11 +156,12 @@ namespace _Game.Features.Gameplay
             ReloadCannons();
         }
 
+
         void ReloadCannons()
         {
             foreach (Cannon cannon in Cannons)
             {
-                cannon.Reload(Ammos.GetRandom());
+                cannon.Reload(Ammos.GetRandom(), false);
             }
         }
 
@@ -360,7 +324,6 @@ namespace _Game.Features.Gameplay
             spawned.Id = data.Id;
 
             Cannons.Add(spawned);
-            spawned.Def.Type = ItemType.CANNON;
 
             IGridItem gridItem = spawned.GetComponent<IGridItem>();
             InitOccupyCell(spawned.Id, ItemType.CANNON, gridItem, data, grid);
@@ -422,15 +385,16 @@ namespace _Game.Features.Gameplay
 
         public void HideHUD()
         {
-            foreach (Cannon cannon in Cannons)
-            {
-                cannon.Animation.PlayNormal();
-                cannon.HUD.gameObject.SetActive(false);
-            }
+            CannonHUD[] cannonHUDs = transform.GetComponentsInChildren<CannonHUD>();
+            AmmoHUD[] ammoHUDs = transform.GetComponentsInChildren<AmmoHUD>();
 
-            foreach (Ammo cannon in Ammos)
+            foreach (var cannonHUD in cannonHUDs)
             {
-                cannon.HUD.gameObject.SetActive(false);
+                cannonHUD.gameObject.SetActive(false);
+            }
+            foreach (var ammoHUD in ammoHUDs)
+            {
+                ammoHUD.gameObject.SetActive(false);
             }
         }
     }

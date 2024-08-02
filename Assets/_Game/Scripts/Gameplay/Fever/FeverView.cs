@@ -1,11 +1,18 @@
 using _Game.Features.Battle;
+using Online.Model;
 using Spine.Unity;
+using System.Collections;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace _Game.Features.Gameplay
 {
     public class FeverView : MonoBehaviour
     {
+        public TextMeshProUGUI feverText;
+        public Slider feverProgress;
+
         public SkeletonGraphic SkeletonGraphic;
 
         [SpineAnimation] public string appear;
@@ -30,11 +37,24 @@ namespace _Game.Features.Gameplay
         {
             this.FeverModel = feverModel;
 
-            SkeletonGraphic.AnimationState.AddAnimation(0, appear, false, 0);
+            SkeletonGraphic.AnimationState.SetAnimation(0, appear, false);
             SkeletonGraphic.AnimationState.AddAnimation(0, idle, true, 0);
+            feverText.text = ((int)feverModel.FeverStat.Value).ToString();
+            feverProgress.value = feverModel.FeverStat.Value;
+            Debug.Log(feverModel.FeverStat.Value + " " + feverModel.FeverStat.MaxValue + " "+ feverModel.FeverStat.PercentageValue);
             OnStateEnter(feverModel.CurrentState);
             lastState = feverModel.CurrentState;
+            feverModel.OnStatChanged += FeverStat_OnValueChanged;
             this.FeverModel.OnStateChanged += OnFeverStateChanged;
+        }
+
+        private void FeverStat_OnValueChanged(_Base.Scripts.RPG.Stats.RangedStat stat)
+        {
+            if (FeverModel.CurrentState != FeverState.Unleashing)
+            {
+                feverText.text = $"{stat.Value.ToString()} / {stat.MaxValue.ToString()}";
+                feverProgress.value = stat.Value;
+            }
         }
 
         public void ClearState()
@@ -130,7 +150,21 @@ namespace _Game.Features.Gameplay
                     break;
                 case FeverState.Unleashing:
                     SkeletonGraphic.AnimationState.SetAnimation(0, fevering, true);
+                    StartCoroutine(UnleashCoroutine());
                     break;
+            }
+        }
+        IEnumerator UnleashCoroutine()
+        {
+            float elapsedTime = 0;
+            float progress = 0;
+            float duration = 10;
+            while (progress < 1)
+            {
+                progress = elapsedTime / duration;
+                elapsedTime += Time.deltaTime;
+                feverProgress.value = Mathf.Lerp(0, 1, progress);
+                yield return null;
             }
         }
     }

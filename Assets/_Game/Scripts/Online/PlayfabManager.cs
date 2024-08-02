@@ -1,7 +1,10 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using _Game.Scripts.SaveLoad;
+using Cysharp.Threading.Tasks;
+using Newtonsoft.Json;
 using Online.Enum;
 using Online.Interface;
 using Online.Service;
@@ -55,21 +58,34 @@ namespace Online
 
 		public async Task LoginAsync()
 		{
-			var loginResult = await Auth.LoginAsync();
-			if (loginResult.Status == ELoginStatus.Failed)
+			var loginResponse = await Auth.LoginAsync();
+			if (loginResponse.Status == ELoginStatus.Failed)
 			{
 				Debug.LogError("Login failed");
 				return;
 			}
+			
+			await LoadDatabase();
+			
+			if (loginResponse.Status == ELoginStatus.Newly)
+			{
+				await Profile.RequestDisplayNameAsync();
+				await Profile.RequestUserProfileAsync();
+				await Inventory.RequestInventoryAsync();
+			}
+			else
+			{
+				var infoPayload = loginResponse.ResultPayload;
+				Profile.LoadProfile(infoPayload.PlayerProfile);
+				Profile.LoadUserReadOnlyData(infoPayload.UserReadOnlyData);
+				Equipment.LoadEquipmentShip(infoPayload.UserData);
+				Inventory.LoadVirtualCurrency(infoPayload.UserVirtualCurrency);
+				Inventory.LoadItems(infoPayload.UserInventory);
+			}
 
-			var infoPayload = loginResult.Payload;
-			Profile.LoadProfile(infoPayload.PlayerProfile, infoPayload.UserReadOnlyData);
-			Equipment.LoadEquipmentShip(infoPayload.UserData);
-			Inventory.LoadVirtualCurrency(infoPayload.UserVirtualCurrency);
-			Inventory.LoadItems(infoPayload.UserInventory);
 			await Ranking.LoadUserRankInfo();
 			await Ranking.LoadRewardBundleInfo();
-			UpdateEquipShip(SaveSystem.GameSave.ShipSetupSaveData);
+			// UpdateEquipShip(SaveSystem.GameSave.ShipSetupSaveData);
 
 			LoadShop();
 		}
@@ -79,12 +95,17 @@ namespace Online
 			Auth.LinkFacebook();
 		}
 
-		public void UpgradeItem(string itemInstanceId, System.Action<bool> cb = null)
+		public async UniTask UpgradeItem(string itemInstanceId)
 		{
-			Inventory.UpgradeItem(itemInstanceId, (result) =>
-			{
-				cb?.Invoke(true);
-			});
+			var resUpgrade = await Inventory.UpgradeItem(itemInstanceId);
+			Inventory.LoadVirtualCurrency(resUpgrade.VirtualCurrency);
+			Inventory.RevokeBlueprints(resUpgrade.RevokeBlueprintIDs);
+		}
+
+		public async UniTask CombineItems(List<string> itemInstanceIds)
+		{
+			var resUpgrade = await Inventory.CombineItems(itemInstanceIds);
+			Inventory.RefundBlueprints(resUpgrade.RefundBlueprints);
 		}
 
 		public void RunCoroutine(IEnumerator coroutine)

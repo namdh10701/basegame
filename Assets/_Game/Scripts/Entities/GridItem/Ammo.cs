@@ -6,6 +6,7 @@ using _Base.Scripts.RPGCommon.Entities;
 using _Base.Scripts.Shared;
 using _Game.Features.Gameplay;
 using _Game.Scripts.GD;
+using _Game.Scripts.GD.DataManager;
 using _Game.Scripts.PathFinding;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,21 @@ namespace _Game.Scripts.Entities
 {
     public class Ammo : Entity, IEffectTaker, IGridItem, IWorkLocation, INodeOccupier, IGDConfigStatsTarget
     {
+        private AmmoStatsConfigLoader _configLoader;
+        public AmmoStatsConfigLoader ConfigLoader
+        {
+            get
+            {
+                if (_configLoader == null)
+                {
+                    _configLoader = new AmmoStatsConfigLoader();
+                }
+
+                return _configLoader;
+            }
+        }
+        [SerializeField] private GridItemStateManager gridItemStateManager;
+        [SerializeField] public GridItemView view;
         public string id;
         public GDConfig gdConfig;
         public StatsTemplate statsTemplate;
@@ -39,7 +55,6 @@ namespace _Game.Scripts.Entities
         public List<Node> WorkingSlots { get => workingSlots; set => workingSlots = value; }
         public List<Node> occupyingNodes = new List<Node>();
         public List<Node> OccupyingNodes { get => occupyingNodes; set => occupyingNodes = value; }
-        public bool IsBroken { get => isBroken; set => isBroken = value; }
         public bool IsAbleToTakeHit { get => stats.HealthPoint.Value > stats.HealthPoint.MinValue; }
         public EffectHandler effectHandler;
         public EffectHandler EffectHandler => effectHandler;
@@ -53,13 +68,13 @@ namespace _Game.Scripts.Entities
 
         public Stat StatusResist => null;
 
+        public GridItemStateManager GridItemStateManager => gridItemStateManager;
+
+        public StatsConfigLoader<Stats, DataTableRecord> configLoader => throw new NotImplementedException();
+
         public AmmoStats stats;
 
-        public SpriteRenderer sprite;
-        public Color broken;
-        public Color norm;
-        bool isBroken;
-        public AmmoHUD HUD;
+
 
 
         public void SetId(string id)
@@ -70,35 +85,47 @@ namespace _Game.Scripts.Entities
 
         public void Initialize()
         {
+            var conf = GameData.AmmoTable.FindById(id);
+            ConfigLoader.LoadConfig(stats, conf);
+            ApplyStats();
+
             EffectHandler.EffectTaker = this;
-            GDConfigStatsApplier GDConfigStatsApplier = GetComponent<GDConfigStatsApplier>();
-            GDConfigStatsApplier.LoadStats(this);
             stats.HealthPoint.OnValueChanged += HealthPoint_OnValueChanged;
-            HUD.SetAmmo(this);
+            gridItemStateManager.gridItem = this;
+            view.Init(this);
+
         }
 
         private void HealthPoint_OnValueChanged(RangedStat stat)
         {
-            if (stat.Value == stat.MinValue)
+            if (stat.Value <= stat.MinValue)
             {
-                OnBroken();
+                Debug.Log("CHANGED");
+                gridItemStateManager.GridItemState = GridItemState.Broken;
+            }
+            else
+            {
+                gridItemStateManager.GridItemState = GridItemState.Active;
             }
         }
 
         public void OnBroken()
         {
-            sprite.color = broken;
-            IsBroken = true;
+            gridItemStateManager.GridItemState = GridItemState.Broken;
             GlobalEvent<Ammo, int>.Send("FixAmmo", this, CrewJobData.DefaultPiority[typeof(FixAmmoTask)]);
+        }
+        public void Active()
+        {
+
         }
 
         public void OnFixed()
         {
             stats.HealthPoint.StatValue.BaseValue = stats.HealthPoint.MaxStatValue.Value / 100 * 30;
-            sprite.color = norm;
-            IsBroken = false;
         }
 
         public override void ApplyStats() { }
+
+
     }
 }

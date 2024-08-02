@@ -7,6 +7,7 @@ using _Game.Scripts;
 using _Game.Scripts.Battle;
 using _Game.Scripts.Entities;
 using _Game.Scripts.GD;
+using _Game.Scripts.GD.DataManager;
 using DG.Tweening;
 using System;
 using UnityEngine;
@@ -56,15 +57,31 @@ namespace _Game.Features.Gameplay
             EffectHandler.EffectTaker = this;
             Initialize();
         }
+        private ShipStatsConfigLoader _configLoader;
 
+        public ShipStatsConfigLoader ConfigLoader
+        {
+            get
+            {
+                if (_configLoader == null)
+                {
+                    _configLoader = new ShipStatsConfigLoader();
+                }
+
+                return _configLoader;
+            }
+        }
 
         public void Initialize()
         {
-            BattleViewModel = FindAnyObjectByType<BattleViewModel>();
+            var conf = GameData.ShipTable.FindById(id);
+            ConfigLoader.LoadConfig(stats, conf);
+            ApplyStats();
+
+          
             GlobalEvent<EnemyStats>.Register("EnemyDied", OnEnemyDied);
-            //GlobalEvent<Cannon>.Register("CLICK_CANNON", ShowShipHUD);
-            //GlobalEvent.Register("CloseHUD", CloseHUD);
-            GetComponent<GDConfigStatsApplier>().LoadStats(this);
+        
+
 
             if (EnemyWaveManager.floorId == "1")
             {
@@ -81,48 +98,31 @@ namespace _Game.Features.Gameplay
             CrewJobData.Initialize();
             foreach (Cannon cannon in ShipSetup.Cannons)
             {
-                cannon.HUD.RegisterJob(CrewJobData);
+                cannon.View.cannonHUD.RegisterJob(CrewJobData);
             }
-            HUD.Initialize(ShipSetup.Ammos);
+
+            BattleViewModel = FindAnyObjectByType<BattleViewModel>();
             if (BattleViewModel != null)
-            {
-                BattleViewModel.FeverView.Init(FeverModel);
-            }
+                BattleViewModel.Init(this);
+            HUD.Initialize(ShipSetup.Ammos);
         }
 
-        public void UseFullFever()
+        public void EnterFullFever()
         {
             FeverModel.OnUseFever();
             foreach (Cannon cannon in ShipSetup.Cannons)
             {
-                //CrewJobData.ReloadCannonJobsDic[cannon].Status = JobStatus.Deactive;
                 cannon.OnFullFeverEffectEnter();
             }
-            BattleManager.Instance.FeverSpeedFx.Activate();
-            DOTween.To(() => stats.Fever.StatValue.BaseValue, x => stats.Fever.StatValue.BaseValue = x, 0, 10).OnComplete(
-                () =>
-                {
-                    BattleManager.Instance.FeverSpeedFx.Deactivate();
-                    FeverModel.UpdateState();
-                    foreach (Cannon cannon in ShipSetup.Cannons)
-                    {
-                        cannon.OnFullFeverEffectExit();
-                    }
-
-                });
 
         }
-        public void UseFever(Cannon cannon)
+        public void ExitFullFever()
         {
-            //CrewJobData.ReloadCannonJobsDic[cannon].Status = JobStatus.Deactive;
-            if (cannon.usingBullet == null)
-            {
-                return;
-            }
-            stats.Fever.StatValue.BaseValue -= 200;
-            stats.Fever.StatValue.BaseValue = Mathf.Clamp(stats.Fever.StatValue.BaseValue, 0, stats.Fever.MaxStatValue.BaseValue);
             FeverModel.UpdateState();
-            cannon.OnFeverEffectEnter();
+            foreach (Cannon cannon in ShipSetup.Cannons)
+            {
+                cannon.OnFeverEffectExit();
+            }
         }
 
         private void OnDestroy()
@@ -145,31 +145,13 @@ namespace _Game.Features.Gameplay
         void AddFeverPoint(float point)
         {
             stats.Fever.StatValue.BaseValue += point;
-            stats.Fever.StatValue.BaseValue = Mathf.Clamp(stats.Fever.StatValue.BaseValue, 0, stats.Fever.MaxStatValue.BaseValue);
-            FeverModel.UpdateState();
         }
 
         private void Update()
         {
             RegenMP();
-            UpdateBattleView();
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                AddFeverPoint(50);
-            }
         }
 
-        void UpdateBattleView()
-        {
-            if (BattleViewModel != null)
-            {
-                BattleViewModel.HP = stats.HealthPoint.Value;
-                BattleViewModel.MaxHP = stats.HealthPoint.MaxValue;
-                BattleViewModel.MP = stats.ManaPoint.Value;
-                BattleViewModel.MaxMP = stats.ManaPoint.MaxValue;
-                BattleViewModel.Fever = stats.Fever.Value;
-            }
-        }
 
         void RegenMP()
         {

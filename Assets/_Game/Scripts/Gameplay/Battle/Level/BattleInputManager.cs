@@ -7,27 +7,28 @@ using _Base.Scripts.EventSystem;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
 using _Base.Scripts.Shared;
+using _Game.Scripts.Battle;
 
 namespace _Game.Features.Gameplay
 {
     public class BattleInputManager : MonoBehaviour
     {
+
         [SerializeField] Camera _camera;
         [SerializeField] LayerMask layerMask;
-        [SerializeField] FeverOrb prefab;
-        FeverOrb draggingOrb;
         bool isPointerDown;
         bool isDragging;
 
         GameObject pointerDownObject;
-        Vector2 worldPointerPos;
+        public Vector2 worldPointerPos;
         Vector2 startWorldPointerPos;
 
         Cannon selectingCannon;
 
 
-        public Ship Ship;
-        public ShipHUD ShipHUD;
+        public EntityManager EntityManager;
+        public ReloadCannonController reloadCannonController;
+        public UseFeverController useFeverController;
         private void Start()
         {
             _camera = Camera.main;
@@ -47,38 +48,30 @@ namespace _Game.Features.Gameplay
                 Debug.Log("CLICKED"); Debug.Log(clickedObject.name);
                 if (clickedObject.TryGetComponent(out FeverOrbBtn orbBtn))
                 {
-                    draggingOrb = Instantiate(prefab);
-                    draggingOrb.transform.position = worldPointerPos;
-                    draggingOrb.OnDrag(worldPointerPos);
+                    useFeverController.StartDrag(worldPointerPos);
                     return;
                 }
 
                 if (clickedObject.TryGetComponent(out AmmoButton ammoButton))
                 {
                     Ammo ammo = ammoButton.ammo;
-                    if (ammo.IsBroken)
+                    if (ammo.GridItemStateManager.GridItemState == GridItemState.Broken)
                     {
                         return;
                     }
-                    ShipStats shipStats = Ship.Stats as ShipStats;
-
-                    if (shipStats.ManaPoint.Value >= ammo.stats.EnergyCost.Value)
-                    {
-                        shipStats.ManaPoint.StatValue.BaseValue -= ammo.stats.EnergyCost.Value;
-                        GlobalEvent<int, Vector3>.Send("MANA_CONSUMED", (int)ammo.stats.EnergyCost.Value, worldPointerPos);
-                    }
-                    selectingCannon.Reload(ammo);
+                    //TODO: RELOAD AMMO BUFF HERE
+                    reloadCannonController.ReloadCannon(EntityManager.Ship, selectingCannon, ammo);
                     DeselectCannon();
-                    ShipHUD.Hide();
+                    EntityManager.Ship.HUD.Hide();
                     return;
                 }
 
-                ShipHUD.Hide();
+                EntityManager.Ship.HUD.Hide();
                 DeselectCannon();
             }
             else
             {
-                ShipHUD.Hide();
+                EntityManager.Ship.HUD.Hide();
                 DeselectCannon();
             }
 
@@ -88,7 +81,7 @@ namespace _Game.Features.Gameplay
         {
             if (selectingCannon != null)
             {
-                selectingCannon.border.SetActive(false);
+                selectingCannon.View.Border.SetActive(false);
                 selectingCannon = null;
             }
         }
@@ -118,7 +111,7 @@ namespace _Game.Features.Gameplay
             }
             else
             {
-                ShipHUD.Hide();
+                EntityManager.Ship.HUD.Hide();
                 DeselectCannon();
             }
         }
@@ -127,10 +120,7 @@ namespace _Game.Features.Gameplay
         {
             if (!isPointerDown)
                 return;
-            if (draggingOrb != null)
-            {
-                draggingOrb.OnDrag(worldPointerPos);
-            }
+            useFeverController.OnDrag(worldPointerPos);
         }
 
         void OnWorldPointerUp()
@@ -143,12 +133,12 @@ namespace _Game.Features.Gameplay
                     if (pointerDownObject.TryGetComponent(out Cannon cannon))
                     {
                         DeselectCannon();
-                        ShipHUD.FilterCannonUsingAmmo(cannon);
-                        ShipHUD.Show();
+                        EntityManager.Ship.HUD.FilterCannonUsingAmmo(cannon);
+                        EntityManager.Ship.HUD.Show();
                         selectingCannon = cannon;
-                        selectingCannon.border.SetActive(true);
+                        selectingCannon.View.Border.SetActive(true);
 
-                        if (cannon.IsBroken)
+                        if (cannon.GridItemStateManager.GridItemState == GridItemState.Broken)
                         {
                             GlobalEvent<Cannon, int>.Send("FixCannon", cannon, int.MaxValue);
                         }
@@ -157,7 +147,7 @@ namespace _Game.Features.Gameplay
                     {
                         Debug.Log("click mmo");
 
-                        if (ammo.IsBroken)
+                        if (ammo.GridItemStateManager.GridItemState == GridItemState.Broken)
                         {
                             GlobalEvent<Cannon, int>.Send("FixAmmo", cannon, int.MaxValue);
                         }
@@ -173,17 +163,12 @@ namespace _Game.Features.Gameplay
                     }
                 }
             }
-            if (draggingOrb != null)
-            {
-                draggingOrb.OnDrop(worldPointerPos);
-            }
+
+            useFeverController.OnDrop(worldPointerPos);
         }
         void OnCanvasPointerUp()
         {
-            if (draggingOrb != null)
-            {
-                draggingOrb.OnDrop(worldPointerPos);
-            }
+            useFeverController.OnDrop(worldPointerPos);
         }
 
         void HandleMouse()

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using _Base.Scripts.Utils;
@@ -7,7 +8,10 @@ using _Game.Scripts.GD.DataManager;
 using _Game.Scripts.UI;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using Spine;
+using Spine.Unity;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityWeld.Binding;
 
 namespace _Game.Features.Shop
@@ -41,8 +45,8 @@ namespace _Game.Features.Shop
         {
             get
             {
-                var path = GachaTypeItemReview == null || NameItemReview == null || RarityItemReview == null ? $"Images/Items/item_ammo_arrow_common" :
-                 $"Images/Items/item_{GachaTypeItemReview.ToLower()}_{NameItemReview.ToLower()}_{RarityItemReview.ToLower()}";
+                var path = GachaTypeItemReview == null || NameItemReview == null || RarityItem == null ? $"Items/item_ammo_arrow_common" :
+                 $"Items/item_{GachaTypeItemReview.ToLower()}_{NameItemReview.ToLower()}_{RarityItem.ToLower()}";
                 return Resources.Load<Sprite>(path);
             }
         }
@@ -174,6 +178,30 @@ namespace _Game.Features.Shop
         private string _rarityItemReview;
         #endregion
 
+        [Binding]
+        public string RarityItem { get; set; }
+
+        #region Binding Prop: ColorRarityItemReview
+        /// <summary>
+        /// ColorRarityItemReview
+        /// </summary>
+        [Binding]
+        public Color ColorRarityItemReview
+        {
+            get => _colorRarityItemReview;
+            set
+            {
+                if (Equals(_colorRarityItemReview, value))
+                {
+                    return;
+                }
+
+                _colorRarityItemReview = value;
+                OnPropertyChanged(nameof(ColorRarityItemReview));
+            }
+        }
+        private Color _colorRarityItemReview;
+        #endregion
 
         #region Binding Prop: CurrentIndexItemReview
         /// <summary>
@@ -355,7 +383,13 @@ namespace _Game.Features.Shop
         List<ShopListingTableRecord> _shopDataSummons = new List<ShopListingTableRecord>();
         public string IdSummonItemSelected;
         public string PriceTypeSummonItemSelected;
-        public RectTransform Box;
+        public SkeletonGraphic SkeletonGraphicBox;
+        public SkeletonGraphic SkeletonGraphicBoxRecieved;
+        public SkeletonGraphic SkeletonGraphicEffect;
+        public CanvasGroup CanvasGroupInfoItem;
+        public Animator AnimationItemReview;
+        public RectTransform HightlightPopupRecieved;
+        public RectTransform HightlightitemRecieved;
         private void OnEnable()
         {
             LoadDataShop();
@@ -403,9 +437,10 @@ namespace _Game.Features.Shop
 
             IdItemReview = ItemsGachaReceived[currentIndexItemReview].IdItemGacha;
             GachaTypeItemReview = ItemsGachaReceived[currentIndexItemReview].GachaType;
-            NameItemReview = ItemsGachaReceived[currentIndexItemReview].Name;
-            RarityItemReview = ItemsGachaReceived[currentIndexItemReview].Rarity;
-            IsHighlight = RarityItemReview == "Rare" || RarityItemReview == "Epic" ? true : false;
+            RarityItem = ItemsGachaReceived[currentIndexItemReview].Rarity;
+            RarityItemReview = $"[{ItemsGachaReceived[currentIndexItemReview].Rarity}]";
+            NameItemReview = ItemsGachaReceived[currentIndexItemReview].Operation;
+            SetColorRarity(ItemsGachaReceived[currentIndexItemReview].Rarity);
             OnPropertyChanged(nameof(SpriteReview));
             OnPropertyChanged(nameof(Thumbnail));
             SetDataItemStat();
@@ -417,15 +452,16 @@ namespace _Game.Features.Shop
             DataTableRecord dataTableRecord;
             if (GachaTypeItemReview == "cannon")
             {
-                SlotItemReview = GameData.CannonTable.GetSlotByName(NameItemReview);
-                dataTableRecord = GameData.CannonTable.GetDataTableRecord(NameItemReview, RarityItemReview);
+                SlotItemReview = GameData.CannonTable.GetSlotByName(IdItemReview);
+                dataTableRecord = GameData.CannonTable.GetDataTableRecord(IdItemReview);
             }
             else
             {
-                SlotItemReview = GameData.AmmoTable.GetShapeByName(NameItemReview);
-                dataTableRecord = GameData.AmmoTable.GetDataTableRecord(NameItemReview, RarityItemReview);
+                SlotItemReview = GameData.AmmoTable.GetShapeByName(IdItemReview);
+                dataTableRecord = GameData.AmmoTable.GetDataTableRecord(IdItemReview);
             }
 
+            var index = 0;
             foreach (var item in dataTableRecord.GetType().GetProperties(BindingFlags.Default | BindingFlags.Public | BindingFlags.Instance))
             {
                 var stat = item.GetCustomAttribute<StatAttribute>();
@@ -433,9 +469,13 @@ namespace _Game.Features.Shop
                     continue;
 
                 ItemStat itemStat = new ItemStat();
+                itemStat.Index = index;
                 itemStat.NameProperties = stat.Name;
                 itemStat.Value = item.GetValue(dataTableRecord).ToString();
+
+                itemStat.Setup();
                 itemStats.Add(itemStat);
+                index++;
             }
 
         }
@@ -452,6 +492,10 @@ namespace _Game.Features.Shop
             IsActivePopupReview = true;
             IsActivePopupReceived = false;
             CurrentIndexItemReview = 0;
+            if (IsHighlight)
+                HightlightitemRecieved.DORotate(new Vector3(0, 0, 360), 4f, DG.Tweening.RotateMode.FastBeyond360)
+                    .SetLoops(-1, LoopType.Restart)
+                    .SetEase(Ease.Linear);
         }
 
         [Binding]
@@ -460,24 +504,67 @@ namespace _Game.Features.Shop
             IOC.Resolve<MainViewModel>().IsActiveBotNavBar = false;
             IsActivePopupConfirm = false;
             IsActivePopupLoading = true;
-            await UniTask.Delay(1);
             IsActivePopupLoading = false;
             IsActivePopupAnimOpenBox = true;
             CurrentIndexItemReview = 0;
-            Box.anchoredPosition = new Vector2(0, 941);
-            Box.DOAnchorPosY(-228, 1, false).OnComplete(() =>
-            {
-                IsActivePopupAnimOpenBox = false;
-                IsActivePopupReceived = true;
 
-                foreach (var item in SummonItems)
+            // Set the first animation and get the TrackEntry
+            TrackEntry trackEntry = SkeletonGraphicBox.AnimationState.SetAnimation(0, "GACHA_BEGIN", false);
+            trackEntry.Complete += OnGachaBeginComplete;
+            // Add the callback to the Complete event of the TrackEntry
+            SkeletonGraphicEffect.AnimationState.SetAnimation(0, "fx_gacha", true);
+        }
+
+        private async void OnGachaBeginComplete(TrackEntry trackEntry)
+        {
+            Debug.Log("OnGachaBeginComplete");
+
+            // Queue the next animation after GACHA_BEGIN completes
+            SkeletonGraphicBoxRecieved.AnimationState.SetAnimation(0, "GACHA_IDLE", true);
+            IsActivePopupAnimOpenBox = false;
+            IsActivePopupReceived = true;
+            AnimationItemReview.Play("LoadItem");
+
+            await UniTask.Delay(300);
+            if (IsHighlight)
+            {
+                HightlightPopupRecieved.localScale = new Vector3(1, 1, 1);
+                HightlightPopupRecieved.DORotate(new Vector3(0, 0, 360), 4f, DG.Tweening.RotateMode.FastBeyond360)
+                                    .SetLoops(-1, LoopType.Restart)
+                                    .SetEase(Ease.Linear);
+            }
+
+
+            CanvasGroupInfoItem.alpha = 1;
+            foreach (var item in SummonItems)
+            {
+                if (item.Id == IdSummonItemSelected && item.PriceType == PriceTypeSummonItemSelected)
                 {
-                    if (item.Id == IdSummonItemSelected && item.PriceType == PriceTypeSummonItemSelected)
-                    {
-                        item.GetIDItemGacha();
-                    }
+                    item.GetIDItemGacha();
                 }
-            });
+            }
+        }
+
+        private void SetColorRarity(string rarity)
+        {
+            switch (rarity)
+            {
+                case "Common":
+                    ColorRarityItemReview = Color.grey;
+                    break;
+                case "Good":
+                    ColorRarityItemReview = Color.green;
+                    break;
+                case "Rare":
+                    ColorRarityItemReview = Color.cyan;
+                    break;
+                case "Epic":
+                    ColorRarityItemReview = new Color(194, 115, 241, 255);
+                    break;
+                case "Legend":
+                    ColorRarityItemReview = Color.yellow;
+                    break;
+            }
         }
 
         [Binding]
@@ -486,6 +573,8 @@ namespace _Game.Features.Shop
             ItemsGachaReceived.Clear();
             IsActivePopupReview = false;
             IsActivePopupReceived = false;
+            CanvasGroupInfoItem.alpha = 0;
+            HightlightPopupRecieved.localScale = new Vector3(0, 0, 0);
             OnClickConfirmGacha();
         }
 
@@ -498,6 +587,8 @@ namespace _Game.Features.Shop
             IsActivePopupAnimOpenBox = false;
             IsActivePopupReview = false;
             IsActivePopupReceived = false;
+            CanvasGroupInfoItem.alpha = 0;
+            HightlightPopupRecieved.localScale = new Vector3(0, 0, 0);
         }
 
 

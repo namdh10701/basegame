@@ -149,7 +149,6 @@ namespace _Game.Features.Gameplay
         {
             if (DoingTask == task)
             {
-                Debug.Log("RETURN");
                 return;
             }
             if (DoingTask != null)
@@ -158,12 +157,10 @@ namespace _Game.Features.Gameplay
             }
             if (actionCoroutine != null)
             {
-                Debug.Log("stop coroutine");
                 StopCoroutine(actionCoroutine);
                 Handler.InteruptCurrentAction();
             }
             
-            Debug.Log(task);
             DoingTask = task;
             if (isPause)
             {
@@ -182,7 +179,6 @@ namespace _Game.Features.Gameplay
             task.OnCompleted();
             DoingTask = null;
             actionCoroutine = null;
-            Debug.Log("COMPLETE TASK");
             OnFree();
 
         }

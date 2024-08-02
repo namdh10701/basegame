@@ -35,9 +35,9 @@ namespace _Game.Features.InventoryCustomScreen
         private ItemType m_type;
         #endregion
 
-        #region Binding Prop: ItemType
+        #region Binding Prop: Rarity
         /// <summary>
-        /// ItemType
+        /// Rarity
         /// </summary>
         [Binding]
         public Rarity Rarity
@@ -66,8 +66,8 @@ namespace _Game.Features.InventoryCustomScreen
         {
             get
             {
-                // var path = Id == null ? $"Images/Items/item_misc_eq2_com" : $"Images/Items/item_misc_{Rarity.ToString().ToLower()}_{Id.ToString().ToLower()}";
-                var path = Id == null ? $"Images/Items/item_misc_eq2_com" : $"Images/Items/item_misc_eq2_com";
+                var path = Id == null ? $"Items/item_misc_eq2_com" : $"Items/item_misc_{Id.ToString().ToLower()}_{Rarity.ToString().ToLower()}";
+                // var path = Id == null ? $"Items/item_misc_eq2_com" : $"Items/item_misc_eq2_com";
                 return Resources.Load<Sprite>(path);
             }
         }

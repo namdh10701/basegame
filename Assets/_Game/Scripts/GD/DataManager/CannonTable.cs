@@ -1,23 +1,21 @@
-using System;
-using System.Collections.Generic;
-using CsvHelper.Configuration.Attributes;
+using Newtonsoft.Json;
 
 namespace _Game.Scripts.GD.DataManager
 {
     /// <summary>
     /// 
     /// </summary>
-    public class CannonTable : DataTable<CannonTableRecord>
+    public class CannonTable : LocalDataTable<CannonTableRecord>
     {
-        public CannonTable(string downloadUrl, string dataFileName = null) : base(downloadUrl, dataFileName)
+        public CannonTable(string name) : base(name)
         {
         }
 
-        public string GetSlotByName(string name)
+        public string GetSlotByName(string id)
         {
             foreach (var record in Records)
             {
-                if (record.OperationType == name)
+                if (record.Id == id)
                     return record.Slot;
             }
             return null;
@@ -43,21 +41,31 @@ namespace _Game.Scripts.GD.DataManager
             return -1;
         }
 
-        public DataTableRecord GetDataTableRecord(string name, string defaultRarity)
+        public DataTableRecord GetDataTableRecord(string id)
         {
             foreach (var record in Records)
             {
-                if (record.OperationType == name && record.DefaultRarity == defaultRarity)
+                if (record.Id == id)
                     return record;
             }
             return null;
         }
 
-        public (string, string, string) GetDataSkillDefault(string operationType, string rarityLevel)
+        // public (string, string, string) GetDataSkillDefault(string operationType, Rarity rarity, string rarityLevel)
+        // {
+        //     foreach (var record in Records)
+        //     {
+        //         if (record.OperationType == operationType && record.Rarity == rarity && record.RarityLevel.ToString() == rarityLevel)
+        //             return (record.OperationType, record.Skill_Desc, record.Skill_Name);
+        //     }
+        //     return (null, null, null);
+        // }
+
+        public (string, string, string) GetDataSkillDefault(string id)
         {
             foreach (var record in Records)
             {
-                if (record.OperationType == operationType && record.RarityLevel.ToString() == rarityLevel)
+                if (record.Id == id)
                     return (record.OperationType, record.Skill_Desc, record.Skill_Name);
             }
             return (null, null, null);
@@ -82,101 +90,80 @@ namespace _Game.Scripts.GD.DataManager
     /// </summary>
     public class CannonTableRecord : DataTableRecord
     {
-
-        [Index(0)]
+        [JsonProperty("id")]
         public string Id { get; set; }
 
-        [Index(1)]
+        [JsonProperty("operation_type")]
         public string OperationType { get; set; }
 
-        [Index(2)]
+        [JsonProperty("shape")]
         public string Shape { get; set; }
 
-        [Index(3)]
-        [TypeConverter(typeof(RarityConverter))]
+        [JsonProperty("rarity")]
         public Rarity Rarity { get; set; }
 
-        [Index(4)]
-        [Default(0)]
+        [JsonProperty("rarity_level")]
         public int RarityLevel { get; set; }
 
-        [Index(5)]
+        [JsonProperty("name")]
         public string Name { get; set; }
 
-        [Index(6)]
-        public string DefaultRarity { get; set; }
-
-        [Index(7)]
-        [Default(0)]
+        [JsonProperty("hp")]
         [Stat("HP")]
         public float Hp { get; set; }
 
-        [Index(8)]
-        [Default(0)]
+        [JsonProperty("attack")]
         [Stat("Attack")]
         public float Attack { get; set; }
 
-        [Index(9)]
-        [Default(0)]
+        [JsonProperty("attack_speed")]
         [Stat("AttackSpeed")]
         public float AttackSpeed { get; set; }
 
-        [Index(10)]
-        [Default(0)]
+        [JsonProperty("accuracy")]
         [Stat("Accuracy")]
         public float Accuracy { get; set; }
 
-        [Index(11)]
-        [Default(0)]
+        [JsonProperty("crit_chance")]
         [Stat("CritChance")]
         public float CritChance { get; set; }
 
-        [Index(12)]
-        [Default(0)]
+        [JsonProperty("crit_damage")]
         [Stat("CritDamage")]
         public float CritDamage { get; set; }
 
-        [Index(13)]
-        [Default(0)]
+        [JsonProperty("range")]
         [Stat("Range")]
         public float Range { get; set; }
 
-        [Index(14)]
-        [Default(0)]
-        [Stat("Skill")]
+        [JsonProperty("skill")]
         public float Skill { get; set; }
 
-        [Index(15)]
-        [Default(0)]
+        [JsonProperty("primary_project_dmg")]
         [Stat("PrimaryProjectDmg")]
         public float PrimaryProjectDmg { get; set; }
 
-        [Index(16)]
-        [Default(0)]
+        [JsonProperty("secondary_project_dmg")]
         [Stat("SecondaryProjectDmg")]
         public float SecondaryProjectDmg { get; set; }
 
-        [Index(17)]
-        [Default(0)]
-        [Stat("ProjectCount")]
+        [JsonProperty("project_count")]
         public float ProjectCount { get; set; }
 
-        [Index(18)]
-        [Default(0)]
+        [JsonProperty("angle")]
         [Stat("Angle")]
         public float Angle { get; set; }
 
-        [Index(19)]
-        [Default(false)]
-        [BooleanFalseValues("0", "false")]
-        [BooleanTrueValues("1", "true")]
+        [JsonProperty("enable")]
         public bool Enable { get; set; }
 
-        [Index(20)]
+        [JsonProperty("skill_name")]
         public string Skill_Name { get; set; }
 
-        [Index(21)]
+        [JsonProperty("skill_desc")]
         public string Skill_Desc { get; set; }
+
+        public string DefaultRarity => Rarity.ToString() + RarityLevel;
 
         public string Slot
         {

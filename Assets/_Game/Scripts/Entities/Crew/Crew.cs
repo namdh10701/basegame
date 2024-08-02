@@ -4,6 +4,7 @@ using _Base.Scripts.RPG.Stats;
 using _Game.Scripts;
 using _Game.Scripts.Entities;
 using _Game.Scripts.GD;
+using _Game.Scripts.GD.DataManager;
 using _Game.Scripts.PathFinding;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,22 @@ namespace _Game.Features.Gameplay
 
     public class Crew : Entity, IGDConfigStatsTarget, IStatsBearer, INodeOccupier, IEffectTaker, IStunable
     {
+        #region
+        private CrewStatsConfigLoader _configLoader;
 
+        public CrewStatsConfigLoader ConfigLoader
+        {
+            get
+            {
+                if (_configLoader == null)
+                {
+                    _configLoader = new CrewStatsConfigLoader();
+                }
+
+                return _configLoader;
+            }
+        }
+        #endregion
         public CrewState state;
         public CrewState State
         {
@@ -71,7 +87,14 @@ namespace _Game.Features.Gameplay
 
         private void Start()
         {
-            GetComponent<GDConfigStatsApplier>().LoadStats(this);
+            var conf = GameData.CrewTable.FindById(id);
+            Debug.Log(id);
+            Debug.Log(conf.FeverTimeProb);
+            Debug.Log(conf.Luck);
+            ConfigLoader.LoadConfig(stats, conf);
+            ApplyStats();
+
+
             EffectHandler.EffectTaker = this;
             EffectTakerCollider.Taker = this;
         }

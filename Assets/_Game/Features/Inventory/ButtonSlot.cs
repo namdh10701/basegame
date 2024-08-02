@@ -1,4 +1,5 @@
 using _Game.Features.Inventory;
+using _Game.Scripts.GD.DataManager;
 using _Game.Scripts.UI;
 using UnityEngine;
 using UnityEngine.UI;
@@ -60,7 +61,28 @@ namespace _Game.Features.InventoryCustomScreen
         }
 
         private ItemType m_type;
+        #endregion
 
+        #region Binding Prop: Rarity
+        /// <summary>
+        /// Rarity
+        /// </summary>
+        [Binding]
+        public Rarity Rarity
+        {
+            get => _rarity;
+            set
+            {
+                if (Equals(_rarity, value))
+                {
+                    return;
+                }
+
+                _rarity = value;
+                OnPropertyChanged(nameof(Type));
+            }
+        }
+        private Rarity _rarity;
         #endregion
 
         #region Binding Prop: Thumbnail
@@ -75,18 +97,17 @@ namespace _Game.Features.InventoryCustomScreen
                 switch (Type)
                 {
                     case ItemType.MISC:
-                        var path = Id == null ? $"Images/Items/item_misc_eq2_com" : $"Images/Items/item_misc_eq2_com";
+                        var path = Id == null ? $"Items/item_misc_eq2_com" : $"Items/item_misc_{Id.ToString().ToLower()}_{Rarity.ToString().ToLower()}";
                         return Resources.Load<Sprite>(path);
                     default:
                         Debug.LogWarning("Images/Common/icon_plus");
-                        return Resources.Load<Sprite>("Images/Common/icon_plus");
+                        return Resources.Load<Sprite>("Images/Common/but");
                 }
             }
         }
         #endregion
 
         #region Binding Prop: Interactable
-
         private bool _interactable = true;
         /// <summary>
         /// Interactable
@@ -107,14 +128,38 @@ namespace _Game.Features.InventoryCustomScreen
                 OnPropertyChanged(nameof(Interactable));
             }
         }
+        #endregion
 
+        #region Binding Prop: HasItemAtatch
+        /// <summary>
+        /// HasItemAtatch
+        /// </summary>
+        [Binding]
+        public bool HasItemAttach
+        {
+            get => _hasItemAtatch;
+            set
+            {
+                if (_hasItemAtatch == value)
+                {
+                    return;
+                }
+
+                _hasItemAtatch = value;
+
+                OnPropertyChanged(nameof(HasItemAttach));
+            }
+        }
+        private bool _hasItemAtatch = true;
         #endregion
 
 
-        public void UpdateData(string id, ItemType itemType)
+        public void UpdateData(string id, ItemType itemType, Rarity rarity)
         {
             Id = id;
             Type = itemType;
+            Rarity = rarity;
+            HasItemAttach = string.IsNullOrEmpty(Id);
             OnPropertyChanged(nameof(Thumbnail));
 
         }

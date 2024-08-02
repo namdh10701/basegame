@@ -15,6 +15,7 @@ namespace _Game.Features.Inventory
         CREW,
         CANNON,
         AMMO,
+        CARPET,
         MISC,
         None,
     }
@@ -204,6 +205,11 @@ namespace _Game.Features.Inventory
                     var itemOperationType = OperationType.ToLower();
                     var itemRarity = Rarity.ToString().ToLower();
                     var path = $"Images/Items/item_{itemType}_{itemOperationType}_{itemRarity}";
+                    return Resources.Load<Sprite>(path);
+                }
+                else if (Type != ItemType.MISC)
+                {
+                    var path = $"Items/item_ship_{Id}";
                     return Resources.Load<Sprite>(path);
                 }
                 else

@@ -1,3 +1,4 @@
+using _Base.Scripts.RPGCommon.Entities;
 using _Game.Scripts;
 using _Game.Scripts.Entities;
 using _Game.Scripts.PathFinding;
@@ -158,8 +159,12 @@ namespace _Game.Features.Gameplay
 
         public override IEnumerator DoExecute()
         {
-            yield return new WaitForSeconds(2);
-            cell.OnFixed();
+            IAliveStats aliveStats = cell.Stats as IAliveStats;
+            while (!aliveStats.HealthPoint.IsFull)
+            {
+                aliveStats.HealthPoint.StatValue.BaseValue += crew.stats.RepairSpeed.Value * Time.deltaTime;
+                yield return null;
+            }
         }
 
         public override void Interupt()

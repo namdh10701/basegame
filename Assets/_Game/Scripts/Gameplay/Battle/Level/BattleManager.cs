@@ -18,25 +18,26 @@ namespace _Game.Features.Gameplay
 {
     public class BattleManager : MonoBehaviour
     {
+        #region Singleton
         private static BattleManager instance;
         public static BattleManager Instance => instance;
         private void Awake()
         {
             instance = this;
-            //Initialize(null);
         }
+        #endregion
 
-        public static string SelectedShipId = "0003";
-        public static string StageId;
+        public static string SelectedShipId;
 
         public Transform shipStartPos;
         public EntityManager EntityManager;
         public LevelStartSequence LevelStartSequence;
         public EnemyWaveManager EnemyManager;
         public BattleInputManager BattleInputManager;
+
+        // require for enemy attacks
         public GridAttackHandler GridAttackHandler;
         public GridPicker GridPicker;
-        public FeverSpeedFx FeverSpeedFx;
 
         public BattleViewModel BattleViewModel;
         public void Initialize()
@@ -48,11 +49,7 @@ namespace _Game.Features.Gameplay
             GridAttackHandler.ship = EntityManager.Ship;
             GridPicker.ShipGrid = EntityManager.Ship.ShipSetup;
 
-            BattleInputManager.ShipHUD = EntityManager.Ship.HUD;
-            BattleInputManager.Ship = EntityManager.Ship;
-
             StartCoroutine(LevelEntryCoroutine());
-            GlobalEvent.Register("UseFullFever", UseFullFever);
             GlobalEvent<bool>.Register("TOGGLE_PAUSE", TogglePause);
         }
 
@@ -116,7 +113,6 @@ namespace _Game.Features.Gameplay
         {
             Time.timeScale = 1;
             GlobalEvent<bool>.Unregister("TOGGLE_PAUSE", TogglePause);
-            GlobalEvent.Unregister("UseFullFever", UseFullFever);
             currentRate = 1;
         }
 
@@ -156,16 +152,6 @@ namespace _Game.Features.Gameplay
         public void UpdateTimeScale()
         {
             Time.timeScale = currentRate;
-        }
-
-        internal void UseFever(Cannon cannon)
-        {
-            EntityManager.Ship.UseFever(cannon);
-        }
-
-        void UseFullFever()
-        {
-            EntityManager.Ship.UseFullFever();
         }
     }
 }

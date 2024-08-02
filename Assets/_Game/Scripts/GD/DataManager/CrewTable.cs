@@ -1,22 +1,23 @@
 using CsvHelper.Configuration.Attributes;
+using Newtonsoft.Json;
 
 namespace _Game.Scripts.GD.DataManager
 {
     /// <summary>
     /// 
     /// </summary>
-    public class CrewTable : DataTable<CrewTableRecord>
+    public class CrewTable : LocalDataTable<CrewTableRecord>
     {
-        public CrewTable(string downloadUrl, string dataFileName = null) : base(downloadUrl, dataFileName)
+        public CrewTable(string fileName) : base(fileName)
         {
 
         }
 
-        public DataTableRecord GetDataTableRecord(string name, string defaultRarity)
+        public DataTableRecord GetDataTableRecord(string id)
         {
             foreach (var record in Records)
             {
-                if (record.OperationType == name && record.Rarity.ToString() == defaultRarity)
+                if (record.Id == id)
                     return record;
             }
             return null;
@@ -38,84 +39,70 @@ namespace _Game.Scripts.GD.DataManager
     /// </summary>
     public class CrewTableRecord : DataTableRecord
     {
-        [Index(0)]
+        [JsonProperty("id")]
         public string Id { get; set; }
 
-        [Index(1)]
+        [JsonProperty("name")]
         public string Name { get; set; }
 
-        [Index(2)]
+        [JsonProperty("operation_type")]
         public string OperationType { get; set; }
 
-        [Index(3)]
+        [JsonProperty("shape")]
         public string Shape { get; set; }
 
-        [Index(4)]
-        [TypeConverter(typeof(RarityConverter))]
+        [JsonProperty("rarity")]
         public Rarity Rarity { get; set; }
 
-        [Index(5)]
-        [Default(0)]
+        [JsonProperty("move_speed")]
         [Stat("MoveSpeed")]
         public float MoveSpeed { get; set; }
 
-        [Index(6)]
-        [Default(0)]
+        [JsonProperty("repair_speed")]
         [Stat("RepairSpeed")]
         public float RepairSpeed { get; set; }
 
-        [Index(7)]
-        [Default(0)]
+        [JsonProperty("fever_time_prob")]
         [Stat("FeverTimeProb")]
         public float FeverTimeProb { get; set; }
 
-        [Index(8)]
-        [Default(0)]
+        [JsonProperty("gold_income")]
         [Stat("GoldIncome")]
         public float GoldIncome { get; set; }
 
-        [Index(9)]
-        [Default(0)]
-        [Stat("StatusReduce")]
+        [JsonProperty("status_reduce")]
         public float StatusReduce { get; set; }
 
-        [Index(10)]
-        [Default(0)]
-        [Stat("ZeroManaCost")]
+        [JsonProperty("zero_mana_cost")]
         public float ZeroManaCost { get; set; }
 
-        [Index(11)]
-        [Default(0)]
+        [JsonProperty("luck")]
         [Stat("Luck")]
         public float Luck { get; set; }
 
-        [Index(12)]
-        [Default(0)]
+        [JsonProperty("bonus_ammo")]
         [Stat("BonusAmmo")]
         public float BonusAmmo { get; set; }
 
-        [Index(13)]
+        [JsonProperty("skill_name_1")]
         public string Skill_Name_1 { get; set; }
 
-        [Index(14)]
+        [JsonProperty("skill_desc_1")]
         public string SkillDesc1 { get; set; }
 
-        [Index(15)]
+        [JsonProperty("skill_name_2")]
         public string Skill_Name_2 { get; set; }
 
-        [Index(16)]
+        [JsonProperty("skill_desc_2")]
         public string SkillDesc2 { get; set; }
 
-        [Index(17)]
+        [JsonProperty("skill_name_3")]
         public string Skill_Name_3 { get; set; }
 
-        [Index(18)]
+        [JsonProperty("skill_desc_3")]
         public string SkillDesc3 { get; set; }
 
-        [Index(19)]
-        [Default(false)]
-        [BooleanFalseValues("0", "false")]
-        [BooleanTrueValues("1", "true")]
+        [JsonProperty("enable")]
         public bool Enable { get; set; }
 
         public string Slot

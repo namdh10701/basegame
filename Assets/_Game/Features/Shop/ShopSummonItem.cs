@@ -4,6 +4,7 @@ using System.Linq;
 using _Game.Scripts.GD.DataManager;
 using _Game.Scripts.SaveLoad;
 using _Game.Scripts.UI;
+using Cysharp.Threading.Tasks;
 using ExitGames.Client.Photon.StructWrapping;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -173,7 +174,7 @@ namespace _Game.Features.Shop
         public List<int> ListWeightNameItem = new List<int>();
 
         public string CurentRarityItemGacha;
-        public string CurentNameItemGacha;
+        public string CurentOperationItemGacha;
         public ShopSummonViewModel ShopSummonViewModel;
         int _countGacha;
 
@@ -219,7 +220,7 @@ namespace _Game.Features.Shop
             {
                 if (randomNumber < ListWeightNameItem[i])
                 {
-                    CurentNameItemGacha = ListNameItem[i];
+                    CurentOperationItemGacha = ListNameItem[i];
                     return ListNameItem[i];
                 }
                 randomNumber -= ListWeightNameItem[i];
@@ -229,7 +230,7 @@ namespace _Game.Features.Shop
         }
 
         [Binding]
-        public void GetIDItemGacha()
+        public async void GetIDItemGacha()
         {
             ShopSummonViewModel.ItemsGachaReceived.Clear();
             for (int i = 0; i < Amount; i++)
@@ -241,16 +242,18 @@ namespace _Game.Features.Shop
 
                 GetRandomNameByWeight();
 
-                var IdGachaItem = GameData.ShopRarityTable.GetIdByNameAndRarity(CurentNameItemGacha, CurentRarityItemGacha);
+                var IdGachaItem = GameData.ShopRarityTable.GetIdByNameAndRarity(CurentOperationItemGacha, CurentRarityItemGacha);
 
                 ShopItemGachaReceived shopItemGachaReceived = new ShopItemGachaReceived();
                 shopItemGachaReceived.IdItemGacha = IdGachaItem;
-                shopItemGachaReceived.Name = CurentNameItemGacha;
-                shopItemGachaReceived.Slot = GameData.CannonTable.GetSlotByName(CurentNameItemGacha);
+                shopItemGachaReceived.Operation = CurentOperationItemGacha;
+                shopItemGachaReceived.Slot = GameData.CannonTable.GetSlotByName(CurentOperationItemGacha);
                 shopItemGachaReceived.GachaType = GachaType;
                 shopItemGachaReceived.Rarity = CurentRarityItemGacha;
                 shopItemGachaReceived.IsHighLight = CurentRarityItemGacha == "Rare" || CurentRarityItemGacha == "Epic" ? true : false;
                 ShopSummonViewModel.ItemsGachaReceived.Add(shopItemGachaReceived);
+                await UniTask.Delay(300);
+
             }
             // ShopSummonViewModel.CurrentIndexItemReview = 0;
             ShopSummonViewModel.OnChangeCurrentIndexItemReview(0);
@@ -263,6 +266,7 @@ namespace _Game.Features.Shop
             ShopSummonViewModel.IdSummonItemSelected = Id;
             ShopSummonViewModel.PriceTypeSummonItemSelected = PriceType;
             ShopSummonViewModel.IsHighlight = CurentRarityItemGacha == "Rare" || CurentRarityItemGacha == "Epic" ? true : false;
+            ShopSummonViewModel.IsHighlight = true;
         }
     }
 }
