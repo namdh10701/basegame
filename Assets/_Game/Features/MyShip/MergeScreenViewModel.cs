@@ -134,7 +134,7 @@ namespace _Game.Features.MergeScreen
             get
             {
                 if (ItemMerge == null)
-                    return Resources.Load<Sprite>($"Items/item_ammo_arrow_common");
+                    return Resources.Load<Sprite>($"Images/Items/item_ammo_arrow_common");
                 else
                 {
                     if (ItemMerge.Type != ItemType.MISC)
@@ -142,12 +142,12 @@ namespace _Game.Features.MergeScreen
                         var itemType = ItemMerge.Type.ToString().ToLower();
                         var itemOperationType = ItemMerge.OperationType.ToLower();
                         var itemRarity = ItemMerge.Rarity.ToString().ToLower();
-                        var path = $"Items/item_{itemType}_{itemOperationType}_{itemRarity}";
+                        var path = $"Images/Items/item_{itemType}_{itemOperationType}_{itemRarity}";
                         return Resources.Load<Sprite>(path);
                     }
                     else
                     {
-                        var path = ItemMerge.Id == null ? $"Items/item_ammo_arrow_common" : $"Items/item_misc_{ItemMerge.Id.ToString().ToLower()}";
+                        var path = ItemMerge.Id == null ? $"Images/Items/item_ammo_arrow_common" : $"Images/Items/item_misc_{ItemMerge.Id.ToString().ToLower()}";
                         return Resources.Load<Sprite>(path);
                     }
                 }
@@ -172,7 +172,7 @@ namespace _Game.Features.MergeScreen
             get
             {
                 if (ItemTarget == null)
-                    return Resources.Load<Sprite>($"Items/item_ammo_arrow_common");
+                    return Resources.Load<Sprite>($"Images/Items/item_ammo_arrow_common");
                 else
                 {
                     if (ItemTarget.Type != ItemType.MISC)
@@ -180,12 +180,12 @@ namespace _Game.Features.MergeScreen
                         var itemType = ItemTarget.Type.ToString().ToLower();
                         var itemOperationType = ItemTarget.OperationType.ToLower();
                         var itemRarity = ItemTarget.Rarity.ToString().ToLower();
-                        var path = $"Items/item_{itemType}_{itemOperationType}_{itemRarity}";
+                        var path = $"Images/Items/item_{itemType}_{itemOperationType}_{itemRarity}";
                         return Resources.Load<Sprite>(path);
                     }
                     else
                     {
-                        var path = ItemTarget.Id == null ? $"Items/item_ammo_arrow_common" : $"Items/item_misc_{ItemMerge.Id.ToString().ToLower()}";
+                        var path = ItemTarget.Id == null ? $"Images/Items/item_ammo_arrow_common" : $"Images/Items/item_misc_{ItemMerge.Id.ToString().ToLower()}";
                         return Resources.Load<Sprite>(path);
                     }
                 }

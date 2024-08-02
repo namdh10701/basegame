@@ -35,7 +35,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 65.17}
-  m_SizeDelta: {x: 412.8242, y: 55.0869}
+  m_SizeDelta: {x: 798.2331, y: 55.0869}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7543334575034837032
 CanvasRenderer:
@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Item require to enhance
+  m_text: Starting this battle will cost the following items
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 14cb7610890d44d13a933295882746b8, type: 2}
   m_sharedMaterial: {fileID: 1819220286573527055, guid: 14cb7610890d44d13a933295882746b8, type: 2}
@@ -199,7 +199,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Confirm text
+  m_text: Start ranking battle?
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: bd8be26ec786348f6916031212d2e2c0, type: 2}
   m_sharedMaterial: {fileID: 673337701062516010, guid: bd8be26ec786348f6916031212d2e2c0, type: 2}
@@ -226,7 +226,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 50
+  m_fontSize: 41.9
   m_fontSizeBase: 50
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -435,6 +435,7 @@ GameObject:
   - component: {fileID: 1267513692213122925}
   - component: {fileID: 5446352281375989313}
   - component: {fileID: 9014349485608331772}
+  - component: {fileID: 407966570105817856}
   m_Layer: 5
   m_Name: ingredient
   m_TagString: Untagged
@@ -514,6 +515,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   viewModelTypeName: _Game.Features.Ranking.OwnedConsumableResource
+--- !u!114 &407966570105817856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1088113403365027262}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1670825535, guid: e650e72e8be47794994495fc15c0ba63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  viewAdapterTypeName: 
+  viewAdapterOptions: {fileID: 0}
+  viewModelPropertyName: _Game.Features.Ranking.OwnedConsumableResource.Thumbnail
+  viewPropertyName: UnityEngine.UI.Image.sprite
 --- !u!1 &1734292447061100512
 GameObject:
   m_ObjectHideFlags: 0

@@ -4,16 +4,16 @@ using _Game.Scripts.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using _Base.Scripts.Utils;
 using _Game.Scripts.GD.DataManager;
+using Online.Model;
 using UnityEngine;
 
 namespace _Game.Scripts.DB
 {
     public static class Database
     {
-        private static Dictionary<string, Sprite> AmmoImageDic = new Dictionary<string, Sprite>();
         private static Dictionary<string, Sprite> CrewImageDic = new Dictionary<string, Sprite>();
-        private static Dictionary<string, Sprite> CannonImageDic = new Dictionary<string, Sprite>();
 
         private static Dictionary<string, Cannon> CannonDic = new Dictionary<string, Cannon>();
         private static Dictionary<string, Ammo> BulletDic = new Dictionary<string, Ammo>();
@@ -81,42 +81,20 @@ namespace _Game.Scripts.DB
 
         static void CreateImageDic()
         {
-            foreach (var ammo in GameData.AmmoTable.Records)
-            {
-                string operationType = ammo.OperationType;
-                ItemType Type = ItemType.AMMO;
-                var itemType = Type.ToString().ToLower();
-                var itemOperationType = operationType.ToLower();
-                var path = $"Database/GridItem/{itemType}/{itemOperationType}";
-                Sprite sprite = Resources.Load<Sprite>(path);
-                AmmoImageDic.Add(ammo.Id, sprite);
-            }
-
-            foreach (var cannon in GameData.CannonTable.Records)
-            {
-                string operationType = cannon.OperationType;
-                ItemType Type = ItemType.CANNON;
-                var itemType = Type.ToString().ToLower();
-                var itemOperationType = operationType.ToLower();
-                var path = $"Database/GridItem/{itemType}/{itemOperationType}";
-                Sprite sprite = Resources.Load<Sprite>(path);
-                CannonImageDic.Add(cannon.Id, sprite);
-            }
-
-            for (int i = 0; i <= 1; i++)
+            for (var i = 0; i <= 1; i++)
             {
                 var rarities = Enum.GetValues(typeof(Rarity)).Cast<Rarity>();
-                for (int j = 1; j < rarities.Count() + 1; j++)
+                for (var j = 1; j < rarities.Count() + 1; j++)
                 {
-                    ItemType Type = ItemType.CREW;
-                    string Id = (i * rarities.Count() + j).ToString("D4");
+                    var Type = ItemType.CREW;
+                    var Id = (i * rarities.Count() + j).ToString("D4");
                     var itemType = Type.ToString().ToLower();
-                    string operationType = i == 0 ? "Captain" : "Crew";
+                    var operationType = i == 0 ? "Captain" : "Crew";
                     var itemOperationType = operationType.ToLower();
 
                     CrewOperatorDic.Add(Id, itemOperationType);
                     var path = $"Database/GridItem/{itemType}/{itemOperationType}";
-                    Sprite sprite = Resources.Load<Sprite>(path);
+                    var sprite = Resources.Load<Sprite>(path);
                     CrewImageDic.Add(Id, sprite);
                 }
             }
@@ -127,9 +105,9 @@ namespace _Game.Scripts.DB
         {
             foreach (var cannon in GameData.CannonTable.Records)
             {
-                string operationType = cannon.OperationType.ToLower();
-                string path = $"Prefabs/GridItems/Cannons/{operationType}";
-                Cannon cannonPrefab = Resources.Load<Cannon>(path);
+                var operationType = cannon.OperationType.ToLower();
+                var path = $"Prefabs/GridItems/Cannons/{operationType}";
+                var cannonPrefab = Resources.Load<Cannon>(path);
                 CannonDic.Add(cannon.Id, cannonPrefab);
                 CannonOperatorDic.Add(cannon.Id, operationType);
             }
@@ -139,9 +117,9 @@ namespace _Game.Scripts.DB
         {
             foreach (var ammo in GameData.AmmoTable.Records)
             {
-                string operationType = ammo.OperationType.ToLower();
-                string path = $"Prefabs/GridItems/Ammos/{operationType}";
-                Ammo bulletPrefab = Resources.Load<Ammo>(path);
+                var operationType = ammo.OperationType.ToLower();
+                var path = $"Prefabs/GridItems/Ammos/{operationType}";
+                var bulletPrefab = Resources.Load<Ammo>(path);
                 BulletDic.Add(ammo.Id, bulletPrefab);
                 BulletOperatorDic.Add(ammo.Id, operationType);
             }
@@ -152,7 +130,7 @@ namespace _Game.Scripts.DB
             foreach (var rec in GameData.CrewTable.Records)
             {
                 var resPath = $"Prefabs/GridItems/Crews/{rec.OperationType}";
-                Crew crew = Resources.Load<Crew>(resPath);
+                var crew = Resources.Load<Crew>(resPath);
                 CrewDic.Add(rec.Id, crew);
             }
         }
@@ -162,7 +140,7 @@ namespace _Game.Scripts.DB
             foreach (var rec in GameData.CrewTable.Records)
             {
                 var resPath = $"Prefabs/GridItems/CrewsUI/{rec.OperationType}";
-                UICrew crew = Resources.Load<UICrew>(resPath);
+                var crew = Resources.Load<UICrew>(resPath);
                 Debug.Log(rec.Id);
                 CrewUIDic.Add(rec.Id, crew);
             }
@@ -238,37 +216,67 @@ namespace _Game.Scripts.DB
         {
             return CrewUIDic[id];
         }
-
+        
+        private static Sprite GetGridItemImage(ItemType itemType, string itemOperationType, Rarity itemRarity)
+        {
+            var path = $"Images/Items/item_{itemType}_{itemOperationType}_{itemRarity.ToString().ToLower()}";
+            // var path = $"Database/GridItem/{itemType}/{itemOperationType}";
+            return CachedResources.Load<Sprite>(path);
+        }
+        
         public static Sprite GetAmmoImage(string id)
         {
-            return AmmoImageDic[id];
+            const ItemType type = ItemType.AMMO;
+            var record = GameData.AmmoTable.FindById(id);
+            return GetGridItemImage(type, record.OperationType, record.Rarity);
         }
 
         public static Sprite GetCannonImage(string id)
         {
-            return CannonImageDic[id];
+            const ItemType type = ItemType.CANNON;
+            var record = GameData.CannonTable.FindById(id);
+            return GetGridItemImage(type, record.OperationType, record.Rarity);
         }
 
         public static Sprite GetCrewImage(string id)
         {
             return CrewImageDic[id];
         }
+        
+        public static Sprite GetResource(string id)
+            => CachedResources.Load<Sprite>($"Images/Items/item_{id}");
+        
+        public static Sprite GetRankBadge(UserRank rank) 
+            => CachedResources.Load<Sprite>($"Images/Rank/rank_badge_{rank.ToString().ToLower()}");
+
+        public static Sprite GetItemSprite(ItemType itemType, string id)
+        {
+            switch (itemType)
+            {
+                case ItemType.AMMO: return GetAmmoImage(id);
+                case ItemType.CANNON: return GetCannonImage(id);
+                case ItemType.CREW: return GetCrewImage(id);
+                case ItemType.MISC: return GetResource(id);
+            }
+
+            return null;
+        }
 
         public static Vector3 GetOffsetCannonWithStartCell(string cannonId, string shipId)
         {
-            string opeartor = CannonOperatorDic[cannonId];
+            var opeartor = CannonOperatorDic[cannonId];
             return CannonOffsetDic[new KeyValuePair<string, string>(opeartor, shipId)];
         }
 
         public static Vector3 GetOffsetBulletWithStartCell(string bulletId, string shipId)
         {
-            string opeartor = BulletOperatorDic[bulletId];
+            var opeartor = BulletOperatorDic[bulletId];
             return BulletOffsetDic[new KeyValuePair<string, string>(opeartor, shipId)];
         }
 
         public static int[,] GetShapeByTypeAndOperationType(string id, ItemType itemType)
         {
-            string operationType = "";
+            var operationType = "";
             switch (itemType)
             {
                 case ItemType.AMMO:

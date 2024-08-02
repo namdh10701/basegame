@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using _Game.Features.Dialogs;
 using _Game.Features.Inventory;
+using _Game.Scripts.DB;
 using _Game.Scripts.UI;
 using Cysharp.Threading.Tasks;
 using Unity.VisualScripting;
@@ -31,13 +32,14 @@ namespace _Game.Features.Ranking
         
         protected override UniTask InternalInitialize(Params args)
         {
+            Resources.Clear();
             Resources.AddRange(args.Resources);
             return UniTask.CompletedTask;
         }
         
         public static async Task<bool> Show(Params data)
         {
-            return await Show<ConfirmModal>(data);
+            return await Show<RankingBattleConfirmModal>(data);
         }
         
         public class Params
@@ -52,44 +54,37 @@ namespace _Game.Features.Ranking
     [Binding]
     public class OwnedConsumableResource: SubViewModel
     {
-        public int ConsumeAmount;
-        public int CurrentAmount;
+        public int NeedAmount;
+        public int TotalAmount;
         
-        public string Id { get; set; }
+        public string ItemId { get; set; }
         
         #region Binding Prop: ItemType
         /// <summary>
         /// ItemType
         /// </summary>
         [Binding]
-        public ItemType Type
+        public ItemType ItemType
         {
-            get => m_type;
+            get => _mItemType;
             set
             {
-                if (Equals(m_type, value))
+                if (Equals(_mItemType, value))
                 {
                     return;
                 }
 
-                m_type = value;
-                OnPropertyChanged(nameof(Type));
+                _mItemType = value;
+                OnPropertyChanged(nameof(ItemType));
             }
         }
-        private ItemType m_type;
+        private ItemType _mItemType;
 
         #endregion
 
-        [Binding] public string ConsumeAmountInfo => $"{ConsumeAmount}/{CurrentAmount}";
+        [Binding] public string ConsumeAmountInfo => $"{NeedAmount}/{TotalAmount}";
         
         [Binding]
-        public Sprite Thumbnail
-        {
-            get
-            {
-                var path = Id == null ? $"Items/item_ammo_arrow_common" : $"Items/item_misc_{Id.ToString().ToLower()}";
-                return Resources.Load<Sprite>(path);
-            }
-        }
+        public Sprite Thumbnail => Database.GetItemSprite(ItemType, ItemId);
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using _Game.Features.Inventory;
 
@@ -12,6 +13,7 @@ namespace Online.Model
 		Captain,
 		Conqueror,
 	}
+	
 	public class RankReward
 	{
 		public string ItemId;
@@ -22,6 +24,7 @@ namespace Online.Model
 	public class RankRecord
 	{
 		public int No;
+		public string PlayfabID;
 		public string Username;
 		public int Score;
 		public List<RankReward> Rewards = new();
@@ -31,13 +34,15 @@ namespace Online.Model
 	{
 		public string SeasonNo;
 		public string SeasonName;
+		public DateTime SeasonExpiredAt;
 		public UserRank Rank;
 		public List<RankRecord> Records = new();
 	}
 	
 	public class ClaimRewardBundle
 	{
-		public List<RankReward> Records = new();
+		public UserRank Rank;
+		public List<RankReward> Rewards = new();
 		public bool IsClaimed;
 	}
 

@@ -1,5 +1,6 @@
 using System;
 using _Base.Scripts.UI.Managers;
+using _Game.Scripts.DB;
 using _Game.Scripts.GD.DataManager;
 using _Game.Scripts.UI;
 using UnityEngine;
@@ -16,6 +17,20 @@ namespace _Game.Features.Inventory
         AMMO,
         MISC,
         None,
+    }
+
+    public static class MiscItemId
+    {
+        public static readonly string blueprint_ship = "res_blueprint_ship";
+        public static readonly string blueprint_cannon = "res_blueprint_cannon";
+        public static readonly string blueprint_ammo = "res_blueprint_ammo";
+        public static readonly string gold = "res_gold";
+        public static readonly string gem = "res_gem";
+        public static readonly string diamond = "res_diamond";
+        public static readonly string exp = "res_exp";
+        public static readonly string energy = "res_energy";
+        public static readonly string ranking_ticket = "res_ranking_ticket";
+        public static readonly string res_vipkey = "res_vipkey";
     }
 
     [Binding]
@@ -182,17 +197,18 @@ namespace _Game.Features.Inventory
         {
             get
             {
+                return Database.GetItemSprite(Type, Id);
                 if (Type != ItemType.MISC)
                 {
                     var itemType = Type.ToString().ToLower();
                     var itemOperationType = OperationType.ToLower();
                     var itemRarity = Rarity.ToString().ToLower();
-                    var path = $"Items/item_{itemType}_{itemOperationType}_{itemRarity}";
+                    var path = $"Images/Items/item_{itemType}_{itemOperationType}_{itemRarity}";
                     return Resources.Load<Sprite>(path);
                 }
                 else
                 {
-                    var path = Id == null ? $"Items/item_ammo_arrow_common" : $"Items/item_misc_{Id.ToString().ToLower()}";
+                    var path = Id == null ? $"Images/Items/item_ammo_arrow_common" : $"Images/Items/item_misc_{Id.ToString().ToLower()}";
                     return Resources.Load<Sprite>(path);
                 }
 

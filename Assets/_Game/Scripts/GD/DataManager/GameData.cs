@@ -53,6 +53,9 @@ namespace _Game.Scripts.GD.DataManager
         public static InventoryItemUpgradeTable ShipUpgradeTable
             = new("https://docs.google.com/spreadsheets/d/1GT5jPQFREA2wldlQkaVaSaFwYkfeBS__LDfkTjgzimM/edit?gid=1305386051#gid=1305386051");
         
+        public static ResourceTable ResourceTable
+            = new("https://docs.google.com/spreadsheets/d/1GT5jPQFREA2wldlQkaVaSaFwYkfeBS__LDfkTjgzimM/edit?gid=0#gid=0");
+        
         // public static DataTable<TTable> Get<TTable>()
         // {
         //     
@@ -80,54 +83,56 @@ namespace _Game.Scripts.GD.DataManager
                 () => CannonUpgradeTable.LoadData(),
                 () => AmmoUpgradeTable.LoadData(),
                 () => ShipUpgradeTable.LoadData(),
+                
+                () => ResourceTable.LoadData(),
 
                 () => GDConfigLoader.Instance.Load(),
             }, 5);
             
             
-            
-            var xxx = typeof(GameData).GetFields(BindingFlags.Public | BindingFlags.Static)
-                .Where(v => IsSubclassOfGeneric(v.FieldType, typeof(DataTable<>)))
-                .ToList();
-            var tasks = typeof(GameData).GetFields(BindingFlags.Public | BindingFlags.Static)
-                .Where(v => IsSubclassOfGeneric(v.FieldType, typeof(DataTable<>)))
-                .Select(v =>
-                {
-                    var table = v.GetValue(null) as DataTable<DataTableRecord>;
-                    UniTask Factory() => table!.LoadData();
-                    return (Func<UniTask>)Factory;
-                });
-            return TaskUtils.WaitAllWithConcurrencyControl(tasks.Append(() => GDConfigLoader.Instance.Load()));
+            //
+            // var xxx = typeof(GameData).GetFields(BindingFlags.Public | BindingFlags.Static)
+            //     .Where(v => IsSubclassOfGeneric(v.FieldType, typeof(DataTable<>)))
+            //     .ToList();
+            // var tasks = typeof(GameData).GetFields(BindingFlags.Public | BindingFlags.Static)
+            //     .Where(v => IsSubclassOfGeneric(v.FieldType, typeof(DataTable<>)))
+            //     .Select(v =>
+            //     {
+            //         var table = v.GetValue(null) as DataTable<DataTableRecord>;
+            //         UniTask Factory() => table!.LoadData();
+            //         return (Func<UniTask>)Factory;
+            //     });
+            // return TaskUtils.WaitAllWithConcurrencyControl(tasks.Append(() => GDConfigLoader.Instance.Load()));
         }
         
-        public static bool IsSubclassOfGeneric(Type type, Type genericTypeDefinition)
-        {
-            if (!genericTypeDefinition.IsGenericType || genericTypeDefinition.IsGenericTypeDefinition)
-            {
-                throw new ArgumentException("genericTypeDefinition must be a generic type definition", nameof(genericTypeDefinition));
-            }
-
-            // Check if the type itself matches the generic type definition
-            if (type.IsGenericType && type.GetGenericTypeDefinition() == genericTypeDefinition)
-            {
-                return true;
-            }
-
-            // Check the type hierarchy for any matches
-            while (type != null && type != typeof(object))
-            {
-                var currentType = type.IsGenericType ? type.GetGenericTypeDefinition() : null;
-                if (currentType == genericTypeDefinition)
-                {
-                    return true;
-                }
-
-                // Check the base type
-                type = type.BaseType;
-            }
-
-            return false;
-        }
+        // public static bool IsSubclassOfGeneric(Type type, Type genericTypeDefinition)
+        // {
+        //     if (!genericTypeDefinition.IsGenericType || genericTypeDefinition.IsGenericTypeDefinition)
+        //     {
+        //         throw new ArgumentException("genericTypeDefinition must be a generic type definition", nameof(genericTypeDefinition));
+        //     }
+        //
+        //     // Check if the type itself matches the generic type definition
+        //     if (type.IsGenericType && type.GetGenericTypeDefinition() == genericTypeDefinition)
+        //     {
+        //         return true;
+        //     }
+        //
+        //     // Check the type hierarchy for any matches
+        //     while (type != null && type != typeof(object))
+        //     {
+        //         var currentType = type.IsGenericType ? type.GetGenericTypeDefinition() : null;
+        //         if (currentType == genericTypeDefinition)
+        //         {
+        //             return true;
+        //         }
+        //
+        //         // Check the base type
+        //         type = type.BaseType;
+        //     }
+        //
+        //     return false;
+        // }
         
         // public static async Task Load()
         // {

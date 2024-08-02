@@ -101,11 +101,11 @@ namespace _Game.Scripts.SaveLoad
                 new(ItemType.AMMO, Game.IDGenerator.Next(), "1043", 0, 1),
                 new(ItemType.AMMO, Game.IDGenerator.Next(), "1077", 0, 1),
                 new(ItemType.AMMO, Game.IDGenerator.Next(), "1085", 0, 1),
-                new(ItemType.MISC, Game.IDGenerator.Next(), "ship", 0, 1),
-                new(ItemType.MISC, Game.IDGenerator.Next(), "ammo", 0, 1),
-                new(ItemType.MISC, Game.IDGenerator.Next(), "cannon", 0, 1),
-                new(ItemType.MISC, Game.IDGenerator.Next(), "cannon", 0, 1),
-                new(ItemType.MISC, Game.IDGenerator.Next(), "cannon", 0, 1),
+                new(ItemType.MISC, Game.IDGenerator.Next(), "res_blueprint_ship", 0, 1),
+                new(ItemType.MISC, Game.IDGenerator.Next(), "res_blueprint_ammo", 0, 1),
+                new(ItemType.MISC, Game.IDGenerator.Next(), "res_blueprint_cannon", 0, 1),
+                new(ItemType.MISC, Game.IDGenerator.Next(), "res_blueprint_cannon", 0, 1),
+                new(ItemType.MISC, Game.IDGenerator.Next(), "res_blueprint_cannon", 0, 1),
             };
 
             defaultSave.Talent = new TalentSaveData();

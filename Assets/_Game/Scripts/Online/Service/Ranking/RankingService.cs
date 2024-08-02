@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using _Game.Features.Inventory;
 using Cysharp.Threading.Tasks;
 using Online.Interface;
 using Online.Model;
@@ -25,7 +26,8 @@ namespace Online.Service
 			var rankInfo = new UserRankInfo
 			{
 				SeasonNo = "99",
-				SeasonName = "Cyborg Octopus",
+				SeasonName = "Cyborg Octopus XXX",
+				SeasonExpiredAt = DateTime.Now.AddMinutes(300),
 				Rank = UserRank.Hunter,
 			};
 			
@@ -35,6 +37,30 @@ namespace Online.Service
 				rec.No = i + 1;
 				rec.Username = $"User{rec.No}";
 				rec.Score = (int)Random.Range(100f, 10000f);
+
+				if (i == 14)
+				{
+					rec.PlayfabID = "1D038512E2F253AA";
+				}
+
+				rec.Rewards.Add(new RankReward()
+				{
+					ItemId="res_gold",
+					Amount = 50,
+					ItemType = ItemType.MISC
+				});
+				rec.Rewards.Add(new RankReward()
+				{
+					ItemId="res_gem",
+					Amount = 2,
+					ItemType = ItemType.MISC
+				});
+				rec.Rewards.Add(new RankReward()
+				{
+					ItemId="res_blueprint_cannon",
+					Amount = 1,
+					ItemType = ItemType.MISC
+				});
 				rankInfo.Records.Add(rec);
 			}
 			// <<<< dummy data
@@ -54,7 +80,7 @@ namespace Online.Service
 			var bundle = new ClaimRewardBundle();
 			for (int i = 0; i < 5; i++)
 			{
-				bundle.Records.Add(new RankReward()
+				bundle.Rewards.Add(new RankReward()
 				{
 					ItemId = "Cannon_0001",
 					Amount = 10

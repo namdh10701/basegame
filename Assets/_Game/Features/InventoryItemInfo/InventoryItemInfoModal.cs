@@ -211,8 +211,8 @@ namespace _Game.Features.InventoryItemInfo
         {
             get
             {
-                var path = Type == null || OperationType == null || Rarity == null ? $"Items/item_ammo_arrow_common" :
-                 $"Items/item_{Type.ToString().ToLower()}_{OperationType.ToLower()}_{Rarity.ToString().ToLower()}";
+                var path = Type == null || OperationType == null || Rarity == null ? $"Images/Items/item_ammo_arrow_common" :
+                 $"Images/Items/item_{Type.ToString().ToLower()}_{OperationType.ToLower()}_{Rarity.ToString().ToLower()}";
                 return Resources.Load<Sprite>(path);
             }
         }

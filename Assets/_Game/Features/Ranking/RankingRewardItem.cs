@@ -1,21 +1,10 @@
+using _Game.Features.Ranking;
 using _Game.Scripts.UI;
 using UnityEngine;
 using UnityWeld.Binding;
 
 namespace _Game.Features.RankingReward
 {
-
-    public enum ItemType
-    {
-        MAIN,
-        DAILY,
-    }
-    public class InventoryItemDto
-    {
-        public string Id;
-        public string Name;
-        public ItemType ItemType;
-    }
     [Binding]
     public class RankingRewardItem : SubViewModel
     {
@@ -46,31 +35,6 @@ namespace _Game.Features.RankingReward
         }
 
         private string m_name;
-
-        #endregion
-
-        #region Binding Prop: ItemType
-
-        /// <summary>
-        /// ItemType
-        /// </summary>
-        [Binding]
-        public ItemType Type
-        {
-            get => m_type;
-            set
-            {
-                if (Equals(m_type, value))
-                {
-                    return;
-                }
-
-                m_type = value;
-                OnPropertyChanged(nameof(Type));
-            }
-        }
-
-        private ItemType m_type;
 
         #endregion
 

@@ -41,8 +41,8 @@ namespace _Game.Features.Shop
         {
             get
             {
-                var path = GachaTypeItemReview == null || NameItemReview == null || RarityItemReview == null ? $"Items/item_ammo_arrow_common" :
-                 $"Items/item_{GachaTypeItemReview.ToLower()}_{NameItemReview.ToLower()}_{RarityItemReview.ToLower()}";
+                var path = GachaTypeItemReview == null || NameItemReview == null || RarityItemReview == null ? $"Images/Items/item_ammo_arrow_common" :
+                 $"Images/Items/item_{GachaTypeItemReview.ToLower()}_{NameItemReview.ToLower()}_{RarityItemReview.ToLower()}";
                 return Resources.Load<Sprite>(path);
             }
         }

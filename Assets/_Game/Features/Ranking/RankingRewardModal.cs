@@ -1,73 +1,79 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
+using _Game.Features.Dialogs;
+using _Game.Features.Inventory;
 using Cysharp.Threading.Tasks;
-using Unity.VisualScripting;
+using Online.Model;
 using UnityWeld.Binding;
 
-namespace _Game.Features.RankingReward
+namespace _Game.Features.Ranking
 {
     [Binding]
-    public class RankingRewardModal : ModalWithViewModel
+    public partial class RankingRewardModal : AsyncModal<object, UserRank>
     {
-        
-        private List<RankingRewardItem> itemSource = new List<RankingRewardItem>();
-        
-        #region Binding: Items
-        [Binding] 
-        public ObservableList<RankingRewardItem> Items { get; set; } = new();
-        #endregion
-
-        #region Binding Prop: FilterItemTypeIndex
-
-        private int _filterItemTypeIndex = 0;
-
         [Binding]
-        public int FilterItemTypeIndex
+        public ObservableList<ClaimRewardBundle> Records { get; set; } = new();
+
+        protected override async UniTask InternalInitialize(UserRank userRank)
         {
-            get => _filterItemTypeIndex;
-            set
+            Records.Clear();
+            
+            var backedData = new Online.Model.ClaimRewardBundle
             {
-                if (_filterItemTypeIndex == value)
+                Rank = UserRank.Hunter,
+                IsClaimed = false,
+                Rewards = new List<RankReward>
                 {
-                    return;
+                    new()
+                    {
+                        ItemType = ItemType.CANNON,
+                        ItemId = "0012",
+                        Amount = 3
+                    },
+                    new()
+                    {
+                        ItemType = ItemType.MISC,
+                        ItemId = MiscItemId.blueprint_cannon,
+                        Amount = 1
+                    }
                 }
-
-                _filterItemTypeIndex = value;
-
-                OnPropertyChanged(nameof(FilterItemTypeIndex));
-                // OnPropertyChanged(nameof(Items));
-                DoFilter();
-            }
-        }
-
-        #endregion
-        
-        private void DoFilter()
-        {
-            var itemType = (ItemType)_filterItemTypeIndex;
-            Items.Clear();
-            Items.AddRange(itemSource.Where(v => v.Type == itemType));
-        }
-        public override async UniTask Initialize(Memory<object> args)
-        {
-            for (int i = 0; i < 3; i++)
+            };
+            
+            Records.Add(new ClaimRewardBundle(userRank == backedData.Rank)
             {
-                itemSource.Add(new RankingRewardItem {  RankingRewardModal = this, Type = ItemType.MAIN, Name = $"Main quest {i+1}"});
-            }
+                BackedData = backedData
+            });
             
-            for (int i = 0; i < 3; i++)
+            var backedData1 = new Online.Model.ClaimRewardBundle
             {
-                itemSource.Add(new RankingRewardItem {  RankingRewardModal = this, Type = ItemType.DAILY, Name = $"Daily quest {i+1}"});
-            }
+                Rank = UserRank.Captain,
+                IsClaimed = false,
+                Rewards = new List<RankReward>
+                {
+                    new()
+                    {
+                        ItemType = ItemType.CANNON,
+                        ItemId = "0012",
+                        Amount = 3
+                    },
+                    new()
+                    {
+                        ItemType = ItemType.MISC,
+                        ItemId = MiscItemId.blueprint_cannon,
+                        Amount = 1
+                    }
+                }
+            };
             
-            DoFilter();
+            Records.Add(new ClaimRewardBundle(userRank == backedData1.Rank)
+            {
+                BackedData = backedData1
+            });
         }
-        
-        [Binding]
-        public void ClaimAll()
-        {
             
+        public static async Task Show(UserRank userRank)
+        {
+            await Show<RankingRewardModal>(userRank);
         }
     }
 }

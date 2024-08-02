@@ -75,7 +75,7 @@ namespace _Game.Features.InventoryCustomScreen
                 switch (Type)
                 {
                     case ItemType.MISC:
-                        var path = Id == null ? $"Items/item_misc_eq2_com" : $"Items/item_misc_eq2_com";
+                        var path = Id == null ? $"Images/Items/item_misc_eq2_com" : $"Images/Items/item_misc_eq2_com";
                         return Resources.Load<Sprite>(path);
                     default:
                         Debug.LogWarning("Images/Common/icon_plus");

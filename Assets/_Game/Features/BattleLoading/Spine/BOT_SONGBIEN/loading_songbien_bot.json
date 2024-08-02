@@ -1,0 +1,94 @@
+{
+"skeleton": {
+	"hash": "cqQZpYBKwHU",
+	"spine": "4.1.17",
+	"x": -391.83,
+	"y": -1380.46,
+	"width": 863.1,
+	"height": 2636.41,
+	"images": "./images/",
+	"audio": "C:/Users/MGIFER_25/Downloads/LOADING_STICKER-20240729T115101Z-001/LOADING_STICKER"
+},
+"bones": [
+	{ "name": "root" },
+	{ "name": "1", "parent": "root", "x": 40.77, "y": -1217.96 },
+	{ "name": "2", "parent": "root", "x": 38.67, "y": -1219.73 }
+],
+"slots": [
+	{ "name": "2", "bone": "2", "attachment": "2" },
+	{ "name": "1", "bone": "1", "attachment": "1" }
+],
+"skins": [
+	{
+		"name": "default",
+		"attachments": {
+			"1": {
+				"1": { "width": 861, "height": 325 }
+			},
+			"2": {
+				"2": { "width": 861, "height": 253 }
+			}
+		}
+	}
+],
+"animations": {
+	"begin_songbien": {
+		"bones": {
+			"1": {
+				"translatey": [
+					{
+						"value": -515.86,
+						"curve": [ 0.114, -515.86, 0.184, 5.55 ]
+					},
+					{ "time": 0.3333, "value": 5.55 }
+				]
+			},
+			"2": {
+				"translatey": [
+					{
+						"value": -515.86,
+						"curve": [ 0.152, -515.86, 0.268, 5.55 ]
+					},
+					{ "time": 0.4667, "value": 5.55 }
+				]
+			}
+		}
+	},
+	"end_songbien": {
+		"bones": {
+			"1": {
+				"translatey": [
+					{
+						"value": 5.55,
+						"curve": [ 0.561, 5.55, 0.406, -454.39 ]
+					},
+					{ "time": 1.6667, "value": -454.39 }
+				]
+			},
+			"2": {
+				"translatey": [
+					{
+						"value": 5.55,
+						"curve": [ 0.351, 5.55, 0.245, -454.39 ]
+					},
+					{ "time": 1.0333, "value": -454.39 }
+				]
+			}
+		}
+	},
+	"loop_songbien": {
+		"bones": {
+			"1": {
+				"translatey": [
+					{ "value": 5.55 }
+				]
+			},
+			"2": {
+				"translatey": [
+					{ "value": 5.55 }
+				]
+			}
+		}
+	}
+}
+}

@@ -172,10 +172,10 @@ namespace _Game.Scripts.GD.DataManager
         [BooleanTrueValues("1", "true")]
         public bool Enable { get; set; }
 
-        [Index(21)]
+        [Index(20)]
         public string Skill_Name { get; set; }
 
-        [Index(22)]
+        [Index(21)]
         public string Skill_Desc { get; set; }
 
         public string Slot
