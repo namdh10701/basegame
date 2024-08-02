@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using _Game.Features.Battle;
 using _Game.Features.BattleLoading;
+using _Game.Features.Dialogs;
 using _Game.Features.FightNodeInfoPopup;
 using _Game.Features.Inventory;
 using _Game.Features.Quest;
@@ -255,6 +256,14 @@ namespace _Game.Features.Ranking
                 return;
             }
             
+            // TODO check if resources enough
+            bool areEnoughResources = false;
+            if (!areEnoughResources)
+            {
+                await AlertModal.Show("Not Enough Resource!");
+                return;
+            }
+
             await ModalContainer.Find(ContainerKey.Modals).PopAsync(true);
             var screenContainer = ScreenContainer.Find(ContainerKey.Screens);
             

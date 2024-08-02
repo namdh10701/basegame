@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using _Base.Scripts.Utils;
 using _Base.Scripts.Utils.Extensions;
 using _Game.Features.Inventory;
 using _Game.Scripts.DB;
@@ -124,6 +125,17 @@ namespace _Game.Features.Ranking
             [Binding] public bool IsTop1 => BackedData?.No == 1;
             [Binding] public bool IsTop2 => BackedData?.No == 2;
             [Binding] public bool IsTop3 => BackedData?.No == 3;
+            [Binding] public bool IsUpRank => BackedData?.No is >= 1 and <= 15;
+            [Binding] public bool IsDownRank => BackedData?.No is > 15 and <= 50;
+            [Binding] public bool IsMidRank => !IsUpRank && !IsDownRank;
+            
+            [Binding] public Sprite GiftBoxSprite => CachedResources.Load<Sprite>(
+                    IsTop1 ? "ranking_gift_top_1" : 
+                    IsTop2 ? "ranking_gift_top_2" : 
+                    IsTop3 ? "ranking_gift_top_3" : 
+                    IsUpRank ? "ranking_gift_1" :
+                    IsMidRank ? "ranking_gift_2" : 
+                    "ranking_gift_3");
             
             [Binding]
             public string No => $"{BackedData.No.ToString().PadLeft(2, '0')}";

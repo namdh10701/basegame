@@ -29,7 +29,8 @@ namespace Online.Service
 				var rankInfo = new UserRankInfo
 				{
 					SeasonNo = "99",
-					SeasonName = "Cyborg Octopus",
+					SeasonName = "Cyborg Octopus XXX",
+					SeasonExpiredAt = DateTime.Now.AddMinutes(300),
 					Rank = UserRank.Hunter,
 				};
 				
@@ -39,6 +40,30 @@ namespace Online.Service
 					rec.No = i + 1;
 					rec.Username = $"User{rec.No}";
 					rec.Score = (int)Random.Range(100f, 10000f);
+
+					if (i == 14)
+					{
+						rec.PlayfabID = "1D038512E2F253AA";
+					}
+
+					rec.Rewards.Add(new RankReward()
+					{
+						ItemId="res_gold",
+						Amount = 50,
+						ItemType = ItemType.MISC
+					});
+					rec.Rewards.Add(new RankReward()
+					{
+						ItemId="res_gem",
+						Amount = 2,
+						ItemType = ItemType.MISC
+					});
+					rec.Rewards.Add(new RankReward()
+					{
+						ItemId="res_blueprint_cannon",
+						Amount = 1,
+						ItemType = ItemType.MISC
+					});
 					rankInfo.Records.Add(rec);
 				}
 
@@ -48,53 +73,53 @@ namespace Online.Service
 			{
 				signal.TrySetException(new Exception(error.ErrorMessage));
 			});
-			
-			//TODO: DNGUYEN - ranking loading
-			// dummy data >>>>
-			var rankInfo = new UserRankInfo
-			{
-				SeasonNo = "99",
-				SeasonName = "Cyborg Octopus XXX",
-				SeasonExpiredAt = DateTime.Now.AddMinutes(300),
-				Rank = UserRank.Hunter,
-			};
-			
-			for (int i = 0; i < 50; i++)
-			{
-				var rec = new RankRecord();
-				rec.No = i + 1;
-				rec.Username = $"User{rec.No}";
-				rec.Score = (int)Random.Range(100f, 10000f);
-
-				if (i == 14)
-				{
-					rec.PlayfabID = "1D038512E2F253AA";
-				}
-
-				rec.Rewards.Add(new RankReward()
-				{
-					ItemId="res_gold",
-					Amount = 50,
-					ItemType = ItemType.MISC
-				});
-				rec.Rewards.Add(new RankReward()
-				{
-					ItemId="res_gem",
-					Amount = 2,
-					ItemType = ItemType.MISC
-				});
-				rec.Rewards.Add(new RankReward()
-				{
-					ItemId="res_blueprint_cannon",
-					Amount = 1,
-					ItemType = ItemType.MISC
-				});
-				rankInfo.Records.Add(rec);
-			}
-			// <<<< dummy data
-
-			UserRankInfo = rankInfo;
-			signal.TrySetResult(rankInfo);
+			//
+			// //TODO: DNGUYEN - ranking loading
+			// // dummy data >>>>
+			// var rankInfo = new UserRankInfo
+			// {
+			// 	SeasonNo = "99",
+			// 	SeasonName = "Cyborg Octopus XXX",
+			// 	SeasonExpiredAt = DateTime.Now.AddMinutes(300),
+			// 	Rank = UserRank.Hunter,
+			// };
+			//
+			// for (int i = 0; i < 50; i++)
+			// {
+			// 	var rec = new RankRecord();
+			// 	rec.No = i + 1;
+			// 	rec.Username = $"User{rec.No}";
+			// 	rec.Score = (int)Random.Range(100f, 10000f);
+			//
+			// 	if (i == 14)
+			// 	{
+			// 		rec.PlayfabID = "1D038512E2F253AA";
+			// 	}
+			//
+			// 	rec.Rewards.Add(new RankReward()
+			// 	{
+			// 		ItemId="res_gold",
+			// 		Amount = 50,
+			// 		ItemType = ItemType.MISC
+			// 	});
+			// 	rec.Rewards.Add(new RankReward()
+			// 	{
+			// 		ItemId="res_gem",
+			// 		Amount = 2,
+			// 		ItemType = ItemType.MISC
+			// 	});
+			// 	rec.Rewards.Add(new RankReward()
+			// 	{
+			// 		ItemId="res_blueprint_cannon",
+			// 		Amount = 1,
+			// 		ItemType = ItemType.MISC
+			// 	});
+			// 	rankInfo.Records.Add(rec);
+			// }
+			// // <<<< dummy data
+			//
+			// UserRankInfo = rankInfo;
+			// signal.TrySetResult(rankInfo);
 			return await signal.Task;
 		}
 
