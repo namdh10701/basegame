@@ -12,12 +12,12 @@ namespace _Game.Scripts.GD.DataManager
         public ShipTable(string fileName) : base(fileName)
         {
         }
-        
-        public DataTableRecord GetDataTableRecord(string id, string name)
+
+        public DataTableRecord GetDataTableRecord(string id)
         {
             foreach (var record in Records)
             {
-                if (record.Id == id && record.Name == name)
+                if (record.Id == id)
                     return record;
             }
             return null;

@@ -214,7 +214,31 @@ namespace _Game.Features.Inventory
             OnPropertyChanged(nameof(Page));
             OnPropertyChanged(nameof(IsPrevPageAvailable));
             OnPropertyChanged(nameof(IsNextPageAvailable));
+
+            IsActiveGroupButton = (ItemType)_filterItemTypeIndex == ItemType.MISC ? true : false;
         }
+
+        #region Binding Prop: IsActiveGroupButton
+        /// <summary>
+        /// IsActiveGroupButton
+        /// </summary>
+        [Binding]
+        public bool IsActiveGroupButton
+        {
+            get => _isActiveGroupButton;
+            set
+            {
+                if (Equals(_isActiveGroupButton, value))
+                {
+                    return;
+                }
+
+                _isActiveGroupButton = value;
+                OnPropertyChanged(nameof(IsActiveGroupButton));
+            }
+        }
+        private bool _isActiveGroupButton;
+        #endregion
 
         [Binding]
         public int MaxPage => Math.Max(0, (int)Math.Ceiling(1f * TotalItemCount / ItemPerPage) - 1);
@@ -275,6 +299,23 @@ namespace _Game.Features.Inventory
 
         protected void InitializeInternal()
         {
+            foreach (var item in SaveSystem.GameSave.OwnedShips)
+            {
+                InventoryItem inventoryItem = null;
+
+                var info = GameData.ShipTable.FindById(item);
+                inventoryItem = new InventoryItem
+                {
+                    Id = info.Id,
+                    Type = ItemType.SHIP,
+                    InventoryViewModel = this,
+                    OwnItemId = item,
+                    Name = info.Name,
+                    // Level = info.Level,
+                };
+                inventoryItem.LoadStarsItem();
+            }
+
             foreach (var item in SaveSystem.GameSave.OwnedItems)
             {
                 InventoryItem inventoryItem = null;

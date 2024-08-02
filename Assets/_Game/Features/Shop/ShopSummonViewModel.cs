@@ -452,13 +452,13 @@ namespace _Game.Features.Shop
             DataTableRecord dataTableRecord;
             if (GachaTypeItemReview == "cannon")
             {
-                SlotItemReview = GameData.CannonTable.GetSlotByName(NameItemReview);
-                dataTableRecord = GameData.CannonTable.GetDataTableRecord(NameItemReview, RarityItem);
+                SlotItemReview = GameData.CannonTable.GetSlotByName(IdItemReview);
+                dataTableRecord = GameData.CannonTable.GetDataTableRecord(IdItemReview);
             }
             else
             {
-                SlotItemReview = GameData.AmmoTable.GetShapeByName(NameItemReview);
-                dataTableRecord = GameData.AmmoTable.GetDataTableRecord(NameItemReview, RarityItem);
+                SlotItemReview = GameData.AmmoTable.GetShapeByName(IdItemReview);
+                dataTableRecord = GameData.AmmoTable.GetDataTableRecord(IdItemReview);
             }
 
             var index = 0;

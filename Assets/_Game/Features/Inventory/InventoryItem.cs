@@ -191,6 +191,11 @@ namespace _Game.Features.Inventory
                     var path = $"Items/item_{itemType}_{itemOperationType}_{itemRarity}";
                     return Resources.Load<Sprite>(path);
                 }
+                else if (Type != ItemType.MISC)
+                {
+                    var path = $"Items/item_ship_{Id}";
+                    return Resources.Load<Sprite>(path);
+                }
                 else
                 {
                     var path = Id == null ? $"Items/item_ammo_arrow_common" : $"Items/item_misc_{Id.ToString().ToLower()}";

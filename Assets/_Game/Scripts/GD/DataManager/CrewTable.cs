@@ -13,11 +13,11 @@ namespace _Game.Scripts.GD.DataManager
 
         }
 
-        public DataTableRecord GetDataTableRecord(string name, string rarity)
+        public DataTableRecord GetDataTableRecord(string id)
         {
             foreach (var record in Records)
             {
-                if (record.OperationType == name && record.Rarity.ToString() == rarity)
+                if (record.Id == id)
                     return record;
             }
             return null;

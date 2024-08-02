@@ -11,11 +11,11 @@ namespace _Game.Scripts.GD.DataManager
         {
         }
 
-        public string GetSlotByName(string name)
+        public string GetSlotByName(string id)
         {
             foreach (var record in Records)
             {
-                if (record.OperationType == name)
+                if (record.Id == id)
                     return record.Slot;
             }
             return null;
@@ -41,21 +41,31 @@ namespace _Game.Scripts.GD.DataManager
             return -1;
         }
 
-        public DataTableRecord GetDataTableRecord(string name, string rarity)
+        public DataTableRecord GetDataTableRecord(string id)
         {
             foreach (var record in Records)
             {
-                if (record.OperationType == name && record.Rarity.ToString() == rarity)
+                if (record.Id == id)
                     return record;
             }
             return null;
         }
 
-        public (string, string, string) GetDataSkillDefault(string operationType, Rarity rarity, string rarityLevel)
+        // public (string, string, string) GetDataSkillDefault(string operationType, Rarity rarity, string rarityLevel)
+        // {
+        //     foreach (var record in Records)
+        //     {
+        //         if (record.OperationType == operationType && record.Rarity == rarity && record.RarityLevel.ToString() == rarityLevel)
+        //             return (record.OperationType, record.Skill_Desc, record.Skill_Name);
+        //     }
+        //     return (null, null, null);
+        // }
+
+        public (string, string, string) GetDataSkillDefault(string id)
         {
             foreach (var record in Records)
             {
-                if (record.OperationType == operationType && record.Rarity == rarity && record.RarityLevel.ToString() == rarityLevel)
+                if (record.Id == id)
                     return (record.OperationType, record.Skill_Desc, record.Skill_Name);
             }
             return (null, null, null);
