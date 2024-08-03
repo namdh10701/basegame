@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,7 +6,7 @@ using UnityEngine;
 
 namespace _Game.Scripts.GD.DataManager
 {
-	public abstract class LocalDataTable<TRecordType> where TRecordType : DataTableRecord
+	public abstract class LocalDataTable<TRecordType> where TRecordType: DataTableRecord
 	{
 		protected string DataFileName { get; private set; }
 
@@ -23,14 +22,21 @@ namespace _Game.Scripts.GD.DataManager
 			_records = Newtonsoft.Json.JsonConvert.DeserializeObject<List<TRecordType>>(allText);
 			return default;
 		}
-
+        
 		private List<TRecordType> _records = new();
 
 		public List<TRecordType> Records => _records;
+        
+		public virtual List<TRecordType> GetRecords()
+		{
+			return _records;
+		}
 
-        public TRecordType FindById(object id)
-        {
-            return Records.FirstOrDefault(v => Equals(v.GetId(), id));
-        }
-    }
+		private string GetFilePath(string dataFileName) => Path.Combine(Application.persistentDataPath, dataFileName);
+
+		public TRecordType FindById(object id)
+		{
+			return Records.FirstOrDefault(v => Equals(v.GetId(), id));
+		}
+	}
 }

@@ -6,16 +6,6 @@ using Online.Enum;
 
 namespace Online.Model
 {
-	public enum UserRank
-	{
-		UnRank,
-		Rookie,
-		Gunner,
-		Hunter,
-		Captain,
-		Conquer,
-	}
-	
 	public class RankReward
 	{
 		public string ItemId;
@@ -73,7 +63,7 @@ namespace Online.Model
 	
 	public class ClaimRewardBundle
 	{
-		public UserRank Rank;
+		public ERank Rank;
 		public bool IsCurrentRank;
 		public List<RankReward> Rewards = new();
 		public bool IsClaimed;

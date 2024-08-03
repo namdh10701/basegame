@@ -286,7 +286,7 @@ namespace _Game.Features.Ranking
         [Binding]
         public async void ShowRewardPopup()
         {
-            await RankingRewardModal.Show(RankInfo.BackedData.Rank);
+            await RankingRewardModal.Show(RankInfo.UserRank);
         }
 
         [Binding]
