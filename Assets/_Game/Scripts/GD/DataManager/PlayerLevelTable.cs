@@ -14,8 +14,7 @@ namespace _Game.Scripts.GD.DataManager
 
         public int FindNextLevelExp(int currentLevel)
         {
-            var lv = currentLevel == 0 ? 0 : FindById(currentLevel).Level;
-            var nextRec = FindById(lv + 1);
+            var nextRec = FindById(currentLevel + 1);
 
             if (nextRec == null)
             {
@@ -31,11 +30,11 @@ namespace _Game.Scripts.GD.DataManager
     /// </summary>
     public class PlayerLevelTableRecord : DataTableRecord
     {
-        [JsonProperty("level")]
+        // [JsonProperty("level")]
         [Index(0)]
         public int Level { get; set; }
 
-        [JsonProperty("exp_require")]
+        // [JsonProperty("exp_require")]
         [Index(1)]
         public int RequiredExp { get; set; }
 

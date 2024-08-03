@@ -4,7 +4,9 @@ using _Game.Features.Ranking;
 using _Game.Features.Shop;
 using _Game.Features.WorldMap;
 using _Game.Scripts;
+using _Game.Scripts.GD.DataManager;
 using _Game.Scripts.UI;
+using Online;
 using UnityEngine;
 using UnityWeld.Binding;
 using ZBase.UnityScreenNavigator.Core.Modals;
@@ -20,6 +22,51 @@ namespace _Game.Features.Home
         // {
         //     
         // }
+
+        #region User profile
+
+        [Binding]
+        public string UserDisplayName => PlayfabManager.Instance.DisplayName;
+        
+        [Binding]
+        public string UserLevel => PlayfabManager.Instance.Level.ToString().PadLeft(2, '0');
+
+        [Binding]
+        public string UserExp
+        {
+            get
+            {
+                var exp = PlayfabManager.Instance.Exp;
+                var nextLevelExp = GameData.PlayerLevelTable.FindNextLevelExp(PlayfabManager.Instance.Level);
+                if (nextLevelExp < 0)
+                {
+                    return "MAX";
+                }
+
+                return $"{exp}/{nextLevelExp}";
+            }
+        }
+
+        [Binding]
+        public float UserExpValue
+        {
+            get
+            {
+                if (UserExp == "MAX") return 1;
+
+                var parts=  UserExp.Split("/");
+                return 1f * int.Parse(parts[0]) / int.Parse(parts[1]);
+            }
+        }
+
+        #endregion
+
+        [Binding]
+        public void ReloadUserInfo()
+        {
+            OnPropertyChanged(nameof(UserDisplayName));
+            OnPropertyChanged(nameof(UserExp));
+        }
 
         [Binding]
         public async void NavToWoldMapScreen()

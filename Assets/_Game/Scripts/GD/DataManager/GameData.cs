@@ -40,7 +40,7 @@ namespace _Game.Scripts.GD.DataManager
 		public static InventoryItemUpgradeTable ShipUpgradeTable => PlayfabManager.Instance.ShipUpgradeTable;
 
 		public static PlayerLevelTable PlayerLevelTable 
-			=> new("https://docs.google.com/spreadsheets/d/1GT5jPQFREA2wldlQkaVaSaFwYkfeBS__LDfkTjgzimM/edit?gid=890610760#gid=890610760");
+			= new("https://docs.google.com/spreadsheets/d/1GT5jPQFREA2wldlQkaVaSaFwYkfeBS__LDfkTjgzimM/edit?gid=890610760#gid=890610760");
 
 		public static UniTask Load()
 		{
