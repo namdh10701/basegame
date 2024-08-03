@@ -1,14 +1,9 @@
-﻿using System.Threading.Tasks;
-using _Base.Scripts.Audio;
+﻿using _Base.Scripts.Audio;
 using _Game.Features.Home;
-using _Game.Features.MyShipScreen;
 using _Game.Scripts.DB;
-using _Game.Scripts.GD;
 using _Game.Scripts.GD.DataManager;
-using _Game.Scripts.GD.Parser;
 using _Game.Scripts.SaveLoad;
 using Cysharp.Threading.Tasks;
-using Map;
 using Online;
 using UnityEngine;
 using ZBase.UnityScreenNavigator.Core;
@@ -38,7 +33,6 @@ namespace _Game.Features
             UnityScreenNavigatorSettings.Initialize();
 
             await PlayfabManager.Instance.LoginAsync();
-            PlayfabManager.Instance.LoadShop();
             
             await GameData.Load();
             

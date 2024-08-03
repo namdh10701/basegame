@@ -29,6 +29,13 @@
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
+const ProfileField = Object.freeze({
+    Level: 'Level',
+    Exp: 'Exp',
+    Rank: 'Rank',
+    RankScore: 'RankScore',
+});
+
 const EItemType = Object.freeze({
     Ship: 'ship', // 0
     Crew: 'crew', // 
@@ -53,6 +60,15 @@ const EVirtualCurrency = Object.freeze({
     Gem: 'GE',
     Energy: 'EN',
     Ticket: 'TI',
+});
+
+const ERank = Object.freeze({
+    Unrank: 'Unrank',
+    Rookie: 'Rookie',
+    Gunner: 'Gunner',
+    Hunter: 'Hunter',
+    Captain: 'Captain',
+    Conquer: 'Conquer'
 });
 
 const GetItemUpgradeDB = function (itemType) {
@@ -117,12 +133,15 @@ handlers.helloWorld = function (args, context) {
 // Profile Script
 handlers.RequestNewProfile = function (args, context) {
     // Default Profile
+    var userData = { };
+    userData[ProfileField.Level] = 1;
+    userData[ProfileField.Exp] = 0;
+    userData[ProfileField.Rank] = ERank.Unrank;
+    userData[ProfileField.RankScore] = 0;
+    
     var reqReadOnlyData = {
         PlayFabId: currentPlayerId,
-        Data: {
-            Level: 1,
-            Exp: 0
-        }
+        Data: userData
     };
     var resultData = server.UpdateUserReadOnlyData(reqReadOnlyData);
 };
