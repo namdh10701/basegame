@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading.Tasks;
+using System.Linq;
 using _Base.Scripts.Utils;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -76,9 +76,9 @@ namespace _Game.Scripts.GD.DataManager
         //     return (DataTable<TRecordType>)Activator.CreateInstance(typeof(DataTable<TRecordType>), downloadUrl, dataFileName);
         // }
         
-        public TRecordType FindById(string id)
+        public TRecordType FindById(object id)
         {
-            return Records.Find(v => Equals(v.GetId(), id));
+            return Records.FirstOrDefault(v => Equals(v.GetId(), id));
         }
 
         private static string RootFolderPath = Path.Combine(Application.persistentDataPath, "Data");

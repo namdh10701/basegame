@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -33,9 +34,9 @@ namespace _Game.Scripts.GD.DataManager
 
         private string GetFilePath(string dataFileName) => Path.Combine(Application.persistentDataPath, dataFileName);
 
-        public TRecordType FindById(string id)
+        public TRecordType FindById(object id)
         {
-            return Records.Find(v => Equals(v.GetId(), id));
+            return Records.FirstOrDefault(v => Equals(v.GetId(), id));
         }
     }
 }

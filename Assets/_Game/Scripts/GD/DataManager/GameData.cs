@@ -39,6 +39,9 @@ namespace _Game.Scripts.GD.DataManager
 
 		public static InventoryItemUpgradeTable ShipUpgradeTable => PlayfabManager.Instance.ShipUpgradeTable;
 
+		public static PlayerLevelTable PlayerLevelTable 
+			=> new("https://docs.google.com/spreadsheets/d/1GT5jPQFREA2wldlQkaVaSaFwYkfeBS__LDfkTjgzimM/edit?gid=890610760#gid=890610760");
+
 		public static UniTask Load()
 		{
 			return TaskUtils.WaitAllWithConcurrencyControl(new List<Func<UniTask>>
@@ -60,6 +63,8 @@ namespace _Game.Scripts.GD.DataManager
 				() => CannonUpgradeTable.LoadData(),
 				() => AmmoUpgradeTable.LoadData(),
 				() => ShipUpgradeTable.LoadData(),
+				
+				() => PlayerLevelTable.LoadData(),
 
 				() => GDConfigLoader.Instance.Load(),
 			}, 5);
