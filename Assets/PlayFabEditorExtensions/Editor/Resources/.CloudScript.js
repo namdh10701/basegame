@@ -34,7 +34,13 @@ const ProfileField = Object.freeze({
 });
 
 const TitleReadOnlyData = Object.freeze({
-    RankInfo: 'RankInfo', RankRookie: 'RankRookie',
+    RankInfo: 'RankInfo',
+    RankUnrank: 'RankUnrank',
+    RankRookie: 'RankRookie',
+    RankGunner: 'RankGunner',
+    RankHunter: 'RankHunter',
+    RankCaptain: 'RankCaptain',
+    RankConquer: 'RankConquer',
 });
 
 const EItemType = Object.freeze({
@@ -61,6 +67,8 @@ const EVirtualCurrency = Object.freeze({
 const ERank = Object.freeze({
     Unrank: 'Unrank', Rookie: 'Rookie', Gunner: 'Gunner', Hunter: 'Hunter', Captain: 'Captain', Conquer: 'Conquer'
 });
+
+const Total_Player_Per_Rank_Group = 50;
 
 const GetItemUpgradeDB = function (itemType) {
     switch (itemType) {
@@ -324,11 +332,12 @@ handlers.UpgradeItem = function (args, context) {
 };
 
 handlers.GetRankInfo = function (args, context) {
-    var reqReadOnlyData = {
+    let reqReadOnlyData = {
         PlayFabId: currentPlayerId,
+        Keys: [ProfileField.Rank, ProfileField.CurrentRankID]
     };
-    var resData = server.GetUserReadOnlyData(reqReadOnlyData);
-    log.debug("resData", resData);
+    let resData = server.GetUserReadOnlyData(reqReadOnlyData);
+
     let userRank = ERank.Unrank;
     let userRankScore = 0;
     let userRankId = "";
@@ -342,20 +351,158 @@ handlers.GetRankInfo = function (args, context) {
     // Rank Info
     let userRankDB = 'Rank' + userRank;
     let keys = [TitleReadOnlyData.RankInfo, userRankDB];
-    var resTitleData = server.GetTitleInternalData({Keys: keys});
+    let resTitleData = server.GetTitleInternalData({Keys: keys});
     let userRankData = JSON.parse(resTitleData.Data[userRankDB]);
-    var userRankInfo = userRankData.find(val => val.Id == userRankId);
-    log.debug("userRankId", userRankId);
-    log.debug("userRankInfo", userRankInfo);
+    let userRankInfo = userRankData.find(val => val.Id == userRankId);
+
+    if (userRankId == "") {
+        let rankId = "";
+        for (let i = 0; i < userRankData.length; i++) {
+            if (userRankData[i].Count < Total_Player_Per_Rank_Group) {
+                rankId = userRankData[i].Id;
+                break;
+            }
+        }
+
+        if (rankRankId == "") {
+
+        }
+    }
 
     return {
         Result: true,
-        RankInfo: resTitleData.Data[TitleReadOnlyData.RankInfo].Value,
+        RankInfo: JSON.parse(resTitleData.Data[TitleReadOnlyData.RankInfo]),
         UserRankInfo: userRankInfo
     };
 };
 
-handlers.CampaignComplete = function (args, context) {
+handlers.CreateRankTicket = function (args, context) {
+    let energyPerMatch = 1;
+    var resInventory = server.GetUserInventory({PlayFabId: currentPlayerId});
+    if (resInventory.VirtualCurrency[EVirtualCurrency.Energy] < energyPerMatch) {
+        return {
+            Result: false, Error: "NOT_ENOUGH_ENERGY"
+        };
+    }
+
+    if (resInventory.VirtualCurrency[EVirtualCurrency.Ticket] <= 0) {
+        return {
+            Result: false, Error: "NOT_ENOUGH_TICKET"
+        };
+    }
+
+    let result = {Result: true, VirtualCurrency: {}};
+    var resSubEnergy = server.SubtractUserVirtualCurrency({
+        PlayFabId: currentPlayerId, VirtualCurrency: EVirtualCurrency.Energy, Amount: energyPerMatch
+    });
+    result.VirtualCurrency[EVirtualCurrency.Energy] = resSubEnergy.Balance
+
+    var resSubTicket = server.SubtractUserVirtualCurrency({
+        PlayFabId: currentPlayerId, VirtualCurrency: EVirtualCurrency.Ticket, Amount: 1
+    });
+    result.VirtualCurrency[EVirtualCurrency.Ticket] = resSubTicket.Balance
+
+    CheckJoinRank(currentPlayerId);
+
+    return result;
+};
+
+const CheckJoinRank = function (playfabId) {
+    let reqReadOnlyData = {
+        PlayFabId: currentPlayerId,
+        Keys: [ProfileField.Rank, ProfileField.RankScore, ProfileField.CurrentRankID]
+    };
+    let resData = server.GetUserReadOnlyData(reqReadOnlyData);
+
+    let currentRankId = resData.Data[ProfileField.CurrentRankID].Value;
+    let userRank = resData.Data[ProfileField.Rank].Value;
+
+    if (currentRankId == "") {
+        var resProfile = server.GetPlayerProfile({PlayFabId: currentPlayerId});
+
+        let rankGroup = 'Rank' + userRank;
+        let resTitleData = server.GetTitleInternalData({Keys: [rankGroup]});
+        let rankData = JSON.parse(resTitleData.Data[rankGroup]);
+        let userRankInfo = null;
+
+        var userRankProfile = {
+            Id: currentPlayerId,
+            Name: resProfile.PlayerProfile.DisplayName,
+            Score: 0
+        };
+
+        for (let i = 0; i < rankData.length; i++) {
+            if (rankData[i].Count < Total_Player_Per_Rank_Group) {
+                currentRankId = rankData[i].Id;
+                rankData[i].Count++;
+                rankData[i].Players.push(userRankProfile);
+                userRankInfo = rankData[i];
+                break;
+            }
+        }
+
+        if (currentRankId == "") {
+            currentRankId = GenerateGUID();
+            userRankInfo = {
+                Id: currentRankId,
+                Count: 1,
+                Players: [userRankProfile]
+            };
+            rankData.push(userRankInfo);
+        }
+
+        var resUpdate = server.SetTitleInternalData({
+            Key: 'Rank' + userRank,
+            Value: JSON.stringify(rankData)
+        });
+
+        var userData = {};
+        userData[ProfileField.CurrentRankID] = currentRankId;
+        var resUserData = server.UpdateUserReadOnlyData({
+            PlayFabId: currentPlayerId, Data: userData
+        });
+
+        return {
+            Result: true,
+            UserRankInfo: userRankInfo
+        }
+    }
+    return {
+        Result: false
+    };
+};
+
+handlers.SubmitRankingMatchAsync = function (args, context) {
+    var resReadOnlyData = server.GetUserReadOnlyData({
+        PlayFabId: currentPlayerId,
+        Keys: [ProfileField.Rank, ProfileField.RankScore, ProfileField.CurrentRankID]
+    });
+
+    let newData = {};
+    newData[ProfileField.RankScore] = parseInt(resReadOnlyData.Data[ProfileField.RankScore].Value, 10) + args.Score;
+    server.UpdateUserReadOnlyData({
+        PlayFabId: currentPlayerId,
+        Data: newData
+    });
+
+    let userRankDB = 'Rank' + resReadOnlyData.Data[ProfileField.Rank].Value;
+    let resTitleData = server.GetTitleInternalData({Keys: [userRankDB]});
+    let rankData = JSON.parse(resTitleData.Data[userRankDB]);
+    let userRankInfo = rankData.find(val => val.Id == resReadOnlyData.Data[ProfileField.CurrentRankID].Value);
+
+    userRankInfo.Players.find(val => val.Id == currentPlayerId).Score = newData[ProfileField.RankScore];
+    var resUpdate = server.SetTitleInternalData({
+        Key: userRankDB,
+        Value: JSON.stringify(rankData)
+    });
+    
+    return {
+        Result: true,
+        UserRankInfo: userRankInfo
+    };
+};
+
+handlers.CampaignComplete = async function (args, context) {
 
 };
 
@@ -600,3 +747,12 @@ handlers.RoomEventRaised = function (args) {
             break;
     }
 };
+
+function GenerateGUID() {
+    const randomPart = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        const r = Math.random() * 16 | 0;
+        const v = c === 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
+    return `${randomPart}`;
+}

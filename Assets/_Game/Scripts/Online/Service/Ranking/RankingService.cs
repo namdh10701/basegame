@@ -19,10 +19,6 @@ namespace Online.Service
         public RankInfo RankInfo { get; private set; }
         public UserRankInfo UserRankInfo { get; private set; }
 
-        public void LoadRankInfo(Dictionary<string, UserDataRecord> userData)
-        {
-        }
-
         public async UniTask<bool> RequestUserRankAsync()
         {
             var signal = new UniTaskCompletionSource<bool>();
@@ -43,6 +39,47 @@ namespace Online.Service
             return await signal.Task;
         }
         
+        public async UniTask<bool> CreateRankTicketAsync()
+        {
+            var signal = new UniTaskCompletionSource<bool>();
+            PlayFabClientAPI.ExecuteCloudScript(new()
+            {
+                FunctionName = C.CloudFunction.CreateRankTicket
+            }, result =>
+            {
+                signal.TrySetResult(true);
+            }, error =>
+            {
+                LogError("Create Rank Ticket Error: " + error.ErrorMessage);
+                signal.TrySetResult(false);
+            });
+            return await signal.Task;
+        }
+        
+        public async UniTask<bool> SubmitRankingMatchAsync(int totalDamage)
+        {
+            var signal = new UniTaskCompletionSource<bool>();
+            PlayFabClientAPI.ExecuteCloudScript(new()
+            {
+                FunctionName = C.CloudFunction.SubmitRankingMatch,
+                FunctionParameter = new
+                {
+                    Score = totalDamage
+                }
+            }, result =>
+            {
+                var rankResponse = JsonConvert.DeserializeObject<SubmitRankingResponse>(result.FunctionResult.ToString());
+                UserRankInfo = rankResponse.UserRankInfo;
+                LogSuccess("Submit Ranking!");
+                signal.TrySetResult(true);
+            }, error =>
+            {
+                LogError("Submit Ranking Match Error: " + error.ErrorMessage);
+                signal.TrySetResult(false);
+            });
+            return await signal.Task;
+        }
+
         public async UniTask<RewardBundleInfo> LoadRewardBundleInfo()
         {
             var signal = new UniTaskCompletionSource<RewardBundleInfo>();

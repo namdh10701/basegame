@@ -19,6 +19,7 @@ namespace Online.Service
 		public long Exp { get; private set; }
 		public ERank UserRank { get; private set; } = ERank.Unrank;
 		public int UserRankScore { get; private set; }
+		public string UserRankID { get; private set; }
 
 		#endregion
 
@@ -108,6 +109,11 @@ namespace Online.Service
 			if (readOnlyData.TryGetValue(C.NameConfigs.RankScore, out var scoreRecord))
 			{
 				UserRankScore = System.Convert.ToInt32(scoreRecord.Value);
+			}
+			
+			if (readOnlyData.TryGetValue(C.NameConfigs.CurrentRankID, out var rankID))
+			{
+				UserRankID = rankID.Value;
 			}
 		}
 

@@ -34,9 +34,16 @@ namespace Online.Model
 
 	public class RankInfo
 	{
+		[JsonProperty("No")]
 		public int SeasonNo;
+		
+		[JsonProperty("Name")]
 		public string SeasonName;
+		
+		[JsonProperty("Start")]
 		public ulong StartTimestamp;
+		
+		[JsonProperty("End")]
 		public ulong EndTimestamp;
 	}
 	
@@ -57,8 +64,8 @@ namespace Online.Model
 		[JsonProperty("Id")]
 		public string RankID;
 		
-		[JsonProperty("Total")]
-		public int TotalPlayer;
+		[JsonProperty("Count")]
+		public int Count;
 
 		[JsonProperty("Players")]
 		public PlayerRankInfo[] Players;
