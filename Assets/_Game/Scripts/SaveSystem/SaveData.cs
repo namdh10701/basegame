@@ -15,7 +15,7 @@ namespace _Game.Scripts.SaveLoad
         // public SkillSaveData SkillSaveData;
         // public InventorySaveData InventorySaveData;
         public ShipSetupSaveData ShipSetupSaveData;
-        public List<string> OwnedShips = new();
+        public List<ItemData> OwnedShips = new();
         public List<ItemData> OwnedItems = new();
 
         public CountOfGacha CountOfGacha;
@@ -45,28 +45,7 @@ namespace _Game.Scripts.SaveLoad
             SaveData defaultSave = new SaveData(1);
             defaultSave.maxEnergy = 100;
             defaultSave.energy = defaultSave.maxEnergy;
-
-            // InventorySaveData inventorySaveData = new InventorySaveData();
-            //
-            // List<IInventoryData> owned = new List<IInventoryData>();
-            // List<GearData> equipingGear = new List<GearData>();
-            //
-            // GearData gearData = new GearData(1, GearType.Sword, Rarity.Common);
-            // Debug.Log(gearData.Id + " DEFAULT");
-            // owned.Add(gearData);
-            // owned.Add(new GearData(2, GearType.Hat, Rarity.Rare));
-            //
-            //
-            // inventorySaveData.OwnedInventories = owned;
-            // inventorySaveData.EquippingGears = equipingGear;
-            // defaultSave.InventorySaveData = inventorySaveData;
-            //
-            //
-            // SkillSaveData skillSaveData = new SkillSaveData(1);
-            // skillSaveData.SkillDatas.Add(new SkillData(1, 1));
-            // skillSaveData.SkillDatas.Add(new SkillData(2, 1));
-            //
-            // defaultSave.SkillSaveData = skillSaveData;
+            
             defaultSave.CountOfGacha = new CountOfGacha();
             defaultSave.ShipSetupSaveData = new ShipSetupSaveData();
             defaultSave.ShipSetupSaveData.Init();
@@ -75,10 +54,11 @@ namespace _Game.Scripts.SaveLoad
 
             defaultSave.OwnedShips = new()
             {
-                "0001",
-                "0002",
-                "0003",
+                new(ItemType.SHIP, Game.IDGenerator.Next(), "0001", 0, 1),
+                new(ItemType.SHIP, Game.IDGenerator.Next(), "0002", 0, 1),
+                new(ItemType.SHIP, Game.IDGenerator.Next(), "0003", 0, 1),
             };
+
 
             defaultSave.OwnedItems = new List<ItemData>()
             {

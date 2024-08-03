@@ -44,7 +44,7 @@ namespace _Game.Features.Gameplay
         {
             this.BattleViewModel = FindAnyObjectByType<BattleViewModel>();
             BattleInputManager.gameObject.SetActive(false);
-            EntityManager.SpawnShip(SaveSystem.GameSave.ShipSetupSaveData.CurrentShipId, shipStartPos.position);
+            EntityManager.SpawnShip(SaveSystem.GameSave.ShipSetupSaveData.CurrentShip.ItemId, shipStartPos.position);
             LevelStartSequence.shipSpeed = EntityManager.Ship.ShipSpeed;
             GridAttackHandler.ship = EntityManager.Ship;
             GridPicker.ShipGrid = EntityManager.Ship.ShipSetup;

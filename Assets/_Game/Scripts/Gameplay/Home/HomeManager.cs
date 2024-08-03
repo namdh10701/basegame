@@ -25,7 +25,7 @@ namespace _Game.Features.Home
         }
         public void Refresh()
         {
-            string currentShip = SaveSystem.GameSave.ShipSetupSaveData.CurrentShipId;
+            string currentShip = SaveSystem.GameSave.ShipSetupSaveData.CurrentShip.ItemId;
             foreach (Ship ship in ships)
             {
                 if (ship.Id == currentShip)

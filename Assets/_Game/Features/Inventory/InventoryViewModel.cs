@@ -309,7 +309,7 @@ namespace _Game.Features.Inventory
                     Id = info.Id,
                     Type = ItemType.SHIP,
                     InventoryViewModel = this,
-                    OwnItemId = item,
+                    OwnItemId = item.ItemId,
                     Name = info.Name,
                     // Level = info.Level,
                 };
