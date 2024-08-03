@@ -1,3 +1,4 @@
+using CsvHelper.Configuration.Attributes;
 using Newtonsoft.Json;
 
 namespace _Game.Scripts.GD.DataManager
@@ -13,7 +14,7 @@ namespace _Game.Scripts.GD.DataManager
 
         public int FindNextLevelExp(int currentLevel)
         {
-            var lv = FindById(currentLevel).Level;
+            var lv = currentLevel == 0 ? 0 : FindById(currentLevel).Level;
             var nextRec = FindById(lv + 1);
 
             if (nextRec == null)
@@ -21,7 +22,7 @@ namespace _Game.Scripts.GD.DataManager
                 return -1;
             }
 
-            return nextRec.Level;
+            return nextRec.RequiredExp;
         }
     }
 
@@ -31,10 +32,12 @@ namespace _Game.Scripts.GD.DataManager
     public class PlayerLevelTableRecord : DataTableRecord
     {
         [JsonProperty("level")]
+        [Index(0)]
         public int Level { get; set; }
 
         [JsonProperty("exp_require")]
-        public int Name { get; set; }
+        [Index(1)]
+        public int RequiredExp { get; set; }
 
         public override object GetId()
         {
