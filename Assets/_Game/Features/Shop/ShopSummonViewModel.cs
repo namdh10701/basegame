@@ -453,12 +453,12 @@ namespace _Game.Features.Shop
             if (GachaTypeItemReview == "cannon")
             {
                 SlotItemReview = GameData.CannonTable.GetSlotByName(IdItemReview);
-                dataTableRecord = GameData.CannonTable.GetDataTableRecord(IdItemReview);
+                dataTableRecord = GameData.CannonTable.FindById(IdItemReview);
             }
             else
             {
                 SlotItemReview = GameData.AmmoTable.GetShapeByName(IdItemReview);
-                dataTableRecord = GameData.AmmoTable.GetDataTableRecord(IdItemReview);
+                dataTableRecord = GameData.AmmoTable.FindById(IdItemReview);
             }
 
             var index = 0;

@@ -12,16 +12,6 @@ namespace _Game.Scripts.GD.DataManager
         public ShipTable(string fileName) : base(fileName)
         {
         }
-
-        public DataTableRecord GetDataTableRecord(string id)
-        {
-            foreach (var record in Records)
-            {
-                if (record.Id == id)
-                    return record;
-            }
-            return null;
-        }
     }
 
     /// <summary>

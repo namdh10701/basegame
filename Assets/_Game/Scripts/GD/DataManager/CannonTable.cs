@@ -41,16 +41,6 @@ namespace _Game.Scripts.GD.DataManager
             return -1;
         }
 
-        public DataTableRecord GetDataTableRecord(string id)
-        {
-            foreach (var record in Records)
-            {
-                if (record.Id == id)
-                    return record;
-            }
-            return null;
-        }
-
         // public (string, string, string) GetDataSkillDefault(string operationType, Rarity rarity, string rarityLevel)
         // {
         //     foreach (var record in Records)

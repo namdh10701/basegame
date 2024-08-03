@@ -556,17 +556,17 @@ namespace _Game.Features.InventoryItemInfo
             switch (Type)
             {
                 case ItemType.CANNON:
-                    var cannonTable = GameData.CannonTable.GetDataTableRecord(Id) as CannonTableRecord;
+                    var cannonTable = GameData.CannonTable.FindById(Id);
                     var damageCannonExtra = Math.Ceiling(cannonTable.Attack * _inventoryItemUpgradeTableRecord.Effect);
                     ValueExtra = $"Attack (+{damageCannonExtra})";
                     break;
                 case ItemType.AMMO:
-                    var amoTable = GameData.AmmoTable.GetDataTableRecord(Id) as AmmoTableRecord;
+                    var amoTable = GameData.AmmoTable.FindById(Id);
                     var damageAmmoExtra = Math.Ceiling(amoTable.AmmoAttack * _inventoryItemUpgradeTableRecord.Effect);
                     ValueExtra = $"Attack (+{damageAmmoExtra})";
                     break;
                 case ItemType.SHIP:
-                    var shipTable = GameData.AmmoTable.GetDataTableRecord(Id) as ShipTableRecord;
+                    var shipTable = GameData.ShipTable.FindById(Id);
                     var hpExtra = Math.Ceiling(shipTable.Hp * _inventoryItemUpgradeTableRecord.Effect);
                     ValueExtra = $"Attack (+{hpExtra})";
                     break;

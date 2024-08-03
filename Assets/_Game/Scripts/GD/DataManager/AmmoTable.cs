@@ -32,15 +32,6 @@ namespace _Game.Scripts.GD.DataManager
             return null;
 
         }
-        public DataTableRecord GetDataTableRecord(string id)
-        {
-            foreach (var record in Records)
-            {
-                if (record.Id == id)
-                    return record;
-            }
-            return null;
-        }
 
         public DataTableRecord GetNextTableRecord(Rarity rarity, string id)
         {

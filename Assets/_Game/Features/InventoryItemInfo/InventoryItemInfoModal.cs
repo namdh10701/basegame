@@ -364,21 +364,21 @@ namespace _Game.Features.InventoryItemInfo
             switch (Type)
             {
                 case ItemType.CANNON:
-                    dataTableRecord = GameData.CannonTable.GetDataTableRecord(Id);
+                    dataTableRecord = GameData.CannonTable.FindById(Id);
                     var cannonRecord = dataTableRecord as CannonTableRecord;
                     cannonRecord.Attack = cannonRecord.Attack + valueExtra;
                     break;
                 case ItemType.AMMO:
-                    dataTableRecord = GameData.AmmoTable.GetDataTableRecord(Id);
+                    dataTableRecord = GameData.AmmoTable.FindById(Id);
                     var ammoRecord = dataTableRecord as AmmoTableRecord;
                     ammoRecord.AmmoAttack = ammoRecord.AmmoAttack + valueExtra;
                     break;
                 case ItemType.CREW:
-                    dataTableRecord = GameData.CrewTable.GetDataTableRecord(Id);
+                    dataTableRecord = GameData.CrewTable.FindById(Id);
                     var crewRecord = dataTableRecord as CrewTableRecord;
                     break;
                 case ItemType.SHIP:
-                    dataTableRecord = GameData.ShipTable.GetDataTableRecord(Id);
+                    dataTableRecord = GameData.ShipTable.FindById(Id);
                     var shipRecord = dataTableRecord as ShipTableRecord;
                     shipRecord.Hp = shipRecord.Hp + valueExtra;
                     break;
@@ -410,13 +410,13 @@ namespace _Game.Features.InventoryItemInfo
             switch (Type)
             {
                 case ItemType.CANNON:
-                    var cannonTable = GameData.CannonTable.GetDataTableRecord(Id) as CannonTableRecord;
+                    var cannonTable = GameData.CannonTable.FindById(Id);
                     return Math.Ceiling(cannonTable.Attack * _inventoryItemUpgradeTableRecord.Effect);
                 case ItemType.AMMO:
-                    var amoTable = GameData.AmmoTable.GetDataTableRecord(Id) as AmmoTableRecord;
+                    var amoTable = GameData.AmmoTable.FindById(Id);
                     return Math.Ceiling(amoTable.AmmoAttack * _inventoryItemUpgradeTableRecord.Effect);
                 case ItemType.SHIP:
-                    var shipTable = GameData.AmmoTable.GetDataTableRecord(Id) as ShipTableRecord;
+                    var shipTable = GameData.ShipTable.FindById(Id);
                     return Math.Ceiling(shipTable.Hp * _inventoryItemUpgradeTableRecord.Effect);
 
             }
