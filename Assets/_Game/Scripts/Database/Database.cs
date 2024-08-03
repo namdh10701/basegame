@@ -13,8 +13,6 @@ namespace _Game.Scripts.DB
 {
     public static class Database
     {
-        private static Dictionary<string, Sprite> CrewImageDic = new Dictionary<string, Sprite>();
-
         private static Dictionary<string, Cannon> CannonDic = new Dictionary<string, Cannon>();
         private static Dictionary<string, Ammo> BulletDic = new Dictionary<string, Ammo>();
         private static Dictionary<string, Crew> CrewDic = new Dictionary<string, Crew>();
@@ -93,9 +91,6 @@ namespace _Game.Scripts.DB
                     var itemOperationType = operationType.ToLower();
 
                     CrewOperatorDic.Add(Id, itemOperationType);
-                    var path = $"Database/GridItem/{itemType}/{itemOperationType}";
-                    var sprite = Resources.Load<Sprite>(path);
-                    CrewImageDic.Add(Id, sprite);
                 }
             }
         }
@@ -239,7 +234,9 @@ namespace _Game.Scripts.DB
 
         public static Sprite GetCrewImage(string id)
         {
-            return CrewImageDic[id];
+            const ItemType type = ItemType.CREW;
+            var record = GameData.CrewTable.FindById(id);
+            return GetGridItemImage(type, record.OperationType, record.Rarity);
         }
         
         public static Sprite GetResource(string id)

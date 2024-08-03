@@ -348,7 +348,12 @@ namespace _Game.Features.Inventory
         {
             if (Type == ItemType.CREW || Type == ItemType.MISC) return;
 
-            for (int i = 0; i < int.Parse(RarityLevel); i++)
+            if (!int.TryParse(RarityLevel, out var lv))
+            {
+                return;
+            }
+
+            for (int i = 0; i < lv; i++)
             {
                 Stars.Add(new Star());
             }
