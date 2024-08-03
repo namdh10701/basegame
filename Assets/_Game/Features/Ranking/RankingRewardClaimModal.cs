@@ -14,7 +14,7 @@ namespace _Game.Features.Ranking
     public partial class RankingRewardClaimModal : AsyncModal<object, List<RankReward>>
     {
         [Binding]
-        public ObservableList<RankReward> Records { get; set; } = new();
+        public ObservableList<RankingScreen.RankReward> Records { get; set; } = new();
 
         protected override async UniTask InternalInitialize(List<RankReward> rewards)
         {

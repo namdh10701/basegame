@@ -2,6 +2,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using _Game.Scripts.DB;
 using _Game.Scripts.UI;
+using Online;
 using Online.Model;
 using UnityEngine;
 using UnityWeld.Binding;
@@ -79,24 +80,7 @@ namespace _Game.Features.Ranking
             /// UserRank
             /// </summary>
             [Binding]
-            public UserRank UserRank
-            {
-                get => _userRank;
-                set
-                {
-                    if (Equals(_userRank, value))
-                    {
-                        return;
-                    }
-
-                    _userRank = value;
-                    OnPropertyChanged(nameof(UserRank));
-                    OnPropertyChanged(nameof(RankBadge));
-                    OnPropertyChanged(nameof(RankName));
-                }
-            }
-
-            private UserRank _userRank;
+            public UserRank UserRank => BackedData.Rank;
 
             #endregion
 
@@ -131,41 +115,18 @@ namespace _Game.Features.Ranking
             /// IsCurrentRank
             /// </summary>
             [Binding]
-            public bool IsCurrentRank
-            {
-                get => _isCurrentRank;
-                set
-                {
-                    if (Equals(_isCurrentRank, value))
-                    {
-                        return;
-                    }
-
-                    _isCurrentRank = value;
-                    OnPropertyChanged(nameof(IsCurrentRank));
-                    OnPropertyChanged(nameof(IsCurrentRankUnClaimed));
-                    OnPropertyChanged(nameof(IsCurrentRankClaimed));
-                }
-            }
-
-            private bool _isCurrentRank;
+            public bool IsCurrentRank => BackedData.IsCurrentRank;
 
             #endregion
             [Binding] public bool IsCurrentRankUnClaimed => IsCurrentRank && !IsClaimed;
             [Binding] public bool IsCurrentRankClaimed => IsCurrentRank && IsClaimed;
             
-            public ClaimRewardBundle(bool isCurrentRank)
-            {
-                IsCurrentRank = isCurrentRank;
-            }
 
             [Binding]
             public async void DoClaim()
             {
                 await RankingRewardClaimModal.Show(BackedData.Rewards);
-                
-                // TODO call api
-                IsClaimed = true;
+                IsClaimed = await PlayfabManager.Instance.Ranking.ClaimRewardBundle();
             }
         }
     }

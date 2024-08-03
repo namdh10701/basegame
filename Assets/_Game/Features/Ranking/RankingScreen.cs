@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using _Game.Features.Battle;
 using _Game.Features.BattleLoading;
 using _Game.Features.Dialogs;
@@ -255,10 +256,9 @@ namespace _Game.Features.Ranking
             {
                 return;
             }
-            
-            // TODO check if resources enough
-            bool areEnoughResources = false;
-            if (!areEnoughResources)
+
+            var areResourcesEnough = await PlayfabManager.Instance.Ranking.StartBattle();
+            if (!areResourcesEnough)
             {
                 await AlertModal.Show("Not Enough Resource!");
                 return;

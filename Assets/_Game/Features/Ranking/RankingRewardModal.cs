@@ -1,9 +1,12 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using _Game.Features.Dialogs;
 using _Game.Features.Inventory;
 using Cysharp.Threading.Tasks;
+using Online;
 using Online.Model;
+using Unity.VisualScripting;
 using UnityWeld.Binding;
 
 namespace _Game.Features.Ranking
@@ -17,58 +20,12 @@ namespace _Game.Features.Ranking
         protected override async UniTask InternalInitialize(UserRank userRank)
         {
             Records.Clear();
-            
-            var backedData = new Online.Model.ClaimRewardBundle
-            {
-                Rank = UserRank.Hunter,
-                IsClaimed = false,
-                Rewards = new List<RankReward>
+            Records.AddRange(PlayfabManager.Instance.Ranking.RewardBundleInfo.Bundles.Select(
+                v => new ClaimRewardBundle
                 {
-                    new()
-                    {
-                        ItemType = ItemType.CANNON,
-                        ItemId = "0012",
-                        Amount = 3
-                    },
-                    new()
-                    {
-                        ItemType = ItemType.MISC,
-                        ItemId = MiscItemId.blueprint_cannon,
-                        Amount = 1
-                    }
-                }
-            };
-            
-            Records.Add(new ClaimRewardBundle(userRank == backedData.Rank)
-            {
-                BackedData = backedData
-            });
-            
-            var backedData1 = new Online.Model.ClaimRewardBundle
-            {
-                Rank = UserRank.Captain,
-                IsClaimed = false,
-                Rewards = new List<RankReward>
-                {
-                    new()
-                    {
-                        ItemType = ItemType.CANNON,
-                        ItemId = "0012",
-                        Amount = 3
-                    },
-                    new()
-                    {
-                        ItemType = ItemType.MISC,
-                        ItemId = MiscItemId.blueprint_cannon,
-                        Amount = 1
-                    }
-                }
-            };
-            
-            Records.Add(new ClaimRewardBundle(userRank == backedData1.Rank)
-            {
-                BackedData = backedData1
-            });
+                    BackedData = v
+                }).ToList()
+            );
         }
             
         public static async Task Show(UserRank userRank)

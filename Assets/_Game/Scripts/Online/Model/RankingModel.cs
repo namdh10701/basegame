@@ -11,7 +11,7 @@ namespace Online.Model
 		Gunner,
 		Hunter,
 		Captain,
-		Conqueror,
+		Conquer,
 	}
 	
 	public class RankReward
@@ -24,7 +24,7 @@ namespace Online.Model
 	public class RankRecord
 	{
 		public int No;
-		public string PlayfabID;
+		public string PlayfabID; // dùng để track xem record hiện tại có phải của người chơi hiện tại không
 		public string Username;
 		public int Score;
 		public List<RankReward> Rewards = new();
@@ -42,6 +42,7 @@ namespace Online.Model
 	public class ClaimRewardBundle
 	{
 		public UserRank Rank;
+		public bool IsCurrentRank;
 		public List<RankReward> Rewards = new();
 		public bool IsClaimed;
 	}

@@ -66,7 +66,7 @@ namespace _Game.Scripts.GD.DataManager
 				
 				() => PlayerLevelTable.LoadData(),
 
-				() => GDConfigLoader.Instance.Load(),
+				// () => GDConfigLoader.Instance.Load(),
 			}, 5);
 
 
