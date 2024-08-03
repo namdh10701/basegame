@@ -50,11 +50,11 @@ namespace _Game.Scripts.SaveLoad
     [Serializable]
     public class ShipSetupSaveData
     {
-        public string CurrentShipId;
+        public ItemData CurrentShip;
         public SetupProfile CurrentProfile = SetupProfile.Profile1;
         public Dictionary<string, Dictionary<string, ShipSetupData>> ShipSetupData = new();
 
-        public ShipSetupData CurrentShipSetupData => GetShipSetup(CurrentShipId, CurrentProfile);
+        public ShipSetupData CurrentShipSetupData => GetShipSetup(CurrentShip.ItemId, CurrentProfile);
 
         public ShipSetupData GetShipSetup(string shipId, SetupProfile setupProfile)
         {
@@ -74,9 +74,9 @@ namespace _Game.Scripts.SaveLoad
             });
 
 
-            if (string.IsNullOrEmpty(CurrentShipId))
+            if (string.IsNullOrEmpty(CurrentShip.ItemId))
             {
-                CurrentShipId = GameData.ShipTable.GetRecords().FirstOrDefault()?.Id;
+                CurrentShip.ItemId = GameData.ShipTable.GetRecords().FirstOrDefault()?.Id;
             }
         }
     }

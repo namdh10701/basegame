@@ -393,7 +393,7 @@ namespace _Game.Features.MyShip
         public void SaveSetupProfile()
         {
             var setup = SaveSystem.GameSave.ShipSetupSaveData.GetShipSetup(ShipId, ShipSetupProfile);
-            SaveSystem.GameSave.ShipSetupSaveData.CurrentShipId = ShipId;
+            SaveSystem.GameSave.ShipSetupSaveData.CurrentShip.ItemId = ShipId;
             SaveSystem.GameSave.ShipSetupSaveData.CurrentProfile = ShipSetupProfile;
             
             // stash
@@ -409,7 +409,7 @@ namespace _Game.Features.MyShip
                     };
             }
             
-            
+
             // ship
             setup.ShipData.Clear();
             foreach (var (pos, item) in ItemPositions)
@@ -648,7 +648,7 @@ namespace _Game.Features.MyShip
                 StashItems.Add(new StashItem(this));
             }
 
-            _shipId = SaveSystem.GameSave.ShipSetupSaveData.CurrentShipId;
+            _shipId = SaveSystem.GameSave.ShipSetupSaveData.CurrentShip.ItemId;
             _shipSetupProfileIndex = (int)SaveSystem.GameSave.ShipSetupSaveData.CurrentProfile;
             OnPropertyChanged(nameof(ShipSetupProfileIndex));
             InitializeShip(ShipId);
@@ -666,13 +666,13 @@ namespace _Game.Features.MyShip
         [Binding]
         public async void NextShip()
         {
-            var currentShipIdx = SaveSystem.GameSave.OwnedShips.IndexOf(SaveSystem.GameSave.ShipSetupSaveData.CurrentShipId);
+            var currentShipIdx = SaveSystem.GameSave.OwnedShips.IndexOf(SaveSystem.GameSave.ShipSetupSaveData.CurrentShip);
             var nextShipIdx = Math.Min(SaveSystem.GameSave.OwnedShips.Count - 1, currentShipIdx + 1);
-            _shipId = SaveSystem.GameSave.OwnedShips[nextShipIdx];
+            _shipId = SaveSystem.GameSave.OwnedShips[nextShipIdx].ItemId;
             _shipSetupProfileIndex = 0;
             OnPropertyChanged(nameof(ShipSetupProfileIndex));
             SaveSystem.GameSave.ShipSetupSaveData.CurrentProfile = (SetupProfile)_shipSetupProfileIndex;
-            SaveSystem.GameSave.ShipSetupSaveData.CurrentShipId = _shipId;
+            SaveSystem.GameSave.ShipSetupSaveData.CurrentShip.ItemId = _shipId;
             
             InitializeShip(_shipId);
             
@@ -685,13 +685,13 @@ namespace _Game.Features.MyShip
         [Binding]
         public async void PrevShip()
         {
-            var currentShipIdx = SaveSystem.GameSave.OwnedShips.IndexOf(SaveSystem.GameSave.ShipSetupSaveData.CurrentShipId);
+            var currentShipIdx = SaveSystem.GameSave.OwnedShips.IndexOf(SaveSystem.GameSave.ShipSetupSaveData.CurrentShip);
             var nextShipIdx = Math.Max(0, currentShipIdx - 1);
-            _shipId = SaveSystem.GameSave.OwnedShips[nextShipIdx];
+            _shipId = SaveSystem.GameSave.OwnedShips[nextShipIdx].ItemId;
             _shipSetupProfileIndex = 0;
             OnPropertyChanged(nameof(ShipSetupProfileIndex));
             SaveSystem.GameSave.ShipSetupSaveData.CurrentProfile = (SetupProfile)_shipSetupProfileIndex;
-            SaveSystem.GameSave.ShipSetupSaveData.CurrentShipId = _shipId;
+            SaveSystem.GameSave.ShipSetupSaveData.CurrentShip.ItemId = _shipId;
             
             InitializeShip(_shipId);
             
@@ -702,7 +702,7 @@ namespace _Game.Features.MyShip
         }
 
         [Binding] public string ShipPageInfo 
-            => $"{(SaveSystem.GameSave.OwnedShips.IndexOf(SaveSystem.GameSave.ShipSetupSaveData.CurrentShipId)+1).ToString().PadLeft(2, '0')}/{SaveSystem.GameSave.OwnedShips.Count.ToString().PadLeft(2, '0')}";
+            => $"{(SaveSystem.GameSave.OwnedShips.IndexOf(SaveSystem.GameSave.ShipSetupSaveData.CurrentShip)+1).ToString().PadLeft(2, '0')}/{SaveSystem.GameSave.OwnedShips.Count.ToString().PadLeft(2, '0')}";
 
         public override async void DidEnter(Memory<object> args)
         {

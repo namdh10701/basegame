@@ -6,6 +6,7 @@ using _Game.Scripts.Bootstrap;
 using _Game.Scripts.GD.DataManager;
 using _Game.Scripts.SaveLoad;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityWeld.Binding;
@@ -359,6 +360,100 @@ namespace _Game.Features.MergeScreen
         private string _slotItemMerge;
         #endregion
 
+        #region Binding Prop: PreviousRarity
+        /// <summary>
+        /// PreviousRarity
+        /// </summary>
+        [Binding]
+        public string PreviousRarity
+        {
+            get => _previousRarity;
+            set
+            {
+                if (_previousRarity == value)
+                {
+                    return;
+                }
+
+                _previousRarity = value;
+
+                OnPropertyChanged(nameof(PreviousRarity));
+
+                DoFilter();
+            }
+        }
+        private string _previousRarity;
+        #endregion
+
+        #region Binding Prop: NextRarity
+        /// <summary>
+        /// NextRarity
+        /// </summary>
+        [Binding]
+        public string NextRarity
+        {
+            get => _nextRarity;
+            set
+            {
+                if (_nextRarity == value)
+                {
+                    return;
+                }
+
+                _nextRarity = value;
+
+                OnPropertyChanged(nameof(NextRarity));
+
+                DoFilter();
+            }
+        }
+        private string _nextRarity;
+        #endregion
+
+        #region Binding Prop: ColorNextRarity
+        /// <summary>
+        /// ColorNextRarity
+        /// </summary>
+        [Binding]
+        public Color ColorNextRarity
+        {
+            get => _colorNextRarity;
+            set
+            {
+                if (Equals(_colorNextRarity, value))
+                {
+                    return;
+                }
+
+                _colorNextRarity = value;
+                OnPropertyChanged(nameof(ColorNextRarity));
+            }
+        }
+        private Color _colorNextRarity;
+        #endregion
+
+        #region Binding Prop: ColorPreviousRarity
+        /// <summary>
+        /// ColorPreviousRarity
+        /// </summary>
+        [Binding]
+        public Color ColorPreviousRarity
+        {
+            get => _colorPreviousRarity;
+            set
+            {
+                if (Equals(_colorPreviousRarity, value))
+                {
+                    return;
+                }
+
+                _colorPreviousRarity = value;
+                OnPropertyChanged(nameof(ColorPreviousRarity));
+            }
+        }
+        private Color _colorPreviousRarity;
+        #endregion
+
         private List<InventoryItem> _dataSource = new List<InventoryItem>();
         private List<InventoryItem> _itemsSelected = new List<InventoryItem>();
 
@@ -387,6 +482,8 @@ namespace _Game.Features.MergeScreen
         [Binding]
         public ObservableList<Star> StarsItemTarget => starsItemTarget;
         #endregion
+
+        public RectTransform HightlightPopupRecieved;
 
         void OnEnable()
         {
@@ -634,10 +731,47 @@ namespace _Game.Features.MergeScreen
             SaveSystem.SaveGame();
 
             IsActiveSuccesFul = true;
+            if (ItemTarget.RarityLevel == "0")
+                NextRarity = $"{ItemTarget.Rarity}";
+            else
+                NextRarity = $"{ItemTarget.Rarity} {ItemTarget.RarityLevel}";
+
+            if (ItemMerge.RarityLevel == "0")
+                PreviousRarity = $"{ItemMerge.Rarity}";
+            else
+                PreviousRarity = $"{ItemMerge.Rarity} {ItemMerge.RarityLevel}";
+
+            SetColorRarity(ItemTarget.Rarity, ColorNextRarity);
+            SetColorRarity(ItemMerge.Rarity, ColorPreviousRarity);
+            HightlightPopupRecieved.DORotate(new Vector3(0, 0, 360), 4f, DG.Tweening.RotateMode.FastBeyond360)
+                                    .SetLoops(-1, LoopType.Restart)
+                                    .SetEase(Ease.Linear);
             await UniTask.Delay(2000);
             IsActiveSuccesFul = false;
             LoadData();
 
+        }
+
+        private void SetColorRarity(Rarity rarity, Color ColorRarity)
+        {
+            switch (rarity)
+            {
+                case Rarity.Common:
+                    ColorRarity = Color.grey;
+                    break;
+                case Rarity.Good:
+                    ColorRarity = Color.green;
+                    break;
+                case Rarity.Rare:
+                    ColorRarity = Color.cyan;
+                    break;
+                case Rarity.Epic:
+                    ColorRarity = new Color(194, 115, 241, 255);
+                    break;
+                case Rarity.Legend:
+                    ColorRarity = Color.yellow;
+                    break;
+            }
         }
 
         private void RemoveItemData()
