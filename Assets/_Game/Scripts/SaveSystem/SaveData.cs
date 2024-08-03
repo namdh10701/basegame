@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using _Game.Features.Inventory;
 using _Game.Features.Shop;
 using _Game.Scripts.Bootstrap;
@@ -45,12 +46,6 @@ namespace _Game.Scripts.SaveLoad
             SaveData defaultSave = new SaveData(1);
             defaultSave.maxEnergy = 100;
             defaultSave.energy = defaultSave.maxEnergy;
-            
-            defaultSave.CountOfGacha = new CountOfGacha();
-            defaultSave.ShipSetupSaveData = new ShipSetupSaveData();
-            defaultSave.ShipSetupSaveData.Init();
-
-            defaultSave.Settings = new SettingSaveData();
 
             defaultSave.OwnedShips = new()
             {
@@ -89,6 +84,13 @@ namespace _Game.Scripts.SaveLoad
             };
 
             defaultSave.Talent = new TalentSaveData();
+            
+            defaultSave.CountOfGacha = new CountOfGacha();
+            defaultSave.ShipSetupSaveData = new ShipSetupSaveData();
+            defaultSave.ShipSetupSaveData.CurrentShip = defaultSave.OwnedShips.First();
+            defaultSave.ShipSetupSaveData.Init();
+
+            defaultSave.Settings = new SettingSaveData();
 
             return defaultSave;
         }
