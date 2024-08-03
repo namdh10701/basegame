@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
+using Online.Enum;
 using Online.Model.ApiRequest;
 using PlayFab;
 using PlayFab.ClientModels;
@@ -16,6 +17,8 @@ namespace Online.Service
 		public string DisplayName { get; private set; }
 		public int Level { get; private set; }
 		public long Exp { get; private set; }
+		public ERank UserRank { get; private set; } = ERank.Unrank;
+		public int UserRankScore { get; private set; }
 
 		#endregion
 
@@ -94,6 +97,17 @@ namespace Online.Service
 			if (readOnlyData.TryGetValue(C.NameConfigs.Exp, out var exp))
 			{
 				Exp = System.Convert.ToInt32(exp.Value);
+			}
+			
+			if (readOnlyData.TryGetValue(C.NameConfigs.Rank, out var record))
+			{
+				if (System.Enum.TryParse<ERank>(record.Value, out var rank))
+					UserRank = rank;
+			}
+
+			if (readOnlyData.TryGetValue(C.NameConfigs.RankScore, out var scoreRecord))
+			{
+				UserRankScore = System.Convert.ToInt32(scoreRecord.Value);
 			}
 		}
 

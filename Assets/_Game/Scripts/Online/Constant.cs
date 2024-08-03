@@ -10,6 +10,10 @@ namespace Online
 			public const string Exp = "Exp";
 			public const string Energy = "Energy";
 			public const string EquipmentShips = "EquipmentShips";
+			
+			// Ranking
+			public const string Rank = "Rank";
+			public const string RankScore = "RankScore";
 		}
 		
 		public static class CloudFunction
@@ -17,6 +21,8 @@ namespace Online
 			public const string RequestNewProfile = "RequestNewProfile";
 			public const string UpgradeItem = "UpgradeItem";
 			public const string CombineItems = "CombineItems";
+			
+			public const string GetRankInfo = "GetRankInfo";
 		}
 	}
 }

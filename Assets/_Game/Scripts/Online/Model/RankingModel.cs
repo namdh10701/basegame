@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using _Game.Features.Inventory;
+using Newtonsoft.Json;
+using Online.Enum;
 
 namespace Online.Model
 {
@@ -30,13 +32,36 @@ namespace Online.Model
 		public List<RankReward> Rewards = new();
 	}
 
+	public class RankInfo
+	{
+		public int SeasonNo;
+		public string SeasonName;
+		public ulong StartTimestamp;
+		public ulong EndTimestamp;
+	}
+	
+	public class PlayerRankInfo
+	{
+		[JsonProperty("Id")]
+		public string Id;
+		
+		[JsonProperty("Name")]
+		public string DisplayName;
+		
+		[JsonProperty("Score")]
+		public int Score;
+	}
+
 	public class UserRankInfo
 	{
-		public string SeasonNo;
-		public string SeasonName;
-		public DateTime SeasonExpiredAt;
-		public UserRank Rank;
-		public List<RankRecord> Records = new();
+		[JsonProperty("Id")]
+		public string RankID;
+		
+		[JsonProperty("Total")]
+		public int TotalPlayer;
+
+		[JsonProperty("Players")]
+		public PlayerRankInfo[] Players;
 	}
 	
 	public class ClaimRewardBundle

@@ -81,9 +81,10 @@ namespace Online
 				Equipment.LoadEquipmentShip(infoPayload.UserData);
 				Inventory.LoadVirtualCurrency(infoPayload.UserVirtualCurrency);
 				Inventory.LoadItems(infoPayload.UserInventory);
+				Ranking.LoadRankInfo(infoPayload.UserReadOnlyData);
 			}
 
-			await Ranking.LoadUserRankInfo();
+			await Ranking.RequestUserRankAsync();
 			await Ranking.LoadRewardBundleInfo();
 			// UpdateEquipShip(SaveSystem.GameSave.ShipSetupSaveData);
 
