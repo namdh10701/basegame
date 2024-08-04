@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using _Base.Scripts.Utils;
 using _Game.Scripts.GD.DataManager;
+using Online.Enum;
 using Online.Model;
 using UnityEngine;
 
@@ -242,8 +243,7 @@ namespace _Game.Scripts.DB
         public static Sprite GetResource(string id)
             => CachedResources.Load<Sprite>($"Images/Items/item_{id}");
         
-        public static Sprite GetRankingTierBadge(UserRank rank) 
-            => CachedResources.Load<Sprite>($"Images/Rank/rank_badge_{rank.ToString().ToLower()}");
+        public static Sprite GetRankingTierBadge(ERank rank) => CachedResources.Load<Sprite>($"Images/Rank/rank_badge_{rank.ToString().ToLower()}");
 
         public static Sprite GetItemSprite(ItemType itemType, string id)
         {

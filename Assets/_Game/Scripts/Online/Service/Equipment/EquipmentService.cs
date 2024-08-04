@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using _Game.Scripts.SaveLoad;
+using Cysharp.Threading.Tasks;
 using Online.Enum;
 using Online.Interface;
+using Online.Model.ApiRequest;
 using PlayFab;
 using PlayFab.ClientModels;
 
@@ -11,51 +13,62 @@ namespace Online.Service
 	public class EquipmentService : BaseOnlineService
 	{
 		public ShipSetupSaveData EquipmentShips { get; private set; }
-		
-		public void UpdateEquipShip(ShipSetupSaveData shipSetupData, Action<bool> cb)
+
+		public async UniTask<BaseResponse> UpdateEquipShip(ShipSetupSaveData shipSetupData)
 		{
+			var signal = new UniTaskCompletionSource<BaseResponse>();
 			PlayFabClientAPI.UpdateUserData(new()
 			{
 				Data = new Dictionary<string, string>()
 				{
 					{
-						"Equipment", Newtonsoft.Json.JsonConvert.SerializeObject(shipSetupData)
+						C.NameConfigs.Equipment, Newtonsoft.Json.JsonConvert.SerializeObject(shipSetupData)
 					}
 				}
 			}, result =>
 			{
 				EquipmentShips = shipSetupData;
 				LogSuccess("Equip Ship!");
-				cb?.Invoke(true);
+				signal.TrySetResult(new()
+				{
+					Result = true
+				});
 			}, error =>
 			{
 				LogError(error.ErrorMessage);
-				cb?.Invoke(false);
+				signal.TrySetResult(new()
+				{
+					Result = false,
+					Error = error.ErrorMessage
+				});
 			});
+			return await signal.Task;
 		}
-		
-		public void RequestEquipmentShip(Action<bool> cb = null)
+
+		public async UniTask<ShipSetupSaveData> RequestEquipmentShipAsync()
 		{
+			var signal = new UniTaskCompletionSource<ShipSetupSaveData>();
 			PlayFabClientAPI.GetUserData(new()
 			{
 				Keys = new List<string>()
 				{
-					"Equipment"
+					C.NameConfigs.Equipment
 				}
 			}, result =>
 			{
 				LoadEquipmentShip(result.Data);
-				cb?.Invoke(true);
+				signal.TrySetResult(EquipmentShips);
 			}, error =>
 			{
 				LogError(error.ErrorMessage);
-				cb?.Invoke(false);
+				signal.TrySetResult(null);
 			});
+			return await signal.Task;
 		}
 
 		public void LoadEquipmentShip(Dictionary<string, UserDataRecord> userData)
 		{
-			if (userData.TryGetValue(C.NameConfigs.EquipmentShips, out var record))
+			if (userData.TryGetValue(C.NameConfigs.Equipment, out var record))
 			{
 				EquipmentShips = Newtonsoft.Json.JsonConvert.DeserializeObject<ShipSetupSaveData>(record.Value);
 			}

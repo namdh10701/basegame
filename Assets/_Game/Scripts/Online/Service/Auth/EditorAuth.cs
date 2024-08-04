@@ -30,7 +30,6 @@ namespace Online.Service.Auth
 				}
 			}, result =>
 			{
-				LogInfo($"Login result [PlayfabID: {Newtonsoft.Json.JsonConvert.SerializeObject(result.InfoResultPayload)}]");
 				signal.TrySetResult(new()
 				{
 					Result = true,
@@ -40,7 +39,6 @@ namespace Online.Service.Auth
 				});
 			}, error =>
 			{
-				LogError($"Login Failed: {error.ErrorMessage}");
 				signal.TrySetResult(new()
 				{
 					Result = false,

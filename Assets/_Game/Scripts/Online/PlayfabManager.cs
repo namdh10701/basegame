@@ -83,8 +83,10 @@ namespace Online
 				Inventory.LoadItems(infoPayload.UserInventory);
 			}
 
-			await Ranking.LoadUserRankInfo();
+			LoadUserRankInfo();
+			
 			await Ranking.LoadRewardBundleInfo();
+			
 			// UpdateEquipShip(SaveSystem.GameSave.ShipSetupSaveData);
 
 			LoadShop();
