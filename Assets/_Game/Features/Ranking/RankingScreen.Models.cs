@@ -232,7 +232,7 @@ namespace _Game.Features.Ranking
             public string Rank => BackedData?.Rank.ToString();
             
             [Binding]
-            public Sprite RankBadge => BackedData == null ? null : Database.GetRankBadge(BackedData.Rank);
+            public Sprite RankBadge => BackedData == null ? null : Database.GetRankingTierBadge(BackedData.Rank);
             
             [Binding]
             public Sprite NextRankBadge
@@ -240,7 +240,7 @@ namespace _Game.Features.Ranking
                 get
                 {
                     var rank = BackedData?.Rank.GetNext();
-                    return rank == null ? null : Database.GetRankBadge(rank.Value);
+                    return rank == null ? null : Database.GetRankingTierBadge(rank.Value);
                 }
             }
 
@@ -250,7 +250,7 @@ namespace _Game.Features.Ranking
                 get
                 {
                     var rank = BackedData?.Rank.GetPrevious();
-                    return rank == null ? null : Database.GetRankBadge(rank.Value);
+                    return rank == null ? null : Database.GetRankingTierBadge(rank.Value);
                 }
             }
 

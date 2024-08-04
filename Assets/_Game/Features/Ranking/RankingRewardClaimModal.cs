@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using _Game.Features.Dialogs;
-using _Game.Features.Inventory;
 using Cysharp.Threading.Tasks;
 using Online.Model;
 using Unity.VisualScripting;

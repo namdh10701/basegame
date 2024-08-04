@@ -70,7 +70,7 @@ namespace _Game.Features.Ranking
             /// RankBadge
             /// </summary>
             [Binding]
-            public Sprite RankBadge => Database.GetRankBadge(UserRank);
+            public Sprite RankBadge => Database.GetRankingTierBadge(UserRank);
 
             #endregion
 

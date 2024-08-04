@@ -123,8 +123,20 @@ namespace Online.Service
 
 		public async UniTask<bool> StartBattle()
 		{
-			//TODO: DNGUYEN - gọi api start battle
+			//TODO: DNGUYEN - gọi api start battle tại Tier hiện tại
 			// nếu đủ resource thì trả về true
+			return true;
+		}
+		
+		public async UniTask<bool> EndBattle(int score)
+		{
+			//TODO: DNGUYEN - gọi api end battle tại Tier hiện tại
+			/* logic backend:
+			 * Từ Score truyền lên tính lại rank cho user
+			 * Nếu user lên rank (ví dụ từ 35 -> 30) thì sẽ lấy reward của rank 35 trả cho user
+			 * Tra cứu reward tại đây: https://docs.google.com/spreadsheets/d/1NaQMjBxUDNAr4nmQC4NYn8mjq1sdAM8lswMUQ6w7zAE/edit?gid=1102932041#gid=1102932041
+			 */
+			// request thành công thì trả về true
 			return true;
 		}
 		

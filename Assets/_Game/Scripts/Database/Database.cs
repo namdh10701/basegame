@@ -242,7 +242,7 @@ namespace _Game.Scripts.DB
         public static Sprite GetResource(string id)
             => CachedResources.Load<Sprite>($"Images/Items/item_{id}");
         
-        public static Sprite GetRankBadge(UserRank rank) 
+        public static Sprite GetRankingTierBadge(UserRank rank) 
             => CachedResources.Load<Sprite>($"Images/Rank/rank_badge_{rank.ToString().ToLower()}");
 
         public static Sprite GetItemSprite(ItemType itemType, string id)

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using _Base.Scripts.Utils;
 using _Game.Features.Battle;
 using _Game.Features.BattleLoading;
 using _Game.Features.Dialogs;
@@ -191,7 +192,13 @@ namespace _Game.Features.Ranking
         public int TotalTicketCount => FreeTicketCount + OwnedTicketCount;
 
         #endregion
-        
+
+        protected override void Awake()
+        {
+            base.Awake();
+            IOC.Register(this);
+        }
+
         private string _stageId;
         public override async UniTask Initialize(Memory<object> args)
         {
