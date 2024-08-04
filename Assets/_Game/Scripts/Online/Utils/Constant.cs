@@ -12,6 +12,9 @@ namespace Online
 				EVirtualCurrency.Gold => "GO",
 				EVirtualCurrency.Gem => "GE",
 				EVirtualCurrency.Energy => "EN",
+				EVirtualCurrency.Ticket => "TI",
+				EVirtualCurrency.Diamond => "DI",
+				EVirtualCurrency.RealMoney => "RM",
 				_ => string.Empty
 			};
 		}

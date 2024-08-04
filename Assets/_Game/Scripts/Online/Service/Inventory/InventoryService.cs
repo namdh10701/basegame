@@ -39,6 +39,15 @@ namespace Online.Service
 				},
 				{
 					EVirtualCurrency.Energy, 0
+				},
+				{
+					EVirtualCurrency.Ticket, 0
+				},
+				{
+					EVirtualCurrency.Diamond, 0
+				},
+				{
+					EVirtualCurrency.RealMoney, 0
 				}
 			};
 		}

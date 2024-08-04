@@ -24,6 +24,7 @@ namespace Online
 			public const string GetRankInfo = "GetRankInfo";
 			public const string CreateRankTicket = "CreateRankTicket";
 			public const string SubmitRankingMatch = "SubmitRankingMatch";
+			public const string BonusGold = "BonusGold";
 		}
 	}
 }

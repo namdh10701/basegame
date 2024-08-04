@@ -4,6 +4,9 @@ namespace Online.Enum
 	{
 		Gold,
 		Gem,
-		Energy
+		Energy,
+		Ticket,
+		Diamond,
+		RealMoney,
 	}
 }

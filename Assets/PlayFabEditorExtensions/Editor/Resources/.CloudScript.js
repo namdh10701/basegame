@@ -30,7 +30,12 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const ProfileField = Object.freeze({
-    Level: 'Level', Exp: 'Exp', Rank: 'Rank', RankScore: 'RankScore', CurrentRankID: 'CurrentRankID',
+    Level: 'Level',
+    Exp: 'Exp',
+    Rank: 'Rank',
+    RankScore: 'RankScore',
+    CurrentRankID: 'CurrentRankID',
+    WeeklyPackages: 'WeeklyPackages'
 });
 
 const TitleReadOnlyData = Object.freeze({
@@ -66,6 +71,17 @@ const EVirtualCurrency = Object.freeze({
 
 const ERank = Object.freeze({
     Unrank: 'Unrank', Rookie: 'Rookie', Gunner: 'Gunner', Hunter: 'Hunter', Captain: 'Captain', Conquer: 'Conquer'
+});
+
+const EErrorCode = Object.freeze({
+    NotEnoughItem: 1000,
+    ItemNotFound: 1001,
+    ItemNotMatch: 1002,
+    NotEnoughGold: 1003,
+    NotEnoughBlueprint: 1004,
+    NotEnoughEnergy: 1005,
+    NotEnoughTicket: 1006,
+    LimitWeeklyPackage: 1007,
 });
 
 const Total_Player_Per_Rank_Group = 50;
@@ -137,7 +153,7 @@ handlers.RequestNewProfile = function (args, context) {
     userData[ProfileField.Rank] = ERank.Unrank;
     userData[ProfileField.RankScore] = 0;
     userData[ProfileField.CurrentRankID] = "";
-
+    userData[ProfileField.WeeklyPackages] = [];
     var reqReadOnlyData = {
         PlayFabId: currentPlayerId, Data: userData
     };
@@ -147,7 +163,7 @@ handlers.RequestNewProfile = function (args, context) {
 handlers.CombineItems = function (args, context) {
     if (args.ItemInstanceIds.length < 2) {
         return {
-            Result: false, Error: "NOT_ENOUGH_ITEM"
+            Result: false, Error: EErrorCode.NotEnoughItem
         };
     }
 
@@ -163,7 +179,7 @@ handlers.CombineItems = function (args, context) {
             CombineItems.push(item);
         } else {
             return {
-                Result: false, Error: "ITEM_NOT_FOUND"
+                Result: false, Error: EErrorCode.ItemNotFound
             }
         }
     }
@@ -176,7 +192,7 @@ handlers.CombineItems = function (args, context) {
     for (let i = 1; i < CombineItems.length; i++) {
         if (CombineItems[i].ItemId != configId) {
             return {
-                Result: false, Error: "ITEM_NOT_MATCH"
+                Result: false, Error: EErrorCode.ItemNotMatch
             }
         }
     }
@@ -279,7 +295,7 @@ handlers.UpgradeItem = function (args, context) {
         var resInventory = server.GetUserInventory({PlayFabId: currentPlayerId});
         if (resInventory.VirtualCurrency[EVirtualCurrency.Gold] < nextLevelConfig.gold) {
             return {
-                Result: false, Error: "NOT_ENOUGH_GOLD"
+                Result: false, Error: EErrorCode.NotEnoughGold
             };
         }
 
@@ -287,7 +303,7 @@ handlers.UpgradeItem = function (args, context) {
         var blueprints = resultInventory.Inventory.filter(val => val.ItemId == blueprintId);
         if (blueprints.length < nextLevelConfig.blueprint) {
             return {
-                Result: false, Error: "NOT_ENOUGH_BLUEPRINT"
+                Result: false, Error: EErrorCode.NotEnoughBlueprint
             };
         }
 
@@ -327,7 +343,7 @@ handlers.UpgradeItem = function (args, context) {
     }
 
     return {
-        Result: false, Error: "ITEM_NOT_FOUND"
+        Result: false, Error: EErrorCode.ItemNotFound
     }
 };
 
@@ -381,13 +397,13 @@ handlers.CreateRankTicket = function (args, context) {
     var resInventory = server.GetUserInventory({PlayFabId: currentPlayerId});
     if (resInventory.VirtualCurrency[EVirtualCurrency.Energy] < energyPerMatch) {
         return {
-            Result: false, Error: "NOT_ENOUGH_ENERGY"
+            Result: false, Error: EErrorCode.NotEnoughEnergy
         };
     }
 
     if (resInventory.VirtualCurrency[EVirtualCurrency.Ticket] <= 0) {
         return {
-            Result: false, Error: "NOT_ENOUGH_TICKET"
+            Result: false, Error: EErrorCode.NotEnoughTicket
         };
     }
 
@@ -495,7 +511,7 @@ handlers.SubmitRankingMatchAsync = function (args, context) {
         Key: userRankDB,
         Value: JSON.stringify(rankData)
     });
-    
+
     return {
         Result: true,
         UserRankInfo: userRankInfo
@@ -748,6 +764,26 @@ handlers.RoomEventRaised = function (args) {
     }
 };
 
+handlers.IsLimitWeeklyPackage = function (args, context) {
+    let reqReadOnlyData = {
+        PlayFabId: currentPlayerId,
+        Keys: [ProfileField.WeeklyPackages]
+    };
+    let resData = server.GetUserReadOnlyData(reqReadOnlyData);
+
+    let weeklyPackages = JSON.parse(resData[ProfileField.WeeklyPackages].Value);
+    let weeklyPack = weeklyPackages.find(val => val.id == args.WeeklyPackID);
+    if (weeklyPack == null || weeklyPack.RemainingTime > 0) {
+        return {
+            Result: false
+        };
+    }
+    return {
+        Result: false,
+        Error: EErrorCode.LimitWeeklyPackage
+    }
+};
+
 function GenerateGUID() {
     const randomPart = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
         const r = Math.random() * 16 | 0;
@@ -756,3 +792,42 @@ function GenerateGUID() {
     });
     return `${randomPart}`;
 }
+
+handlers.BonusGold = function (args, context) {
+    let catelogItems = server.GetCatalogItems({});
+
+    let catelogItem = catelogItems.Catalog.find(val => val.ItemId == args.ItemId);
+    if (catelogItem.Bundle != null) {
+        let goldAmount = 0;
+        if (catelogItem.Bundle.BundledVirtualCurrencies.hasOwnProperty(EVirtualCurrency.Gold)) {
+            goldAmount = parseInt(catelogItem.Bundle.BundledVirtualCurrencies[EVirtualCurrency.Gold]);
+        }
+        
+        if (goldAmount > 0) {
+            // Get Level
+            let resData = server.GetUserReadOnlyData({
+                PlayFabId: currentPlayerId,
+                Keys: [ProfileField.Level]
+            });
+            let level = parseInt(resData.Data[ProfileField.Level].Value);
+
+            var grantResult = server.AddUserVirtualCurrency({
+                PlayFabId: currentPlayerId, VirtualCurrency: EVirtualCurrency.Gold, Amount: goldAmount * level
+            });
+
+            var virtualCurrency = {};
+            virtualCurrency[EVirtualCurrency.Gold] = grantResult.Balance;
+            return {
+                Result: true, VirtualCurrency: virtualCurrency
+            };
+        }
+        return {
+            Result: false,
+            Error: EErrorCode.NotEnoughGold
+        }
+    }
+    return {
+        Result: false,
+        Error: EErrorCode.ItemNotFound
+    }
+};
