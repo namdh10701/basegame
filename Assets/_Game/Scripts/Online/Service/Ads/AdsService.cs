@@ -5,11 +5,12 @@ using Online.Enum;
 using Online.Model.GooglePurchase;
 using PlayFab;
 using PlayFab.ClientModels;
-using Unity.VisualScripting;
+
 namespace Online.Service
 {
 	public class AdsService : BaseOnlineService
 	{
+		const string AppID = "ca-app-pub-4412764125039323~1816855687";
 		public Dictionary<string, AdPlacementDetails> VideoAds { get; private set; } = new();
 
 		public async UniTask<bool> LoadAdsAsync()
@@ -17,7 +18,7 @@ namespace Online.Service
 			var signal = new UniTaskCompletionSource<bool>();
 			PlayFabClientAPI.GetAdPlacements(new()
 			{
-				AppId = "ca-app-pub-3940256099942544~3347511713"
+				AppId = AppID
 			}, result =>
 			{
 				VideoAds.Clear();
@@ -56,16 +57,35 @@ namespace Online.Service
 			return false;
 		}
 
-		public async void ShowVideoAd(string adUnitId)
+		public async UniTask<bool> ShowVideoAd(string adUnitId)
 		{
 			if (VideoAds.TryGetValue(adUnitId, out var videoAd))
 			{
 				var canWatch = await CanWatchAd(adUnitId);
 				if (canWatch)
 				{
-					
+
 				}
 			}
+			return false;
+		}
+		
+		public async UniTask<bool> ClaimAdReward(AdPlacementDetails adPlacementDetail)
+		{
+			UniTaskCompletionSource<bool> signal = new UniTaskCompletionSource<bool>();
+			PlayFabClientAPI.RewardAdActivity(new()
+			{
+				PlacementId = adPlacementDetail.PlacementId,
+				RewardId = adPlacementDetail.RewardId
+			}, result =>
+			{
+				signal.TrySetResult(true);
+			}, error =>
+			{
+				LogError(error.ErrorMessage);
+				signal.TrySetResult(false);
+			});
+			return await signal.Task;
 		}
 
 		public override void LogSuccess(string message)

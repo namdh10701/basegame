@@ -23,7 +23,6 @@ namespace Online.Service
 
         #region Properties
 
-		public List<AdPlacementDetails> AdPlacements { get; private set; } = new();
 		public List<StoreItem> GemPackages { get; private set; } = new();
 		public List<StoreItem> GoldPackages { get; private set; } = new();
 		public List<StoreItem> EnergyPackages { get; private set; } = new();
@@ -47,7 +46,7 @@ namespace Online.Service
 
 		public async UniTask<bool> LoadAllStore()
 		{
-			await UniTask.WhenAll(LoadGemPackages(), LoadGoldPackages(), LoadEnergyPackages(), LoadAdPlacements());
+			await UniTask.WhenAll(LoadGemPackages(), LoadGoldPackages(), LoadEnergyPackages());
 
 			InitIAP();
 
@@ -116,34 +115,11 @@ namespace Online.Service
 			return await signal.Task;
 		}
 
-		private async UniTask<bool> LoadAdPlacements()
-		{
-			var signal = new UniTaskCompletionSource<bool>();
-			PlayFabClientAPI.GetAdPlacements(new()
-			{
-				AppId = "ca-app-pub-3940256099942544~3347511713"
-			}, result =>
-			{
-				AdPlacements = result.AdPlacements;
-				signal.TrySetResult(true);
-			}, error =>
-			{
-				LogError(error.ErrorMessage);
-				signal.TrySetResult(false);
-			});
-			return await signal.Task;
-		}
-
 		public async UniTask<bool> BuyStoreItem(string storeId)
 		{
 			if (_storeItems.TryGetValue(storeId, out var storeItem))
 			{
-				if (AdPlacements.Find(val => val.RewardAssetUrl == storeItem.ItemId) != null)
-				{
-					var adPlacementDetail = AdPlacements.Find(val => val.RewardAssetUrl == storeItem.ItemId);
-					return await ClaimAdReward(adPlacementDetail);
-				}
-				else if (storeItem.VirtualCurrencyPrices.TryGetValue(EVirtualCurrency.Gem.GetCode(), out var gemPrice))
+				if (storeItem.VirtualCurrencyPrices.TryGetValue(EVirtualCurrency.Gem.GetCode(), out var gemPrice))
 				{
 					return await BuyByGem(storeItem);
 				}
@@ -232,25 +208,6 @@ namespace Online.Service
 			}, result =>
 			{
 				LogSuccess($"Bought {result.Items.Count} items" + storeItem.ItemId);
-				signal.TrySetResult(true);
-			}, error =>
-			{
-				LogError(error.ErrorMessage);
-				signal.TrySetResult(false);
-			});
-			return await signal.Task;
-		}
-
-		public async UniTask<bool> ClaimAdReward(AdPlacementDetails adPlacementDetail)
-		{
-			UniTaskCompletionSource<bool> signal = new UniTaskCompletionSource<bool>();
-			PlayFabClientAPI.RewardAdActivity(new()
-			{
-				PlacementId = adPlacementDetail.PlacementId,
-				RewardId = adPlacementDetail.RewardId
-			}, result =>
-			{
-				// LogSuccess($"Bought {result.Items.Count} items" + storeItem.ItemId);
 				signal.TrySetResult(true);
 			}, error =>
 			{
