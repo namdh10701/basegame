@@ -73,7 +73,6 @@ namespace _Game.Scripts.SaveLoad
                 };
             });
 
-
             if (string.IsNullOrEmpty(CurrentShip.ItemId))
             {
                 CurrentShip.ItemId = GameData.ShipTable.GetRecords().FirstOrDefault()?.Id;

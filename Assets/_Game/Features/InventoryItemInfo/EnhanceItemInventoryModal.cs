@@ -5,6 +5,7 @@ using _Game.Features.Inventory;
 using _Game.Scripts.GD.DataManager;
 using _Game.Scripts.SaveLoad;
 using Cysharp.Threading.Tasks;
+using Online;
 using UnityEngine;
 using UnityWeld.Binding;
 using ZBase.UnityScreenNavigator.Core.Modals;
@@ -511,11 +512,13 @@ namespace _Game.Features.InventoryItemInfo
         [Binding]
         public async void OnUpgradeItem()
         {
+            await PlayfabManager.Instance.UpgradeItem(OnwItemId);
             IsActivePopupSuccess = true;
             ChangeValuePropertyUpgrade();
+
             await UniTask.Delay(2000);
             IsActivePopupSuccess = false;
-            UpdataDataItemOwner(Type);
+            // UpdataDataItemOwner(Type);
             LoadData();
         }
 

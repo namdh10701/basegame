@@ -20,10 +20,16 @@ namespace _Game.Features.Shop
     public class ShopSummonViewModel : RootViewModel
     {
         #region Binding: SummonItems
-        private ObservableList<ShopSummonItem> summonItems = new ObservableList<ShopSummonItem>();
+        private ObservableList<ShopPackageSummonItem> packageSummonItem = new ObservableList<ShopPackageSummonItem>();
 
         [Binding]
-        public ObservableList<ShopSummonItem> SummonItems => summonItems;
+        public ObservableList<ShopPackageSummonItem> PackageSummonItem => packageSummonItem;
+        #endregion
+        #region Binding: SummonItems
+        private ObservableList<ShopSummonItem> summonCannonItems = new ObservableList<ShopSummonItem>();
+
+        [Binding]
+        public ObservableList<ShopSummonItem> SummonCannonItems => summonCannonItems;
         #endregion
 
         #region Binding: SummonItems
@@ -380,6 +386,50 @@ namespace _Game.Features.Shop
         private bool _isActivePopupReview;
         #endregion
 
+        #region Binding Prop: IsActiveButtonKey
+        /// <summary>
+        /// IsActiveButtonKey
+        /// </summary>
+        [Binding]
+        public bool IsActiveButtonKey
+        {
+            get => _isActiveButtonKey;
+            set
+            {
+                if (Equals(_isActiveButtonKey, value))
+                {
+                    return;
+                }
+
+                _isActiveButtonKey = value;
+                OnPropertyChanged(nameof(IsActiveButtonKey));
+            }
+        }
+        private bool _isActiveButtonKey;
+        #endregion
+
+        #region Binding Prop: PriceSummonItemSelected
+        /// <summary>
+        /// PriceSummonItemSelected
+        /// </summary>
+        [Binding]
+        public string PriceSummonItemSelected
+        {
+            get => _priceSummonItemSelected;
+            set
+            {
+                if (Equals(_priceSummonItemSelected, value))
+                {
+                    return;
+                }
+
+                _priceSummonItemSelected = value;
+                OnPropertyChanged(nameof(PriceSummonItemSelected));
+            }
+        }
+        private string _priceSummonItemSelected;
+        #endregion
+
         List<ShopListingTableRecord> _shopDataSummons = new List<ShopListingTableRecord>();
         public string IdSummonItemSelected;
         public string PriceTypeSummonItemSelected;
@@ -390,6 +440,8 @@ namespace _Game.Features.Shop
         public Animator AnimationItemReview;
         public RectTransform HightlightPopupRecieved;
         public RectTransform HightlightitemRecieved;
+
+        public Image Icon;
         private void OnEnable()
         {
             LoadDataShop();
@@ -403,17 +455,36 @@ namespace _Game.Features.Shop
 
         private void InitializeShopSummon()
         {
-            foreach (var item in _shopDataSummons)
+            var packageNames = new List<string>()
             {
-                ShopSummonItem shopSummonItem = new ShopSummonItem();
-                shopSummonItem.Id = item.ItemId;
-                shopSummonItem.Price = item.PriceAmount.ToString();
-                shopSummonItem.GachaType = item.GachaType;
-                shopSummonItem.Amount = GameData.ShopItemTable.GetAmountById(item.ItemId).Item1[0];
-                shopSummonItem.PriceType = item.PriceType;
-                shopSummonItem.SetUp(this);
-                SummonItems.Add(shopSummonItem);
+                "gacha_cannon_gem",
+                "gacha_ammo_gem",
+                "gacha_cannon_vip_key",
+                "gacha_ammo_vip_key",
+                "gacha_crew_gem",
+            };
+
+            foreach (var name in packageNames)
+            {
+                ShopPackageSummonItem ShopPackageSummonItem = new ShopPackageSummonItem();
+                foreach (var item in _shopDataSummons)
+                {
+                    if (item.Name == name)
+                    {
+                        ShopSummonItem shopSummonItem = new ShopSummonItem();
+                        shopSummonItem.Id = item.ItemId;
+                        shopSummonItem.Price = item.PriceAmount.ToString();
+                        shopSummonItem.GachaType = item.GachaType;
+                        shopSummonItem.Amount = $"(x{GameData.ShopItemTable.GetAmountById(item.ItemId).Item1[0].ToString()})";
+                        shopSummonItem.PriceType = item.PriceType;
+                        shopSummonItem.SetUp(this);
+                        ShopPackageSummonItem.SummonItems.Add(shopSummonItem);
+                    }
+                }
+                ShopPackageSummonItem.PackageName = name;
+                PackageSummonItem.Add(ShopPackageSummonItem);
             }
+            Icon.SetNativeSize();
         }
 
         [Binding]
@@ -536,7 +607,7 @@ namespace _Game.Features.Shop
 
 
             CanvasGroupInfoItem.alpha = 1;
-            foreach (var item in SummonItems)
+            foreach (var item in SummonCannonItems)
             {
                 if (item.Id == IdSummonItemSelected && item.PriceType == PriceTypeSummonItemSelected)
                 {
