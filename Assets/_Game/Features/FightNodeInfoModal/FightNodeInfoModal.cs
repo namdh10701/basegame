@@ -30,9 +30,9 @@ namespace _Game.Features.FightNodeInfoPopup
         public Sprite NodeThumbnail => _mapNode == null ? null : NodeSprites[_mapNode.nodeType];
 
         #endregion
-        
+
         // private string _stageId;
-        
+
         public enum Style
         {
             Normal,
@@ -41,9 +41,9 @@ namespace _Game.Features.FightNodeInfoPopup
 
         public Style style = Style.Normal;
 
-        [Binding] 
+        [Binding]
         public bool IsBossStyle => style == Style.Boss;
-        
+
         #region Binding: Items
 
         private ObservableList<InventoryItem> items = new ObservableList<InventoryItem>();
@@ -59,15 +59,17 @@ namespace _Game.Features.FightNodeInfoPopup
         {
             await ModalContainer.Find(ContainerKey.Modals).PopAsync(true);
             var screenContainer = ScreenContainer.Find(ContainerKey.Screens);
-            
+
             // TODO load data here
             // var data = load(_stageId)
-            
-            await screenContainer.PushAsync(new 
+
+            await screenContainer.PushAsync(new
                 ScreenOptions(nameof(BattleLoadingScreen), stack: false));
-            
+
             await UniTask.Delay(3000);
-            
+
+            await (screenContainer.Current.View as BattleLoadingScreen).StopLoopAndPlayEnd();
+
             await screenContainer.PushAsync(
                 new ScreenOptions(nameof(BattleScreen), stack: false));
 
@@ -133,14 +135,14 @@ namespace _Game.Features.FightNodeInfoPopup
             {
                 return;
             }
-            
+
             // _stageId = args.ToArray().FirstOrDefault() as string;
 
             // if (string.IsNullOrEmpty(_stageId))
             // {
             //     return;
             // }
-            
+
             Items.Clear();
 
             Items.Add(GameData.CannonTable.FindById("0001"));
@@ -148,7 +150,7 @@ namespace _Game.Features.FightNodeInfoPopup
             Items.Add(GameData.CannonTable.FindById("0005"));
             Items.Add(GameData.CannonTable.FindById("0010"));
             Items.Add(GameData.CannonTable.FindById("0022"));
-            
+
             OnPropertyChanged(nameof(Items));
         }
     }

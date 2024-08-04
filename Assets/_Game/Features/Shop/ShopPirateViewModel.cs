@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using _Game.Scripts.GD.DataManager;
 using Cysharp.Threading.Tasks;
+using Online;
 using Unity.VisualScripting;
 using UnityWeld.Binding;
 using ZBase.UnityScreenNavigator.Core.Modals;
@@ -77,8 +78,7 @@ namespace _Game.Features.Shop
 
                     if (shopPirateItemReceived.Type == "gold")
                     {
-                        var level = 1;
-                        shopPirateItemReceived.Amount = (amounts[i] * level).ToString();
+                        shopPirateItemReceived.Amount = (amounts[i] * PlayfabManager.Instance.Level).ToString();
                     }
                     else if (shopPirateItemReceived.Type == "random_blueprint")
                     {
