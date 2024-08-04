@@ -303,7 +303,7 @@ namespace _Game.Features.Inventory
             {
                 InventoryItem inventoryItem = null;
 
-                var info = GameData.ShipTable.FindById(item);
+                var info = GameData.ShipTable.FindById(item.ItemId);
                 inventoryItem = new InventoryItem
                 {
                     Id = info.Id,
