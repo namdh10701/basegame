@@ -13,7 +13,6 @@ public class PushEffect : OneShotEffect
     public Rigidbody2D body;
     protected override void OnApply(IEffectTaker entity)
     {
-        Debug.Log(entity + " PUSH");
         if (entity is IPhysicsEffectTaker enemy)
         {
             float poise = enemy.Poise;

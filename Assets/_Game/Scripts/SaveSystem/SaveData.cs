@@ -9,7 +9,7 @@ namespace _Game.Scripts.SaveLoad
 {
     public class SaveData
     {
-        public static SaveData DefaultSave = GetDefaultSave();
+        // public static SaveData DefaultSave = GetDefaultSave();
 
         public int SaveVersion;
         public int SaveId;

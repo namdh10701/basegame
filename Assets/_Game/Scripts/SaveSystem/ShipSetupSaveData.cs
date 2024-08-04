@@ -65,20 +65,20 @@ namespace _Game.Scripts.SaveLoad
 
         public void Init()
         {
-            GameData.ShipTable.GetRecords().ForEach(record =>
+            var ownedShips = SaveSystem.GameSave.OwnedShips;
+            ownedShips.ForEach(record =>
             {
-                ShipSetupData[record.Id] = new Dictionary<string, ShipSetupData>()
+                ShipSetupData[record.ItemId] = new Dictionary<string, ShipSetupData>()
                 {
                     { SetupProfile.Profile1.ToString(), new ShipSetupData() },
                     { SetupProfile.Profile2.ToString(), new ShipSetupData() },
                     { SetupProfile.Profile3.ToString(), new ShipSetupData() },
                 };
             });
-
-
-            if (string.IsNullOrEmpty(CurrentShip.ItemId))
+            
+            if (CurrentShip == null)
             {
-                CurrentShip.ItemId = GameData.ShipTable.GetRecords().FirstOrDefault()?.Id;
+                CurrentShip = ownedShips.First();
             }
         }
     }

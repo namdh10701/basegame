@@ -24,7 +24,7 @@ namespace _Game.Features.Gameplay
 
         void OnDamageInflicted(float amount, bool isCrit, IEffectGiver effect, IEffectTaker effectTaker, Vector3 position)
         {
-            if (effectTaker is Cell)
+            if (effectTaker is Cell || effectTaker is Carpet || effectTaker is CarpetComponent)
             {
                 return;
             }

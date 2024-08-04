@@ -8,10 +8,7 @@ using _Game.Scripts.Battle;
 using _Game.Scripts.Entities;
 using _Game.Scripts.GD;
 using _Game.Scripts.GD.DataManager;
-using DG.Tweening;
-using System;
 using UnityEngine;
-using static UnityEngine.CullingGroup;
 
 namespace _Game.Features.Gameplay
 {
@@ -26,6 +23,7 @@ namespace _Game.Features.Gameplay
         [Header("Ship")]
         public ShipStats stats;
         public ShipSetup ShipSetup;
+
         public string Id { get => id; set => id = value; }
 
         public GDConfig GDConfig => gdConfig;
@@ -48,7 +46,6 @@ namespace _Game.Features.Gameplay
         public Area ShipBound;
         public ShipSpeed ShipSpeed;
         public CrewJobData CrewJobData;
-        public BattleViewModel BattleViewModel;
         public FeverModel FeverModel;
         public ShipHUD HUD;
         private void Awake()
@@ -78,9 +75,9 @@ namespace _Game.Features.Gameplay
             ConfigLoader.LoadConfig(stats, conf);
             ApplyStats();
 
-          
+
             GlobalEvent<EnemyStats>.Register("EnemyDied", OnEnemyDied);
-        
+
 
 
             if (EnemyWaveManager.floorId == "1")
@@ -100,10 +97,6 @@ namespace _Game.Features.Gameplay
             {
                 cannon.View.cannonHUD.RegisterJob(CrewJobData);
             }
-
-            BattleViewModel = FindAnyObjectByType<BattleViewModel>();
-            if (BattleViewModel != null)
-                BattleViewModel.Init(this);
             HUD.Initialize(ShipSetup.Ammos);
         }
 
@@ -128,14 +121,13 @@ namespace _Game.Features.Gameplay
         private void OnDestroy()
         {
             GlobalEvent<EnemyStats>.Unregister("EnemyDied", OnEnemyDied);
-            /*GlobalEvent<Cannon>.Unregister("ClickCannon", ShowShipHUD);
-            GlobalEvent.Unregister("CloseHUD", CloseHUD);*/
         }
 
         public void OnEnemyDied(EnemyStats enemyModel)
         {
             if (FeverModel.CurrentState != FeverState.Unleashing)
             {
+                Debug.Log("Add Fever Point");
                 float feverPointGained = enemyModel.FeverPoint.Value;
                 AddFeverPoint(feverPointGained);
 
@@ -147,9 +139,11 @@ namespace _Game.Features.Gameplay
             stats.Fever.StatValue.BaseValue += point;
         }
 
+
         private void Update()
         {
             RegenMP();
+            RegenHP();
         }
 
 
@@ -158,6 +152,13 @@ namespace _Game.Features.Gameplay
             if (!stats.ManaPoint.IsFull)
             {
                 stats.ManaPoint.StatValue.BaseValue += (stats.ManaRegenerationRate.Value * Time.deltaTime);
+            }
+        }
+        void RegenHP()
+        {
+            if (!stats.HealthPoint.IsFull)
+            {
+                stats.HealthPoint.StatValue.BaseValue += (stats.HealthRegenerationRate.Value * Time.deltaTime);
             }
         }
 

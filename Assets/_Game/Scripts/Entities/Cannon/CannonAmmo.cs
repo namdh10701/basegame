@@ -18,10 +18,9 @@ namespace _Game.Features.Gameplay
 
         public Ammo UsingAmmo => usingAmmo;
 
-        public Action<bool> OutOfAmmoStateChaged;
+        public Action<Cannon, bool> OutOfAmmoStateChaged;
         bool isOutOfAmmo;
         public AttackTargetBehaviour attackTargetBehaviour;
-
         public void Init(Cannon cannon)
         {
             this.cannon = cannon;
@@ -60,8 +59,11 @@ namespace _Game.Features.Gameplay
                 if (!isOutOfAmmo)
                 {
                     isOutOfAmmo = true;
-                    GlobalEvent<Cannon, Ammo, int>.Send("Reload", cannon, usingAmmo, 15);
-                    OutOfAmmoStateChaged?.Invoke(isOutOfAmmo);
+                    if (usingAmmo != null)
+                    {
+                        GlobalEvent<Cannon, Ammo, int>.Send("Reload", cannon, usingAmmo, 15);
+                    }
+                    OutOfAmmoStateChaged?.Invoke(cannon,isOutOfAmmo);
                 }
             }
             else if (stat.StatValue.Value > 0)
@@ -69,11 +71,14 @@ namespace _Game.Features.Gameplay
                 if (isOutOfAmmo)
                 {
                     isOutOfAmmo = false;
-                    OutOfAmmoStateChaged?.Invoke(isOutOfAmmo);
+                    OutOfAmmoStateChaged?.Invoke(cannon, isOutOfAmmo);
                 }
 
             }
         }
+
+
+
 
         public void Reload(Ammo ammo, bool isDoubleAmmo)
         {

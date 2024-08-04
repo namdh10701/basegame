@@ -30,7 +30,7 @@ namespace _Game.Scripts
         public Stat ManaRegenerationRate { get; set; } = new(1);
 
         [field: SerializeField]
-        public RangedStat HealthRegenerationRate { get; set; } = new(1, 0, 10);
+        public Stat HealthRegenerationRate { get; set; } = new(0);
 
         [field: SerializeField]
         public Stat ZeroManaCost { get; set; } = new();

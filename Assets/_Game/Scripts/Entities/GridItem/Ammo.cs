@@ -43,11 +43,10 @@ namespace _Game.Scripts.Entities
 
         public AmmoType AmmoType;
 
-        [SerializeField] private GridItemDef def;
 
         [field: SerializeField]
         public List<Cell> OccupyCells { get; set; }
-        public GridItemDef Def { get => def; }
+        public Sprite ProjectileImage;
         public Transform Behaviour { get => null; }
         public string GridId { get; set; }
 
@@ -70,7 +69,7 @@ namespace _Game.Scripts.Entities
 
         public GridItemStateManager GridItemStateManager => gridItemStateManager;
 
-        public StatsConfigLoader<Stats, DataTableRecord> configLoader => throw new NotImplementedException();
+        public bool IsWalkAble => false;
 
         public AmmoStats stats;
 
@@ -125,7 +124,5 @@ namespace _Game.Scripts.Entities
         }
 
         public override void ApplyStats() { }
-
-
     }
 }

@@ -156,9 +156,15 @@ namespace _Game.Features.Gameplay
                     {
                         if (cell.isBroken)
                         {
-
-                            Debug.Log("send");
                             GlobalEvent<Cell, int>.Send("FixCell", cell, int.MaxValue);
+                        }
+                    }
+
+                    if (pointerDownObject.TryGetComponent(out Carpet carpet))
+                    {
+                        if (carpet.GridItemStateManager.GridItemState == GridItemState.Broken)
+                        {
+                            GlobalEvent<Carpet, int>.Send("FixCarpet", carpet, int.MaxValue);
                         }
                     }
                 }

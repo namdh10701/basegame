@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using _Base.Scripts.SaveSystem;
 using _Base.Scripts.Utils;
@@ -9,24 +10,28 @@ namespace _Game.Scripts.SaveLoad
     public static class SaveSystem
     {
         public static SaveData GameSave;
+        
         public static void LoadSave()
         {
             // FIXME: Delete
             // SaveLoadManager.DeleteSave(1);
             
-            GameSave = SaveLoadManager.ReadSave(1);
-            if (GameSave == null)
-            {
-                SaveLoadManager.WriteDefaultSave(SaveData.DefaultSave);
-                GameSave = SaveLoadManager.ReadSave(1);
-            }
+            // GameSave = SaveLoadManager.ReadSave(1);
+            // if (GameSave == null)
+            // {
+            //     SaveLoadManager.WriteDefaultSave(SaveData.DefaultSave);
+            //     GameSave = SaveLoadManager.ReadSave(1);
+            // }
             
             // Load backend data
             // GameSave.MapStatus = PlayfabManager.Instance.MapStatus;
+            GameSave = new SaveData();
+            GameSave.OwnedItems = PlayfabManager.Instance.Items;
             GameSave.ShipSetupSaveData = PlayfabManager.Instance.Equipment.EquipmentShips;
-            if (GameSave.ShipSetupSaveData.CurrentShip == null)
+            if (GameSave.ShipSetupSaveData == null)
             {
-                GameSave.ShipSetupSaveData.CurrentShip = GameSave.OwnedShips.First();
+                GameSave.ShipSetupSaveData = new ShipSetupSaveData();
+                GameSave.ShipSetupSaveData.Init();
             }
         }
         public static void SaveGame()

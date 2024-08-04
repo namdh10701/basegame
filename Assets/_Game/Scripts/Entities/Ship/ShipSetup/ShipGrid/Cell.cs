@@ -5,6 +5,7 @@ using _Base.Scripts.RPG.Stats;
 using _Game.Scripts;
 using _Game.Scripts.Entities;
 using _Game.Scripts.PathFinding;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,7 +13,7 @@ using UnityEngine;
 namespace _Game.Features.Gameplay
 {
     [System.Serializable]
-    public class Cell : MonoBehaviour, IStatsBearer, IEffectTaker, IWorkLocation, IStunable
+    public class Cell : MonoBehaviour, IStatsBearer, IEffectTaker, IWorkLocation
     {
         public CellRenderer CellRenderer;
         public int X;
@@ -34,7 +35,7 @@ namespace _Game.Features.Gameplay
         public List<Node> workingSlots;
         public EffectTakerCollider EffectCollider;
         public NodeGraph nodeGraph;
-
+        public Action OnStateChanged;
 
         protected void Awake()
         {
@@ -66,7 +67,8 @@ namespace _Game.Features.Gameplay
         public void OnFixed()
         {
             CellRenderer.OnFixed();
-            stats.HealthPoint.StatValue.BaseValue = 1;
+            isBroken = false;
+            OnStateChanged?.Invoke();
         }
 
         public bool isBroken;
@@ -76,7 +78,9 @@ namespace _Game.Features.Gameplay
         {
             GlobalEvent<Cell, int>.Send("FixCell", this, CrewJobData.DefaultPiority[typeof(FixCellTask)]);
             CellRenderer.OnBroken();
+           
             isBroken = true;
+            OnStateChanged?.Invoke();
         }
 
         void IStatsBearer.ApplyStats()
@@ -84,29 +88,6 @@ namespace _Game.Features.Gameplay
 
         }
 
-        public void OnStun()
-        {
-            if (GridItem == null)
-            {
-                return;
-            }
-            if (GridItem is IStunable stunable)
-            {
-                stunable.OnStun();
-            }
-        }
-
-        public void OnAfterStun()
-        {
-            if (GridItem == null)
-            {
-                return;
-            }
-            if (GridItem is IStunable stunable)
-            {
-                stunable.OnAfterStun();
-            }
-        }
     }
 }
 

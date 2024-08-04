@@ -14,7 +14,6 @@ namespace _Game.Features.Home
         public Ship[] ships;
         private void Awake()
         {
-            Debug.Log("RERESH 2");
             instance = this;
 
             foreach (PathfindingController pathfinding in WalkingPosition)

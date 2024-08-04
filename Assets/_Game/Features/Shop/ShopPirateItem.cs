@@ -1,4 +1,5 @@
 using _Base.Scripts.UI.Managers;
+using _Game.Features.Ads;
 using _Game.Scripts.UI;
 using Online;
 using UnityEngine;
@@ -11,6 +12,23 @@ namespace _Game.Features.Shop
     [Binding]
     public class ShopPirateItem : SubViewModel
     {
+        // These ad units are configured to always serve test ads.
+#if UNITY_ANDROID
+        private string _Reward_Energy_1 = "ca-app-pub-4412764125039323/4954821192";
+        private string _Reward_Gold_1 = "ca-app-pub-4412764125039323/6143947655";
+        private string _Reward_Daily_0 = "ca-app-pub-4412764125039323/3339892161";
+        private string _Reward_Weekly_0 = "ca-app-pub-4412764125039323/1068952045";
+#elif UNITY_IPHONE
+        private string _Reward_Energy_1 = "ca-app-pub-4412764125039323/4954821192";
+        private string _Reward_Gold_1 = "ca-app-pub-4412764125039323/6143947655";
+        private string _Reward_Daily_0 = "ca-app-pub-4412764125039323/3339892161";
+        private string _Reward_Weekly_0 = "ca-app-pub-4412764125039323/1068952045";
+#else
+        private string _Reward_Energy_1 = "ca-app-pub-4412764125039323/4954821192";
+        private string _Reward_Gold_1 = "ca-app-pub-4412764125039323/6143947655";
+        private string _Reward_Daily_0 = "ca-app-pub-4412764125039323/3339892161";
+        private string _Reward_Weekly_0 = "ca-app-pub-4412764125039323/1068952045";
+#endif
         [Binding]
         public string Id { get; set; }
 
@@ -156,7 +174,7 @@ namespace _Game.Features.Shop
                 }
 
                 _isActiveButAd = value;
-                OnPropertyChanged(nameof(IsActiveButAd)); 
+                OnPropertyChanged(nameof(IsActiveButAd));
             }
         }
         private bool _isActiveButAd;
@@ -171,7 +189,27 @@ namespace _Game.Features.Shop
         [Binding]
         public void OnClickAd()
         {
-            
+            string adUnitId = "";
+            switch (Id)
+            {
+                case "com.pirate.ship.energy1":
+                    adUnitId = _Reward_Energy_1;
+                    break;
+                case "com.pirate.ship.gold1":
+                    adUnitId = _Reward_Gold_1;
+                    break;
+                case "com.pirate.ship.daily0":
+                    adUnitId = _Reward_Daily_0;
+                    break;
+                case "com.pirate.ship.weekly0":
+                    adUnitId = _Reward_Weekly_0;
+                    break;
+            }
+
+            AdsManager.Instance.LoadRewardedAd(adUnitId, async () =>
+            {
+                await PlayfabManager.Instance.BuyStoreItem(Id);
+            });
         }
     }
 }

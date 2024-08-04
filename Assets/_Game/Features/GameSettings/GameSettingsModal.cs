@@ -3,6 +3,7 @@ using _Base.Scripts.Audio;
 using _Game.Scripts.SaveLoad;
 using Cysharp.Threading.Tasks;
 using Online;
+using UnityEngine;
 using UnityWeld.Binding;
 using ZBase.UnityScreenNavigator.Core.Modals;
 
@@ -120,6 +121,9 @@ namespace _Game.Features.GamePause
         
         public override async UniTask Initialize(Memory<object> args)
         {
+            MuteBGM = PlayerPrefs.GetInt("Settings.MuteBGM", 0) == 1;
+            MuteSFX = PlayerPrefs.GetInt("Settings.MuteSFX", 0) == 1;
+            
             Languages.Clear();
             Languages.Add(new Language("China", "China"));
             Languages.Add(new Language("English", "English"));
@@ -146,16 +150,21 @@ namespace _Game.Features.GamePause
         protected override void Awake()
         {
             base.Awake();
-            MuteBGM = SaveSystem.GameSave.Settings.MuteBGM;
-            MuteSFX = SaveSystem.GameSave.Settings.MuteSFX;
+            // MuteBGM = SaveSystem.GameSave.Settings.MuteBGM;
+            // MuteSFX = SaveSystem.GameSave.Settings.MuteSFX;
+            
         }
 
         [Binding]
         public void SaveSettings()
         {
-            SaveSystem.GameSave.Settings.MuteBGM = MuteBGM;
-            SaveSystem.GameSave.Settings.MuteSFX = MuteSFX;
-            SaveSystem.GameSave.Settings.Language = Language;
+            PlayerPrefs.SetInt("Settings.MuteBGM", MuteBGM ? 1 : 0);
+            PlayerPrefs.SetInt("Settings.MuteSFX", MuteSFX ? 1 : 0);
+            PlayerPrefs.SetString("Settings.Language", Language);
+            PlayerPrefs.Save();
+            // SaveSystem.GameSave.Settings.MuteBGM = MuteBGM;
+            // SaveSystem.GameSave.Settings.MuteSFX = MuteSFX;
+            // SaveSystem.GameSave.Settings.Language = Language;
 
             AudioManager.Instance.IsBgmOn = !MuteBGM;
             AudioManager.Instance.IsSfxOn = !MuteSFX;

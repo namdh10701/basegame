@@ -112,6 +112,9 @@ namespace Online.Service
 					case ItemType.AMMO:
 						rarityLevel = GameData.AmmoTable.FindById(itemId)?.RarityLevel ?? 0;
 						break;
+					// case ItemType.SHIP:
+					// 	rarityLevel = GameData.ShipTable.FindById(itemId)?.RarityLevel ?? 0;
+					// 	break;
 				}
 
 				Items.Add(new ItemData()
@@ -130,7 +133,7 @@ namespace Online.Service
 			if (revokeBlueprints == null) return;
 			Items.RemoveAll(val => revokeBlueprints.Contains(val.OwnItemId));
 		}
-		
+
 		public void RefundBlueprints(List<ItemInstance> refundBlueprints)
 		{
 			// if (revokeBlueprints == null) return;
@@ -166,7 +169,7 @@ namespace Online.Service
 			}
 			return await signal.Task;
 		}
-		
+
 		public UniTask<CombineItemsResponse> CombineItems(List<string> itemInstanceIds)
 		{
 			UniTaskCompletionSource<CombineItemsResponse> signal = new UniTaskCompletionSource<CombineItemsResponse>();

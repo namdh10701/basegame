@@ -18,7 +18,7 @@ public class AmmoButton : MonoBehaviour
     {
         AmmoStats ammoStats = ammo.Stats as AmmoStats;
         this.ammo = ammo;
-        image.sprite = Database.GetAmmoImage(ammo.Id);
+        image.sprite = Database.GetAmmoImageShipHUD(ammo.Id);
         manaText.text = ammoStats.EnergyCost.Value.ToString();
         ammo.GridItemStateManager.OnStateEntered += OnAmmoStateChanged;
     }

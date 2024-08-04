@@ -14,6 +14,7 @@ namespace _Game.Scripts.DB
 {
     public static class Database
     {
+        private static Dictionary<string, Carpet> CarpetDic = new Dictionary<string, Carpet>();
         private static Dictionary<string, Cannon> CannonDic = new Dictionary<string, Cannon>();
         private static Dictionary<string, Ammo> BulletDic = new Dictionary<string, Ammo>();
         private static Dictionary<string, Crew> CrewDic = new Dictionary<string, Crew>();
@@ -22,9 +23,12 @@ namespace _Game.Scripts.DB
         private static Dictionary<string, string> CannonOperatorDic = new Dictionary<string, string>();
         private static Dictionary<string, string> BulletOperatorDic = new Dictionary<string, string>();
         private static Dictionary<string, string> CrewOperatorDic = new Dictionary<string, string>();
+        private static Dictionary<string, string> CarpetOperatorDic = new Dictionary<string, string>();
 
         private static Dictionary<KeyValuePair<string, string>, Vector3> CannonOffsetDic = new Dictionary<KeyValuePair<string, string>, Vector3>();
         private static Dictionary<KeyValuePair<string, string>, Vector3> BulletOffsetDic = new Dictionary<KeyValuePair<string, string>, Vector3>();
+        private static Dictionary<KeyValuePair<string, string>, Vector3> CarpetOffsetDic = new Dictionary<KeyValuePair<string, string>, Vector3>();
+
 
         private static Dictionary<KeyValuePair<ItemType, string>, int[,]> ShapeIdDic = new Dictionary<KeyValuePair<ItemType, string>, int[,]>();
         private static Dictionary<string, float> EnemyPowerDic = new Dictionary<string, float>();
@@ -40,11 +44,16 @@ namespace _Game.Scripts.DB
             CreateOffsetDic();
             CreateShapeDic();
             CreateMonsterPowerDic();
-
-            Debug.Log(GetShapeByTypeAndOperationType("0001", ItemType.CREW) == Shape.ShapeDic[1]);
-            Debug.Log(GetShapeByTypeAndOperationType("0001", ItemType.CANNON) == Shape.ShapeDic[2]);
+            CreateCarpetDic();
         }
+        static void CreateCarpetDic()
+        {
+            string path = $"Prefabs/GridItems/Carpets/1x2Vertical";
+            Carpet cannonPrefab = Resources.Load<Carpet>(path);
+            CarpetDic.Add("0001", cannonPrefab);
+            CarpetOperatorDic.Add("0001", "1x2Vertical");
 
+        }
         static void CreateShapeDic()
         {
             ShapeIdDic.Add(new KeyValuePair<ItemType, string>(ItemType.AMMO, "arrow"), Shape.ShapeDic[0]);
@@ -66,6 +75,10 @@ namespace _Game.Scripts.DB
 
             ShapeIdDic.Add(new KeyValuePair<ItemType, string>(ItemType.CREW, "captain"), Shape.ShapeDic[1]);
             ShapeIdDic.Add(new KeyValuePair<ItemType, string>(ItemType.CREW, "crew"), Shape.ShapeDic[1]);
+
+
+
+            ShapeIdDic.Add(new KeyValuePair<ItemType, string>(ItemType.CARPET, "1x2Vertical"), Shape.ShapeDic[1]);
         }
 
         static void CreateMonsterPowerDic()
@@ -165,33 +178,39 @@ namespace _Game.Scripts.DB
             CannonOffsetDic.Add(new KeyValuePair<string, string>("far", "0003"), new Vector3(0.48f, 0.38f, 0));
 
 
-            BulletOffsetDic.Add(new KeyValuePair<string, string>("arrow", "0001"), new Vector3(0, -0.576f, 0));
-            BulletOffsetDic.Add(new KeyValuePair<string, string>("burning", "0001"), new Vector3(0, -0.576f, 0));
-            BulletOffsetDic.Add(new KeyValuePair<string, string>("normal", "0001"), new Vector3(0, -0.576f, 0));
-            BulletOffsetDic.Add(new KeyValuePair<string, string>("icy", "0001"), new Vector3(0, -0.576f, 0));
-            BulletOffsetDic.Add(new KeyValuePair<string, string>("culling", "0001"), new Vector3(0, -0.576f, 0));
-            BulletOffsetDic.Add(new KeyValuePair<string, string>("boom", "0001"), new Vector3(0, -0.576f, 0));
-            BulletOffsetDic.Add(new KeyValuePair<string, string>("whirlpool", "0001"), new Vector3(0, -0.576f, 0));
-            BulletOffsetDic.Add(new KeyValuePair<string, string>("rocket", "0001"), new Vector3(0, -0.576f, 0));
+            BulletOffsetDic.Add(new KeyValuePair<string, string>("arrow", "0001"), new Vector3(0, -0.41f, 0));
+            BulletOffsetDic.Add(new KeyValuePair<string, string>("burning", "0001"), new Vector3(0, -0.41f, 0));
+            BulletOffsetDic.Add(new KeyValuePair<string, string>("normal", "0001"), new Vector3(0, -0.41f, 0));
+            BulletOffsetDic.Add(new KeyValuePair<string, string>("icy", "0001"), new Vector3(0, -0.41f, 0));
+            BulletOffsetDic.Add(new KeyValuePair<string, string>("culling", "0001"), new Vector3(0, -0.41f, 0));
+            BulletOffsetDic.Add(new KeyValuePair<string, string>("boom", "0001"), new Vector3(0, -0.41f, 0));
+            BulletOffsetDic.Add(new KeyValuePair<string, string>("whirlpool", "0001"), new Vector3(0, -0.41f, 0));
+            BulletOffsetDic.Add(new KeyValuePair<string, string>("rocket", "0001"), new Vector3(0, -0.41f, 0));
 
-            BulletOffsetDic.Add(new KeyValuePair<string, string>("arrow", "0002"), new Vector3(0, -0.576f, 0));
-            BulletOffsetDic.Add(new KeyValuePair<string, string>("burning", "0002"), new Vector3(0, -0.576f, 0));
-            BulletOffsetDic.Add(new KeyValuePair<string, string>("normal", "0002"), new Vector3(0, -0.576f, 0));
-            BulletOffsetDic.Add(new KeyValuePair<string, string>("icy", "0002"), new Vector3(0, -0.576f, 0));
-            BulletOffsetDic.Add(new KeyValuePair<string, string>("culling", "0002"), new Vector3(0, -0.576f, 0));
-            BulletOffsetDic.Add(new KeyValuePair<string, string>("boom", "0002"), new Vector3(0, -0.576f, 0));
-            BulletOffsetDic.Add(new KeyValuePair<string, string>("whirlpool", "0002"), new Vector3(0, -0.576f, 0));
-            BulletOffsetDic.Add(new KeyValuePair<string, string>("rocket", "0002"), new Vector3(0, -0.576f, 0));
+            BulletOffsetDic.Add(new KeyValuePair<string, string>("arrow", "0002"), new Vector3(0, -0.41f, 0));
+            BulletOffsetDic.Add(new KeyValuePair<string, string>("burning", "0002"), new Vector3(0, -0.41f, 0));
+            BulletOffsetDic.Add(new KeyValuePair<string, string>("normal", "0002"), new Vector3(0, -0.41f, 0));
+            BulletOffsetDic.Add(new KeyValuePair<string, string>("icy", "0002"), new Vector3(0, -0.41f, 0));
+            BulletOffsetDic.Add(new KeyValuePair<string, string>("culling", "0002"), new Vector3(0, -0.41f, 0));
+            BulletOffsetDic.Add(new KeyValuePair<string, string>("boom", "0002"), new Vector3(0, -0.41f, 0));
+            BulletOffsetDic.Add(new KeyValuePair<string, string>("whirlpool", "0002"), new Vector3(0, -0.41f, 0));
+            BulletOffsetDic.Add(new KeyValuePair<string, string>("rocket", "0002"), new Vector3(0, -0.41f, 0));
 
-            BulletOffsetDic.Add(new KeyValuePair<string, string>("arrow", "0003"), new Vector3(0, -0.576f, 0));
-            BulletOffsetDic.Add(new KeyValuePair<string, string>("burning", "0003"), new Vector3(0, -0.576f, 0));
-            BulletOffsetDic.Add(new KeyValuePair<string, string>("normal", "0003"), new Vector3(0, -0.576f, 0));
-            BulletOffsetDic.Add(new KeyValuePair<string, string>("icy", "0003"), new Vector3(0, -0.576f, 0));
-            BulletOffsetDic.Add(new KeyValuePair<string, string>("culling", "0003"), new Vector3(0, -0.576f, 0));
-            BulletOffsetDic.Add(new KeyValuePair<string, string>("boom", "0003"), new Vector3(0, -0.576f, 0));
-            BulletOffsetDic.Add(new KeyValuePair<string, string>("whirlpool", "0003"), new Vector3(0, -0.576f, 0));
-            BulletOffsetDic.Add(new KeyValuePair<string, string>("rocket", "0003"), new Vector3(0, -0.576f, 0));
+            BulletOffsetDic.Add(new KeyValuePair<string, string>("arrow", "0003"), new Vector3(0, -0.41f, 0));
+            BulletOffsetDic.Add(new KeyValuePair<string, string>("burning", "0003"), new Vector3(0, -0.41f, 0));
+            BulletOffsetDic.Add(new KeyValuePair<string, string>("normal", "0003"), new Vector3(0, -0.41f, 0));
+            BulletOffsetDic.Add(new KeyValuePair<string, string>("icy", "0003"), new Vector3(0, -0.41f, 0));
+            BulletOffsetDic.Add(new KeyValuePair<string, string>("culling", "0003"), new Vector3(0, -0.41f, 0));
+            BulletOffsetDic.Add(new KeyValuePair<string, string>("boom", "0003"), new Vector3(0, -0.41f, 0));
+            BulletOffsetDic.Add(new KeyValuePair<string, string>("whirlpool", "0003"), new Vector3(0, -0.41f, 0));
+            BulletOffsetDic.Add(new KeyValuePair<string, string>("rocket", "0003"), new Vector3(0, -0.41f, 0));
 
+
+            CarpetOffsetDic.Add(new KeyValuePair<string, string>("1x2Vertical", "0001"), new Vector3(0, 0.41f, 0));
+
+            CarpetOffsetDic.Add(new KeyValuePair<string, string>("1x2Vertical", "0002"), new Vector3(0, 0.41f, 0));
+
+            CarpetOffsetDic.Add(new KeyValuePair<string, string>("1x2Vertical", "0003"), new Vector3(0, 0.41f, 0));
         }
 
         public static Cannon GetCannon(string id)
@@ -202,6 +221,10 @@ namespace _Game.Scripts.DB
         {
             return BulletDic[id];
         }
+        public static Carpet GetCarpet(string id)
+        {
+            return CarpetDic[id];
+        }
 
         public static Crew GetCrew(string id)
         {
@@ -211,21 +234,25 @@ namespace _Game.Scripts.DB
         {
             return CrewUIDic[id];
         }
-        
+
         private static Sprite GetGridItemImage(ItemType itemType, string itemOperationType, Rarity itemRarity)
         {
             var path = $"Images/Items/item_{itemType}_{itemOperationType}_{itemRarity.ToString().ToLower()}";
             // var path = $"Database/GridItem/{itemType}/{itemOperationType}";
             return CachedResources.Load<Sprite>(path);
         }
-        
+
         public static Sprite GetAmmoImage(string id)
         {
             const ItemType type = ItemType.AMMO;
             var record = GameData.AmmoTable.FindById(id);
             return GetGridItemImage(type, record.OperationType, record.Rarity);
         }
-
+        public static Sprite GetAmmoImageShipHUD(string id)
+        {
+            var record = GameData.AmmoTable.FindById(id);
+            return CachedResources.Load<Sprite>($"Database/GridItem/ammo/{record.OperationType}");
+        }
         public static Sprite GetCannonImage(string id)
         {
             const ItemType type = ItemType.CANNON;
@@ -242,17 +269,16 @@ namespace _Game.Scripts.DB
         
         public static Sprite GetShipImage(string id) 
             => CachedResources.Load<Sprite>($"Images/Items/item_ship_{id}");
-
+        
         public static Sprite GetResource(string id)
             => CachedResources.Load<Sprite>($"Images/Items/item_{id}");
-        
-        public static Sprite GetRankingTierBadge(ERank rank) => CachedResources.Load<Sprite>($"Images/Rank/rank_badge_{rank.ToString().ToLower()}");
 
+        public static Sprite GetRankingTierBadge(ERank rank) => CachedResources.Load<Sprite>($"Images/Rank/rank_badge_{rank.ToString().ToLower()}");
+        
         public static Sprite GetItemSprite(ItemType itemType, string id)
         {
             switch (itemType)
             {
-                case ItemType.SHIP: return GetShipImage(id);
                 case ItemType.AMMO: return GetAmmoImage(id);
                 case ItemType.CANNON: return GetCannonImage(id);
                 case ItemType.CREW: return GetCrewImage(id);
@@ -260,6 +286,12 @@ namespace _Game.Scripts.DB
             }
 
             return null;
+        }
+
+        public static Vector3 GetOffsetCarpetWithStartCell(string cannonId, string shipId)
+        {
+            string opeartor = CarpetOperatorDic[cannonId];
+            return CarpetOffsetDic[new KeyValuePair<string, string>(opeartor, shipId)];
         }
 
         public static Vector3 GetOffsetCannonWithStartCell(string cannonId, string shipId)
@@ -288,6 +320,9 @@ namespace _Game.Scripts.DB
                 case ItemType.CREW:
                     operationType = CrewOperatorDic[id];
                     break;
+                case ItemType.CARPET:
+                    operationType = CarpetOperatorDic[id];
+                    break;
             }
             return ShapeIdDic[new KeyValuePair<ItemType, string>(itemType, operationType)];
         }
@@ -296,5 +331,6 @@ namespace _Game.Scripts.DB
         {
             return EnemyPowerDic[id];
         }
+
     }
 }

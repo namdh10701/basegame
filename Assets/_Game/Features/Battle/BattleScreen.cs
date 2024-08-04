@@ -21,7 +21,7 @@ namespace _Game.Features.Battle
             SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(1));
             await base.WillPushEnter(args);
             AudioManager.Instance.PlayBgmGameplay();
-            BattleManager.Instance.Initialize();
+            
         }
 
         public override async UniTask WillPushExit(Memory<object> args)

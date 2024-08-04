@@ -14,10 +14,7 @@ public class ShipStatsTemplate : StatsTemplate
         shipStats.HealthPoint.MinStatValue.BaseValue = Template.HealthPoint.MinStatValue.BaseValue;
         shipStats.HealthPoint.MaxStatValue.BaseValue = Template.HealthPoint.MaxStatValue.BaseValue;
         shipStats.HealthPoint.StatValue.BaseValue = Template.HealthPoint.StatValue.BaseValue;
-        shipStats.HealthRegenerationRate.MinStatValue.BaseValue = Template.HealthPoint.MinStatValue.BaseValue;
-        shipStats.HealthRegenerationRate.MaxStatValue.BaseValue = Template.HealthPoint.MaxStatValue.BaseValue;
-        shipStats.HealthRegenerationRate.StatValue.BaseValue = Template.HealthPoint.StatValue.BaseValue;
-
+       
         shipStats.ManaRegenerationRate.BaseValue = Template.ManaRegenerationRate.BaseValue;
 
         shipStats.ManaPoint.MinStatValue.BaseValue = Template.ManaPoint.MinStatValue.BaseValue;

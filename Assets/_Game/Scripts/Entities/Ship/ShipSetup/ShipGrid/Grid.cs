@@ -30,26 +30,6 @@ namespace _Game.Features.Gameplay
                     Debug.LogError($"2 Cell with same coordinate {cell.X} {cell.Y}");
             }
         }
-
-        public void AddNewGridItem(GridItemData gridItemData)
-        {
-            if (!GridItemDatas.Contains(gridItemData))
-            {
-                GridItemDatas.Add(gridItemData);
-            }
-        }
-
-        public void RemoveGridItem(GridItemDef gridItemDef)
-        {
-            foreach (GridItemData gid in GridItemDatas.ToArray())
-            {
-                if (gid.Def == gridItemDef)
-                {
-                    GridItemDatas.Remove(gid);
-                }
-            }
-        }
-
     }
 
 }

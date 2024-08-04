@@ -9,7 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9144237962502375505}
-  - component: {fileID: 5347268772324608702}
+  - component: {fileID: 1838495568584289611}
+  - component: {fileID: 2529709156911712851}
   m_Layer: 0
   m_Name: BattleManager
   m_TagString: Untagged
@@ -32,7 +33,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8983687453666303027}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5347268772324608702
+--- !u!114 &1838495568584289611
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,7 +42,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 385329323371192996}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78785180b2ca9f94a89b5add6685f326, type: 3}
+  m_Script: {fileID: 11500000, guid: c0182fa216e7de94b90589edde202499, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EnemyManager: {fileID: 3738615495974964307}
+  EntityManager: {fileID: 2985685409058613849}
+--- !u!114 &2529709156911712851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 385329323371192996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6847bde2aad5259438abfce207928528, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   shipStartPos: {fileID: 7764254272973831283}
@@ -52,6 +67,7 @@ MonoBehaviour:
   GridAttackHandler: {fileID: 8414391988157680252}
   GridPicker: {fileID: 4199722477159872837}
   BattleViewModel: {fileID: 0}
+  winCondition: {fileID: 1838495568584289611}
 --- !u!1 &536145051742433489
 GameObject:
   m_ObjectHideFlags: 0

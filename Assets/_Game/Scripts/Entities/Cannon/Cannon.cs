@@ -52,7 +52,7 @@ namespace _Game.Scripts.Entities
         public EffectHandler effectHandler;
         public EffectHandler EffectHandler { get => effectHandler; }
         public Transform Transform => transform;
-
+        public bool IsWalkAble => false;
         public string Id { get => id; set => id = value; }
         public GDConfig GDConfig => gdConfig;
         public StatsTemplate StatsTemplate => statsTemplate;
@@ -117,7 +117,7 @@ namespace _Game.Scripts.Entities
             UpdateModel();
         }
 
-        private void OutOfAmmoStateChanged(bool isOutOfAmmo)
+        private void OutOfAmmoStateChanged(Cannon cannon, bool isOutOfAmmo)
         {
             this.isOutOfAmmo = isOutOfAmmo;
             UpdateModel();
@@ -169,6 +169,26 @@ namespace _Game.Scripts.Entities
         public void OnFeverEffectExit()
         {
             CannonFeverStateManager.FeverState = CannonFeverState.None;
+        }
+
+        public void DefineWorkingSlot(NodeGraph nodeGraph)
+        {
+            foreach (Cell cell in OccupyCells)
+            {
+                foreach (var node in nodeGraph.nodes)
+                {
+                    if (node.cell != null && node.cell == cell)
+                    {
+                        foreach (var adjNode in node.neighbors)
+                        {
+                            if (adjNode.Walkable)
+                            {
+                                WorkingSlots.Add(adjNode);
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         private CannonStatsConfigLoader _configLoader;

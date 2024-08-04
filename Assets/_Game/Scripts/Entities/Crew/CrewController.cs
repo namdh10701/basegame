@@ -51,6 +51,7 @@ namespace _Game.Features.Gameplay
 
         private void AssignTask(Crew crew, CrewTask task)
         {
+            Debug.Log("ASIGN TASK" + task);
             crew.CrewAction.DoTask(task);
         }
 
@@ -89,6 +90,7 @@ namespace _Game.Features.Gameplay
         {
             if (task.StartLocation.WorkingSlots.Count == 0)
             {
+                Debug.Log(task + " NULL WORKING SLOT");
                 return null;
             }
             List<Crew> freeCrews = GetFreeCrews();

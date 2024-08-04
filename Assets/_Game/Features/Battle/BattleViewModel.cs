@@ -271,8 +271,10 @@ namespace _Game.Features.Battle
         }
 
 
-        public void Init(Ship ship)
+        public void Init(BattleManager battleManager)
         {
+            battleManager.TimeScaleChanged += UpdateCurrentSpeed;
+            Ship ship = battleManager.EntityManager.Ship;
             ShipStats shipStats = ship.Stats as ShipStats;
 
             MaxMP = shipStats.ManaPoint.Value;
@@ -280,16 +282,16 @@ namespace _Game.Features.Battle
 
             MaxHP = shipStats.HealthPoint.Value;
             HP = shipStats.HealthPoint.Value;
-            
-            //hpSlider.value = shipStats.HealthPoint.Value;
-            //mpSlider.value = shipStats.ManaPoint.Value;
-
-
-            Debug.Log(MP + " " + shipStats.HealthPoint.PercentageValue);
             shipStats.HealthPoint.OnValueChanged += HealthPoint_OnValueChanged;
             shipStats.ManaPoint.OnValueChanged += ManaPoint_OnValueChanged;
             FeverView.Init(ship.FeverModel);
         }
+
+        private void UpdateCurrentSpeed(float obj)
+        {
+            SpeedUpRate = obj;
+        }
+
         private void ManaPoint_OnValueChanged(_Base.Scripts.RPG.Stats.RangedStat obj)
         {
             MP = obj.Value;

@@ -16,7 +16,7 @@ using ZBase.UnityScreenNavigator.Core.Modals;
 
 namespace _Game.Features.Gameplay
 {
-    public class BattleManager : MonoBehaviour
+    public abstract class BattleManager : MonoBehaviour
     {
         #region Singleton
         private static BattleManager instance;
@@ -24,6 +24,8 @@ namespace _Game.Features.Gameplay
         private void Awake()
         {
             instance = this;
+            GlobalEvent<bool>.Register("TOGGLE_PAUSE", TogglePause);
+            Initialize();
         }
         #endregion
 
@@ -38,76 +40,16 @@ namespace _Game.Features.Gameplay
         // require for enemy attacks
         public GridAttackHandler GridAttackHandler;
         public GridPicker GridPicker;
+        public WinCondition winCondition;
 
-        public BattleViewModel BattleViewModel;
-        public void Initialize()
-        {
-            this.BattleViewModel = FindAnyObjectByType<BattleViewModel>();
-            BattleInputManager.gameObject.SetActive(false);
-            EntityManager.SpawnShip(SaveSystem.GameSave.ShipSetupSaveData.CurrentShip.ItemId, shipStartPos.position);
-            LevelStartSequence.shipSpeed = EntityManager.Ship.ShipSpeed;
-            GridAttackHandler.ship = EntityManager.Ship;
-            GridPicker.ShipGrid = EntityManager.Ship.ShipSetup;
+        public Action<float> TimeScaleChanged;
 
-            StartCoroutine(LevelEntryCoroutine());
-            GlobalEvent<bool>.Register("TOGGLE_PAUSE", TogglePause);
-        }
+        public abstract void Initialize();
+        public abstract void HandleWinData();
+        public abstract void ShowWinUIAsync();
+        public abstract IEnumerator LevelEntryCoroutine();
 
-        IEnumerator LevelEntryCoroutine()
-        {
-            AudioManager.Instance.PlayBgmGameplay();
-            yield return LevelStartSequence.Play();
-            EnemyManager.StartLevel();
-            MapPlayerTracker.Instance.OnGameStart();
-            BattleInputManager.gameObject.SetActive(true);
-            EntityManager.Ship.ShipSetup.CrewController.ActivateCrews();
-            StartCoroutine(CheckLevelDone());
-        }
 
-        IEnumerator CheckLevelDone()
-        {
-            while (true)
-            {
-                yield return new WaitForSeconds(5);
-                if (EnemyManager.IsLevelDone && EntityManager.aliveEnemies.Count == 0)
-                {
-                    Win();
-                    MapPlayerTracker.Instance.OnGamePassed();
-                    yield break;
-                }
-                if (EnemyManager.IsLevelDone)
-                {
-                    bool ended = true;
-                    foreach (EnemyStats a in EntityManager.aliveEnemies)
-                    {
-                        if (a != null)
-                        {
-                            EnemyStats stats = a;
-                            if (stats.HealthPoint.Value > 0)
-                            {
-                                ended = false;
-                            }
-
-                        }
-                    }
-                    if (ended)
-                    {
-                        Win();
-                        MapPlayerTracker.Instance.OnGamePassed();
-                        yield break;
-                    }
-                }
-            }
-        }
-
-        async void Win()
-        {
-            //CleanUp();
-            PlayerPrefs.SetFloat("fever", EntityManager.Ship.stats.Fever.Value);
-            var options = new ModalOptions("BattleVictory1Screen", true, loadAsync: false);
-
-            await ModalContainer.Find(ContainerKey.Modals).PushAsync(options);
-        }
 
         private void OnDestroy()
         {
@@ -132,11 +74,9 @@ namespace _Game.Features.Gameplay
             }
 
             UpdateTimeScale();
-            BattleViewModel.SpeedUpRate = currentRate;
         }
         public void TogglePause(bool isPause)
         {
-            Debug.Log("TOGGLE PAUSE " + isPause);
             if (isPause)
             {
                 BattleInputManager.gameObject.SetActive(false);
@@ -152,6 +92,13 @@ namespace _Game.Features.Gameplay
         public void UpdateTimeScale()
         {
             Time.timeScale = currentRate;
+            TimeScaleChanged?.Invoke(currentRate);
+        }
+
+        public void Win()
+        {
+            HandleWinData();
+            ShowWinUIAsync();
         }
     }
 }

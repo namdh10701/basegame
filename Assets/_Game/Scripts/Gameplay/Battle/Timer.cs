@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +8,8 @@ public class Timer : MonoBehaviour
     float elapsedTime;
     bool isStarted;
     bool isRunning;
+    public Action<float> ElapsedTimeChanged;
+    public float timeCap = -1;
     private void Update()
     {
         Tick(Time.deltaTime);
@@ -16,17 +19,48 @@ public class Timer : MonoBehaviour
         if (isStarted && isRunning)
         {
             elapsedTime += deltaTime;
-            foreach (TimedEvent timedEvent in timedEvents.ToArray())
+            if (timeCap != -1)
             {
-                if (!timedEvent.IsTriggered)
+                if (elapsedTime > timeCap)
                 {
-                    if (elapsedTime > timedEvent.Time)
-                    {
-                        timedEvent.Action.Invoke();
-                        timedEvent.IsTriggered = true;
-                        timedEvents.Remove(timedEvent);
-                    }
+                    elapsedTime = timeCap;
+                    isRunning = false;
                 }
+            }
+            ElapsedTimeChanged?.Invoke(elapsedTime);
+        }
+        foreach (TimedEvent timedEvent in timedEvents.ToArray())
+        {
+            if (!timedEvent.IsTriggered)
+            {
+                if (elapsedTime > timedEvent.Time)
+                {
+                    timedEvent.Action.Invoke();
+                    timedEvent.IsTriggered = true;
+                    timedEvents.Remove(timedEvent);
+                }
+            }
+        }
+    }
+
+    public string TimeString
+    {
+        get
+        {
+            string ret = "";
+            if (timeCap != -1)
+            {
+                int minutes = (int)((timeCap - elapsedTime) / 60);
+                int seconds = (int)((timeCap - elapsedTime) % 60);
+                ret = string.Format("{0:00}:{1:00}", minutes, seconds);
+                return ret;
+            }
+            else
+            {
+                int minutes = (int)(elapsedTime / 60);
+                int seconds = (int)(elapsedTime % 60);
+                ret = string.Format("{0:00}:{1:00}", minutes, seconds);
+                return ret;
             }
         }
     }

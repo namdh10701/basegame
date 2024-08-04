@@ -1,5 +1,7 @@
 using _Base.Scripts.RPG.Effects;
 using _Game.Features.Gameplay;
+using _Game.Scripts.Entities;
+using UnityEngine;
 
 public class CellEffectHandler : EffectHandler
 {
@@ -11,11 +13,13 @@ public class CellEffectHandler : EffectHandler
         effect.enabled = true;
         effect.transform.position = transform.position;
 
-
-        if (cell.GridItem != null)
+        if (cell.GridItem != null && cell.GridItem is IEffectTaker)
         {
-            IEffectTaker taker = cell.GridItem as IEffectTaker;
-            taker.EffectHandler.Apply(effect);
+            if (cell.GridItem is IGridItem gridItem)
+            {
+                IEffectTaker taker = cell.GridItem as IEffectTaker;
+                taker.EffectHandler.Apply(effect);
+            }
             return;
         }
 

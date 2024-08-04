@@ -46,8 +46,11 @@ namespace _Game.Features
             SaveSystem.LoadSave();
 
             // AudioManager.Instance.LoadSoundSettings();
-            AudioManager.Instance.IsBgmOn = !SaveSystem.GameSave.Settings.MuteBGM;
-            AudioManager.Instance.IsSfxOn = !SaveSystem.GameSave.Settings.MuteSFX;
+            // AudioManager.Instance.IsBgmOn = !SaveSystem.GameSave.Settings.MuteBGM;
+            // AudioManager.Instance.IsSfxOn = !SaveSystem.GameSave.Settings.MuteSFX;
+            
+            AudioManager.Instance.IsBgmOn = PlayerPrefs.GetInt("Settings.MuteBGM", 0) == 0;
+            AudioManager.Instance.IsSfxOn = PlayerPrefs.GetInt("Settings.MuteSFX", 0) == 0;
 
             // MapPlayerTracker.Instance.OnStagePassed += OnOnStagePassed;
             ShowTopPage().Forget();

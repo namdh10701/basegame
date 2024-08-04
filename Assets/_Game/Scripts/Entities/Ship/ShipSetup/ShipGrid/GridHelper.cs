@@ -471,5 +471,28 @@ namespace _Game.Features.Gameplay
             // Return the closest crew found
             return closestCrew;
         }
+
+        public static List<Cell> GetNeighborCells(List<Cell> occupyCells)
+        {
+            List<Cell> neighborCells = new List<Cell>();
+
+            // Iterate through each occupied cell
+            foreach (var cell in occupyCells)
+            {
+                // Get adjacent cells (up, down, left, right)
+                List<Cell> adjacentCells = GetAdjacentCells(cell.Grid.Cells, cell);
+
+                // Add each adjacent cell to the list if it's not already in occupyCells
+                foreach (var adjCell in adjacentCells)
+                {
+                    if (!occupyCells.Contains(adjCell) && !neighborCells.Contains(adjCell))
+                    {
+                        neighborCells.Add(adjCell);
+                    }
+                }
+            }
+
+            return neighborCells;
+        }
     }
 }

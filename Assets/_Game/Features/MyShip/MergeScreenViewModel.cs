@@ -7,6 +7,7 @@ using _Game.Scripts.GD.DataManager;
 using _Game.Scripts.SaveLoad;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using Online;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityWeld.Binding;
@@ -455,7 +456,7 @@ namespace _Game.Features.MergeScreen
         #endregion
 
         private List<InventoryItem> _dataSource = new List<InventoryItem>();
-        private List<InventoryItem> _itemsSelected = new List<InventoryItem>();
+        private List<string> _itemsSelected = new List<string>();
 
         #region Binding: InventoryItems
         private ObservableList<InventoryItem> items = new ObservableList<InventoryItem>();
@@ -611,11 +612,11 @@ namespace _Game.Features.MergeScreen
             {
                 ItemMerge = item;
                 if (_itemsSelected.Count < NumberItemsRequired)
-                    _itemsSelected.Add(item);
+                    _itemsSelected.Add(item.OwnItemId);
                 else
                 {
                     _itemsSelected.RemoveAt(0);
-                    _itemsSelected.Add(item);
+                    _itemsSelected.Add(item.OwnItemId);
                 }
                 NumberItems++;
                 OnPropertyChanged(nameof(SpriteItemMerge));
@@ -635,7 +636,7 @@ namespace _Game.Features.MergeScreen
             {
                 NumberItems--;
                 item.IsSelected = false;
-                _itemsSelected.Remove(item);
+                _itemsSelected.Remove(item.OwnItemId);
                 if (NumberItems == 0)
                 {
                     DoFilter();
@@ -724,11 +725,7 @@ namespace _Game.Features.MergeScreen
         [Binding]
         public async void OnClickConfirm()
         {
-            int rarityLevel = int.Parse(ItemTarget.RarityLevel);
-            ItemData itemData = new ItemData(ItemTarget.Type, ItemTarget.Id, ItemTarget.OwnItemId, rarityLevel, ItemTarget.Level);
-            SaveSystem.GameSave.OwnedItems.Add(itemData);
-            RemoveItemData();
-            SaveSystem.SaveGame();
+            await PlayfabManager.Instance.CombineItems(_itemsSelected);
 
             IsActiveSuccesFul = true;
             if (ItemTarget.RarityLevel == "0")
@@ -773,26 +770,5 @@ namespace _Game.Features.MergeScreen
                     break;
             }
         }
-
-        private void RemoveItemData()
-        {
-            var ownedItemsDict = SaveSystem.GameSave.OwnedItems.ToDictionary(item => item.OwnItemId);
-            var itemsRemove = new List<ItemData>();
-
-            foreach (var itemSelected in _itemsSelected)
-            {
-                if (ownedItemsDict.TryGetValue(itemSelected.OwnItemId, out var item))
-                {
-                    itemsRemove.Add(item);
-                }
-            }
-
-            foreach (var itemRemove in itemsRemove)
-            {
-                SaveSystem.GameSave.OwnedItems.Remove(itemRemove);
-            }
-        }
-
-
     }
 }

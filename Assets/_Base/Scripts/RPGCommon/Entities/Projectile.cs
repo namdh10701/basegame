@@ -43,10 +43,6 @@ namespace _Game.Features.Gameplay
         public override void ApplyStats()
         {
             ProjectileCollisionHandler projectileCollisionHandler = (ProjectileCollisionHandler)collisionListener.CollisionHandler;
-            if (onHitParticle != null)
-            {
-                projectileCollisionHandler.LoopHandlers.Add(new ParticleHandler(onHitParticle));
-            }
             projectileCollisionHandler.Handlers.Add(new PiercingHandler((int)_stats.Piercing.Value));
             ProjectileMovement = new StraightMove(this);
         }

@@ -106,8 +106,6 @@ namespace _Game.Scripts
 
             shipStats.AmmoLimit.BaseValue = tableRecord.AmmoLimit;
             shipStats.CannonLimit.BaseValue = tableRecord.CannonLimit;
-
-            Debug.Log(shipStats.Fever.Value + " " + shipStats.Fever.MaxValue);
         }
     }
 }

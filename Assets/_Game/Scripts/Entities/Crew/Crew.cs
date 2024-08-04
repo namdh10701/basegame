@@ -17,7 +17,7 @@ namespace _Game.Features.Gameplay
         Idle, Moving, Carrying_Moving, Carrying_Idle, Reparing, Stun
     }
 
-    public class Crew : Entity, IGDConfigStatsTarget, IStatsBearer, INodeOccupier, IEffectTaker, IStunable
+    public class Crew : MonoBehaviour, IStatsBearer, IEffectTaker, IGDConfigStatsTarget, INodeOccupier, IStunable
     {
         #region
         private CrewStatsConfigLoader _configLoader;
@@ -71,26 +71,16 @@ namespace _Game.Features.Gameplay
         [SerializeField] EffectHandler effectHandler;
         public EffectHandler EffectHandler => effectHandler;
         public Transform Transform => EffectTakerCollider.transform;
-        [field: SerializeField]
-        public List<Cell> OccupyCells { get; set; }
-        public string GridId { get; set; }
         public List<Node> occupiyingNodes = new List<Node>();
         public List<Node> OccupyingNodes { get => occupiyingNodes; set => occupiyingNodes = value; }
         public string Id { get => id; set => id = value; }
-        public GDConfig GDConfig => gdConfig;
-
-        public StatsTemplate StatsTemplate => statsTemplate;
-
-        public override Stats Stats => stats;
-
+        
         public Stat StatusResist => stats.StatusReduce;
+        public Stats Stats => stats;
 
         private void Start()
         {
             var conf = GameData.CrewTable.FindById(id);
-            Debug.Log(id);
-            Debug.Log(conf.FeverTimeProb);
-            Debug.Log(conf.Luck);
             ConfigLoader.LoadConfig(stats, conf);
             ApplyStats();
 
@@ -111,7 +101,7 @@ namespace _Game.Features.Gameplay
             CrewAction.Resume();
         }
 
-        public override void ApplyStats()
+        public void ApplyStats()
         {
         }
     }
