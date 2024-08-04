@@ -8,6 +8,7 @@ using _Game.Scripts.DB;
 using _Game.Scripts.GD.DataManager;
 using _Game.Scripts.UI;
 using Online;
+using Online.Enum;
 using Online.Model;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -153,8 +154,17 @@ namespace _Game.Features.Ranking
         [Binding]
         public class UserRankInfo: SubViewModel
         {
+            private ERank _eRank;
+            public ERank UserRank
+            {
+                get => _eRank;
+                set
+                {
+                    _eRank = value;
+                }
+            }
+
             private Online.Model.UserRankInfo _backedData;
-            
             public Online.Model.UserRankInfo BackedData
             {
                 get => _backedData;
@@ -168,16 +178,16 @@ namespace _Game.Features.Ranking
                     
                     Records.Clear();
                     
-                    foreach (var backedDataRecord in _backedData.Records)
+                    foreach (var backedDataRecord in _backedData.Players)
                     {
                         Records.Add(new RankRecord()
                         {
-                            IsActive = PlayfabManager.Instance.Profile.PlayfabID == backedDataRecord.PlayfabID,
-                            BackedData = backedDataRecord,
+                            IsActive = true,// PlayfabManager.Instance.Profile.PlayfabID == backedDataRecord.PlayfabID,
+                            // BackedData = backedDataRecord,
                         });
                     }
 
-                    SeasonExpireAt = BackedData.SeasonExpiredAt;
+                    // SeasonExpireAt = BackedData.SeasonExpiredAt;
                     
                     OnPropertyChanged(nameof(SeasonNo));
                     OnPropertyChanged(nameof(SeasonName));
@@ -223,23 +233,23 @@ namespace _Game.Features.Ranking
             public string SeasonRemainingTime => SeasonExpireAt.GetRemainingTime();
             
             [Binding]
-            public string SeasonNo => BackedData?.SeasonNo;
+            public string SeasonNo => PlayfabManager.Instance.RankInfo?.SeasonNo.ToString();
             
             [Binding]
-            public string SeasonName => BackedData?.SeasonName;
+            public string SeasonName => PlayfabManager.Instance.RankInfo?.SeasonName;
             
             [Binding]
-            public string Rank => BackedData?.Rank.ToString();
+            public string Rank => PlayfabManager.Instance?.Rank.ToString();
             
             [Binding]
-            public Sprite RankBadge => BackedData == null ? null : Database.GetRankingTierBadge(BackedData.Rank);
+            public Sprite RankBadge => BackedData == null ? null : Database.GetRankingTierBadge(PlayfabManager.Instance.Rank);
             
             [Binding]
             public Sprite NextRankBadge
             {
                 get
                 {
-                    var rank = BackedData?.Rank.GetNext();
+                    var rank = UserRank.GetNext();
                     return rank == null ? null : Database.GetRankingTierBadge(rank.Value);
                 }
             }
@@ -249,7 +259,7 @@ namespace _Game.Features.Ranking
             {
                 get
                 {
-                    var rank = BackedData?.Rank.GetPrevious();
+                    var rank = UserRank.GetPrevious();
                     return rank == null ? null : Database.GetRankingTierBadge(rank.Value);
                 }
             }

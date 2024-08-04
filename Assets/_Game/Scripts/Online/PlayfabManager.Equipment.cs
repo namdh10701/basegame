@@ -1,18 +1,20 @@
 using _Game.Scripts.SaveLoad;
+using Cysharp.Threading.Tasks;
 using Online.Interface;
+using Online.Model.ApiRequest;
 
 namespace Online
 {
 	public partial class PlayfabManager : IEquipmentService
 	{
-		public void UpdateEquipShip(ShipSetupSaveData data, System.Action<bool> cb = null)
+		public UniTask<BaseResponse> UpdateEquipShip(ShipSetupSaveData data)
 		{
-			Equipment.UpdateEquipShip(data, cb);
+			return Equipment.UpdateEquipShip(data);
 		}
 		
-		public void RequestEquipShip(System.Action<bool> cb = null)
+		public UniTask<ShipSetupSaveData> RequestEquipShip()
 		{
-			Equipment.RequestEquipmentShip(cb);
+			return Equipment.RequestEquipmentShipAsync();
 		}
 	}
 }

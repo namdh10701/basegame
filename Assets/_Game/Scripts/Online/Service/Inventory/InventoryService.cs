@@ -61,7 +61,6 @@ namespace Online.Service
 		public async Task<bool> RequestInventoryAsync()
 		{
 			var resp = await PlayFabAsync.PlayFabClientAPI.GetUserInventoryAsync(new());
-
 			if (resp.IsError)
 			{
 				LogError(resp.Error.ErrorMessage);
