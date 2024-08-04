@@ -86,6 +86,7 @@ namespace Online.Service
 		public void LoadProfile(PlayerProfileModel playerProfile)
 		{
 			DisplayName = playerProfile.DisplayName;
+			PlayfabID = playerProfile.PlayerId;
 		}
 		
 		public void LoadUserReadOnlyData(Dictionary<string, UserDataRecord> readOnlyData)

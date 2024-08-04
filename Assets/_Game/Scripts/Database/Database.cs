@@ -279,6 +279,7 @@ namespace _Game.Scripts.DB
         {
             switch (itemType)
             {
+                case ItemType.SHIP: return GetShipImage(id);
                 case ItemType.AMMO: return GetAmmoImage(id);
                 case ItemType.CANNON: return GetCannonImage(id);
                 case ItemType.CREW: return GetCrewImage(id);

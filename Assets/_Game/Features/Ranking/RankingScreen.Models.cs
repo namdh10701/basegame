@@ -188,7 +188,7 @@ namespace _Game.Features.Ranking
                         });
                     }
 
-                    // SeasonExpireAt = BackedData.SeasonExpiredAt;
+                    SeasonExpireAt = DateTime.FromFileTimeUtc((long)PlayfabManager.Instance.RankInfo.EndTimestamp);
                     
                     OnPropertyChanged(nameof(SeasonNo));
                     OnPropertyChanged(nameof(SeasonName));
@@ -246,13 +246,13 @@ namespace _Game.Features.Ranking
             public string SeasonRemainingTime => SeasonExpireAt.GetRemainingTime();
             
             [Binding]
-            public string SeasonNo => PlayfabManager.Instance.RankInfo?.SeasonNo.ToString();
+            public string SeasonNo => $"Rank Season {PlayfabManager.Instance.RankInfo?.SeasonNo}";
             
             [Binding]
             public string SeasonName => PlayfabManager.Instance.RankInfo?.SeasonName;
             
             [Binding]
-            public string Rank => PlayfabManager.Instance?.Rank.ToString();
+            public string Rank => PlayfabManager.Instance.Rank.ToString();
             
             [Binding]
             public Sprite RankBadge => BackedData == null ? null : Database.GetRankingTierBadge(PlayfabManager.Instance.Rank);

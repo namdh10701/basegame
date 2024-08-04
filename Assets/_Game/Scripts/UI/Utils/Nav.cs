@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using _Game.Features;
 using ZBase.UnityScreenNavigator.Core.Modals;
@@ -9,17 +8,41 @@ namespace _Game.Scripts.UI.Utils
 {
     public class Nav
     {
-        public static async Task ShowModal<T>(params object[] args)
+        private static ScreenContainer SC => ScreenContainer.Find(ContainerKey.Screens);
+        private static ModalContainer MC => ModalContainer.Find(ContainerKey.Modals);
+        public static async Task<T> ShowModalAsync<T>(params object[] args) where T : class
         {
             var options = new ViewOptions(typeof(T).Name);
-            await ModalContainer.Find(ContainerKey.Modals).PushAsync(options, args);
+            await MC.PushAsync(options, args);
+            return MC.Current.View as T;
         }
         
-        public static async Task ShowScreen<T>(params object[] args)
+        public static async Task PreloadScreenAsync<T>() where T : class
         {
-            var options = new ViewOptions(typeof(T).Name);
-            await ScreenContainer.Find(ContainerKey.Screens).PushAsync(options, args);
+            await SC.PreloadAsync(typeof(T).Name);
         }
+        
+        public static async Task<T> ShowScreenAsync<T>(bool playAnimation = true, bool preload = false, params object[] args) where T : class
+        {
+            var options = new ViewOptions(typeof(T).Name, playAnimation);
+            if (preload)
+            {
+                await SC.PreloadAsync(typeof(T).Name);
+            }
+            await SC.PushAsync(options, args);
+            return SC.Current.View as T;
+        }
+        
+        public static async Task PopCurrentScreenAsync(bool playAnimation = true)
+        {
+            await SC.PopAsync(playAnimation);
+        }
+        
+        public static async Task PopCurrentPopupAsync(bool playAnimation = true)
+        {
+            await SC.PopAsync(playAnimation);
+        }
+        
         //
         // public static async void ShowSheet<T>(params object[] args)
         // {

@@ -37,7 +37,6 @@ namespace _Game.Features.GamePause
 
         #endregion
 
-
         #region Binding Prop: MuteBGM
 
         /// <summary>
@@ -113,6 +112,16 @@ namespace _Game.Features.GamePause
 
         #endregion
 
+        #region Binding Prop: PlayerId
+
+        /// <summary>
+        /// PlayerId
+        /// </summary>
+        [Binding]
+        public string PlayerId => PlayfabManager.Instance.Profile.PlayfabID;
+
+        #endregion
+
         /// <summary>
         /// 
         /// </summary>
@@ -184,6 +193,12 @@ namespace _Game.Features.GamePause
         public void OnClickSignInWithFacebook()
         {
             PlayfabManager.Instance.LinkFacebook();
+        }
+        
+        [Binding]
+        public void DoCopyPlayerId()
+        {
+            UniClipboard.SetText(PlayfabManager.Instance.Profile.PlayfabID);
         }
     }
 }

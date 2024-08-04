@@ -96,19 +96,21 @@ namespace Online.Service
             return await signal.Task;
         }
         
-        public async UniTask<bool> CreateRankTicketAsync()
+        public async UniTask<BaseResponse> CreateRankTicketAsync()
         {
-            var signal = new UniTaskCompletionSource<bool>();
+            var signal = new UniTaskCompletionSource<BaseResponse>();
             PlayFabClientAPI.ExecuteCloudScript(new()
             {
                 FunctionName = C.CloudFunction.CreateRankTicket
             }, result =>
             {
-                signal.TrySetResult(true);
+                var resp = JsonConvert.DeserializeObject<BaseResponse>(result.FunctionResult.ToString());
+                signal.TrySetResult(resp);
             }, error =>
             {
                 LogError("Create Rank Ticket Error: " + error.ErrorMessage);
-                signal.TrySetResult(false);
+                // signal.TrySetResult(false);
+                signal.TrySetException(new Exception("Create Rank Ticket Error: " + error.ErrorMessage));
             });
             return await signal.Task;
         }

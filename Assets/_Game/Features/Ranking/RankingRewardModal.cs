@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -27,6 +28,34 @@ namespace _Game.Features.Ranking
             //         BackedData = v
             //     }).ToList()
             // );
+            
+            foreach (var rank in Enum.GetValues(typeof(ERank)).Cast<ERank>().Skip(1).Reverse())
+            {
+                var rec = new ClaimRewardBundle
+                {
+                    BackedData = new ()
+                    {
+                        Rank = rank,
+                        IsCurrentRank = rank == PlayfabManager.Instance.Rank,
+                        Rewards = new()
+                        {
+                            new ()
+                            {
+                                ItemType = ItemType.MISC,
+                                ItemId = MiscItemId.gold,
+                                Amount = 500
+                            },
+                            new ()
+                            {
+                                ItemType = ItemType.MISC,
+                                ItemId = MiscItemId.gem,
+                                Amount = 5
+                            }
+                        }
+                    }
+                };
+                Records.Add(rec);
+            }
         }
             
         public static async Task Show(ERank userRank)

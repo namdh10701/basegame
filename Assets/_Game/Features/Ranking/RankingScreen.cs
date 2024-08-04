@@ -264,10 +264,14 @@ namespace _Game.Features.Ranking
                 return;
             }
 
-            var areResourcesEnough = await PlayfabManager.Instance.Ranking.StartBattle();
-            if (!areResourcesEnough)
+            var resp = await PlayfabManager.Instance.Ranking.CreateRankTicketAsync();
+            if (!resp.Result)
             {
-                await AlertModal.Show("Not Enough Resource!");
+                if (resp.Error == "NOT_ENOUGH_TICKET")
+                {
+                    await AlertModal.Show("Not Enough Resource!");
+                }
+
                 return;
             }
 

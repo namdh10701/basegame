@@ -9,7 +9,7 @@ namespace _Base.Scripts.Utils.Extensions
             string hour = "hour", string hours = "hours",
             string minute = "minute", string minutes = "minutes",
             string second = "second", string seconds = "seconds",
-            string timeHasPassed = null)
+            string timeHasPassed = "00:00:00")
         {
             DateTime currentDateTime = DateTime.Now;
             TimeSpan remainingTime = futureDateTime - currentDateTime;

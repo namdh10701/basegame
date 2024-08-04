@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using _Base.Scripts.Audio;
+using _Game.Features.Bootstrap;
 using _Game.Features.Home;
 using _Game.Features.MyShipScreen;
 using _Game.Scripts.DB;
@@ -7,6 +9,7 @@ using _Game.Scripts.GD;
 using _Game.Scripts.GD.DataManager;
 using _Game.Scripts.GD.Parser;
 using _Game.Scripts.SaveLoad;
+using _Game.Scripts.UI.Utils;
 using Cysharp.Threading.Tasks;
 using Map;
 using Online;
@@ -29,6 +32,8 @@ namespace _Game.Features
 
         protected override async void OnPostCreateContainers()
         {
+            var bootstrapScreen = await Nav.ShowScreenAsync<BootstrapScreen>(false);
+            
             if (!PlayerPrefs.HasKey("PlayingStage"))
             {
                 PlayerPrefs.SetString("PlayingStage", "0001");
@@ -38,12 +43,16 @@ namespace _Game.Features
             UnityScreenNavigatorSettings.Initialize();
 
             await PlayfabManager.Instance.LoginAsync();
-            
+
+            bootstrapScreen.LoadingProgress = 0.8f;
             await GameData.Load();
             
             Database.Load();
             
             SaveSystem.LoadSave();
+            
+            // TODO test
+            PlayfabManager.Instance.RankInfo.EndTimestamp = (ulong)DateTime.Now.AddDays(2).ToFileTimeUtc();
 
             // AudioManager.Instance.LoadSoundSettings();
             // AudioManager.Instance.IsBgmOn = !SaveSystem.GameSave.Settings.MuteBGM;
@@ -53,7 +62,16 @@ namespace _Game.Features
             AudioManager.Instance.IsSfxOn = PlayerPrefs.GetInt("Settings.MuteSFX", 0) == 0;
 
             // MapPlayerTracker.Instance.OnStagePassed += OnOnStagePassed;
-            ShowTopPage().Forget();
+            
+            bootstrapScreen.LoadingProgress = 0.8f;
+            
+            await Nav.PreloadScreenAsync<MainScreen>();
+
+            bootstrapScreen.LoadingProgress = 1f;
+
+            await Nav.PopCurrentScreenAsync(false);
+            await Nav.ShowScreenAsync<MainScreen>(false);
+            // ShowTopPage().Forget();
         }
 
         private void OnOnStagePassed()
@@ -63,8 +81,7 @@ namespace _Game.Features
 
         private async UniTaskVoid ShowTopPage()
         {
-            var options = new ViewOptions(nameof(MainScreen), false, loadAsync: false);
-            await ContainerManager.Find<ScreenContainer>(ContainerKey.Screens).PushAsync(options);
+            await Nav.ShowScreenAsync<MainScreen>(false);
         }
     }
 }

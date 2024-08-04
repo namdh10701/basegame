@@ -64,14 +64,14 @@ namespace _Game.Features.Ranking
         public async void NavBack()
         {
             DoClose();
-            await Nav.ShowScreen<RankingScreen>();
+            await Nav.ShowScreenAsync<RankingScreen>();
         }
         
         [Binding]
         public async void NavToHome()
         {
             DoClose();
-            await Nav.ShowScreen<MainScreen>();
+            await Nav.ShowScreenAsync<MainScreen>();
         }
             
         public static async Task Show(Params prm)

@@ -1,57 +1,45 @@
-using System.Collections.Generic;
-using Spine.Unity;
 using UnityEngine;
+using UnityWeld.Binding;
 
-namespace _Game.Features.BattleLoading
+namespace _Game.Features.Bootstrap
 {
+    [Binding]
     public class BootstrapScreen : ScreenWithViewModel
     {
-        // public List<SkeletonGraphic> skeletonGraphics;
-        // public List<string> animationNames;
-        //
-        // void Start()
-        // {
-        //     if (skeletonGraphics == null || skeletonGraphics.Count == 0)
-        //     {
-        //         Debug.LogError("No SkeletonGraphics assigned.");
-        //         return;
-        //     }
-        //
-        //     if (animationNames == null || animationNames.Count != skeletonGraphics.Count)
-        //     {
-        //         Debug.LogError("Animation names count must match SkeletonGraphics count.");
-        //         return;
-        //     }
-        //
-        //     for (int i = 0; i < skeletonGraphics.Count; i++)
-        //     {
-        //         SkeletonGraphic skeletonGraphic = skeletonGraphics[i];
-        //         string animationName = animationNames[i];
-        //
-        //         skeletonGraphic.AnimationState.Complete += OnAnimationComplete;
-        //         PlayAnimation(skeletonGraphic, animationName);
-        //     }
-        // }
-        //
-        // void PlayAnimation(SkeletonGraphic skeletonGraphic, string name)
-        // {
-        //     skeletonGraphic.AnimationState.SetAnimation(0, name, false);
-        // }
-        //
-        // void OnAnimationComplete(Spine.TrackEntry trackEntry)
-        // {
-        //     Debug.Log("Animation " + trackEntry.Animation.Name + " completed on " + trackEntry.TrackIndex);
-        // }
-        //
-        // void OnDestroy()
-        // {
-        //     foreach (SkeletonGraphic skeletonGraphic in skeletonGraphics)
-        //     {
-        //         if (skeletonGraphic != null)
-        //         {
-        //             skeletonGraphic.AnimationState.Complete -= OnAnimationComplete;
-        //         }
-        //     }
-        // }
+        #region Binding Prop: LoadingProgress
+
+        /// <summary>
+        /// LoadingProgress
+        /// </summary>
+        [Binding]
+        public float LoadingProgress
+        {
+            get => _loadingProgress;
+            set
+            {
+                if (Equals(_loadingProgress, value))
+                {
+                    return;
+                }
+
+                _loadingProgress = value;
+                OnPropertyChanged(nameof(LoadingProgress));
+                OnPropertyChanged(nameof(LoadingInfo));
+            }
+        }
+
+        private float _loadingProgress;
+
+        #endregion
+
+        #region Binding Prop: LoadingInfo
+
+        /// <summary>
+        /// LoadingInfo
+        /// </summary>
+        [Binding]
+        public string LoadingInfo => $"Loading data...{Mathf.RoundToInt(LoadingProgress * 100)}%";
+
+        #endregion
     }
 }

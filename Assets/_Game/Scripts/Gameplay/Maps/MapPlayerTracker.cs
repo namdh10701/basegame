@@ -201,7 +201,7 @@ namespace Map
         {
             EnemyWaveManager.floorId = (mapNode.point.y + 1).ToString();
             EnemyWaveManager.nodeType = mapNode.nodeType;
-            await Nav.ShowModal<FightNodeInfoModal>(mapNode);
+            await Nav.ShowModalAsync<FightNodeInfoModal>(mapNode);
         }
     }
 }
