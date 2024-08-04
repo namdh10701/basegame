@@ -1,7 +1,9 @@
 using System.Collections.Generic;
+using _Game.Features.Ads;
 using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
 using Online.Enum;
+using Online.Model.ApiRequest;
 using Online.Model.GooglePurchase;
 using PlayFab;
 using PlayFab.ClientModels;
@@ -61,18 +63,26 @@ namespace Online.Service
 		{
 			if (VideoAds.TryGetValue(adUnitId, out var videoAd))
 			{
-				var canWatch = await CanWatchAd(adUnitId);
-				if (canWatch)
+				var signal = new UniTaskCompletionSource<bool>();
+				AdsManager.Instance.LoadRewardedAd(adUnitId, async () =>
 				{
+					await ClaimAdReward(videoAd);
 
-				}
+					var adCustomData = JsonConvert.DeserializeObject<StoreCustomData>(videoAd.RewardDescription);
+					if (adCustomData.Limit != EItemLimit.None)
+					{
+						await ReportWatchAdAsync(adUnitId);
+						signal.TrySetResult(true);
+					}
+				});
+				return await signal.Task;
 			}
 			return false;
 		}
-		
+
 		public async UniTask<bool> ClaimAdReward(AdPlacementDetails adPlacementDetail)
 		{
-			UniTaskCompletionSource<bool> signal = new UniTaskCompletionSource<bool>();
+			var signal = new UniTaskCompletionSource<bool>();
 			PlayFabClientAPI.RewardAdActivity(new()
 			{
 				PlacementId = adPlacementDetail.PlacementId,
@@ -86,6 +96,28 @@ namespace Online.Service
 				signal.TrySetResult(false);
 			});
 			return await signal.Task;
+		}
+		
+		public async UniTask ReportWatchAdAsync(string adUnitId)
+		{
+			var signal = new UniTaskCompletionSource<bool>();
+			PlayFabClientAPI.ExecuteCloudScript(new()
+			{
+				FunctionName = C.CloudFunction.ReportWatchAd,
+				FunctionParameter = new ReportVideoAdRequest()
+				{
+					AdUnitId = adUnitId
+				}
+			}, result =>
+			{
+				var readOnlyData = JsonConvert.DeserializeObject<ReportVideoAdResponse>(result.FunctionResult.ToString());
+				signal.TrySetResult(true);
+			}, error =>
+			{
+				LogError(error.ErrorMessage);
+				signal.TrySetResult(false);
+			});
+			await signal.Task;
 		}
 
 		public override void LogSuccess(string message)

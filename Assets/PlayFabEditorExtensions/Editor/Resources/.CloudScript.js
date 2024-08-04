@@ -35,7 +35,7 @@ const ProfileField = Object.freeze({
     Rank: 'Rank',
     RankScore: 'RankScore',
     CurrentRankID: 'CurrentRankID',
-    WeeklyPackages: 'WeeklyPackages'
+    LimitPackages: 'LimitPackages'
 });
 
 const TitleReadOnlyData = Object.freeze({
@@ -153,7 +153,7 @@ handlers.RequestNewProfile = function (args, context) {
     userData[ProfileField.Rank] = ERank.Unrank;
     userData[ProfileField.RankScore] = 0;
     userData[ProfileField.CurrentRankID] = "";
-    userData[ProfileField.WeeklyPackages] = [];
+    userData[ProfileField.LimitPackages] = [];
     var reqReadOnlyData = {
         PlayFabId: currentPlayerId, Data: userData
     };
@@ -371,20 +371,6 @@ handlers.GetRankInfo = function (args, context) {
     let userRankData = JSON.parse(resTitleData.Data[userRankDB]);
     let userRankInfo = userRankData.find(val => val.Id == userRankId);
 
-    if (userRankId == "") {
-        let rankId = "";
-        for (let i = 0; i < userRankData.length; i++) {
-            if (userRankData[i].Count < Total_Player_Per_Rank_Group) {
-                rankId = userRankData[i].Id;
-                break;
-            }
-        }
-
-        if (rankRankId == "") {
-
-        }
-    }
-
     return {
         Result: true,
         RankInfo: JSON.parse(resTitleData.Data[TitleReadOnlyData.RankInfo]),
@@ -515,6 +501,43 @@ handlers.SubmitRankingMatchAsync = function (args, context) {
     return {
         Result: true,
         UserRankInfo: userRankInfo
+    };
+};
+
+handlers.ReportWatchAd = function (args, context) {
+    let reqReadOnlyData = {
+        PlayFabId: currentPlayerId,
+        Keys: [ProfileField.LimitPackages]
+    };
+    let resData = server.GetUserReadOnlyData(reqReadOnlyData);
+    
+    var unixTimestamp = Math.floor(Date.now() / 1000);
+    var limitPackages = JSON.parse(resData.Data[ProfileField.LimitPackages].Value);
+    let limitPackage = limitPackages.find(val => val.Id == args.AdUnitId);
+    if (limitPackage != null)
+    {
+        limitPackage.LastTime = unixTimestamp;
+        limitPackage.Count += 1;
+    }
+    else
+    {
+        let newLimitPackage = {
+            Id: args.AdUnitId,
+            LastTime: unixTimestamp,
+            Count: 1
+        };
+        limitPackages.push(newLimitPackage);
+    }
+
+    var newLimitPackages = { };
+    newLimitPackages[ProfileField.LimitPackages] = JSON.stringify(limitPackages);
+    server.UpdateUserReadOnlyData({
+        PlayFabId: currentPlayerId, Data: newLimitPackages
+    });
+    
+    return {
+        Result: true,
+        Data: limitPackages
     };
 };
 

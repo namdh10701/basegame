@@ -7,9 +7,13 @@ namespace Online
 {
 	public partial class PlayfabManager : IAdService
 	{
-		public bool CanShowAd(string adUnitId)
+		public async UniTask ShowVideoAd(string adUnitId)
 		{
-			return false;
+			var canShow = await Ads.CanWatchAd(adUnitId);
+			if (canShow)
+			{
+				await Ads.ShowVideoAd(adUnitId);
+			}
 		}
 	}
 }
