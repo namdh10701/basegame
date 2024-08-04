@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
+using Newtonsoft.Json;
 using Online.Enum;
+using Online.Model;
 using Online.Model.ApiRequest;
 using PlayFab;
 using PlayFab.ClientModels;
@@ -20,6 +22,7 @@ namespace Online.Service
 		public ERank UserRank { get; private set; } = ERank.Unrank;
 		public int UserRankScore { get; private set; }
 		public string UserRankID { get; private set; }
+		public List<LimitPackageModel> LimitPackages { get; private set; } = new();
 
 		#endregion
 
@@ -115,6 +118,12 @@ namespace Online.Service
 			if (readOnlyData.TryGetValue(C.NameConfigs.CurrentRankID, out var rankID))
 			{
 				UserRankID = rankID.Value;
+			}
+			
+			if (readOnlyData.TryGetValue(C.NameConfigs.VideoAds, out var videoAdRecords))
+			{
+				LimitPackages.Clear();
+				LimitPackages = JsonConvert.DeserializeObject<List<LimitPackageModel>>(videoAdRecords.Value);
 			}
 		}
 

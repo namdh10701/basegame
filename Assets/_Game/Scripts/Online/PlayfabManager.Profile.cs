@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using Online.Enum;
 using Online.Interface;
+using Online.Model;
 
 namespace Online
 {
@@ -11,6 +13,7 @@ namespace Online
 		public int Level => Profile.Level;
 		public long Exp => Profile.Exp;
 		public ERank Rank => Profile.UserRank;
+		public List<LimitPackageModel> VideoAdModels => Profile.LimitPackages;
 		
 		public void LoadProfile()
 		{

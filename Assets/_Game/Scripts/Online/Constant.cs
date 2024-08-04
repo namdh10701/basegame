@@ -15,6 +15,7 @@ namespace Online
 			public const string Rank = "Rank";
 			public const string RankScore = "RankScore";
 			public const string CurrentRankID = "CurrentRankID";
+			public const string VideoAds = "VideoAds";
 		}
 		
 		public static class CloudFunction

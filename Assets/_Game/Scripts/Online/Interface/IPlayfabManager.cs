@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
@@ -15,7 +16,10 @@ namespace Online.Interface
 		
 		UniTask UpgradeItem(string itemInstanceId);
 		UniTask CombineItems(List<string> itemInstanceIds);
+
+		UniTask<DateTime> GetTimeAsync();
 		
 		void RunCoroutine(IEnumerator coroutine);
+		
 	}
 }
