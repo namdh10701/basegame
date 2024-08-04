@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using _Game.Scripts.SaveLoad;
 using Online.Interface;
 
@@ -13,6 +14,16 @@ namespace Online
 		public void RequestEquipShip(System.Action<bool> cb = null)
 		{
 			Equipment.RequestEquipmentShip(cb);
+		}
+
+		public Task<bool> UpdateEquipShipAsync(ShipSetupSaveData data)
+		{
+			return Equipment.UpdateEquipShipAsync(data);
+		}
+
+		public Task<bool> RequestEquipShipAsync()
+		{
+			return Equipment.RequestEquipmentShipAsync();
 		}
 	}
 }

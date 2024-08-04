@@ -299,29 +299,28 @@ namespace _Game.Features.Inventory
 
         protected void InitializeInternal()
         {
-            foreach (var item in SaveSystem.GameSave.OwnedShips)
-            {
-                InventoryItem inventoryItem = null;
-
-                var info = GameData.ShipTable.FindById(item.ItemId);
-                inventoryItem = new InventoryItem
-                {
-                    Id = info.Id,
-                    Type = ItemType.SHIP,
-                    InventoryViewModel = this,
-                    OwnItemId = item.ItemId,
-                    Name = info.Name,
-                    // Level = info.Level,
-                };
-                inventoryItem.LoadStarsItem();
-            }
-
             foreach (var item in SaveSystem.GameSave.OwnedItems)
             {
                 InventoryItem inventoryItem = null;
 
+                // ship
+                if (item.ItemType == ItemType.SHIP)
+                {
+                    var info = GameData.ShipTable.FindById(item.ItemId);
+                    inventoryItem = new InventoryItem
+                    {
+                        Id = info.Id,
+                        Type = ItemType.SHIP,
+                        InventoryViewModel = this,
+                        OwnItemId = item.ItemId,
+                        Name = info.Name,
+                        // Level = info.Level,
+                    };
+                    inventoryItem.LoadStarsItem();
+                }
+                
                 // cannon
-                if (item.ItemType == ItemType.CANNON)
+                else if (item.ItemType == ItemType.CANNON)
                 {
                     var info = GameData.CannonTable.FindById(item.ItemId);
                     if (info.Enable)

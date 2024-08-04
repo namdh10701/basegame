@@ -16,8 +16,8 @@ namespace _Game.Scripts.SaveLoad
         // public SkillSaveData SkillSaveData;
         // public InventorySaveData InventorySaveData;
         public ShipSetupSaveData ShipSetupSaveData;
-        public List<ItemData> OwnedShips = new();
         public List<ItemData> OwnedItems = new();
+        public List<ItemData> OwnedShips => OwnedItems.Where(v => v.ItemType == ItemType.SHIP).ToList();
 
         public CountOfGacha CountOfGacha;
 
@@ -47,16 +47,11 @@ namespace _Game.Scripts.SaveLoad
             defaultSave.maxEnergy = 100;
             defaultSave.energy = defaultSave.maxEnergy;
 
-            defaultSave.OwnedShips = new()
+            defaultSave.OwnedItems = new List<ItemData>()
             {
                 new(ItemType.SHIP, Game.IDGenerator.Next(), "0001", 0, 1),
                 new(ItemType.SHIP, Game.IDGenerator.Next(), "0002", 0, 1),
                 new(ItemType.SHIP, Game.IDGenerator.Next(), "0003", 0, 1),
-            };
-
-
-            defaultSave.OwnedItems = new List<ItemData>()
-            {
                 new(ItemType.CREW, Game.IDGenerator.Next(), "2011", 0, 1),
                 new(ItemType.CANNON, Game.IDGenerator.Next(), "0001", 0, 1),
                 new(ItemType.CANNON, Game.IDGenerator.Next(), "0001", 0, 2),

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using Online.Interface;
 using PlayFab.ClientModels;
@@ -12,6 +13,11 @@ namespace Online
 		public List<StoreItem> EnergyPackages => _shopService.EnergyPackages;
 
 		public async void LoadShop()
+		{
+			await _shopService.LoadAllStore();
+		}
+
+		public async Task LoadShopAsync()
 		{
 			await _shopService.LoadAllStore();
 		}

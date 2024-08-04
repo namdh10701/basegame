@@ -239,6 +239,9 @@ namespace _Game.Scripts.DB
             return GetGridItemImage(type, record.OperationType, record.Rarity);
         }
         
+        public static Sprite GetShipImage(string id) 
+            => CachedResources.Load<Sprite>($"Images/Items/item_ship_{id}");
+
         public static Sprite GetResource(string id)
             => CachedResources.Load<Sprite>($"Images/Items/item_{id}");
         
@@ -249,6 +252,7 @@ namespace _Game.Scripts.DB
         {
             switch (itemType)
             {
+                case ItemType.SHIP: return GetShipImage(id);
                 case ItemType.AMMO: return GetAmmoImage(id);
                 case ItemType.CANNON: return GetCannonImage(id);
                 case ItemType.CREW: return GetCrewImage(id);

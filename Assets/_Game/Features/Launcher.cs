@@ -38,7 +38,9 @@ namespace _Game.Features
             UnityScreenNavigatorSettings.Initialize();
 
             await PlayfabManager.Instance.LoginAsync();
-            PlayfabManager.Instance.LoadShop();
+            await PlayfabManager.Instance.LoadShopAsync();
+            await PlayfabManager.Instance.RequestInventoryAsync();
+            await PlayfabManager.Instance.RequestEquipShipAsync();
             
             await GameData.Load();
             

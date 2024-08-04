@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using _Game.Scripts.SaveLoad;
 using Online.Enum;
 using Online.Interface;
@@ -59,6 +60,49 @@ namespace Online.Service
 			{
 				EquipmentShips = Newtonsoft.Json.JsonConvert.DeserializeObject<ShipSetupSaveData>(record.Value);
 			}
+		}
+		
+		public async Task<bool> UpdateEquipShipAsync(ShipSetupSaveData shipSetupData)
+		{
+			var result = await PlayFabAsync.PlayFabClientAPI.UpdateUserDataAsync(new()
+			{
+				Data = new Dictionary<string, string>()
+				{
+					{ "Equipment", Newtonsoft.Json.JsonConvert.SerializeObject(shipSetupData) }
+				}
+			});
+
+			if (result.IsError)
+			{
+				LogError(result.Error.ErrorMessage);
+				return false;
+			}
+			
+			EquipmentShips = shipSetupData;
+			LogSuccess("Equip Ship!");
+			return true;
+		}
+		
+		public async Task<bool> RequestEquipmentShipAsync()
+		{
+			var result = await PlayFabAsync.PlayFabClientAPI.GetUserDataAsync(new()
+			{
+				Keys = new List<string>
+				{
+					"Equipment"
+				}
+			});
+
+			if (result.IsError)
+			{
+				LogError(result.Error.ErrorMessage);
+				return false;
+			}
+			
+			LoadEquipmentShip(result.Result.Data);
+			
+			LogSuccess("EquipmentShip Loaded!");
+			return true;
 		}
 
 		public override void LogSuccess(string message)
