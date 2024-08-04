@@ -9,7 +9,7 @@ namespace Online
 			public const string Level = "Level";
 			public const string Exp = "Exp";
 			public const string Energy = "Energy";
-			public const string EquipmentShips = "EquipmentShips";
+			public const string Equipment = "Equipment";
 			
 			// Ranking
 			public const string Rank = "Rank";
