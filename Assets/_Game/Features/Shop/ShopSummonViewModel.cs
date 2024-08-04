@@ -440,8 +440,6 @@ namespace _Game.Features.Shop
         public Animator AnimationItemReview;
         public RectTransform HightlightPopupRecieved;
         public RectTransform HightlightitemRecieved;
-
-        public Image Icon;
         private void OnEnable()
         {
             LoadDataShop();
@@ -484,7 +482,6 @@ namespace _Game.Features.Shop
                 ShopPackageSummonItem.PackageName = name;
                 PackageSummonItem.Add(ShopPackageSummonItem);
             }
-            Icon.SetNativeSize();
         }
 
         [Binding]
