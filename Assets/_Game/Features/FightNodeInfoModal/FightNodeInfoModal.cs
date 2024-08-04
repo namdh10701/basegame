@@ -71,7 +71,7 @@ namespace _Game.Features.FightNodeInfoPopup
             await (screenContainer.Current.View as BattleLoadingScreen).StopLoopAndPlayEnd();
 
             await screenContainer.PushAsync(
-                new ScreenOptions(nameof(BattleScreen), stack: false));
+                new ScreenOptions(nameof(BattleScreen), stack: false, poolingPolicy: ZBase.UnityScreenNavigator.Core.PoolingPolicy.DisablePooling));
 
         }
 

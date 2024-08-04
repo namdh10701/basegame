@@ -8,29 +8,42 @@ namespace _Game.Scripts.Gameplay
     public class RankingLevelWinCondition : WinCondition
     {
         public GiantOctopus giantOctopus;
-
+        public Timer timer;
         public override void StartChecking()
         {
             base.StartChecking();
+
+            timer.timeCap = 300;
+            timer.StartTimer();
+            TimedEvent timedEvent = new TimedEvent(300, () => OnWin());
+            timer.RegisterEvent(timedEvent);
+
             StartCoroutine(CheckLevelState());
+        }
+        public override void StopCheck()
+        {
+            base.StopCheck();
+            timer.Stop();
         }
         public IEnumerator CheckLevelState()
         {
-            while (true)
+            while (IsChecking)
             {
                 yield return new WaitForSeconds(1);
-                Debug.LogError("Check ");
                 if (giantOctopus.State == OctopusState.Dead)
                 {
-                    Debug.LogError("Check 2");
-                    yield return new WaitForSeconds(5);
-                    BattleManager.Instance.Win();
-                    yield break;
+                    OnWin();
                 }
-                else
-                {
-                    Debug.LogError("Check 3");
-                }
+
+            }
+        }
+
+        void OnWin()
+        {
+            if (IsChecking)
+            {
+                timer.Stop();
+                BattleManager.Instance.Win();
             }
         }
     }

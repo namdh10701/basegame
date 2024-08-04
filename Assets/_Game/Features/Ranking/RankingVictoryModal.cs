@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using _Base.Scripts.Utils;
 using _Game.Features.Dialogs;
+using _Game.Features.Gameplay;
 using _Game.Features.Home;
 using _Game.Scripts.UI.Utils;
 using Cysharp.Threading.Tasks;
@@ -40,17 +41,20 @@ namespace _Game.Features.Ranking
 
         #endregion
 
+        public WinLoseAnimation winLoseAnimation;
         protected override async UniTask InternalInitialize(Params prm)
         {
-            Score = prm.Score;
+            winLoseAnimation.SetStateIsWin(true);
             
+            Score = prm.Score;
+            Score = (int)((RankingBattleManager)BattleManager.Instance).DmgDeal;
             Rewards.Clear();
             Rewards.AddRange(prm.Rewards.Select(v => new RankingScreen.RankReward()
             {
                 BackedData = v
             }).ToList());
         }
-        
+
         [Binding]
         public ObservableList<RankingScreen.RankReward> Rewards { get; set; } = new();
 
@@ -59,21 +63,21 @@ namespace _Game.Features.Ranking
         {
             IOC.Resolve<RankingScreen>().NavToBattle();
         }
-        
+
         [Binding]
         public async void NavBack()
         {
             DoClose();
             await Nav.ShowScreenAsync<RankingScreen>();
         }
-        
+
         [Binding]
         public async void NavToHome()
         {
             DoClose();
             await Nav.ShowScreenAsync<MainScreen>();
         }
-            
+
         public static async Task Show(Params prm)
         {
             await Show<RankingRewardClaimModal>(prm);

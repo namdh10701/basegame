@@ -509,13 +509,26 @@ namespace _Base.Scripts.Audio
             }
         }
 
+        bool isAbleToPlay = true;
+        float monsterTakeHitInterval = .15f;
         internal void PlayMonsterGetHit()
         {
-            PlaySound(new AudioConfig()
+            if (isAbleToPlay)
             {
-                Clip = _monsterTakeHits[0],
-                Type = AudioConfig.AudioType.SFX
-            });
+                isAbleToPlay = false;
+                PlaySound(new AudioConfig()
+                {
+                    Clip = _monsterTakeHits[UnityEngine.Random.Range(0, _monsterTakeHits.Length)],
+                    Type = AudioConfig.AudioType.SFX
+                });
+                Invoke("AllowPlay", monsterTakeHitInterval);
+            }
+            
+        }
+
+        void AllowPlay()
+        {
+            isAbleToPlay = true;
         }
     }
 }

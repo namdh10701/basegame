@@ -51,7 +51,6 @@ namespace _Game.Features.Gameplay
 
         private void AssignTask(Crew crew, CrewTask task)
         {
-            Debug.Log("ASIGN TASK" + task);
             crew.CrewAction.DoTask(task);
         }
 

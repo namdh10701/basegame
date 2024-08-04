@@ -19,6 +19,19 @@ public class Timer : MonoBehaviour
         if (isStarted && isRunning)
         {
             elapsedTime += deltaTime;
+
+            foreach (TimedEvent timedEvent in timedEvents.ToArray())
+            {
+                if (!timedEvent.IsTriggered)
+                {
+                    if (elapsedTime > timedEvent.Time)
+                    {
+                        timedEvent.Action.Invoke();
+                        timedEvent.IsTriggered = true;
+                        timedEvents.Remove(timedEvent);
+                    }
+                }
+            }
             if (timeCap != -1)
             {
                 if (elapsedTime > timeCap)
@@ -28,18 +41,6 @@ public class Timer : MonoBehaviour
                 }
             }
             ElapsedTimeChanged?.Invoke(elapsedTime);
-        }
-        foreach (TimedEvent timedEvent in timedEvents.ToArray())
-        {
-            if (!timedEvent.IsTriggered)
-            {
-                if (elapsedTime > timedEvent.Time)
-                {
-                    timedEvent.Action.Invoke();
-                    timedEvent.IsTriggered = true;
-                    timedEvents.Remove(timedEvent);
-                }
-            }
         }
     }
 
@@ -67,6 +68,7 @@ public class Timer : MonoBehaviour
 
     public void Stop()
     {
+        Clear();
         isStarted = false;
         elapsedTime = 0;
     }

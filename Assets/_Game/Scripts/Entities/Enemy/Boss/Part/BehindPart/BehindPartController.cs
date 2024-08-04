@@ -13,7 +13,6 @@ namespace _Game.Features.Gameplay
         public BehindPartModel lowerPartRight;
         public float grabDuration;
         public float dmgInterval;
-        public CameraShake cameraShake;
 
         private void Start()
         {

@@ -17,7 +17,7 @@ namespace _Game.Features.Gameplay
     public class PartModel : Entity, IEffectTaker, ISlowable, IBurnable
     {
 
-        [SerializeField] PartState lastpartState;
+        [SerializeField] protected PartState lastpartState;
         [SerializeField] PartState state;
         public PartState State
         {
@@ -111,6 +111,10 @@ namespace _Game.Features.Gameplay
             if (State == PartState.Dead)
             {
                 return;
+            }
+            if (state == OctopusState.None)
+            {
+                State = PartState.None;
             }
             if (state != OctopusState.Stunning && this.state == PartState.Stunning)
             {

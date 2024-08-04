@@ -14,8 +14,6 @@ namespace _Game.Features.Gameplay
         }
         protected override void OnStateEntered(PartState state)
         {
-            Debug.Log(state);
-            base.OnStateEntered(state);
             if (state == PartState.Attacking)
             {
                 StartCoroutine(AttackCoroutine());

@@ -51,13 +51,16 @@ namespace _Game.Scripts.Battle
         }
         public void StartLevel()
         {
-            foreach (var spawnData in levelDatas)
+            if (levelDatas != null)
             {
-                TimedEvent timedEvent = new TimedEvent(float.Parse(spawnData.TimeOffset, CultureInfo.InvariantCulture), () => SpawnEnemy(spawnData.EnemyId.ToArray(),
-                    int.Parse(spawnData.TotalPower)));
-                enemySpawnTimer.RegisterEvent(timedEvent);
+                foreach (var spawnData in levelDatas)
+                {
+                    TimedEvent timedEvent = new TimedEvent(float.Parse(spawnData.TimeOffset, CultureInfo.InvariantCulture), () => SpawnEnemy(spawnData.EnemyId.ToArray(),
+                        int.Parse(spawnData.TotalPower)));
+                    enemySpawnTimer.RegisterEvent(timedEvent);
+                }
+                enemySpawnTimer.StartTimer();
             }
-            enemySpawnTimer.StartTimer();
         }
 
         public bool IsLevelDone { get => enemySpawnTimer.timedEvents.Count == 0; }

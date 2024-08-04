@@ -29,7 +29,7 @@ namespace _Game.Scripts.Entities
         public float slowdownTimer = 0;
         public float normalMoveTimer;
 
-        public DeviableVector2 direction;
+        public Vector2 direction;
 
         public float playAnimTimer;
         public DeviableFloat timer = new DeviableFloat(2.5f, 1);
@@ -46,9 +46,6 @@ namespace _Game.Scripts.Entities
             slowdownSpeed.RefreshValue();
             normalTime.RefreshValue();
 
-            Vector2 targetPos = Ship.ShipArea.ClosetPointTo(transform.position);
-            direction.BaseValue = (targetPos - (Vector2)transform.position).normalized;
-            direction.RefreshValue();
         }
         public void SetSpeed(float x)
         {
@@ -59,6 +56,8 @@ namespace _Game.Scripts.Entities
         }
         public void Move()
         {
+            Vector2 targetPos = Ship.ShipArea.ClosetPointTo(transform.position);
+            direction = (targetPos - (Vector2)transform.position).normalized;
             if (isSlowdowned)
             {
                 if (slowdownTimer < slowdownTime.Value)
@@ -66,7 +65,7 @@ namespace _Game.Scripts.Entities
                     slowdownTimer += Time.fixedDeltaTime;
                     if (body.velocity.magnitude < slowdownSpeed.Value)
                     {
-                        body.AddForce(normalForce.Value * direction.Value);
+                        body.AddForce(normalForce.Value * direction);
                     }
                 }
                 else
@@ -85,7 +84,7 @@ namespace _Game.Scripts.Entities
                 {
                     if (body.velocity.magnitude < normalSpeed.Value)
                     {
-                        body.AddForce(normalForce.Value * direction.Value);
+                        body.AddForce(normalForce.Value * direction);
                     }
                 }
                 else
@@ -106,7 +105,7 @@ namespace _Game.Scripts.Entities
                     if (fastTimer > animSync)
                     {
 
-                        body.AddForce(fastForce.Value * direction.Value);
+                        body.AddForce(fastForce.Value * direction);
                     }
                 }
                 else
@@ -115,7 +114,6 @@ namespace _Game.Scripts.Entities
                     isAccelerate = false;
                     isSlowdowned = true;
                     normalTime.RefreshValue();
-                    direction.RefreshValue();
                     fastForce.RefreshValue();
                     maxFastSpeed.RefreshValue();
                     timeAccelerate.RefreshValue();

@@ -4,6 +4,7 @@ using _Game.Scripts;
 using _Game.Scripts.Gameplay;
 using _Game.Scripts.UI;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using JetBrains.Annotations;
 using System;
 using UnityEngine;
@@ -19,9 +20,18 @@ namespace _Game.Features.Battle
     {
         public FeverView FeverView;
         public TimerView TimerView;
+        public Transform timerPosition;
+        public CanvasGroup BtnCanvasGroup;
+        public Transform timerOrgPos;
         public void CleanUp()
         {
-            FeverView.ClearState();
+            //FeverView.ClearState();
+            //TimerView.transform.position = timerOrgPos.position;
+        }
+        public void Hide()
+        {
+            BtnCanvasGroup.alpha = 0;
+            BtnCanvasGroup.blocksRaycasts = false;
         }
         #region Binding Prop: HP
 
@@ -238,7 +248,7 @@ namespace _Game.Features.Battle
         {
             IsPause = true;
             GlobalEvent<bool>.Send("TOGGLE_PAUSE", true);
-            var options = new ModalOptions("GamePauseModal");
+            var options = new ModalOptions("GamePauseModal", 1, false);
             await ModalContainer.Find(ContainerKey.Modals).PushAsync(options);
 
         }
@@ -285,6 +295,7 @@ namespace _Game.Features.Battle
         {
             rankingBattleManager.TimeScaleChanged += UpdateSpeedBtn;
             TimerView.Init(rankingBattleManager.timer);
+            rankingBattleManager.OnEnded += Hide;
             Ship ship = rankingBattleManager.EntityManager.Ship;
             ShipStats shipStats = ship.Stats as ShipStats;
 
@@ -301,6 +312,11 @@ namespace _Game.Features.Battle
         void UpdateSpeedBtn(float currentRate)
         {
             SpeedUpRate = currentRate;
+        }
+
+        public void ShowTimer()
+        {
+            TimerView.transform.DOMove(timerPosition.position, 1);
         }
     }
 }

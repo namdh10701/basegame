@@ -8,6 +8,7 @@ using _Game.Scripts;
 using _Game.Scripts.Battle;
 using _Game.Scripts.Entities;
 using _Game.Scripts.SaveLoad;
+using _Game.Scripts.Utils;
 using Map;
 using System;
 using System.Collections;
@@ -16,6 +17,10 @@ using ZBase.UnityScreenNavigator.Core.Modals;
 
 namespace _Game.Features.Gameplay
 {
+    public enum BatleState
+    {
+        Intro, Playing, End
+    }
     public abstract class BattleManager : MonoBehaviour
     {
         #region Singleton
@@ -37,16 +42,18 @@ namespace _Game.Features.Gameplay
         public EnemyWaveManager EnemyManager;
         public BattleInputManager BattleInputManager;
 
-        // require for enemy attacks
+        public bool IsWin;
+        public bool IsEnded;
         public GridAttackHandler GridAttackHandler;
         public GridPicker GridPicker;
         public WinCondition winCondition;
-
         public Action<float> TimeScaleChanged;
-
+        public Action OnEnded;
         public abstract void Initialize();
+        public abstract void HandleLoseData();
         public abstract void HandleWinData();
         public abstract void ShowWinUIAsync();
+        public abstract void ShowLoseUIAsync();
         public abstract IEnumerator LevelEntryCoroutine();
 
 
@@ -95,10 +102,63 @@ namespace _Game.Features.Gameplay
             TimeScaleChanged?.Invoke(currentRate);
         }
 
+        protected virtual void StopGame()
+        {
+            IsEnded = true;
+            OnEnded?.Invoke();
+            Time.timeScale = 1;
+            TimeScaleChanged?.Invoke(1);
+            winCondition.StopCheck();
+            BattleInputManager.gameObject.SetActive(false);
+
+        }
         public void Win()
         {
+            if (IsEnded)
+            {
+                return;
+            }
+
+            StopGame();
+            IsWin = true;
             HandleWinData();
             ShowWinUIAsync();
+        }
+
+        public void Lose()
+        {
+            if (IsEnded)
+            {
+                return;
+            }
+
+            StopGame();
+            IsWin = false;
+            HandleLoseData();
+            StartCoroutine(LoseCoroutine());
+        }
+
+
+        public CameraShake cameraShake;
+        public ParticleSystem explosion;
+        IEnumerator LoseCoroutine()
+        {
+            float elapsedTime = 0;
+            float duration = 4;
+            while (elapsedTime < duration)
+            {
+                for (int i = 0; i < 10; i++)
+                {
+                    float interval = UnityEngine.Random.Range(.5f, 1);
+                    elapsedTime += interval;
+                    yield return new WaitForSeconds(interval);
+                    Vector2 pos = EntityManager.Ship.ShipBound.SamplePoint();
+                    ParticleSystem particle = Instantiate(explosion, pos, Quaternion.identity, null);
+                    particle.gameObject.SetActive(true);
+                    cameraShake.Shake(.15f, new Vector3(.1f, .1f, .1f));
+                }
+            }
+            ShowLoseUIAsync();
         }
     }
 }

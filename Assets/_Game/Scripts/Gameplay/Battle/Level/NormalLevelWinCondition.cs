@@ -11,16 +11,21 @@ namespace _Game.Features.Gameplay
 
         public override void StartChecking()
         {
+            base.StartChecking();
             EntityManager.AliveEnemiesChanged += CheckWin;
         }
 
         void CheckWin()
         {
-            if (!IsStarted)
+            Debug.Log("Check win");
+            if (!IsChecking)
                 return;
+
+            Debug.Log("Check win 1");
             if (!EnemyManager.IsLevelDone)
                 return;
 
+            Debug.Log("Check win 2");
             if (EntityManager.aliveEnemies.Count == 0)
             {
                 BattleManager.Instance.Win();

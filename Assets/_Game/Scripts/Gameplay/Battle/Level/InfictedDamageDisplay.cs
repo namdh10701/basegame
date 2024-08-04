@@ -8,13 +8,13 @@ using UnityEngine;
 public class InflictedDamageDisplay : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI damageText;
-
+    [SerializeField] Color critColor;
     public void Init(float dmg, bool isCrit, Vector3 position)
     {
         damageText.text = Mathf.RoundToInt(dmg).ToString();
         if (isCrit)
         {
-            damageText.color = Color.red;
+            damageText.color = critColor;
         }
         else
         {
