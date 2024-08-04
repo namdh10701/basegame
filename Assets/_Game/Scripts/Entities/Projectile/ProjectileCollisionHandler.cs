@@ -24,6 +24,10 @@ namespace _Game.Features.Gameplay
 
         public ProjectileCollisionHandler(Projectile projectile, GameObject[] destroyAlongProjectiles = null)
         {
+            if (projectile.onHitParticle != null)
+            {
+               LoopHandlers.Add(new ParticleHandler(projectile.onHitParticle));
+            }
             this.destroyAlongProjectile = destroyAlongProjectiles;
             this.projectile = projectile;
         }

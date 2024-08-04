@@ -48,5 +48,9 @@ namespace _Game.Scripts
         [field: SerializeField]
         public Stat FeverPoint { get; set; } = new();
         public List<Stat> SlowableStats => new List<Stat> { MoveSpeed, AnimationTimeScale };
+
+        public Stat P1 { get; set; } = new();
+        public Stat P2 { get; set; } = new();
+        public Stat P3 { get; set; } = new();
     }
 }

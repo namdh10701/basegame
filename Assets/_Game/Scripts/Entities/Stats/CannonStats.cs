@@ -46,5 +46,8 @@ namespace _Game.Scripts
         public Stat Angle { get; set; } = new();
 
         public IFighterStats.AttackTypes AttackType { get; set; } = IFighterStats.AttackTypes.UNIT;
+
+        public Stat InstanceKillChance { get; set; } = new();
+        public Stat FeverTime { get; set; } = new();
     }
 }

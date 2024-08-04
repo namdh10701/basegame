@@ -12,6 +12,7 @@ namespace _Game.Features.Gameplay
 {
     public class LowerPartController : PartController
     {
+        public GiantOctopus giantOctopus;
         public LowerPartModel lowerPartLeft;
         public LowerPartModel lowerPartRight;
         public float grabDuration;
@@ -49,7 +50,7 @@ namespace _Game.Features.Gameplay
         {
             if (lowerPartLeft.isGrabbing && lowerPartRight.isGrabbing)
             {
-                atkCoroutine =StartCoroutine(AttackCoroutine());
+                atkCoroutine = StartCoroutine(AttackCoroutine());
             }
         }
 
@@ -103,7 +104,7 @@ namespace _Game.Features.Gameplay
             Debug.LogError(cell.ToString());
 
             DecreaseHealthEffect decreaseHp = new GameObject("", typeof(DecreaseHealthEffect)).GetComponent<DecreaseHealthEffect>();
-            decreaseHp.Amount = 50;
+            decreaseHp.Amount = giantOctopus.enemyStats.P2.Value;
             decreaseHp.ChanceAffectCell = 1;
             decreaseHp.transform.position = cell.transform.position;
             enemyAttackData.Effects = new List<Effect> { decreaseHp };

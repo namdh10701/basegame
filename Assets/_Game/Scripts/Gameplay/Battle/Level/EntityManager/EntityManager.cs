@@ -6,6 +6,7 @@ using _Game.Scripts.Entities;
 using _Game.Features.Gameplay;
 using _Base.Scripts.RPGCommon.Entities;
 using Fusion;
+using System;
 
 namespace _Game.Scripts.Battle
 {
@@ -15,12 +16,16 @@ namespace _Game.Scripts.Battle
         public Ship Ship;
         public GiantOctopus octopusPrefab;
         public SkullGang skullGangPrefab;
+        public Action AliveEnemiesChanged;
+
         void OnEnemyDied(EnemyStats enemyModel)
         {
             if (aliveEnemies.Contains(enemyModel))
             {
                 aliveEnemies.Remove(enemyModel);
+                AliveEnemiesChanged?.Invoke();
             }
+
         }
 
         public void SpawnShip(string id, Vector3 spawnPosition)

@@ -17,8 +17,6 @@ namespace _Game.Scripts
             this.moveData = moveData;
         }
 
-        public override bool IsAbleToDo => true;
-
         public override IEnumerator DoExecute()
         {
             targetNode = moveData.GetFreeNode();
@@ -30,6 +28,10 @@ namespace _Game.Scripts
             yield return new WaitForSeconds(2);
         }
 
+        public override bool Evaluate()
+        {
+            return true;
+        }
 
         public override void Interupt()
         {

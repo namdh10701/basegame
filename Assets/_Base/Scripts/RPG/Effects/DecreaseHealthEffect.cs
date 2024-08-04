@@ -4,6 +4,7 @@ using _Base.Scripts.RPG.Entities;
 using _Base.Scripts.RPG.Stats;
 using _Base.Scripts.RPGCommon.Entities;
 using _Base.Scripts.Shared;
+using _Game.Features.Gameplay;
 using _Game.Scripts;
 using UnityEngine;
 
@@ -52,17 +53,23 @@ namespace _Base.Scripts.RPG.Effects
                 blockChance = shipStats.BlockChance.Value;
             }
 
-            if (statsBearer.Stats is CellStats cellStats)
-            {
-                float rand = UnityEngine.Random.Range(0f, 1f);
-                if (rand > ChanceAffectCell)
-                    return;
-            }
+
+
+
 
             blockChance -= ArmorPenetrate;
 
             blockChance = Mathf.Clamp01(blockChance);
             finalAmount = finalAmount * (1 - blockChance);
+
+            if (statsBearer.Stats is CellStats cellStats || statsBearer.Stats is CarpetComponentStats componentStats)
+            {
+                finalAmount = 9999;
+                float rand = UnityEngine.Random.Range(0f, 1f);
+                if (rand > ChanceAffectCell)
+                    return;
+            }
+
             if (finalAmount > 0)
             {
                 if (alive.HealthPoint.StatValue.BaseValue > alive.HealthPoint.MinStatValue.Value)

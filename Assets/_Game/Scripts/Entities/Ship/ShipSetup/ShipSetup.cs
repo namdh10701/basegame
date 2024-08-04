@@ -6,11 +6,8 @@ using System.Linq;
 using _Game.Features.Inventory;
 using UnityEngine;
 using _Base.Scripts.Utils.Extensions;
-using _Base.Scripts.UI;
 using _Game.Scripts;
 using _Game.Scripts.SaveLoad;
-using Unity.VisualScripting;
-using _Base.Scripts.RPG.Stats;
 
 namespace _Game.Features.Gameplay
 {
@@ -22,6 +19,7 @@ namespace _Game.Features.Gameplay
         public ShipSetupMockup ShipSetupMockup;
         public ShipGridProfile ShipGridProfile;
         public List<Grid> Grids;
+        public List<Carpet> Carpets { get; private set; } = new List<Carpet>();
         public List<Ammo> Ammos { get; private set; } = new List<Ammo>();
         public List<Cannon> Cannons { get; private set; } = new List<Cannon>();
 
@@ -69,16 +67,16 @@ namespace _Game.Features.Gameplay
             LoadShipItems();
             AddStatsModifersFromItems();
         }
-
+        public ShipStatsController shipStatsController;
         void AddStatsModifersFromItems()
         {
             foreach (var crew in CrewController.crews)
             {
-                Ship.stats.Luck.AddModifier(new StatModifier(crew.stats.Luck.Value, StatModType.Flat));
-                Ship.stats.FeverTimeProb.AddModifier(new StatModifier(crew.stats.FeverTimeProb.Value, StatModType.Flat));
-                Ship.stats.GoldIncome.AddModifier(new StatModifier(crew.stats.GoldIncome.Value, StatModType.Flat));
-                Ship.stats.ZeroManaCost.AddModifier(new StatModifier(crew.stats.ZeroManaCost.Value, StatModType.Flat));
-                Ship.stats.BonusAmmo.AddModifier(new StatModifier(crew.stats.BonusAmmo.Value, StatModType.Flat));
+                shipStatsController.RegisterCrew(crew);
+            }
+            foreach (var carpet in Carpets)
+            {
+                shipStatsController.RegisterCarpet(carpet);
             }
         }
 
@@ -88,52 +86,54 @@ namespace _Game.Features.Gameplay
             CrewController.crews.Clear();
             GetLoadOut();
             LoadShipItems();
-
+            foreach (Cannon cannon in Cannons)
+            {
+                cannon.CannonAmmo.OutOfAmmoStateChaged?.Invoke(cannon, false);
+            }
         }
 
         public void ClearItems()
         {
-            Debug.Log(spawnedItems.Count + " items");
             foreach (var item in spawnedItems)
             {
                 Destroy(item.gameObject);
             }
             Ammos.Clear();
             Cannons.Clear();
+            Carpets.Clear();
             spawnedItems.Clear();
         }
 
         void GetLoadOut()
         {
             UsingGridItemDatas = new List<GridItemData>();
-            foreach (var (rawPos, gridItem) in SaveSystem.GameSave.ShipSetupSaveData.GetShipSetup(Ship.Id, SaveSystem.GameSave.ShipSetupSaveData.CurrentProfile).ShipData)
-            {
-                var xy = rawPos.Split(",").Select(int.Parse).ToList();
-                GridItemData itemData = new();
-                itemData.Id = gridItem.ItemId;
-                int translatedY = ShipGridProfile.GridDefinitions[0].Row - xy[1] - 1;
-                itemData.startY = translatedY;
-                itemData.startX = xy[0];
-                itemData.GridId = "1"; // ????????
+             foreach (var (rawPos, gridItem) in SaveSystem.GameSave.ShipSetupSaveData.GetShipSetup(Ship.Id, SaveSystem.GameSave.ShipSetupSaveData.CurrentProfile).ShipData)
+             {
+                 var xy = rawPos.Split(",").Select(int.Parse).ToList();
+                 GridItemData itemData = new();
+                 itemData.Id = gridItem.ItemId;
+                 int translatedY = ShipGridProfile.GridDefinitions[0].Row - xy[1] - 1;
+                 itemData.startY = translatedY;
+                 itemData.startX = xy[0];
+                 itemData.GridId = "1"; // ????????
 
-                switch (gridItem.ItemType)
-                {
-                    case ItemType.CANNON:
-                        itemData.GridItemType = GridItemType.Cannon;
-                        break;
-                    case ItemType.CREW:
-                        itemData.GridItemType = GridItemType.Crew;
-                        break;
-                    case ItemType.AMMO:
-                        itemData.GridItemType = GridItemType.Bullet;
-                        break;
-                }
+                 switch (gridItem.ItemType)
+                 {
+                     case ItemType.CANNON:
+                         itemData.GridItemType = GridItemType.Cannon;
+                         break;
+                     case ItemType.CREW:
+                         itemData.GridItemType = GridItemType.Crew;
+                         break;
+                     case ItemType.AMMO:
+                         itemData.GridItemType = GridItemType.Bullet;
+                         break;
+                 }
 
-                UsingGridItemDatas.Add(itemData);
-            }
+                 UsingGridItemDatas.Add(itemData);
+             }
 
-
-            Debug.Log(UsingGridItemDatas.Count + " items using");
+            //UsingGridItemDatas = ShipSetupMockup.Datas;
         }
 
         public void LoadShipItems()
@@ -151,7 +151,10 @@ namespace _Game.Features.Gameplay
             {
                 cannon.Initizalize();
             }
-
+            foreach (var carpet in Carpets)
+            {
+                carpet.Initialize();
+            }
             DefineWorkLocation();
             ReloadCannons();
         }
@@ -174,7 +177,26 @@ namespace _Game.Features.Gameplay
                     WorkLocations.Add(workLocation);
                     workLocation.WorkingSlots = new List<Scripts.PathFinding.Node>();
 
-                    if (spawned.TryGetComponent(out IGridItem gridItem))
+                    if (spawned.TryGetComponent(out ICellSplitItem cellSplitItem))
+                    {
+                        foreach (Cell cell in cellSplitItem.OccupyCells)
+                        {
+                            foreach (var node in NodeGraph.nodes)
+                            {
+                                if (node.cell != null && node.cell == cell)
+                                {
+                                    foreach (var adjNode in node.neighbors)
+                                    {
+                                        if (adjNode.Walkable)
+                                        {
+                                            workLocation.WorkingSlots.Add(adjNode);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else if (spawned.TryGetComponent(out IGridItem gridItem))
                     {
                         foreach (Cell cell in gridItem.OccupyCells)
                         {
@@ -236,49 +258,28 @@ namespace _Game.Features.Gameplay
                 case GridItemType.Crew:
                     SpawnCrew(gridItemData, grid);
                     break;
+                case GridItemType.Carpet:
+                    SpawnCarpet(gridItemData, grid);
+                    break;
             }
-            /*GameObject prefab = Database.(gridItemData.Def);
-            GameObject spawned = Instantiate(prefab, grid.GridItemRoot);
-            if (gridItemData.Def.Type == ItemType.AMMO)
-            {
-                Bullets.Add(spawned.GetComponent<Bullet>());
-            }
-            else if (gridItemData.Def.Type == ItemType.CANNON)
-            {
-                Cannons.Add(spawned.GetComponent<Cannon>());
-            }
-            else if (gridItemData.Def.Type == ItemType.CREW)
-            {
-                CrewController.AddCrew(spawned.GetComponent<Crew>());
-            }
+        }
 
+        public void SpawnCarpet(GridItemData data, Grid grid)
+        {
+            Carpet prefab = Database.GetCarpet(data.Id);
+            Carpet spawned = Instantiate(prefab, grid.GridItemRoot);
+            Carpets.Add(spawned);
+            spawned.id = data.Id;
             IGridItem gridItem = spawned.GetComponent<IGridItem>();
-            gridItem.GridId = gridItemData.GridId;
-            List<Cell> occupyCells = gridItem.OccupyCells;
-            foreach (Vector2Int cell in gridItemData.OccupyCells)
-            {
-                grid.Cells[cell.y, cell.x].GridItem = gridItem;
-                occupyCells.Add(grid.Cells[cell.y, cell.x]);
-            }
+            InitOccupyCell(spawned.id, ItemType.CARPET, gridItem, data, grid);
 
             float scale = Vector3.one.x / spawned.transform.parent.lossyScale.x;
             spawned.transform.localScale = new Vector3(scale, scale, scale);
-            spawned.transform.localPosition = gridItemData.position;
-            spawnedItems.Add(spawned);
-            if (spawned.TryGetComponent(out INodeOccupier nodeOccupier))
-            {
-                foreach (Cell cell in gridItem.OccupyCells)
-                {
-                    foreach (var node in NodeGraph.nodes)
-                    {
-                        if (node.cell != null && node.cell == cell)
-                        {
-                            nodeOccupier.OccupyingNodes.Add(node);
-                        }
-                    }
-                }
-            }*/
+            spawned.transform.localPosition =
+             grid.Cells[data.startY, data.startX].transform.localPosition + Database.GetOffsetCarpetWithStartCell(spawned.id, Ship.Id);
+            spawnedItems.Add(spawned.gameObject);
         }
+
 
         void InitOccupyCell(string id, ItemType type, IGridItem gridItem, GridItemData data, Grid grid)
         {
@@ -296,6 +297,7 @@ namespace _Game.Features.Gameplay
                 }
                 else
                 {
+                    Debug.Log(cell.ToString() + " " + gridItem);
                     cell.GridItem = gridItem;
                 }
             }
@@ -367,7 +369,6 @@ namespace _Game.Features.Gameplay
             spawned.Id = data.Id;
             float scale = Vector3.one.x / spawned.transform.parent.lossyScale.x;
             spawned.transform.localScale = new Vector3(scale, scale, scale);
-            spawned.transform.localPosition = data.position;
             spawnedItems.Add(spawned.gameObject);
             spawned.transform.position =
             grid.Cells[data.startY, data.startX].transform.position;

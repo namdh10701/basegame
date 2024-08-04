@@ -3777,6 +3777,7 @@ GameObject:
   - component: {fileID: 4528603342744756878}
   - component: {fileID: 7684177054595500851}
   - component: {fileID: 7663447522862244348}
+  - component: {fileID: 1268778597133987307}
   m_Layer: 9
   m_Name: Ship_0004
   m_TagString: Untagged
@@ -3861,15 +3862,8 @@ MonoBehaviour:
       statModifiers: []
       _baseValue: 1
     <HealthRegenerationRate>k__BackingField:
-      _value:
-        statModifiers: []
-        _baseValue: 1
-      _minValue:
-        statModifiers: []
-        _baseValue: 0
-      _maxValue:
-        statModifiers: []
-        _baseValue: 10
+      statModifiers: []
+      _baseValue: 0
     <ZeroManaCost>k__BackingField:
       statModifiers: []
       _baseValue: 0
@@ -3893,7 +3887,6 @@ MonoBehaviour:
   ShipBound: {fileID: 5439969429461911828}
   ShipSpeed: {fileID: 1014385870950731372}
   CrewJobData: {fileID: 5666675239926736461}
-  BattleViewModel: {fileID: 0}
   FeverModel: {fileID: 4528603342744756878}
   HUD: {fileID: 331192666127718660}
 --- !u!114 &4341670414827705971
@@ -3917,6 +3910,7 @@ MonoBehaviour:
   CrewController: {fileID: 166264786784946491}
   NodeGraph: {fileID: 8997108626652417073}
   spawnedItems: []
+  shipStatsController: {fileID: 1268778597133987307}
 --- !u!50 &1473576924119526171
 Rigidbody2D:
   serializedVersion: 4
@@ -4149,6 +4143,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1268778597133987307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7198928049645065834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae9185e5285916b46af52785684c02ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ship: {fileID: 4279266761017053362}
+  AllStatModifier: []
 --- !u!1 &7314040799258544284
 GameObject:
   m_ObjectHideFlags: 0

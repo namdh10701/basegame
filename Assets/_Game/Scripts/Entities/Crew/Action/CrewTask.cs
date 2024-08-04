@@ -8,6 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace _Game.Features.Gameplay
 {
@@ -70,15 +71,12 @@ namespace _Game.Features.Gameplay
 
         public override void BuildCrewActions(Crew crew)
         {
-            List<Node> availableWorkingSlots = StartLocation.WorkingSlots
-                .Where(slot => slot.State == NodeState.Free)
-                .ToList();
-         
-            workingSlot = DistanceHelper.GetClosestToPosition(availableWorkingSlots.ToArray(), (slot) => slot, crew.transform.position); 
-            CrewActions.Enqueue(new MoveToNode(crew, workingSlot));
+            CrewActions.Enqueue(new MoveToWorklocation(crew, cell));
             CrewActions.Enqueue(new RepairCell(crew, cell));
         }
     }
+
+
 
     public class FixCannonTask : CrewTask
     {
@@ -91,12 +89,7 @@ namespace _Game.Features.Gameplay
 
         public override void BuildCrewActions(Crew crew)
         {
-            List<Node> availableWorkingSlots = StartLocation.WorkingSlots
-                .Where(slot => slot.State == NodeState.Free)
-                .ToList();
-            workingSlot = DistanceHelper.GetClosestToPosition(availableWorkingSlots.ToArray(), (slot) => slot, crew.transform.position);
-            Debug.Log(workingSlot.cell.ToString());
-            CrewActions.Enqueue(new MoveToNode(crew, workingSlot));
+            CrewActions.Enqueue(new MoveToWorklocation(crew, cannon));
             CrewActions.Enqueue(new RepairGridItem(crew, cannon.GetComponent<IGridItem>()));
         }
     }
@@ -112,12 +105,27 @@ namespace _Game.Features.Gameplay
 
         public override void BuildCrewActions(Crew crew)
         {
-            List<Node> availableWorkingSlots = StartLocation.WorkingSlots
-                .Where(slot => slot.State == NodeState.Free)
-                .ToList();
-            workingSlot = DistanceHelper.GetClosestToPosition(availableWorkingSlots.ToArray(), (slot) => slot, crew.transform.position);
-            CrewActions.Enqueue(new MoveToNode(crew, workingSlot));
+            CrewActions.Enqueue(new MoveToWorklocation(crew, ammo));
             CrewActions.Enqueue(new RepairGridItem(crew, ammo.GetComponent<IGridItem>()));
+        }
+    }
+
+    public class FixCarpetTask : CrewTask
+    {
+        public Carpet carpet;
+        public FixCarpetTask(CrewJobData crewJobData, Carpet carpet) : base(crewJobData, carpet)
+        {
+            Priority = CrewJobData.DefaultPiority[typeof(FixCarpetTask)];
+            this.carpet = carpet;
+        }
+
+        public override void BuildCrewActions(Crew crew)
+        {
+            foreach (ICellSplitItemComponent cell in carpet.components)
+            {
+                CrewActions.Enqueue(new MoveToWorklocation(crew, cell as IWorkLocation));
+                CrewActions.Enqueue(new RepairCellSplitItemComponent(crew, cell));
+            }
         }
     }
 }

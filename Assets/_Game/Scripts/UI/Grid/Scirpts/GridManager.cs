@@ -180,8 +180,6 @@ namespace _Base.Scripts.UI
                 var GridItemData = new GridItemData();
                 GridItemData.Id = item.Id;
                 GridItemData.GridId = item.gridID;
-                GridItemData.position = Vector3.zero;
-                GridItemData.OccupyCells = new List<Vector2Int>();
                 GridItemData.startX = item.startY;
                 GridItemData.startY = item.startX;
 

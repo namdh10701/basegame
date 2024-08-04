@@ -17,6 +17,7 @@ namespace _Game.Scripts.Entities
         public List<Cell> OccupyCells { get; set; }
         public Transform Transform { get; }
 
+        public bool IsWalkAble { get; }
         public GridItemStateManager GridItemStateManager { get; }
 
         public void OnBroken();

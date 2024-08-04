@@ -26,7 +26,7 @@ namespace _Game.Scripts.PathFinding
             {
                 if (cell != null)
                 {
-                    return cell.GridItem == null && State != NodeState.Disabled;
+                    return (cell.GridItem == null || cell.GridItem.IsWalkAble) && State != NodeState.Disabled;
                 }
                 else
                 {

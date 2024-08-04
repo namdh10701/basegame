@@ -25,20 +25,28 @@ namespace _Game.Scripts.Battle
         [SerializeField] Vector3 jellyFishSpawnPoint;
 
         [SerializeField] Timer enemySpawnTimer;
+        public bool IsRanking;
         private void Awake()
         {
             LoadLevelEnemyData();
         }
         void LoadLevelEnemyData()
         {
-            stageId = PlayerPrefs.GetString("currentStage");
-            if (nodeType == NodeType.MinorEnemy)
+            if (IsRanking)
             {
-                levelDatas = GameData.LevelWaveTable.GetLevelData(stageId, floorId);
+                //levelDatas = GameData.RankLevelWaveTable;
             }
-            else if (nodeType == NodeType.MiniBoss)
+            else
             {
-                levelDatas = GameData.LevelWaveTable.GetStageEliteData(stageId);
+                stageId = PlayerPrefs.GetString("currentStage");
+                if (nodeType == NodeType.MinorEnemy)
+                {
+                    levelDatas = GameData.LevelWaveTable.GetLevelData(stageId, floorId);
+                }
+                else if (nodeType == NodeType.MiniBoss)
+                {
+                    levelDatas = GameData.LevelWaveTable.GetStageEliteData(stageId);
+                }
             }
         }
         public void StartLevel()

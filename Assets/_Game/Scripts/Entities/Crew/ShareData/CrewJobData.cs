@@ -13,7 +13,8 @@ namespace _Game.Features.Gameplay
         {
             {typeof(FixCellTask) ,20 },
             {typeof(FixCannonTask), 80},
-            {typeof(FixAmmoTask), 70}
+            {typeof(FixAmmoTask), 70},
+            {typeof(FixCarpetTask),60 }
         };
         public List<CrewTask> ActivateJobs = new List<CrewTask>();
 
@@ -24,6 +25,7 @@ namespace _Game.Features.Gameplay
         public Dictionary<Cannon, FixCannonTask> FixCannonJobDic = new Dictionary<Cannon, FixCannonTask>();
         public Dictionary<Ammo, FixAmmoTask> FixAmmoJobDic = new Dictionary<Ammo, FixAmmoTask>();
 
+        public Dictionary<Carpet, FixCarpetTask> FixCarpetJobDic = new Dictionary<Carpet, FixCarpetTask>();
 
         public List<CrewTask> AllJobs = new List<CrewTask>();
         public List<CrewTask> GetHighestPiorityActiveJobs()
@@ -66,9 +68,16 @@ namespace _Game.Features.Gameplay
                 AllJobs.Add(fixCannonTask);
             }
 
+            foreach (Carpet carpet in ShipSetup.Carpets)
+            {
+                FixCarpetTask fixCannonTask = new FixCarpetTask(this, carpet);
+                FixCarpetJobDic.Add(carpet, fixCannonTask);
+                AllJobs.Add(fixCannonTask);
+            }
+
             foreach (Cell cell in ShipSetup.AllCells)
             {
-                if (cell.GridItem == null)
+                if (cell.GridItem == null || cell.GridItem is not IEffectTaker)
                 {
                     FixCellTask fixCellTask = new FixCellTask(this, cell);
                     FixCellJobDic.Add(cell, fixCellTask);
@@ -80,6 +89,7 @@ namespace _Game.Features.Gameplay
 
         private void Awake()
         {
+            GlobalEvent<Carpet, int>.Register("FixCarpet", ActivateFixCarpetTask);
             GlobalEvent<Cell, int>.Register("FixCell", ActivateFixCellTask);
             GlobalEvent<Ammo, int>.Register("FixAmmo", ActivateFixAmmoTask);
             GlobalEvent<Cannon, int>.Register("FixCannon", ActivateFixCannonTask);
@@ -87,9 +97,22 @@ namespace _Game.Features.Gameplay
 
         private void OnDestroy()
         {
+            GlobalEvent<Carpet, int>.Unregister("FixCarpet", ActivateFixCarpetTask);
             GlobalEvent<Cell, int>.Unregister("FixCell", ActivateFixCellTask);
             GlobalEvent<Ammo, int>.Unregister("FixAmmo", ActivateFixAmmoTask);
             GlobalEvent<Cannon, int>.Unregister("FixCannon", ActivateFixCannonTask);
+        }
+        void ActivateFixCarpetTask(Carpet cell, int piority)
+        {
+            FixCarpetTask fixCellJob = FixCarpetJobDic[cell];
+            fixCellJob.Priority = piority;
+            if (!ActivateJobs.Contains(fixCellJob))
+            {
+                fixCellJob.Status = TaskStatus.Pending;
+                ActivateJobs.Add(fixCellJob);
+            }
+            Debug.Log("fix carpet job");
+            OnActivateJobsChanged?.Invoke(fixCellJob);
         }
 
         void ActivateFixCellTask(Cell cell, int piority)

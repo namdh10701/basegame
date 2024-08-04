@@ -20,9 +20,11 @@ namespace _Game.Features.Gameplay
         public CannonHUD cannonHUD;
         public GameObject Border;
 
-        bool isActive;
+        bool isActive = true;
         bool isOutOfAmmo;
         bool isStunned;
+
+
         public void OnStunStatusChanged(bool isStunned)
         {
             this.isStunned = isStunned;
@@ -31,11 +33,13 @@ namespace _Game.Features.Gameplay
         public void HandleActive()
         {
             isActive = true;
+            UpdateView();
         }
 
         public void HandleBroken()
         {
             isActive = false;
+            UpdateView();
         }
 
 
@@ -49,7 +53,7 @@ namespace _Game.Features.Gameplay
             cannonVisualElements = GetComponentsInChildren<ICannonVisualElement>();
         }
 
-        private void OutOfAmmoStateChanged(bool isOutOfAmmo)
+        private void OutOfAmmoStateChanged(Cannon cannon, bool isOutOfAmmo)
         {
             this.isOutOfAmmo = isOutOfAmmo;
             UpdateView();
@@ -57,7 +61,7 @@ namespace _Game.Features.Gameplay
 
         void UpdateView()
         {
-            if (!isOutOfAmmo && !isActive && !isStunned)
+            if (!isOutOfAmmo && isActive && !isStunned)
             {
                 Animation.PlayNormal();
             }

@@ -41,7 +41,6 @@ namespace _Game.Features.Gameplay
             SkeletonGraphic.AnimationState.AddAnimation(0, idle, true, 0);
             feverText.text = ((int)feverModel.FeverStat.Value).ToString();
             feverProgress.value = feverModel.FeverStat.Value;
-            Debug.Log(feverModel.FeverStat.Value + " " + feverModel.FeverStat.MaxValue + " "+ feverModel.FeverStat.PercentageValue);
             OnStateEnter(feverModel.CurrentState);
             lastState = feverModel.CurrentState;
             feverModel.OnStatChanged += FeverStat_OnValueChanged;

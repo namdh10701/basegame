@@ -86,7 +86,7 @@ namespace _Game.Scripts.GD
             //     cfg.ApplyGDConfig();
             // }
 
-            LoadAll();
+            //LoadAll();
         }
 
         // [ContextMenu("LoadAll")]

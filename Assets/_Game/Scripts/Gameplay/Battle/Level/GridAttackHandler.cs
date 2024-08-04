@@ -18,7 +18,7 @@ namespace _Game.Features.Gameplay
             {
                 foreach (Cell cell in cells)
                 {
-                    if(cell == null)
+                    if (cell == null)
                     {
                         return;
                     }
@@ -29,6 +29,11 @@ namespace _Game.Features.Gameplay
                             if (cell.GridItem is IEffectTaker effectTaker)
                             {
                                 effectTaker.EffectHandler.Apply(effect);
+                            }
+                            else
+                            {
+                                cell.EffectHandler.Apply(effect);
+                                ship.EffectHandler.Apply(effect);
                             }
                         }
                         else

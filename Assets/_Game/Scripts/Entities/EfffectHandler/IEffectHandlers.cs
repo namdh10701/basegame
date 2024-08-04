@@ -11,10 +11,17 @@ public interface IEffectGiver
     public List<Effect> OutGoingEffects { get; set; }
 }
 
-public interface IEffectTaker 
+public interface IEffectTaker
 {
     public Transform Transform { get; }
     public EffectHandler EffectHandler { get; }
+    public Stat StatusResist { get; }
+}
+
+public interface IGriditemEffectTaker
+{
+    public Transform Transform { get; }
+    public GridItemEffectHandler EffectHandler { get; }
     public Stat StatusResist { get; }
 }
 
@@ -23,12 +30,6 @@ public interface IPhysicsEffectTaker : IEffectTaker
     public Rigidbody2D Body { get; }
     public float Poise { get; }
 }
-
-public interface IEffectHandleOnCollision
-{
-
-}
-
 
 public interface IEffectTakerCollider
 {

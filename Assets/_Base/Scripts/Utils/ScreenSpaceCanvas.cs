@@ -14,6 +14,11 @@ namespace _Base.Scripts.Utils
             SceneManager.activeSceneChanged += ChangedActiveScene;
         }
 
+        private void OnDestroy()
+        {
+            SceneManager.activeSceneChanged -= ChangedActiveScene;
+        }
+
 
         private void ChangedActiveScene(Scene arg0, Scene arg1)
         {

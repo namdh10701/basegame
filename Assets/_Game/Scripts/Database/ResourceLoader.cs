@@ -54,40 +54,7 @@ namespace _Game.Scripts
         {
             return Resources.Load<Sprite>(skillPath + $"/{id}");
         }
-        public static GameObject LoadGridItemPrefab(GridItemDef def)
-        {
-            string path = "";
-            switch (def.Type)
-            {
-                case ItemType.CANNON:
-                    path = cannonPrefabPath;
-                    break;
-                case ItemType.AMMO:
-                    path = bulletPrefabPath;
-                    break;
-                case ItemType.CREW:
-                    path = crewPrefabPath;
-                    break;
-            }
-            path += $"/{def.Name}";
-            return Resources.Load<GameObject>(path);
-        }
 
-        public static Sprite LoadGridItemImage(GridItemDef def)
-        {
-            string path = "";
-            switch (def.Type)
-            {
-                case ItemType.CANNON:
-                    path = cannonImagePath;
-                    break;
-                case ItemType.AMMO:
-                    path = bulletImagePath;
-                    break;
-            }
-            path += $"/{def.Id}";
-            return Resources.Load<Sprite>(path);
-        }
 
         public static Cannon LoadCannon(string name)
         {

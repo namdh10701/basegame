@@ -140,7 +140,6 @@ namespace _Game.Features.Gameplay
 
             Ship ship = FindAnyObjectByType<Ship>();
             blackboard.GetVariable<ShipVariable>("Ship").Value = ship;
-            Debug.Log("HERE");
             blackboard.GetVariable<StatVariable>("MoveSpeed").Value = _stats.MoveSpeed;
             _stats.AttackDamage.BaseValue *= (1 + dmgModifer[EnemyWaveManager.stageId]);
             _stats.HealthPoint.StatValue.BaseValue *= (1 + hpModifer[EnemyWaveManager.stageId]);

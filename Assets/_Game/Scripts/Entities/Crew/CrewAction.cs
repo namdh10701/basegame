@@ -55,7 +55,7 @@ namespace _Game.Features.Gameplay
             {
                 carryingBullet = value;
                 if (value != null)
-                    carryObject.sprite = value.Def.ProjectileImage;
+                    carryObject.sprite = value.ProjectileImage;
                 carryObject.gameObject.SetActive(value != null);
             }
         }
@@ -151,6 +151,7 @@ namespace _Game.Features.Gameplay
             {
                 return;
             }
+            Debug.Log("DO TASK " + task);
             if (DoingTask != null)
             {
                 DoingTask.Status = TaskStatus.Pending;
@@ -160,7 +161,7 @@ namespace _Game.Features.Gameplay
                 StopCoroutine(actionCoroutine);
                 Handler.InteruptCurrentAction();
             }
-            
+
             DoingTask = task;
             if (isPause)
             {

@@ -92,7 +92,7 @@ namespace _Game.Features.Gameplay
             Debug.LogError(cell.ToString());
 
             DecreaseHealthEffect decreaseHp = new GameObject("", typeof(DecreaseHealthEffect)).GetComponent<DecreaseHealthEffect>();
-            decreaseHp.Amount = stats.AttackDamage.Value;
+            decreaseHp.Amount = stats.P2.Value;
             decreaseHp.ChanceAffectCell = 1;
             decreaseHp.transform.position = cell.transform.position;
             enemyAttackData.Effects = new List<Effect> { decreaseHp };
