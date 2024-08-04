@@ -172,7 +172,7 @@ namespace Online.Service
 					signal.TrySetResult(new UpgradeItemResponse()
 					{
 						Result = false,
-						Error = error.ErrorMessage
+						Error = EErrorCode.PlayfabError
 					});
 				});
 			}
@@ -199,7 +199,7 @@ namespace Online.Service
 				signal.TrySetResult(new()
 				{
 					Result = false,
-					Error = error.ErrorMessage
+					Error = EErrorCode.PlayfabError
 				});
 			});
 			return signal.Task;

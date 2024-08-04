@@ -1,6 +1,6 @@
 namespace Online.Model.ApiRequest
 {
-	public class ReportVideoAdRequest
+	public class ReportLimitPackageRequest
 	{
 		public string AdUnitId { get; set; }
 	}

@@ -7,6 +7,7 @@ using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
 using Online.Enum;
 using Online.Interface;
+using Online.Model.ApiRequest;
 using Online.Service;
 using PlayFab;
 using UnityEngine;
@@ -135,6 +136,28 @@ namespace Online
 				signal.TrySetResult(DateTime.MinValue);
 			});
 			return await signal.Task;
+		}
+		
+		public async UniTask ReportLimitPackage(string adUnitId)
+		{
+			var signal = new UniTaskCompletionSource<bool>();
+			PlayFabClientAPI.ExecuteCloudScript(new()
+			{
+				FunctionName = C.CloudFunction.ReportLimitPackage,
+				FunctionParameter = new ReportLimitPackageRequest()
+				{
+					AdUnitId = adUnitId
+				}
+			}, result =>
+			{
+				var readOnlyData = JsonConvert.DeserializeObject<ReportLimitPackageResponse>(result.FunctionResult.ToString());
+				Profile.SetLimitPackage(readOnlyData.LimitPackages);
+				signal.TrySetResult(true);
+			}, error =>
+			{
+				signal.TrySetResult(false);
+			});
+			await signal.Task;
 		}
 	}
 }

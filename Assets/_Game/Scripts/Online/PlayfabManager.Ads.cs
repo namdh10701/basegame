@@ -10,9 +10,9 @@ namespace Online
 		public async UniTask ShowVideoAd(string adUnitId)
 		{
 			var canShow = await Ads.CanWatchAd(adUnitId);
-			if (canShow)
+			if (canShow && await Ads.ShowVideoAd(adUnitId))
 			{
-				await Ads.ShowVideoAd(adUnitId);
+				await Inventory.RequestInventoryAsync();
 			}
 		}
 	}

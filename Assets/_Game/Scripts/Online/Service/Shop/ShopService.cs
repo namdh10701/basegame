@@ -114,11 +114,38 @@ namespace Online.Service
 			});
 			return await signal.Task;
 		}
+		
+		public async UniTask<bool> CanPurchase(string storeId)
+		{
+			if (_storeItems.TryGetValue(storeId, out var storeItem))
+			{
+				var adCustomData = JsonConvert.DeserializeObject<StoreCustomData>(storeItem.CustomData.ToString());
+				switch (adCustomData.Limit)
+				{
+					case EItemLimit.Daily:
+					case EItemLimit.Weekly:
+						var curTime = await Manager.GetTimeAsync();
+						var limitPackage = Manager.Profile.LimitPackages.Find(x => x.Id == storeId);
+						if (limitPackage != null)
+						{
+							var latestDate = limitPackage.LastTime.GetDateTime();
+							return curTime.IsNewDate(latestDate) || (limitPackage.Count < adCustomData.Count && (curTime - latestDate).TotalSeconds > adCustomData.Countdown);
+						}
+						return true;
+				}
+			}
+			return false;
+		}
 
 		public async UniTask<bool> BuyStoreItem(string storeId)
 		{
 			if (_storeItems.TryGetValue(storeId, out var storeItem))
 			{
+				if (!await CanPurchase(storeId))
+				{
+					return false;
+				}
+				
 				if (storeItem.VirtualCurrencyPrices.TryGetValue(EVirtualCurrency.Gem.GetCode(), out var gemPrice))
 				{
 					return await BuyByGem(storeItem);
@@ -167,7 +194,7 @@ namespace Online.Service
 			var vcCode = EVirtualCurrency.Gem.GetCode();
 			string storeId = GoldPackages.Contains(storeItem) ? GOLD_PACKAGES_ID : ENERGY_PACKAGES_ID;
 
-			UniTaskCompletionSource<bool> signal = new UniTaskCompletionSource<bool>();
+			var signal = new UniTaskCompletionSource<bool>();
 			PlayFabClientAPI.PurchaseItem(new PurchaseItemRequest()
 			{
 				ItemId = storeItem.ItemId,
@@ -190,6 +217,13 @@ namespace Online.Service
 			{
 				return await BonusGold(storeId);
 			}
+			
+			var adCustomData = JsonConvert.DeserializeObject<StoreCustomData>(storeItem.CustomData.ToString());
+			if (adCustomData.Limit != EItemLimit.None)
+			{
+				await Manager.ReportLimitPackage(storeItem.ItemId);
+			}
+			
 			return default;
 		}
 

@@ -13,7 +13,7 @@ namespace Online
 		public int Level => Profile.Level;
 		public long Exp => Profile.Exp;
 		public ERank Rank => Profile.UserRank;
-		public List<LimitPackageModel> VideoAdModels => Profile.LimitPackages;
+		public List<LimitPackageModel> LimitPackages => Profile.LimitPackages;
 		
 		public void LoadProfile()
 		{

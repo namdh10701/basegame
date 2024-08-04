@@ -30,7 +30,7 @@ namespace Online.Service
 		{
 			return UniTask.WhenAll(GetProfileAsync(), GetUserReadOnlyDataAsync());
 		}
-		
+
 		public async UniTask<BaseResponse> RequestDisplayNameAsync()
 		{
 			var signal = new UniTaskCompletionSource<BaseResponse>();
@@ -41,11 +41,18 @@ namespace Online.Service
 			{
 				DisplayName = result.DisplayName;
 				LogSuccess("Display Name: " + result.DisplayName);
-				signal.TrySetResult(new() { Result = true });
+				signal.TrySetResult(new()
+				{
+					Result = true
+				});
 			}, (error) =>
 			{
 				LogError(error.ErrorMessage);
-				signal.TrySetResult(new() { Result = false, Error = error.ErrorMessage});
+				signal.TrySetResult(new()
+				{
+					Result = false,
+					Error = EErrorCode.PlayfabError
+				});
 			});
 			return await signal.Task;
 		}
@@ -59,15 +66,22 @@ namespace Online.Service
 			}, (result) =>
 			{
 				LoadProfile(result.PlayerProfile);
-				signal.TrySetResult(new() { Result = true });
+				signal.TrySetResult(new()
+				{
+					Result = true
+				});
 			}, (error) =>
 			{
 				LogError(error.ErrorMessage);
-				signal.TrySetResult(new() { Result = false, Error = error.ErrorMessage });
+				signal.TrySetResult(new()
+				{
+					Result = false,
+					Error = EErrorCode.PlayfabError
+				});
 			});
 			return await signal.Task;
 		}
-		
+
 		private async UniTask<BaseResponse> GetUserReadOnlyDataAsync()
 		{
 			var signal = new UniTaskCompletionSource<BaseResponse>();
@@ -77,11 +91,18 @@ namespace Online.Service
 			}, (result) =>
 			{
 				LoadUserReadOnlyData(result.Data);
-				signal.TrySetResult(new() { Result = true });
+				signal.TrySetResult(new()
+				{
+					Result = true
+				});
 			}, (error) =>
 			{
 				LogError(error.ErrorMessage);
-				signal.TrySetResult(new() { Result = false, Error = error.ErrorMessage });
+				signal.TrySetResult(new()
+				{
+					Result = false,
+					Error = EErrorCode.PlayfabError
+				});
 			});
 			return await signal.Task;
 		}
@@ -91,7 +112,12 @@ namespace Online.Service
 			DisplayName = playerProfile.DisplayName;
 			PlayfabID = playerProfile.PlayerId;
 		}
-		
+
+		public void SetLimitPackage(List<LimitPackageModel> limitPackages)
+		{
+			LimitPackages = limitPackages;
+		}
+
 		public void LoadUserReadOnlyData(Dictionary<string, UserDataRecord> readOnlyData)
 		{
 			if (readOnlyData.TryGetValue(C.NameConfigs.Level, out var level))
@@ -103,7 +129,7 @@ namespace Online.Service
 			{
 				Exp = System.Convert.ToInt32(exp.Value);
 			}
-			
+
 			if (readOnlyData.TryGetValue(C.NameConfigs.Rank, out var record))
 			{
 				if (System.Enum.TryParse<ERank>(record.Value, out var rank))
@@ -114,16 +140,16 @@ namespace Online.Service
 			{
 				UserRankScore = System.Convert.ToInt32(scoreRecord.Value);
 			}
-			
+
 			if (readOnlyData.TryGetValue(C.NameConfigs.CurrentRankID, out var rankID))
 			{
 				UserRankID = rankID.Value;
 			}
-			
-			if (readOnlyData.TryGetValue(C.NameConfigs.VideoAds, out var videoAdRecords))
+
+			if (readOnlyData.TryGetValue(C.NameConfigs.VideoAds, out var records))
 			{
 				LimitPackages.Clear();
-				LimitPackages = JsonConvert.DeserializeObject<List<LimitPackageModel>>(videoAdRecords.Value);
+				LimitPackages = JsonConvert.DeserializeObject<List<LimitPackageModel>>(records.Value);
 			}
 		}
 

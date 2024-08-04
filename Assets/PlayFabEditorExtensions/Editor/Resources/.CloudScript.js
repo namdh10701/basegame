@@ -81,7 +81,7 @@ const EErrorCode = Object.freeze({
     NotEnoughBlueprint: 1004,
     NotEnoughEnergy: 1005,
     NotEnoughTicket: 1006,
-    LimitWeeklyPackage: 1007,
+    PackageLimited: 1007,
 });
 
 const Total_Player_Per_Rank_Group = 50;
@@ -504,23 +504,25 @@ handlers.SubmitRankingMatchAsync = function (args, context) {
     };
 };
 
-handlers.ReportWatchAd = function (args, context) {
+handlers.ReportLimitPackage = function (args, context) {
     let reqReadOnlyData = {
         PlayFabId: currentPlayerId,
         Keys: [ProfileField.LimitPackages]
     };
     let resData = server.GetUserReadOnlyData(reqReadOnlyData);
+
+    let unixTimestamp = Math.floor(Date.now() / 1000);
+
+    var limitPackages = [];
+    if (resData.Data.hasOwnProperty(ProfileField.LimitPackages)) {
+        limitPackages = JSON.parse(resData.Data[ProfileField.LimitPackages].Value);
+    }
     
-    var unixTimestamp = Math.floor(Date.now() / 1000);
-    var limitPackages = JSON.parse(resData.Data[ProfileField.LimitPackages].Value);
     let limitPackage = limitPackages.find(val => val.Id == args.AdUnitId);
-    if (limitPackage != null)
-    {
+    if (limitPackage != null) {
         limitPackage.LastTime = unixTimestamp;
         limitPackage.Count += 1;
-    }
-    else
-    {
+    } else {
         let newLimitPackage = {
             Id: args.AdUnitId,
             LastTime: unixTimestamp,
@@ -529,15 +531,15 @@ handlers.ReportWatchAd = function (args, context) {
         limitPackages.push(newLimitPackage);
     }
 
-    var newLimitPackages = { };
+    var newLimitPackages = {};
     newLimitPackages[ProfileField.LimitPackages] = JSON.stringify(limitPackages);
     server.UpdateUserReadOnlyData({
         PlayFabId: currentPlayerId, Data: newLimitPackages
     });
-    
+
     return {
         Result: true,
-        Data: limitPackages
+        LimitPackages: limitPackages
     };
 };
 
@@ -803,7 +805,7 @@ handlers.IsLimitWeeklyPackage = function (args, context) {
     }
     return {
         Result: false,
-        Error: EErrorCode.LimitWeeklyPackage
+        Error: EErrorCode.PackageLimited
     }
 };
 
@@ -825,7 +827,7 @@ handlers.BonusGold = function (args, context) {
         if (catelogItem.Bundle.BundledVirtualCurrencies.hasOwnProperty(EVirtualCurrency.Gold)) {
             goldAmount = parseInt(catelogItem.Bundle.BundledVirtualCurrencies[EVirtualCurrency.Gold]);
         }
-        
+
         if (goldAmount > 0) {
             // Get Level
             let resData = server.GetUserReadOnlyData({

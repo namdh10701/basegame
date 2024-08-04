@@ -53,7 +53,7 @@ namespace Online.Service
 							var latestDate = limitPackage.LastTime.GetDateTime();
 							return curTime.IsNewDate(latestDate) || (limitPackage.Count < adCustomData.Count && (curTime - latestDate).TotalSeconds > adCustomData.Countdown);
 						}
-						break;
+						return true;
 				}
 			}
 			return false;
@@ -71,7 +71,7 @@ namespace Online.Service
 					var adCustomData = JsonConvert.DeserializeObject<StoreCustomData>(videoAd.RewardDescription);
 					if (adCustomData.Limit != EItemLimit.None)
 					{
-						await ReportWatchAdAsync(adUnitId);
+						await Manager.ReportLimitPackage(adUnitId);
 						signal.TrySetResult(true);
 					}
 				});
@@ -96,28 +96,6 @@ namespace Online.Service
 				signal.TrySetResult(false);
 			});
 			return await signal.Task;
-		}
-		
-		public async UniTask ReportWatchAdAsync(string adUnitId)
-		{
-			var signal = new UniTaskCompletionSource<bool>();
-			PlayFabClientAPI.ExecuteCloudScript(new()
-			{
-				FunctionName = C.CloudFunction.ReportWatchAd,
-				FunctionParameter = new ReportVideoAdRequest()
-				{
-					AdUnitId = adUnitId
-				}
-			}, result =>
-			{
-				var readOnlyData = JsonConvert.DeserializeObject<ReportVideoAdResponse>(result.FunctionResult.ToString());
-				signal.TrySetResult(true);
-			}, error =>
-			{
-				LogError(error.ErrorMessage);
-				signal.TrySetResult(false);
-			});
-			await signal.Task;
 		}
 
 		public override void LogSuccess(string message)
