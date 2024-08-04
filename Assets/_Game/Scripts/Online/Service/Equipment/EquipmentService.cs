@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using _Game.Scripts.SaveLoad;
 using Cysharp.Threading.Tasks;
+using Online.Enum;
 using Online.Model.ApiRequest;
 using PlayFab;
 using PlayFab.ClientModels;
@@ -36,7 +37,7 @@ namespace Online.Service
 				signal.TrySetResult(new()
 				{
 					Result = false,
-					Error = error.ErrorMessage
+					Error = EErrorCode.PlayfabError
 				});
 			});
 			return await signal.Task;

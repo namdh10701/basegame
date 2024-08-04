@@ -39,6 +39,15 @@ namespace Online.Service
 				},
 				{
 					EVirtualCurrency.Energy, 0
+				},
+				{
+					EVirtualCurrency.Ticket, 0
+				},
+				{
+					EVirtualCurrency.Diamond, 0
+				},
+				{
+					EVirtualCurrency.RealMoney, 0
 				}
 			};
 		}
@@ -163,7 +172,7 @@ namespace Online.Service
 					signal.TrySetResult(new UpgradeItemResponse()
 					{
 						Result = false,
-						Error = error.ErrorMessage
+						Error = EErrorCode.PlayfabError
 					});
 				});
 			}
@@ -190,7 +199,7 @@ namespace Online.Service
 				signal.TrySetResult(new()
 				{
 					Result = false,
-					Error = error.ErrorMessage
+					Error = EErrorCode.PlayfabError
 				});
 			});
 			return signal.Task;
