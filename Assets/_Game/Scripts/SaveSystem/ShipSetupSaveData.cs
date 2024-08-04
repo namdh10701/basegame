@@ -4,6 +4,7 @@ using System.Linq;
 using _Game.Features.Inventory;
 using _Game.Scripts.Bootstrap;
 using _Game.Scripts.GD.DataManager;
+using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -54,6 +55,7 @@ namespace _Game.Scripts.SaveLoad
         public SetupProfile CurrentProfile = SetupProfile.Profile1;
         public Dictionary<string, Dictionary<string, ShipSetupData>> ShipSetupData = new();
 
+        [JsonIgnore]
         public ShipSetupData CurrentShipSetupData => GetShipSetup(CurrentShip.ItemId, CurrentProfile);
 
         public ShipSetupData GetShipSetup(string shipId, SetupProfile setupProfile)

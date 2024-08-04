@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using Online.Interface;
 using Online.Model;
 
@@ -7,14 +10,15 @@ namespace Online
 	{
 		#region Ranking Service
 
+		public RankInfo RankInfo => Ranking.RankInfo;
 		public UserRankInfo UserRankInfo => Ranking.UserRankInfo;
 		
-		public async void LoadUserRankInfo()
+		public async Task LoadUserRankInfoAsync()
 		{
-			await Ranking.LoadUserRankInfo();
+			await Ranking.RequestUserRankAsync();
 		}
 
-		public async void LoadRewardBundleInfo()
+		public async Task LoadRewardBundleInfo()
 		{
 			await Ranking.LoadRewardBundleInfo();
 		}

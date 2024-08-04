@@ -68,9 +68,7 @@ namespace _Game.Scripts.GD.DataManager
 
 				// () => GDConfigLoader.Instance.Load(),
 			}, 5);
-
-
-
+				
 			// var xxx = typeof(GameData).GetFields(BindingFlags.Public | BindingFlags.Static)
 			// 	.Where(v => IsSubclassOfGeneric(v.FieldType, typeof(DataTable<>)))
 			// 	.ToList();

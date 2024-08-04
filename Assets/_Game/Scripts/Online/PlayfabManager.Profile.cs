@@ -1,3 +1,4 @@
+using Online.Enum;
 using Online.Interface;
 
 namespace Online
@@ -9,6 +10,7 @@ namespace Online
 		public string DisplayName => Profile.DisplayName;
 		public int Level => Profile.Level;
 		public long Exp => Profile.Exp;
+		public ERank Rank => Profile.UserRank;
 		
 		public void LoadProfile()
 		{

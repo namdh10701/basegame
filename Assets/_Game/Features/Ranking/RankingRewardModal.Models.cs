@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using _Game.Scripts.DB;
 using _Game.Scripts.UI;
 using Online;
+using Online.Enum;
 using Online.Model;
 using UnityEngine;
 using UnityWeld.Binding;
@@ -80,7 +81,7 @@ namespace _Game.Features.Ranking
             /// UserRank
             /// </summary>
             [Binding]
-            public UserRank UserRank => BackedData.Rank;
+            public ERank UserRank => BackedData.Rank;
 
             #endregion
 
