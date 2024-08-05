@@ -15,6 +15,11 @@ namespace _Game.Scripts.GD.DataManager
 		public GachaTable(string fileName = null) : base(fileName)
 		{
 		}
+
+		public List<GachaTableRecord> AllItems()
+		{
+			return Records;
+		}
 	}
 
 	public class GachaTableRecord : DataTableRecord
