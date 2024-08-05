@@ -329,7 +329,7 @@ namespace _Game.Features.InventoryItemInfo
 
         protected void SetupLayOutItem()
         {
-            var enable = Type == ItemType.CANNON ? true : false;
+            var enable = Type == ItemType.CANNON || Type == ItemType.AMMO ? true : false;
             _enhance.SetActive(enable);
             LoadStarsItem();
         }

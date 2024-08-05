@@ -169,7 +169,7 @@ namespace _Game.Features.InventoryItemInfo
         {
             get
             {
-                var path = Type == null ? $"Images/Items/item_ammo_arrow_common" : $"Images/Items/item_misc_{Type.ToString().ToLower()}";
+                var path = Type == null ? $"Images/Items/item_res_blueprint_ammo" : $"Images/Items/item_res_blueprint_{Type.ToString().ToLower()}";
                 return Resources.Load<Sprite>(path);
             }
         }
@@ -372,28 +372,6 @@ namespace _Game.Features.InventoryItemInfo
         }
         private bool _interactableButtonConfirm;
         #endregion
-
-        // #region Binding Prop: IsActiveItemnMaterial
-        // /// <summary>
-        // /// IsActiveItemnMaterial
-        // /// </summary>
-        // [Binding]
-        // public bool IsActiveItemnMaterial
-        // {
-        //     get => _isActiveItemnMaterial;
-        //     set
-        //     {
-        //         if (Equals(_isActiveItemnMaterial, value))
-        //         {
-        //             return;
-        //         }
-
-        //         _isActiveItemnMaterial = value;
-        //         OnPropertyChanged(nameof(IsActiveItemnMaterial));
-        //     }
-        // }
-        // private bool _isActiveItemnMaterial;
-        // #endregion
 
         #region Binding Prop: IsActivePopupSuccess
         /// <summary>

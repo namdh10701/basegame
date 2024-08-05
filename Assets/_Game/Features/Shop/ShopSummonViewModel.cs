@@ -8,6 +8,7 @@ using _Game.Scripts.GD.DataManager;
 using _Game.Scripts.UI;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using Online;
 using Spine;
 using Spine.Unity;
 using UnityEngine;
@@ -442,6 +443,7 @@ namespace _Game.Features.Shop
         public RectTransform HightlightitemRecieved;
         private void OnEnable()
         {
+            Debug.Log("dsadsadsadsad" + UnityEngine.Application.persistentDataPath);
             LoadDataShop();
             InitializeShopSummon();
         }
@@ -473,7 +475,7 @@ namespace _Game.Features.Shop
                         shopSummonItem.Id = item.ItemId;
                         shopSummonItem.Price = item.PriceAmount.ToString();
                         shopSummonItem.GachaType = item.GachaType;
-                        shopSummonItem.Amount = $"(x{GameData.ShopItemTable.GetAmountById(item.ItemId).Item1[0].ToString()})";
+                        // shopSummonItem.Amount = $"(x{GameData.ShopItemTable.GetAmountById(item.ItemId).Item1[0].ToString()})";
                         shopSummonItem.PriceType = item.PriceType;
                         shopSummonItem.SetUp(this);
                         ShopPackageSummonItem.SummonItems.Add(shopSummonItem);
@@ -572,7 +574,18 @@ namespace _Game.Features.Shop
             IOC.Resolve<MainViewModel>().IsActiveBotNavBar = false;
             IsActivePopupConfirm = false;
             IsActivePopupLoading = true;
+
+            // foreach (var item in SummonCannonItems)
+            // {
+            //     if (item.Id == IdSummonItemSelected && item.PriceType == PriceTypeSummonItemSelected)
+            //     {
+            //         item.GetIDItemGacha();
+            //     }
+            // }
+            var items = await PlayfabManager.Instance.GachaAsync(IdSummonItemSelected);
+
             IsActivePopupLoading = false;
+
             IsActivePopupAnimOpenBox = true;
             CurrentIndexItemReview = 0;
 
@@ -604,13 +617,7 @@ namespace _Game.Features.Shop
 
 
             CanvasGroupInfoItem.alpha = 1;
-            foreach (var item in SummonCannonItems)
-            {
-                if (item.Id == IdSummonItemSelected && item.PriceType == PriceTypeSummonItemSelected)
-                {
-                    item.GetIDItemGacha();
-                }
-            }
+
         }
 
         private void SetColorRarity(string rarity)
@@ -647,7 +654,7 @@ namespace _Game.Features.Shop
         }
 
         [Binding]
-        public void OnClickConfirm()
+        public async void OnClickConfirm()
         {
             IOC.Resolve<MainViewModel>().IsActiveBotNavBar = true;
             IsActivePopupConfirm = false;

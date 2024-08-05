@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using _Game.Features.Inventory;
-using _Game.Scripts.GD.DataManager;
 using _Game.Scripts.UI;
 using UnityEngine;
 using UnityWeld.Binding;
@@ -108,7 +105,7 @@ namespace _Game.Features.InventoryItemInfo
                 {
                     var itemType = Type.ToString().ToLower();
                     var name = OperationType.ToLower();
-                    var path = $"Items/itemskill_{itemType}_{name}";
+                    var path = $"Images/Items/itemskill_{itemType}_{name}";
                     return Resources.Load<Sprite>(path);
                 }
                 else
