@@ -4,7 +4,7 @@ using _Game.Scripts.SaveLoad;
 using _Game.Scripts.UI;
 using UnityWeld.Binding;
 
-namespace _Game.Features.GamePause
+namespace _Game.Features.GameSettings
 {
     [Binding]
     public class Language: SubViewModel

@@ -102,9 +102,14 @@ namespace Online
 			LoadShop();
 		}
 
-		public void LinkFacebook()
+		public async Task LinkFacebook()
 		{
-			Auth.LinkFacebook();
+			await Auth.LinkFacebook();
+		}
+		
+		public async Task UnlinkFacebook()
+		{
+			await Auth.UnlinkFacebook();
 		}
 
 		public async UniTask UpgradeItem(string itemInstanceId)

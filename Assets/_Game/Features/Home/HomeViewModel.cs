@@ -1,4 +1,5 @@
 using _Game.Features.GamePause;
+using _Game.Features.GameSettings;
 using _Game.Features.Quest;
 using _Game.Features.Ranking;
 using _Game.Features.Shop;
@@ -99,8 +100,7 @@ namespace _Game.Features.Home
         [Binding]
         public async void ShowSettingPopup()
         {
-            var options = new ViewOptions(nameof(GameSettingsModal));
-            await ModalContainer.Find(ContainerKey.Modals).PushAsync(options);
+            await GameSettingsModal.Show();
         }
 
         private void OnEnable()

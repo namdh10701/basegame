@@ -22,6 +22,7 @@ namespace Online.Service
 		public ERank UserRank { get; private set; } = ERank.Unrank;
 		public int UserRankScore { get; private set; }
 		public string UserRankID { get; private set; }
+		public bool IsGuest { get; private set; }
 		public List<LimitPackageModel> LimitPackages { get; private set; } = new();
 
 		#endregion
@@ -30,7 +31,7 @@ namespace Online.Service
 		{
 			return UniTask.WhenAll(GetProfileAsync(), GetUserReadOnlyDataAsync());
 		}
-
+		
 		public async UniTask<BaseResponse> RequestDisplayNameAsync()
 		{
 			var signal = new UniTaskCompletionSource<BaseResponse>();

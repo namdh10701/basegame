@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using Online.Enum;
 using Online.Interface;
@@ -29,9 +30,14 @@ namespace Online.Service
 			return _basePlatformAuth.LoginAsync();
 		}
 
-		public void LinkFacebook()
+		public async Task LinkFacebook()
 		{
-			_basePlatformAuth.LinkFacebook();
+			await _basePlatformAuth.LinkFacebook();
+		}
+
+		public async Task UnlinkFacebook()
+		{
+			await _basePlatformAuth.UnlinkFacebook();
 		}
 
 		public override void LogSuccess(string message)

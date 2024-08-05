@@ -1,6 +1,4 @@
 using System;
-using System.Diagnostics;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
@@ -10,6 +8,16 @@ using ZBase.UnityScreenNavigator.Core.Views;
 
 namespace _Game.Features.Dialogs
 {
+    public sealed class Void
+    {
+        private Void() { }
+    }
+
+    [Binding]
+    public abstract class AsyncModal : AsyncModal<Void, Void>
+    {
+    }
+    
     [Binding]
     public abstract class AsyncModal<TValue, TModalParams>: ModalWithViewModel// where TModalParams: class
     {
@@ -29,19 +37,22 @@ namespace _Game.Features.Dialogs
         }
 
         [Binding]
-        public void DoClose()
+        public async Task DoClose()
         {
-            Close();
+            await Close();
         }
         
-        public override async UniTask Initialize(Memory<object> args)
+        public sealed override async UniTask Initialize(Memory<object> args)
         {
             _signal = new TaskCompletionSource<TValue>();
             Params = args.Span[0] is TModalParams ? (TModalParams)args.Span[0] : default;
             await InternalInitialize(Params);
         }
 
-        protected abstract UniTask InternalInitialize(TModalParams args);
+        protected virtual UniTask InternalInitialize(TModalParams args)
+        {
+            return UniTask.CompletedTask;
+        }
 
         public async Task<TValue> WaitForComplete()
         {

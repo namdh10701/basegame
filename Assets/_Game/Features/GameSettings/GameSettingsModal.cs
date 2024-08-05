@@ -1,17 +1,25 @@
 using System;
+using System.Threading.Tasks;
 using _Base.Scripts.Audio;
+using _Game.Features.Dialogs;
 using _Game.Scripts.SaveLoad;
 using Cysharp.Threading.Tasks;
 using Online;
 using UnityEngine;
 using UnityWeld.Binding;
 using ZBase.UnityScreenNavigator.Core.Modals;
+using Void = _Game.Features.Dialogs.Void;
 
-namespace _Game.Features.GamePause
+namespace _Game.Features.GameSettings
 {
     [Binding]
-    public class GameSettingsModal : ModalWithViewModel
+    public class GameSettingsModal : AsyncModal
     {
+        public static async Task Show()
+        {
+            await Show<GameSettingsModal>();
+        }
+        
         #region Binding Prop: ActiveTabIndex
 
         /// <summary>
@@ -87,6 +95,16 @@ namespace _Game.Features.GamePause
 
         #endregion
 
+        #region Binding Prop: IsGuest
+
+        /// <summary>
+        /// IsLoggedIn
+        /// </summary>
+        [Binding]
+        public bool IsGuest => PlayfabManager.Instance.Profile.IsGuest;
+
+        #endregion
+
         #region Binding Prop: Language
 
         /// <summary>
@@ -127,8 +145,8 @@ namespace _Game.Features.GamePause
         /// </summary>
         [Binding]
         public ObservableList<Language> Languages { get; } = new();
-        
-        public override async UniTask Initialize(Memory<object> args)
+
+        protected override UniTask InternalInitialize(Void args)
         {
             MuteBGM = PlayerPrefs.GetInt("Settings.MuteBGM", 0) == 1;
             MuteSFX = PlayerPrefs.GetInt("Settings.MuteSFX", 0) == 1;
@@ -144,6 +162,8 @@ namespace _Game.Features.GamePause
             Languages.Add(new Language("Taiwan", "Taiwan"));
             Languages.Add(new Language("Thai", "Thai"));
             Languages.Add(new Language("Vietnam", "Vietnam"));
+            
+            return UniTask.CompletedTask;
         }
 
         void ToggleBgm(bool isOn)
@@ -165,7 +185,7 @@ namespace _Game.Features.GamePause
         }
 
         [Binding]
-        public void SaveSettings()
+        public async void SaveSettings()
         {
             PlayerPrefs.SetInt("Settings.MuteBGM", MuteBGM ? 1 : 0);
             PlayerPrefs.SetInt("Settings.MuteSFX", MuteSFX ? 1 : 0);
@@ -180,25 +200,37 @@ namespace _Game.Features.GamePause
             
             SaveSystem.SaveGame();
 
-            Close();
-        }
-
-        [Binding]
-        public async void Close()
-        {
-            await ModalContainer.Find(ContainerKey.Modals).PopAsync(true);
-        }
-
-        [Binding]
-        public void OnClickSignInWithFacebook()
-        {
-            PlayfabManager.Instance.LinkFacebook();
+            await DoClose();
         }
         
         [Binding]
         public void DoCopyPlayerId()
         {
             UniClipboard.SetText(PlayfabManager.Instance.Profile.PlayfabID);
+        }
+
+        [Binding]
+        public async void OpenLinkAccountPopup()
+        {
+            await LinkAccountModal.Show();
+        }
+
+        [Binding]
+        public async void DoUnlinkAccount()
+        {
+            await PlayfabManager.Instance.UnlinkFacebook();
+        }
+
+        [Binding]
+        public async void DoDeleteAccount()
+        {
+            var confirm = await ConfirmModal.Show("Please note that deleting your account will permanently remove all of your associated data from our servers, and this cannot be undone. Do you want to delete your account? ");
+            if (!confirm)
+            {
+                return;
+            }
+            
+            //TODO: DNGUYEN - delete account
         }
     }
 }
