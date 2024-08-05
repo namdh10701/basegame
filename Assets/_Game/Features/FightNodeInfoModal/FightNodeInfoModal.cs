@@ -65,7 +65,8 @@ namespace _Game.Features.FightNodeInfoPopup
             // var data = load(_stageId)
 
             await Nav.ShowScreenAsync<BattleLoadingScreen>(poolingPolicy: ZBase.UnityScreenNavigator.Core.PoolingPolicy.DisablePooling);
-            await UniTask.Delay(3000);
+            // await UniTask.Delay(3000);
+            await (screenContainer.Current.View as BattleLoadingScreen).StopLoopAndPlayEnd();
             await Nav.ShowScreenAsync<BattleScreen>(poolingPolicy: ZBase.UnityScreenNavigator.Core.PoolingPolicy.DisablePooling);
 
         }
