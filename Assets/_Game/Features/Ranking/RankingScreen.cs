@@ -213,7 +213,7 @@ namespace _Game.Features.Ranking
 
             OwnedTicketCount = 10;
             FreeTicketCount = 2;
-            
+
             // Start timer
             InvokeRepeating(nameof(UpdateTimer), 0f, 1f);
         }
@@ -234,7 +234,7 @@ namespace _Game.Features.Ranking
         {
             await ScreenContainer.Find(ContainerKey.Screens).PopAsync(true);
         }
-        
+
         [Binding]
         public async void NavToBattle()
         {
@@ -249,7 +249,7 @@ namespace _Game.Features.Ranking
                         TotalAmount = 1000,
                         NeedAmount = 99,
                     },
-                    
+
                     new ()
                     {
                         ItemType = ItemType.MISC,
@@ -278,14 +278,14 @@ namespace _Game.Features.Ranking
 
             await ModalContainer.Find(ContainerKey.Modals).PopAsync(true);
             var screenContainer = ScreenContainer.Find(ContainerKey.Screens);
-            
-            await screenContainer.PushAsync(new 
+
+            await screenContainer.PushAsync(new
                 ScreenOptions(nameof(BattleLoadingScreen), stack: false));
-            
+
             await UniTask.Delay(3000);
-            
+
             await screenContainer.PushAsync(
-                new ScreenOptions(nameof(BattleScreen), stack: false));
+                new ScreenOptions(nameof(RankingBattleScreen), stack: false, poolingPolicy: ZBase.UnityScreenNavigator.Core.PoolingPolicy.DisablePooling));
         }
 
         [Binding]
