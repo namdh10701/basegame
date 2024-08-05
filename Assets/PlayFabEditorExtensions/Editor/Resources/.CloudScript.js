@@ -370,6 +370,7 @@ handlers.GetRankInfo = function (args, context) {
     let resTitleData = server.GetTitleInternalData({Keys: keys});
     let userRankData = JSON.parse(resTitleData.Data[userRankDB]);
     let userRankInfo = userRankData.find(val => val.Id == userRankId);
+    SortArrayByKey(userRankInfo.Players, 'Score', 'desc');
 
     return {
         Result: true,
@@ -517,7 +518,7 @@ handlers.ReportLimitPackage = function (args, context) {
     if (resData.Data.hasOwnProperty(ProfileField.LimitPackages)) {
         limitPackages = JSON.parse(resData.Data[ProfileField.LimitPackages].Value);
     }
-    
+
     let limitPackage = limitPackages.find(val => val.Id == args.AdUnitId);
     if (limitPackage != null) {
         limitPackage.LastTime = unixTimestamp;
@@ -809,15 +810,6 @@ handlers.IsLimitWeeklyPackage = function (args, context) {
     }
 };
 
-function GenerateGUID() {
-    const randomPart = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-        const r = Math.random() * 16 | 0;
-        const v = c === 'x' ? r : (r & 0x3 | 0x8);
-        return v.toString(16);
-    });
-    return `${randomPart}`;
-}
-
 handlers.BonusGold = function (args, context) {
     let catelogItems = server.GetCatalogItems({});
 
@@ -856,3 +848,42 @@ handlers.BonusGold = function (args, context) {
         Error: EErrorCode.ItemNotFound
     }
 };
+
+
+
+function GenerateGUID() {
+    const randomPart = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        const r = Math.random() * 16 | 0;
+        const v = c === 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
+    return `${randomPart}`;
+}
+
+/**
+ * Sort array of object by key name
+ * @param array target array
+ * @param key object key name
+ * @param order asc or desc
+ * @returns {*}
+ * @constructor
+ */
+function SortArrayByKey(array, key, order = 'asc') {
+    return array.sort((a, b) => {
+        if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
+            // Property doesn't exist on either object
+            return 0;
+        }
+
+        const varA = (typeof a[key] === 'string') ? a[key].toUpperCase() : a[key];
+        const varB = (typeof b[key] === 'string') ? b[key].toUpperCase() : b[key];
+
+        let comparison = 0;
+        if (varA > varB) {
+            comparison = 1;
+        } else if (varA < varB) {
+            comparison = -1;
+        }
+        return (order === 'desc') ? (comparison * -1) : comparison;
+    });
+}
