@@ -1,5 +1,6 @@
 using _Base.Scripts.Audio;
 using _Game.Features.Battle;
+using _Game.Features.Ranking;
 using _Game.Scripts;
 using _Game.Scripts.Battle;
 using _Game.Scripts.SaveLoad;
@@ -75,14 +76,16 @@ namespace _Game.Features.Gameplay
             {
                 await Task.Delay((int)(6 * 1000));
             }
-            var options = new ModalOptions("RankingVictoryModal", true, loadAsync: false);
-            await ModalContainer.Find(ContainerKey.Modals).PushAsync(options, DmgDeal);
+            RankingVictoryModal.Params p= new RankingVictoryModal.Params();
+            p.Score = (int)DmgDeal;
+            await RankingVictoryModal.Show(p);
         }
 
         public override async void ShowLoseUIAsync()
         {
-            var options = new ModalOptions("RankingVictoryModal", true, loadAsync: false);
-            await ModalContainer.Find(ContainerKey.Modals).PushAsync(options, DmgDeal);
+            RankingVictoryModal.Params p = new RankingVictoryModal.Params();
+            p.Score = (int)DmgDeal;
+            await RankingVictoryModal.Show(p);
         }
 
     }

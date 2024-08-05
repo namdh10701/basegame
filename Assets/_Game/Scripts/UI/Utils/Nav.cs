@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using _Game.Features;
+using ZBase.UnityScreenNavigator.Core;
 using ZBase.UnityScreenNavigator.Core.Modals;
 using ZBase.UnityScreenNavigator.Core.Screens;
 using ZBase.UnityScreenNavigator.Core.Views;
@@ -22,9 +23,9 @@ namespace _Game.Scripts.UI.Utils
             await SC.PreloadAsync(typeof(T).Name);
         }
         
-        public static async Task<T> ShowScreenAsync<T>(bool playAnimation = true, bool preload = false, params object[] args) where T : class
+        public static async Task<T> ShowScreenAsync<T>(bool playAnimation = true, bool preload = false, PoolingPolicy poolingPolicy = PoolingPolicy.UseSettings, params object[] args) where T : class
         {
-            var options = new ViewOptions(typeof(T).Name, playAnimation);
+            var options = new ViewOptions(typeof(T).Name, playAnimation, poolingPolicy: poolingPolicy);
             if (preload)
             {
                 await SC.PreloadAsync(typeof(T).Name);

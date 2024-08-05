@@ -7,8 +7,10 @@ using _Game.Features.Battle;
 using _Game.Features.BattleLoading;
 using _Game.Features.Dialogs;
 using _Game.Features.FightNodeInfoPopup;
+using _Game.Features.Home;
 using _Game.Features.Inventory;
 using _Game.Features.Quest;
+using _Game.Scripts.UI.Utils;
 using Cysharp.Threading.Tasks;
 using Online;
 using Online.Enum;
@@ -220,8 +222,9 @@ namespace _Game.Features.Ranking
                 BackedData = rankInfo
             };
 
+
             OwnedTicketCount = PlayfabManager.Instance.Ticket;
-            FreeTicketCount = 2; //PlayfabManager.Instance.FreeTicket;
+            FreeTicketCount = 2; 
         }
 
         public override UniTask Cleanup(Memory<object> args)
@@ -240,7 +243,7 @@ namespace _Game.Features.Ranking
         {
             await ScreenContainer.Find(ContainerKey.Screens).PopAsync(true);
         }
-        
+
         [Binding]
         public async void NavToBattle()
         {
@@ -255,7 +258,7 @@ namespace _Game.Features.Ranking
                         TotalAmount = 1000,
                         NeedAmount = 99,
                     },
-                    
+
                     new ()
                     {
                         ItemType = ItemType.MISC,
@@ -284,14 +287,10 @@ namespace _Game.Features.Ranking
 
             await ModalContainer.Find(ContainerKey.Modals).PopAsync(true);
             var screenContainer = ScreenContainer.Find(ContainerKey.Screens);
-            
-            await screenContainer.PushAsync(new 
-                ScreenOptions(nameof(BattleLoadingScreen), stack: false));
-            
+
+            await Nav.ShowScreenAsync<BattleLoadingScreen>(poolingPolicy: ZBase.UnityScreenNavigator.Core.PoolingPolicy.DisablePooling);
             await UniTask.Delay(3000);
-            
-            await screenContainer.PushAsync(
-                new ScreenOptions(nameof(BattleScreen), stack: false));
+            await Nav.ShowScreenAsync<RankingBattleScreen>(poolingPolicy: ZBase.UnityScreenNavigator.Core.PoolingPolicy.DisablePooling);
         }
 
         [Binding]
