@@ -206,7 +206,7 @@ handlers.CombineItems = function (args, context) {
 
 const RefundBlueprints = function (itemType, combineItems) {
     var keyDB = GetItemUpgradeDB(itemType);
-    var resUpgrade = server.GetTitleData({Keys: keyDB});
+    var resUpgrade = titleDataCache.GetTitleData({Keys: keyDB});
     var itemUpgrade = JSON.parse(resUpgrade.Data[keyDB]);
 
     let grantBlueprints = [];
@@ -231,7 +231,7 @@ const RefundBlueprints = function (itemType, combineItems) {
 
 const CombineItem = function (configId, itemType, itemLevel, blueprints) {
     var keyDB = GetItemDB(itemType);
-    let resConfig = server.GetTitleData({Keys: keyDB});
+    let resConfig = titleDataCache.GetTitleData({Keys: keyDB});
     let itemConfig = JSON.parse(resConfig.Data[keyDB]);
 
     let curConfig = itemConfig.find(val => val.id == configId);
@@ -286,7 +286,7 @@ handlers.UpgradeItem = function (args, context) {
 
         // Get Upgrade Config
         var keyUpgradeDB = GetItemUpgradeDB(itemType);
-        var resConfig = server.GetTitleData({
+        var resConfig = titleDataCache.GetTitleData({
             Keys: [keyUpgradeDB]
         });
         var nextLevelConfig = JSON.parse(resConfig.Data[keyUpgradeDB]).find(val => val.level === nextLevel);
@@ -380,7 +380,10 @@ handlers.GetRankInfo = function (args, context) {
 };
 
 handlers.CreateRankTicket = function (args, context) {
+    // TODO move to config
     let energyPerMatch = 1;
+    let ticketPerMatch = 1;
+    
     var resInventory = server.GetUserInventory({PlayFabId: currentPlayerId});
     if (resInventory.VirtualCurrency[EVirtualCurrency.Energy] < energyPerMatch) {
         return {
@@ -401,7 +404,7 @@ handlers.CreateRankTicket = function (args, context) {
     result.VirtualCurrency[EVirtualCurrency.Energy] = resSubEnergy.Balance
 
     var resSubTicket = server.SubtractUserVirtualCurrency({
-        PlayFabId: currentPlayerId, VirtualCurrency: EVirtualCurrency.Ticket, Amount: 1
+        PlayFabId: currentPlayerId, VirtualCurrency: EVirtualCurrency.Ticket, Amount: ticketPerMatch
     });
     result.VirtualCurrency[EVirtualCurrency.Ticket] = resSubTicket.Balance
 
@@ -849,7 +852,9 @@ handlers.BonusGold = function (args, context) {
     }
 };
 
-
+///
+/// Helper functions
+///
 
 function GenerateGUID() {
     const randomPart = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
@@ -887,3 +892,71 @@ function SortArrayByKey(array, key, order = 'asc') {
         return (order === 'desc') ? (comparison * -1) : comparison;
     });
 }
+
+///
+/// TileData cache solution
+///
+class TitleDataCache {
+    constructor() {
+        this.cache = {
+            titleData: null
+        };
+    }
+
+    _fetchTitleDataFromServer() {
+        var request = {
+            Keys: Object.values(EDatabase)
+        };
+        
+        var result = server.GetTitleData(request);
+
+        if (result.error) {
+            throw new Error(result.error);
+        }
+
+        this.cache.titleData = result.Data;
+        return result.Data;
+    }
+
+    GetTitleData(keys) {
+        if (this.cache.titleData) {
+            var result = {};
+            keys.forEach(key => {
+                if (this.cache.titleData.hasOwnProperty(key)) {
+                    result[key] = this.cache.titleData[key];
+                }
+            });
+            return result;
+        } else {
+            var data = this._fetchTitleDataFromServer();
+            var result = {};
+            keys.forEach(key => {
+                if (data.hasOwnProperty(key)) {
+                    result[key] = data[key];
+                }
+            });
+            return result;
+        }
+    }
+
+    clearCache() {
+        this.cache.titleData = null;
+    }
+}
+
+var titleDataCache = new TitleDataCache();
+
+handlers.GetTitleData = function (args, context) {
+    var keys = args.Keys || [];
+    try {
+        var data = titleDataCache.GetTitleData(keys);
+        return { Data: data };
+    } catch (error) {
+        return { error: error.message };
+    }
+};
+
+handlers.ClearTitleDataCache = function (args, context) {
+    titleDataCache.clearCache();
+    return { message: "Cache cleared successfully" };
+};
