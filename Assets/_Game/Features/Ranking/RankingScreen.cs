@@ -239,7 +239,7 @@ namespace _Game.Features.Ranking
         [Binding]
         public async void NavBack()
         {
-            await ScreenContainer.Find(ContainerKey.Screens).PopAsync(true);
+            await Nav.ShowScreenAsync<MainScreen>();
         }
 
         [Binding]
