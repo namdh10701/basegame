@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using _Base.Scripts.Utils;
+using _Game.Features.Inventory;
 using _Game.Features.InventoryItemInfo;
 using _Game.Scripts.Gameplay;
 using _Game.Scripts.GD.DataManager;
+using _Game.Scripts.SaveLoad;
 using _Game.Scripts.UI;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
@@ -571,18 +573,13 @@ namespace _Game.Features.Shop
             IsActivePopupLoading = true;
 
             var gachaResponse = await PlayfabManager.Instance.GachaAsync(IdSummonItemSelected);
-            foreach (var item in gachaResponse.Items)
+            var itemDatas = gachaResponse.GetItemDatas();
+            foreach (var item in itemDatas)
             {
-                ShopItemGachaReceived shopItemGachaReceived = new ShopItemGachaReceived();
-                shopItemGachaReceived.IdItemGacha = item.ItemId;
-                // shopItemGachaReceived.Operation = item.;
 
+                var shopItemGachaReceived = GenerateShopItemGachaReceived(item);
+                ItemsGachaReceived.Add(shopItemGachaReceived);
             }
-            // shopItemGachaReceived.Slot = GameData.CannonTable.GetSlotByName(CurentOperationItemGacha);
-            // shopItemGachaReceived.GachaType = GachaType;
-            // shopItemGachaReceived.Rarity = CurentRarityItemGacha;
-            // shopItemGachaReceived.IsHighLight = CurentRarityItemGacha == "Rare" || CurentRarityItemGacha == "Epic" ? true : false;
-            // ItemsGachaReceived.Add(shopItemGachaReceived);
 
             IsActivePopupLoading = false;
 
@@ -594,6 +591,36 @@ namespace _Game.Features.Shop
             trackEntry.Complete += OnGachaBeginComplete;
             // Add the callback to the Complete event of the TrackEntry
             SkeletonGraphicEffect.AnimationState.SetAnimation(0, "fx_gacha", true);
+        }
+
+        private ShopItemGachaReceived GenerateShopItemGachaReceived(ItemData itemData)
+        {
+            ShopItemGachaReceived shopItemGachaReceived = new ShopItemGachaReceived();
+            shopItemGachaReceived.IdItemGacha = itemData.ItemId;
+            shopItemGachaReceived.GachaType = itemData.ItemType.ToString();
+            shopItemGachaReceived.Rarity = itemData.Rarity.ToString();
+            shopItemGachaReceived.IsHighLight = itemData.Rarity == Rarity.Rare || itemData.Rarity == Rarity.Epic ? true : false;
+
+            switch (itemData.ItemType)
+            {
+                case ItemType.CANNON:
+                    break;
+                    var cannonTableRecord = GameData.CannonTable.GetCannonTableRecordById(itemData.ItemId);
+                    shopItemGachaReceived.Operation = cannonTableRecord.OperationType;
+                    shopItemGachaReceived.Slot = cannonTableRecord.Slot;
+                case ItemType.AMMO:
+                    var ammoTableRecord = GameData.AmmoTable.GetAmmoTableRecordById(itemData.ItemId);
+                    shopItemGachaReceived.Operation = ammoTableRecord.OperationType;
+                    shopItemGachaReceived.Slot = ammoTableRecord.Slot;
+
+                    break;
+                case ItemType.CREW:
+                    var crewTableRecord = GameData.CrewTable.GetCrewTableRecordById(itemData.ItemId);
+                    shopItemGachaReceived.Operation = crewTableRecord.OperationType;
+                    shopItemGachaReceived.Slot = crewTableRecord.Slot;
+                    break;
+            }
+            return shopItemGachaReceived;
         }
 
         private async void OnGachaBeginComplete(TrackEntry trackEntry)

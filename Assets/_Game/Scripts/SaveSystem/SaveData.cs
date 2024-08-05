@@ -19,8 +19,6 @@ namespace _Game.Scripts.SaveLoad
         public List<ItemData> OwnedItems = new();
         public List<ItemData> OwnedShips => OwnedItems.Where(v => v.ItemType == ItemType.SHIP).ToList();
 
-        public CountOfGacha CountOfGacha;
-
         public int gold = 100000;
         public int gem;
         public int energy;
@@ -43,50 +41,7 @@ namespace _Game.Scripts.SaveLoad
 
         public static SaveData GetDefaultSave()
         {
-            SaveData defaultSave = new SaveData(1);
-            defaultSave.maxEnergy = 100;
-            defaultSave.energy = defaultSave.maxEnergy;
-
-            defaultSave.OwnedItems = new List<ItemData>()
-            {
-                new(ItemType.SHIP, Game.IDGenerator.Next(), "0001", 0, 1),
-                new(ItemType.SHIP, Game.IDGenerator.Next(), "0002", 0, 1),
-                new(ItemType.SHIP, Game.IDGenerator.Next(), "0003", 0, 1),
-                new(ItemType.CREW, Game.IDGenerator.Next(), "2011", 0, 1),
-                new(ItemType.CANNON, Game.IDGenerator.Next(), "0001", 0, 1),
-                new(ItemType.CANNON, Game.IDGenerator.Next(), "0001", 0, 2),
-                new(ItemType.CANNON, Game.IDGenerator.Next(), "0001", 0, 1),
-                new(ItemType.CANNON, Game.IDGenerator.Next(), "0002", 1, 4),
-                new(ItemType.CANNON, Game.IDGenerator.Next(), "0012", 0, 1),
-                new(ItemType.CANNON, Game.IDGenerator.Next(), "0023", 0, 1),
-                new(ItemType.CANNON, Game.IDGenerator.Next(), "0043", 0, 1),
-                new(ItemType.CANNON, Game.IDGenerator.Next(), "0061", 0, 1),
-                new(ItemType.CANNON, Game.IDGenerator.Next(), "0069", 0, 1),
-                new(ItemType.CANNON, Game.IDGenerator.Next(), "0077", 0, 1),
-                new(ItemType.CANNON, Game.IDGenerator.Next(), "0085", 0, 1),
-                new(ItemType.AMMO, Game.IDGenerator.Next(), "1001", 0, 1),
-                new(ItemType.AMMO, Game.IDGenerator.Next(), "1012", 0, 1),
-                new(ItemType.AMMO, Game.IDGenerator.Next(), "1023", 0, 1),
-                new(ItemType.AMMO, Game.IDGenerator.Next(), "1033", 0, 1),
-                new(ItemType.AMMO, Game.IDGenerator.Next(), "1043", 0, 1),
-                new(ItemType.AMMO, Game.IDGenerator.Next(), "1077", 0, 1),
-                new(ItemType.AMMO, Game.IDGenerator.Next(), "1085", 0, 1),
-                new(ItemType.MISC, Game.IDGenerator.Next(), "res_blueprint_ship", 0, 1),
-                new(ItemType.MISC, Game.IDGenerator.Next(), "res_blueprint_ammo", 0, 1),
-                new(ItemType.MISC, Game.IDGenerator.Next(), "res_blueprint_cannon", 0, 1),
-                new(ItemType.MISC, Game.IDGenerator.Next(), "res_blueprint_cannon", 0, 1),
-                new(ItemType.MISC, Game.IDGenerator.Next(), "res_blueprint_cannon", 0, 1),
-            };
-
-            defaultSave.Talent = new TalentSaveData();
-            
-            defaultSave.CountOfGacha = new CountOfGacha();
-            defaultSave.ShipSetupSaveData = new ShipSetupSaveData();
-            defaultSave.ShipSetupSaveData.CurrentShip = defaultSave.OwnedShips.First();
-            defaultSave.ShipSetupSaveData.Init();
-
-            defaultSave.Settings = new SettingSaveData();
-
+            SaveData defaultSave = new SaveData(1);;
             return defaultSave;
         }
 

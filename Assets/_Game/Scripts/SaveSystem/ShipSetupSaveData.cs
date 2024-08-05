@@ -26,18 +26,20 @@ namespace _Game.Scripts.SaveLoad
         public string OwnItemId;
         public int RarityLevel;
         public int Level;
+        public Rarity Rarity;
 
         public ItemData()
         {
         }
 
-        public ItemData(ItemType itemType, string ownItemId, string itemId, int rarityLevel, int levelItem)
+        public ItemData(ItemType itemType, string ownItemId, string itemId, int rarityLevel, int levelItem, Rarity rarity)
         {
-            ItemType = itemType; 
+            ItemType = itemType;
             OwnItemId = ownItemId;
             ItemId = itemId;
             RarityLevel = rarityLevel;
             Level = levelItem;
+            Rarity = rarity;
         }
     }
 
@@ -75,7 +77,7 @@ namespace _Game.Scripts.SaveLoad
                     { SetupProfile.Profile3.ToString(), new ShipSetupData() },
                 };
             });
-            
+
             if (CurrentShip == null)
             {
                 CurrentShip = ownedShips.First();
