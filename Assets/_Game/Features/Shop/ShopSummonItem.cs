@@ -4,6 +4,7 @@ using System.Linq;
 using _Game.Scripts.GD.DataManager;
 using _Game.Scripts.UI;
 using Cysharp.Threading.Tasks;
+using Online;
 using UnityEngine;
 using UnityWeld.Binding;
 
@@ -108,28 +109,6 @@ namespace _Game.Features.Shop
             }
         }
         private string _priceType;
-        #endregion
-
-        #region Binding Prop: Amount
-        /// <summary>
-        /// Amount
-        /// </summary>
-        [Binding]
-        public string Amount
-        {
-            get => _amount;
-            set
-            {
-                if (Equals(_amount, value))
-                {
-                    return;
-                }
-
-                _amount = value;
-                OnPropertyChanged(nameof(Amount));
-            }
-        }
-        private string _amount;
         #endregion
 
         #region Binding Prop: GachaType
@@ -242,6 +221,7 @@ namespace _Game.Features.Shop
         public async void GetIDItemGacha()
         {
             ShopSummonViewModel.ItemsGachaReceived.Clear();
+            // var amount = items.Items
             // for (int i = 0; i < Amount; i++)
             // {
             //     ListRarity = GameData.ShopItemTable.GetRarityById(Id);
@@ -264,7 +244,7 @@ namespace _Game.Features.Shop
             //     await UniTask.Delay(300);
 
             // }
-            // ShopSummonViewModel.CurrentIndexItemReview = 0;
+            ShopSummonViewModel.CurrentIndexItemReview = 0;
             ShopSummonViewModel.OnChangeCurrentIndexItemReview(0);
             SetIdSummonItem();
         }

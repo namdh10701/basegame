@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using Online.Interface;
+using Online.Model.ApiRequest;
 using PlayFab.ClientModels;
 
 namespace Online
@@ -12,14 +12,14 @@ namespace Online
 		public List<StoreItem> GoldPackages => _shopService.GoldPackages;
 		public List<StoreItem> EnergyPackages => _shopService.EnergyPackages;
 
-		public async void LoadShop()
+		public UniTask<bool> LoadShopAsync()
 		{
-			await _shopService.LoadAllStore();
+			return _shopService.LoadAllStore();
 		}
-
-		public async Task LoadShopAsync()
+		
+		public async UniTask<GachaResponse> GachaAsync(string gachaId)
 		{
-			await _shopService.LoadAllStore();
+			return await _shopService.GachaAsync(gachaId);
 		}
 
 		public bool TryGetLocalizePrice(string packageId, out string priceString)
