@@ -207,17 +207,24 @@ namespace _Game.Features.Ranking
         {
             _stageId = args.ToArray().FirstOrDefault() as string;
 
+            await LoadData();
+            
+            // Start timer
+            InvokeRepeating(nameof(UpdateTimer), 0f, 1f);
+        }
+
+        public async Task LoadData()
+        {
+            await PlayfabManager.Instance.Ranking.RequestUserRankAsync();
             var rankInfo = PlayfabManager.Instance.Ranking.UserRankInfo;
             RankInfo = new UserRankInfo
             {
                 BackedData = rankInfo
             };
 
-            OwnedTicketCount = 10;
-            FreeTicketCount = 2;
 
-            // Start timer
-            InvokeRepeating(nameof(UpdateTimer), 0f, 1f);
+            OwnedTicketCount = PlayfabManager.Instance.Ticket;
+            FreeTicketCount = 2; 
         }
 
         public override UniTask Cleanup(Memory<object> args)
