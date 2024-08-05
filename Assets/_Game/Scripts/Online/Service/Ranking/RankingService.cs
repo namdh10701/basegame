@@ -115,12 +115,12 @@ namespace Online.Service
             return await signal.Task;
         }
         
-        public async UniTask<bool> SubmitRankingMatchAsync(int totalDamage)
+        public async UniTask<SubmitRankingResponse> SubmitRankingMatchAsync(int totalDamage)
         {
-            var signal = new UniTaskCompletionSource<bool>();
+            var signal = new UniTaskCompletionSource<SubmitRankingResponse>();
             PlayFabClientAPI.ExecuteCloudScript(new()
             {
-                FunctionName = C.CloudFunction.SubmitRankingMatch,
+                FunctionName = C.CloudFunction.SubmitRankingMatchAsync,
                 FunctionParameter = new
                 {
                     Score = totalDamage
@@ -130,11 +130,11 @@ namespace Online.Service
                 var rankResponse = JsonConvert.DeserializeObject<SubmitRankingResponse>(result.FunctionResult.ToString());
                 UserRankInfo = rankResponse.UserRankInfo;
                 LogSuccess("Submit Ranking!");
-                signal.TrySetResult(true);
+                signal.TrySetResult(rankResponse);
             }, error =>
             {
                 LogError("Submit Ranking Match Error: " + error.ErrorMessage);
-                signal.TrySetResult(false);
+                signal.TrySetResult(null);
             });
             return await signal.Task;
         }

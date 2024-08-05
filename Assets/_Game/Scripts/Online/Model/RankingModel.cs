@@ -61,6 +61,21 @@ namespace Online.Model
 		public PlayerRankInfo[] Players;
 	}
 	
+	public class RewardData
+	{
+		[JsonProperty("Exp")]
+		public string Exp;
+		
+		[JsonProperty("Gold")]
+		public int Gold;
+		
+		[JsonProperty("Key")]
+		public int Key;
+
+		[JsonProperty("Blueprint")]
+		public string[] Blueprint;
+	}
+	
 	public class ClaimRewardBundle
 	{
 		public ERank Rank;

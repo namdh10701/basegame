@@ -2,7 +2,9 @@ using _Game.Features.Battle;
 using _Game.Features.Ranking;
 using _Game.Scripts.SaveLoad;
 using System.Collections;
+using System.Linq;
 using System.Threading.Tasks;
+using Online;
 using UnityEngine;
 
 namespace _Game.Features.Gameplay
@@ -70,18 +72,26 @@ namespace _Game.Features.Gameplay
             {
                 await Task.Delay((int)(6 * 1000));
             }
+            
+            // Submit score
+            var resp = await PlayfabManager.Instance.Ranking.SubmitRankingMatchAsync((int)DmgDeal);
             var p = new RankingVictoryModal.Params
             {
-                Score = (int)DmgDeal
+                Score = (int)DmgDeal,
+                Rewards = resp.Rewards,
             };
             await RankingVictoryModal.Show(p);
         }
 
         public override async void ShowLoseUIAsync()
         {
+            // Submit score
+            var resp = await PlayfabManager.Instance.Ranking.SubmitRankingMatchAsync((int)DmgDeal);
+            
             var p = new RankingVictoryModal.Params
             {
-                Score = (int)DmgDeal
+                Score = (int)DmgDeal,
+                Rewards = resp.Rewards,
             };
             await RankingVictoryModal.Show(p);
         }
