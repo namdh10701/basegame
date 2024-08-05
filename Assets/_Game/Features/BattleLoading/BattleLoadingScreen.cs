@@ -23,7 +23,7 @@ namespace _Game.Features.BattleLoading
                 Debug.LogError("BotSticker is not assigned.");
                 return;
             }
-            TopWave.AnimationState.SetAnimation(0, "begin_songbien", false);
+            TopWave.AnimationState.SetAnimation(0, "begin", false);
             var topWaveAnimation = TopWave.AnimationState.SetAnimation(0, "begin", false);
             if (topWaveAnimation == null)
             {
@@ -65,7 +65,6 @@ namespace _Game.Features.BattleLoading
                 return signal.Task;
             }
 
-            TopWave.AnimationState.SetAnimation(0, "end_songbien", false);
             var loopEntry = BotSticker.AnimationState.SetAnimation(0, "end", false);
             loopEntry.Complete += (loopTrackEntry) =>
             {

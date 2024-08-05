@@ -6,6 +6,7 @@ using _Game.Features.BattleLoading;
 using _Game.Features.Gameplay;
 using _Game.Features.Home;
 using _Game.Features.Inventory;
+using _Game.Features.Ranking;
 using _Game.Scripts.Gameplay;
 using _Game.Scripts.GD.DataManager;
 using _Game.Scripts.UI.Utils;
@@ -63,15 +64,9 @@ namespace _Game.Features.FightNodeInfoPopup
             // TODO load data here
             // var data = load(_stageId)
 
-            await screenContainer.PushAsync(new
-                ScreenOptions(nameof(BattleLoadingScreen), stack: false));
-
+            await Nav.ShowScreenAsync<BattleLoadingScreen>(poolingPolicy: ZBase.UnityScreenNavigator.Core.PoolingPolicy.DisablePooling);
             await UniTask.Delay(3000);
-
-            await (screenContainer.Current.View as BattleLoadingScreen).StopLoopAndPlayEnd();
-
-            await screenContainer.PushAsync(
-                new ScreenOptions(nameof(BattleScreen), stack: false, poolingPolicy: ZBase.UnityScreenNavigator.Core.PoolingPolicy.DisablePooling));
+            await Nav.ShowScreenAsync<BattleScreen>(poolingPolicy: ZBase.UnityScreenNavigator.Core.PoolingPolicy.DisablePooling);
 
         }
 
