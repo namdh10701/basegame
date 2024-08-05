@@ -20,6 +20,7 @@ namespace Online.Service
 		public ERank UserRank { get; private set; } = ERank.Unrank;
 		public int UserRankScore { get; private set; }
 		public string UserRankID { get; private set; }
+		public bool IsGuest { get; private set; }
 
 		#endregion
 
@@ -87,6 +88,7 @@ namespace Online.Service
 		{
 			DisplayName = playerProfile.DisplayName;
 			PlayfabID = playerProfile.PlayerId;
+			IsGuest = playerProfile.Origination is null or LoginIdentityProvider.Custom;
 		}
 		
 		public void LoadUserReadOnlyData(Dictionary<string, UserDataRecord> readOnlyData)

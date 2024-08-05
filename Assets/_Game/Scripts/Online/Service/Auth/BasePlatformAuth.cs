@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using Online.Enum;
 using Online.Model.ApiRequest;
@@ -83,11 +84,16 @@ namespace Online.Interface
 #endif
 		}
 
-		public void LinkFacebook(System.Action<bool> cb = null)
+		public Task<bool> LinkFacebook()
 		{
+			var signal = new TaskCompletionSource<bool>();
 			LoginFacebook((succeed, token) =>
 			{
-				if (!succeed) return;
+				if (!succeed)
+				{
+					signal.TrySetResult(false);
+					return;
+				}
 
 				PlayFabClientAPI.LinkFacebookAccount(new LinkFacebookAccountRequest()
 				{
@@ -95,13 +101,29 @@ namespace Online.Interface
 				}, result =>
 				{
 					LogInfo("[Auth] Link Facebook Succeed");
-					cb?.Invoke(true);
+					signal.TrySetResult(true);
 				}, error =>
 				{
 					LogError("[Auth] Link Facebook Failed: " + error.ErrorMessage);
-					cb?.Invoke(false);
+					signal.TrySetResult(false);
 				});
 			});
+			return signal.Task;
+		}
+		
+		public Task<bool> UnlinkFacebook()
+		{
+			var signal = new TaskCompletionSource<bool>();
+			PlayFabClientAPI.UnlinkFacebookAccount(new UnlinkFacebookAccountRequest(), result =>
+			{
+				LogInfo("[Auth] Unlink Facebook Succeed");
+				signal.TrySetResult(true);
+			}, error =>
+			{
+				LogError("[Auth] Unlink Facebook Failed: " + error.ErrorMessage);
+				signal.TrySetResult(false);
+			});
+			return signal.Task;
 		}
 
 		public virtual void LogInfo(string logText)
