@@ -1,6 +1,4 @@
 using _Base.Scripts.Audio;
-using _Game.Features.Gameplay;
-using _Game.Scripts.Gameplay;
 using Cysharp.Threading.Tasks;
 using System;
 using UnityEngine;
@@ -17,7 +15,7 @@ namespace _Game.Features.Battle
         }
         public override async UniTask WillPushEnter(Memory<object> args)
         {
-            await SceneManager.LoadSceneAsync("BattleScene", LoadSceneMode.Additive);
+            await SceneManager.LoadSceneAsync("BattleScreen", LoadSceneMode.Additive);
             SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(1));
             await base.WillPushEnter(args);
             AudioManager.Instance.PlayBgmGameplay();
@@ -28,7 +26,7 @@ namespace _Game.Features.Battle
         {
             BattleViewModel.CleanUp();
             Time.timeScale = 1;
-            await SceneManager.UnloadSceneAsync("BattleScene");
+            await SceneManager.UnloadSceneAsync("BattleScreen");
             await base.WillPushExit(args);
         }
     }

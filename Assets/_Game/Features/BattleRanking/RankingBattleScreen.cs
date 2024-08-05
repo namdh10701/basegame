@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 
 namespace _Game.Features.Battle
 {
-    public class RankingBatlleScene : ZBase.UnityScreenNavigator.Core.Screens.Screen
+    public class RankingBattleScreen : ZBase.UnityScreenNavigator.Core.Screens.Screen
     {
         public RankingBattleViewModel BattleViewModel;
         public override UniTask WillPopEnter(Memory<object> args)
@@ -17,8 +17,8 @@ namespace _Game.Features.Battle
         }
         public override async UniTask WillPushEnter(Memory<object> args)
         {
-            await SceneManager.LoadSceneAsync("BattleScene", LoadSceneMode.Additive);
-            SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(1));
+            await SceneManager.LoadSceneAsync("RankingScene", LoadSceneMode.Additive);
+            SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(3));
             await base.WillPushEnter(args);
             AudioManager.Instance.PlayBgmGameplay();
 
@@ -26,9 +26,7 @@ namespace _Game.Features.Battle
 
         public override async UniTask WillPushExit(Memory<object> args)
         {
-            BattleViewModel.CleanUp();
-            Time.timeScale = 1;
-            await SceneManager.UnloadSceneAsync("BattleScene");
+            await SceneManager.UnloadSceneAsync("RankingScene");
             await base.WillPushExit(args);
         }
     }

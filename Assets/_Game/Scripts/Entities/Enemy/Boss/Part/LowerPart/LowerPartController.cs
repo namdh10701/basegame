@@ -101,8 +101,6 @@ namespace _Game.Features.Gameplay
             enemyAttackData.TargetCells = new List<Cell>() { cell };
             enemyAttackData.CenterCell = cell;
 
-            Debug.LogError(cell.ToString());
-
             DecreaseHealthEffect decreaseHp = new GameObject("", typeof(DecreaseHealthEffect)).GetComponent<DecreaseHealthEffect>();
             decreaseHp.Amount = giantOctopus.enemyStats.P2.Value;
             decreaseHp.ChanceAffectCell = 1;

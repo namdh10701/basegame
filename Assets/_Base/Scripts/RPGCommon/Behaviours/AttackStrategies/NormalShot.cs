@@ -40,6 +40,7 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
         {
             var projectileEntity = Object.Instantiate(projectilePrefab, ShootPosition.position, shootDirection, null);
             var projectile = projectileEntity.GetComponent<CannonProjectile>();
+            projectile.IsFever = Cannon.FeverState != CannonFeverState.None;
             projectile.gameObject.SetActive(true);
             AddProjectileModifiers(projectile);
             return projectile;

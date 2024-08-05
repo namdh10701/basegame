@@ -39,8 +39,9 @@ namespace _Game.Features.Gameplay
 
             SkeletonGraphic.AnimationState.SetAnimation(0, appear, false);
             SkeletonGraphic.AnimationState.AddAnimation(0, idle, true, 0);
-            feverText.text = ((int)feverModel.FeverStat.Value).ToString();
+            feverText.text = $" {((int)feverModel.FeverStat.Value).ToString()} / {((int)feverModel.FeverStat.MaxValue).ToString()}";
             feverProgress.value = feverModel.FeverStat.Value;
+            feverProgress.maxValue = feverModel.FeverStat.MaxValue;
             OnStateEnter(feverModel.CurrentState);
             lastState = feverModel.CurrentState;
             feverModel.OnStatChanged += FeverStat_OnValueChanged;
@@ -162,7 +163,7 @@ namespace _Game.Features.Gameplay
             {
                 progress = elapsedTime / duration;
                 elapsedTime += Time.deltaTime;
-                feverProgress.value = Mathf.Lerp(0, 1, progress);
+                feverProgress.value = Mathf.Lerp(FeverModel.FeverStat.MaxValue, 0, progress);
                 yield return null;
             }
         }

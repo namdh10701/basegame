@@ -32,5 +32,13 @@ namespace _Game.Features.Gameplay
             cameraShake.Shake(.1f, new Vector3(.1f, .1f, .1f));
             OnAttack?.Invoke();
         }
+
+        public override void AfterStun()
+        {
+            if (lastpartState == PartState.Attacking)
+            {
+                State = PartState.Hidding;
+            }
+        }
     }
 }

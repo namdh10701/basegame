@@ -1,3 +1,4 @@
+using _Base.Scripts.Audio;
 using _Game.Features.Gameplay;
 using Spine;
 using Spine.Unity;
@@ -80,6 +81,7 @@ namespace _Game.Features.Gameplay
             {
                 StopCoroutine(blinkCoroutine);
             }
+            AudioManager.Instance.PlayMonsterGetHit();
             blinkCoroutine = StartCoroutine(BlinkCoroutine());
         }
         IEnumerator BlinkCoroutine()
@@ -160,7 +162,7 @@ namespace _Game.Features.Gameplay
                     StartCoroutine(DeadCoroutine());
                     break;
             }
-            if(state!= PartState.Hidding)
+            if (state != PartState.Hidding)
             {
                 meshRenderer.enabled = true;
             }

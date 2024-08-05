@@ -4661,6 +4661,7 @@ GameObject:
   - component: {fileID: 6506538728893452254}
   - component: {fileID: 2201989753240364672}
   - component: {fileID: -6973460928364568265}
+  - component: {fileID: 1584978430683186233}
   m_Layer: 9
   m_Name: Ship_0002
   m_TagString: Untagged
@@ -4772,6 +4773,7 @@ MonoBehaviour:
   CrewJobData: {fileID: 7331040527960519150}
   FeverModel: {fileID: 2547415733251838701}
   HUD: {fileID: 4035568595952034417}
+  reloadCannonController: {fileID: 1584978430683186233}
 --- !u!114 &2990291223794117489
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5072,6 +5074,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ship: {fileID: 3791694058477893569}
   AllStatModifier: []
+--- !u!114 &1584978430683186233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7667515064904725128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31c829eb71550c545a8cb3d433bf20a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ship: {fileID: 3791694058477893569}
+  outOfAmmoCannons: []
 --- !u!1 &7705195285531771748
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,6 +11,7 @@ using _Game.Features.Inventory;
 using _Game.Features.Quest;
 using Cysharp.Threading.Tasks;
 using Online;
+using Online.Enum;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityWeld.Binding;
@@ -267,7 +268,7 @@ namespace _Game.Features.Ranking
             var resp = await PlayfabManager.Instance.Ranking.CreateRankTicketAsync();
             if (!resp.Result)
             {
-                if (resp.Error == "NOT_ENOUGH_TICKET")
+                if (resp.Error == EErrorCode.NotEnoughTicket)
                 {
                     await AlertModal.Show("Not Enough Resource!");
                 }

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class ConsumedManaDisplay : MonoBehaviour
 {
@@ -12,6 +13,13 @@ public class ConsumedManaDisplay : MonoBehaviour
     {
         transform.position = position;
         damageText.text = "-" + mana.ToString();
+        gameObject.SetActive(true);
+    }
+
+    public void Init(string details, Vector3 position)
+    {
+        transform.position = position;
+        damageText.text = details;
         gameObject.SetActive(true);
     }
 

@@ -53,16 +53,10 @@ namespace _Game.Features
             
             // TODO test
             PlayfabManager.Instance.RankInfo.EndTimestamp = (ulong)DateTime.Now.AddDays(2).ToFileTimeUtc();
-
-            // AudioManager.Instance.LoadSoundSettings();
-            // AudioManager.Instance.IsBgmOn = !SaveSystem.GameSave.Settings.MuteBGM;
-            // AudioManager.Instance.IsSfxOn = !SaveSystem.GameSave.Settings.MuteSFX;
             
             AudioManager.Instance.IsBgmOn = PlayerPrefs.GetInt("Settings.MuteBGM", 0) == 0;
             AudioManager.Instance.IsSfxOn = PlayerPrefs.GetInt("Settings.MuteSFX", 0) == 0;
 
-            // MapPlayerTracker.Instance.OnStagePassed += OnOnStagePassed;
-            
             bootstrapScreen.LoadingProgress = 0.8f;
             
             await Nav.PreloadScreenAsync<MainScreen>();

@@ -18,6 +18,8 @@ namespace _Game.Features.Gameplay
     {
         [SerializeField] OctopusState state;
         [SerializeField] OctopusState lastState;
+
+        [SerializeField] public EffectTakerCollider[] effectTakerColliders;
         public OctopusState State
         {
             get { return state; }
@@ -62,8 +64,24 @@ namespace _Game.Features.Gameplay
 
             if (state == OctopusState.Dead)
             {
+                foreach (EffectTakerCollider effectTakerCollider in effectTakerColliders)
+                {
+                    effectTakerCollider.gameObject.SetActive(false);
+                }
                 StopAllCoroutines();
+                upperPartController.OnDead();
                 StartCoroutine(DeadCoroutine());
+            }
+
+            if (state == OctopusState.None)
+            {
+                foreach (EffectTakerCollider effectTakerCollider in effectTakerColliders)
+                {
+                    effectTakerCollider.gameObject.SetActive(false);
+                }
+                StopAllCoroutines();
+                StopAllAttack();
+                upperPartController.OnDead();
             }
         }
 
@@ -83,7 +101,11 @@ namespace _Game.Features.Gameplay
 
         void StopAllAttack()
         {
-
+            behindPartController.StopAttack();
+            lowerPartController.StopAttack();
+            upperPartController.StopAttack();
+            spawnPartController.StopAttack();
+            body.State = PartState.Idle;
         }
 
         IEnumerator TransformCoroutine()
@@ -366,5 +388,6 @@ namespace _Game.Features.Gameplay
         {
 
         }
+
     }
 }

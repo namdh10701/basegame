@@ -77,18 +77,6 @@ namespace _Game.Features.Gameplay
 
 
             GlobalEvent<EnemyStats>.Register("EnemyDied", OnEnemyDied);
-
-
-
-            if (EnemyWaveManager.floorId == "1")
-            {
-                stats.Fever.StatValue.BaseValue = 0;
-            }
-            else
-            {
-                float fever = PlayerPrefs.GetFloat("fever", 0);
-                stats.Fever.StatValue.BaseValue = fever;
-            }
             FeverModel.SetFeverPointStats(stats.Fever);
             PathfindingController.Initialize();
             ShipSetup.Initialize();
@@ -97,8 +85,27 @@ namespace _Game.Features.Gameplay
             {
                 cannon.View.cannonHUD.RegisterJob(CrewJobData);
             }
+            reloadCannonController.Init(this);
             HUD.Initialize(ShipSetup.Ammos);
+            stats.HealthPoint.OnValueChanged += HealthPoint_OnValueChanged;
         }
+        bool isDead;
+        private void HealthPoint_OnValueChanged(RangedStat obj)
+        {
+            if (obj.Value <= obj.MinValue)
+            {
+                if (!isDead)
+                {
+                    isDead = true;
+                    ShipSetup.HideHUD();
+                    reloadCannonController.enabled = false;
+                    ShipSetup.DisableAllItem();
+                    BattleManager.Instance.Lose();
+                }
+            }
+        }
+
+        public ReloadCannonController reloadCannonController;
 
         public void EnterFullFever()
         {
@@ -111,7 +118,7 @@ namespace _Game.Features.Gameplay
         }
         public void ExitFullFever()
         {
-            FeverModel.UpdateState();
+            FeverModel.CurrentState = FeverState.State0;
             foreach (Cannon cannon in ShipSetup.Cannons)
             {
                 cannon.OnFeverEffectExit();

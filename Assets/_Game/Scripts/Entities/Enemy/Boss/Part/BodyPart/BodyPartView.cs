@@ -90,7 +90,7 @@ namespace _Game.Features.Gameplay
             if (trackEntry.Animation.Name == shake && lastState == PartState.Attacking)
             {
                 skeletonAnim.AnimationState.ClearTrack(1);
-                aimFK.SetActive(false);
+                //aimFK.SetActive(false);
             }
         }
 
@@ -99,7 +99,7 @@ namespace _Game.Features.Gameplay
             if (trackEntry.Animation.Name == shake && lastState == PartState.Attacking)
             {
                 skeletonAnim.AnimationState.SetAnimation(1, aim, true);
-                aimFK.SetActive(true);
+                //aimFK.SetActive(true);
                 OnAttack?.Invoke();
             }
             if (trackEntry.Animation.Name == stunToIdle)

@@ -15,6 +15,7 @@ namespace Online
 			public const string Rank = "Rank";
 			public const string RankScore = "RankScore";
 			public const string CurrentRankID = "CurrentRankID";
+			public const string VideoAds = "VideoAds";
 		}
 		
 		public static class CloudFunction
@@ -24,6 +25,8 @@ namespace Online
 			public const string GetRankInfo = "GetRankInfo";
 			public const string CreateRankTicket = "CreateRankTicket";
 			public const string SubmitRankingMatch = "SubmitRankingMatch";
+			public const string BonusGold = "BonusGold";
+			public const string ReportLimitPackage = "ReportLimitPackage";
 		}
 	}
 }

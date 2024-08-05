@@ -11,7 +11,6 @@ namespace _Game.Features.Gameplay
 {
     public class ReloadCannonController : MonoBehaviour
     {
-        public BattleInputManager battleInputManager;
         public Ship ship;
 
         public List<Cannon> outOfAmmoCannons;
@@ -73,7 +72,7 @@ namespace _Game.Features.Gameplay
             bool isDoubleAmmo = false;
             bool isRefundMana = false;
             float ammoDoubledChance = shipStats.BonusAmmo.Value;
-            float refundManaCostChance = shipStats.BonusAmmo.Value;
+            float refundManaCostChance = shipStats.ZeroManaCost.Value;
 
             isDoubleAmmo = Random.Range(0, 1f) < ammoDoubledChance;
             isRefundMana = Random.Range(0, 1f) < refundManaCostChance;

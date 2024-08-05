@@ -56,6 +56,9 @@ namespace _Game.Scripts
             stats.HealthPoint.MaxStatValue.BaseValue = tableRecord.Hp;
             stats.HealthPoint.StatValue.BaseValue = tableRecord.Hp;
             stats.ActionSequenceInterval.BaseValue = tableRecord.AttackSpeed;
+            stats.FeverPoint.BaseValue = tableRecord.FeverPoint;
+            stats.BlockChance.BaseValue = tableRecord.BlockChance;
+            stats.AnimationTimeScale.BaseValue = 1;
         }
     }
 
@@ -100,7 +103,6 @@ namespace _Game.Scripts
             shipStats.HealthPoint.StatValue.BaseValue = tableRecord.Hp;
 
             shipStats.ManaRegenerationRate.BaseValue = tableRecord.ManaRegenRate;
-            shipStats.ManaPoint.MinStatValue.BaseValue = tableRecord.MaxMana;
             shipStats.ManaPoint.MaxStatValue.BaseValue = tableRecord.MaxMana;
             shipStats.ManaPoint.StatValue.BaseValue = tableRecord.MaxMana;
 

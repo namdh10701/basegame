@@ -1,4 +1,5 @@
 using DG.Tweening;
+using Spine.Unity;
 using UnityEngine;
 
 public enum HighlightType
@@ -13,6 +14,7 @@ public class CellRenderer : MonoBehaviour
     [SerializeField] Color normalColor;
     [SerializeField] Color takeDamageColor;
     [SerializeField] SpriteRenderer brokenSprite;
+    [SerializeField] SkeletonAnimation skeletonAnimation;
     public void ToggleHighlight(HighlightType highlightType)
     {
         switch (highlightType)
@@ -45,6 +47,7 @@ public class CellRenderer : MonoBehaviour
 
     public void OnBroken()
     {
+        skeletonAnimation.AnimationState.SetAnimation(0, "test", false);
         brokenSprite.gameObject.SetActive(true);
     }
 

@@ -59,6 +59,10 @@ public class UpperPartController : PartController
         base.StopAttack();
     }
 
+    public void OnDead()
+    {
+        CancelInvoke();
+    }
 
     void StartAttackLeft()
     {

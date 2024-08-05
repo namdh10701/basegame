@@ -1,15 +1,17 @@
+using System;
+using Newtonsoft.Json;
+
 namespace Online.Model
 {
-	public class LevelModel
+	public class LimitPackageModel
 	{
-		public int Level;
-		public long Exp;
-	}
+		[JsonProperty("Id")]
+		public string Id { get; set; }
+		
+		[JsonProperty("LastTime")]
+		public long LastTime { get; set; }
 
-	public class EquipmentModel
-	{
-		public string ShipID;
-		public object Grid;
-		public object Stack;
+		[JsonProperty("Count")]
+		public int Count { get; set; }
 	}
 }

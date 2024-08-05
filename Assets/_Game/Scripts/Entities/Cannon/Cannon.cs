@@ -163,7 +163,7 @@ namespace _Game.Scripts.Entities
         public void OnFullFeverEffectEnter()
         {
             CannonFeverStateManager.FeverState = CannonFeverState.FullFever;
-            Invoke("OnFeverEffectExit", 5);
+            Invoke("OnFeverEffectExit", 10);
         }
 
         public void OnFeverEffectExit()

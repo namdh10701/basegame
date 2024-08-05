@@ -14,10 +14,21 @@ using ZBase.UnityScreenNavigator.Core.Screens;
 
 namespace _Game.Features.Battle
 {
+    public interface IBattleView
+    {
+        public void Hide();
+    }
+
     [Binding]
     public class BattleViewModel : RootViewModel
     {
         public FeverView FeverView;
+        public CanvasGroup BtnCanvasGroup;
+        public void Hide()
+        {
+            BtnCanvasGroup.alpha = 0;
+            BtnCanvasGroup.blocksRaycasts = false;
+        }
         public void CleanUp()
         {
             FeverView.ClearState();
@@ -237,7 +248,7 @@ namespace _Game.Features.Battle
         {
             IsPause = true;
             GlobalEvent<bool>.Send("TOGGLE_PAUSE", true);
-            var options = new ModalOptions("GamePauseModal");
+            var options = new ModalOptions("GamePauseModal", 1, false);
             await ModalContainer.Find(ContainerKey.Modals).PushAsync(options);
 
         }
@@ -274,6 +285,7 @@ namespace _Game.Features.Battle
         public void Init(BattleManager battleManager)
         {
             battleManager.TimeScaleChanged += UpdateCurrentSpeed;
+            battleManager.OnEnded += Hide;
             Ship ship = battleManager.EntityManager.Ship;
             ShipStats shipStats = ship.Stats as ShipStats;
 

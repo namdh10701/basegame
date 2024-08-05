@@ -1,9 +1,12 @@
 using _Base.Scripts.Audio;
 using _Game.Features.Battle;
+using _Game.Scripts;
 using _Game.Scripts.Battle;
 using _Game.Scripts.SaveLoad;
+using _Game.Scripts.UI;
 using Map;
 using System.Collections;
+using System.Threading.Tasks;
 using UnityEngine;
 using ZBase.UnityScreenNavigator.Core.Modals;
 
@@ -13,6 +16,17 @@ namespace _Game.Features.Gameplay
     {
         public GiantOctopus giantOctopus;
         public Timer timer;
+        RankingBattleViewModel batleView;
+        public float DmgDeal
+        {
+
+            get
+            {
+                float dmgDealt;
+                dmgDealt = giantOctopus.enemyStats.HealthPoint.MaxValue - giantOctopus.enemyStats.HealthPoint.Value;
+                return dmgDealt;
+            }
+        }
         public override void Initialize()
         {
             BattleInputManager.gameObject.SetActive(false);
@@ -20,7 +34,9 @@ namespace _Game.Features.Gameplay
             LevelStartSequence.shipSpeed = EntityManager.Ship.ShipSpeed;
             GridAttackHandler.ship = EntityManager.Ship;
             GridPicker.ShipGrid = EntityManager.Ship.ShipSetup;
-            RankingBattleViewModel batleView = FindAnyObjectByType<RankingBattleViewModel>();
+            BattleInputManager.reloadCannonController = EntityManager.Ship.reloadCannonController;
+            BattleInputManager.CrewJobData = EntityManager.Ship.CrewJobData;
+            batleView = FindAnyObjectByType<RankingBattleViewModel>();
             if (batleView != null)
                 batleView.Init(this);
             StartCoroutine(LevelEntryCoroutine());
@@ -33,10 +49,8 @@ namespace _Game.Features.Gameplay
             BattleInputManager.gameObject.SetActive(true);
             giantOctopus.gameObject.SetActive(true);
             EntityManager.Ship.ShipSetup.CrewController.ActivateCrews();
-            yield return new WaitForSeconds(4);
-           
-            timer.timeCap = 300;
-            timer.StartTimer();
+            yield return new WaitForSeconds(10);
+            batleView.ShowTimer();
             winCondition.StartChecking();
         }
 
@@ -44,11 +58,32 @@ namespace _Game.Features.Gameplay
         {
 
         }
-
+        public override void HandleLoseData()
+        {
+        }
+        protected override void StopGame()
+        {
+            base.StopGame();
+            if (giantOctopus.State != OctopusState.Dead)
+            {
+                giantOctopus.State = OctopusState.None;
+            }
+        }
         public override async void ShowWinUIAsync()
         {
-            var options = new ModalOptions("BattleVictory1Screen", true, loadAsync: false);
-            await ModalContainer.Find(ContainerKey.Modals).PushAsync(options);
+            if (giantOctopus.State == OctopusState.Dead)
+            {
+                await Task.Delay((int)(6 * 1000));
+            }
+            var options = new ModalOptions("RankingVictoryModal", true, loadAsync: false);
+            await ModalContainer.Find(ContainerKey.Modals).PushAsync(options, DmgDeal);
         }
+
+        public override async void ShowLoseUIAsync()
+        {
+            var options = new ModalOptions("RankingVictoryModal", true, loadAsync: false);
+            await ModalContainer.Find(ContainerKey.Modals).PushAsync(options, DmgDeal);
+        }
+
     }
 }

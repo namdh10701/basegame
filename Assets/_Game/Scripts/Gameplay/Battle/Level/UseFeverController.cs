@@ -126,6 +126,7 @@ public class UseFeverController : MonoBehaviour
 
         float decreaseDuration = 10;
         float decreaseRate = shipStats.Fever.MaxValue / decreaseDuration;
+
         FeverSpeedFx.Activate();
         EntityManager.Ship.EnterFullFever();
 

@@ -1,14 +1,20 @@
 
+using System;
 using UnityEngine;
 
 namespace _Game.Features.Gameplay
 {
     public abstract class WinCondition : MonoBehaviour
     {
-        protected bool IsStarted;
+        protected bool IsChecking;
         public virtual void StartChecking()
         {
-            IsStarted = true;
+            IsChecking = true;
+        }
+
+        public virtual void StopCheck()
+        {
+            IsChecking = false;
         }
     }
 }

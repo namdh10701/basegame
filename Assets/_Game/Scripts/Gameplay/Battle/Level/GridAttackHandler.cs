@@ -22,43 +22,7 @@ namespace _Game.Features.Gameplay
                     {
                         return;
                     }
-                    if (effect is DecreaseHealthEffect decrease)
-                    {
-                        if (cell.GridItem != null)
-                        {
-                            if (cell.GridItem is IEffectTaker effectTaker)
-                            {
-                                effectTaker.EffectHandler.Apply(effect);
-                            }
-                            else
-                            {
-                                cell.EffectHandler.Apply(effect);
-                                ship.EffectHandler.Apply(effect);
-                            }
-                        }
-                        else
-                        {
-                            cell.EffectHandler.Apply(effect);
-                            ship.EffectHandler.Apply(effect);
-                        }
-
-                    }
-                    else
-                    {
-
-                        if (cell.GridItem != null)
-                        {
-                            if (cell.GridItem is IEffectTaker effectTaker)
-                            {
-                                effectTaker.EffectHandler.Apply(effect);
-                            }
-                        }
-                        else
-                        {
-                            ship.EffectHandler.Apply(effect);
-                            cell.EffectHandler.Apply(effect);
-                        }
-                    }
+                    cell.EffectHandler.Apply(effect);
                 }
 
             }

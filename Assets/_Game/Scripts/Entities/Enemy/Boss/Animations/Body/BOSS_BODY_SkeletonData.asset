@@ -18,7 +18,7 @@ MonoBehaviour:
   skeletonJSON: {fileID: 4900000, guid: 646b71532f899b44b8c4603c18c78ffc, type: 3}
   isUpgradingBlendModeMaterials: 0
   blendModeMaterials:
-    requiresBlendModeMaterials: 1
+    requiresBlendModeMaterials: 0
     applyAdditiveMaterial: 1
     additiveMaterials:
     - pageName: BOSS_BODY.png
@@ -26,8 +26,44 @@ MonoBehaviour:
     multiplyMaterials: []
     screenMaterials: []
   skeletonDataModifiers: []
-  fromAnimation: []
-  toAnimation: []
-  duration: []
+  fromAnimation:
+  - MAD_IDLE
+  - MAD_SHAKE
+  - NORMAL_SHAKE
+  - MAD_SHAKE
+  - MAD_SHAKE
+  - NORMAL_SHAKE
+  - NORMAL_IDLE
+  - MAD_STUN2_LOOP
+  - MAD_STUN1_BEGIN
+  - MAD_STUN3_TO_IDLE
+  - MAD_ATTACK1
+  - MAD_ATTACK2_CHARGE
+  toAnimation:
+  - DEAD
+  - MAD_ATTACK5_TO_IDLE
+  - NORMAL_ATTACK5_TO_IDLE
+  - DEAD
+  - MAD_TRANFORM
+  - MAD_TRANFORM
+  - MAD_TRANFORM
+  - DEAD
+  - DEAD
+  - DEAD
+  - DEAD
+  - DEAD
+  duration:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
   defaultMix: 0.2
   controller: {fileID: 0}

@@ -29,6 +29,7 @@ namespace _Game.Features.Gameplay
         public EntityManager EntityManager;
         public ReloadCannonController reloadCannonController;
         public UseFeverController useFeverController;
+        public CrewJobData CrewJobData;
         private void Start()
         {
             _camera = Camera.main;
@@ -45,7 +46,6 @@ namespace _Game.Features.Gameplay
 
             if (clickedObject != null)
             {
-                Debug.Log("CLICKED"); Debug.Log(clickedObject.name);
                 if (clickedObject.TryGetComponent(out FeverOrbBtn orbBtn))
                 {
                     useFeverController.StartDrag(worldPointerPos);
@@ -129,18 +129,30 @@ namespace _Game.Features.Gameplay
             {
                 if (pointerDownObject != null)
                 {
-                    Debug.Log(pointerDownObject.name);
                     if (pointerDownObject.TryGetComponent(out Cannon cannon))
                     {
-                        DeselectCannon();
-                        EntityManager.Ship.HUD.FilterCannonUsingAmmo(cannon);
-                        EntityManager.Ship.HUD.Show();
-                        selectingCannon = cannon;
-                        selectingCannon.View.Border.SetActive(true);
-
                         if (cannon.GridItemStateManager.GridItemState == GridItemState.Broken)
                         {
-                            GlobalEvent<Cannon, int>.Send("FixCannon", cannon, int.MaxValue);
+                            if (CrewJobData.FixCannonJobDic[cannon].Status == TaskStatus.Pending)
+                            {
+                                DeselectCannon();
+                                EntityManager.Ship.HUD.FilterCannonUsingAmmo(cannon);
+                                EntityManager.Ship.HUD.Show();
+                                selectingCannon = cannon;
+                                selectingCannon.View.Border.SetActive(true);
+                            }
+                            else
+                            {
+                                GlobalEvent<Cannon, int>.Send("FixCannon", cannon, int.MaxValue);
+                            }
+                        }
+                        else
+                        {
+                            DeselectCannon();
+                            EntityManager.Ship.HUD.FilterCannonUsingAmmo(cannon);
+                            EntityManager.Ship.HUD.Show();
+                            selectingCannon = cannon;
+                            selectingCannon.View.Border.SetActive(true);
                         }
                     }
                     if (pointerDownObject.TryGetComponent(out Ammo ammo))

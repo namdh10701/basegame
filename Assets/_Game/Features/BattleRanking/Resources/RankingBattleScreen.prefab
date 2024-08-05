@@ -49,6 +49,7 @@ GameObject:
   - component: {fileID: 1858964659856385711}
   - component: {fileID: 2693160525537058242}
   - component: {fileID: 7277527797714170135}
+  - component: {fileID: 110378167305075551}
   m_Layer: 5
   m_Name: Timer
   m_TagString: Untagged
@@ -71,9 +72,9 @@ RectTransform:
   - {fileID: 2071353604641564584}
   m_Father: {fileID: 4367809025318887409}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 847}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: 142}
   m_SizeDelta: {x: 350, y: 93}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1858964659856385711
@@ -127,6 +128,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text: {fileID: 2163196436010703933}
+--- !u!225 &110378167305075551
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 256296098105505996}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &320054687419735224
 GameObject:
   m_ObjectHideFlags: 0
@@ -2115,6 +2128,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8626107930336773992}
+  - component: {fileID: 8034368191657984122}
   m_Layer: 5
   m_Name: UI
   m_TagString: Untagged
@@ -2143,6 +2157,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &8034368191657984122
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3785088565530697075}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &3914141215075880586
 GameObject:
   m_ObjectHideFlags: 0
@@ -2851,6 +2877,8 @@ RectTransform:
   - {fileID: 4306553312009829762}
   - {fileID: 2120055156522194123}
   - {fileID: 1382556268717838765}
+  - {fileID: 7105592164918060943}
+  - {fileID: 4877604520934991927}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -2908,6 +2936,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FeverView: {fileID: 2965406774542535853}
   TimerView: {fileID: 7277527797714170135}
+  timerPosition: {fileID: 7105592164918060943}
+  BtnCanvasGroup: {fileID: 8034368191657984122}
+  timerOrgPos: {fileID: 4877604520934991927}
 --- !u!1 &4909604687386369548
 GameObject:
   m_ObjectHideFlags: 0
@@ -3036,7 +3067,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   viewAdapterTypeName: 
   viewAdapterOptions: {fileID: 0}
-  viewModelPropertyName: _Game.Features.Battle.BattleViewModel.HP
+  viewModelPropertyName: _Game.Features.Battle.RankingBattleViewModel.HP
   viewPropertyName: UnityEngine.UI.Slider.value
 --- !u!114 &6603067258342989004
 MonoBehaviour:
@@ -3052,7 +3083,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   viewAdapterTypeName: 
   viewAdapterOptions: {fileID: 0}
-  viewModelPropertyName: _Game.Features.Battle.BattleViewModel.MaxHP
+  viewModelPropertyName: _Game.Features.Battle.RankingBattleViewModel.MaxMP
   viewPropertyName: UnityEngine.UI.Slider.maxValue
 --- !u!1 &5007762174925108968
 GameObject:
@@ -3607,7 +3638,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   viewAdapterTypeName: 
   viewAdapterOptions: {fileID: 0}
-  viewModelPropertyName: _Game.Features.Battle.BattleViewModel.MPText
+  viewModelPropertyName: _Game.Features.Battle.RankingBattleViewModel.MPText
   viewPropertyName: TMPro.TextMeshProUGUI.text
 --- !u!1 &5333737557531170474
 GameObject:
@@ -3758,7 +3789,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   viewAdapterTypeName: 
   viewAdapterOptions: {fileID: 0}
-  viewModelPropertyName: _Game.Features.Battle.BattleViewModel.HPText
+  viewModelPropertyName: _Game.Features.Battle.RankingBattleViewModel.HPText
   viewPropertyName: TMPro.TextMeshProUGUI.text
 --- !u!1 &5392372075892563665
 GameObject:
@@ -4585,7 +4616,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   viewAdapterTypeName: 
   viewAdapterOptions: {fileID: 0}
-  viewModelPropertyName: _Game.Features.Battle.BattleViewModel.MP
+  viewModelPropertyName: _Game.Features.Battle.RankingBattleViewModel.MP
   viewPropertyName: UnityEngine.UI.Slider.value
 --- !u!114 &1581360537825521186
 MonoBehaviour:
@@ -4601,7 +4632,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   viewAdapterTypeName: 
   viewAdapterOptions: {fileID: 0}
-  viewModelPropertyName: _Game.Features.Battle.BattleViewModel.MaxMP
+  viewModelPropertyName: _Game.Features.Battle.RankingBattleViewModel.MaxMP
   viewPropertyName: UnityEngine.UI.Slider.maxValue
 --- !u!1 &7594189960939466776
 GameObject:
@@ -4798,6 +4829,50 @@ MonoBehaviour:
   enableSprite: {fileID: 21300000, guid: 26c0f338699522146a74096af34a1cd7, type: 3}
   image: {fileID: 6207271909153696761}
   IsShowed: 0
+--- !u!1 &7821998361163228279
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7105592164918060943}
+  - component: {fileID: 5343144732955680060}
+  m_Layer: 5
+  m_Name: Timerposition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &7105592164918060943
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7821998361163228279}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4367809025318887409}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: -119}
+  m_SizeDelta: {x: 350, y: 93}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &5343144732955680060
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7821998361163228279}
+  m_CullTransparentMesh: 1
 --- !u!1 &7914872411584766691
 GameObject:
   m_ObjectHideFlags: 0
@@ -5293,7 +5368,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   viewAdapterTypeName: 
   viewAdapterOptions: {fileID: 0}
-  viewModelPropertyName: _Game.Features.Battle.BattleViewModel.SpeedUpRateText
+  viewModelPropertyName: _Game.Features.Battle.RankingBattleViewModel.SpeedUpRateText
   viewPropertyName: TMPro.TextMeshProUGUI.text
 --- !u!1 &8922174512427177346
 GameObject:
@@ -5569,10 +5644,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 05:49
+  m_text: 05:00
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 9d337b4c504864429bc6fef7e27d37b3, type: 2}
+  m_sharedMaterial: {fileID: 7924131660190385198, guid: 9d337b4c504864429bc6fef7e27d37b3, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -5596,8 +5671,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 42.22
+  m_fontSizeBase: 42.22
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -5983,6 +6058,50 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &9175536109590075718
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4877604520934991927}
+  - component: {fileID: 6258186768921940161}
+  m_Layer: 5
+  m_Name: TimerpositionOrg
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &4877604520934991927
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9175536109590075718}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4367809025318887409}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: 145}
+  m_SizeDelta: {x: 350, y: 93}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &6258186768921940161
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9175536109590075718}
+  m_CullTransparentMesh: 1
 --- !u!1001 &1947056226097020654
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6112,7 +6231,7 @@ MonoBehaviour:
   m_Script: {fileID: -1360956885, guid: e650e72e8be47794994495fc15c0ba63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewModelMethodName: _Game.Features.Battle.BattleViewModel.SpeedUpGame
+  viewModelMethodName: _Game.Features.Battle.RankingBattleViewModel.SpeedUpGame
   viewEventName: UnityEngine.UI.Button.onClick
 --- !u!1001 &2245385536755899650
 PrefabInstance:
@@ -6240,5 +6359,5 @@ MonoBehaviour:
   m_Script: {fileID: -1360956885, guid: e650e72e8be47794994495fc15c0ba63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewModelMethodName: _Game.Features.Battle.BattleViewModel.PauseGame
+  viewModelMethodName: _Game.Features.Battle.RankingBattleViewModel.PauseGame
   viewEventName: UnityEngine.UI.Button.onClick

@@ -107,31 +107,31 @@ namespace _Game.Features.Gameplay
         void GetLoadOut()
         {
             UsingGridItemDatas = new List<GridItemData>();
-             foreach (var (rawPos, gridItem) in SaveSystem.GameSave.ShipSetupSaveData.GetShipSetup(Ship.Id, SaveSystem.GameSave.ShipSetupSaveData.CurrentProfile).ShipData)
-             {
-                 var xy = rawPos.Split(",").Select(int.Parse).ToList();
-                 GridItemData itemData = new();
-                 itemData.Id = gridItem.ItemId;
-                 int translatedY = ShipGridProfile.GridDefinitions[0].Row - xy[1] - 1;
-                 itemData.startY = translatedY;
-                 itemData.startX = xy[0];
-                 itemData.GridId = "1"; // ????????
+            foreach (var (rawPos, gridItem) in SaveSystem.GameSave.ShipSetupSaveData.GetShipSetup(Ship.Id, SaveSystem.GameSave.ShipSetupSaveData.CurrentProfile).ShipData)
+            {
+                var xy = rawPos.Split(",").Select(int.Parse).ToList();
+                GridItemData itemData = new();
+                itemData.Id = gridItem.ItemId;
+                int translatedY = ShipGridProfile.GridDefinitions[0].Row - xy[1] - 1;
+                itemData.startY = translatedY;
+                itemData.startX = xy[0];
+                itemData.GridId = "1"; // ????????
 
-                 switch (gridItem.ItemType)
-                 {
-                     case ItemType.CANNON:
-                         itemData.GridItemType = GridItemType.Cannon;
-                         break;
-                     case ItemType.CREW:
-                         itemData.GridItemType = GridItemType.Crew;
-                         break;
-                     case ItemType.AMMO:
-                         itemData.GridItemType = GridItemType.Bullet;
-                         break;
-                 }
+                switch (gridItem.ItemType)
+                {
+                    case ItemType.CANNON:
+                        itemData.GridItemType = GridItemType.Cannon;
+                        break;
+                    case ItemType.CREW:
+                        itemData.GridItemType = GridItemType.Crew;
+                        break;
+                    case ItemType.AMMO:
+                        itemData.GridItemType = GridItemType.Bullet;
+                        break;
+                }
 
-                 UsingGridItemDatas.Add(itemData);
-             }
+                UsingGridItemDatas.Add(itemData);
+            }
 
             //UsingGridItemDatas = ShipSetupMockup.Datas;
         }
@@ -297,7 +297,6 @@ namespace _Game.Features.Gameplay
                 }
                 else
                 {
-                    Debug.Log(cell.ToString() + " " + gridItem);
                     cell.GridItem = gridItem;
                 }
             }
@@ -396,6 +395,14 @@ namespace _Game.Features.Gameplay
             foreach (var ammoHUD in ammoHUDs)
             {
                 ammoHUD.gameObject.SetActive(false);
+            }
+        }
+
+        public void DisableAllItem()
+        {
+            foreach (Cannon cannon in Cannons)
+            {
+                cannon.GridItemStateManager.GridItemState = GridItemState.Broken;
             }
         }
     }
