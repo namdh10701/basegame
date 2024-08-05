@@ -15,7 +15,8 @@ namespace Online
 				EVirtualCurrency.Ticket => "TI",
 				EVirtualCurrency.Diamond => "DI",
 				EVirtualCurrency.RealMoney => "RM",
-				EVirtualCurrency.VipKey => "VK",
+				EVirtualCurrency.Key => "VK",
+				EVirtualCurrency.FreeTicket => "FT",
 				_ => string.Empty
 			};
 		}

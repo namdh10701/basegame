@@ -8,6 +8,7 @@ namespace Online.Enum
 		Ticket,
 		Diamond,
 		RealMoney,
-		VipKey,
+		Key,
+		FreeTicket,
 	}
 }

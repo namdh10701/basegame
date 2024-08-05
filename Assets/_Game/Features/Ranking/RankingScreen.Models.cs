@@ -256,7 +256,7 @@ namespace _Game.Features.Ranking
             public string Rank => PlayfabManager.Instance.Rank.ToString();
             
             [Binding]
-            public Sprite RankBadge => BackedData == null ? null : Database.GetRankingTierBadge(PlayfabManager.Instance.Rank);
+            public Sprite RankBadge => Database.GetRankingTierBadge(PlayfabManager.Instance.Rank);
             
             [Binding]
             public Sprite NextRankBadge

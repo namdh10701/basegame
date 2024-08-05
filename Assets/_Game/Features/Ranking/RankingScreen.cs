@@ -222,7 +222,7 @@ namespace _Game.Features.Ranking
             };
 
             OwnedTicketCount = PlayfabManager.Instance.Ticket;
-            FreeTicketCount = 2; 
+            FreeTicketCount = PlayfabManager.Instance.FreeTicket; 
         }
 
         public override UniTask Cleanup(Memory<object> args)

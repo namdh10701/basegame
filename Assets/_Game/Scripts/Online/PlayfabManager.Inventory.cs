@@ -16,7 +16,8 @@ namespace Online
 		public int Energy => Inventory.Currencies[EVirtualCurrency.Energy];
 		public int Ticket => Inventory.Currencies[EVirtualCurrency.Ticket];
 		public int Diamond => Inventory.Currencies[EVirtualCurrency.Diamond];
-		public int VipKey => Inventory.Currencies[EVirtualCurrency.VipKey];
+		public int Key => Inventory.Currencies[EVirtualCurrency.Key];
+		public int FreeTicket => Inventory.Currencies[EVirtualCurrency.FreeTicket];
 		
 		public async UniTask<bool> RequestInventoryAsync()
 		{
