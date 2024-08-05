@@ -300,6 +300,18 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6702579546388717737, guid: eb617d48a3059485882311795f2d7523, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1153433211743326867}
+    - targetCorrespondingSourceObject: {fileID: 6958103996255479784, guid: eb617d48a3059485882311795f2d7523, type: 3}
+      insertIndex: 4
+      addedObject: {fileID: 6997060958815041271}
+    - targetCorrespondingSourceObject: {fileID: 6958103996255479784, guid: eb617d48a3059485882311795f2d7523, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2880283232667275760}
+    - targetCorrespondingSourceObject: {fileID: 8857569566854962383, guid: eb617d48a3059485882311795f2d7523, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4784096758657702674}
     - targetCorrespondingSourceObject: {fileID: 3177866154438135460, guid: eb617d48a3059485882311795f2d7523, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1643694060065347934}
@@ -313,6 +325,27 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 182973908066239818}
   m_SourcePrefab: {fileID: 100100000, guid: eb617d48a3059485882311795f2d7523, type: 3}
+--- !u!1 &624395660714827196 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6702579546388717737, guid: eb617d48a3059485882311795f2d7523, type: 3}
+  m_PrefabInstance: {fileID: 6173894260291517717}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1153433211743326867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 624395660714827196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1670825535, guid: e650e72e8be47794994495fc15c0ba63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  viewAdapterTypeName: 
+  viewAdapterOptions: {fileID: 0}
+  viewModelPropertyName: _Game.Features.Ranking.RankingScreen+UserRankInfo.RankBadge
+  viewPropertyName: UnityEngine.UI.Image.sprite
 --- !u!1 &1453553627697130769 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4720365375917756420, guid: eb617d48a3059485882311795f2d7523, type: 3}
@@ -353,6 +386,68 @@ MonoBehaviour:
   viewAdapterTypeName: 
   viewAdapterOptions: {fileID: 0}
   viewModelPropertyName: _Game.Features.Ranking.RankingScreen+RankRecord.IsTop1
+--- !u!1 &3405421196312633818 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8857569566854962383, guid: eb617d48a3059485882311795f2d7523, type: 3}
+  m_PrefabInstance: {fileID: 6173894260291517717}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4784096758657702674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3405421196312633818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1670825535, guid: e650e72e8be47794994495fc15c0ba63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  viewAdapterTypeName: 
+  viewAdapterOptions: {fileID: 0}
+  viewModelPropertyName: _Game.Features.Ranking.RankingScreen+UserRankInfo.RankBadge
+  viewPropertyName: UnityEngine.UI.Image.sprite
+--- !u!1 &3836559623099718397 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6958103996255479784, guid: eb617d48a3059485882311795f2d7523, type: 3}
+  m_PrefabInstance: {fileID: 6173894260291517717}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6997060958815041271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3836559623099718397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: 75
+  m_PreferredHeight: 97
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
+--- !u!114 &2880283232667275760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3836559623099718397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1670825535, guid: e650e72e8be47794994495fc15c0ba63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  viewAdapterTypeName: 
+  viewAdapterOptions: {fileID: 0}
+  viewModelPropertyName: _Game.Features.Ranking.RankingScreen+RankRecord.GiftBoxSprite
+  viewPropertyName: UnityEngine.UI.Image.sprite
 --- !u!1 &6972193104317689243 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3849487714553893006, guid: eb617d48a3059485882311795f2d7523, type: 3}
