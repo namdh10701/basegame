@@ -29,6 +29,8 @@ namespace Online
 		private const string SHIP_UPGRADE_DB_NAME = "ShipUpgradeDB.json";
 		private const string AMMO_UPGRADE_DB_NAME = "AmmoUpgradeDB.json";
 		private const string CANNON_UPGRADE_DB_NAME = "CannonUpgradeDB.json";
+		
+		private const string GACHA_DB_NAME = "GachasDB.json";
 
 		#region Properties
 
@@ -51,7 +53,9 @@ namespace Online
 		public InventoryItemUpgradeTable CannonUpgradeTable { get; private set; }
 		public InventoryItemUpgradeTable AmmoUpgradeTable { get; private set; }
 		public InventoryItemUpgradeTable ShipUpgradeTable { get; private set; }
-
+		
+		public GachaTable GachaTable { get; private set; }
+		
 		#endregion
 
 		private GameConfigModel _configModel = null;
@@ -74,6 +78,8 @@ namespace Online
 			CannonUpgradeTable = new InventoryItemUpgradeTable(CANNON_UPGRADE_DB_NAME);
 			AmmoUpgradeTable = new InventoryItemUpgradeTable(AMMO_UPGRADE_DB_NAME);
 			ShipUpgradeTable = new InventoryItemUpgradeTable(SHIP_UPGRADE_DB_NAME);
+
+			GachaTable = new GachaTable(GACHA_DB_NAME);
 		}
 
 		public async UniTask<bool> RequestNewDatabase()
