@@ -239,7 +239,7 @@ namespace _Game.Features.Ranking
         [Binding]
         public async void NavBack()
         {
-            await ScreenContainer.Find(ContainerKey.Screens).PopAsync(true);
+            await Nav.ShowScreenAsync<MainScreen>();
         }
 
         [Binding]
@@ -285,12 +285,13 @@ namespace _Game.Features.Ranking
 
             await ModalContainer.Find(ContainerKey.Modals).PopAsync(true);
 
-            // reload ticket
-            await PlayfabManager.Instance.Profile.RequestUserProfileAsync();
-            // reload rank info
-            await PlayfabManager.Instance.Ranking.RequestUserRankAsync();
-
             await Nav.ShowScreenAsync<BattleLoadingScreen>(poolingPolicy: ZBase.UnityScreenNavigator.Core.PoolingPolicy.DisablePooling);
+
+            // reload date
+            await PlayfabManager.Instance.Profile.RequestUserProfileAsync();
+            await PlayfabManager.Instance.Ranking.RequestUserRankAsync();
+            await LoadData();
+            
             await UniTask.Delay(3000);
             await Nav.ShowScreenAsync<RankingBattleScreen>(poolingPolicy: ZBase.UnityScreenNavigator.Core.PoolingPolicy.DisablePooling);
         }

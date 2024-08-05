@@ -24,7 +24,7 @@ namespace Online
 			public const string CombineItems = "CombineItems";
 			public const string GetRankInfo = "GetRankInfo";
 			public const string CreateRankTicket = "CreateRankTicket";
-			public const string SubmitRankingMatch = "SubmitRankingMatch";
+			public const string SubmitRankingMatchAsync = "SubmitRankingMatchAsync";
 			public const string BonusGold = "BonusGold";
 			public const string ReportLimitPackage = "ReportLimitPackage";
 			public const string RequestGacha = "RequestGacha";

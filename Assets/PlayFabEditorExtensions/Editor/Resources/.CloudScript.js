@@ -41,7 +41,7 @@ const ProfileField = Object.freeze({
 
 const TitleReadOnlyData = Object.freeze({
     RankInfo: 'RankInfo',
-    RankUnrank: 'RankUnrank',
+    // RankUnrank: 'RankUnrank',
     RankRookie: 'RankRookie',
     RankGunner: 'RankGunner',
     RankHunter: 'RankHunter',
@@ -52,7 +52,10 @@ const TitleReadOnlyData = Object.freeze({
 const EItemType = Object.freeze({
     Ship: 'ship', // 0
     Crew: 'crew', // 
-    Cannon: 'cannon', Ammo: 'ammo', Blueprint: 'blueprint',
+    Cannon: 'cannon',
+    Ammo: 'ammo',
+    Blueprint: 'blueprint',
+    Misc: 'misc',
 });
 
 const EDatabase = Object.freeze({
@@ -74,11 +77,12 @@ const ERarity = Object.freeze({
 });
 
 const EVirtualCurrency = Object.freeze({
-    Gold: 'GO', Gem: 'GE', Energy: 'EN', Ticket: 'TI', VipKey: 'VK', Diamond: 'DI', Key: 'KE'
+    Gold: 'GO', Gem: 'GE', Energy: 'EN', Ticket: 'TI', FreeTicket: 'FT', Diamond: 'DI', Key: 'KE'
 });
 
 const ERank = Object.freeze({
-    Unrank: 'Unrank', Rookie: 'Rookie', Gunner: 'Gunner', Hunter: 'Hunter', Captain: 'Captain', Conquer: 'Conquer'
+    //Unrank: 'Unrank', 
+    Rookie: 'Rookie', Gunner: 'Gunner', Hunter: 'Hunter', Captain: 'Captain', Conquer: 'Conquer'
 });
 
 const EBlueprintId = Object.freeze({
@@ -94,7 +98,7 @@ const EMiscItemId = Object.freeze({
     Exp: "res_exp",
     Energy: "res_energy",
     Ticket: "res_ranking_ticket",
-    VipKey: "res_vipkey"
+    Key: "res_vipkey"
 });
 
 const EErrorCode = Object.freeze({
@@ -149,7 +153,7 @@ handlers.RequestNewProfile = function (args, context) {
     var userData = {};
     userData[ProfileField.Level] = 1;
     userData[ProfileField.Exp] = 0;
-    userData[ProfileField.Rank] = ERank.Unrank;
+    userData[ProfileField.Rank] = ERank.Rookie;
     userData[ProfileField.RankScore] = 0;
     userData[ProfileField.CurrentRankID] = "";
     userData[ProfileField.LimitPackages] = [];
@@ -355,7 +359,7 @@ handlers.GetRankInfo = function (args, context) {
     };
     let resData = server.GetUserReadOnlyData(reqReadOnlyData);
 
-    let userRank = ERank.Unrank;
+    let userRank = ERank.Rookie;
     let userRankScore = 0;
     let userRankId = "";
     if (resData.Data.hasOwnProperty(ProfileField.Rank)) {
@@ -371,7 +375,7 @@ handlers.GetRankInfo = function (args, context) {
     let resTitleData = server.GetTitleInternalData({Keys: keys});
     let userRankData = JSON.parse(resTitleData.Data[userRankDB]);
     let userRankInfo = userRankData.find(val => val.Id == userRankId);
-    SortArrayByKey(userRankInfo.Players, 'Score', 'desc');
+    // SortArrayByKey(userRankInfo.Players, 'Score', 'desc');
 
     return {
         Result: true,
@@ -384,7 +388,7 @@ handlers.CreateRankTicket = function (args, context) {
     // TODO move to config
     let energyPerMatch = 1;
     let ticketPerMatch = 1;
-    
+
     var resInventory = server.GetUserInventory({PlayFabId: currentPlayerId});
     if (resInventory.VirtualCurrency[EVirtualCurrency.Energy] < energyPerMatch) {
         return {
@@ -392,7 +396,10 @@ handlers.CreateRankTicket = function (args, context) {
         };
     }
 
-    if (resInventory.VirtualCurrency[EVirtualCurrency.Ticket] <= 0) {
+    let ticketCount = resInventory.VirtualCurrency[EVirtualCurrency.Ticket];
+    let freeTicketCount = resInventory.VirtualCurrency[EVirtualCurrency.FreeTicket];
+
+    if (ticketCount + freeTicketCount < ticketPerMatch) {
         return {
             Result: false, Error: EErrorCode.NotEnoughTicket
         };
@@ -404,10 +411,17 @@ handlers.CreateRankTicket = function (args, context) {
     });
     result.VirtualCurrency[EVirtualCurrency.Energy] = resSubEnergy.Balance
 
-    var resSubTicket = server.SubtractUserVirtualCurrency({
-        PlayFabId: currentPlayerId, VirtualCurrency: EVirtualCurrency.Ticket, Amount: ticketPerMatch
-    });
-    result.VirtualCurrency[EVirtualCurrency.Ticket] = resSubTicket.Balance
+    if (freeTicketCount > 0) {
+        var resSubTicket = server.SubtractUserVirtualCurrency({
+            PlayFabId: currentPlayerId, VirtualCurrency: EVirtualCurrency.FreeTicket, Amount: ticketPerMatch
+        });
+        result.VirtualCurrency[EVirtualCurrency.FreeTicket] = resSubTicket.Balance
+    } else {
+        var resSubTicket = server.SubtractUserVirtualCurrency({
+            PlayFabId: currentPlayerId, VirtualCurrency: EVirtualCurrency.Ticket, Amount: ticketPerMatch
+        });
+        result.VirtualCurrency[EVirtualCurrency.Ticket] = resSubTicket.Balance
+    }
 
     CheckJoinRank(currentPlayerId);
 
@@ -491,7 +505,7 @@ handlers.SubmitRankingMatchAsync = function (args, context) {
         PlayFabId: currentPlayerId,
         Data: newData
     });
-    
+
     let rankName = resReadOnlyData.Data[ProfileField.Rank].Value;
 
     let userRankDB = 'Rank' + rankName;
@@ -504,54 +518,85 @@ handlers.SubmitRankingMatchAsync = function (args, context) {
         Key: userRankDB,
         Value: JSON.stringify(rankData)
     });
-    
+
     // reward processing
-    let rewardData = GetBattleRankingRewards(rankName, args.Score);
-    
+    let RewardData = GetBattleRankingRewards(rankName, args.Score);
+
     // Save rewards
-    SaveBattleRankingRewards(rewardData);
+    let Rewards = SaveBattleRankingRewards(RewardData);
 
     return {
         Result: true,
-        UserRankInfo: userRankInfo
+        UserRankInfo: userRankInfo,
+        Rewards
     };
 };
 
 function SaveBattleRankingRewards(rewardData) {
+    let Rewards = [];
+
     // grant blueprints
     if (rewardData.Blueprint.length) {
         let resGrantItems = server.GrantItemsToUser({
             PlayFabId: currentPlayerId, ItemIds: rewardData.Blueprint,
         });
+
+        for(let idx in rewardData.Blueprint) {
+            Rewards.push({
+                ItemId: rewardData.Blueprint[idx],
+                ItemType: EItemType.Misc,
+                Amount: 1,
+            })
+        }
     }
 
     // add vip keys
-    if (rewardData.VipKey) {
+    if (rewardData.Key) {
         let grantResult = server.AddUserVirtualCurrency({
-            PlayFabId: currentPlayerId, VirtualCurrency: EVirtualCurrency.VipKey, Amount: rewardData.VipKey
+            PlayFabId: currentPlayerId, VirtualCurrency: EVirtualCurrency.Key, Amount: rewardData.Key
         });
+        Rewards.push({
+            ItemId: EMiscItemId.Key,
+            ItemType: EItemType.Misc,
+            Amount: rewardData.Key,
+        })
     }
 
-    // add vip keys
+    // add Gold
     if (rewardData.Gold) {
         let grantResult = server.AddUserVirtualCurrency({
             PlayFabId: currentPlayerId, VirtualCurrency: EVirtualCurrency.Gold, Amount: rewardData.Gold
         });
+        Rewards.push({
+            ItemId: EMiscItemId.Gold,
+            ItemType: EItemType.Misc,
+            Amount: rewardData.Gold,
+        })
     }
 
     // add Exp
     if (rewardData.Exp) {
-        let grantResult = server.AddUserVirtualCurrency({
-            PlayFabId: currentPlayerId, VirtualCurrency: EVirtualCurrency.Exp, Amount: rewardData.Exp
+        var resultData = server.UpdateUserReadOnlyData({
+            PlayFabId: currentPlayerId, Data: {
+                [ProfileField.Exp]: rewardData.Exp
+            }
         });
+        Rewards.push({
+            ItemId: EMiscItemId.Exp,
+            ItemType: EItemType.Misc,
+            Amount: rewardData.Exp,
+        })
     }
+
+    return Rewards;
 }
 
 function GetBattleRankingRewards(rank, dmg) {
     let resTitleData = server.GetTitleInternalData({Keys: [EDatabase.RankingBattleRewardDB]});
     let rewardDB = JSON.parse(resTitleData.Data[EDatabase.RankingBattleRewardDB]);
     const data = rewardDB[rank];
-
+    log.debug(rewardDB);
+    log.debug(rank);
     if (!data) {
         throw new Error('Rank not found');
     }
@@ -572,7 +617,7 @@ function GetBattleRankingRewards(rank, dmg) {
 
     // If no lower milestone is found, use the upper one
     if (!lower) {
-        lower = { Exp: 0, Gold: 0, Blueprint: 0, VipKey: 0 };
+        lower = { Exp: 0, Gold: 0, Blueprint: 0, Key: 0 };
     }
 
     // If no upper milestone is found, use the lower one
@@ -584,7 +629,7 @@ function GetBattleRankingRewards(rank, dmg) {
         Exp: randomRange(lower.Exp, upper.Exp),
         Gold: randomRange(lower.Gold, upper.Gold),
         Blueprint: randomRange(lower.Blueprint, upper.Blueprint),
-        VipKey: randomRange(lower.VipKey, upper.VipKey)
+        Key: randomRange(lower.Key, upper.Key)
     };
 
     let blueprintIdList = [];

@@ -17,6 +17,12 @@ namespace _Game.Features.Inventory
         AMMO,
         CARPET,
         MISC,
+        BLUEPRINT,
+        GOLD,
+        GEM,
+        DIAMOND,
+        TICKET,
+        KEY,
         None,
     }
 
