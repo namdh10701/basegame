@@ -635,8 +635,6 @@ handlers.RequestGacha = function (args, context) {
     });
 
     result['Items'] = resGrantItem.ItemGrantResults;
-    result[ProfileField.Gachas] = userGachas;
-
     return result;
 };
 

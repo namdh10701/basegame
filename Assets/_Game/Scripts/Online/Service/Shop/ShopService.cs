@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
 using Online.Enum;
@@ -278,6 +279,35 @@ namespace Online.Service
 				await signal.Task;
 			}
 			return default;
+		}
+		
+		public async Task<GachaResponse> GachaAsync(string gachaId)
+		{
+			var signal = new UniTaskCompletionSource<GachaResponse>();
+			PlayFabClientAPI.ExecuteCloudScript(new()
+			{
+				FunctionName = C.CloudFunction.RequestGacha,
+				FunctionParameter = new GachaRequest()
+				{
+					GachaID = gachaId
+				}
+			}, result =>
+			{
+				var response = JsonConvert.DeserializeObject<GachaResponse>(result.FunctionResult.ToString());
+				if (response.Result)
+					Manager.Inventory.LoadVirtualCurrency(response.VirtualCurrency);
+				signal.TrySetResult(response);
+			}, error =>
+			{
+				LogError(error.ErrorMessage);
+				signal.TrySetResult(new ()
+				{
+					Result = false,
+					Items = null,
+					VirtualCurrency = null
+				});
+			});
+			return await signal.Task;
 		}
 
 		public override void LogSuccess(string message)
