@@ -52,7 +52,7 @@ namespace _Game.Features
             SaveSystem.LoadSave();
             
             // TODO test
-            PlayfabManager.Instance.RankInfo.EndTimestamp = (ulong)DateTime.Now.AddDays(2).ToFileTimeUtc();
+            // PlayfabManager.Instance.RankInfo.EndTimestamp = (ulong)DateTime.UtcNow.AddDays(2).ToFileTimeUtc();
             
             AudioManager.Instance.IsBgmOn = PlayerPrefs.GetInt("Settings.MuteBGM", 0) == 0;
             AudioManager.Instance.IsSfxOn = PlayerPrefs.GetInt("Settings.MuteSFX", 0) == 0;

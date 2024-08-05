@@ -188,7 +188,8 @@ namespace _Game.Features.Ranking
                         });
                     }
 
-                    SeasonExpireAt = DateTime.FromFileTimeUtc((long)PlayfabManager.Instance.RankInfo.EndTimestamp);
+                    SeasonExpireAt = DateTimeOffset
+                        .FromUnixTimeSeconds((long)PlayfabManager.Instance.RankInfo.EndTimestamp).UtcDateTime;
                     
                     OnPropertyChanged(nameof(SeasonNo));
                     OnPropertyChanged(nameof(SeasonName));
@@ -240,7 +241,7 @@ namespace _Game.Features.Ranking
             #endregion
 
             [Binding] 
-            public bool IsSeasonExpired => SeasonExpireAt <= DateTime.Now;
+            public bool IsSeasonExpired => SeasonExpireAt <= DateTime.UtcNow;
 
             [Binding] 
             public string SeasonRemainingTime => SeasonExpireAt.GetRemainingTime();

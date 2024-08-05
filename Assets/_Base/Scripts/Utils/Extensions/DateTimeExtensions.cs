@@ -11,7 +11,7 @@ namespace _Base.Scripts.Utils.Extensions
             string second = "second", string seconds = "seconds",
             string timeHasPassed = "00:00:00")
         {
-            DateTime currentDateTime = DateTime.Now;
+            DateTime currentDateTime = DateTime.UtcNow;
             TimeSpan remainingTime = futureDateTime - currentDateTime;
 
             if (remainingTime.TotalSeconds <= 0)
