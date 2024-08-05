@@ -15,7 +15,7 @@ namespace _Game.Features.Battle
         }
         public override async UniTask WillPushEnter(Memory<object> args)
         {
-            await SceneManager.LoadSceneAsync("BattleScreen", LoadSceneMode.Additive);
+            await SceneManager.LoadSceneAsync("BattleScene", LoadSceneMode.Additive);
             SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(1));
             await base.WillPushEnter(args);
             AudioManager.Instance.PlayBgmGameplay();
@@ -26,7 +26,7 @@ namespace _Game.Features.Battle
         {
             BattleViewModel.CleanUp();
             Time.timeScale = 1;
-            await SceneManager.UnloadSceneAsync("BattleScreen");
+            await SceneManager.UnloadSceneAsync("BattleScene");
             await base.WillPushExit(args);
         }
     }
