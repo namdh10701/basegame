@@ -80,7 +80,7 @@ namespace _Game.Features.Ranking
 
         public static async Task Show(Params prm)
         {
-            await Show<RankingVictoryModal>(prm);
+            await Show<RankingVictoryModal>(prm, new AsyncModalOptions(closeWhenClickOnBackdrop: false));
         }
 
         public class Params

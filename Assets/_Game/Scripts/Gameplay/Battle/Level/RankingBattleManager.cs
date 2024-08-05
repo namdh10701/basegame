@@ -1,15 +1,9 @@
-using _Base.Scripts.Audio;
 using _Game.Features.Battle;
 using _Game.Features.Ranking;
-using _Game.Scripts;
-using _Game.Scripts.Battle;
 using _Game.Scripts.SaveLoad;
-using _Game.Scripts.UI;
-using Map;
 using System.Collections;
 using System.Threading.Tasks;
 using UnityEngine;
-using ZBase.UnityScreenNavigator.Core.Modals;
 
 namespace _Game.Features.Gameplay
 {
@@ -76,15 +70,19 @@ namespace _Game.Features.Gameplay
             {
                 await Task.Delay((int)(6 * 1000));
             }
-            RankingVictoryModal.Params p= new RankingVictoryModal.Params();
-            p.Score = (int)DmgDeal;
+            var p = new RankingVictoryModal.Params
+            {
+                Score = (int)DmgDeal
+            };
             await RankingVictoryModal.Show(p);
         }
 
         public override async void ShowLoseUIAsync()
         {
-            RankingVictoryModal.Params p = new RankingVictoryModal.Params();
-            p.Score = (int)DmgDeal;
+            var p = new RankingVictoryModal.Params
+            {
+                Score = (int)DmgDeal
+            };
             await RankingVictoryModal.Show(p);
         }
 
