@@ -17,7 +17,10 @@ namespace _Game.Scripts.GD.DataManager
 			= new("https://docs.google.com/spreadsheets/d/1lg1LNncm8kVlASyTctlJqWU7dw5JWz2SKmbD82R8uM0/edit?gid=1364617036#gid=1364617036");
 		public static ShopRarityTable ShopRarityTable
 			= new("https://docs.google.com/spreadsheets/d/1lg1LNncm8kVlASyTctlJqWU7dw5JWz2SKmbD82R8uM0/edit?gid=809979341#gid=809979341");
-
+		// Shop Table
+		public static GachaTable GachaTable => PlayfabManager.Instance.GachaTable;
+		
+		// Game Table
 		public static CrewTable CrewTable => PlayfabManager.Instance.CrewTable;
 		public static CannonTable CannonTable => PlayfabManager.Instance.CannonTable;
 		public static CannonTable CannonFeverTable => PlayfabManager.Instance.CannonFeverTable;
@@ -65,7 +68,8 @@ namespace _Game.Scripts.GD.DataManager
 				() => ShipUpgradeTable.LoadData(),
 				
 				() => PlayerLevelTable.LoadData(),
-
+				
+				() => GachaTable.LoadData()
 				// () => GDConfigLoader.Instance.Load(),
 			}, 5);
 				
