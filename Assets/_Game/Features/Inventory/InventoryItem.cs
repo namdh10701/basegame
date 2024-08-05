@@ -31,7 +31,7 @@ namespace _Game.Features.Inventory
         public static readonly string exp = "res_exp";
         public static readonly string energy = "res_energy";
         public static readonly string ranking_ticket = "res_ranking_ticket";
-        public static readonly string res_vipkey = "res_vipkey";
+        public static readonly string vipkey = "res_vipkey";
     }
 
     [Binding]

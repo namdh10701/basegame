@@ -48,7 +48,10 @@ namespace Online.Service
 				},
 				{
 					EVirtualCurrency.RealMoney, 0
-				}
+				},
+				{
+					EVirtualCurrency.VipKey, 0
+				},
 			};
 		}
 
