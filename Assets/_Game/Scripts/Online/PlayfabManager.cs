@@ -98,8 +98,6 @@ namespace Online
 
 			await Ads.LoadAdsAsync();
 			// UpdateEquipShip(SaveSystem.GameSave.ShipSetupSaveData);
-
-			LoadShop();
 		}
 
 		public async Task LinkFacebook()

@@ -27,6 +27,7 @@ namespace Online
 			public const string SubmitRankingMatch = "SubmitRankingMatch";
 			public const string BonusGold = "BonusGold";
 			public const string ReportLimitPackage = "ReportLimitPackage";
+			public const string RequestGacha = "RequestGacha";
 		}
 	}
 }
