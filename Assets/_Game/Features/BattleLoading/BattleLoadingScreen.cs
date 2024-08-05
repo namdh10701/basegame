@@ -23,8 +23,8 @@ namespace _Game.Features.BattleLoading
                 Debug.LogError("BotSticker is not assigned.");
                 return;
             }
-            TopWave.AnimationState.SetAnimation(0, "begin", false);
-            var topWaveAnimation = TopWave.AnimationState.SetAnimation(0, "begin", false);
+            TopWave.AnimationState.SetAnimation(0, "begin_songbien", false);
+            var topWaveAnimation = TopWave.AnimationState.SetAnimation(0, "begin_songbien", false);
             if (topWaveAnimation == null)
             {
                 Debug.LogError("TopWave animation 'begin_songbien' not found.");
@@ -34,7 +34,7 @@ namespace _Game.Features.BattleLoading
             topWaveAnimation.Complete += (trackEntry) =>
             {
                 Debug.Log("TopWave run");
-                TopWave.AnimationState.SetAnimation(0, "loop", true);
+                TopWave.AnimationState.SetAnimation(0, "loop_songbien", true);
             };
 
             var botStickerAnimation = BotSticker.AnimationState.SetAnimation(0, "begin", false);
@@ -47,10 +47,10 @@ namespace _Game.Features.BattleLoading
             botStickerAnimation.Complete += (trackEntry) =>
             {
                 var loopEntry = BotSticker.AnimationState.SetAnimation(0, "loop", true);
-                loopEntry.Complete += (loopTrackEntry) =>
-                {
-                    BotSticker.AnimationState.SetAnimation(0, "end", false);
-                };
+                // loopEntry.Complete += (loopTrackEntry) =>
+                // {
+                //     BotSticker.AnimationState.SetAnimation(0, "end", false);
+                // };
             };
         }
 
@@ -64,10 +64,10 @@ namespace _Game.Features.BattleLoading
                 signal.TrySetResult(false);
                 return signal.Task;
             }
-
             var loopEntry = BotSticker.AnimationState.SetAnimation(0, "end", false);
             loopEntry.Complete += (loopTrackEntry) =>
             {
+                TopWave.AnimationState.SetAnimation(0, "end_songbien", false);
                 signal.TrySetResult(true);
             };
 

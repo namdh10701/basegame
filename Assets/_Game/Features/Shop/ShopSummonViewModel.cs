@@ -440,7 +440,7 @@ namespace _Game.Features.Shop
         public RectTransform HightlightitemRecieved;
         private void OnEnable()
         {
-            LoadDataShop();
+            // LoadDataShop();
             InitializeShopSummon();
         }
 
@@ -469,11 +469,9 @@ namespace _Game.Features.Shop
                     if (item.Name == name)
                     {
                         ShopSummonItem shopSummonItem = new ShopSummonItem();
-                        shopSummonItem.Id = item.ItemId;
-                        shopSummonItem.Price = item.PriceAmount.ToString();
-                        shopSummonItem.GachaType = item.GachaType;
-                        shopSummonItem.Amount = $"(x{GameData.ShopItemTable.GetAmountById(item.ItemId).Item1[0].ToString()})";
-                        shopSummonItem.PriceType = item.PriceType;
+                        shopSummonItem.Id = item.Id;
+                        shopSummonItem.Price = item.Price.ToString();
+                        shopSummonItem.PriceType = item.VirtualCurrencyCode;
                         shopSummonItem.SetUp(this);
                         ShopPackageSummonItem.SummonItems.Add(shopSummonItem);
                     }
@@ -572,14 +570,19 @@ namespace _Game.Features.Shop
             IsActivePopupConfirm = false;
             IsActivePopupLoading = true;
 
-            // foreach (var item in SummonCannonItems)
-            // {
-            //     if (item.Id == IdSummonItemSelected && item.PriceType == PriceTypeSummonItemSelected)
-            //     {
-            //         item.GetIDItemGacha();
-            //     }
-            // }
-            var items = await PlayfabManager.Instance.GachaAsync(IdSummonItemSelected);
+            var gachaResponse = await PlayfabManager.Instance.GachaAsync(IdSummonItemSelected);
+            foreach (var item in gachaResponse.Items)
+            {
+                ShopItemGachaReceived shopItemGachaReceived = new ShopItemGachaReceived();
+                shopItemGachaReceived.IdItemGacha = item.ItemId;
+                // shopItemGachaReceived.Operation = item.;
+
+            }
+            // shopItemGachaReceived.Slot = GameData.CannonTable.GetSlotByName(CurentOperationItemGacha);
+            // shopItemGachaReceived.GachaType = GachaType;
+            // shopItemGachaReceived.Rarity = CurentRarityItemGacha;
+            // shopItemGachaReceived.IsHighLight = CurentRarityItemGacha == "Rare" || CurentRarityItemGacha == "Epic" ? true : false;
+            // ItemsGachaReceived.Add(shopItemGachaReceived);
 
             IsActivePopupLoading = false;
 
@@ -616,7 +619,7 @@ namespace _Game.Features.Shop
             CanvasGroupInfoItem.alpha = 1;
             foreach (var item in SummonCannonItems)
             {
-                if (item.Id == IdSummonItemSelected && item.PriceType == PriceTypeSummonItemSelected)
+                if (item.Id == IdSummonItemSelected)
                 {
                     item.GetIDItemGacha();
                 }
