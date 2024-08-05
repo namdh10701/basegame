@@ -63,14 +63,31 @@ const EDatabase = Object.freeze({
     CannonUpgradeDB: 'CannonUpgradeDB',
     AmmoUpgradeDB: 'AmmoUpgradeDB',
     ShipUpgradeDB: 'ShipUpgradeDB',
+    RankingBattleRewardDB: 'RankingBattleRewardDB',
 });
 
 const EVirtualCurrency = Object.freeze({
-    Gold: 'GO', Gem: 'GE', Energy: 'EN', Ticket: 'TI',
+    Gold: 'GO', Gem: 'GE', Energy: 'EN', Ticket: 'TI', VipKey: 'VK',
 });
 
 const ERank = Object.freeze({
     Unrank: 'Unrank', Rookie: 'Rookie', Gunner: 'Gunner', Hunter: 'Hunter', Captain: 'Captain', Conquer: 'Conquer'
+});
+
+const EBlueprintId = Object.freeze({
+    Ship: "res_blueprint_ship",
+    Cannon: "res_blueprint_cannon",
+    Ammo: "res_blueprint_ammo",
+});
+
+const EMiscItemId = Object.freeze({
+    Gold: "res_gold",
+    Gem: "res_gem",
+    Diamond: "res_diamond",
+    Exp: "res_exp",
+    Energy: "res_energy",
+    Ticket: "res_ranking_ticket",
+    VipKey: "res_vipkey"
 });
 
 const EErrorCode = Object.freeze({
@@ -206,7 +223,7 @@ handlers.CombineItems = function (args, context) {
 
 const RefundBlueprints = function (itemType, combineItems) {
     var keyDB = GetItemUpgradeDB(itemType);
-    var resUpgrade = titleDataCache.GetTitleData({Keys: keyDB});
+    var resUpgrade = server.GetTitleData({Keys: keyDB});
     var itemUpgrade = JSON.parse(resUpgrade.Data[keyDB]);
 
     let grantBlueprints = [];
@@ -231,7 +248,7 @@ const RefundBlueprints = function (itemType, combineItems) {
 
 const CombineItem = function (configId, itemType, itemLevel, blueprints) {
     var keyDB = GetItemDB(itemType);
-    let resConfig = titleDataCache.GetTitleData({Keys: keyDB});
+    let resConfig = server.GetTitleData({Keys: keyDB});
     let itemConfig = JSON.parse(resConfig.Data[keyDB]);
 
     let curConfig = itemConfig.find(val => val.id == configId);
@@ -286,7 +303,7 @@ handlers.UpgradeItem = function (args, context) {
 
         // Get Upgrade Config
         var keyUpgradeDB = GetItemUpgradeDB(itemType);
-        var resConfig = titleDataCache.GetTitleData({
+        var resConfig = server.GetTitleData({
             Keys: [keyUpgradeDB]
         });
         var nextLevelConfig = JSON.parse(resConfig.Data[keyUpgradeDB]).find(val => val.level === nextLevel);
@@ -478,6 +495,9 @@ const CheckJoinRank = function (playfabId) {
     };
 };
 
+///
+///
+///
 handlers.SubmitRankingMatchAsync = function (args, context) {
     var resReadOnlyData = server.GetUserReadOnlyData({
         PlayFabId: currentPlayerId,
@@ -490,8 +510,10 @@ handlers.SubmitRankingMatchAsync = function (args, context) {
         PlayFabId: currentPlayerId,
         Data: newData
     });
+    
+    let rankName = resReadOnlyData.Data[ProfileField.Rank].Value;
 
-    let userRankDB = 'Rank' + resReadOnlyData.Data[ProfileField.Rank].Value;
+    let userRankDB = 'Rank' + rankName;
     let resTitleData = server.GetTitleInternalData({Keys: [userRankDB]});
     let rankData = JSON.parse(resTitleData.Data[userRankDB]);
     let userRankInfo = rankData.find(val => val.Id == resReadOnlyData.Data[ProfileField.CurrentRankID].Value);
@@ -501,12 +523,112 @@ handlers.SubmitRankingMatchAsync = function (args, context) {
         Key: userRankDB,
         Value: JSON.stringify(rankData)
     });
+    
+    // reward processing
+    let rewardData = GetBattleRankingRewards(rankName, args.Score);
+    
+    // Save rewards
+    SaveBattleRankingRewards(rewardData);
 
     return {
         Result: true,
         UserRankInfo: userRankInfo
     };
 };
+
+function SaveBattleRankingRewards(rewardData) {
+    // grant blueprints
+    if (rewardData.Blueprint.length) {
+        let resGrantItems = server.GrantItemsToUser({
+            PlayFabId: currentPlayerId, ItemIds: rewardData.Blueprint,
+        });
+    }
+
+    // add vip keys
+    if (rewardData.VipKey) {
+        let grantResult = server.AddUserVirtualCurrency({
+            PlayFabId: currentPlayerId, VirtualCurrency: EVirtualCurrency.VipKey, Amount: rewardData.VipKey
+        });
+    }
+
+    // add vip keys
+    if (rewardData.Gold) {
+        let grantResult = server.AddUserVirtualCurrency({
+            PlayFabId: currentPlayerId, VirtualCurrency: EVirtualCurrency.Gold, Amount: rewardData.Gold
+        });
+    }
+
+    // add Exp
+    if (rewardData.Exp) {
+        let grantResult = server.AddUserVirtualCurrency({
+            PlayFabId: currentPlayerId, VirtualCurrency: EVirtualCurrency.Exp, Amount: rewardData.Exp
+        });
+    }
+}
+
+function GetBattleRankingRewards(rank, dmg) {
+    let resTitleData = server.GetTitleInternalData({Keys: [EDatabase.RankingBattleRewardDB]});
+    let rewardDB = JSON.parse(resTitleData.Data[EDatabase.RankingBattleRewardDB]);
+    const data = rewardDB[rank];
+
+    if (!data) {
+        throw new Error('Rank not found');
+    }
+
+    let lower = null;
+    let upper = null;
+
+    for (const milestone of data) {
+        if (milestone.Dmg <= dmg) {
+            lower = milestone;
+        }
+        if (milestone.Dmg > dmg) {
+            if (!upper || milestone.Dmg < upper.Dmg) {
+                upper = milestone;
+            }
+        }
+    }
+
+    // If no lower milestone is found, use the upper one
+    if (!lower) {
+        lower = { Exp: 0, Gold: 0, Blueprint: 0, VipKey: 0 };
+    }
+
+    // If no upper milestone is found, use the lower one
+    if (!upper) {
+        upper = lower;
+    }
+
+    let result = {
+        Exp: randomRange(lower.Exp, upper.Exp),
+        Gold: randomRange(lower.Gold, upper.Gold),
+        Blueprint: randomRange(lower.Blueprint, upper.Blueprint),
+        VipKey: randomRange(lower.VipKey, upper.VipKey)
+    };
+
+    let blueprintIdList = [];
+    let bpList = Object.values(EBlueprintId);
+    for (let i = 0; i < result.Blueprint; i++) {
+        let idx = randomRange(0, bpList.length - 1);
+        blueprintIdList.push(bpList[idx]);
+    }
+
+    let finalResults = {
+        ...result,
+        Blueprint: blueprintIdList
+    };
+
+    return finalResults;
+}
+
+
+
+
+
+
+
+
+
 
 handlers.ReportLimitPackage = function (args, context) {
     let reqReadOnlyData = {
@@ -856,6 +978,11 @@ handlers.BonusGold = function (args, context) {
 /// Helper functions
 ///
 
+/**
+ * Get new GUUID
+ * @returns {string}
+ * @constructor
+ */
 function GenerateGUID() {
     const randomPart = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
         const r = Math.random() * 16 | 0;
@@ -893,70 +1020,125 @@ function SortArrayByKey(array, key, order = 'asc') {
     });
 }
 
+/**
+ * Random in range
+ * @param min
+ * @param max
+ * @returns {*}
+ */
+const randomRange = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+
+
+
 ///
-/// TileData cache solution
+/// GSheet processor
 ///
-class TitleDataCache {
-    constructor() {
-        this.cache = {
-            titleData: null
-        };
+class GSheetFetcher {
+    /**
+     * Extracts the GID and constructs the CSV export URL from the provided Google Sheets URL.
+     * @param {string} sheetUrl - The URL of the Google Sheet.
+     * @param {string} range - The range of data in Excel-like format (e.g., "A1:D10").
+     * @returns {string} - The constructed CSV export URL.
+     */
+    static getExportUrl(sheetUrl, range) {
+        // Extract spreadsheet ID and GID from the URL
+        const url = new URL(sheetUrl);
+        const spreadsheetId = url.pathname.split('/')[3];
+        const gidMatch = url.hash.match(/gid=(\d+)/);
+        const sheetGid = gidMatch ? gidMatch[1] : '';
+
+        // Construct the export URL
+        return `https://docs.google.com/spreadsheets/d/${spreadsheetId}/export?format=csv&gid=${sheetGid}`;
     }
 
-    _fetchTitleDataFromServer() {
-        var request = {
-            Keys: Object.values(EDatabase)
-        };
-        
-        var result = server.GetTitleData(request);
+    /**
+     * Fetches and parses CSV data from the Google Sheets export URL.
+     * @param {string} sheetUrl - The URL of the Google Sheet.
+     * @param {string} range - The range of data in Excel-like format (e.g., "A1:D10").
+     * @returns {Promise<Array<Array<string>>>} - A promise that resolves to the parsed CSV data.
+     */
+    static async fetchAndParseCSV(sheetUrl, range) {
+        try {
+            const csvUrl = GSheetFetcher.getExportUrl(sheetUrl, range);
 
-        if (result.error) {
-            throw new Error(result.error);
+            const response = await fetch(csvUrl);
+            const csvText = await response.text();
+
+            const rows = csvText.split('\n').map(row => row.split(','));
+            return rows;
+        } catch (error) {
+            console.error('Error fetching or parsing CSV data:', error);
+            throw error;
         }
-
-        this.cache.titleData = result.Data;
-        return result.Data;
-    }
-
-    GetTitleData(keys) {
-        if (this.cache.titleData) {
-            var result = {};
-            keys.forEach(key => {
-                if (this.cache.titleData.hasOwnProperty(key)) {
-                    result[key] = this.cache.titleData[key];
-                }
-            });
-            return result;
-        } else {
-            var data = this._fetchTitleDataFromServer();
-            var result = {};
-            keys.forEach(key => {
-                if (data.hasOwnProperty(key)) {
-                    result[key] = data[key];
-                }
-            });
-            return result;
-        }
-    }
-
-    clearCache() {
-        this.cache.titleData = null;
     }
 }
 
-var titleDataCache = new TitleDataCache();
 
-handlers.GetTitleData = function (args, context) {
-    var keys = args.Keys || [];
-    try {
-        var data = titleDataCache.GetTitleData(keys);
-        return { Data: data };
-    } catch (error) {
-        return { error: error.message };
-    }
-};
 
-handlers.ClearTitleDataCache = function (args, context) {
-    titleDataCache.clearCache();
-    return { message: "Cache cleared successfully" };
-};
+///
+/// TileData cache solution
+///
+// class TitleDataCache {
+//     constructor() {
+//         this.cache = {
+//             titleData: null
+//         };
+//     }
+//
+//     _fetchTitleDataFromServer() {
+//         var request = {
+//             Keys: Object.values(EDatabase)
+//         };
+//        
+//         var result = server.GetTitleData(request);
+//
+//         if (result.error) {
+//             throw new Error(result.error);
+//         }
+//
+//         this.cache.titleData = result.Data;
+//         return result.Data;
+//     }
+//
+//     GetTitleData(keys) {
+//         if (this.cache.titleData) {
+//             var result = {};
+//             keys.forEach(key => {
+//                 if (this.cache.titleData.hasOwnProperty(key)) {
+//                     result[key] = this.cache.titleData[key];
+//                 }
+//             });
+//             return result;
+//         } else {
+//             var data = this._fetchTitleDataFromServer();
+//             var result = {};
+//             keys.forEach(key => {
+//                 if (data.hasOwnProperty(key)) {
+//                     result[key] = data[key];
+//                 }
+//             });
+//             return result;
+//         }
+//     }
+//
+//     clearCache() {
+//         this.cache.titleData = null;
+//     }
+// }
+//
+// var titleDataCache = new TitleDataCache();
+//
+// handlers.GetTitleData = function (args, context) {
+//     var keys = args.Keys || [];
+//     try {
+//         var data = TitleDataCache.GetTitleData(keys);
+//         return { Data: data };
+//     } catch (error) {
+//         return { error: error.message };
+//     }
+// };
+//
+// handlers.ClearTitleDataCache = function (args, context) {
+//     titleDataCache.clearCache();
+//     return { message: "Cache cleared successfully" };
+// };

@@ -215,13 +215,11 @@ namespace _Game.Features.Ranking
 
         public async Task LoadData()
         {
-            await PlayfabManager.Instance.Ranking.RequestUserRankAsync();
             var rankInfo = PlayfabManager.Instance.Ranking.UserRankInfo;
             RankInfo = new UserRankInfo
             {
                 BackedData = rankInfo
             };
-
 
             OwnedTicketCount = PlayfabManager.Instance.Ticket;
             FreeTicketCount = 2; 
@@ -255,7 +253,7 @@ namespace _Game.Features.Ranking
                     {
                         ItemType = ItemType.MISC,
                         ItemId = MiscItemId.energy,
-                        TotalAmount = 1000,
+                        TotalAmount = PlayfabManager.Instance.Energy,
                         NeedAmount = 99,
                     },
 
@@ -263,7 +261,7 @@ namespace _Game.Features.Ranking
                     {
                         ItemType = ItemType.MISC,
                         ItemId = MiscItemId.ranking_ticket,
-                        TotalAmount = 10,
+                        TotalAmount = PlayfabManager.Instance.Ticket,
                         NeedAmount = 1,
                     }
                 }
@@ -286,7 +284,11 @@ namespace _Game.Features.Ranking
             }
 
             await ModalContainer.Find(ContainerKey.Modals).PopAsync(true);
-            var screenContainer = ScreenContainer.Find(ContainerKey.Screens);
+
+            // reload ticket
+            await PlayfabManager.Instance.Profile.RequestUserProfileAsync();
+            // reload rank info
+            await PlayfabManager.Instance.Ranking.RequestUserRankAsync();
 
             await Nav.ShowScreenAsync<BattleLoadingScreen>(poolingPolicy: ZBase.UnityScreenNavigator.Core.PoolingPolicy.DisablePooling);
             await UniTask.Delay(3000);
