@@ -189,7 +189,7 @@ namespace _Game.Features.Shop
         public void SetUp(ShopSummonViewModel shopSummonViewModel)
         {
             ShopSummonViewModel = shopSummonViewModel;
-            IsActiveButtonKey = PriceType == "vip_key" ? true : false;
+            IsActiveButtonKey = PriceType == "KE" ? true : false;
         }
 
         public string GetRandomRarityByWeight()
@@ -273,7 +273,7 @@ namespace _Game.Features.Shop
         public void SetIdSummonItem()
         {
             ShopSummonViewModel.IdSummonItemSelected = Id;
-            ShopSummonViewModel.PriceTypeSummonItemSelected = PriceType;
+            // ShopSummonViewModel.PriceTypeSummonItemSelected = PriceType;
             ShopSummonViewModel.PriceSummonItemSelected = Price;
             ShopSummonViewModel.IsActiveButtonKey = IsActiveButtonKey;
             ShopSummonViewModel.IsHighlight = CurentRarityItemGacha == "Rare" || CurentRarityItemGacha == "Epic" ? true : false;

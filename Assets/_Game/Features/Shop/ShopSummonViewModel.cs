@@ -8,6 +8,7 @@ using _Game.Scripts.GD.DataManager;
 using _Game.Scripts.UI;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using Online;
 using Spine;
 using Spine.Unity;
 using UnityEngine;
@@ -429,10 +430,7 @@ namespace _Game.Features.Shop
         }
         private string _priceSummonItemSelected;
         #endregion
-
-        List<ShopListingTableRecord> _shopDataSummons = new List<ShopListingTableRecord>();
         public string IdSummonItemSelected;
-        public string PriceTypeSummonItemSelected;
         public SkeletonGraphic SkeletonGraphicBox;
         public SkeletonGraphic SkeletonGraphicBoxRecieved;
         public SkeletonGraphic SkeletonGraphicEffect;
@@ -442,39 +440,39 @@ namespace _Game.Features.Shop
         public RectTransform HightlightitemRecieved;
         private void OnEnable()
         {
-            LoadDataShop();
+            // LoadDataShop();
             InitializeShopSummon();
         }
 
-        private void LoadDataShop()
-        {
-            _shopDataSummons = GameData.ShopListingTable.GetData(ShopType.Gacha);
-        }
+        // private void LoadDataShop()
+        // {
+        //     // _shopDataSummons = GameData.ShopListingTable.GetData(ShopType.Gacha);
+        //     var GachaTable = GameData.GachaTable.AllItems();
+        // }
 
         private void InitializeShopSummon()
         {
             var packageNames = new List<string>()
             {
-                "gacha_cannon_gem",
-                "gacha_ammo_gem",
-                "gacha_cannon_vip_key",
-                "gacha_ammo_vip_key",
-                "gacha_crew_gem",
+                "gacha_gem_cannon",
+                "gacha_gem_ammo",
+                "gacha_vip_key_cannon",
+                "gacha_vip_key_ammo",
+                "gacha_gem_crew",
             };
 
             foreach (var name in packageNames)
             {
                 ShopPackageSummonItem ShopPackageSummonItem = new ShopPackageSummonItem();
-                foreach (var item in _shopDataSummons)
+                foreach (var item in GameData.GachaTable.AllItems())
                 {
                     if (item.Name == name)
                     {
                         ShopSummonItem shopSummonItem = new ShopSummonItem();
-                        shopSummonItem.Id = item.ItemId;
-                        shopSummonItem.Price = item.PriceAmount.ToString();
-                        shopSummonItem.GachaType = item.GachaType;
-                        shopSummonItem.Amount = $"(x{GameData.ShopItemTable.GetAmountById(item.ItemId).Item1[0].ToString()})";
-                        shopSummonItem.PriceType = item.PriceType;
+                        shopSummonItem.Id = item.Id;
+                        shopSummonItem.Price = item.Price.ToString();
+                        shopSummonItem.GachaType = item.Type;
+                        shopSummonItem.PriceType = item.VirtualCurrencyCode;
                         shopSummonItem.SetUp(this);
                         ShopPackageSummonItem.SummonItems.Add(shopSummonItem);
                     }
@@ -606,7 +604,7 @@ namespace _Game.Features.Shop
             CanvasGroupInfoItem.alpha = 1;
             foreach (var item in SummonCannonItems)
             {
-                if (item.Id == IdSummonItemSelected && item.PriceType == PriceTypeSummonItemSelected)
+                if (item.Id == IdSummonItemSelected)
                 {
                     item.GetIDItemGacha();
                 }
