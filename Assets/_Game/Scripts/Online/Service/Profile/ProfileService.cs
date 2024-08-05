@@ -112,6 +112,7 @@ namespace Online.Service
 		{
 			DisplayName = playerProfile.DisplayName;
 			PlayfabID = playerProfile.PlayerId;
+			IsGuest = playerProfile.Origination is null or LoginIdentityProvider.Custom;
 		}
 
 		public void SetLimitPackage(List<LimitPackageModel> limitPackages)
