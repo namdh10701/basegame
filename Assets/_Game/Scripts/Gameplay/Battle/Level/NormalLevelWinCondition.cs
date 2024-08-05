@@ -17,15 +17,12 @@ namespace _Game.Features.Gameplay
 
         void CheckWin()
         {
-            Debug.Log("Check win");
             if (!IsChecking)
                 return;
 
-            Debug.Log("Check win 1");
             if (!EnemyManager.IsLevelDone)
                 return;
 
-            Debug.Log("Check win 2");
             if (EntityManager.aliveEnemies.Count == 0)
             {
                 BattleManager.Instance.Win();
