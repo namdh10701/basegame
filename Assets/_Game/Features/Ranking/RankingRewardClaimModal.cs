@@ -10,7 +10,7 @@ using UnityWeld.Binding;
 namespace _Game.Features.Ranking
 {
     [Binding]
-    public partial class RankingRewardClaimModal : AsyncModal<object, List<RankReward>>
+    public partial class RankingRewardClaimModal : AsyncModal<Void, List<RankReward>>
     {
         [Binding]
         public ObservableList<RankingScreen.RankReward> Records { get; set; } = new();

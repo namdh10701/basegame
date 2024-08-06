@@ -8,6 +8,7 @@ using _Game.Scripts;
 using _Game.Scripts.GD.DataManager;
 using _Game.Scripts.UI;
 using Online;
+using Online.Enum;
 using UnityEngine;
 using UnityWeld.Binding;
 using ZBase.UnityScreenNavigator.Core.Modals;
@@ -121,6 +122,9 @@ namespace _Game.Features.Home
         [Binding]
         public async void ShowMailBoxPopup()
         {
+            await RankingTireResultConfirmModal.Show(ERank.Gunner, RankingTireResultConfirmModal.Mode.Promote);
+            await RankingTireResultConfirmModal.Show(ERank.Rookie, RankingTireResultConfirmModal.Mode.Demote);
+            await RankingTireResultConfirmModal.Show(ERank.Conquer, RankingTireResultConfirmModal.Mode.Remain);
             // var options = new ViewOptions(nameof(GameSettingsModal));
             // await ModalContainer.Find(ContainerKey.Modals).PushAsync(options);
         }
