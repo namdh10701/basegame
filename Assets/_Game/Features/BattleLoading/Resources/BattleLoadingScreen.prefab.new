@@ -81,8 +81,8 @@ MonoBehaviour:
       _animationObject: {fileID: 11400000, guid: f6c669f200c574e33924b8afe834171b, type: 2}
     _popEnterAnimations: []
     _popExitAnimations: []
-  TopWave: {fileID: 3099665269633535876}
-  BotSticker: {fileID: 8989337539807891356}
+  Top: {fileID: 3099665269633535876}
+  Bot: {fileID: 8989337539807891356}
 --- !u!1 &891935978336829587
 GameObject:
   m_ObjectHideFlags: 0
@@ -194,7 +194,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -0.6300049, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7772353368040503358
@@ -244,6 +244,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1718660527456324691}
+  - component: {fileID: 3440259341164585330}
   - component: {fileID: 1224313402130719543}
   - component: {fileID: 3099665269633535876}
   m_Layer: 0
@@ -260,18 +261,33 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1295551005407268264}
-  m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 775085923888881565}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 99.07056, y: -8371}
-  m_SizeDelta: {x: 21.3156, y: -1528.2682}
-  m_Pivot: {x: 0.45397985, y: 4.4785357}
+  m_AnchoredPosition: {x: -0.10925293, y: 2464.9265}
+  m_SizeDelta: {x: 5.9999833, y: -1187.4662}
+  m_Pivot: {x: 0.48178655, y: -0.73893505}
+--- !u!114 &3440259341164585330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1295551005407268264}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b473abb659158442b906826a22f18bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playWhenSelected: 1
+  playWhenDeselected: 1
+  fixedTrackTime: 0
 --- !u!222 &1224313402130719543
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -300,21 +316,21 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  skeletonDataAsset: {fileID: 11400000, guid: 7fe6cddf13ee94cfc9400d52b0c1aff9, type: 2}
+  skeletonDataAsset: {fileID: 11400000, guid: 93bcf3c5e14378044b9d936c23d37b01, type: 2}
   additiveMaterial: {fileID: 2100000, guid: 2e8245019faeb8c43b75f9ca3ac8ee34, type: 2}
   multiplyMaterial: {fileID: 2100000, guid: e74a1f8978a7da348a721508d0d58834, type: 2}
   screenMaterial: {fileID: 2100000, guid: bab24c479f34eec45be6ea8595891569, type: 2}
   initialSkinName: default
   initialFlipX: 0
   initialFlipY: 0
-  startingAnimation: begin_songbien
+  startingAnimation: begin
   startingLoop: 0
   timeScale: 1
   freeze: 0
   layoutScaleMode: 1
-  referenceSize: {x: 863.1, y: 306.99988}
+  referenceSize: {x: 863.1, y: 580.42993}
   referenceScale: 1
-  rectTransformSize: {x: 863.1, y: 306.99988}
+  rectTransformSize: {x: 863.1, y: 580.42993}
   editReferenceRect: 0
   updateWhenInvisible: 3
   allowMultipleCanvasRenderers: 0
@@ -346,6 +362,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2088517770484111616}
+  - component: {fileID: 886377751979229132}
   - component: {fileID: 2231648985687687114}
   - component: {fileID: 8989337539807891356}
   m_Layer: 0
@@ -371,9 +388,24 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 24.289001, y: -86.215576}
-  m_SizeDelta: {x: 57.407, y: -1361.6545}
+  m_AnchoredPosition: {x: 20.99477, y: -93.57942}
+  m_SizeDelta: {x: 55, y: -1487.3085}
   m_Pivot: {x: 0.4726322, y: 0.029300861}
+--- !u!114 &886377751979229132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3912507918741963619}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b473abb659158442b906826a22f18bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playWhenSelected: 1
+  playWhenDeselected: 1
+  fixedTrackTime: 0
 --- !u!222 &2231648985687687114
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -416,7 +448,7 @@ MonoBehaviour:
   layoutScaleMode: 1
   referenceSize: {x: 898.2036, y: 440.60156}
   referenceScale: 1
-  rectTransformSize: {x: 895.1699, y: 439.43286}
+  rectTransformSize: {x: 898.2036, y: 440.60156}
   editReferenceRect: 0
   updateWhenInvisible: 3
   allowMultipleCanvasRenderers: 0

@@ -19,5 +19,13 @@ namespace Online
 		{
 			return date.Date != dateCompare.Date;
 		}
+		
+		public static bool IsNewWeek(this DateTime date, DateTime dateCompare)
+		{
+			var calendar = System.Globalization.CultureInfo.InvariantCulture.Calendar;
+			var dateWeek = calendar.GetWeekOfYear(date, System.Globalization.CalendarWeekRule.FirstDay, DayOfWeek.Monday);
+			var dateCompareWeek = calendar.GetWeekOfYear(dateCompare, System.Globalization.CalendarWeekRule.FirstDay, DayOfWeek.Monday);
+			return dateWeek != dateCompareWeek;
+		}
 	}
 }

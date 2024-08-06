@@ -207,13 +207,13 @@ namespace _Game.Features.Ranking
         {
             _stageId = args.ToArray().FirstOrDefault() as string;
 
-            await LoadData();
+            LoadData();
             
             // Start timer
             InvokeRepeating(nameof(UpdateTimer), 0f, 1f);
         }
 
-        public async Task LoadData()
+        public void LoadData()
         {
             var rankInfo = PlayfabManager.Instance.Ranking.UserRankInfo;
             RankInfo = new UserRankInfo
@@ -222,7 +222,7 @@ namespace _Game.Features.Ranking
             };
 
             OwnedTicketCount = PlayfabManager.Instance.Ticket;
-            FreeTicketCount = PlayfabManager.Instance.FreeTicket; 
+            FreeTicketCount = PlayfabManager.Instance.FreeTicket;
         }
 
         public override UniTask Cleanup(Memory<object> args)
@@ -245,26 +245,31 @@ namespace _Game.Features.Ranking
         [Binding]
         public async void NavToBattle()
         {
+            var needResources = new List<OwnedConsumableResource>()
+            {
+                new()
+                {
+                    ItemType = ItemType.MISC,
+                    ItemId = MiscItemId.energy,
+                    TotalAmount = PlayfabManager.Instance.Energy,
+                    NeedAmount = 99,
+                },
+            };
+
+            if (FreeTicketCount == 0)
+            {
+                needResources.Add(new()
+                {
+                    ItemType = ItemType.MISC,
+                    ItemId = MiscItemId.ranking_ticket,
+                    TotalAmount = PlayfabManager.Instance.Ticket,
+                    NeedAmount = 1,
+                });
+            }
+            
             var confirmed = await RankingBattleConfirmModal.Show(new()
             {
-                Resources = new List<OwnedConsumableResource>()
-                {
-                    new ()
-                    {
-                        ItemType = ItemType.MISC,
-                        ItemId = MiscItemId.energy,
-                        TotalAmount = PlayfabManager.Instance.Energy,
-                        NeedAmount = 99,
-                    },
-
-                    new ()
-                    {
-                        ItemType = ItemType.MISC,
-                        ItemId = MiscItemId.ranking_ticket,
-                        TotalAmount = PlayfabManager.Instance.Ticket,
-                        NeedAmount = 1,
-                    }
-                }
+                Resources = needResources
             });
 
             if (!confirmed)
@@ -283,16 +288,16 @@ namespace _Game.Features.Ranking
                 return;
             }
 
-            await ModalContainer.Find(ContainerKey.Modals).PopAsync(true);
-
+            await Nav.PopCurrentPopupAsync();
             await Nav.ShowScreenAsync<BattleLoadingScreen>(poolingPolicy: ZBase.UnityScreenNavigator.Core.PoolingPolicy.DisablePooling);
 
             // reload date
-            await PlayfabManager.Instance.Profile.RequestUserProfileAsync();
+            await PlayfabManager.Instance.Inventory.RequestInventoryAsync();
             await PlayfabManager.Instance.Ranking.RequestUserRankAsync();
-            await LoadData();
-            
-            await UniTask.Delay(3000);
+            LoadData();
+            // await UniTask.Delay(1000);
+            var screenContainer = ScreenContainer.Find(ContainerKey.Screens);
+            await (screenContainer.Current.View as BattleLoadingScreen)?.StopLoopAndPlayEnd()!;
             await Nav.ShowScreenAsync<RankingBattleScreen>(poolingPolicy: ZBase.UnityScreenNavigator.Core.PoolingPolicy.DisablePooling);
         }
 

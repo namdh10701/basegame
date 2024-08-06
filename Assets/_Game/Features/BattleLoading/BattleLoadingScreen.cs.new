@@ -1,0 +1,45 @@
+using System.Threading;
+using System.Threading.Tasks;
+using _Base.Scripts.Utils.Extensions;
+using Cysharp.Threading.Tasks;
+using Spine.Unity;
+using UnityEngine;
+
+namespace _Game.Features.BattleLoading
+{
+    public class BattleLoadingScreen : ScreenWithViewModel
+    {
+        public SkeletonGraphic Top;
+        public SkeletonGraphic Bot;
+        private CancellationTokenSource cts;
+
+        protected override void Start()
+        {
+            cts = new CancellationTokenSource();
+            UniTask.RunOnThreadPool(async () =>
+            {
+                await Top.AnimationState.SetAnimationAsync(0, "begin", false, cts.Token);
+                // await Top.AnimationState.SetAnimationAsync(0, "loop", true, cts.Token);
+                Debug.Log("End anim top");
+            });
+            
+            UniTask.RunOnThreadPool(async () =>
+            {
+                await Bot.AnimationState.SetAnimationAsync(0, "begin", false, cts.Token);
+                await Bot.AnimationState.SetAnimationAsync(0, "loop", true, cts.Token);
+                Debug.Log("End anim bot");
+            });
+        }
+
+        public async Task StopLoopAndPlayEnd()
+        {
+            cts.Cancel();
+            await Bot.AnimationState.SetAnimationAsync(0, "end", false);
+            // await Top.AnimationState.SetAnimationAsync(0, "end", false);
+            // return UniTask.WhenAll(
+            //     Top.AnimationState.SetAnimationAsync(0, "end", false),
+            //     Bot.AnimationState.SetAnimationAsync(0, "end", false)
+            // ).AsTask();
+        }
+    }
+}

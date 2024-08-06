@@ -65,8 +65,8 @@ namespace _Game.Features.FightNodeInfoPopup
             // var data = load(_stageId)
 
             await Nav.ShowScreenAsync<BattleLoadingScreen>(poolingPolicy: ZBase.UnityScreenNavigator.Core.PoolingPolicy.DisablePooling);
-            // await UniTask.Delay(3000);
-            await (screenContainer.Current.View as BattleLoadingScreen).StopLoopAndPlayEnd();
+            // await UniTask.Delay(1000);
+            await (screenContainer.Current.View as BattleLoadingScreen)?.StopLoopAndPlayEnd()!;
             await Nav.ShowScreenAsync<BattleScreen>(poolingPolicy: ZBase.UnityScreenNavigator.Core.PoolingPolicy.DisablePooling);
 
         }
@@ -140,12 +140,17 @@ namespace _Game.Features.FightNodeInfoPopup
             // }
 
             Items.Clear();
-
-            Items.Add(GameData.CannonTable.FindById("0001"));
-            Items.Add(GameData.CannonTable.FindById("0002"));
-            Items.Add(GameData.CannonTable.FindById("0005"));
-            Items.Add(GameData.CannonTable.FindById("0010"));
-            Items.Add(GameData.CannonTable.FindById("0022"));
+            var cannon = GameData.CannonTable.FindById("0001");
+            // Items.Add(new InventoryItem()
+            // {
+            //     Id = cannon.Id,
+            //     Type = ItemType.CANNON,
+            //     Rarity = cannon.Rarity,
+            // });
+            // Items.Add(GameData.CannonTable.FindById("0002"));
+            // Items.Add(GameData.CannonTable.FindById("0005"));
+            // Items.Add(GameData.CannonTable.FindById("0010"));
+            // Items.Add(GameData.CannonTable.FindById("0022"));
 
             OnPropertyChanged(nameof(Items));
         }
