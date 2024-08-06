@@ -10,7 +10,8 @@ namespace _Game.Features.Gameplay
         protected override void Awake()
         {
             base.Awake();
-            collisionListener.CollisionHandler = new CannonProjectileCollisionHandler(this);
+            CollisionHandler = new CannonProjectileCollisionHandler(this,destroyAlongProjectiles);
+            collisionListener.CollisionHandler = CollisionHandler;
             CannonProjectileCollisionHandler projectileCollisionHandler = (CannonProjectileCollisionHandler)collisionListener.CollisionHandler;
             projectileCollisionHandler.LoopHandlers.Add(new ExplodeHandler(AreaEffectGivers));
         }
@@ -18,7 +19,6 @@ namespace _Game.Features.Gameplay
         public override void ApplyStats()
         {
             base.ApplyStats();
-            Debug.Log("APPL STAT");
             foreach (AreaEffectGiver areaEffectGiver in AreaEffectGivers)
             {
                 areaEffectGiver.SetRange(_stats.AttackAOE.Value);
@@ -55,7 +55,6 @@ namespace _Game.Features.Gameplay
                     AreaEffectGiver spawned = Instantiate(areaEffectGiver, p.transform.position, Quaternion.identity, null);
                     spawned.gameObject.SetActive(true);
                 }
-                isCompleted = true;
             }
         }
 
@@ -63,7 +62,7 @@ namespace _Game.Features.Gameplay
     }
     public class CannonProjectileCollisionHandler : ProjectileCollisionHandler
     {
-        public CannonProjectileCollisionHandler(CannonProjectile projectile) : base(projectile)
+        public CannonProjectileCollisionHandler(CannonProjectile projectile, GameObject[] destroyAlong) : base(projectile,destroyAlong)
         {
 
         }

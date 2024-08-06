@@ -121,6 +121,10 @@ namespace _Game.Scripts.Entities
         {
             this.isOutOfAmmo = isOutOfAmmo;
             UpdateModel();
+            if (FeverState != CannonFeverState.None)
+            {
+                CannonFeverStateManager.FeverState = CannonFeverState.None;
+            }
         }
 
 
@@ -157,13 +161,18 @@ namespace _Game.Scripts.Entities
         public void OnFeverEffectEnter()
         {
             CannonFeverStateManager.FeverState = CannonFeverState.Fever;
-            Invoke("OnFeverEffectExit", 5);
-
+            if (UsingAmmo.AmmoType == AmmoType.Standard)
+            {
+                Invoke("OnFeverEffectExit", 5);
+            }
         }
         public void OnFullFeverEffectEnter()
         {
             CannonFeverStateManager.FeverState = CannonFeverState.FullFever;
-            Invoke("OnFeverEffectExit", 10);
+            if (UsingAmmo.AmmoType == AmmoType.Standard)
+            {
+                Invoke("OnFeverEffectExit", 10);
+            }
         }
 
         public void OnFeverEffectExit()
