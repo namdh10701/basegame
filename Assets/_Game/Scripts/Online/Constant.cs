@@ -28,7 +28,6 @@ namespace Online
 		{
 			public const string UpgradeItem = "UpgradeItem";
 			public const string CombineItems = "CombineItems";
-			public const string GetRankInfo = "GetRankInfo";
 			public const string CreateRankTicket = "CreateRankTicket";
 			public const string SubmitRankingMatchAsync = "SubmitRankingMatchAsync";
 			public const string BonusGold = "BonusGold";

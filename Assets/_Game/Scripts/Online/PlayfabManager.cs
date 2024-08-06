@@ -93,7 +93,7 @@ namespace Online
 				Inventory.LoadItems(infoPayload.UserInventory);
 			}
 
-			// await LoadUserRankInfoAsync();
+			await LoadUserRankInfoAsync();
 
 			await Ranking.LoadRewardBundleInfo();
 			await LoadShopAsync();
