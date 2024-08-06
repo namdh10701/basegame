@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using _Base.Scripts.Audio;
 using Spine.Unity;
 using UnityEngine;
 
@@ -12,6 +13,7 @@ namespace _Game.Features.BattleLoading
 
         void Start()
         {
+            AudioManager.Instance.PlayTransition();
             if (TopWave == null)
             {
                 Debug.LogError("TopWave is not assigned.");

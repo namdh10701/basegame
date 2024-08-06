@@ -53,6 +53,7 @@ MonoBehaviour:
   EnemyManager: {fileID: 3738615495974964307}
   BattleInputManager: {fileID: 8722419511731812512}
   IsWin: 0
+  IsEnded: 0
   GridAttackHandler: {fileID: 8414391988157680252}
   GridPicker: {fileID: 4199722477159872837}
   winCondition: {fileID: 723208293467804295}
@@ -60,7 +61,6 @@ MonoBehaviour:
   explosion: {fileID: 5463945939086869467}
   giantOctopus: {fileID: 0}
   timer: {fileID: 6914127277271923644}
-  DmgDeal: 0
 --- !u!114 &723208293467804295
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -338,6 +338,7 @@ Transform:
   - {fileID: 5680979158198734981}
   - {fileID: 8379132339005655780}
   - {fileID: 934550439609637164}
+  - {fileID: 6861822012787116923}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2396911115130528857
@@ -458,6 +459,37 @@ MonoBehaviour:
   color: {r: 1, g: 0.7310039, b: 0.25943398, a: 1}
   offset: {x: 0, y: 0}
   isDrawGizmos: 1
+--- !u!1 &2744892982042262809
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6861822012787116923}
+  m_Layer: 0
+  m_Name: EnemyRoot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6861822012787116923
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2744892982042262809}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7551900754541619481}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3056514687249171332
 GameObject:
   m_ObjectHideFlags: 0
@@ -881,6 +913,7 @@ MonoBehaviour:
   Ship: {fileID: 0}
   octopusPrefab: {fileID: 4327544819897116352, guid: 494f6834d1df73747ae5be3ef2d11a26, type: 3}
   skullGangPrefab: {fileID: 2772472425767169918, guid: 78e95ffe0365d0c4aaf48904ff08a1cf, type: 3}
+  enemyRoot: {fileID: 6861822012787116923}
 --- !u!1 &4937405513835690396
 GameObject:
   m_ObjectHideFlags: 0

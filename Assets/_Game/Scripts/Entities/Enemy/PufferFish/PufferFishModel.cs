@@ -1,4 +1,5 @@
 
+using _Base.Scripts.Audio;
 using _Base.Scripts.RPG.Behaviours.FindTarget;
 using _Base.Scripts.RPG.Effects;
 using _Game.Scripts;
@@ -94,6 +95,7 @@ namespace _Game.Features.Gameplay
 
         public override IEnumerator AttackSequence()
         {
+            AudioManager.Instance.PlayPufferFishDie();
             mbtExecutor.enabled = false;
             body.velocity = Vector2.zero;
             ChargingState = ChargeState.Charging;

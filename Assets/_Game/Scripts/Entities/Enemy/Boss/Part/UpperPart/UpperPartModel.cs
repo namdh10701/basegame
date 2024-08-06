@@ -21,6 +21,7 @@ namespace _Game.Features.Gameplay
         public bool isAttacking;
         public CameraShake cameraShake;
         public AttackPatternProfile attackPatternProfile;
+        public ParticleSystem attackParticle;
         public override void Initialize(GiantOctopus octopus)
         {
             base.Initialize(octopus);
@@ -96,10 +97,10 @@ namespace _Game.Features.Gameplay
             decreaseHp.ChanceAffectCell = 1;
             decreaseHp.transform.position = cell.transform.position;
             enemyAttackData.Effects = new List<Effect> { decreaseHp };
-
             gridAtk.ProcessAttack(enemyAttackData);
-
-            cameraShake.Shake(.1f, new Vector3(.1f, .1f, .1f));
+            cameraShake.Shake(.15f, new Vector3(.15f, .15f, .15f));
+            GameObject a = Instantiate(attackParticle, gridAtk.ship.ShipArea.SamplePointUpSide(), Quaternion.identity).gameObject;
+            a.SetActive(true);
         }
 
         public void DoneAttack()

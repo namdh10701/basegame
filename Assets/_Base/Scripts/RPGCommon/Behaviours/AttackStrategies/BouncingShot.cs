@@ -67,7 +67,7 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
 
                         if (!((ProjectileCollisionHandler)p.CollisionHandler).IgnoreCollideEntities.Contains(entity.Taker))
                         {
-                            if (entity.Taker is EnemyModel)
+                            if (entity.Taker is EnemyModel || entity.Taker is SkullGang || entity.Taker is PartModel)
                             {
                                 inRangeEntities.Add(entity.Taker);
                             }

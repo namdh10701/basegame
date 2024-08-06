@@ -2,6 +2,7 @@ using _Base.Scripts.RPG.Stats;
 using _Base.Scripts.UI;
 using _Game.Scripts;
 using _Game.Scripts.Entities;
+using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -21,11 +22,15 @@ namespace _Game.Features.Gameplay
         public int offsetSort;
         public int offset => offsetSort;
 
+        public Sprite normal;
+        public Sprite fever;
+
         public void SetCannon(Cannon cannon)
         {
             this.cannon = cannon;
 
             CannonStats cannonStats = cannon.Stats as CannonStats;
+            cannon.CannonFeverStateManager.OnStateEntered += OnFeverStateChanged;
             AmmoBar.SetProgress(cannonStats.Ammo.Value / cannonStats.Ammo.MaxValue);
             float amount = cannonStats.HealthPoint.Value / cannonStats.HealthPoint.MaxValue;
             if (amount == 1)
@@ -41,6 +46,18 @@ namespace _Game.Features.Gameplay
             cannonStats.HealthPoint.OnValueChanged += HealthPoint_OnValueChanged;
             cannonStats.Ammo.OnValueChanged += Ammo_OnValueChanged;
 
+        }
+
+        private void OnFeverStateChanged(CannonFeverState state)
+        {
+            if (state == CannonFeverState.None)
+            {
+                AmmoBar.Progress.sprite = normal;
+            }
+            else
+            {
+                AmmoBar.Progress.sprite = fever;
+            }
         }
 
         public void RegisterJob(CrewJobData crewJobData)

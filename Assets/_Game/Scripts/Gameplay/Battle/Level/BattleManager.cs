@@ -110,6 +110,8 @@ namespace _Game.Features.Gameplay
             TimeScaleChanged?.Invoke(1);
             winCondition.StopCheck();
             BattleInputManager.gameObject.SetActive(false);
+            EnemyManager.StopSpawn();
+            EntityManager.Cleanup();
 
         }
         public void Win()
@@ -155,10 +157,12 @@ namespace _Game.Features.Gameplay
                     Vector2 pos = EntityManager.Ship.ShipBound.SamplePoint();
                     ParticleSystem particle = Instantiate(explosion, pos, Quaternion.identity, null);
                     particle.gameObject.SetActive(true);
-                    cameraShake.Shake(.15f, new Vector3(.1f, .1f, .1f));
+                    cameraShake.Shake(.15f, new Vector3(.15f, .15f, .15f));
                 }
             }
             ShowLoseUIAsync();
         }
+
+        public abstract void PlayAgain();
     }
 }

@@ -65,6 +65,8 @@ MonoBehaviour:
   LevelStartSequence: {fileID: 9092570210771993290}
   EnemyManager: {fileID: 3738615495974964307}
   BattleInputManager: {fileID: 8722419511731812512}
+  IsWin: 0
+  IsEnded: 0
   GridAttackHandler: {fileID: 8414391988157680252}
   GridPicker: {fileID: 4199722477159872837}
   winCondition: {fileID: 1838495568584289611}
@@ -320,7 +322,39 @@ Transform:
   - {fileID: 8517405510219724831}
   - {fileID: 8379132339005655780}
   - {fileID: 934550439609637164}
+  - {fileID: 6065960702041992787}
   m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1698632782980643547
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6065960702041992787}
+  m_Layer: 0
+  m_Name: EnemyRoot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6065960702041992787
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1698632782980643547}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7551900754541619481}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2396911115130528857
 GameObject:
@@ -860,9 +894,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   aliveEnemies: []
+  enemyModels: []
+  skullGangs: []
   Ship: {fileID: 0}
   octopusPrefab: {fileID: 4327544819897116352, guid: 494f6834d1df73747ae5be3ef2d11a26, type: 3}
   skullGangPrefab: {fileID: 2772472425767169918, guid: 78e95ffe0365d0c4aaf48904ff08a1cf, type: 3}
+  enemyRoot: {fileID: 6065960702041992787}
 --- !u!1 &4937405513835690396
 GameObject:
   m_ObjectHideFlags: 0
@@ -2048,6 +2085,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7551900754541619481}
     m_Modifications:
+    - target: {fileID: 1839134000914025532, guid: 50de65ade7ea968489e0ce75f1e7d103, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3070243359295944831, guid: 50de65ade7ea968489e0ce75f1e7d103, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3467300520849342487, guid: 50de65ade7ea968489e0ce75f1e7d103, type: 3}
       propertyPath: m_Name
       value: Canvas
@@ -2132,6 +2177,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5447595840904595403, guid: 50de65ade7ea968489e0ce75f1e7d103, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6313859926408399739, guid: 50de65ade7ea968489e0ce75f1e7d103, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -2140,6 +2189,18 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 3738615495974964307}
+    - target: {fileID: 6541099468105873599, guid: 50de65ade7ea968489e0ce75f1e7d103, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7122885651423913647, guid: 50de65ade7ea968489e0ce75f1e7d103, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7635894332454888783, guid: 50de65ade7ea968489e0ce75f1e7d103, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8189530362552534075, guid: 50de65ade7ea968489e0ce75f1e7d103, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 

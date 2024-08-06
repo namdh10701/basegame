@@ -206,6 +206,11 @@ namespace _Game.Features.Gameplay
             cooldownBehaviour.StartCooldown();
         }
 
+        internal void Disable()
+        {
+            mbtExecutor.gameObject.SetActive(false);
+        }
+
         public EnemyStats stats;
         public GameObject effectCollider;
         public MBTExecutor mbtExecutor;

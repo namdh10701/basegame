@@ -190,6 +190,15 @@ MonoBehaviour:
     <FeverPoint>k__BackingField:
       statModifiers: []
       _baseValue: 0
+    <P1>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <P2>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <P3>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
   id: 0002
   gdConfig: {fileID: 11400000, guid: dafc4004e0133475f8d7f898a1f7342d, type: 2}
   statsTemplate: {fileID: 11400000, guid: 7b641c5f7ad3c493c9f6f71cb400fdee, type: 2}
@@ -1047,7 +1056,6 @@ GameObject:
   - component: {fileID: 6476150319703334821}
   - component: {fileID: 918975567095667542}
   - component: {fileID: 7834660955722705572}
-  - component: {fileID: 3128012144155073256}
   - component: {fileID: 3826834696898326724}
   - component: {fileID: 2256248938945240947}
   - component: {fileID: 8327156677661610839}
@@ -1055,6 +1063,7 @@ GameObject:
   - component: {fileID: 6289740761219713959}
   - component: {fileID: 5972644149637065698}
   - component: {fileID: 8699976353200259352}
+  - component: {fileID: 5572934123160225246}
   m_Layer: 6
   m_Name: BehaviourTree
   m_TagString: Untagged
@@ -1110,7 +1119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b25af8627659c6949b60949c3aa8d91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedEditorNode: {fileID: 0}
+  selectedEditorNode: {fileID: 5572934123160225246}
   repeatOnFinish: 1
   maxExecutionsPerTick: 1000
   parent: {fileID: 0}
@@ -1195,8 +1204,8 @@ MonoBehaviour:
   title: Wander
   rect:
     serializedVersion: 2
-    x: 65
-    y: 724
+    x: 73
+    y: 743
     width: 160
     height: 45
   parent: {fileID: 918975567095667542}
@@ -1256,8 +1265,8 @@ MonoBehaviour:
   title: Attack
   rect:
     serializedVersion: 2
-    x: -440
-    y: 962
+    x: -526
+    y: 967
     width: 160
     height: 45
   parent: {fileID: 8607001507616054668}
@@ -1487,8 +1496,8 @@ MonoBehaviour:
   title: Is Has Target
   rect:
     serializedVersion: 2
-    x: -432
-    y: 706
+    x: -471
+    y: 732
     width: 160
     height: 45
   parent: {fileID: 6496468220416208051}
@@ -1540,8 +1549,8 @@ MonoBehaviour:
   title: Sequence
   rect:
     serializedVersion: 2
-    x: -432
-    y: 787
+    x: -537
+    y: 823
     width: 160
     height: 45
   parent: {fileID: 149621412806234243}
@@ -1568,8 +1577,8 @@ MonoBehaviour:
   title: Wait
   rect:
     serializedVersion: 2
-    x: -264
-    y: 901
+    x: -380
+    y: 893
     width: 160
     height: 45
   parent: {fileID: 8607001507616054668}
@@ -1600,8 +1609,8 @@ MonoBehaviour:
   title: Decelerate
   rect:
     serializedVersion: 2
-    x: -570
-    y: 887
+    x: -677
+    y: 878
     width: 160
     height: 45
   parent: {fileID: 8607001507616054668}
@@ -1631,8 +1640,8 @@ MonoBehaviour:
   title: Sequence
   rect:
     serializedVersion: 2
-    x: -331
-    y: 626
+    x: -420
+    y: 635
     width: 160
     height: 45
   parent: {fileID: 6476150319703334821}
@@ -1663,7 +1672,7 @@ MonoBehaviour:
     height: 45
   parent: {fileID: 3711065613906591618}
   children:
-  - {fileID: 8699976353200259352}
+  - {fileID: 5572934123160225246}
   - {fileID: 7834660955722705572}
   behaviourTree: {fileID: 0}
   runtimePriority: 0
@@ -1684,14 +1693,14 @@ MonoBehaviour:
   title: Selector
   rect:
     serializedVersion: 2
-    x: -219
-    y: 552
+    x: -305
+    y: 558
     width: 160
     height: 45
   parent: {fileID: 8699976353200259352}
   children:
   - {fileID: 6496468220416208051}
-  - {fileID: 3128012144155073256}
+  - {fileID: 3826834696898326724}
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
@@ -1754,32 +1763,6 @@ MonoBehaviour:
   runtimePriority: 0
   breakpoint: 0
   random: 0
---- !u!114 &3128012144155073256
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8399095276866630800}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c78c7da6b00e1b46bad07949050f82f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  title: Sequence
-  rect:
-    serializedVersion: 2
-    x: -116
-    y: 628
-    width: 160
-    height: 45
-  parent: {fileID: 6476150319703334821}
-  children:
-  - {fileID: 3826834696898326724}
-  behaviourTree: {fileID: 0}
-  runtimePriority: 0
-  breakpoint: 0
-  random: 0
 --- !u!114 &3826834696898326724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1795,11 +1778,11 @@ MonoBehaviour:
   title: Update Target In Range
   rect:
     serializedVersion: 2
-    x: -114
-    y: 704
+    x: -202
+    y: 635
     width: 160
     height: 45
-  parent: {fileID: 3128012144155073256}
+  parent: {fileID: 6476150319703334821}
   children:
   - {fileID: 2256248938945240947}
   behaviourTree: {fileID: 0}
@@ -1836,8 +1819,8 @@ MonoBehaviour:
   title: Approach
   rect:
     serializedVersion: 2
-    x: -115
-    y: 789
+    x: -202
+    y: 731
     width: 160
     height: 45
   parent: {fileID: 3826834696898326724}
@@ -1868,6 +1851,7 @@ MonoBehaviour:
   multiplier: 1
   ChangeDirectionInterval: 1
   isApproachClosest: 0
+  distanceMin: 1
 --- !u!114 &8327156677661610839
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1944,7 +1928,7 @@ MonoBehaviour:
   title: Set State
   rect:
     serializedVersion: 2
-    x: 256
+    x: 257
     y: 730
     width: 160
     height: 45
@@ -1975,11 +1959,11 @@ MonoBehaviour:
   title: Is Ready To Attack
   rect:
     serializedVersion: 2
-    x: -213
-    y: 483
+    x: -210
+    y: 503
     width: 160
     height: 45
-  parent: {fileID: 4146721067324264289}
+  parent: {fileID: 5572934123160225246}
   children:
   - {fileID: 6476150319703334821}
   behaviourTree: {fileID: 0}
@@ -1998,6 +1982,37 @@ MonoBehaviour:
     blackboard: {fileID: 291860766914543287}
     key: IsInCooldown
     constantValue: 0
+--- !u!114 &5572934123160225246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8399095276866630800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70f5383aefede844abe12f9c68671302, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: Is Has Any Crew
+  rect:
+    serializedVersion: 2
+    x: -141
+    y: 436
+    width: 160
+    height: 45
+  parent: {fileID: 4146721067324264289}
+  children:
+  - {fileID: 8699976353200259352}
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+  shipReference:
+    useConstant: 0
+    mode: 0
+    blackboard: {fileID: 291860766914543287}
+    key: Ship
+    constantValue: {fileID: 0}
 --- !u!1 &8879532844825408350
 GameObject:
   m_ObjectHideFlags: 0
@@ -2321,6 +2336,14 @@ PrefabInstance:
       propertyPath: rings
       value: 
       objectReference: {fileID: 1164255914469927669}
+    - target: {fileID: 5115703292855372252, guid: 8023c7f2bd4aa6e48abe4932f8bf5835, type: 3}
+      propertyPath: m_SortingOrder
+      value: -738
+      objectReference: {fileID: 0}
+    - target: {fileID: 5131281688319739337, guid: 8023c7f2bd4aa6e48abe4932f8bf5835, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

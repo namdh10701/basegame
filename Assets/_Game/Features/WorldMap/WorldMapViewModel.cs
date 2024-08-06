@@ -18,7 +18,9 @@ namespace _Game.Features.WorldMap
         [Binding]
         public async void NavBack()
         {
-            await ScreenContainer.Find(ContainerKey.Screens).PopAsync(true);
+            await ModalContainer.Find(ContainerKey.Modals).PopAsync(true);
+            var options = new ScreenOptions("MainScreen", true);
+            await ScreenContainer.Find(ContainerKey.Screens).PushAsync(options);
         }
         
         [Binding]

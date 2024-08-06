@@ -75,7 +75,7 @@ namespace _Game.Features.Gameplay
 
         [Header("Behaviour")]
         [SerializeField] protected Blackboard blackboard;
-        [SerializeField] protected MBTExecutor mbtExecutor;
+        [SerializeField] public MBTExecutor mbtExecutor;
 
         [Header("Controller and View")]
         [SerializeField] protected EnemyController enemyController;
@@ -305,6 +305,11 @@ namespace _Game.Features.Gameplay
         public void OnFearEnd()
         {
             OnFearEnded?.Invoke();
+        }
+
+        public void Disable()
+        {
+            mbtExecutor.gameObject.SetActive(false);
         }
         #endregion
     }

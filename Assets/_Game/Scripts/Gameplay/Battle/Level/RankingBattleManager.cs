@@ -26,6 +26,8 @@ namespace _Game.Features.Gameplay
         }
         public override void Initialize()
         {
+            IsEnded = false;
+            EnemyManager.Init();
             BattleInputManager.gameObject.SetActive(false);
             EntityManager.SpawnShip(SaveSystem.GameSave.ShipSetupSaveData.CurrentShip.ItemId, shipStartPos.position);
             LevelStartSequence.shipSpeed = EntityManager.Ship.ShipSpeed;
@@ -72,8 +74,6 @@ namespace _Game.Features.Gameplay
             {
                 await Task.Delay((int)(6 * 1000));
             }
-            
-            // Submit score
             var resp = await PlayfabManager.Instance.Ranking.SubmitRankingMatchAsync((int)DmgDeal);
             var p = new RankingVictoryModal.Params
             {
@@ -85,7 +85,6 @@ namespace _Game.Features.Gameplay
 
         public override async void ShowLoseUIAsync()
         {
-            // Submit score
             var resp = await PlayfabManager.Instance.Ranking.SubmitRankingMatchAsync((int)DmgDeal);
             
             var p = new RankingVictoryModal.Params
@@ -96,5 +95,9 @@ namespace _Game.Features.Gameplay
             await RankingVictoryModal.Show(p);
         }
 
+        public override void PlayAgain()
+        {
+            EntityManager.OnPlayAgain();
+        }
     }
 }
