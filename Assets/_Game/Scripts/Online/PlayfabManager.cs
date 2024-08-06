@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using _Game.Scripts.SaveLoad;
 using Cysharp.Threading.Tasks;
+using GoogleMobileAds.Ump.Api;
 using Newtonsoft.Json;
 using Online.Enum;
 using Online.Interface;
@@ -73,6 +74,8 @@ namespace Online
 
 			await LoadDatabase();
 
+			Debug.Log("PlayfabID: " + loginResponse.PlayfabID);
+			
 			if (loginResponse.Status == ELoginStatus.Newly)
 			{
 				await Profile.RequestDisplayNameAsync();
@@ -89,7 +92,7 @@ namespace Online
 				Inventory.LoadItems(infoPayload.UserInventory);
 			}
 
-			await LoadUserRankInfoAsync();
+			// await LoadUserRankInfoAsync();
 
 			await Ranking.LoadRewardBundleInfo();
 			await LoadShopAsync();

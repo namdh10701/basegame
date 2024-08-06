@@ -102,45 +102,7 @@ namespace Online.Service
 
 		public void LoadItems(List<ItemInstance> items)
 		{
-			Items.Clear();
-			foreach (var itemData in items)
-			{
-				string[] idParts = itemData.ItemId.Split('_');
-				var itemType = idParts[0].GetItemType();
-				if (itemType == ItemType.None) continue;
-
-				var itemId = idParts[1];
-
-				int level = 1;
-				if (itemData.CustomData != null && itemData.CustomData.TryGetValue(C.NameConfigs.Level, out var levelData))
-				{
-					level = Convert.ToInt32(levelData);
-				}
-
-				int rarityLevel = 0;
-				switch (itemType)
-				{
-					case ItemType.CANNON:
-						rarityLevel = GameData.CannonTable.FindById(itemId)?.RarityLevel ?? 0;
-						break;
-
-					case ItemType.AMMO:
-						rarityLevel = GameData.AmmoTable.FindById(itemId)?.RarityLevel ?? 0;
-						break;
-					// case ItemType.SHIP:
-					// 	rarityLevel = GameData.ShipTable.FindById(itemId)?.RarityLevel ?? 0;
-					// 	break;
-				}
-
-				Items.Add(new ItemData()
-				{
-					ItemType = itemType,
-					ItemId = itemId,
-					OwnItemId = itemData.ItemInstanceId,
-					Level = level,
-					RarityLevel = rarityLevel
-				});
-			}
+			Items = items.ToItemData();
 		}
 
 		public void RevokeBlueprints(List<string> revokeBlueprints)

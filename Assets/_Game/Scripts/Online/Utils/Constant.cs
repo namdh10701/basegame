@@ -29,6 +29,9 @@ namespace Online
 				"crew" => ItemType.CREW,
 				"cannon" => ItemType.CANNON,
 				"ammo" => ItemType.AMMO,
+				"carpet" => ItemType.CARPET,
+				"misc" => ItemType.MISC,
+				"blueprint" => ItemType.BLUEPRINT,
 				_ => ItemType.None
 			};
 		}

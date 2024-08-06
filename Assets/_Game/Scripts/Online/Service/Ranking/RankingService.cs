@@ -28,38 +28,6 @@ namespace Online.Service
                 FunctionName = C.CloudFunction.GetRankInfo
             }, result =>
             {
-                // // UnRank case
-                // if (result.FunctionResult == null)
-                // {
-                //     RankInfo = new RankInfo();
-                //
-                //     RankInfo.EndTimestamp = (ulong)DateTime.Now.AddHours(10).ToFileTimeUtc();
-                //     RankInfo.SeasonNo = 1;
-                //     RankInfo.SeasonName = "Octopus XXX";
-                //     
-                //     UserRankInfo = new UserRankInfo();
-                //     UserRankInfo.Players = new PlayerRankInfo [50];
-                //
-                //     var playerName = PlayerNameGenerator.GeneratePlayerNames(50);
-                //     for (int i = 0; i < 50; i++)
-                //     {
-                //         UserRankInfo.Players[i] = new PlayerRankInfo
-                //         {
-                //             DisplayName = playerName[i],
-                //             Id = "fake_user",
-                //         };
-                //     }
-                //
-                //     var userRank = Random.Range(0, 50);
-                //     UserRankInfo.Players[userRank] = new PlayerRankInfo
-                //     {
-                //         DisplayName = PlayfabManager.Instance.DisplayName,
-                //         Id = PlayfabManager.Instance.Profile.PlayfabID
-                //     };
-                //     
-                //     signal.TrySetResult(true);
-                //     return;
-                // }
                 var rankResponse = JsonConvert.DeserializeObject<RankInfoResponse>(result.FunctionResult.ToString());
                 RankInfo = rankResponse.RankInfo;
                 UserRankInfo = rankResponse.UserRankInfo;
