@@ -228,10 +228,7 @@ namespace _Game.Features.Shop
                     break;
             }
 
-            AdsManager.Instance.LoadRewardedAd(adUnitId, async () =>
-            {
-                await PlayfabManager.Instance.BuyStoreItem(Id);
-            });
+            PlayfabManager.Instance.ShowVideoAd(adUnitId);
         }
     }
 }
