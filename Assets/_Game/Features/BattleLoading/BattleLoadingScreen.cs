@@ -1,7 +1,6 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using Spine.Unity;
-using UnityEngine;
 
 namespace _Game.Features.BattleLoading
 {
@@ -12,45 +11,14 @@ namespace _Game.Features.BattleLoading
 
         void Start()
         {
-            if (TopWave == null)
+            TopWave.AnimationState.SetAnimation(0, "begin_songbien", false).Complete += (trackEntry) =>
             {
-                Debug.LogError("TopWave is not assigned.");
-                return;
-            }
-
-            if (BotSticker == null)
-            {
-                Debug.LogError("BotSticker is not assigned.");
-                return;
-            }
-            TopWave.AnimationState.SetAnimation(0, "begin_songbien", false);
-            var topWaveAnimation = TopWave.AnimationState.SetAnimation(0, "begin_songbien", false);
-            if (topWaveAnimation == null)
-            {
-                Debug.LogError("TopWave animation 'begin_songbien' not found.");
-                return;
-            }
-
-            topWaveAnimation.Complete += (trackEntry) =>
-            {
-                Debug.Log("TopWave run");
                 TopWave.AnimationState.SetAnimation(0, "loop_songbien", true);
             };
-
-            var botStickerAnimation = BotSticker.AnimationState.SetAnimation(0, "begin", false);
-            if (botStickerAnimation == null)
+            
+            BotSticker.AnimationState.SetAnimation(0, "begin", false).Complete += (trackEntry) =>
             {
-                Debug.LogError("BotSticker animation 'begin' not found.");
-                return;
-            }
-
-            botStickerAnimation.Complete += (trackEntry) =>
-            {
-                var loopEntry = BotSticker.AnimationState.SetAnimation(0, "loop", true);
-                // loopEntry.Complete += (loopTrackEntry) =>
-                // {
-                //     BotSticker.AnimationState.SetAnimation(0, "end", false);
-                // };
+                BotSticker.AnimationState.SetAnimation(0, "loop", true);
             };
         }
 
@@ -58,18 +26,15 @@ namespace _Game.Features.BattleLoading
         {
             var signal = new TaskCompletionSource<bool>();
 
-            if (TopWave == null || BotSticker == null)
+            BotSticker.AnimationState.SetAnimation(0, "end", false);
+            UniTask.RunOnThreadPool(async () =>
             {
-                Debug.LogError("TopWave or BotSticker is not assigned.");
-                signal.TrySetResult(false);
-                return signal.Task;
-            }
-            var loopEntry = BotSticker.AnimationState.SetAnimation(0, "end", false);
-            loopEntry.Complete += (loopTrackEntry) =>
-            {
-                TopWave.AnimationState.SetAnimation(0, "end_songbien", false);
-                signal.TrySetResult(true);
-            };
+                await UniTask.Delay(6500);
+                TopWave.AnimationState.SetAnimation(0, "end_songbien", false).Complete += (trackEntry) =>
+                {
+                    signal.TrySetResult(true);
+                };
+            });
 
             return signal.Task;
         }
