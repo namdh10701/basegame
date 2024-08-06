@@ -60,7 +60,9 @@ namespace Online.Service
                 //     signal.TrySetResult(true);
                 //     return;
                 // }
-                // var rankResponse = Jsosaponse.UserRankInfo;
+                var rankResponse = JsonConvert.DeserializeObject<RankInfoResponse>(result.FunctionResult.ToString());
+                RankInfo = rankResponse.RankInfo;
+                UserRankInfo = rankResponse.UserRankInfo;
 
                 if (UserRankInfo == null)
                 {

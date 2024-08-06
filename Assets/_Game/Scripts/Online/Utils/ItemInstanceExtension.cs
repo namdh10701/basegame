@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using _Game.Features.Inventory;
 using _Game.Scripts.GD.DataManager;
 using _Game.Scripts.SaveLoad;
@@ -30,9 +31,6 @@ namespace Online
 				case ItemType.AMMO:
 					rarityLevel = GameData.AmmoTable.FindById(itemId)?.RarityLevel ?? 0;
 					break;
-					// case ItemType.SHIP:
-					// 	rarityLevel = GameData.ShipTable.FindById(itemId)?.RarityLevel ?? 0;
-					// 	break;
 			}
 
 			return new ItemData()
@@ -45,22 +43,19 @@ namespace Online
 			};
 		}
 
-		public static ItemData[] ParseToItemDatas(this ItemInstance[] itemInstances)
+		public static List<ItemData> ToItemData(this ItemInstance[] itemInstances)
 		{
-			var itemDatas = new ItemData[itemInstances.Length];
-			for (int i = 0; i < itemInstances.Length; i++)
+			var items = new List<ItemData>();
+			foreach (var itemInstance in itemInstances)
 			{
-				itemDatas[i] = itemInstances[i].GetItemData();
+				items.Add(itemInstance.GetItemData());
 			}
-			return itemDatas;
+			return items;
 		}
 
-		public static ItemData ParseToItemData(this ItemInstance itemInstances)
+		public static List<ItemData> ToItemData(this List<ItemInstance> itemInstances)
 		{
-			var itemData = new ItemData();
-			itemData = itemInstances.GetItemData();
-
-			return itemData;
+			return itemInstances.ToArray().ToItemData();
 		}
 	}
 }

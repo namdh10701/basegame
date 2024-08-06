@@ -7,10 +7,10 @@ namespace Online.Model.ApiRequest
 	{
 		public ItemInstance[] Items { get; set; }
 		public Dictionary<string, int> VirtualCurrency { get; set; }
-		
-		public ItemData[] GetItemDatas()
+
+		public List<ItemData> GetItems()
 		{
-			return Items.ParseToItemDatas();
+			return Items.ToItemData();
 		}
 	}
 }
