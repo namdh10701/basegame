@@ -489,7 +489,7 @@ namespace _Game.Features.InventoryItemInfo
 
             if (resUpgrade.Result)
             {
-                var itemData = resUpgrade.GetItemDatas();
+                var itemData = resUpgrade.ItemUpgrade.GetItemData();
                 Debug.Log("OnUpgradeItem" + itemData);
 
                 IsActivePopupSuccess = true;

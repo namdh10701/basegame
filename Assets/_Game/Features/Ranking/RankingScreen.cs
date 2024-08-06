@@ -293,7 +293,7 @@ namespace _Game.Features.Ranking
 
             // reload date
             await PlayfabManager.Instance.Inventory.RequestInventoryAsync();
-            await PlayfabManager.Instance.Ranking.RequestUserRankAsync();
+            // await PlayfabManager.Instance.Ranking.RequestUserRankAsync();
             LoadData();
             // await UniTask.Delay(1000);
             var screenContainer = ScreenContainer.Find(ContainerKey.Screens);

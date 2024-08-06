@@ -584,7 +584,7 @@ namespace _Game.Features.Shop
                 Debug.LogError("GachaAsync" + ex.Message);
             }
 
-            var itemDatas = gachaResponse.GetItemDatas();
+            var itemDatas = gachaResponse.GetItems();
             foreach (var item in itemDatas)
             {
                 var shopItemGachaReceived = GenerateShopItemGachaReceived(item);
