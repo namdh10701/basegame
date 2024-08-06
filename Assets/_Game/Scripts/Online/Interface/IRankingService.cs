@@ -5,8 +5,8 @@ namespace Online.Interface
 {
     public interface IRankingService
 	{
+		public SeasonInfo SeasonInfo { get; }
 		public RankInfo RankInfo { get; }
-		public UserRankInfo UserRankInfo { get; }
 		public Task LoadUserRankInfoAsync();
 	}
 }

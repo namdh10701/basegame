@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using _Game.Scripts.SaveLoad;
 using PlayFab.ClientModels;
-namespace Online.Model.ApiRequest
+
+namespace Online.Model.ResponseAPI
 {
 	public class GachaResponse : BaseResponse
 	{

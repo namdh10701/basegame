@@ -22,7 +22,7 @@ namespace Online.Model
 		public List<RankReward> Rewards = new();
 	}
 
-	public class RankInfo
+	public class SeasonInfo
 	{
 		[JsonProperty("No")]
 		public int SeasonNo;
@@ -49,16 +49,16 @@ namespace Online.Model
 		public int Score;
 	}
 
-	public class UserRankInfo
+	public class RankInfo
 	{
 		[JsonProperty("Id")]
-		public string RankID;
+		public string RankID { get; set; }
 		
 		[JsonProperty("Count")]
-		public int Count;
+		public int Count { get; set; }
 
 		[JsonProperty("Players")]
-		public PlayerRankInfo[] Players;
+		public List<PlayerRankInfo> Players { get; set; }
 	}
 	
 	public class RewardData

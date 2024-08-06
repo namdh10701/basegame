@@ -8,7 +8,8 @@ using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
 using Online.Enum;
 using Online.Interface;
-using Online.Model.ApiRequest;
+using Online.Model.RequestAPI.Inventory;
+using Online.Model.ResponseAPI.Inventory;
 using PlayFab;
 using PlayFab.ClientModels;
 

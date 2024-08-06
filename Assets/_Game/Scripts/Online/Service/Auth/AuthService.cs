@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using Online.Enum;
 using Online.Interface;
-using Online.Model.ApiRequest;
+using Online.Model.ResponseAPI.Common;
 using Online.Service.Auth;
 using PlayFab.ClientModels;
 

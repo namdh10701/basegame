@@ -1,5 +1,6 @@
 using System.Collections.Generic;
-namespace Online.Model.ApiRequest
+
+namespace Online.Model.ResponseAPI.Common
 {
 	public class BonusGoldResponse : BaseResponse
 	{

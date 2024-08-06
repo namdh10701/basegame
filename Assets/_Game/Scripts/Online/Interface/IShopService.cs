@@ -1,8 +1,6 @@
-using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
-using Online.Model.ApiRequest;
+using Online.Model.ResponseAPI;
 using PlayFab.ClientModels;
 
 namespace Online.Interface

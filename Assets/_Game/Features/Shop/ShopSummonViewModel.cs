@@ -11,11 +11,10 @@ using _Game.Scripts.UI;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Online;
-using Online.Model.ApiRequest;
+using Online.Model.ResponseAPI;
 using Spine;
 using Spine.Unity;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityWeld.Binding;
 
 namespace _Game.Features.Shop

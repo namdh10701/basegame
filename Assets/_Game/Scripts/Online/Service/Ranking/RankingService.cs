@@ -1,167 +1,146 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using _Base.Scripts.Generators;
-using _Game.Features.Inventory;
 using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
-using Online.Enum;
-using Online.Interface;
 using Online.Model;
-using Online.Model.ApiRequest;
+using Online.Model.ResponseAPI;
+using Online.Model.ResponseAPI.Ranking;
 using PlayFab;
-using PlayFab.ClientModels;
-using Random = UnityEngine.Random;
+using UnityEngine;
 
 namespace Online.Service
 {
-    public class RankingService : BaseOnlineService
-    {
-        public RankInfo RankInfo { get; private set; }
-        public UserRankInfo UserRankInfo { get; private set; }
+	public class RankingService : BaseOnlineService
+	{
+		public SeasonInfo SeasonInfo { get; private set; }
+		public RankInfo RankInfo { get; private set; }
 
-        public async UniTask<bool> RequestUserRankAsync()
-        {
-            var signal = new UniTaskCompletionSource<bool>();
-            PlayFabClientAPI.ExecuteCloudScript(new()
-            {
-                FunctionName = C.CloudFunction.GetRankInfo
-            }, result =>
-            {
-                // // UnRank case
-                // if (result.FunctionResult == null)
-                // {
-                //     RankInfo = new RankInfo();
-                //
-                //     RankInfo.EndTimestamp = (ulong)DateTime.Now.AddHours(10).ToFileTimeUtc();
-                //     RankInfo.SeasonNo = 1;
-                //     RankInfo.SeasonName = "Octopus XXX";
-                //     
-                //     UserRankInfo = new UserRankInfo();
-                //     UserRankInfo.Players = new PlayerRankInfo [50];
-                //
-                //     var playerName = PlayerNameGenerator.GeneratePlayerNames(50);
-                //     for (int i = 0; i < 50; i++)
-                //     {
-                //         UserRankInfo.Players[i] = new PlayerRankInfo
-                //         {
-                //             DisplayName = playerName[i],
-                //             Id = "fake_user",
-                //         };
-                //     }
-                //
-                //     var userRank = Random.Range(0, 50);
-                //     UserRankInfo.Players[userRank] = new PlayerRankInfo
-                //     {
-                //         DisplayName = PlayfabManager.Instance.DisplayName,
-                //         Id = PlayfabManager.Instance.Profile.PlayfabID
-                //     };
-                //     
-                //     signal.TrySetResult(true);
-                //     return;
-                // }
-                var rankResponse = JsonConvert.DeserializeObject<RankInfoResponse>(result.FunctionResult.ToString());
-                RankInfo = rankResponse.RankInfo;
-                UserRankInfo = rankResponse.UserRankInfo;
+		public async UniTask RequestUserRankAsync()
+		{
+			await RequestSeasonInfoAsync();
 
-                if (UserRankInfo == null)
-                {
-                    UserRankInfo = new UserRankInfo();
-                    UserRankInfo.Players = new PlayerRankInfo [50];
+			var leaderboard = await GetLeaderboardAsync(0, 50);
 
-                    var playerName = PlayerNameGenerator.GeneratePlayerNames(50);
-                    for (int i = 0; i < 50; i++)
-                    {
-                        UserRankInfo.Players[i] = new PlayerRankInfo
-                        {
-                            DisplayName = playerName[i],
-                            Id = "fake_user",
-                        };
-                    }
+			RankInfo = new() { Count = leaderboard.Count, Players = leaderboard.Players};
+			
+			LogSuccess("RequestUserRankAsync!");
+		}
 
-                    var userRank = Random.Range(0, 50);
-                    UserRankInfo.Players[userRank] = new PlayerRankInfo
-                    {
-                        DisplayName = PlayfabManager.Instance.DisplayName,
-                        Id = PlayfabManager.Instance.Profile.PlayfabID
-                    };
-                }
-                
-                signal.TrySetResult(true);
-            }, error =>
-            {
-                LogError("Get User Rank Error: " + error.ErrorMessage);
-                signal.TrySetResult(false);
-            });
-            return await signal.Task;
-        }
-        
-        public async UniTask<BaseResponse> CreateRankTicketAsync()
-        {
-            var signal = new UniTaskCompletionSource<BaseResponse>();
-            PlayFabClientAPI.ExecuteCloudScript(new()
-            {
-                FunctionName = C.CloudFunction.CreateRankTicket
-            }, result =>
-            {
-                var resp = JsonConvert.DeserializeObject<BaseResponse>(result.FunctionResult.ToString());
-                signal.TrySetResult(resp);
-            }, error =>
-            {
-                LogError("Create Rank Ticket Error: " + error.ErrorMessage);
-                // signal.TrySetResult(false);
-                signal.TrySetException(new Exception("Create Rank Ticket Error: " + error.ErrorMessage));
-            });
-            return await signal.Task;
-        }
-        
-        public async UniTask<SubmitRankingResponse> SubmitRankingMatchAsync(int totalDamage)
-        {
-            var signal = new UniTaskCompletionSource<SubmitRankingResponse>();
-            PlayFabClientAPI.ExecuteCloudScript(new()
-            {
-                FunctionName = C.CloudFunction.SubmitRankingMatchAsync,
-                FunctionParameter = new
-                {
-                    Score = totalDamage
-                }
-            }, result =>
-            {
-                var rankResponse = JsonConvert.DeserializeObject<SubmitRankingResponse>(result.FunctionResult.ToString());
-                UserRankInfo = rankResponse.UserRankInfo;
-                LogSuccess("Submit Ranking!");
-                signal.TrySetResult(rankResponse);
-            }, error =>
-            {
-                LogError("Submit Ranking Match Error: " + error.ErrorMessage);
-                signal.TrySetResult(null);
-            });
-            return await signal.Task;
-        }
+		public async UniTask<LeaderboardResponse> GetLeaderboardAsync(int begin, int count)
+		{
+			var signal = new UniTaskCompletionSource<LeaderboardResponse>();
+			PlayFabClientAPI.GetLeaderboard(new()
+			{
+				StatisticName = C.RankConfigs.GetLeaderboard(Manager.Profile.UserRank),
+				StartPosition = begin,
+				MaxResultsCount = count
+			}, result =>
+			{
+				var leaderboardRes = new LeaderboardResponse();
+				leaderboardRes.Count = result.Leaderboard.Count;
+				foreach (var item in result.Leaderboard)
+				{
+					leaderboardRes.Players.Add(new PlayerRankInfo()
+					{
+						Id = item.PlayFabId,
+						DisplayName = item.DisplayName,
+						Score = item.StatValue
+					});
+				}
+				LogSuccess("GetLeaderboardAsync, Count: " + leaderboardRes.Count);
+				signal.TrySetResult(leaderboardRes);
+			}, error =>
+			{
+				LogError("GetLeaderboardAsync, Error: " + error.ErrorMessage);
+				signal.TrySetResult(new LeaderboardResponse());
+			});
+			return await signal.Task;
+		}
 
-        public async UniTask<RewardBundleInfo> LoadRewardBundleInfo()
-        {
-            var signal = new UniTaskCompletionSource<RewardBundleInfo>();
+		public async UniTask<SeasonInfoResponse> RequestSeasonInfoAsync()
+		{
+			var signal = new UniTaskCompletionSource<SeasonInfoResponse>();
+			PlayFabClientAPI.ExecuteCloudScript(new()
+			{
+				FunctionName = C.CloudFunction.RequestSeasonInfo
+			}, result =>
+			{
+				var resp = JsonConvert.DeserializeObject<SeasonInfoResponse>(result.FunctionResult.ToString());
+				SeasonInfo = resp.SeasonInfo;
+				signal.TrySetResult(resp);
+			}, error =>
+			{
+				SeasonInfo = null;
+				signal.TrySetResult(null);
+			});
+			return await signal.Task;
+		}
 
-            //TODO: DNGUYEN - reward loading
-            // dummy data >>>>
-            var bundles = new RewardBundleInfo();
-            var bundle = new ClaimRewardBundle();
-            for (int i = 0; i < 5; i++)
-            {
-                // bundle.Records.Add(new RankReward()
-                // {
-                //     ItemId = "Cannon_0001",
-                //     Amount = 10
-                // });
-            }
+		public async UniTask<BaseResponse> CreateRankTicketAsync()
+		{
+			var signal = new UniTaskCompletionSource<BaseResponse>();
+			PlayFabClientAPI.ExecuteCloudScript(new()
+			{
+				FunctionName = C.CloudFunction.CreateRankTicket
+			}, result =>
+			{
+				var resp = JsonConvert.DeserializeObject<BaseResponse>(result.FunctionResult.ToString());
+				signal.TrySetResult(resp);
+			}, error =>
+			{
+				LogError("Create Rank Ticket Error: " + error.ErrorMessage);
+				// signal.TrySetResult(false);
+				signal.TrySetException(new Exception("Create Rank Ticket Error: " + error.ErrorMessage));
+			});
+			return await signal.Task;
+		}
 
-            bundles.Bundles.Add(bundle);
-            // <<<< dummy data
+		public async UniTask<SubmitRankingResponse> SubmitRankingMatchAsync(int totalDamage)
+		{
+			var signal = new UniTaskCompletionSource<SubmitRankingResponse>();
+			PlayFabClientAPI.ExecuteCloudScript(new()
+			{
+				FunctionName = C.CloudFunction.SubmitRankingMatchAsync,
+				FunctionParameter = new
+				{
+					Score = totalDamage
+				}
+			}, result =>
+			{
+				var rankResponse = JsonConvert.DeserializeObject<SubmitRankingResponse>(result.FunctionResult.ToString());
+				RankInfo = rankResponse.RankInfo;
+				LogSuccess("Submit Ranking!");
+				signal.TrySetResult(rankResponse);
+			}, error =>
+			{
+				LogError("Submit Ranking Match Error: " + error.ErrorMessage);
+				signal.TrySetResult(null);
+			});
+			return await signal.Task;
+		}
 
-            signal.TrySetResult(bundles);
-            return await signal.Task;
-        }
+		public async UniTask<RewardBundleInfo> LoadRewardBundleInfo()
+		{
+			var signal = new UniTaskCompletionSource<RewardBundleInfo>();
+
+			//TODO: DNGUYEN - reward loading
+			// dummy data >>>>
+			var bundles = new RewardBundleInfo();
+			var bundle = new ClaimRewardBundle();
+			for (int i = 0; i < 5; i++)
+			{
+				// bundle.Records.Add(new RankReward()
+				// {
+				//     ItemId = "Cannon_0001",
+				//     Amount = 10
+				// });
+			}
+
+			bundles.Bundles.Add(bundle);
+			// <<<< dummy data
+
+			signal.TrySetResult(bundles);
+			return await signal.Task;
+		}
 
 		public async UniTask<bool> StartBattle()
 		{
@@ -169,7 +148,7 @@ namespace Online.Service
 			// nếu đủ resource thì trả về true
 			return true;
 		}
-		
+
 		public async UniTask<bool> EndBattle(int score)
 		{
 			//TODO: DNGUYEN - gọi api end battle tại Tier hiện tại
@@ -182,21 +161,21 @@ namespace Online.Service
 			return true;
 		}
 
-        public async UniTask<bool> ClaimRewardBundle()
-        {
-	        //TODO: DNGUYEN - gọi api claim reward
-	        // claim thành công thì trả về true
-	        return true;
-        }
+		public async UniTask<bool> ClaimRewardBundle()
+		{
+			//TODO: DNGUYEN - gọi api claim reward
+			// claim thành công thì trả về true
+			return true;
+		}
 
-        public override void LogSuccess(string message)
-        {
-            LogEvent(false, message, "RankingService");
-        }
+		public override void LogSuccess(string message)
+		{
+			LogEvent(false, message, "RankingService");
+		}
 
-        public override void LogError(string error)
-        {
-            LogEvent(true, error, "RankingService");
-        }
-    }
+		public override void LogError(string error)
+		{
+			LogEvent(true, error, "RankingService");
+		}
+	}
 }

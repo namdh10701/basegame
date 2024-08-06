@@ -10,8 +10,8 @@ namespace Online
 	{
 		#region Ranking Service
 
+		public SeasonInfo SeasonInfo => Ranking.SeasonInfo;
 		public RankInfo RankInfo => Ranking.RankInfo;
-		public UserRankInfo UserRankInfo => Ranking.UserRankInfo;
 		
 		public async Task LoadUserRankInfoAsync()
 		{

@@ -1,5 +1,6 @@
 using Online.Enum;
-namespace Online.Model.ApiRequest
+
+namespace Online.Model.ResponseAPI
 {
 	public class BaseResponse
 	{

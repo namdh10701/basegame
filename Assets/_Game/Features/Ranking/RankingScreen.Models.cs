@@ -164,8 +164,8 @@ namespace _Game.Features.Ranking
 
             #region BackedData
 
-            private Online.Model.UserRankInfo _backedData;
-            public Online.Model.UserRankInfo BackedData
+            private Online.Model.RankInfo _backedData;
+            public Online.Model.RankInfo BackedData
             {
                 get => _backedData;
                 set
@@ -178,7 +178,7 @@ namespace _Game.Features.Ranking
                     
                     Records.Clear();
 
-                    for (var index = 0; index < _backedData.Players.Length; index++)
+                    for (var index = 0; index < _backedData.Players.Count; index++)
                     {
                         var backedDataRecord = _backedData.Players[index];
                         Records.Add(new RankRecord(index + 1)
@@ -189,7 +189,7 @@ namespace _Game.Features.Ranking
                     }
 
                     SeasonExpireAt = DateTimeOffset
-                        .FromUnixTimeSeconds((long)PlayfabManager.Instance.RankInfo.EndTimestamp).UtcDateTime;
+                        .FromUnixTimeSeconds((long)PlayfabManager.Instance.SeasonInfo.EndTimestamp).UtcDateTime;
                     
                     OnPropertyChanged(nameof(SeasonNo));
                     OnPropertyChanged(nameof(SeasonName));
@@ -247,10 +247,10 @@ namespace _Game.Features.Ranking
             public string SeasonRemainingTime => SeasonExpireAt.GetRemainingTime();
             
             [Binding]
-            public string SeasonNo => $"Rank Season {PlayfabManager.Instance.RankInfo?.SeasonNo}";
+            public string SeasonNo => $"Rank Season {PlayfabManager.Instance.SeasonInfo?.SeasonNo}";
             
             [Binding]
-            public string SeasonName => PlayfabManager.Instance.RankInfo?.SeasonName;
+            public string SeasonName => PlayfabManager.Instance.SeasonInfo?.SeasonName;
             
             [Binding]
             public string Rank => PlayfabManager.Instance.Rank.ToString();

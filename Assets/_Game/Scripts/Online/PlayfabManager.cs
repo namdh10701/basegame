@@ -2,13 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using _Game.Scripts.SaveLoad;
 using Cysharp.Threading.Tasks;
 using GoogleMobileAds.Ump.Api;
 using Newtonsoft.Json;
 using Online.Enum;
 using Online.Interface;
-using Online.Model.ApiRequest;
+using Online.Model.RequestAPI.Profile;
+using Online.Model.ResponseAPI.Inventory;
+using Online.Model.ResponseAPI.Profile;
 using Online.Service;
 using PlayFab;
 using UnityEngine;
@@ -92,7 +93,7 @@ namespace Online
 				Inventory.LoadItems(infoPayload.UserInventory);
 			}
 
-			// await LoadUserRankInfoAsync();
+			await LoadUserRankInfoAsync();
 
 			await Ranking.LoadRewardBundleInfo();
 			await LoadShopAsync();
