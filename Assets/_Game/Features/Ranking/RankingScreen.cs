@@ -288,6 +288,8 @@ namespace _Game.Features.Ranking
                 return;
             }
 
+            PlayfabManager.Instance.Inventory.LoadVirtualCurrency(resp.VirtualCurrency);
+            
             await Nav.PopCurrentPopupAsync();
             await Nav.ShowScreenAsync<BattleLoadingScreen>(poolingPolicy: ZBase.UnityScreenNavigator.Core.PoolingPolicy.DisablePooling);
 
