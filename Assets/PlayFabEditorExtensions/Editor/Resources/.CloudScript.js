@@ -33,15 +33,17 @@ const ProfileField = Object.freeze({
     Level: 'Level',
     Exp: 'Exp',
     Rank: 'Rank',
-    RankScore: 'RankScore',
-    CurrentRankID: 'CurrentRankID',
     LimitPackages: 'LimitPackages',
     Gachas: 'Gachas'
 });
 
+const StatisticFields = Object.freeze({
+    Rank: 'Rank',
+    RankScore: 'RankScore'
+});
+
 const TitleReadOnlyData = Object.freeze({
     RankInfo: 'RankInfo',
-    // RankUnrank: 'RankUnrank',
     RankRookie: 'RankRookie',
     RankGunner: 'RankGunner',
     RankHunter: 'RankHunter',
@@ -52,10 +54,7 @@ const TitleReadOnlyData = Object.freeze({
 const EItemType = Object.freeze({
     Ship: 'ship', // 0
     Crew: 'crew', // 
-    Cannon: 'cannon',
-    Ammo: 'ammo',
-    Blueprint: 'blueprint',
-    Misc: 'misc',
+    Cannon: 'cannon', Ammo: 'ammo', Blueprint: 'blueprint',
 });
 
 const EDatabase = Object.freeze({
@@ -67,54 +66,19 @@ const EDatabase = Object.freeze({
     CannonUpgradeDB: 'CannonUpgradeDB',
     AmmoUpgradeDB: 'AmmoUpgradeDB',
     ShipUpgradeDB: 'ShipUpgradeDB',
-    RankingBattleRewardDB: 'RankingBattleRewardDB',
-    GachasDB: 'GachasDB',
-    GachaItemsDB: 'GachaItemsDB',
-});
-
-const ERarity = Object.freeze({
-    Common: 0, Good: 1, Rare: 2, Epic: 3, Legendary: 4
 });
 
 const EVirtualCurrency = Object.freeze({
-    Gold: 'GO', Gem: 'GE', Energy: 'EN', Ticket: 'TI', FreeTicket: 'FT', Diamond: 'DI', Key: 'KE'
+    Gold: 'GO', Gem: 'GE', Energy: 'EN', Ticket: 'TI',
 });
 
 const ERank = Object.freeze({
-    //Unrank: 'Unrank', 
-    Rookie: 'Rookie', Gunner: 'Gunner', Hunter: 'Hunter', Captain: 'Captain', Conquer: 'Conquer'
+    Rookie: 'Rookie',
+    Gunner: 'Gunner',
+    Hunter: 'Hunter',
+    Captain: 'Captain',
+    Conquer: 'Conquer',
 });
-
-const EBlueprintId = Object.freeze({
-    Ship: "res_blueprint_ship",
-    Cannon: "res_blueprint_cannon",
-    Ammo: "res_blueprint_ammo",
-});
-
-const EMiscItemId = Object.freeze({
-    Gold: "res_gold",
-    Gem: "res_gem",
-    Diamond: "res_diamond",
-    Exp: "res_exp",
-    Energy: "res_energy",
-    Ticket: "res_ranking_ticket",
-    Key: "res_vipkey"
-});
-
-const EErrorCode = Object.freeze({
-    NotEnoughItem: 1000,
-    ItemNotFound: 1001,
-    ItemNotMatch: 1002,
-    NotEnoughGold: 1003,
-    NotEnoughBlueprint: 1004,
-    NotEnoughEnergy: 1005,
-    NotEnoughTicket: 1006,
-    PackageLimited: 1007,
-    NotEnoughGem: 1008,
-    NotEnoughKey: 1009,
-});
-
-const Total_Player_Per_Rank_Group = 50;
 
 const GetItemUpgradeDB = function (itemType) {
     switch (itemType) {
@@ -154,21 +118,18 @@ handlers.RequestNewProfile = function (args, context) {
     userData[ProfileField.Level] = 1;
     userData[ProfileField.Exp] = 0;
     userData[ProfileField.Rank] = ERank.Rookie;
-    userData[ProfileField.RankScore] = 0;
-    userData[ProfileField.CurrentRankID] = "";
-    userData[ProfileField.LimitPackages] = [];
-    userData[ProfileField.Gachas] = [];
+    userData[ProfileField.LimitPackages] = "[]";
+    userData[ProfileField.Gachas] = "[]";
 
-    var reqReadOnlyData = {
+    return server.UpdateUserReadOnlyData({
         PlayFabId: currentPlayerId, Data: userData
-    };
-    var resultData = server.UpdateUserReadOnlyData(reqReadOnlyData);
+    });
 };
 
 handlers.CombineItems = function (args, context) {
     if (args.ItemInstanceIds.length < 2) {
         return {
-            Result: false, Error: EErrorCode.NotEnoughItem
+            Result: false, Error: "NOT_ENOUGH_ITEM"
         };
     }
 
@@ -184,7 +145,7 @@ handlers.CombineItems = function (args, context) {
             CombineItems.push(item);
         } else {
             return {
-                Result: false, Error: EErrorCode.ItemNotFound
+                Result: false, Error: "ITEM_NOT_FOUND"
             }
         }
     }
@@ -197,7 +158,7 @@ handlers.CombineItems = function (args, context) {
     for (let i = 1; i < CombineItems.length; i++) {
         if (CombineItems[i].ItemId != configId) {
             return {
-                Result: false, Error: EErrorCode.ItemNotMatch
+                Result: false, Error: "ITEM_NOT_MATCH"
             }
         }
     }
@@ -300,7 +261,7 @@ handlers.UpgradeItem = function (args, context) {
         var resInventory = server.GetUserInventory({PlayFabId: currentPlayerId});
         if (resInventory.VirtualCurrency[EVirtualCurrency.Gold] < nextLevelConfig.gold) {
             return {
-                Result: false, Error: EErrorCode.NotEnoughGold
+                Result: false, Error: "NOT_ENOUGH_GOLD"
             };
         }
 
@@ -308,7 +269,7 @@ handlers.UpgradeItem = function (args, context) {
         var blueprints = resultInventory.Inventory.filter(val => val.ItemId == blueprintId);
         if (blueprints.length < nextLevelConfig.blueprint) {
             return {
-                Result: false, Error: EErrorCode.NotEnoughBlueprint
+                Result: false, Error: "NOT_ENOUGH_BLUEPRINT"
             };
         }
 
@@ -348,40 +309,8 @@ handlers.UpgradeItem = function (args, context) {
     }
 
     return {
-        Result: false, Error: EErrorCode.ItemNotFound
+        Result: false, Error: "ITEM_NOT_FOUND"
     }
-};
-
-handlers.GetRankInfo = function (args, context) {
-    let reqReadOnlyData = {
-        PlayFabId: currentPlayerId,
-        Keys: [ProfileField.Rank, ProfileField.CurrentRankID]
-    };
-    let resData = server.GetUserReadOnlyData(reqReadOnlyData);
-
-    let userRank = ERank.Rookie;
-    let userRankScore = 0;
-    let userRankId = "";
-    if (resData.Data.hasOwnProperty(ProfileField.Rank)) {
-        userRank = resData.Data[ProfileField.Rank].Value;
-    }
-    if (resData.Data.hasOwnProperty(ProfileField.CurrentRankID)) {
-        userRankId = resData.Data[ProfileField.CurrentRankID].Value;
-    }
-
-    // Rank Info
-    let userRankDB = 'Rank' + userRank;
-    let keys = [TitleReadOnlyData.RankInfo, userRankDB];
-    let resTitleData = server.GetTitleInternalData({Keys: keys});
-    let userRankData = JSON.parse(resTitleData.Data[userRankDB]);
-    let userRankInfo = userRankData.find(val => val.Id == userRankId);
-    // SortArrayByKey(userRankInfo.Players, 'Score', 'desc');
-
-    return {
-        Result: true,
-        RankInfo: JSON.parse(resTitleData.Data[TitleReadOnlyData.RankInfo]),
-        UserRankInfo: userRankInfo
-    };
 };
 
 handlers.CreateRankTicket = function (args, context) {
@@ -426,71 +355,6 @@ handlers.CreateRankTicket = function (args, context) {
     CheckJoinRank(currentPlayerId);
 
     return result;
-};
-
-const CheckJoinRank = function (playfabId) {
-    let reqReadOnlyData = {
-        PlayFabId: currentPlayerId,
-        Keys: [ProfileField.Rank, ProfileField.RankScore, ProfileField.CurrentRankID]
-    };
-    let resData = server.GetUserReadOnlyData(reqReadOnlyData);
-
-    let currentRankId = resData.Data[ProfileField.CurrentRankID].Value;
-    let userRank = resData.Data[ProfileField.Rank].Value;
-
-    if (currentRankId == "") {
-        var resProfile = server.GetPlayerProfile({PlayFabId: currentPlayerId});
-
-        let rankGroup = 'Rank' + userRank;
-        let resTitleData = server.GetTitleInternalData({Keys: [rankGroup]});
-        let rankData = JSON.parse(resTitleData.Data[rankGroup]);
-        let userRankInfo = null;
-
-        var userRankProfile = {
-            Id: currentPlayerId,
-            Name: resProfile.PlayerProfile.DisplayName,
-            Score: 0
-        };
-
-        for (let i = 0; i < rankData.length; i++) {
-            if (rankData[i].Count < Total_Player_Per_Rank_Group) {
-                currentRankId = rankData[i].Id;
-                rankData[i].Count++;
-                rankData[i].Players.push(userRankProfile);
-                userRankInfo = rankData[i];
-                break;
-            }
-        }
-
-        if (currentRankId == "") {
-            currentRankId = GenerateGUID();
-            userRankInfo = {
-                Id: currentRankId,
-                Count: 1,
-                Players: [userRankProfile]
-            };
-            rankData.push(userRankInfo);
-        }
-
-        var resUpdate = server.SetTitleInternalData({
-            Key: 'Rank' + userRank,
-            Value: JSON.stringify(rankData)
-        });
-
-        var userData = {};
-        userData[ProfileField.CurrentRankID] = currentRankId;
-        var resUserData = server.UpdateUserReadOnlyData({
-            PlayFabId: currentPlayerId, Data: userData
-        });
-
-        return {
-            Result: true,
-            UserRankInfo: userRankInfo
-        }
-    }
-    return {
-        Result: false
-    };
 };
 
 handlers.SubmitRankingMatchAsync = function (args, context) {
@@ -541,7 +405,7 @@ function SaveBattleRankingRewards(rewardData) {
             PlayFabId: currentPlayerId, ItemIds: rewardData.Blueprint,
         });
 
-        for(let idx in rewardData.Blueprint) {
+        for (let idx in rewardData.Blueprint) {
             Rewards.push({
                 ItemId: rewardData.Blueprint[idx],
                 ItemType: EItemType.Misc,
@@ -617,7 +481,7 @@ function GetBattleRankingRewards(rank, dmg) {
 
     // If no lower milestone is found, use the upper one
     if (!lower) {
-        lower = { Exp: 0, Gold: 0, Blueprint: 0, Key: 0 };
+        lower = {Exp: 0, Gold: 0, Blueprint: 0, Key: 0};
     }
 
     // If no upper milestone is found, use the lower one
@@ -646,14 +510,6 @@ function GetBattleRankingRewards(rank, dmg) {
 
     return finalResults;
 }
-
-
-
-
-
-
-
-
 
 
 handlers.ReportLimitPackage = function (args, context) {
@@ -907,10 +763,11 @@ handlers.handlePlayStreamEventAndProfile = function (args, context) {
     var profile = context.playerProfile;
 
     // Post data about the event to an external API
-    var content = JSON.stringify({user: profile.PlayerId, event: psEvent.EventName});
-    var response = http.request('https://httpbin.org/status/200', 'post', content, 'application/json', null);
-
-    return {externalAPIResponse: response};
+    // var content = JSON.stringify({user: profile.PlayerId, event: psEvent.EventName});
+    // var response = http.request('https://httpbin.org/status/200', 'post', content, 'application/json', null);
+    return server.AddUserVirtualCurrency({
+        PlayFabId: profile.PlayerId, VirtualCurrency: EVirtualCurrency.Gem, Amount: 1000
+    });
 };
 
 
@@ -1143,20 +1000,6 @@ handlers.BonusGold = function (args, context) {
 ///
 
 /**
- * Get new GUUID
- * @returns {string}
- * @constructor
- */
-function GenerateGUID() {
-    const randomPart = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-        const r = Math.random() * 16 | 0;
-        const v = c === 'x' ? r : (r & 0x3 | 0x8);
-        return v.toString(16);
-    });
-    return `${randomPart}`;
-}
-
-/**
  * Sort array of object by key name
  * @param array target array
  * @param key object key name
@@ -1191,7 +1034,6 @@ function SortArrayByKey(array, key, order = 'asc') {
  * @returns {*}
  */
 const randomRange = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
-
 
 
 ///
@@ -1236,7 +1078,6 @@ class GSheetFetcher {
         }
     }
 }
-
 
 
 ///
@@ -1306,3 +1147,20 @@ class GSheetFetcher {
 //     titleDataCache.clearCache();
 //     return { message: "Cache cleared successfully" };
 // };
+
+
+// RANKING
+handlers.RequestSeasonInfo = function (args, context) {
+    var response = server.GetTitleInternalData({Keys: [TitleReadOnlyData.RankInfo]});
+    if (response.Data == null || !response.Data.hasOwnProperty(TitleReadOnlyData.RankInfo)) {
+        return {
+            Result: false,
+            Error: EErrorCode.ItemNotFound
+        };
+    }
+
+    return {
+        Result: true,
+        SeasonInfo: JSON.parse(response.Data[TitleReadOnlyData.RankInfo])
+    };
+};

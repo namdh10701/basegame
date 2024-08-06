@@ -1,10 +1,9 @@
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
 using Online.Enum;
 using Online.Model;
-using Online.Model.ApiRequest;
+using Online.Model.ResponseAPI;
 using PlayFab;
 using PlayFab.ClientModels;
 using UnityEngine;
@@ -19,7 +18,7 @@ namespace Online.Service
 		public string DisplayName { get; private set; }
 		public int Level { get; private set; }
 		public long Exp { get; private set; }
-		public ERank UserRank { get; private set; } = ERank.Unrank;
+		public ERank UserRank { get; private set; } = ERank.Rookie;
 		public int UserRankScore { get; private set; }
 		public string UserRankID { get; private set; }
 		public bool IsGuest { get; private set; }
@@ -136,11 +135,6 @@ namespace Online.Service
 			{
 				if (System.Enum.TryParse<ERank>(record.Value, out var rank))
 					UserRank = rank;
-			}
-
-			if (readOnlyData.TryGetValue(C.NameConfigs.RankScore, out var scoreRecord))
-			{
-				UserRankScore = System.Convert.ToInt32(scoreRecord.Value);
 			}
 
 			if (readOnlyData.TryGetValue(C.NameConfigs.CurrentRankID, out var rankID))

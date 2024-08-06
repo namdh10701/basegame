@@ -1,9 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
-using Online.Model.ApiRequest;
+using Online.Model.ResponseAPI.Inventory;
 using Online.Service;
 
 namespace Online.Interface

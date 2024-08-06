@@ -1,6 +1,7 @@
 using Online.Enum;
 using PlayFab.ClientModels;
-namespace Online.Model.ApiRequest
+
+namespace Online.Model.ResponseAPI.Common
 {
 	public class LoginResponse : BaseResponse
 	{

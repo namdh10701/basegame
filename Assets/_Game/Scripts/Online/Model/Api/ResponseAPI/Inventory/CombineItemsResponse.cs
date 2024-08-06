@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using PlayFab.ClientModels;
 
-namespace Online.Model.ApiRequest
+namespace Online.Model.ResponseAPI.Inventory
 {
 	public class CombineItemsResponse : BaseResponse
 	{

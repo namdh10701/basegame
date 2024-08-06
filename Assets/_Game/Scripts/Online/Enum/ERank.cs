@@ -2,8 +2,7 @@ namespace Online.Enum
 {
     public enum ERank
     {
-        Unrank = 0,
-        Rookie,
+        Rookie = 0,
         Gunner,
         Hunter,
         Captain,

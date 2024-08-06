@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 
-namespace Online.Model.ApiRequest
+namespace Online.Model.RequestAPI.Inventory
 {
-	public class CombineItemsRequest
+	public class CombineItemsRequest  : BaseRequest
 	{
 		public List<string> ItemInstanceIds { get; set; }
 	}

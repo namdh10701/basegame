@@ -215,7 +215,7 @@ namespace _Game.Features.Ranking
 
         public void LoadData()
         {
-            var rankInfo = PlayfabManager.Instance.Ranking.UserRankInfo;
+            var rankInfo = PlayfabManager.Instance.Ranking.RankInfo;
             RankInfo = new UserRankInfo
             {
                 BackedData = rankInfo

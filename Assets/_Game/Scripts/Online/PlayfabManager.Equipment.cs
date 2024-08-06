@@ -1,7 +1,7 @@
 using _Game.Scripts.SaveLoad;
 using Cysharp.Threading.Tasks;
 using Online.Interface;
-using Online.Model.ApiRequest;
+using Online.Model.ResponseAPI;
 
 namespace Online
 {

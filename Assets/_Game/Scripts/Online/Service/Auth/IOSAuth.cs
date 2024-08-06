@@ -2,7 +2,7 @@ using System;
 using Cysharp.Threading.Tasks;
 using Online.Enum;
 using Online.Interface;
-using Online.Model.ApiRequest;
+using Online.Model.ResponseAPI.Common;
 using PlayFab;
 using PlayFab.ClientModels;
 using UnityEngine;

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using _Game.Scripts.SaveLoad;
 using Cysharp.Threading.Tasks;
 using Online.Enum;
-using Online.Model.ApiRequest;
+using Online.Model.ResponseAPI;
 using PlayFab;
 using PlayFab.ClientModels;
 

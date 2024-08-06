@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Online.Interface;
-using Online.Model.ApiRequest;
+using Online.Model.ResponseAPI;
 using PlayFab.ClientModels;
 
 namespace Online
