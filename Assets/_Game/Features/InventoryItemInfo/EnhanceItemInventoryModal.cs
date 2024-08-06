@@ -462,9 +462,6 @@ namespace _Game.Features.InventoryItemInfo
             LoadConfigUpgrade();
 
         }
-
-
-
         protected void LoadConfigUpgrade()
         {
             NumbGoldRequired = _inventoryItemUpgradeTableRecord.Gold;
@@ -475,8 +472,6 @@ namespace _Game.Features.InventoryItemInfo
             EligibleMiscItem = NumbMiscItemOwner >= NumbMiscItemRequired;
             InteractableButtonConfirm = EligibleMiscItem && EligibleGold;
         }
-
-
         protected void LoadStarsItem()
         {
             if (Type == ItemType.CREW || Type == ItemType.AMMO) return;
@@ -491,13 +486,23 @@ namespace _Game.Features.InventoryItemInfo
         public async void OnUpgradeItem()
         {
             var resUpgrade = await PlayfabManager.Instance.UpgradeItem(OnwItemId);
-            IsActivePopupSuccess = true;
-            ChangeValuePropertyUpgrade();
 
-            await UniTask.Delay(2000);
-            IsActivePopupSuccess = false;
-            UpdataDataItemOwner(Type);
-            LoadData();
+            if (resUpgrade.Result)
+            {
+                var itemData = resUpgrade.GetItemDatas();
+                Debug.Log("OnUpgradeItem" + itemData);
+
+                IsActivePopupSuccess = true;
+                ChangeValuePropertyUpgrade();
+
+                await UniTask.Delay(2000);
+                IsActivePopupSuccess = false;
+                UpdataDataItemOwner(Type);
+                LoadData();
+            }
+            else
+                Debug.Log("{OnUpgradeItem]" + resUpgrade.Error);
+
         }
 
         protected void UpdataDataItemOwner(ItemType itemType)

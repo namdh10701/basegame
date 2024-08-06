@@ -57,10 +57,10 @@ namespace Online
 
 		public static ItemData ParseToItemData(this ItemInstance itemInstances)
 		{
-			var itemDatas = new ItemData();
-			itemDatas = itemInstances.GetItemData();
+			var itemData = new ItemData();
+			itemData = itemInstances.GetItemData();
 
-			return itemDatas;
+			return itemData;
 		}
 	}
 }
