@@ -17,6 +17,7 @@ namespace _Game.Features.Gameplay
         public Action AttackStarted;
         public Action AttackEnded;
         public bool IsAttacking;
+        public LaserFx laser;
 
         public override void Initialize(GiantOctopus giantOctopus)
         {
@@ -63,17 +64,33 @@ namespace _Game.Features.Gameplay
 
             IsAttacking = true;
             laserGuide.Initialize(startCell, isLeft);
-            sequence.Append(laserGuide.transform.DOMove(startPos, 1));
-            sequence.AppendCallback(() => laserGuide.gameObject.SetActive(true));
-            sequence.Append(laserGuide.transform.DOMove(endPos, 1));
-            sequence.AppendCallback(() => laserGuide.gameObject.SetActive(false));
-            sequence.Append(laserGuide.transform.DOMove(orgPos, 1));
+            laserGuide.transform.position = startPos;
+            sequence.AppendCallback(() =>
+            {
+                laserGuide.gameObject.SetActive(true);
+                laser.Play();
+            });
+            sequence.AppendInterval(.5f);
+            sequence.Append(laserGuide.transform.DOMove(endPos, 1.5f));
+            sequence.AppendInterval(.5f);
+            sequence.AppendCallback(() =>
+            {
+                laserGuide.gameObject.SetActive(false);
+                laser.Stop();
+            });
             sequence.AppendCallback(() => StopAttack());
         }
 
         void StopAttack()
         {
+            if (sequence != null)
+            {
+                sequence.Kill();
+                laserGuide.gameObject.SetActive(false);
+                laser.Stop();
+            }
             sequence = null;
+
             IsAttacking = false;
             AttackEnded?.Invoke();
         }

@@ -18,7 +18,6 @@ namespace _Game.Features.Battle
             await SceneManager.LoadSceneAsync("BattleScene", LoadSceneMode.Additive);
             SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(1));
             await base.WillPushEnter(args);
-            AudioManager.Instance.PlayBgmGameplay();
             
         }
 

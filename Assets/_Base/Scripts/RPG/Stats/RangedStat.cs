@@ -28,7 +28,7 @@ namespace _Base.Scripts.RPG.Stats
         private void UpdateValue()
         {
             var lastValue = _calculatedValue;
-            _value.BaseValue = Math.Max(Math.Min(_value.Value, MaxValue), MinValue);
+            _value.BaseValue = Math.Max(Math.Min(_value.Value, float.MaxValue), MinValue);
             _calculatedValue = _value.BaseValue;
             if (lastValue != _calculatedValue)
             {

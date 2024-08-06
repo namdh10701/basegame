@@ -248,7 +248,7 @@ namespace _Game.Features.Battle
         {
             IsPause = true;
             GlobalEvent<bool>.Send("TOGGLE_PAUSE", true);
-            var options = new ModalOptions("GamePauseModal", 1, false);
+            var options = new ModalOptions("GamePauseModal", .5f, false);
             await ModalContainer.Find(ContainerKey.Modals).PushAsync(options);
 
         }
@@ -284,6 +284,8 @@ namespace _Game.Features.Battle
 
         public void Init(BattleManager battleManager)
         {
+            BtnCanvasGroup.alpha = 1;
+            BtnCanvasGroup.blocksRaycasts = true;
             battleManager.TimeScaleChanged += UpdateCurrentSpeed;
             battleManager.OnEnded += Hide;
             Ship ship = battleManager.EntityManager.Ship;

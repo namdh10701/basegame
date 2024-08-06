@@ -43,6 +43,13 @@ namespace _Game.Features.Gameplay
                     }
                 }
             }
+            else
+            {
+                if (outOfAmmoCannons.Contains(cannon))
+                {
+                    outOfAmmoCannons.Remove(cannon);
+                }
+            }
         }
 
         private void Update()

@@ -1,5 +1,6 @@
 using _Base.Scripts.Audio;
 using _Game.Features.Battle;
+using _Game.Features.Ranking;
 using _Game.Scripts.Battle;
 using _Game.Scripts.SaveLoad;
 using Map;
@@ -14,6 +15,8 @@ namespace _Game.Features.Gameplay
     {
         public override void Initialize()
         {
+            IsEnded = false;
+            EnemyManager.Init();
             BattleInputManager.gameObject.SetActive(false);
             EntityManager.SpawnShip(SaveSystem.GameSave.ShipSetupSaveData.CurrentShip.ItemId, shipStartPos.position);
             if (EnemyWaveManager.floorId == "1")
@@ -61,9 +64,14 @@ namespace _Game.Features.Gameplay
 
         public override async void ShowLoseUIAsync()
         {
-            var options = new ModalOptions("BattleLose1Screen", true, loadAsync: false);
-            await ModalContainer.Find(ContainerKey.Modals).PushAsync(options);
+            await BattleDefeatModal.Show();
         }
 
+        public override void PlayAgain()
+        {
+            GameObject.Destroy(EntityManager.Ship.gameObject);
+            EntityManager.OnPlayAgain();
+            Initialize();
+        }
     }
 }

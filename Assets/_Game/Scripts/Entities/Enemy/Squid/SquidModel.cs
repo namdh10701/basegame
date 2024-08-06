@@ -1,3 +1,4 @@
+using _Base.Scripts.Audio;
 using _Game.Scripts;
 using _Game.Scripts.Battle;
 using _Game.Scripts.Entities;
@@ -12,6 +13,11 @@ namespace _Game.Features.Gameplay
         [Space]
         public CooldownBehaviour CooldownBehaviour;
         public EvasionBuffArea EvasionBuffArea;
+        public override void Die()
+        {
+            base.Die();
+            AudioManager.Instance.PlaySquidDie();
+        }
         protected override void Awake()
         {
             base.Awake();

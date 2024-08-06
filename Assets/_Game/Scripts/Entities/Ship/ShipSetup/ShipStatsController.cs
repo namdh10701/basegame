@@ -44,7 +44,17 @@ namespace _Game.Features.Gameplay
             carpets.Add(carpet);
             CarpetStats carpetStats = carpet.Stats as CarpetStats;
             ShipStats shipStats = ship.Stats as ShipStats;
-
+            switch (carpet.CarpetType)
+            {
+                case CarpetType.Survival:
+                    break;
+                case CarpetType.Defense:
+                    break;
+                case CarpetType.Attack:
+                    break;
+                case CarpetType.Resource:
+                    break;
+            }
             shipStats.Luck.AddModifier(new StatModifier(carpetStats.Luck.Value, StatModType.Flat, carpet));
             shipStats.GoldIncome.AddModifier(new StatModifier(carpetStats.GoldEarning.Value, StatModType.Flat, carpet));
             shipStats.HealthRegenerationRate.AddModifier(new StatModifier(carpetStats.ShipHpRegen.Value, StatModType.Flat, carpet));

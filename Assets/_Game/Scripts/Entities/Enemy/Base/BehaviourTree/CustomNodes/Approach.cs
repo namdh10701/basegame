@@ -17,6 +17,7 @@ public class Approach : Leaf
 
     public bool isApproachClosest;
     OctaDirectionRay OctarDirectionRay;
+    public float distanceMin = 1;
     public override void OnEnter()
     {
         base.OnEnter();
@@ -26,15 +27,16 @@ public class Approach : Leaf
     public override NodeResult Execute()
     {
         elapsedTime += Time.deltaTime;
-        if (elapsedTime > ChangeDirectionInterval)
+/*        if (elapsedTime > ChangeDirectionInterval)
         {
             elapsedTime = 0;
             UpdateTargetDirection();
-        }
+        }*/
+        direction = (Vector3)Ship.Value.ShipArea.ClosetPointTo(transform.position) - Enemy.Value.transform.position;
 
         Enemy.Value.Body.AddForce(direction.normalized * Force.Value.Value * multiplier);
         float distance = Vector2.Distance(Enemy.Value.transform.position, Ship.Value.transform.position);
-        return distance < 1 ? NodeResult.success : NodeResult.running;
+        return distance < distanceMin ? NodeResult.success : NodeResult.running;
     }
 
 

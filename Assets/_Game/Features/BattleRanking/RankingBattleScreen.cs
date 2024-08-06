@@ -20,7 +20,6 @@ namespace _Game.Features.Battle
             await SceneManager.LoadSceneAsync("RankingScene", LoadSceneMode.Additive);
             SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(3));
             await base.WillPushEnter(args);
-            AudioManager.Instance.PlayBgmGameplay();
 
         }
 

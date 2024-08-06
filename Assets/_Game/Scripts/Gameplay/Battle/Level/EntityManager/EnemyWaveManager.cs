@@ -5,6 +5,7 @@ using _Game.Scripts.GD.DataManager;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Map;
+using GoogleMobileAds.Api;
 
 namespace _Game.Scripts.Battle
 {
@@ -26,7 +27,7 @@ namespace _Game.Scripts.Battle
 
         [SerializeField] Timer enemySpawnTimer;
         public bool IsRanking;
-        private void Awake()
+        public void Init()
         {
             LoadLevelEnemyData();
         }
@@ -51,6 +52,7 @@ namespace _Game.Scripts.Battle
         }
         public void StartLevel()
         {
+            enemySpawnTimer.Clear();
             if (levelDatas != null)
             {
                 foreach (var spawnData in levelDatas)
@@ -67,7 +69,7 @@ namespace _Game.Scripts.Battle
 
         public void Spawn(string id)
         {
-            entityManager.SpawnEnemy(id, Vector3.zero);
+            entityManager.SpawnEnemy(id, crabSpawnArea.SamplePoint());
         }
         public void SpawnEnemy(string[] idPool, int total_power)
         {
@@ -123,6 +125,10 @@ namespace _Game.Scripts.Battle
             }
         }
 
+        public void StopSpawn()
+        {
+            enemySpawnTimer.Pause();
 
+        }
     }
 }

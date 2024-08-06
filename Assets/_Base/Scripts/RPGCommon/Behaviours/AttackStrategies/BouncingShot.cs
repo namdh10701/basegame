@@ -32,6 +32,7 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
 
             float secondaryDmgCalculated = projectileStats.Damage.Value * secondaryDmg;
             ((ProjectileCollisionHandler)projectile.CollisionHandler).Handlers.Add(new BouncingHandler(bounceTimes, secondaryDmgCalculated, lookupRange));
+
             projectile.ProjectileMovement = new StraightMove(projectile);
         }
         public override void Consume(RangedStat ammo)
@@ -58,6 +59,8 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
 
             void IHandler.Process(Projectile p, IEffectGiver mainEntity, IEffectTaker collidedEntity)
             {
+                Debug.Log("Process");
+
                 List<IEffectTaker> inRangeEntities = new List<IEffectTaker>();
                 RaycastHit2D[] inRangeColliders = Physics2D.CircleCastAll(collidedEntity.Transform.position, range, Vector2.zero, LayerMask.NameToLayer("Enemy"));
                 foreach (RaycastHit2D hit in inRangeColliders)
@@ -65,9 +68,10 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
                     if (hit.collider.TryGetComponent(out EffectTakerCollider entity))
                     {
 
+                        Debug.Log(entity);
                         if (!((ProjectileCollisionHandler)p.CollisionHandler).IgnoreCollideEntities.Contains(entity.Taker))
                         {
-                            if (entity.Taker is EnemyModel)
+                            if (entity.Taker is EnemyModel || entity.Taker is SkullGang || entity.Taker is PartModel)
                             {
                                 inRangeEntities.Add(entity.Taker);
                             }

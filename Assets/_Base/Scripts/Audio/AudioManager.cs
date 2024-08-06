@@ -44,6 +44,8 @@ namespace _Base.Scripts.Audio
         [SerializeField] protected AudioClip btn_turbo;
         [SerializeField] protected AudioClip btn_confirm;
 
+        [SerializeField] protected AudioClip transition;
+
         [Header("Battle - SFXs")]
         [SerializeField] protected AudioClip[] gameplay_cannon_fast;
         [SerializeField] protected AudioClip[] gameplay_cannon_far;
@@ -56,6 +58,10 @@ namespace _Base.Scripts.Audio
 
 
         [SerializeField] protected AudioClip[] _monsterTakeHits;
+        [SerializeField] protected AudioClip puffer_fish_die;
+        [SerializeField] protected AudioClip squid_die;
+
+
         [SerializeField] protected AudioClip _shipMoveForwad;
         [SerializeField] protected AudioClip _shipidle;
 
@@ -73,7 +79,7 @@ namespace _Base.Scripts.Audio
         bool _isBgmOn;
         bool _isVibrate;
 
-        private float _sfxVolume = 1.0f;
+        private float _sfxVolume = .65f;
         private float _bgmVolume = 1.0f;
 
         ObjectPool<Transform> _poolSounds;
@@ -159,7 +165,7 @@ namespace _Base.Scripts.Audio
 #if USE_ANDROID_NATIVE_AUDIO && !UNITY_EDITOR
             AndroidNativeAudio.Off = !_isSfxOn;
 #else
-                SetVolumeSFXs(_isSfxOn ? 1f : 0f);
+                SetVolumeSFXs(_isSfxOn ? .7f : 0f);
 #endif
             }
         }
@@ -259,9 +265,16 @@ namespace _Base.Scripts.Audio
             }
             yield return new WaitForSeconds(0.1f);
             while (source.isPlaying)
+            {
+                if (config.Type == AudioConfig.AudioType.SFX)
+                {
+                    source.pitch = Time.timeScale;
+                }
                 yield return null;
+            }
             source.Stop();
             _soundConfigs.Remove(config);
+            source.pitch = 1;
             _activeSources.Remove(source);
             _poolSounds.Store(source.transform);
         }
@@ -523,12 +536,62 @@ namespace _Base.Scripts.Audio
                 });
                 Invoke("AllowPlay", monsterTakeHitInterval);
             }
-            
+
         }
 
         void AllowPlay()
         {
             isAbleToPlay = true;
+        }
+
+        public void PlayTransition()
+        {
+            PlaySound(new AudioConfig()
+            {
+                Clip = transition,
+                Type = AudioConfig.AudioType.SFX
+            });
+        }
+
+        bool isAbleToPlaySquidDie;
+        public void PlaySquidDie()
+        {
+            if (isAbleToPlaySquidDie)
+            {
+                PlaySound(new AudioConfig()
+                {
+                    Clip = squid_die,
+                    Type = AudioConfig.AudioType.SFX
+
+                });
+                isAbleToPlaySquidDie = false;
+            }
+            Invoke("AllowPlaySquidDie", .2f);
+        }
+        void AllowPlaySquidDie()
+        {
+            isAbleToPlaySquidDie = true;
+        }
+
+
+        bool isAbleToPlayPufferFishDie;
+        public void PlayPufferFishDie()
+        {
+            if (isAbleToPlayPufferFishDie)
+            {
+                PlaySound(new AudioConfig()
+                {
+                    Clip = puffer_fish_die,
+                    Type = AudioConfig.AudioType.SFX
+                });
+                isAbleToPlayPufferFishDie = false;
+            }
+            Invoke("AllowPlayPufferFishDie", .5f);
+        }
+
+        void AllowPlayPufferFishDie()
+        {
+            isAbleToPlayPufferFishDie = true;
         }
     }
 }

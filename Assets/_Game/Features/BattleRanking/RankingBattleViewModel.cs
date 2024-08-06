@@ -293,6 +293,8 @@ namespace _Game.Features.Battle
 
         public void Init(RankingBattleManager rankingBattleManager)
         {
+            BtnCanvasGroup.alpha = 1;
+            BtnCanvasGroup.blocksRaycasts = true;
             rankingBattleManager.TimeScaleChanged += UpdateSpeedBtn;
             TimerView.Init(rankingBattleManager.timer);
             rankingBattleManager.OnEnded += Hide;
