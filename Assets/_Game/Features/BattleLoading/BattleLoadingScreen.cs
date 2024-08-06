@@ -14,6 +14,7 @@ namespace _Game.Features.BattleLoading
         void Start()
         {
             AudioManager.Instance.PlayTransition();
+            AudioManager.Instance.PlayBgmGameplay();
             if (TopWave == null)
             {
                 Debug.LogError("TopWave is not assigned.");
