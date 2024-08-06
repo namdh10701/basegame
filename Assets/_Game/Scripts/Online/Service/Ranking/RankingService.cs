@@ -95,30 +95,6 @@ namespace Online.Service
 			return await signal.Task;
 		}
 
-		public async UniTask<SubmitRankingResponse> SubmitRankingMatchAsync(int totalDamage)
-		{
-			var signal = new UniTaskCompletionSource<SubmitRankingResponse>();
-			PlayFabClientAPI.ExecuteCloudScript(new()
-			{
-				FunctionName = C.CloudFunction.SubmitRankingMatchAsync,
-				FunctionParameter = new
-				{
-					Score = totalDamage
-				}
-			}, result =>
-			{
-				var rankResponse = JsonConvert.DeserializeObject<SubmitRankingResponse>(result.FunctionResult.ToString());
-				RankInfo = rankResponse.RankInfo;
-				LogSuccess("Submit Ranking!");
-				signal.TrySetResult(rankResponse);
-			}, error =>
-			{
-				LogError("Submit Ranking Match Error: " + error.ErrorMessage);
-				signal.TrySetResult(null);
-			});
-			return await signal.Task;
-		}
-
 		public async UniTask<RewardBundleInfo> LoadRewardBundleInfo()
 		{
 			var signal = new UniTaskCompletionSource<RewardBundleInfo>();
@@ -165,16 +141,26 @@ namespace Online.Service
 			return await signal.Task;
 		}
 
-		public async UniTask<bool> EndBattle(int score)
+		public async UniTask<FinishRankBattleResponse> FinishRankBattleAsync(int score)
 		{
-			//TODO: DNGUYEN - gọi api end battle tại Tier hiện tại
-			/* logic backend:
-			 * Từ Score truyền lên tính lại rank cho user
-			 * Nếu user lên rank (ví dụ từ 35 -> 30) thì sẽ lấy reward của rank 35 trả cho user
-			 * Tra cứu reward tại đây: https://docs.google.com/spreadsheets/d/1NaQMjBxUDNAr4nmQC4NYn8mjq1sdAM8lswMUQ6w7zAE/edit?gid=1102932041#gid=1102932041
-			 */
-			// request thành công thì trả về true
-			return true;
+			var signal = new UniTaskCompletionSource<FinishRankBattleResponse>();
+			PlayFabClientAPI.ExecuteCloudScript(new()
+			{
+				FunctionName = C.CloudFunction.FinishRankBattle
+			}, result =>
+			{
+				LogSuccess("CreatRankTicket Completed!");
+				signal.TrySetResult(JsonConvert.DeserializeObject<FinishRankBattleResponse>(result.FunctionResult.ToString()));
+			}, error =>
+			{
+				LogError("CreatRankTicket, Error: " + error.ErrorMessage);
+				signal.TrySetResult(new FinishRankBattleResponse()
+				{
+					Result = false,
+					Error = EErrorCode.PlayfabError
+				});
+			});
+			return await signal.Task;
 		}
 
 		public async UniTask<bool> ClaimRewardBundle()

@@ -33,6 +33,7 @@ const ProfileField = Object.freeze({
     Level: 'Level',
     Exp: 'Exp',
     Rank: 'Rank',
+    RankingTicketId: 'RankingTicketId',
     LimitPackages: 'LimitPackages',
     Gachas: 'Gachas'
 });
@@ -83,7 +84,7 @@ const ERank = Object.freeze({
 });
 
 const EVirtualCurrency = Object.freeze({
-    Gold: 'GO', Gem: 'GE', Energy: 'EN', Ticket: 'TI', FreeTicket: 'FT', Diamond: 'DI', Key: 'KE'
+    Gold: 'GO', Gem: 'GE', Energy: 'EN', Ticket: 'TI', Diamond: 'DI', Key: 'KE'
 });
 
 const EBlueprintId = Object.freeze({
@@ -113,6 +114,9 @@ const EErrorCode = Object.freeze({
     PackageLimited: 1007,
     NotEnoughGem: 1008,
     NotEnoughKey: 1009,
+
+    // Ranking
+    RankingMatchInvalid: 1010,
 });
 
 const Total_Player_Per_Rank_Group = 50;
@@ -1175,6 +1179,7 @@ handlers.RequestSeasonInfo = function (args, context) {
     };
 };
 
+
 /**
  * Create rank ticket and save it into user read only data
  * */
@@ -1184,7 +1189,7 @@ handlers.CreateRankTicket = function (args, context) {
     let ticketPerMatch = 1;
 
     var resInventory = server.GetUserInventory({PlayFabId: currentPlayerId});
-    
+
     if (resInventory.VirtualCurrency[EVirtualCurrency.Energy] < energyPerMatch) {
         return {
             Result: false, Error: EErrorCode.NotEnoughEnergy
@@ -1192,33 +1197,66 @@ handlers.CreateRankTicket = function (args, context) {
     }
 
     let ticketCount = resInventory.VirtualCurrency[EVirtualCurrency.Ticket];
-    let freeTicketCount = resInventory.VirtualCurrency[EVirtualCurrency.FreeTicket];
-
-    if (ticketCount + freeTicketCount < ticketPerMatch) {
+    if (ticketCount < ticketPerMatch) {
         return {
             Result: false, Error: EErrorCode.NotEnoughTicket
         };
     }
 
-    let result = {Result: true, VirtualCurrency: {}};
+    let result = {Result: true, TicketId: "", VirtualCurrency: {}};
     var resSubEnergy = server.SubtractUserVirtualCurrency({
         PlayFabId: currentPlayerId, VirtualCurrency: EVirtualCurrency.Energy, Amount: energyPerMatch
     });
     result.VirtualCurrency[EVirtualCurrency.Energy] = resSubEnergy.Balance
 
-    if (freeTicketCount > 0) {
-        var resSubTicket = server.SubtractUserVirtualCurrency({
-            PlayFabId: currentPlayerId, VirtualCurrency: EVirtualCurrency.FreeTicket, Amount: ticketPerMatch
-        });
-        result.VirtualCurrency[EVirtualCurrency.FreeTicket] = resSubTicket.Balance
-    } else {
-        var resSubTicket = server.SubtractUserVirtualCurrency({
-            PlayFabId: currentPlayerId, VirtualCurrency: EVirtualCurrency.Ticket, Amount: ticketPerMatch
-        });
-        result.VirtualCurrency[EVirtualCurrency.Ticket] = resSubTicket.Balance
-    }
+    var resSubTicket = server.SubtractUserVirtualCurrency({
+        PlayFabId: currentPlayerId, VirtualCurrency: EVirtualCurrency.Ticket, Amount: ticketPerMatch
+    });
+    result.VirtualCurrency[EVirtualCurrency.Ticket] = resSubTicket.Balance
 
-    CheckJoinRank(currentPlayerId);
+    result.TicketId = GenerateGUID();
+    let userData = {};
+    userData[ProfileField.RankingTicketId] = result.TicketId;
+
+    server.UpdateUserReadOnlyData({
+        PlayFabId: currentPlayerId, Data: userData
+    });
 
     return result;
+};
+
+
+/**
+ * Create rank ticket and save it into user read only data
+ * */
+handlers.FinishRankBattle = function (args, context) {
+    let resReadOnlyData = server.GetUserReadOnlyData({
+        PlayFabId: currentPlayerId,
+        Keys: [ProfileField.Rank, ProfileField.RankingTicketId]
+    });
+
+    if (resReadOnlyData.Data == null || !resReadOnlyData.Data.hasOwnProperty(ProfileField.RankingTicketId)) {
+        return {
+            Result: false, Error: EErrorCode.RankingMatchInvalid
+        };
+    }
+
+    let ticketId = resReadOnlyData.Data[ProfileField.RankingTicketId].Value;
+    if (ticketId != args.TicketId) {
+        return {
+            Result: false, Error: EErrorCode.RankingMatchInvalid
+        };
+    }
+
+    let rankName = resReadOnlyData.Data[ProfileField.Rank].Value + '_Rank_Score';
+    server.UpdatePlayerStatistics({
+        PlayFabId: currentPlayerId, Statistics: [{
+            StatisticName: rankName, Value: args.Score
+        }]
+    });
+
+    return {
+        Result: true,
+        Score: args.Score
+    }
 };

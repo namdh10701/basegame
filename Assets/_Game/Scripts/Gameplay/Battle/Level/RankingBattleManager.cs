@@ -74,23 +74,22 @@ namespace _Game.Features.Gameplay
             {
                 await Task.Delay((int)(6 * 1000));
             }
-            var resp = await PlayfabManager.Instance.Ranking.SubmitRankingMatchAsync((int)DmgDeal);
+            // var resp = await PlayfabManager.Instance.Ranking.SubmitRankingMatchAsync((int)DmgDeal);
             var p = new RankingVictoryModal.Params
             {
                 Score = (int)DmgDeal,
-                Rewards = resp.Rewards,
+                // Rewards = resp.Rewards,
             };
             await RankingVictoryModal.Show(p);
         }
 
         public override async void ShowLoseUIAsync()
         {
-            var resp = await PlayfabManager.Instance.Ranking.SubmitRankingMatchAsync((int)DmgDeal);
-            
+            // var resp = await PlayfabManager.Instance.Ranking.SubmitRankingMatchAsync((int)DmgDeal);
             var p = new RankingVictoryModal.Params
             {
                 Score = (int)DmgDeal,
-                Rewards = resp.Rewards,
+                // Rewards = resp.Rewards,
             };
             await RankingVictoryModal.Show(p);
         }
