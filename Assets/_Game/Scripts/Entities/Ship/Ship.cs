@@ -92,7 +92,7 @@ namespace _Game.Features.Gameplay
         bool isDead;
         private void HealthPoint_OnValueChanged(RangedStat obj)
         {
-            if (obj.Value <= obj.MinValue)
+            // if (obj.Value <= obj.MinValue)
             {
                 if (!isDead)
                 {

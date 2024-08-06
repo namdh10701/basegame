@@ -3,6 +3,7 @@ using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
 using Online.Enum;
 using Online.Model;
+using Online.Model.RequestAPI.Ranking;
 using Online.Model.ResponseAPI;
 using Online.Model.ResponseAPI.Ranking;
 using PlayFab;
@@ -14,6 +15,8 @@ namespace Online.Service
 	{
 		public SeasonInfo SeasonInfo { get; private set; }
 		public RankInfo RankInfo { get; private set; }
+
+		public string CurrentTicketId { get; private set; } = "";
 
 		public async UniTask RequestUserRankAsync()
 		{
@@ -76,25 +79,6 @@ namespace Online.Service
 			return await signal.Task;
 		}
 
-		public async UniTask<BaseResponse> CreateRankTicketAsync()
-		{
-			var signal = new UniTaskCompletionSource<BaseResponse>();
-			PlayFabClientAPI.ExecuteCloudScript(new()
-			{
-				FunctionName = C.CloudFunction.CreateRankTicket
-			}, result =>
-			{
-				var resp = JsonConvert.DeserializeObject<BaseResponse>(result.FunctionResult.ToString());
-				signal.TrySetResult(resp);
-			}, error =>
-			{
-				LogError("Create Rank Ticket Error: " + error.ErrorMessage);
-				// signal.TrySetResult(false);
-				signal.TrySetException(new Exception("Create Rank Ticket Error: " + error.ErrorMessage));
-			});
-			return await signal.Task;
-		}
-
 		public async UniTask<RewardBundleInfo> LoadRewardBundleInfo()
 		{
 			var signal = new UniTaskCompletionSource<RewardBundleInfo>();
@@ -119,7 +103,7 @@ namespace Online.Service
 			return await signal.Task;
 		}
 
-		public async UniTask<RankTicketResponse> CreatRankTicketAsync()
+		public async UniTask<RankTicketResponse> CreateRankTicketAsync()
 		{
 			var signal = new UniTaskCompletionSource<RankTicketResponse>();
 			PlayFabClientAPI.ExecuteCloudScript(new()
@@ -128,7 +112,9 @@ namespace Online.Service
 			}, result =>
 			{
 				LogSuccess("CreatRankTicket Completed!");
-				signal.TrySetResult(JsonConvert.DeserializeObject<RankTicketResponse>(result.FunctionResult.ToString()));
+				var response = JsonConvert.DeserializeObject<RankTicketResponse>(result.FunctionResult.ToString());
+				CurrentTicketId = response.TicketId;
+				signal.TrySetResult(response);
 			}, error =>
 			{
 				LogError("CreatRankTicket, Error: " + error.ErrorMessage);
@@ -146,7 +132,12 @@ namespace Online.Service
 			var signal = new UniTaskCompletionSource<FinishRankBattleResponse>();
 			PlayFabClientAPI.ExecuteCloudScript(new()
 			{
-				FunctionName = C.CloudFunction.FinishRankBattle
+				FunctionName = C.CloudFunction.FinishRankBattle,
+				FunctionParameter = new FinishRankBattleRequest()
+				{
+					TicketId = CurrentTicketId,
+					Damage = score
+				}
 			}, result =>
 			{
 				LogSuccess("CreatRankTicket Completed!");
