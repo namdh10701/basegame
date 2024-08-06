@@ -54,7 +54,10 @@ const TitleReadOnlyData = Object.freeze({
 const EItemType = Object.freeze({
     Ship: 'ship', // 0
     Crew: 'crew', // 
-    Cannon: 'cannon', Ammo: 'ammo', Blueprint: 'blueprint',
+    Cannon: 'cannon',
+    Ammo: 'ammo',
+    Blueprint: 'blueprint',
+    Misc: 'misc',
 });
 
 const EDatabase = Object.freeze({
@@ -66,10 +69,9 @@ const EDatabase = Object.freeze({
     CannonUpgradeDB: 'CannonUpgradeDB',
     AmmoUpgradeDB: 'AmmoUpgradeDB',
     ShipUpgradeDB: 'ShipUpgradeDB',
-});
-
-const EVirtualCurrency = Object.freeze({
-    Gold: 'GO', Gem: 'GE', Energy: 'EN', Ticket: 'TI',
+    RankingBattleRewardDB: 'RankingBattleRewardDB',
+    GachasDB: 'GachasDB',
+    GachaItemsDB: 'GachaItemsDB',
 });
 
 const ERank = Object.freeze({
@@ -79,6 +81,41 @@ const ERank = Object.freeze({
     Captain: 'Captain',
     Conquer: 'Conquer',
 });
+
+const EVirtualCurrency = Object.freeze({
+    Gold: 'GO', Gem: 'GE', Energy: 'EN', Ticket: 'TI', FreeTicket: 'FT', Diamond: 'DI', Key: 'KE'
+});
+
+const EBlueprintId = Object.freeze({
+    Ship: "res_blueprint_ship",
+    Cannon: "res_blueprint_cannon",
+    Ammo: "res_blueprint_ammo",
+});
+
+const EMiscItemId = Object.freeze({
+    Gold: "res_gold",
+    Gem: "res_gem",
+    Diamond: "res_diamond",
+    Exp: "res_exp",
+    Energy: "res_energy",
+    Ticket: "res_ranking_ticket",
+    Key: "res_vipkey"
+});
+
+const EErrorCode = Object.freeze({
+    NotEnoughItem: 1000,
+    ItemNotFound: 1001,
+    ItemNotMatch: 1002,
+    NotEnoughGold: 1003,
+    NotEnoughBlueprint: 1004,
+    NotEnoughEnergy: 1005,
+    NotEnoughTicket: 1006,
+    PackageLimited: 1007,
+    NotEnoughGem: 1008,
+    NotEnoughKey: 1009,
+});
+
+const Total_Player_Per_Rank_Group = 50;
 
 const GetItemUpgradeDB = function (itemType) {
     switch (itemType) {
@@ -129,7 +166,7 @@ handlers.RequestNewProfile = function (args, context) {
 handlers.CombineItems = function (args, context) {
     if (args.ItemInstanceIds.length < 2) {
         return {
-            Result: false, Error: "NOT_ENOUGH_ITEM"
+            Result: false, Error: EErrorCode.NotEnoughItem
         };
     }
 
@@ -145,7 +182,7 @@ handlers.CombineItems = function (args, context) {
             CombineItems.push(item);
         } else {
             return {
-                Result: false, Error: "ITEM_NOT_FOUND"
+                Result: false, Error: EErrorCode.ItemNotFound
             }
         }
     }
@@ -158,7 +195,7 @@ handlers.CombineItems = function (args, context) {
     for (let i = 1; i < CombineItems.length; i++) {
         if (CombineItems[i].ItemId != configId) {
             return {
-                Result: false, Error: "ITEM_NOT_MATCH"
+                Result: false, Error: EErrorCode.ItemNotMatch
             }
         }
     }
@@ -261,7 +298,7 @@ handlers.UpgradeItem = function (args, context) {
         var resInventory = server.GetUserInventory({PlayFabId: currentPlayerId});
         if (resInventory.VirtualCurrency[EVirtualCurrency.Gold] < nextLevelConfig.gold) {
             return {
-                Result: false, Error: "NOT_ENOUGH_GOLD"
+                Result: false, Error: EErrorCode.NotEnoughGold
             };
         }
 
@@ -269,7 +306,7 @@ handlers.UpgradeItem = function (args, context) {
         var blueprints = resultInventory.Inventory.filter(val => val.ItemId == blueprintId);
         if (blueprints.length < nextLevelConfig.blueprint) {
             return {
-                Result: false, Error: "NOT_ENOUGH_BLUEPRINT"
+                Result: false, Error: EErrorCode.NotEnoughBlueprint
             };
         }
 
@@ -309,52 +346,8 @@ handlers.UpgradeItem = function (args, context) {
     }
 
     return {
-        Result: false, Error: "ITEM_NOT_FOUND"
+        Result: false, Error: EErrorCode.ItemNotFound
     }
-};
-
-handlers.CreateRankTicket = function (args, context) {
-    // TODO move to config
-    let energyPerMatch = 1;
-    let ticketPerMatch = 1;
-
-    var resInventory = server.GetUserInventory({PlayFabId: currentPlayerId});
-    if (resInventory.VirtualCurrency[EVirtualCurrency.Energy] < energyPerMatch) {
-        return {
-            Result: false, Error: EErrorCode.NotEnoughEnergy
-        };
-    }
-
-    let ticketCount = resInventory.VirtualCurrency[EVirtualCurrency.Ticket];
-    let freeTicketCount = resInventory.VirtualCurrency[EVirtualCurrency.FreeTicket];
-
-    if (ticketCount + freeTicketCount < ticketPerMatch) {
-        return {
-            Result: false, Error: EErrorCode.NotEnoughTicket
-        };
-    }
-
-    let result = {Result: true, VirtualCurrency: {}};
-    var resSubEnergy = server.SubtractUserVirtualCurrency({
-        PlayFabId: currentPlayerId, VirtualCurrency: EVirtualCurrency.Energy, Amount: energyPerMatch
-    });
-    result.VirtualCurrency[EVirtualCurrency.Energy] = resSubEnergy.Balance
-
-    if (freeTicketCount > 0) {
-        var resSubTicket = server.SubtractUserVirtualCurrency({
-            PlayFabId: currentPlayerId, VirtualCurrency: EVirtualCurrency.FreeTicket, Amount: ticketPerMatch
-        });
-        result.VirtualCurrency[EVirtualCurrency.FreeTicket] = resSubTicket.Balance
-    } else {
-        var resSubTicket = server.SubtractUserVirtualCurrency({
-            PlayFabId: currentPlayerId, VirtualCurrency: EVirtualCurrency.Ticket, Amount: ticketPerMatch
-        });
-        result.VirtualCurrency[EVirtualCurrency.Ticket] = resSubTicket.Balance
-    }
-
-    CheckJoinRank(currentPlayerId);
-
-    return result;
 };
 
 handlers.SubmitRankingMatchAsync = function (args, context) {
@@ -1000,6 +993,20 @@ handlers.BonusGold = function (args, context) {
 ///
 
 /**
+ * Get new GUUID
+ * @returns {string}
+ * @constructor
+ */
+function GenerateGUID() {
+    const randomPart = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        const r = Math.random() * 16 | 0;
+        const v = c === 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
+    return `${randomPart}`;
+}
+
+/**
  * Sort array of object by key name
  * @param array target array
  * @param key object key name
@@ -1149,7 +1156,10 @@ class GSheetFetcher {
 // };
 
 
-// RANKING
+///
+/// Ranking Functions
+///
+
 handlers.RequestSeasonInfo = function (args, context) {
     var response = server.GetTitleInternalData({Keys: [TitleReadOnlyData.RankInfo]});
     if (response.Data == null || !response.Data.hasOwnProperty(TitleReadOnlyData.RankInfo)) {
@@ -1163,4 +1173,52 @@ handlers.RequestSeasonInfo = function (args, context) {
         Result: true,
         SeasonInfo: JSON.parse(response.Data[TitleReadOnlyData.RankInfo])
     };
+};
+
+/**
+ * Create rank ticket and save it into user read only data
+ * */
+handlers.CreateRankTicket = function (args, context) {
+    // TODO move to config
+    let energyPerMatch = 1;
+    let ticketPerMatch = 1;
+
+    var resInventory = server.GetUserInventory({PlayFabId: currentPlayerId});
+    
+    if (resInventory.VirtualCurrency[EVirtualCurrency.Energy] < energyPerMatch) {
+        return {
+            Result: false, Error: EErrorCode.NotEnoughEnergy
+        };
+    }
+
+    let ticketCount = resInventory.VirtualCurrency[EVirtualCurrency.Ticket];
+    let freeTicketCount = resInventory.VirtualCurrency[EVirtualCurrency.FreeTicket];
+
+    if (ticketCount + freeTicketCount < ticketPerMatch) {
+        return {
+            Result: false, Error: EErrorCode.NotEnoughTicket
+        };
+    }
+
+    let result = {Result: true, VirtualCurrency: {}};
+    var resSubEnergy = server.SubtractUserVirtualCurrency({
+        PlayFabId: currentPlayerId, VirtualCurrency: EVirtualCurrency.Energy, Amount: energyPerMatch
+    });
+    result.VirtualCurrency[EVirtualCurrency.Energy] = resSubEnergy.Balance
+
+    if (freeTicketCount > 0) {
+        var resSubTicket = server.SubtractUserVirtualCurrency({
+            PlayFabId: currentPlayerId, VirtualCurrency: EVirtualCurrency.FreeTicket, Amount: ticketPerMatch
+        });
+        result.VirtualCurrency[EVirtualCurrency.FreeTicket] = resSubTicket.Balance
+    } else {
+        var resSubTicket = server.SubtractUserVirtualCurrency({
+            PlayFabId: currentPlayerId, VirtualCurrency: EVirtualCurrency.Ticket, Amount: ticketPerMatch
+        });
+        result.VirtualCurrency[EVirtualCurrency.Ticket] = resSubTicket.Balance
+    }
+
+    CheckJoinRank(currentPlayerId);
+
+    return result;
 };

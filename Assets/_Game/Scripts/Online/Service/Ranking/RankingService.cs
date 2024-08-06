@@ -1,6 +1,7 @@
 using System;
 using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
+using Online.Enum;
 using Online.Model;
 using Online.Model.ResponseAPI;
 using Online.Model.ResponseAPI.Ranking;
@@ -142,11 +143,26 @@ namespace Online.Service
 			return await signal.Task;
 		}
 
-		public async UniTask<bool> StartBattle()
+		public async UniTask<RankTicketResponse> CreatRankTicketAsync()
 		{
-			//TODO: DNGUYEN - gọi api start battle tại Tier hiện tại
-			// nếu đủ resource thì trả về true
-			return true;
+			var signal = new UniTaskCompletionSource<RankTicketResponse>();
+			PlayFabClientAPI.ExecuteCloudScript(new()
+			{
+				FunctionName = C.CloudFunction.CreateRankTicket
+			}, result =>
+			{
+				LogSuccess("CreatRankTicket Completed!");
+				signal.TrySetResult(JsonConvert.DeserializeObject<RankTicketResponse>(result.FunctionResult.ToString()));
+			}, error =>
+			{
+				LogError("CreatRankTicket, Error: " + error.ErrorMessage);
+				signal.TrySetResult(new RankTicketResponse()
+				{
+					Result = false,
+					Error = EErrorCode.PlayfabError
+				});
+			});
+			return await signal.Task;
 		}
 
 		public async UniTask<bool> EndBattle(int score)

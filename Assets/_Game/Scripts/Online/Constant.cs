@@ -28,14 +28,14 @@ namespace Online
 		{
 			public const string UpgradeItem = "UpgradeItem";
 			public const string CombineItems = "CombineItems";
-			public const string CreateRankTicket = "CreateRankTicket";
 			public const string SubmitRankingMatchAsync = "SubmitRankingMatchAsync";
 			public const string BonusGold = "BonusGold";
 			public const string ReportLimitPackage = "ReportLimitPackage";
 			public const string RequestGacha = "RequestGacha";
 			
-			// Ranking Season
+			// Ranking
 			public const string RequestSeasonInfo = "RequestSeasonInfo";
+			public const string CreateRankTicket = "CreateRankTicket";
 		}
 	}
 }
