@@ -2356,7 +2356,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IdSummonItemSelected: 
-  PriceTypeSummonItemSelected: 
+  PriceAmountItemSelected: 0
   SkeletonGraphicBox: {fileID: 6362385637381090189}
   SkeletonGraphicBoxRecieved: {fileID: 1668017405980397591}
   SkeletonGraphicEffect: {fileID: 7201115034462316508}
@@ -2364,7 +2364,6 @@ MonoBehaviour:
   AnimationItemReview: {fileID: 7208625127345913624}
   HightlightPopupRecieved: {fileID: 5851049158457914291}
   HightlightitemRecieved: {fileID: 6278187794751040341}
-  Icon: {fileID: 0}
 --- !u!1 &2711599189295279831
 GameObject:
   m_ObjectHideFlags: 0
@@ -5573,6 +5572,7 @@ GameObject:
   - component: {fileID: 8412559426118692713}
   - component: {fileID: 7287248413749765828}
   - component: {fileID: 623884580723034276}
+  - component: {fileID: 3609171885113053414}
   m_Layer: 5
   m_Name: ButtonGem
   m_TagString: Untagged
@@ -5725,6 +5725,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   viewModelMethodName: _Game.Features.Shop.ShopSummonItem.GetIDItemGacha
   viewEventName: UnityEngine.UI.Button.onClick
+--- !u!114 &3609171885113053414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6114172640804782392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1670825535, guid: e650e72e8be47794994495fc15c0ba63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  viewAdapterTypeName: 
+  viewAdapterOptions: {fileID: 0}
+  viewModelPropertyName: _Game.Features.Shop.ShopSummonItem.Interactable
+  viewPropertyName: UnityEngine.UI.Button.interactable
 --- !u!1 &6158977702967323996
 GameObject:
   m_ObjectHideFlags: 0

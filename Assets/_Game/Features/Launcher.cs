@@ -1,22 +1,14 @@
-﻿using System;
-using System.Threading.Tasks;
-using _Base.Scripts.Audio;
+﻿using _Base.Scripts.Audio;
 using _Game.Features.Bootstrap;
 using _Game.Features.Home;
-using _Game.Features.MyShipScreen;
 using _Game.Scripts.DB;
-using _Game.Scripts.GD;
 using _Game.Scripts.GD.DataManager;
-using _Game.Scripts.GD.Parser;
 using _Game.Scripts.SaveLoad;
 using _Game.Scripts.UI.Utils;
 using Cysharp.Threading.Tasks;
-using Map;
 using Online;
 using UnityEngine;
 using ZBase.UnityScreenNavigator.Core;
-using ZBase.UnityScreenNavigator.Core.Screens;
-using ZBase.UnityScreenNavigator.Core.Views;
 using ZBase.UnityScreenNavigator.Core.Windows;
 
 namespace _Game.Features

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
+using Online.Model.ApiRequest;
 using Online.Service;
 
 namespace Online.Interface
@@ -15,7 +16,7 @@ namespace Online.Interface
 		public EquipmentService Equipment { get; }
 		public RankingService Ranking { get; }
 		
-		UniTask UpgradeItem(string itemInstanceId);
+		UniTask<UpgradeItemResponse> UpgradeItem(string itemInstanceId);
 		UniTask CombineItems(List<string> itemInstanceIds);
 		UniTask ReportLimitPackage(string storeId);
 

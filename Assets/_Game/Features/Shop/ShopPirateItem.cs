@@ -180,6 +180,28 @@ namespace _Game.Features.Shop
         private bool _isActiveButAd;
         #endregion
 
+        #region Binding Prop: Interactable
+        /// <summary>
+        /// Interactable
+        /// </summary>
+        [Binding]
+        public bool Interactable
+        {
+            get => _interactable;
+            set
+            {
+                if (Equals(_interactable, value))
+                {
+                    return;
+                }
+
+                _interactable = value;
+                OnPropertyChanged(nameof(Interactable));
+            }
+        }
+        private bool _interactable;
+        #endregion
+
         [Binding]
         public async void OnClickBuy()
         {

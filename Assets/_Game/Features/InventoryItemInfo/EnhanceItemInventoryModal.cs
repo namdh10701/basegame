@@ -469,7 +469,7 @@ namespace _Game.Features.InventoryItemInfo
         {
             NumbGoldRequired = _inventoryItemUpgradeTableRecord.Gold;
             NumbMiscItemRequired = _inventoryItemUpgradeTableRecord.Blueprint;
-            NumbGoldOwner = SaveSystem.GameSave.gold;
+            NumbGoldOwner = PlayfabManager.Instance.Gold;
 
             EligibleGold = NumbGoldOwner >= NumbGoldRequired;
             EligibleMiscItem = NumbMiscItemOwner >= NumbMiscItemRequired;
@@ -490,13 +490,13 @@ namespace _Game.Features.InventoryItemInfo
         [Binding]
         public async void OnUpgradeItem()
         {
-            await PlayfabManager.Instance.UpgradeItem(OnwItemId);
+            var resUpgrade = await PlayfabManager.Instance.UpgradeItem(OnwItemId);
             IsActivePopupSuccess = true;
             ChangeValuePropertyUpgrade();
 
             await UniTask.Delay(2000);
             IsActivePopupSuccess = false;
-            // UpdataDataItemOwner(Type);
+            UpdataDataItemOwner(Type);
             LoadData();
         }
 
@@ -504,20 +504,21 @@ namespace _Game.Features.InventoryItemInfo
         {
             int itemsRemoved = 0;
             string targetItemId = itemType.ToString().ToLower();
+
+            foreach (var item in SaveSystem.GameSave.OwnedItems)
+            {
+                if (item.ItemId == Id && item.OwnItemId == OnwItemId)
+                {
+                    item.Level = NextLevel;
+                    InventoryItem.Level = NextLevel;
+                    CurrentLevel = NextLevel;
+                    NextLevel = CurrentLevel + 1;
+                    break;
+                }
+            }
+
             for (int i = SaveSystem.GameSave.OwnedItems.Count - 1; i >= 0; i--)
             {
-                foreach (var item in SaveSystem.GameSave.OwnedItems)
-                {
-                    if (item.ItemId == Id && item.OwnItemId == OnwItemId)
-                    {
-                        item.Level = NextLevel;
-                        InventoryItem.Level = NextLevel;
-                        CurrentLevel = NextLevel;
-                        NextLevel = CurrentLevel + 1;
-                        break;
-                    }
-                }
-
                 if (SaveSystem.GameSave.OwnedItems[i].ItemId == targetItemId)
                 {
                     SaveSystem.GameSave.OwnedItems.RemoveAt(i);
