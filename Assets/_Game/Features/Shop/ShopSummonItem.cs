@@ -67,6 +67,9 @@ namespace _Game.Features.Shop
         private bool _isSelected;
         #endregion
 
+        [Binding]
+        public int PriceAmount { get; set; }
+
         #region Binding Prop: Price
         /// <summary>
         /// Price
@@ -155,6 +158,28 @@ namespace _Game.Features.Shop
         private bool _isActiveButtonKey;
         #endregion
 
+        #region Binding Prop: Interactable
+        /// <summary>
+        /// Interactable
+        /// </summary>
+        [Binding]
+        public bool Interactable
+        {
+            get => _interactable;
+            set
+            {
+                if (Equals(_isActiveButtonKey, value))
+                {
+                    return;
+                }
+
+                _interactable = value;
+                OnPropertyChanged(nameof(Interactable));
+            }
+        }
+        private bool _interactable;
+        #endregion
+
         public List<string> ListRarity = new List<string>();
         public List<int> ListWeightRarity = new List<int>();
         public List<string> ListNameItem = new List<string>();
@@ -169,6 +194,10 @@ namespace _Game.Features.Shop
         {
             ShopSummonViewModel = shopSummonViewModel;
             IsActiveButtonKey = PriceType == "KE" ? true : false;
+            if (IsActiveButtonKey)
+                Interactable = PlayfabManager.Instance.Key >= PriceAmount ? true : false;
+            else
+                Interactable = PlayfabManager.Instance.Gem >= PriceAmount ? true : false;
         }
 
         public string GetRandomRarityByWeight()
@@ -253,7 +282,7 @@ namespace _Game.Features.Shop
         public void SetIdSummonItem()
         {
             ShopSummonViewModel.IdSummonItemSelected = Id;
-            // ShopSummonViewModel.PriceTypeSummonItemSelected = PriceType;
+            ShopSummonViewModel.PriceAmountItemSelected = PriceAmount;
             ShopSummonViewModel.PriceSummonItemSelected = Price;
             ShopSummonViewModel.IsActiveButtonKey = IsActiveButtonKey;
             ShopSummonViewModel.IsHighlight = CurentRarityItemGacha == "Rare" || CurentRarityItemGacha == "Epic" ? true : false;

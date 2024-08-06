@@ -11,6 +11,7 @@ using _Game.Scripts.UI;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Online;
+using Online.Model.ApiRequest;
 using Spine;
 using Spine.Unity;
 using UnityEngine;
@@ -433,6 +434,7 @@ namespace _Game.Features.Shop
         private string _priceSummonItemSelected;
         #endregion
         public string IdSummonItemSelected;
+        public int PriceAmountItemSelected;
         public SkeletonGraphic SkeletonGraphicBox;
         public SkeletonGraphic SkeletonGraphicBoxRecieved;
         public SkeletonGraphic SkeletonGraphicEffect;
@@ -473,6 +475,7 @@ namespace _Game.Features.Shop
                         ShopSummonItem shopSummonItem = new ShopSummonItem();
                         shopSummonItem.Id = item.Id;
                         shopSummonItem.Price = item.Price.ToString();
+                        shopSummonItem.PriceAmount = item.Price;
                         shopSummonItem.PriceType = item.VirtualCurrencyCode;
                         shopSummonItem.SetUp(this);
                         ShopPackageSummonItem.SummonItems.Add(shopSummonItem);
@@ -571,12 +574,19 @@ namespace _Game.Features.Shop
             IOC.Resolve<MainViewModel>().IsActiveBotNavBar = false;
             IsActivePopupConfirm = false;
             IsActivePopupLoading = true;
+            GachaResponse gachaResponse = null;
+            try
+            {
+                gachaResponse = await PlayfabManager.Instance.GachaAsync(IdSummonItemSelected);
+            }
+            catch (System.Exception ex)
+            {
+                Debug.LogError("GachaAsync" + ex.Message);
+            }
 
-            var gachaResponse = await PlayfabManager.Instance.GachaAsync(IdSummonItemSelected);
             var itemDatas = gachaResponse.GetItemDatas();
             foreach (var item in itemDatas)
             {
-
                 var shopItemGachaReceived = GenerateShopItemGachaReceived(item);
                 ItemsGachaReceived.Add(shopItemGachaReceived);
             }
@@ -598,7 +608,6 @@ namespace _Game.Features.Shop
             ShopItemGachaReceived shopItemGachaReceived = new ShopItemGachaReceived();
             shopItemGachaReceived.IdItemGacha = itemData.ItemId;
             shopItemGachaReceived.GachaType = itemData.ItemType.ToString();
-            shopItemGachaReceived.Rarity = itemData.Rarity.ToString();
             shopItemGachaReceived.IsHighLight = itemData.Rarity == Rarity.Rare || itemData.Rarity == Rarity.Epic ? true : false;
 
             switch (itemData.ItemType)
@@ -608,16 +617,18 @@ namespace _Game.Features.Shop
                     var cannonTableRecord = GameData.CannonTable.GetCannonTableRecordById(itemData.ItemId);
                     shopItemGachaReceived.Operation = cannonTableRecord.OperationType;
                     shopItemGachaReceived.Slot = cannonTableRecord.Slot;
+                    shopItemGachaReceived.Rarity = cannonTableRecord.Rarity.ToString();
                 case ItemType.AMMO:
                     var ammoTableRecord = GameData.AmmoTable.GetAmmoTableRecordById(itemData.ItemId);
                     shopItemGachaReceived.Operation = ammoTableRecord.OperationType;
                     shopItemGachaReceived.Slot = ammoTableRecord.Slot;
-
+                    shopItemGachaReceived.Rarity = ammoTableRecord.Rarity.ToString();
                     break;
                 case ItemType.CREW:
                     var crewTableRecord = GameData.CrewTable.GetCrewTableRecordById(itemData.ItemId);
                     shopItemGachaReceived.Operation = crewTableRecord.OperationType;
                     shopItemGachaReceived.Slot = crewTableRecord.Slot;
+                    shopItemGachaReceived.Rarity = crewTableRecord.Rarity.ToString();
                     break;
             }
             return shopItemGachaReceived;

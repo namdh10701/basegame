@@ -96,6 +96,13 @@ namespace _Game.Features.Shop
                 }
 
                 itemGem.IsActiveButAd = item.PriceType == "ads" ? true : false;
+
+                if (item.PriceType == "gem")
+                    itemGem.Interactable = item.PriceAmount >= PlayfabManager.Instance.Gem ? true : false;
+                else if (item.PriceType == "gold")
+                    itemGem.Interactable = item.PriceAmount >= PlayfabManager.Instance.Gold ? true : false;
+                else
+                    itemGem.Interactable = true;
                 ItemsGem.Add(itemGem);
             }
         }

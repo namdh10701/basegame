@@ -90,7 +90,7 @@ namespace Online
 			}
 
 			await LoadUserRankInfoAsync();
-			
+
 			await Ranking.LoadRewardBundleInfo();
 			await LoadShopAsync();
 			await RequestInventoryAsync();
@@ -104,17 +104,19 @@ namespace Online
 		{
 			await Auth.LinkFacebook();
 		}
-		
+
 		public async Task UnlinkFacebook()
 		{
 			await Auth.UnlinkFacebook();
 		}
 
-		public async UniTask UpgradeItem(string itemInstanceId)
+		public async UniTask<UpgradeItemResponse> UpgradeItem(string itemInstanceId)
 		{
 			var resUpgrade = await Inventory.UpgradeItem(itemInstanceId);
+			Debug.Log("UpgradeItem" + resUpgrade.Result);
 			Inventory.LoadVirtualCurrency(resUpgrade.VirtualCurrency);
 			Inventory.RevokeBlueprints(resUpgrade.RevokeBlueprintIDs);
+			return resUpgrade;
 		}
 
 		public async UniTask CombineItems(List<string> itemInstanceIds)
@@ -140,7 +142,7 @@ namespace Online
 			});
 			return await signal.Task;
 		}
-		
+
 		public async UniTask ReportLimitPackage(string adUnitId)
 		{
 			var signal = new UniTaskCompletionSource<bool>();

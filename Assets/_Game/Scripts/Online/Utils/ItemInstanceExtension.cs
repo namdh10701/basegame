@@ -30,9 +30,9 @@ namespace Online
 				case ItemType.AMMO:
 					rarityLevel = GameData.AmmoTable.FindById(itemId)?.RarityLevel ?? 0;
 					break;
-				// case ItemType.SHIP:
-				// 	rarityLevel = GameData.ShipTable.FindById(itemId)?.RarityLevel ?? 0;
-				// 	break;
+					// case ItemType.SHIP:
+					// 	rarityLevel = GameData.ShipTable.FindById(itemId)?.RarityLevel ?? 0;
+					// 	break;
 			}
 
 			return new ItemData()
@@ -44,7 +44,7 @@ namespace Online
 				RarityLevel = rarityLevel
 			};
 		}
-		
+
 		public static ItemData[] ParseToItemDatas(this ItemInstance[] itemInstances)
 		{
 			var itemDatas = new ItemData[itemInstances.Length];
@@ -52,6 +52,14 @@ namespace Online
 			{
 				itemDatas[i] = itemInstances[i].GetItemData();
 			}
+			return itemDatas;
+		}
+
+		public static ItemData ParseToItemData(this ItemInstance itemInstances)
+		{
+			var itemDatas = new ItemData();
+			itemDatas = itemInstances.GetItemData();
+
 			return itemDatas;
 		}
 	}
