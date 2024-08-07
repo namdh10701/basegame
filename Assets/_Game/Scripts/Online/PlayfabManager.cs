@@ -114,9 +114,10 @@ namespace Online
 			await Auth.UnlinkFacebook();
 		}
 
-		public async UniTask<UpgradeItemResponse> UpgradeItem(string itemInstanceId)
+		public async UniTask<EnhanceItemResponse> EnhanceItem(string itemInstanceId)
 		{
-			var resUpgrade = await Inventory.UpgradeItem(itemInstanceId);
+			var resUpgrade = await Inventory.EnhanceItem(itemInstanceId);
+			Inventory.UpdateItemData(resUpgrade.ItemUpgrade);
 			Inventory.LoadVirtualCurrency(resUpgrade.VirtualCurrency);
 			Inventory.RevokeBlueprints(resUpgrade.RevokeBlueprintIDs);
 			return resUpgrade;
