@@ -365,14 +365,6 @@ namespace _Game.Features.MyShip
             Dictionary<string, Tuple<List<Vector2Int>, InventoryItem>> tmp = new(); 
             foreach (var (pos, inventoryItem) in ItemPositions)
             {
-                // // load data into inventory manager
-                // inventoryManager.GetSlot(pos).Value = new Inventory.Core.InventoryItem()
-                // {
-                //     Shape = ItemShape.Load(inventoryItem.Shape).Data,
-                //     Id = inventoryItem.Id,
-                //     Type = inventoryItem.Type,
-                // };
-
                 if (!tmp.ContainsKey(inventoryItem.Type + inventoryItem.Id))
                 {
                     tmp[inventoryItem.Type + inventoryItem.Id] = new(new List<Vector2Int>(), inventoryItem);
@@ -655,11 +647,6 @@ namespace _Game.Features.MyShip
             
             OnPropertyChanged(nameof(ShipPageInfo));
 
-            // init inventory manager
-            // var gridLayoutGroup = ship.GetComponentInChildren<SlotGrid>().GetComponent<GridLayoutGroup>();
-            // // var gridSize = GridLayoutGroupUtils.GetGridLayoutSize(gridLayoutGroup);
-            // var gridSize = new Vector2Int(4, 3);
-            // inventoryManager = new InventoryManager(gridSize);
             SetViewMode_View();
         }
 
@@ -837,10 +824,6 @@ namespace _Game.Features.MyShip
             rect.pivot = Vector2.zero;
             rect.anchoredPosition = uiCell.anchoredPosition;
             
-            // foreach (var shipItem in placementPane.GetComponentsInChildren<ShipSetupItem>(false))
-            // {
-            //     ItemPositions[shipItem.Pos] = shipItem.InventoryItem;
-            // }
             ItemPositions[pos] = inventoryItem;
             
             SaveSetupProfile();

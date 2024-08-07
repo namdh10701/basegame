@@ -2,9 +2,12 @@ using _Game.Features.Battle;
 using _Game.Features.Ranking;
 using _Game.Scripts.SaveLoad;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using _Game.Features.Inventory;
 using Online;
+using Online.Model;
 using UnityEngine;
 
 namespace _Game.Features.Gameplay
@@ -75,7 +78,49 @@ namespace _Game.Features.Gameplay
                 await Task.Delay((int)(6 * 1000));
             }
             
+            // Level: 'Level',
+            // Exp: 'Exp',
+            // Rank: 'Rank',
+            // RankingTicketId: 'RankingTicketId',
+            // LimitPackages: 'LimitPackages',
+            // Gachas: 'Gachas'
+            
             var resp = await PlayfabManager.Instance.Ranking.FinishRankBattleAsync((int)DmgDeal);
+            // resp.Data["Level"];
+            // resp.Items.Select(v => v.ItemId);
+
+            var rewards = new List<RankReward>();
+            rewards.Add(new RankReward()
+            {
+                ItemType = ItemType.MISC,
+                ItemId = MiscItemId.exp, 
+                Amount = (int)resp.Data["Exp"],
+            });
+            
+            rewards.Add(new RankReward()
+            {
+                ItemType = ItemType.MISC,
+                ItemId = MiscItemId.gold, 
+                Amount = resp.VirtualCurrency["Gold"],
+            });
+            
+            rewards.Add(new RankReward()
+            {
+                ItemType = ItemType.MISC,
+                ItemId = MiscItemId.key, 
+                Amount = resp.VirtualCurrency["Key"],
+            });
+            
+            foreach (var item in resp.Items)
+            {
+                rewards.Add(new RankReward()
+                {
+                    ItemType = ItemType.MISC,
+                    ItemId = item.ItemId, 
+                    Amount = 1,
+                });
+            }
+            
             var p = new RankingVictoryModal.Params
             {
                 Score = (int)DmgDeal,

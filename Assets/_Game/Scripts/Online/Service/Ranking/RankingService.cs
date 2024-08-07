@@ -46,7 +46,7 @@ namespace Online.Service
 					leaderboardRes.Players.Add(new PlayerRankInfo()
 					{
 						Id = item.PlayFabId,
-						DisplayName = item.DisplayName,
+						DisplayName = item.DisplayName ?? item.Profile.DisplayName,
 						Score = item.StatValue
 					});
 				}

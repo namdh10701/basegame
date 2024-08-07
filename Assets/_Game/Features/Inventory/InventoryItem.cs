@@ -23,6 +23,7 @@ namespace _Game.Features.Inventory
         DIAMOND,
         TICKET,
         KEY,
+        EXP,
         None,
     }
 
