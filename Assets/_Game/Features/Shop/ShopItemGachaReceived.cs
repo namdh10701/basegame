@@ -150,8 +150,8 @@ namespace _Game.Features.Shop
         {
             get
             {
-                var path = GachaType == null || Operation == null || Rarity == null ? $"Items/item_ammo_arrow_common" :
-                 $"Items/item_{GachaType.ToLower()}_{Operation.ToLower()}_{Rarity.ToLower()}";
+                var path = GachaType == null || Operation == null || Rarity == null ? $"Images/Items/item_ammo_arrow_common" :
+                 $"Images/Items/item_{GachaType.ToLower()}_{Operation.ToLower()}_{Rarity.ToLower()}";
                 return Resources.Load<Sprite>(path);
             }
         }

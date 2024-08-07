@@ -54,8 +54,8 @@ namespace _Game.Features.Shop
         {
             get
             {
-                var path = GachaTypeItemReview == null || NameItemReview == null || RarityItem == null ? $"Items/item_ammo_arrow_common" :
-                 $"Items/item_{GachaTypeItemReview.ToLower()}_{NameItemReview.ToLower()}_{RarityItem.ToLower()}";
+                var path = GachaTypeItemReview == null || NameItemReview == null || RarityItem == null ? $"Images/Items/item_ammo_arrow_common" :
+                 $"Images/Items/item_{GachaTypeItemReview.ToLower()}_{NameItemReview.ToLower()}_{RarityItem.ToLower()}";
                 return Resources.Load<Sprite>(path);
             }
         }
@@ -519,7 +519,7 @@ namespace _Game.Features.Shop
         {
             itemStats.Clear();
             DataTableRecord dataTableRecord;
-            if (GachaTypeItemReview == "cannon")
+            if (GachaTypeItemReview == "CANNON")
             {
                 SlotItemReview = GameData.CannonTable.GetSlotByName(IdItemReview);
                 dataTableRecord = GameData.CannonTable.FindById(IdItemReview);
@@ -619,11 +619,11 @@ namespace _Game.Features.Shop
             switch (itemData.ItemType)
             {
                 case ItemType.CANNON:
-                    break;
                     var cannonTableRecord = GameData.CannonTable.GetCannonTableRecordById(itemData.ItemId);
                     shopItemGachaReceived.Operation = cannonTableRecord.OperationType;
                     shopItemGachaReceived.Slot = cannonTableRecord.Slot;
                     shopItemGachaReceived.Rarity = cannonTableRecord.Rarity.ToString();
+                    break;
                 case ItemType.AMMO:
                     var ammoTableRecord = GameData.AmmoTable.GetAmmoTableRecordById(itemData.ItemId);
                     shopItemGachaReceived.Operation = ammoTableRecord.OperationType;
@@ -661,13 +661,14 @@ namespace _Game.Features.Shop
 
 
             CanvasGroupInfoItem.alpha = 1;
-            foreach (var item in SummonCannonItems)
-            {
-                if (item.Id == IdSummonItemSelected)
-                {
-                    item.GetIDItemGacha();
-                }
-            }
+            // foreach (var item in SummonCannonItems)
+            // {
+            //     if (item.Id == IdSummonItemSelected)
+            //     {
+            //         item.GetInfoSummonItem();
+            //     }
+            // }
+            OnChangeCurrentIndexItemReview(0);
         }
 
         private void SetColorRarity(string rarity)
