@@ -11,6 +11,13 @@ namespace Online.Service
 {
 	public class AuthService : BaseOnlineService
 	{
+		public UserFacebookInfo FacebookInfo { get; private set; }
+#if UNITY_ANDROID
+		public UserGooglePlayGamesInfo GooglePlayGamesInfo { get; private set; }
+#else
+		public UserAppleIdInfo AppleIdInfo { get; private set; }
+#endif
+
 		private BasePlatformAuth _basePlatformAuth = null;
 
 		public override void Initialize(IPlayfabManager manager)
@@ -30,9 +37,19 @@ namespace Online.Service
 			return _basePlatformAuth.LoginAsync();
 		}
 
-		public async UniTask LinkFacebook()
+		public void LoadAccountInfo(UserAccountInfo accountInfo)
 		{
-			await _basePlatformAuth.LinkFacebook();
+			FacebookInfo = accountInfo.FacebookInfo;
+#if UNITY_ANDROID
+			GooglePlayGamesInfo = accountInfo.GooglePlayGamesInfo;
+#else
+			UserAppleIdInfo = accountInfo.UserAppleIdInfo;
+#endif
+		}
+
+		public UniTask<bool> LinkFacebook()
+		{
+			return _basePlatformAuth.LinkFacebook();
 		}
 
 		public async UniTask UnlinkFacebook()
