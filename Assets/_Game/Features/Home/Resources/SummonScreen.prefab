@@ -1761,7 +1761,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   viewAdapterTypeName: 
   viewAdapterOptions: {fileID: 0}
-  viewModelPropertyName: _Game.Features.Shop.ShopSummonViewModel.PriceSummonItem
+  viewModelPropertyName: _Game.Features.Shop.ShopSummonViewModel.PriceSummonItemSelected
   viewPropertyName: TMPro.TextMeshProUGUI.text
 --- !u!1 &2087984506963467317
 GameObject:
@@ -5328,6 +5328,7 @@ GameObject:
   - component: {fileID: 1172765067682881974}
   - component: {fileID: 291079097833505076}
   - component: {fileID: 1184862608597470698}
+  - component: {fileID: 5544099916783580531}
   m_Layer: 5
   m_Name: BtnClose
   m_TagString: Untagged
@@ -5436,6 +5437,20 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &5544099916783580531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5862864467941335808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1360956885, guid: e650e72e8be47794994495fc15c0ba63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  viewModelMethodName: _Game.Features.Shop.ShopSummonViewModel.OnClosePopupConfirm
+  viewEventName: UnityEngine.UI.Button.onClick
 --- !u!1 &6065982271835129496
 GameObject:
   m_ObjectHideFlags: 0

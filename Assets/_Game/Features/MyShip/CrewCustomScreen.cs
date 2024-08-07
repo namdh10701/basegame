@@ -302,12 +302,14 @@ namespace _Game.Features.InventoryCustomScreen
 
         private void InitDataButtonSlot()
         {
+            buttonSlots.Clear();
             for (int i = 0; i < 4; i++)
             {
                 var toggle = new ButtonSlot();
                 toggle.Id = "";
                 toggle.Type = ItemType.None;
                 toggle.SlotName = $"Slot {i}";
+                toggle.Interactable = i <= 0;
                 buttonSlots.Add(toggle);
             }
             _buttonGroupInput.Setup();
@@ -363,6 +365,7 @@ namespace _Game.Features.InventoryCustomScreen
         [Binding]
         public async void Close()
         {
+            Destroy(_uiCrew.gameObject);
             await ModalContainer.Find(ContainerKey.Modals).PopAsync(true);
         }
     }

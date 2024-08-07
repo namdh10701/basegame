@@ -68,9 +68,11 @@ namespace _Game.Features.Shop
                 switch (GachaTypeItemReview.ToLower())
                 {
                     case "cannon":
-                        return _Game.Scripts.DB.Database.GetCannonImage(IdItemReview);
+                        return _Game.Scripts.DB.Database.GetSpriteCannon(IdItemReview);
                     case "ammo":
-                        return _Game.Scripts.DB.Database.GetAmmoImage(IdItemReview);
+                        return _Game.Scripts.DB.Database.GetSpriteAmmo(IdItemReview);
+                    case "crew":
+                        return _Game.Scripts.DB.Database.GetSpriteCrew(IdItemReview);
                     default:
                         return null;
                 }
@@ -443,15 +445,8 @@ namespace _Game.Features.Shop
         public RectTransform HightlightitemRecieved;
         private void OnEnable()
         {
-            // LoadDataShop();
             InitializeShopSummon();
         }
-
-        // private void LoadDataShop()
-        // {
-        //     // _shopDataSummons = GameData.ShopListingTable.GetData(ShopType.Gacha);
-        //     var GachaTable = GameData.GachaTable.AllItems();
-        // }
 
         private void InitializeShopSummon()
         {
@@ -488,19 +483,14 @@ namespace _Game.Features.Shop
         [Binding]
         public void OnClickToCotinue()
         {
-            if (CurrentIndexItemReview <= ItemsGachaReceived.Count - 1)
-            {
-                CurrentIndexItemReview++;
-            }
-            else
-                CurrentIndexItemReview = 0;
-
+            CurrentIndexItemReview++;
         }
 
         public void OnChangeCurrentIndexItemReview(int currentIndexItemReview)
         {
             if (currentIndexItemReview > ItemsGachaReceived.Count - 1)
             {
+                CurrentIndexItemReview = 0;
                 return;
             }
 
@@ -509,6 +499,7 @@ namespace _Game.Features.Shop
             RarityItem = ItemsGachaReceived[currentIndexItemReview].Rarity;
             RarityItemReview = $"[{ItemsGachaReceived[currentIndexItemReview].Rarity}]";
             NameItemReview = ItemsGachaReceived[currentIndexItemReview].Operation;
+            SlotItemReview = ItemsGachaReceived[currentIndexItemReview].Slot;
             SetColorRarity(ItemsGachaReceived[currentIndexItemReview].Rarity);
             OnPropertyChanged(nameof(SpriteReview));
             OnPropertyChanged(nameof(Thumbnail));
@@ -553,6 +544,12 @@ namespace _Game.Features.Shop
         public void OnClickStartGacha()
         {
             IsActivePopupConfirm = true;
+        }
+
+        [Binding]
+        public void OnClosePopupConfirm()
+        {
+            IsActivePopupConfirm = false;
         }
 
         [Binding]
@@ -661,13 +658,6 @@ namespace _Game.Features.Shop
 
 
             CanvasGroupInfoItem.alpha = 1;
-            // foreach (var item in SummonCannonItems)
-            // {
-            //     if (item.Id == IdSummonItemSelected)
-            //     {
-            //         item.GetInfoSummonItem();
-            //     }
-            // }
             OnChangeCurrentIndexItemReview(0);
         }
 
@@ -716,6 +706,8 @@ namespace _Game.Features.Shop
             CanvasGroupInfoItem.alpha = 0;
             HightlightPopupRecieved.localScale = new Vector3(0, 0, 0);
         }
+
+
 
 
     }
