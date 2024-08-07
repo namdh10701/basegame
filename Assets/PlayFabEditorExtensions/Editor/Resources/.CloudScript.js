@@ -88,7 +88,7 @@ const ERank = Object.freeze({
 });
 
 const EVirtualCurrency = Object.freeze({
-    Gold: 'GO', Gem: 'GE', Energy: 'EN', Ticket: 'TI', Diamond: 'DI', Key: 'KE'
+    Gold: 'GO', Gem: 'GE', Energy: 'EN', Ticket: 'TI', Diamond: 'DI', Key: 'KE', FreeTicket: 'FT'
 });
 
 const ERarity = Object.freeze({
@@ -1199,7 +1199,8 @@ handlers.CreateRankTicket = function (args, context) {
     }
 
     let ticketCount = resInventory.VirtualCurrency[EVirtualCurrency.Ticket];
-    if (ticketCount < ticketPerMatch) {
+    let freeTicketCount = resInventory.VirtualCurrency[EVirtualCurrency.FreeTicket];
+    if (ticketCount + freeTicketCount < ticketPerMatch) {
         return {
             Result: false, Error: EErrorCode.NotEnoughTicket
         };
@@ -1209,12 +1210,13 @@ handlers.CreateRankTicket = function (args, context) {
     var resSubEnergy = server.SubtractUserVirtualCurrency({
         PlayFabId: currentPlayerId, VirtualCurrency: EVirtualCurrency.Energy, Amount: energyPerMatch
     });
-    result.VirtualCurrency[EVirtualCurrency.Energy] = resSubEnergy.Balance
+    result.VirtualCurrency[EVirtualCurrency.Energy] = resSubEnergy.Balance;
 
+    let ticketCode = (freeTicketCount > 0) ? EVirtualCurrency.FreeTicket : EVirtualCurrency.Ticket;
     var resSubTicket = server.SubtractUserVirtualCurrency({
-        PlayFabId: currentPlayerId, VirtualCurrency: EVirtualCurrency.Ticket, Amount: ticketPerMatch
+        PlayFabId: currentPlayerId, VirtualCurrency: ticketCode, Amount: ticketPerMatch
     });
-    result.VirtualCurrency[EVirtualCurrency.Ticket] = resSubTicket.Balance
+    result.VirtualCurrency[ticketCode] = resSubTicket.Balance;
 
     result.TicketId = GenerateGUID();
     let userData = {};
