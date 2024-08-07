@@ -140,7 +140,7 @@ namespace Online.Service
 				}
 			}, result =>
 			{
-				LogSuccess("CreatRankTicket Completed!");
+				LogSuccess("FinishRankBattleAsync Completed! " + result.FunctionResult.ToString());
 				signal.TrySetResult(JsonConvert.DeserializeObject<FinishRankBattleResponse>(result.FunctionResult.ToString()));
 			}, error =>
 			{

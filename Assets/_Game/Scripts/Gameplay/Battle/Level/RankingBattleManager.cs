@@ -90,33 +90,43 @@ namespace _Game.Features.Gameplay
             // resp.Items.Select(v => v.ItemId);
 
             var rewards = new List<RankReward>();
-            rewards.Add(new RankReward()
-            {
-                ItemType = ItemType.MISC,
-                ItemId = MiscItemId.exp, 
-                Amount = (int)resp.Data["Exp"],
-            });
             
-            rewards.Add(new RankReward()
+            if (resp.Data.TryGetValue("Exp", out var exp))
             {
-                ItemType = ItemType.MISC,
-                ItemId = MiscItemId.gold, 
-                Amount = resp.VirtualCurrency["Gold"],
-            });
+                rewards.Add(new RankReward()
+                {
+                    ItemType = ItemType.MISC,
+                    ItemId = MiscItemId.exp,
+                    Amount = int.Parse(exp.ToString()),
+                });
+            }
             
-            rewards.Add(new RankReward()
+            if (resp.VirtualCurrency.TryGetValue("Gold", out var gold))
             {
-                ItemType = ItemType.MISC,
-                ItemId = MiscItemId.key, 
-                Amount = resp.VirtualCurrency["Key"],
-            });
+                rewards.Add(new RankReward()
+                {
+                    ItemType = ItemType.MISC,
+                    ItemId = MiscItemId.gold,
+                    Amount = gold,
+                });
+            }
+            
+            if (resp.VirtualCurrency.TryGetValue("Key", out var key))
+            {
+                rewards.Add(new RankReward()
+                {
+                    ItemType = ItemType.MISC,
+                    ItemId = MiscItemId.key,
+                    Amount = key,
+                });
+            }
             
             foreach (var item in resp.Items)
             {
                 rewards.Add(new RankReward()
                 {
                     ItemType = ItemType.MISC,
-                    ItemId = item.ItemId, 
+                    ItemId = "res_" + item.ItemId, 
                     Amount = 1,
                 });
             }
@@ -124,7 +134,7 @@ namespace _Game.Features.Gameplay
             var p = new RankingVictoryModal.Params
             {
                 Score = (int)DmgDeal,
-                // Rewards = resp.Rewards,
+                Rewards = rewards,
             };
             await RankingVictoryModal.Show(p);
         }
@@ -132,10 +142,52 @@ namespace _Game.Features.Gameplay
         public override async void ShowLoseUIAsync()
         {
             var resp = await PlayfabManager.Instance.Ranking.FinishRankBattleAsync((int)DmgDeal);
+            var rewards = new List<RankReward>();
+            
+            if (resp.Data.TryGetValue("Exp", out var exp))
+            {
+                rewards.Add(new RankReward()
+                {
+                    ItemType = ItemType.MISC,
+                    ItemId = MiscItemId.exp,
+                    Amount = int.Parse(exp.ToString()),
+                });
+            }
+            
+            if (resp.VirtualCurrency.TryGetValue("Gold", out var gold))
+            {
+                rewards.Add(new RankReward()
+                {
+                    ItemType = ItemType.MISC,
+                    ItemId = MiscItemId.gold,
+                    Amount = gold,
+                });
+            }
+            
+            if (resp.VirtualCurrency.TryGetValue("Key", out var key))
+            {
+                rewards.Add(new RankReward()
+                {
+                    ItemType = ItemType.MISC,
+                    ItemId = MiscItemId.key,
+                    Amount = key,
+                });
+            }
+            
+            foreach (var item in resp.Items)
+            {
+                rewards.Add(new RankReward()
+                {
+                    ItemType = ItemType.MISC,
+                    ItemId = "res_" + item.ItemId, 
+                    Amount = 1,
+                });
+            }
+            
             var p = new RankingVictoryModal.Params
             {
                 Score = (int)DmgDeal,
-                // Rewards = resp.Rewards,
+                Rewards = rewards,
             };
             await RankingVictoryModal.Show(p);
         }
