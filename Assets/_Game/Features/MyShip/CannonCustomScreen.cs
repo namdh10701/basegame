@@ -131,9 +131,9 @@ namespace _Game.Features.InventoryCustomScreen
                 switch (InventoryItem.Type)
                 {
                     case ItemType.CANNON:
-                        return _Game.Scripts.DB.Database.GetCannonImage(InventoryItem.Id);
+                        return _Game.Scripts.DB.Database.GetSpriteCannon(InventoryItem.Id);
                     case ItemType.AMMO:
-                        return _Game.Scripts.DB.Database.GetAmmoImage(InventoryItem.Id);
+                        return _Game.Scripts.DB.Database.GetSpriteAmmo(InventoryItem.Id);
                     default:
                         return null;
                 }

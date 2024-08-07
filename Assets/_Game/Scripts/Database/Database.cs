@@ -242,6 +242,34 @@ namespace _Game.Scripts.DB
             return CachedResources.Load<Sprite>(path);
         }
 
+        private static Sprite GetGridItemImage(ItemType itemType, string itemOperationType)
+        {
+            // var path = $"Images/Items/item_{itemType}_{itemOperationType}_{itemRarity.ToString().ToLower()}";
+            var path = $"Database/GridItem/{itemType}/{itemOperationType}";
+            return CachedResources.Load<Sprite>(path);
+        }
+
+        public static Sprite GetSpriteCannon(string id)
+        {
+            const ItemType type = ItemType.CANNON;
+            var record = GameData.CannonTable.FindById(id);
+            return GetGridItemImage(type, record.OperationType);
+        }
+
+        public static Sprite GetSpriteAmmo(string id)
+        {
+            const ItemType type = ItemType.AMMO;
+            var record = GameData.AmmoTable.FindById(id);
+            return GetGridItemImage(type, record.OperationType);
+        }
+
+        public static Sprite GetSpriteCrew(string id)
+        {
+            const ItemType type = ItemType.CREW;
+            var record = GameData.CrewTable.FindById(id);
+            return GetGridItemImage(type, record.OperationType);
+        }
+
         public static Sprite GetAmmoImage(string id)
         {
             const ItemType type = ItemType.AMMO;
@@ -266,15 +294,15 @@ namespace _Game.Scripts.DB
             var record = GameData.CrewTable.FindById(id);
             return GetGridItemImage(type, record.OperationType, record.Rarity);
         }
-        
-        public static Sprite GetShipImage(string id) 
+
+        public static Sprite GetShipImage(string id)
             => CachedResources.Load<Sprite>($"Images/Items/item_ship_{id}");
-        
+
         public static Sprite GetResource(string id)
             => CachedResources.Load<Sprite>($"Images/Items/item_{id}");
 
         public static Sprite GetRankingTierBadge(ERank rank) => CachedResources.Load<Sprite>($"Images/Rank/rank_badge_{rank.ToString().ToLower()}");
-        
+
         public static Sprite GetItemSprite(ItemType itemType, string id)
         {
             switch (itemType)

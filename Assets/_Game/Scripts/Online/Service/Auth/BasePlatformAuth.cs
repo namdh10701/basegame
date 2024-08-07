@@ -82,9 +82,9 @@ namespace Online.Interface
 #endif
 		}
 
-		public Task<bool> LinkFacebook()
+		public UniTask<bool> LinkFacebook()
 		{
-			var signal = new TaskCompletionSource<bool>();
+			var signal = new UniTaskCompletionSource<bool>();
 			LoginFacebook((succeed, token) =>
 			{
 				if (!succeed)
@@ -109,9 +109,9 @@ namespace Online.Interface
 			return signal.Task;
 		}
 		
-		public Task<bool> UnlinkFacebook()
+		public UniTask<bool> UnlinkFacebook()
 		{
-			var signal = new TaskCompletionSource<bool>();
+			var signal = new UniTaskCompletionSource<bool>();
 			PlayFabClientAPI.UnlinkFacebookAccount(new UnlinkFacebookAccountRequest(), result =>
 			{
 				LogInfo("[Auth] Unlink Facebook Succeed");

@@ -1,11 +1,10 @@
-using System;
 using Cysharp.Threading.Tasks;
-using Online.Enum;
 using Online.Interface;
 using Online.Model.ResponseAPI.Common;
 using PlayFab;
 using PlayFab.ClientModels;
-using UnityEngine.Device;
+using UnityEngine;
+using SystemInfo = UnityEngine.Device.SystemInfo;
 
 namespace Online.Service.Auth
 {
@@ -19,41 +18,24 @@ namespace Online.Service.Auth
 				TitleId = PlayFabSettings.TitleId,
 				CreateAccount = true,
 				AndroidDevice = SystemInfo.deviceModel,
-				AndroidDeviceId = SystemInfo.deviceUniqueIdentifier,
-				InfoRequestParameters = new GetPlayerCombinedInfoRequestParams()
-				{
-					GetPlayerProfile = true,
-					GetUserVirtualCurrency = true,
-					GetUserData = true,
-					GetUserReadOnlyData = true,
-					GetUserInventory = true,
-					GetUserAccountInfo = true,
-				}
+				AndroidDeviceId = SystemInfo.deviceUniqueIdentifier
 			}, result =>
 			{
-				LogInfo($"Login result [PlayfabID: {Newtonsoft.Json.JsonConvert.SerializeObject(result.InfoResultPayload)}]");
+				Debug.Log("PlayfabID: " + result.PlayFabId);
 				signal.TrySetResult(new()
 				{
 					Result = true,
-					Status = result.NewlyCreated ? ELoginStatus.Newly : ELoginStatus.Succeed,
 					PlayfabID = result.PlayFabId,
-					ResultPayload = result.InfoResultPayload
 				});
 			}, error =>
 			{
 				LogError($"Login Failed: {error.ErrorMessage}");
-				signal.TrySetResult(new()
-				{
-					Result = false,
-					Status = ELoginStatus.Failed,
-					PlayfabID = null,
-					ResultPayload = null
-				});
+				signal.TrySetResult(new() { Result = false });
 			});
 			return await signal.Task;
 		}
 
-		public override void LinkPlatform(string token, Action<bool> cb = null)
+		public override void LinkPlatform(string token, System.Action<bool> cb = null)
 		{
 			cb?.Invoke(false);
 		}

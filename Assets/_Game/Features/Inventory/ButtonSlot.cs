@@ -13,6 +13,9 @@ namespace _Game.Features.InventoryCustomScreen
         [Binding]
         public string Id { get; set; }
 
+        [Binding]
+        public int Index { get; set; }
+
         #region Binding Prop: SlotName
 
         /// <summary>
@@ -97,7 +100,7 @@ namespace _Game.Features.InventoryCustomScreen
                 switch (Type)
                 {
                     case ItemType.MISC:
-                        var path = Id == null ? $"Items/item_misc_eq2_com" : $"Items/item_misc_{Id.ToString().ToLower()}_{Rarity.ToString().ToLower()}";
+                        var path = Id == null ? $"Images/Items/item_misc_eq2_com" : $"Images/Items/item_misc_{Id.ToString().ToLower()}_{Rarity.ToString().ToLower()}";
                         return Resources.Load<Sprite>(path);
                     default:
                         Debug.LogWarning("Images/Common/icon_plus");
@@ -161,7 +164,6 @@ namespace _Game.Features.InventoryCustomScreen
             Rarity = rarity;
             HasItemAttach = string.IsNullOrEmpty(Id);
             OnPropertyChanged(nameof(Thumbnail));
-
         }
     }
 }

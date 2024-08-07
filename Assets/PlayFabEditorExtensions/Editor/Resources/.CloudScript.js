@@ -177,6 +177,8 @@ const IncreaseExp = function (curLevel, curExp, deltaExp, userLevelsDB) {
 
 // Profile Script
 handlers.RequestNewProfile = function (args, context) {
+    let profileId = context.currentEntity.Lineage.MasterPlayerAccountId;
+
     // Default Profile
     var userData = {};
     userData[ProfileField.Level] = 1;
@@ -184,9 +186,16 @@ handlers.RequestNewProfile = function (args, context) {
     userData[ProfileField.Rank] = ERank.Rookie;
     userData[ProfileField.LimitPackages] = "[]";
     userData[ProfileField.Gachas] = "[]";
+    
+    server.UpdateUserReadOnlyData({
+        PlayFabId: profileId, Data: userData
+    });
 
-    return server.UpdateUserReadOnlyData({
-        PlayFabId: currentPlayerId, Data: userData
+    // Grant Items
+    let resGrantItems = server.GrantItemsToUser({
+        PlayFabId: profileId, ItemIds: [
+            "ship_0001", "crew_2001", "cannon_0001", "ammo_1001"
+        ]
     });
 };
 
@@ -1068,7 +1077,7 @@ handlers.ProfileRankUp = function (args, context) {
 };
 
 handlers.ProfileRankDown = function (args, context) {
-    
+
     let resReadOnlyData = server.GetUserReadOnlyData({
         PlayFabId: currentPlayerId,
         Keys: [ProfileField.Rank]
@@ -1097,6 +1106,14 @@ handlers.ProfileRankDown = function (args, context) {
             PlayFabId: currentPlayerId, Data: newRank
         });
     }
+};
+
+handlers.EndCaptainSeason = function (args, context) {
+    
+};
+
+handlers.EndConquerSeason = function (args, context) {
+    
 };
 
 handlers.RequestSeasonInfo = function (args, context) {

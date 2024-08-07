@@ -5,6 +5,7 @@ using Online.Interface;
 using Online.Model.ResponseAPI.Common;
 using PlayFab;
 using PlayFab.ClientModels;
+using UnityEngine;
 using SystemInfo = UnityEngine.Device.SystemInfo;
 
 namespace Online.Service.Auth
@@ -13,38 +14,30 @@ namespace Online.Service.Auth
 	{
 		public override async UniTask<LoginResponse> LoginAsync()
 		{
+			string deviceID = SystemInfo.deviceUniqueIdentifier;
+			if (deviceID == "295087CA-A8F0-506A-A012-DBCF4DECA026")
+				deviceID = "295087CA-A8F0-506A-A012-DBCF4DECA036";
+
 			UniTaskCompletionSource<LoginResponse> signal = new UniTaskCompletionSource<LoginResponse>();
 			PlayFabClientAPI.LoginWithCustomID(new LoginWithCustomIDRequest()
 			{
 				TitleId = PlayFabSettings.TitleId,
 				CreateAccount = true,
-				CustomId = SystemInfo.deviceUniqueIdentifier,
-				InfoRequestParameters = new GetPlayerCombinedInfoRequestParams()
-				{
-					GetPlayerProfile = true,
-					GetUserVirtualCurrency = true,
-					GetUserData = true,
-					GetUserReadOnlyData = true,
-					GetUserInventory = true,
-					GetUserAccountInfo = true,
-				}
+				CustomId = deviceID
 			}, result =>
 			{
+				Debug.Log("PlayfabID: " + result.PlayFabId);
 				signal.TrySetResult(new()
 				{
 					Result = true,
-					Status = result.NewlyCreated ? ELoginStatus.Newly : ELoginStatus.Succeed,
-					PlayfabID = result.PlayFabId,
-					ResultPayload = result.InfoResultPayload
+					PlayfabID = result.PlayFabId
 				});
 			}, error =>
 			{
 				signal.TrySetResult(new()
 				{
 					Result = false,
-					Status = ELoginStatus.Failed,
-					PlayfabID = null,
-					ResultPayload = null
+					Error = EErrorCode.PlayfabError
 				});
 			});
 			return await signal.Task;

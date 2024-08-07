@@ -164,9 +164,9 @@ namespace _Game.Features.Shop
                 switch (GachaType.ToLower())
                 {
                     case "cannon":
-                        return _Game.Scripts.DB.Database.GetCannonImage(Id);
+                        return _Game.Scripts.DB.Database.GetSpriteCannon(Id);
                     case "ammo":
-                        return _Game.Scripts.DB.Database.GetAmmoImage(Id);
+                        return _Game.Scripts.DB.Database.GetSpriteAmmo(Id);
                     default:
                         return null;
                 }

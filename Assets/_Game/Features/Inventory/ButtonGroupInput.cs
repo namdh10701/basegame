@@ -27,6 +27,9 @@ namespace _Game.Features.Inventory
             {
                 var button = _buttons[i];
                 var index = i;
+                if (i > 0)
+                    _buttons[i].interactable = false;
+
                 button.onClick.AddListener(() =>
                 {
                     OnValueChanged(index);
@@ -45,10 +48,11 @@ namespace _Game.Features.Inventory
         {
             for (int i = 0; i < _buttons.Length; i++)
             {
+
                 if (i == Value)
                     continue;
 
-                _buttons[i].interactable = enable;
+                _buttons[i].interactable = i <= 0;
             }
         }
     }
