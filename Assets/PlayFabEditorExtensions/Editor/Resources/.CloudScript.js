@@ -192,13 +192,11 @@ handlers.RequestNewProfile = function (args, context) {
     });
 
     // Grant Items
-    var grantItems = ["ship_0001", "crew_2001", "cannon_0001", "ammo_1001"];
     let resGrantItems = server.GrantItemsToUser({
         PlayFabId: profileId, ItemIds: [
             "ship_0001", "crew_2001", "cannon_0001", "ammo_1001"
         ]
     });
-    log.debug('Items', resGrantItems.ItemGrantResults);
 };
 
 handlers.CombineItems = function (args, context) {
