@@ -16,7 +16,7 @@ namespace Online.Interface
 		public RankingService Ranking { get; }
 		
 		UniTask<EnhanceItemResponse> EnhanceItem(string itemInstanceId);
-		UniTask CombineItems(List<string> itemInstanceIds);
+		UniTask<CombineItemsResponse> CombineItems(List<string> itemInstanceIds);
 		UniTask ReportLimitPackage(string storeId);
 
 		UniTask<DateTime> GetTimeAsync();

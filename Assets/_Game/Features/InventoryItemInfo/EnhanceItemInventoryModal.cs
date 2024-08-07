@@ -496,11 +496,11 @@ namespace _Game.Features.InventoryItemInfo
 
                 await UniTask.Delay(2000);
                 IsActivePopupSuccess = false;
-                UpdataDataItemOwner(Type);
+                // UpdataDataItemOwner(Type);
                 LoadData();
             }
             else
-                Debug.Log("{OnUpgradeItem]" + resUpgrade.Error);
+                Debug.Log("[OnUpgradeItem]" + resUpgrade.Error);
 
         }
 
@@ -519,7 +519,7 @@ namespace _Game.Features.InventoryItemInfo
                     break;
                 }
             }
-            RemoveItemsBlueSprint();
+            // RemoveItemsBlueSprint();
 
         }
 
