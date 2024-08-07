@@ -117,7 +117,6 @@ namespace Online
 		public async UniTask<UpgradeItemResponse> UpgradeItem(string itemInstanceId)
 		{
 			var resUpgrade = await Inventory.UpgradeItem(itemInstanceId);
-			Debug.Log("UpgradeItem" + resUpgrade.Result);
 			Inventory.LoadVirtualCurrency(resUpgrade.VirtualCurrency);
 			Inventory.RevokeBlueprints(resUpgrade.RevokeBlueprintIDs);
 			return resUpgrade;

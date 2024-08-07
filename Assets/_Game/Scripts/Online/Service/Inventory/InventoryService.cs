@@ -118,6 +118,17 @@ namespace Online.Service
 			// Items.RemoveAll(val => revokeBlueprints.Contains(val.OwnItemId));
 		}
 
+		/// <summary>
+		/// Upgrade level of an item
+		/// </summary>
+		/// <param name="instanceId">User instance item id </param>
+		/// <returns>
+		/// Result: true if succeed, false if failed
+		/// Error: Error code if failed, such as: ItemNotMatch, NotEnoughGold, NotEnoughBlueprint, PlayfabError
+		/// ItemUpgrade: Item data after upgrade
+		/// VirtualCurrency: Virtual Currency amount changed
+		/// RevokeBlueprintIDs: List of blueprint id that need to be revoked
+		/// </returns>
 		public async UniTask<UpgradeItemResponse> UpgradeItem(string instanceId)
 		{
 			UniTaskCompletionSource<UpgradeItemResponse> signal = new UniTaskCompletionSource<UpgradeItemResponse>();
@@ -133,11 +144,11 @@ namespace Online.Service
 					}
 				}, result =>
 				{
-					LogSuccess("Upgraded Item!");
+					LogSuccess("UpgradeItem, Succeed!");
 					signal.TrySetResult(JsonConvert.DeserializeObject<UpgradeItemResponse>(result.FunctionResult.ToString()));
 				}, error =>
 				{
-					LogError(error.ErrorMessage);
+					LogError("UpgradeItem, Error: " + error.ErrorMessage);
 					signal.TrySetResult(new UpgradeItemResponse()
 					{
 						Result = false,

@@ -307,6 +307,10 @@ handlers.UpgradeItem = function (args, context) {
             case EItemType.Ammo:
                 blueprintId = EItemType.Blueprint + '_' + EItemType.Ammo;
                 break;
+            default:
+                return {
+                    Result: false, Error: EErrorCode.ItemNotMatch
+                };
         }
 
         // Get Upgrade Config
