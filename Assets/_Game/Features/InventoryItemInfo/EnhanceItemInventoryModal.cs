@@ -496,7 +496,7 @@ namespace _Game.Features.InventoryItemInfo
 
                 await UniTask.Delay(2000);
                 IsActivePopupSuccess = false;
-                // UpdataDataItemOwner(Type);
+                UpdataDataItemOwner(Type);
                 LoadData();
             }
             else
