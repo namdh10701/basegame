@@ -19,7 +19,10 @@ namespace Online
 		
 		public async UniTask<GachaResponse> GachaAsync(string gachaId)
 		{
-			return await _shopService.GachaAsync(gachaId);
+			var gacha = await _shopService.GachaAsync(gachaId);
+			Inventory.AddItems(gacha.Items);
+			Inventory.LoadVirtualCurrency(gacha.VirtualCurrency);
+			return gacha;
 		}
 
 		public bool TryGetLocalizePrice(string packageId, out string priceString)

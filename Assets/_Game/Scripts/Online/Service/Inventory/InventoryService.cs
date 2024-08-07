@@ -112,6 +112,14 @@ namespace Online.Service
 			Items = items.ToItemData();
 		}
 
+		public void AddItems(List<ItemInstance> newItems)
+		{
+			foreach (var item in newItems)
+			{
+				Items.Add(item.GetItemData());
+			}
+		}
+
 		public void RevokeBlueprints(List<string> revokeBlueprints)
 		{
 			if (revokeBlueprints == null) return;
