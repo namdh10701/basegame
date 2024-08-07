@@ -24,25 +24,14 @@ namespace Online.Service.Auth
 				TitleId = PlayFabSettings.TitleId,
 				CreateAccount = true,
 				DeviceModel = SystemInfo.deviceModel,
-				DeviceId = SystemInfo.deviceUniqueIdentifier,
-				InfoRequestParameters = new GetPlayerCombinedInfoRequestParams()
-				{
-					GetPlayerProfile = true,
-					GetUserVirtualCurrency = true,
-					GetUserData = true,
-					GetUserReadOnlyData = true,
-					GetUserInventory = true,
-					GetUserAccountInfo = true,
-				}
+				DeviceId = SystemInfo.deviceUniqueIdentifier
 			}, result =>
 			{
-				LogInfo($"Login result [PlayfabID: {Newtonsoft.Json.JsonConvert.SerializeObject(result.InfoResultPayload)}]");
+				Debug.Log("PlayfabID: " + result.PlayFabId);
 				signal.TrySetResult(new()
 				{
 					Result = true,
-					Status = result.NewlyCreated ? ELoginStatus.Newly : ELoginStatus.Succeed,
-					PlayfabID = result.PlayFabId,
-					ResultPayload = result.InfoResultPayload
+					PlayfabID = result.PlayFabId
 				});
 			}, error =>
 			{
@@ -50,9 +39,7 @@ namespace Online.Service.Auth
 				signal.TrySetResult(new()
 				{
 					Result = false,
-					Status = ELoginStatus.Failed,
-					PlayfabID = null,
-					ResultPayload = null
+					Error = EErrorCode.PlayfabError
 				});
 			});
 			return await signal.Task;

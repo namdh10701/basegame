@@ -64,44 +64,39 @@ namespace Online
 			_adsService.Initialize(this);
 		}
 
-		public async Task LoginAsync()
+		public async UniTask<bool> LoginAsync()
 		{
 			var loginResponse = await Auth.LoginAsync();
-			if (loginResponse.Status == ELoginStatus.Failed)
+			if (loginResponse.Result)
 			{
-				Debug.LogError("Login failed");
-				return;
+				await LoadDatabase();
+
+				var profileResponse = await Profile.RequestProfileAsync(loginResponse.PlayfabID);
+
+				if (string.IsNullOrEmpty(profileResponse.PlayerProfileModel.DisplayName))
+				{
+					var newName = await Profile.RequestDisplayNameAsync("User" + UnityEngine.Random.Range(1, 99999).ToString("D5"));
+					profileResponse.PlayerProfileModel.DisplayName = newName;
+				}
+
+				Profile.LoadProfile(profileResponse.PlayerProfileModel);
+				Profile.LoadUserReadOnlyData(profileResponse.UserReadOnlyData);
+				Equipment.LoadEquipmentShip(profileResponse.UserData);
+				Inventory.LoadVirtualCurrency(profileResponse.UserVirtualCurrency);
+				Inventory.LoadItems(profileResponse.UserInventory);
+
+				await LoadUserRankInfoAsync();
+
+				await Ranking.LoadRewardBundleInfo();
+				await LoadShopAsync();
+				await RequestInventoryAsync();
+				await RequestEquipmentShipAsync();
+
+				await Ads.LoadAdsAsync();
+				// UpdateEquipShip(SaveSystem.GameSave.ShipSetupSaveData);
+				return true;
 			}
-
-			await LoadDatabase();
-
-			Debug.Log("PlayfabID: " + loginResponse.PlayfabID);
-			
-			if (loginResponse.Status == ELoginStatus.Newly)
-			{
-				await Profile.RequestDisplayNameAsync();
-				await Profile.RequestUserProfileAsync();
-				await Inventory.RequestInventoryAsync();
-			}
-			else
-			{
-				var infoPayload = loginResponse.ResultPayload;
-				Profile.LoadProfile(infoPayload.PlayerProfile);
-				Profile.LoadUserReadOnlyData(infoPayload.UserReadOnlyData);
-				Equipment.LoadEquipmentShip(infoPayload.UserData);
-				Inventory.LoadVirtualCurrency(infoPayload.UserVirtualCurrency);
-				Inventory.LoadItems(infoPayload.UserInventory);
-			}
-
-			await LoadUserRankInfoAsync();
-
-			await Ranking.LoadRewardBundleInfo();
-			await LoadShopAsync();
-			await RequestInventoryAsync();
-			await RequestEquipmentShipAsync();
-
-			await Ads.LoadAdsAsync();
-			// UpdateEquipShip(SaveSystem.GameSave.ShipSetupSaveData);
+			return false;
 		}
 
 		public async Task LinkFacebook()

@@ -177,6 +177,8 @@ const IncreaseExp = function (curLevel, curExp, deltaExp, userLevelsDB) {
 
 // Profile Script
 handlers.RequestNewProfile = function (args, context) {
+    let profileId = context.currentEntity.Lineage.MasterPlayerAccountId;
+
     // Default Profile
     var userData = {};
     userData[ProfileField.Level] = 1;
@@ -184,10 +186,19 @@ handlers.RequestNewProfile = function (args, context) {
     userData[ProfileField.Rank] = ERank.Rookie;
     userData[ProfileField.LimitPackages] = "[]";
     userData[ProfileField.Gachas] = "[]";
-
-    return server.UpdateUserReadOnlyData({
-        PlayFabId: currentPlayerId, Data: userData
+    
+    server.UpdateUserReadOnlyData({
+        PlayFabId: profileId, Data: userData
     });
+
+    // Grant Items
+    var grantItems = ["ship_0001", "crew_2001", "cannon_0001", "ammo_1001"];
+    let resGrantItems = server.GrantItemsToUser({
+        PlayFabId: profileId, ItemIds: [
+            "ship_0001", "crew_2001", "cannon_0001", "ammo_1001"
+        ]
+    });
+    log.debug('Items', resGrantItems.ItemGrantResults);
 };
 
 handlers.CombineItems = function (args, context) {
@@ -1068,7 +1079,7 @@ handlers.ProfileRankUp = function (args, context) {
 };
 
 handlers.ProfileRankDown = function (args, context) {
-    
+
     let resReadOnlyData = server.GetUserReadOnlyData({
         PlayFabId: currentPlayerId,
         Keys: [ProfileField.Rank]

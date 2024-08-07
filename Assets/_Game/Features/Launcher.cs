@@ -13,61 +13,64 @@ using ZBase.UnityScreenNavigator.Core.Windows;
 
 namespace _Game.Features
 {
-    public class Launcher : UnityScreenNavigatorLauncher
-    {
-        public static WindowContainerManager ContainerManager { get; private set; }
+	public class Launcher : UnityScreenNavigatorLauncher
+	{
+		public static WindowContainerManager ContainerManager { get; private set; }
 
-        protected override void OnAwake()
-        {
-            ContainerManager = this;
-        }
+		protected override void OnAwake()
+		{
+			ContainerManager = this;
+		}
 
-        protected override async void OnPostCreateContainers()
-        {
-            var bootstrapScreen = await Nav.ShowScreenAsync<BootstrapScreen>(false);
-            
-            if (!PlayerPrefs.HasKey("PlayingStage"))
-            {
-                PlayerPrefs.SetString("PlayingStage", "0001");
-            }
-            
-            Application.targetFrameRate = 120;
-            UnityScreenNavigatorSettings.Initialize();
+		protected override async void OnPostCreateContainers()
+		{
+			var bootstrapScreen = await Nav.ShowScreenAsync<BootstrapScreen>(false);
 
-            await PlayfabManager.Instance.LoginAsync();
+			if (!PlayerPrefs.HasKey("PlayingStage"))
+			{
+				PlayerPrefs.SetString("PlayingStage", "0001");
+			}
 
-            bootstrapScreen.LoadingProgress = 0.8f;
-            await GameData.Load();
-            
-            Database.Load();
-            
-            SaveSystem.LoadSave();
-            
-            // TODO test
-            // PlayfabManager.Instance.RankInfo.EndTimestamp = (ulong)DateTime.UtcNow.AddDays(2).ToFileTimeUtc();
-            
-            AudioManager.Instance.IsBgmOn = PlayerPrefs.GetInt("Settings.MuteBGM", 0) == 0;
-            AudioManager.Instance.IsSfxOn = PlayerPrefs.GetInt("Settings.MuteSFX", 0) == 0;
+			Application.targetFrameRate = 120;
+			UnityScreenNavigatorSettings.Initialize();
 
-            bootstrapScreen.LoadingProgress = 0.8f;
-            
-            await Nav.PreloadScreenAsync<MainScreen>();
+			if (await PlayfabManager.Instance.LoginAsync())
+			{
+				bootstrapScreen.LoadingProgress = 0.8f;
+				await GameData.Load();
 
-            bootstrapScreen.LoadingProgress = 1f;
+				Database.Load();
 
-            await Nav.PopCurrentScreenAsync(false);
-            await Nav.ShowScreenAsync<MainScreen>(false);
-            // ShowTopPage().Forget();
-        }
+				SaveSystem.LoadSave();
 
-        private void OnOnStagePassed()
-        {
+				AudioManager.Instance.IsBgmOn = PlayerPrefs.GetInt("Settings.MuteBGM", 0) == 0;
+				AudioManager.Instance.IsSfxOn = PlayerPrefs.GetInt("Settings.MuteSFX", 0) == 0;
 
-        }
+				bootstrapScreen.LoadingProgress = 0.8f;
 
-        private async UniTaskVoid ShowTopPage()
-        {
-            await Nav.ShowScreenAsync<MainScreen>(false);
-        }
-    }
+				await Nav.PreloadScreenAsync<MainScreen>();
+
+				bootstrapScreen.LoadingProgress = 1f;
+
+				await Nav.PopCurrentScreenAsync(false);
+				await Nav.ShowScreenAsync<MainScreen>(false);
+				// ShowTopPage().Forget();
+			}
+			else
+			{
+				bootstrapScreen.LoadingProgress = 1f;
+				Debug.LogError("TODO: Login Failed, show error message");
+			}
+		}
+
+		private void OnOnStagePassed()
+		{
+
+		}
+
+		private async UniTaskVoid ShowTopPage()
+		{
+			await Nav.ShowScreenAsync<MainScreen>(false);
+		}
+	}
 }

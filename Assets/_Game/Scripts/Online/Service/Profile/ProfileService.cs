@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using Online.Enum;
 using Online.Model;
 using Online.Model.ResponseAPI;
+using Online.Model.ResponseAPI.Profile;
 using PlayFab;
 using PlayFab.ClientModels;
 using UnityEngine;
@@ -26,24 +27,32 @@ namespace Online.Service
 
 		#endregion
 
-		public UniTask RequestUserProfileAsync()
+		public async UniTask<ProfileResponse> RequestProfileAsync(string playfabId)
 		{
-			return UniTask.WhenAll(GetProfileAsync(), GetUserReadOnlyDataAsync());
-		}
-		
-		public async UniTask<BaseResponse> RequestDisplayNameAsync()
-		{
-			var signal = new UniTaskCompletionSource<BaseResponse>();
-			PlayFabClientAPI.UpdateUserTitleDisplayName(new()
+			var signal = new UniTaskCompletionSource<ProfileResponse>();
+			PlayFabClientAPI.GetPlayerCombinedInfo(new()
 			{
-				DisplayName = "User" + Random.Range(1, 99999).ToString("D5")
+				PlayFabId = playfabId,
+				InfoRequestParameters = new()
+				{
+					GetPlayerProfile = true,
+					GetUserVirtualCurrency = true,
+					GetUserData = true,
+					GetUserReadOnlyData = true,
+					GetUserInventory = true,
+					GetUserAccountInfo = true,
+				}
 			}, (result) =>
 			{
-				DisplayName = result.DisplayName;
-				LogSuccess("Display Name: " + result.DisplayName);
-				signal.TrySetResult(new()
+				signal.TrySetResult(new ProfileResponse()
 				{
-					Result = true
+					Result = true,
+					PlayerProfileModel = result.InfoResultPayload.PlayerProfile,
+					UserVirtualCurrency = result.InfoResultPayload.UserVirtualCurrency,
+					UserData = result.InfoResultPayload.UserData,
+					UserReadOnlyData = result.InfoResultPayload.UserReadOnlyData,
+					UserInventory = result.InfoResultPayload.UserInventory,
+					UserAccountInfo = result.InfoResultPayload.AccountInfo
 				});
 			}, (error) =>
 			{
@@ -57,27 +66,20 @@ namespace Online.Service
 			return await signal.Task;
 		}
 
-		private async UniTask<BaseResponse> GetProfileAsync()
+		public async UniTask<string> RequestDisplayNameAsync(string newDisplayName)
 		{
-			var signal = new UniTaskCompletionSource<BaseResponse>();
-			PlayFabClientAPI.GetPlayerProfile(new()
+			var signal = new UniTaskCompletionSource<string>();
+			PlayFabClientAPI.UpdateUserTitleDisplayName(new()
 			{
-				PlayFabId = PlayfabID
+				DisplayName = newDisplayName
 			}, (result) =>
 			{
-				LoadProfile(result.PlayerProfile);
-				signal.TrySetResult(new()
-				{
-					Result = true
-				});
+				LogSuccess("Display Name: " + result.DisplayName);
+				signal.TrySetResult(result.DisplayName);
 			}, (error) =>
 			{
 				LogError(error.ErrorMessage);
-				signal.TrySetResult(new()
-				{
-					Result = false,
-					Error = EErrorCode.PlayfabError
-				});
+				signal.TrySetResult("");
 			});
 			return await signal.Task;
 		}
@@ -109,8 +111,8 @@ namespace Online.Service
 
 		public void LoadProfile(PlayerProfileModel playerProfile)
 		{
-			DisplayName = playerProfile.DisplayName;
 			PlayfabID = playerProfile.PlayerId;
+			DisplayName = playerProfile.DisplayName;
 			IsGuest = playerProfile.Origination is null or LoginIdentityProvider.Custom;
 		}
 

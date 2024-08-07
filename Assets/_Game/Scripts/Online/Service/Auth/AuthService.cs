@@ -30,12 +30,12 @@ namespace Online.Service
 			return _basePlatformAuth.LoginAsync();
 		}
 
-		public async Task LinkFacebook()
+		public async UniTask LinkFacebook()
 		{
 			await _basePlatformAuth.LinkFacebook();
 		}
 
-		public async Task UnlinkFacebook()
+		public async UniTask UnlinkFacebook()
 		{
 			await _basePlatformAuth.UnlinkFacebook();
 		}
@@ -48,12 +48,6 @@ namespace Online.Service
 		public override void LogError(string error)
 		{
 			LogEvent(true, error, "Auth");
-		}
-
-		public class LoginResult
-		{
-			public ELoginStatus Status;
-			public GetPlayerCombinedInfoResultPayload Payload;
 		}
 	}
 }
