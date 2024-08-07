@@ -725,8 +725,9 @@ namespace _Game.Features.MergeScreen
         [Binding]
         public async void OnClickConfirm()
         {
-            await PlayfabManager.Instance.CombineItems(_itemsSelected);
-
+            var resUpgrade = await PlayfabManager.Instance.CombineItems(_itemsSelected);
+            if (!resUpgrade.Result) return;
+            
             IsActiveSuccesFul = true;
             if (ItemTarget.RarityLevel == "0")
                 NextRarity = $"{ItemTarget.Rarity}";

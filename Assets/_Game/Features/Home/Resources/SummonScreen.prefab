@@ -5571,8 +5571,8 @@ GameObject:
   - component: {fileID: 4585028615629970755}
   - component: {fileID: 8412559426118692713}
   - component: {fileID: 7287248413749765828}
-  - component: {fileID: 623884580723034276}
   - component: {fileID: 3609171885113053414}
+  - component: {fileID: 6739978389341311582}
   m_Layer: 5
   m_Name: ButtonGem
   m_TagString: Untagged
@@ -5711,20 +5711,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   viewModelMethodName: _Game.Features.Shop.ShopSummonViewModel.OnClickStartGacha
   viewEventName: UnityEngine.UI.Button.onClick
---- !u!114 &623884580723034276
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6114172640804782392}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1360956885, guid: e650e72e8be47794994495fc15c0ba63, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  viewModelMethodName: _Game.Features.Shop.ShopSummonItem.GetIDItemGacha
-  viewEventName: UnityEngine.UI.Button.onClick
 --- !u!114 &3609171885113053414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5741,6 +5727,20 @@ MonoBehaviour:
   viewAdapterOptions: {fileID: 0}
   viewModelPropertyName: _Game.Features.Shop.ShopSummonItem.Interactable
   viewPropertyName: UnityEngine.UI.Button.interactable
+--- !u!114 &6739978389341311582
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6114172640804782392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1360956885, guid: e650e72e8be47794994495fc15c0ba63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  viewModelMethodName: _Game.Features.Shop.ShopSummonItem.GetInfoSummonItem
+  viewEventName: UnityEngine.UI.Button.onClick
 --- !u!1 &6158977702967323996
 GameObject:
   m_ObjectHideFlags: 0

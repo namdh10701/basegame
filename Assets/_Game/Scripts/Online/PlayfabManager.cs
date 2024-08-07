@@ -76,7 +76,7 @@ namespace Online
 			await LoadDatabase();
 
 			Debug.Log("PlayfabID: " + loginResponse.PlayfabID);
-			
+
 			if (loginResponse.Status == ELoginStatus.Newly)
 			{
 				await Profile.RequestDisplayNameAsync();
@@ -123,10 +123,11 @@ namespace Online
 			return resUpgrade;
 		}
 
-		public async UniTask CombineItems(List<string> itemInstanceIds)
+		public async UniTask<CombineItemsResponse> CombineItems(List<string> itemInstanceIds)
 		{
 			var resUpgrade = await Inventory.CombineItems(itemInstanceIds);
 			Inventory.RefundBlueprints(resUpgrade.RefundBlueprints);
+			return resUpgrade;
 		}
 
 		public void RunCoroutine(IEnumerator coroutine)

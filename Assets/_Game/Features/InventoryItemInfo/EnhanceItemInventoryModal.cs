@@ -500,7 +500,7 @@ namespace _Game.Features.InventoryItemInfo
                 LoadData();
             }
             else
-                Debug.Log("{OnUpgradeItem]" + resUpgrade.Error);
+                Debug.Log("[OnUpgradeItem]" + resUpgrade.Error);
 
         }
 
@@ -519,7 +519,7 @@ namespace _Game.Features.InventoryItemInfo
                     break;
                 }
             }
-            RemoveItemsBlueSprint();
+            // RemoveItemsBlueSprint();
 
         }
 
