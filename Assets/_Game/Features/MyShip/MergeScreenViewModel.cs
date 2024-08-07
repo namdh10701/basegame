@@ -649,6 +649,7 @@ namespace _Game.Features.MergeScreen
 
         private void LoadStarsItem(InventoryItem item, ObservableList<Star> stars)
         {
+            stars.Clear();
             if (item.Type == ItemType.CREW || item.Type == ItemType.MISC) return;
 
             for (int i = 0; i < int.Parse(item.RarityLevel); i++)
@@ -719,6 +720,8 @@ namespace _Game.Features.MergeScreen
                     ItemTarget.Slot = ammoRecord.Slot;
                     break;
             }
+            OnPropertyChanged(nameof(SpriteItemTarget));
+
 
         }
 
@@ -727,7 +730,7 @@ namespace _Game.Features.MergeScreen
         {
             var resUpgrade = await PlayfabManager.Instance.CombineItems(_itemsSelected);
             if (!resUpgrade.Result) return;
-            
+
             IsActiveSuccesFul = true;
             if (ItemTarget.RarityLevel == "0")
                 NextRarity = $"{ItemTarget.Rarity}";

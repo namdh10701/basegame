@@ -76,7 +76,7 @@ namespace Online
 			await LoadDatabase();
 
 			Debug.Log("PlayfabID: " + loginResponse.PlayfabID);
-
+			
 			if (loginResponse.Status == ELoginStatus.Newly)
 			{
 				await Profile.RequestDisplayNameAsync();
