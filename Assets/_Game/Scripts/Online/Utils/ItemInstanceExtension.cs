@@ -15,7 +15,7 @@ namespace Online
 
 			var itemId = idParts[1];
 
-			int level = 1;
+			int level = 0;
 			if (itemInstance.CustomData != null && itemInstance.CustomData.TryGetValue(C.NameConfigs.Level, out var levelData))
 			{
 				level = System.Convert.ToInt32(levelData);
