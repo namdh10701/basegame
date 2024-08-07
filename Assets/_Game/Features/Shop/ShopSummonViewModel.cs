@@ -580,8 +580,15 @@ namespace _Game.Features.Shop
             }
             catch (System.Exception ex)
             {
+                IsActivePopupLoading = false;
                 Debug.LogError("GachaAsync" + ex.Message);
             }
+            if (!gachaResponse.Result)
+            {
+                IsActivePopupLoading = false;
+                return;
+            }
+
 
             var itemDatas = gachaResponse.GetItems();
             foreach (var item in itemDatas)
