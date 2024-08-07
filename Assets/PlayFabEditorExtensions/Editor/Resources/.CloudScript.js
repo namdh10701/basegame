@@ -95,6 +95,10 @@ const ERarity = Object.freeze({
     Common: 0, Good: 1, Rare: 2, Epic: 3, Legendary: 4
 });
 
+const ERarity = Object.freeze({
+    Common: 0, Good: 1, Rare: 2, Epic: 3, Legendary: 4
+});
+
 const EBlueprintId = Object.freeze({
     Ship: "res_blueprint_ship",
     Cannon: "res_blueprint_cannon",
@@ -1108,6 +1112,14 @@ handlers.ProfileRankDown = function (args, context) {
             PlayFabId: currentPlayerId, Data: newRank
         });
     }
+};
+
+handlers.EndCaptainSeason = function (args, context) {
+    
+};
+
+handlers.EndConquerSeason = function (args, context) {
+    
 };
 
 handlers.RequestSeasonInfo = function (args, context) {
