@@ -88,7 +88,7 @@ const ERank = Object.freeze({
 });
 
 const EVirtualCurrency = Object.freeze({
-    Gold: 'GO', Gem: 'GE', Energy: 'EN', Ticket: 'TI', Diamond: 'DI', Key: 'KE', FreeTicket: 'FT'
+    Gold: 'GO', Gem: 'GE', Energy: 'EN', Ticket: 'TI', Diamond: 'DI', Key: 'KE'
 });
 
 const EBlueprintId = Object.freeze({
@@ -1031,6 +1031,70 @@ class GSheetFetcher {
 /// Ranking Functions
 ///
 
+handlers.ProfileRankUp = function (args, context) {
+    let resReadOnlyData = server.GetUserReadOnlyData({
+        PlayFabId: currentPlayerId,
+        Keys: [ProfileField.Rank]
+    });
+
+    if (resReadOnlyData.Data.hasOwnProperty(ProfileField.Rank)) {
+        let newRank = {};
+        switch (resReadOnlyData.Data[ProfileField.Rank].Value) {
+            case ERank.Rookie:
+                newRank[ProfileField.Rank] = ERank.Gunner;
+                break;
+
+            case ERank.Gunner:
+                newRank[ProfileField.Rank] = ERank.Hunter;
+                break;
+
+            case ERank.Hunter:
+                newRank[ProfileField.Rank] = ERank.Captain;
+                break;
+
+            case ERank.Captain:
+                newRank[ProfileField.Rank] = ERank.Conquer;
+                break;
+        }
+        log.debug('Response', newRank);
+        server.UpdateUserReadOnlyData({
+            PlayFabId: currentPlayerId, Data: newRank
+        });
+    }
+};
+
+handlers.ProfileRankDown = function (args, context) {
+    
+    let resReadOnlyData = server.GetUserReadOnlyData({
+        PlayFabId: currentPlayerId,
+        Keys: [ProfileField.Rank]
+    });
+
+    if (resReadOnlyData.Data.hasOwnProperty(ProfileField.Rank)) {
+        let newRank = {};
+        switch (resReadOnlyData.Data[ProfileField.Rank].Value) {
+            case ERank.Gunner:
+                newRank[ProfileField.Rank] = ERank.Rookie;
+                break;
+
+            case ERank.Hunter:
+                newRank[ProfileField.Rank] = ERank.Gunner;
+                break;
+
+            case ERank.Captain:
+                newRank[ProfileField.Rank] = ERank.Hunter;
+                break;
+
+            case ERank.Conquer:
+                newRank[ProfileField.Rank] = ERank.Captain;
+                break;
+        }
+        server.UpdateUserReadOnlyData({
+            PlayFabId: currentPlayerId, Data: newRank
+        });
+    }
+};
+
 handlers.RequestSeasonInfo = function (args, context) {
     var response = server.GetTitleInternalData({Keys: [InternalDatabase.RankInfo]});
     if (response.Data == null || !response.Data.hasOwnProperty(InternalDatabase.RankInfo)) {
@@ -1045,7 +1109,6 @@ handlers.RequestSeasonInfo = function (args, context) {
         SeasonInfo: JSON.parse(response.Data[InternalDatabase.RankInfo])
     };
 };
-
 
 const GrantRankBattleReward = function (userLevel, userExp, userRank, dmg) {
     let resTitleData = server.GetTitleInternalData({Keys: [InternalDatabase.UserLevelsDB, InternalDatabase.RankingBattleRewardDB]});
@@ -1132,8 +1195,7 @@ handlers.CreateRankTicket = function (args, context) {
     }
 
     let ticketCount = resInventory.VirtualCurrency[EVirtualCurrency.Ticket];
-    let freeTicketCount = resInventory.VirtualCurrency[EVirtualCurrency.FreeTicket];
-    if (ticketCount + freeTicketCount < ticketPerMatch) {
+    if (ticketCount < ticketPerMatch) {
         return {
             Result: false, Error: EErrorCode.NotEnoughTicket
         };
@@ -1144,12 +1206,11 @@ handlers.CreateRankTicket = function (args, context) {
         PlayFabId: currentPlayerId, VirtualCurrency: EVirtualCurrency.Energy, Amount: energyPerMatch
     });
     result.VirtualCurrency[EVirtualCurrency.Energy] = resSubEnergy.Balance
-    
-    let ticketCode = (freeTicketCount > 0) ? EVirtualCurrency.FreeTicket : EVirtualCurrency.Ticket;
+
     var resSubTicket = server.SubtractUserVirtualCurrency({
-        PlayFabId: currentPlayerId, VirtualCurrency: ticketCode, Amount: ticketPerMatch
+        PlayFabId: currentPlayerId, VirtualCurrency: EVirtualCurrency.Ticket, Amount: ticketPerMatch
     });
-    result.VirtualCurrency[ticketCode] = resSubTicket.Balance
+    result.VirtualCurrency[EVirtualCurrency.Ticket] = resSubTicket.Balance
 
     result.TicketId = GenerateGUID();
     let userData = {};
