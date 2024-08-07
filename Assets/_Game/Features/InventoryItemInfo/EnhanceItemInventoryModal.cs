@@ -417,7 +417,7 @@ namespace _Game.Features.InventoryItemInfo
         private string _valueExtra;
         #endregion
 
-        List<ItemData> _miscs = new List<ItemData>();
+        List<ItemData> _blueSprints = new List<ItemData>();
         InventoryItemUpgradeTableRecord _inventoryItemUpgradeTableRecord = new InventoryItemUpgradeTableRecord();
         public override async UniTask Initialize(Memory<object> args)
         {
@@ -429,7 +429,7 @@ namespace _Game.Features.InventoryItemInfo
         {
             SetDataInventoryItem(InventoryItem);
             _inventoryItemUpgradeTableRecord = LoadConfigUpgrade(InventoryItem);
-            GetResourcesOwner(Type);
+            GetResourcesOwner(ItemType.BLUEPRINT, Type.ToString().ToLower());
         }
 
         protected void SetDataInventoryItem(InventoryItem inventoryItem)
@@ -448,17 +448,16 @@ namespace _Game.Features.InventoryItemInfo
             LoadStarsItem();
         }
 
-        protected void GetResourcesOwner(ItemType itemType)
+        protected void GetResourcesOwner(ItemType itemType, string id)
         {
-            NumbMiscItemOwner = 0;
             foreach (var item in SaveSystem.GameSave.OwnedItems)
             {
-                if (item.ItemId == itemType.ToString().ToLower())
+                if (item.ItemId == id && item.ItemType == itemType)
                 {
-                    _miscs.Add(item);
-                    NumbMiscItemOwner++;
+                    _blueSprints.Add(item);
                 }
             }
+            NumbMiscItemOwner = _blueSprints.Count;
             LoadConfigUpgrade();
 
         }
@@ -507,7 +506,6 @@ namespace _Game.Features.InventoryItemInfo
 
         protected void UpdataDataItemOwner(ItemType itemType)
         {
-            int itemsRemoved = 0;
             string targetItemId = itemType.ToString().ToLower();
 
             foreach (var item in SaveSystem.GameSave.OwnedItems)
@@ -521,21 +519,32 @@ namespace _Game.Features.InventoryItemInfo
                     break;
                 }
             }
+            RemoveItemsBlueSprint();
 
-            for (int i = SaveSystem.GameSave.OwnedItems.Count - 1; i >= 0; i--)
+        }
+
+        private void RemoveItemsBlueSprint()
+        {
+            if (NumbMiscItemRequired == 0) return;
+            var blueprintsRemove = new List<ItemData>();
+            var amountsBlueprintsRemove = 0;
+            foreach (var item in SaveSystem.GameSave.OwnedItems)
             {
-                if (SaveSystem.GameSave.OwnedItems[i].ItemId == targetItemId)
+                if (amountsBlueprintsRemove == NumbMiscItemRequired) return;
+                if (item.ItemType == ItemType.BLUEPRINT && item.ItemId == Type.ToString().ToLower())
                 {
-                    SaveSystem.GameSave.OwnedItems.RemoveAt(i);
-                    itemsRemoved++;
-
-                    if (itemsRemoved >= NumbMiscItemRequired)
-                    {
-                        break;
-                    }
+                    blueprintsRemove.Add(item);
+                    amountsBlueprintsRemove++;
                 }
             }
-            SaveSystem.SaveGame();
+
+            if (blueprintsRemove.Count > 0)
+            {
+                foreach (var item in blueprintsRemove)
+                {
+                    SaveSystem.GameSave.OwnedItems.Remove(item);
+                }
+            }
         }
 
         protected void ChangeValuePropertyUpgrade()
