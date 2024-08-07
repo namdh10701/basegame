@@ -85,6 +85,7 @@ namespace Online
 				Equipment.LoadEquipmentShip(profileResponse.UserData);
 				Inventory.LoadVirtualCurrency(profileResponse.UserVirtualCurrency);
 				Inventory.LoadItems(profileResponse.UserInventory);
+				Auth.LoadAccountInfo(profileResponse.UserAccountInfo);
 
 				await LoadUserRankInfoAsync();
 
