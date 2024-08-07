@@ -29,7 +29,7 @@ namespace _Game.Features.Ranking
             //     }).ToList()
             // );
             
-            foreach (var rank in Enum.GetValues(typeof(ERank)).Cast<ERank>().Skip(1).Reverse())
+            foreach (var rank in Enum.GetValues(typeof(ERank)).Cast<ERank>().Reverse())
             {
                 var rec = new ClaimRewardBundle
                 {

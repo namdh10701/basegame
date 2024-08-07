@@ -396,7 +396,7 @@ namespace _Game.Features.Inventory
                 }
 
                 // misc
-                else if (item.ItemType == ItemType.MISC)
+                else if (item.IsMisc())
                 {
                     inventoryItem = new InventoryItem
                     {

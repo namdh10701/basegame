@@ -41,6 +41,11 @@ namespace _Game.Scripts.SaveLoad
             Level = levelItem;
             Rarity = rarity;
         }
+
+        public bool IsMisc()
+        {
+            return ItemType is ItemType.BLUEPRINT or ItemType.KEY or ItemType.TICKET;
+        }
     }
 
     [Serializable]
