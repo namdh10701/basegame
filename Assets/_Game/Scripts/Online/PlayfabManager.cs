@@ -67,6 +67,7 @@ namespace Online
 		public async UniTask<bool> LoginAsync()
 		{
 			var loginResponse = await Auth.LoginAsync();
+			
 			if (loginResponse.Result)
 			{
 				await LoadDatabase();

@@ -16,9 +16,7 @@ namespace Online.Service
 		public override void Initialize(IPlayfabManager manager)
 		{
 			base.Initialize(manager);
-#if UNITY_EDITOR
-			_basePlatformAuth = new EditorAuth();
-#elif UNITY_IOS
+#if UNITY_IOS
 			_basePlatformAuth = new IOSAuth();
 #else
 			_basePlatformAuth = new AndroidAuth();
