@@ -9,7 +9,7 @@ namespace Online.Interface
 		public int Gold { get; }
 		public int Gem { get; }
 		public int Energy { get; }
-		public List<ItemData> Items { get; }
+		public Dictionary<string, ItemData> ItemMaps { get; }
 
 		public UniTask<bool> RequestInventoryAsync();
 	}

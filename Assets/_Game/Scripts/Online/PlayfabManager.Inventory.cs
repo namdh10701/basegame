@@ -10,7 +10,7 @@ namespace Online
 {
 	public partial class PlayfabManager : IInventoryService
 	{
-		public List<ItemData> Items => Inventory.Items;
+		public Dictionary<string, ItemData> ItemMaps => Inventory.ItemMaps;
 		public int Gold => Inventory.Currencies[EVirtualCurrency.Gold];
 		public int Gem => Inventory.Currencies[EVirtualCurrency.Gem];
 		public int Energy => Inventory.Currencies[EVirtualCurrency.Energy];

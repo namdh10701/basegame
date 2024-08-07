@@ -115,13 +115,15 @@ namespace Online
 			var resUpgrade = await Inventory.EnhanceItem(itemInstanceId);
 			Inventory.UpdateItemData(resUpgrade.ItemUpgrade);
 			Inventory.LoadVirtualCurrency(resUpgrade.VirtualCurrency);
-			Inventory.RevokeBlueprints(resUpgrade.RevokeBlueprintIDs);
+			Inventory.RemoveItems(resUpgrade.RevokeBlueprintIDs);
 			return resUpgrade;
 		}
 
-		public async UniTask<CombineItemsResponse> CombineItems(List<string> itemInstanceIds)
+		public async UniTask<CombineItemRespons> CombineItems(List<string> itemInstanceIds)
 		{
 			var resUpgrade = await Inventory.CombineItems(itemInstanceIds);
+			Inventory.RemoveItems(itemInstanceIds);
+			Inventory.AddItems(new () { resUpgrade.Item });
 			Inventory.RefundBlueprints(resUpgrade.RefundBlueprints);
 			return resUpgrade;
 		}
