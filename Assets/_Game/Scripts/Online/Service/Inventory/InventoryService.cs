@@ -101,6 +101,12 @@ namespace Online.Service
 			}
 		}
 
+		public void UpdateItemData(ItemInstance itemData)
+		{
+			Items.RemoveAll(val => val.OwnItemId == itemData.ItemInstanceId);
+			Items.Add(itemData.GetItemData());
+		}
+
 		public void LoadItems(List<ItemInstance> items)
 		{
 			Items = items.ToItemData();
@@ -118,27 +124,38 @@ namespace Online.Service
 			// Items.RemoveAll(val => revokeBlueprints.Contains(val.OwnItemId));
 		}
 
-		public async UniTask<UpgradeItemResponse> UpgradeItem(string instanceId)
+		/// <summary>
+		/// Enhance level of an item
+		/// </summary>
+		/// <param name="instanceId">User instance item id </param>
+		/// <returns>
+		/// Result: true if succeed, false if failed
+		/// Error: Error code if failed, such as: ItemNotMatch, NotEnoughGold, NotEnoughBlueprint, PlayfabError
+		/// ItemUpgrade: Item data after upgrade
+		/// VirtualCurrency: Virtual Currency amount changed
+		/// RevokeBlueprintIDs: List of blueprint id that need to be revoked
+		/// </returns>
+		public async UniTask<EnhanceItemResponse> EnhanceItem(string instanceId)
 		{
-			UniTaskCompletionSource<UpgradeItemResponse> signal = new UniTaskCompletionSource<UpgradeItemResponse>();
+			UniTaskCompletionSource<EnhanceItemResponse> signal = new UniTaskCompletionSource<EnhanceItemResponse>();
 			var itemData = Items.Find(val => val.OwnItemId == instanceId);
 			if (itemData != null)
 			{
 				PlayFabClientAPI.ExecuteCloudScript(new()
 				{
-					FunctionName = C.CloudFunction.UpgradeItem,
-					FunctionParameter = new UpgradeItemRequest()
+					FunctionName = C.CloudFunction.EnhanceItem,
+					FunctionParameter = new EnhanceItemRequest()
 					{
 						ItemInstanceId = instanceId
 					}
 				}, result =>
 				{
-					LogSuccess("Upgraded Item!");
-					signal.TrySetResult(JsonConvert.DeserializeObject<UpgradeItemResponse>(result.FunctionResult.ToString()));
+					LogSuccess("UpgradeItem, Succeed!");
+					signal.TrySetResult(JsonConvert.DeserializeObject<EnhanceItemResponse>(result.FunctionResult.ToString()));
 				}, error =>
 				{
-					LogError(error.ErrorMessage);
-					signal.TrySetResult(new UpgradeItemResponse()
+					LogError("UpgradeItem, Error: " + error.ErrorMessage);
+					signal.TrySetResult(new EnhanceItemResponse()
 					{
 						Result = false,
 						Error = EErrorCode.PlayfabError

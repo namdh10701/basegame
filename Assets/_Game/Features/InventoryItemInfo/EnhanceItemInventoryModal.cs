@@ -485,7 +485,7 @@ namespace _Game.Features.InventoryItemInfo
         [Binding]
         public async void OnUpgradeItem()
         {
-            var resUpgrade = await PlayfabManager.Instance.UpgradeItem(OnwItemId);
+            var resUpgrade = await PlayfabManager.Instance.EnhanceItem(OnwItemId);
 
             if (resUpgrade.Result)
             {

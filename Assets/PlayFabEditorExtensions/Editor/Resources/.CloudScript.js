@@ -88,7 +88,7 @@ const ERank = Object.freeze({
 });
 
 const EVirtualCurrency = Object.freeze({
-    Gold: 'GO', Gem: 'GE', Energy: 'EN', Ticket: 'TI', Diamond: 'DI', Key: 'KE'
+    Gold: 'GO', Gem: 'GE', Energy: 'EN', Ticket: 'TI', Diamond: 'DI', Key: 'KE', FreeTicket: 'FT'
 });
 
 const EBlueprintId = Object.freeze({
@@ -284,16 +284,16 @@ const CombineItem = function (configId, itemType, itemLevel, blueprints) {
     };
 };
 
-handlers.UpgradeItem = function (args, context) {
+handlers.EnhanceItem = function (args, context) {
     var reqInventory = {
         PlayFabId: currentPlayerId
     };
     var resultInventory = server.GetUserInventory(reqInventory);
 
-    var upgradeItem = resultInventory.Inventory.find(val => val.ItemInstanceId == args.ItemInstanceId);
-    if (upgradeItem != null) {
-        const nextLevel = parseInt(upgradeItem.CustomData?.Level ?? 0) + 1;
-        const parts = upgradeItem.ItemId.split('_');
+    var enhanceItem = resultInventory.Inventory.find(val => val.ItemInstanceId == args.ItemInstanceId);
+    if (enhanceItem != null) {
+        const nextLevel = parseInt(enhanceItem.CustomData?.Level ?? 0) + 1;
+        const parts = enhanceItem.ItemId.split('_');
         const itemType = parts[0];
 
         let blueprintId = "";
@@ -307,6 +307,10 @@ handlers.UpgradeItem = function (args, context) {
             case EItemType.Ammo:
                 blueprintId = EItemType.Blueprint + '_' + EItemType.Ammo;
                 break;
+            default:
+                return {
+                    Result: false, Error: EErrorCode.ItemNotMatch
+                };
         }
 
         // Get Upgrade Config
@@ -333,12 +337,12 @@ handlers.UpgradeItem = function (args, context) {
         }
 
         // Increase Level Item
-        upgradeItem.CustomData = {
+        enhanceItem.CustomData = {
             Level: nextLevel,
         };
         var reqUpgrade = {
             PlayFabId: currentPlayerId, ItemInstanceId: args.ItemInstanceId, Data: {
-                Level: upgradeItem.CustomData.Level
+                Level: enhanceItem.CustomData.Level
             }
         };
         var resUpgrade = server.UpdateUserInventoryItemCustomData(reqUpgrade);
@@ -359,7 +363,7 @@ handlers.UpgradeItem = function (args, context) {
         }
 
         var resultResponse = {
-            Result: true, ItemUpgrade: upgradeItem, VirtualCurrency: {}, RevokeBlueprintIDs: revokeIDs
+            Result: true, ItemUpgrade: enhanceItem, VirtualCurrency: {}, RevokeBlueprintIDs: revokeIDs
         };
 
         resultResponse.VirtualCurrency[EVirtualCurrency.Gold] = resSubGold.Balance;
@@ -1128,7 +1132,8 @@ handlers.CreateRankTicket = function (args, context) {
     }
 
     let ticketCount = resInventory.VirtualCurrency[EVirtualCurrency.Ticket];
-    if (ticketCount < ticketPerMatch) {
+    let freeTicketCount = resInventory.VirtualCurrency[EVirtualCurrency.FreeTicket];
+    if (ticketCount + freeTicketCount < ticketPerMatch) {
         return {
             Result: false, Error: EErrorCode.NotEnoughTicket
         };
@@ -1139,11 +1144,12 @@ handlers.CreateRankTicket = function (args, context) {
         PlayFabId: currentPlayerId, VirtualCurrency: EVirtualCurrency.Energy, Amount: energyPerMatch
     });
     result.VirtualCurrency[EVirtualCurrency.Energy] = resSubEnergy.Balance
-
+    
+    let ticketCode = (freeTicketCount > 0) ? EVirtualCurrency.FreeTicket : EVirtualCurrency.Ticket;
     var resSubTicket = server.SubtractUserVirtualCurrency({
-        PlayFabId: currentPlayerId, VirtualCurrency: EVirtualCurrency.Ticket, Amount: ticketPerMatch
+        PlayFabId: currentPlayerId, VirtualCurrency: ticketCode, Amount: ticketPerMatch
     });
-    result.VirtualCurrency[EVirtualCurrency.Ticket] = resSubTicket.Balance
+    result.VirtualCurrency[ticketCode] = resSubTicket.Balance
 
     result.TicketId = GenerateGUID();
     let userData = {};

@@ -3,7 +3,7 @@ using _Game.Scripts.SaveLoad;
 using PlayFab.ClientModels;
 namespace Online.Model.ResponseAPI.Inventory
 {
-	public class UpgradeItemResponse : BaseResponse
+	public class EnhanceItemResponse : BaseResponse
 	{
 		public ItemInstance ItemUpgrade { get; set; }
 		public Dictionary<string, int> VirtualCurrency { get; set; }

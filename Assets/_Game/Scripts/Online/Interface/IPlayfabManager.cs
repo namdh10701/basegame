@@ -15,7 +15,7 @@ namespace Online.Interface
 		public EquipmentService Equipment { get; }
 		public RankingService Ranking { get; }
 		
-		UniTask<UpgradeItemResponse> UpgradeItem(string itemInstanceId);
+		UniTask<EnhanceItemResponse> EnhanceItem(string itemInstanceId);
 		UniTask CombineItems(List<string> itemInstanceIds);
 		UniTask ReportLimitPackage(string storeId);
 

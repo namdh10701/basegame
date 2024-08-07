@@ -26,7 +26,7 @@ namespace Online
 
 		public static class CloudFunction
 		{
-			public const string UpgradeItem = "UpgradeItem";
+			public const string EnhanceItem = "EnhanceItem";
 			public const string CombineItems = "CombineItems";
 			public const string BonusGold = "BonusGold";
 			public const string ReportLimitPackage = "ReportLimitPackage";
