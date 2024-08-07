@@ -6,7 +6,7 @@ namespace Online.Model.ResponseAPI
 {
 	public class GachaResponse : BaseResponse
 	{
-		public ItemInstance[] Items { get; set; }
+		public List<ItemInstance> Items { get; set; }
 		public Dictionary<string, int> VirtualCurrency { get; set; }
 
 		public List<ItemData> GetItems()
