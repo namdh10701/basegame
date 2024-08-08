@@ -17,6 +17,9 @@ namespace Online.Service.Auth
 			string deviceID = SystemInfo.deviceUniqueIdentifier;
 			if (deviceID == "295087CA-A8F0-506A-A012-DBCF4DECA026")
 				deviceID = "295087CA-A8F0-506A-A012-DBCF4DECA036";
+			
+			if (deviceID == "751F12DF-5CEA-5889-8903-8D4A651DCAB4")
+				deviceID = "751F12DF-5CEA-5889-8903-8D4A651DCAB5";
 
 			UniTaskCompletionSource<LoginResponse> signal = new UniTaskCompletionSource<LoginResponse>();
 			PlayFabClientAPI.LoginWithCustomID(new LoginWithCustomIDRequest()

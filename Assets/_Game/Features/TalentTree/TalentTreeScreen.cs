@@ -234,7 +234,7 @@ namespace _Game.Features.TalentTree
             }
         }
 
-        private int _nextLevelNeedResAmount;
+        private int _nextLevelNeedResAmount = 1;
 
         #endregion
 

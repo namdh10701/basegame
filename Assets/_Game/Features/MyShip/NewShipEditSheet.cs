@@ -793,6 +793,7 @@ namespace _Game.Features.MyShip
 
         public void Ship_SetSlot(Vector2Int pos, InventoryItem inventoryItem)
         {
+            Debug.Log("pos: " + pos);
             var gridLayoutGroup = GetComponentInChildren<SlotGrid>().GetComponent<GridLayoutGroup>();
             var placementPane = GetComponentInChildren<PlacementPane>(false).transform;
             

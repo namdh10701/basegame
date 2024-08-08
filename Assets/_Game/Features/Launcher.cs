@@ -1,5 +1,6 @@
 ﻿using _Base.Scripts.Audio;
 using _Game.Features.Bootstrap;
+using _Game.Features.Dialogs;
 using _Game.Features.Home;
 using _Game.Scripts.DB;
 using _Game.Scripts.GD.DataManager;
@@ -8,7 +9,6 @@ using _Game.Scripts.UI.Utils;
 using Cysharp.Threading.Tasks;
 using Online;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using ZBase.UnityScreenNavigator.Core;
 using ZBase.UnityScreenNavigator.Core.Windows;
 
@@ -26,6 +26,15 @@ namespace _Game.Features
 		protected override async void OnPostCreateContainers()
 		{
 			var bootstrapScreen = await Nav.ShowScreenAsync<BootstrapScreen>(false);
+			bootstrapScreen.LoadingProgress = 0.1f;
+
+			var isLoggedIn = await PlayfabManager.Instance.LoginAsync();
+
+			if (!isLoggedIn)
+			{
+				await AlertModal.Show("Login failed, please restart to try again!");
+				return;
+			}
 
 			if (!PlayerPrefs.HasKey("PlayingStage"))
 			{
@@ -34,36 +43,26 @@ namespace _Game.Features
 
 			Application.targetFrameRate = 120;
 			UnityScreenNavigatorSettings.Initialize();
-			//Debug.unityLogger.logEnabled = false;
-			if (await PlayfabManager.Instance.LoginAsync())
-			{
-				bootstrapScreen.LoadingProgress = 0.8f;
-				await GameData.Load();
 
-				Database.Load();
+			bootstrapScreen.LoadingProgress = 0.5f;
+			await GameData.Load();
 
-				SaveSystem.LoadSave();
+			Database.Load();
 
-				AudioManager.Instance.IsBgmOn = PlayerPrefs.GetInt("Settings.MuteBGM", 0) == 0;
-				AudioManager.Instance.IsSfxOn = PlayerPrefs.GetInt("Settings.MuteSFX", 0) == 0;
+			SaveSystem.LoadSave();
 
-				bootstrapScreen.LoadingProgress = 0.8f;
+			AudioManager.Instance.IsBgmOn = PlayerPrefs.GetInt("Settings.MuteBGM", 0) == 0;
+			AudioManager.Instance.IsSfxOn = PlayerPrefs.GetInt("Settings.MuteSFX", 0) == 0;
 
-				await Nav.PreloadScreenAsync<MainScreen>();
+			bootstrapScreen.LoadingProgress = 0.8f;
 
-                await SceneManager.LoadSceneAsync("HaborScene", LoadSceneMode.Additive);
-                bootstrapScreen.LoadingProgress = 1f;
-                SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(2));
+			await Nav.PreloadScreenAsync<MainScreen>();
 
-                await Nav.PopCurrentScreenAsync(false);
-				await Nav.ShowScreenAsync<MainScreen>(false);
-				// ShowTopPage().Forget();
-			}
-			else
-			{
-				bootstrapScreen.LoadingProgress = 1f;
-				Debug.LogError("TODO: Login Failed, show error message");
-			}
+			bootstrapScreen.LoadingProgress = 1f;
+
+			await Nav.PopCurrentScreenAsync(false);
+			await Nav.ShowScreenAsync<MainScreen>(false);
+			// ShowTopPage().Forget();
 		}
 
 		private void OnOnStagePassed()

@@ -335,6 +335,9 @@ namespace _Game.Scripts.DB
                 case ItemType.CANNON: return GetCannonImage(id);
                 case ItemType.CREW: return GetCrewImage(id);
                 case ItemType.MISC: return GetResource(id);
+                case ItemType.BLUEPRINT: return GetResource(id);
+                case ItemType.KEY: return GetResource(id);
+                case ItemType.TICKET: return GetResource(id);
             }
 
             return null;
