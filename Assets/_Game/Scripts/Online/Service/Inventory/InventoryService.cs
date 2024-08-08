@@ -22,14 +22,12 @@ namespace Online.Service
 		/// </summary>
 		public event Action<EVirtualCurrency, int> OnCurrencyChanged;
 
-		public Dictionary<EVirtualCurrency, int> Currencies { get; private set; }
-		public List<ItemData> Items { get; private set; }
+		public Dictionary<EVirtualCurrency, int> Currencies { get; private set; } = new();
+		public Dictionary<string, ItemData> ItemMaps { get; private set; } = new();
 
 		public override void Initialize(IPlayfabManager manager)
 		{
 			base.Initialize(manager);
-
-			Items = new();
 			Currencies = new Dictionary<EVirtualCurrency, int>()
 			{
 				{
@@ -59,21 +57,6 @@ namespace Online.Service
 			};
 		}
 
-		[Obsolete("Use RequestInventoryAsync instead")]
-		public void RequestInventory(System.Action<bool> cb = null)
-		{
-			PlayFabClientAPI.GetUserInventory(new(), result =>
-			{
-				LoadVirtualCurrency(result.VirtualCurrency);
-				LoadItems(result.Inventory);
-				cb?.Invoke(true);
-			}, error =>
-			{
-				LogError(error.ErrorMessage);
-				cb?.Invoke(false);
-			});
-		}
-
 		public async Task<bool> RequestInventoryAsync()
 		{
 			var resp = await PlayFabAsync.PlayFabClientAPI.GetUserInventoryAsync(new());
@@ -101,35 +84,56 @@ namespace Online.Service
 			}
 		}
 
-		public void UpdateItemData(ItemInstance itemData)
+		public void UpdateItemData(ItemInstance newItem)
 		{
-			Items.RemoveAll(val => val.OwnItemId == itemData.ItemInstanceId);
-			Items.Add(itemData.GetItemData());
+			var newItemData = newItem.GetItemData();
+			if (ItemMaps.TryGetValue(newItem.ItemInstanceId, out var itemData))
+			{
+				itemData.Level = newItemData.Level;
+				itemData.RarityLevel = newItemData.RarityLevel;
+				itemData.Rarity = newItemData.Rarity;
+			}
+			else
+			{
+				ItemMaps.Add(newItem.ItemInstanceId, newItem.GetItemData());
+			}
 		}
 
 		public void LoadItems(List<ItemInstance> items)
 		{
-			Items = items.ToItemData();
+			ItemMaps.Clear();
+			foreach (var item in items)
+			{
+				ItemMaps.Add(item.ItemInstanceId, item.GetItemData());
+			}
 		}
 
 		public void AddItems(List<ItemInstance> newItems)
 		{
 			foreach (var item in newItems)
 			{
-				Items.Add(item.GetItemData());
+				ItemMaps.Add(item.ItemInstanceId, item.GetItemData());
 			}
 		}
 
-		public void RevokeBlueprints(List<string> revokeBlueprints)
+		public void RemoveItems(List<string> removeItems)
 		{
-			if (revokeBlueprints == null) return;
-			Items.RemoveAll(val => revokeBlueprints.Contains(val.OwnItemId));
+			if (removeItems == null) return;
+			foreach (var item in removeItems)
+			{
+				ItemMaps.Remove(item);
+			}
 		}
 
 		public void RefundBlueprints(List<ItemInstance> refundBlueprints)
 		{
-			// if (revokeBlueprints == null) return;
-			// Items.RemoveAll(val => revokeBlueprints.Contains(val.OwnItemId));
+			foreach (var blueprint in refundBlueprints)
+			{
+				if (!ItemMaps.TryGetValue(blueprint.ItemInstanceId, out var _))
+				{
+					ItemMaps.Add(blueprint.ItemInstanceId, blueprint.GetItemData());
+				}
+			}
 		}
 
 		/// <summary>
@@ -145,9 +149,8 @@ namespace Online.Service
 		/// </returns>
 		public async UniTask<EnhanceItemResponse> EnhanceItem(string instanceId)
 		{
-			UniTaskCompletionSource<EnhanceItemResponse> signal = new UniTaskCompletionSource<EnhanceItemResponse>();
-			var itemData = Items.Find(val => val.OwnItemId == instanceId);
-			if (itemData != null)
+			var signal = new UniTaskCompletionSource<EnhanceItemResponse>();
+			if (ItemMaps.TryGetValue(instanceId, out var itemData))
 			{
 				PlayFabClientAPI.ExecuteCloudScript(new()
 				{
@@ -173,20 +176,20 @@ namespace Online.Service
 			return await signal.Task;
 		}
 
-		public UniTask<CombineItemsResponse> CombineItems(List<string> itemInstanceIds)
+		public UniTask<CombineItemRespons> CombineItems(List<string> itemInstanceIds)
 		{
-			UniTaskCompletionSource<CombineItemsResponse> signal = new UniTaskCompletionSource<CombineItemsResponse>();
+			UniTaskCompletionSource<CombineItemRespons> signal = new UniTaskCompletionSource<CombineItemRespons>();
 			PlayFabClientAPI.ExecuteCloudScript(new()
 			{
 				FunctionName = C.CloudFunction.CombineItems,
-				FunctionParameter = new CombineItemsRequest()
+				FunctionParameter = new CombineItemRequest()
 				{
 					ItemInstanceIds = itemInstanceIds
 				}
 			}, result =>
 			{
 				LogSuccess("Combine Item!");
-				signal.TrySetResult(JsonConvert.DeserializeObject<CombineItemsResponse>(result.FunctionResult.ToString()));
+				signal.TrySetResult(JsonConvert.DeserializeObject<CombineItemRespons>(result.FunctionResult.ToString()));
 			}, error =>
 			{
 				LogError(error.ErrorMessage);
