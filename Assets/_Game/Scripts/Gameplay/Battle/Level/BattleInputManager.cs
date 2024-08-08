@@ -36,15 +36,16 @@ namespace _Game.Features.Gameplay
         }
         private void Update()
         {
-            //HandleTouch();
+#if !UNITY_EDITOR
+            HandleTouch();
+#else
             HandleMouse();
-
+#endif
         }
         void OnCanvasPointerDown()
         {
             GameObject clickedObject = EventSystem.current.currentSelectedGameObject;
 
-            Debug.Log("click obj");
             if (clickedObject != null)
             {
                 if (clickedObject.TryGetComponent(out FeverOrbBtn orbBtn))

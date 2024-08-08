@@ -110,6 +110,8 @@ namespace _Game.Features.Gameplay
                     ShipSetup.HideHUD();
                     reloadCannonController.enabled = false;
                     ShipSetup.DisableAllItem();
+                    CrewJobData.Clear();
+              
                     if (ShipBuffStats.Revive.BaseValue > 0)
                     {
                         ShipBuffStats.Revive.BaseValue = 0;

@@ -349,7 +349,7 @@ namespace _Game.Scripts.DB
         public static Vector3 GetOffsetCarpetWithStartCell(string cannonId, string shipId)
         {
             string opeartor = CarpetOperatorDic[cannonId];
-            return CarpetOffsetDic[new KeyValuePair<string, string>(opeartor, shipId)];
+            return CarpetOffsetDic[new KeyValuePair<string, string>(opeartor, "0003")];
         }
 
         public static Vector3 GetOffsetCannonWithStartCell(string cannonId, string shipId)
@@ -361,7 +361,7 @@ namespace _Game.Scripts.DB
         public static Vector3 GetOffsetBulletWithStartCell(string bulletId, string shipId)
         {
             var opeartor = BulletOperatorDic[bulletId];
-            return BulletOffsetDic[new KeyValuePair<string, string>(opeartor, shipId)];
+            return BulletOffsetDic[new KeyValuePair<string, string>(opeartor, "0003")];
         }
 
         public static int[,] GetShapeByTypeAndOperationType(string id, ItemType itemType)
