@@ -28,6 +28,8 @@ namespace _Game.Scripts.SaveLoad
         public int Level;
         public Rarity Rarity;
 
+        public override string ToString() => $"{ItemType}_{ItemId}";
+        
         public ItemData()
         {
         }

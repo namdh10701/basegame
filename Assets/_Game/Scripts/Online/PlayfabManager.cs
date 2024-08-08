@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using _Game.Scripts.GD.DataManager;
 using Cysharp.Threading.Tasks;
 using GoogleMobileAds.Ump.Api;
 using Newtonsoft.Json;
@@ -71,6 +72,7 @@ namespace Online
 			if (loginResponse.Result)
 			{
 				await LoadDatabase();
+				await GameData.Load();
 
 				var profileResponse = await Profile.RequestProfileAsync(loginResponse.PlayfabID);
 
@@ -85,6 +87,7 @@ namespace Online
 				Equipment.LoadEquipmentShip(profileResponse.UserData);
 				Inventory.LoadVirtualCurrency(profileResponse.UserVirtualCurrency);
 				Inventory.LoadItems(profileResponse.UserInventory);
+				Auth.LoadAccountInfo(profileResponse.UserAccountInfo);
 
 				await LoadUserRankInfoAsync();
 
@@ -115,13 +118,15 @@ namespace Online
 			var resUpgrade = await Inventory.EnhanceItem(itemInstanceId);
 			Inventory.UpdateItemData(resUpgrade.ItemUpgrade);
 			Inventory.LoadVirtualCurrency(resUpgrade.VirtualCurrency);
-			Inventory.RevokeBlueprints(resUpgrade.RevokeBlueprintIDs);
+			Inventory.RemoveItems(resUpgrade.RevokeBlueprintIDs);
 			return resUpgrade;
 		}
 
-		public async UniTask<CombineItemsResponse> CombineItems(List<string> itemInstanceIds)
+		public async UniTask<CombineItemRespons> CombineItems(List<string> itemInstanceIds)
 		{
 			var resUpgrade = await Inventory.CombineItems(itemInstanceIds);
+			Inventory.RemoveItems(itemInstanceIds);
+			Inventory.AddItems(new () { resUpgrade.Item });
 			Inventory.RefundBlueprints(resUpgrade.RefundBlueprints);
 			return resUpgrade;
 		}

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using Online.Model.ResponseAPI.Common;
@@ -49,12 +50,13 @@ namespace Online.Interface
 #endif
 		}
 
-		public void LoginFacebook(System.Action<bool, string> cb)
+		public async UniTask<(bool, string)> LoginFacebook()
 		{
+			var signal = new UniTaskCompletionSource<(bool, string)>();
 #if ENABLE_FACEBOOK
 			if (FB.IsLoggedIn)
 			{
-				cb?.Invoke(true, FB.ClientToken);
+				signal.TrySetResult((true, FB.ClientToken));
 			}
 			else
 			{
@@ -68,32 +70,28 @@ namespace Online.Interface
 					if (FB.IsLoggedIn)
 					{
 						var aToken = Facebook.Unity.AccessToken.CurrentAccessToken;
-						cb?.Invoke(true, aToken.TokenString);
+						signal.TrySetResult((true, aToken.TokenString));
 					}
 					else
 					{
-						cb?.Invoke(false, "");
-						Debug.Log("User cancelled login");
+						signal.TrySetResult((false, ""));
 					}
 				});
 			}
 #else
-			cb?.Invoke(false, "Not init!");
+			signal.TrySetResult((false, ""));
 #endif
+			return await signal.Task;
 		}
 
-		public UniTask<bool> LinkFacebook()
+		public async UniTask<bool> LinkFacebook()
 		{
 			var signal = new UniTaskCompletionSource<bool>();
-			LoginFacebook((succeed, token) =>
+			var (result, token) = await LoginFacebook();
+			if (result)
 			{
-				if (!succeed)
-				{
-					signal.TrySetResult(false);
-					return;
-				}
-
-				PlayFabClientAPI.LinkFacebookAccount(new LinkFacebookAccountRequest()
+				LogInfo("[Auth] LinkFB, Token: " + token);
+				PlayFabClientAPI.LinkFacebookAccount(new()
 				{
 					AccessToken = token,
 				}, result =>
@@ -105,10 +103,14 @@ namespace Online.Interface
 					LogError("[Auth] Link Facebook Failed: " + error.ErrorMessage);
 					signal.TrySetResult(false);
 				});
-			});
-			return signal.Task;
+			}
+			else
+			{
+				signal.TrySetResult(false);
+			}
+			return await signal.Task;
 		}
-		
+
 		public UniTask<bool> UnlinkFacebook()
 		{
 			var signal = new UniTaskCompletionSource<bool>();

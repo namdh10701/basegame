@@ -290,6 +290,11 @@ namespace _Game.Features.Inventory
 
         protected virtual void Awake()
         {
+            // s
+        }
+
+        void OnEnable()
+        {
             InitializeInternal();
             IgnoreItems.CollectionChanged += (sender, args) =>
             {
@@ -299,6 +304,8 @@ namespace _Game.Features.Inventory
 
         protected void InitializeInternal()
         {
+            dataSource.Clear();
+            SaveSystem.LoadSave();
             foreach (var item in SaveSystem.GameSave.OwnedItems)
             {
                 InventoryItem inventoryItem = null;
@@ -314,11 +321,11 @@ namespace _Game.Features.Inventory
                         InventoryViewModel = this,
                         OwnItemId = item.ItemId,
                         Name = info.Name,
-                        // Level = info.Level,
+                        Level = info.Level,
                     };
                     inventoryItem.LoadStarsItem();
                 }
-                
+
                 // cannon
                 else if (item.ItemType == ItemType.CANNON)
                 {

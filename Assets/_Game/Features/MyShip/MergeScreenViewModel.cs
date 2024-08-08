@@ -7,10 +7,12 @@ using _Game.Scripts.GD.DataManager;
 using _Game.Scripts.SaveLoad;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using JetBrains.Annotations;
 using Online;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityWeld.Binding;
+using ZBase.UnityScreenNavigator.Core.Screens;
 namespace _Game.Features.MergeScreen
 {
     [Binding]
@@ -174,7 +176,7 @@ namespace _Game.Features.MergeScreen
             get
             {
                 if (ItemTarget == null)
-                    return Resources.Load<Sprite>($"Images/Items/item_ammo_arrow_common");
+                    return Resources.Load<Sprite>($"Images/Items/icon_plus");
                 else
                 {
                     if (ItemTarget.Type != ItemType.MISC)
@@ -330,7 +332,7 @@ namespace _Game.Features.MergeScreen
 
                 OnPropertyChanged(nameof(LevelItemMerge));
 
-                DoFilter();
+                // DoFilter();
             }
         }
         private int _levelItemMerge;
@@ -380,7 +382,7 @@ namespace _Game.Features.MergeScreen
 
                 OnPropertyChanged(nameof(PreviousRarity));
 
-                DoFilter();
+                // DoFilter();
             }
         }
         private string _previousRarity;
@@ -405,7 +407,7 @@ namespace _Game.Features.MergeScreen
 
                 OnPropertyChanged(nameof(NextRarity));
 
-                DoFilter();
+                // DoFilter();
             }
         }
         private string _nextRarity;
@@ -456,7 +458,7 @@ namespace _Game.Features.MergeScreen
         #endregion
 
         private List<InventoryItem> _dataSource = new List<InventoryItem>();
-        private List<string> _itemsSelected = new List<string>();
+        private List<InventoryItem> _itemsSelected = new List<InventoryItem>();
 
         #region Binding: InventoryItems
         private ObservableList<InventoryItem> items = new ObservableList<InventoryItem>();
@@ -493,6 +495,7 @@ namespace _Game.Features.MergeScreen
 
         private void LoadData()
         {
+            SaveSystem.LoadSave();
             InitializeInternal();
             IgnoreItems.CollectionChanged += (sender, args) =>
            {
@@ -502,6 +505,7 @@ namespace _Game.Features.MergeScreen
 
         protected void InitializeInternal()
         {
+            _dataSource.Clear();
             foreach (var item in SaveSystem.GameSave.OwnedItems)
             {
                 InventoryItem inventoryItem = null;
@@ -611,14 +615,6 @@ namespace _Game.Features.MergeScreen
             if (item.IsSelected)
             {
                 ItemMerge = item;
-                if (_itemsSelected.Count < NumberItemsRequired)
-                    _itemsSelected.Add(item.OwnItemId);
-                else
-                {
-                    _itemsSelected.RemoveAt(0);
-                    _itemsSelected.Add(item.OwnItemId);
-                }
-                NumberItems++;
                 OnPropertyChanged(nameof(SpriteItemMerge));
                 SlotItemMerge = ItemMerge.Slot;
                 LoadStarsItem(ItemMerge, StarsItemMerge);
@@ -630,13 +626,16 @@ namespace _Game.Features.MergeScreen
                     LoadDataItemTarget();
                     LoadStarsItem(ItemTarget, StarsItemTarget);
                 }
-
+                if (_itemsSelected.Count <= NumberItemsRequired)
+                {
+                    _itemsSelected.Add(item);
+                    NumberItems++;
+                }
             }
             else
             {
                 NumberItems--;
-                item.IsSelected = false;
-                _itemsSelected.Remove(item.OwnItemId);
+                _itemsSelected.Remove(item);
                 if (NumberItems == 0)
                 {
                     DoFilter();
@@ -644,7 +643,7 @@ namespace _Game.Features.MergeScreen
                 }
             }
             IsActiveItemMerge = _itemsSelected.Count > 0;
-            CanMerge = NumberItems == NumberItemsRequired ? true : false;
+            CanMerge = NumberItems >= NumberItemsRequired ? true : false;
         }
 
         private void LoadStarsItem(InventoryItem item, ObservableList<Star> stars)
@@ -669,8 +668,7 @@ namespace _Game.Features.MergeScreen
                     && !IgnoreItems.Contains(v)
                 )
                 .ToList();
-            var pageItemList = itemList;
-            Items.AddRange(pageItemList);
+            Items.AddRange(itemList);
         }
 
         private DataTableRecord GetNextRarityItem(InventoryItem inventoryItem)
@@ -728,7 +726,14 @@ namespace _Game.Features.MergeScreen
         [Binding]
         public async void OnClickConfirm()
         {
-            var resUpgrade = await PlayfabManager.Instance.CombineItems(_itemsSelected);
+            var idItemSelected = new List<string>();
+            for (int i = 0; i < 3; i++)
+            {
+                idItemSelected.Add(_itemsSelected[i].OwnItemId);
+
+            }
+
+            var resUpgrade = await PlayfabManager.Instance.CombineItems(idItemSelected);
             if (!resUpgrade.Result) return;
 
             IsActiveSuccesFul = true;
@@ -748,7 +753,13 @@ namespace _Game.Features.MergeScreen
                                     .SetLoops(-1, LoopType.Restart)
                                     .SetEase(Ease.Linear);
             await UniTask.Delay(2000);
+
             IsActiveSuccesFul = false;
+            _itemsSelected.Clear();
+            ItemTarget = null;
+            ItemMerge = null;
+            NumberItems = 0;
+            IsActiveItemMerge = false;
             LoadData();
 
         }
@@ -773,6 +784,17 @@ namespace _Game.Features.MergeScreen
                     ColorRarity = Color.yellow;
                     break;
             }
+        }
+
+        [Binding]
+        public async void NavBack()
+        {
+            _itemsSelected.Clear();
+            ItemTarget = null;
+            ItemMerge = null;
+            NumberItems = 0;
+            IsActiveItemMerge = false;
+            await ScreenContainer.Find(ContainerKey.Screens).PopAsync(true);
         }
     }
 }
