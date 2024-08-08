@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using Online.Interface;
 using Online.Model;
+using Online.Model.ResponseAPI.Ranking;
 
 namespace Online
 {
@@ -21,6 +22,14 @@ namespace Online
 		public async Task LoadRewardBundleInfo()
 		{
 			await Ranking.LoadRewardBundleInfo();
+		}
+
+		public async UniTask<ClaimSeasonRewardResponse> ClaimSeasonReward()
+		{
+			var response = await Ranking.ClaimSeasonReward();
+			Inventory.LoadVirtualCurrency(response.VirtualCurrency);
+			Inventory.AddItems(response.Items);
+			return response;
 		}
 		
 		#endregion

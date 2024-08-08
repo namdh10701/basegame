@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using _Game.Features.Inventory;
 using Newtonsoft.Json;
+using Online.Converters;
 using Online.Enum;
+using PlayFab.ClientModels;
 
 namespace Online.Model
 {
@@ -12,39 +14,30 @@ namespace Online.Model
 		public ItemType ItemType;
 		public int Amount;
 	}
-		
-	public class RankRecord
-	{
-		public int No;
-		public string PlayfabID; // dùng để track xem record hiện tại có phải của người chơi hiện tại không
-		public string Username;
-		public int Score;
-		public List<RankReward> Rewards = new();
-	}
 
 	public class SeasonInfo
 	{
 		[JsonProperty("No")]
 		public int SeasonNo;
-		
+
 		[JsonProperty("Name")]
 		public string SeasonName;
-		
+
 		[JsonProperty("Start")]
 		public ulong StartTimestamp;
-		
+
 		[JsonProperty("End")]
 		public ulong EndTimestamp;
 	}
-	
+
 	public class PlayerRankInfo
 	{
 		[JsonProperty("Id")]
 		public string Id;
-		
+
 		[JsonProperty("Name")]
 		public string DisplayName;
-		
+
 		[JsonProperty("Score")]
 		public int Score;
 	}
@@ -53,29 +46,51 @@ namespace Online.Model
 	{
 		[JsonProperty("Id")]
 		public string RankID { get; set; }
-		
+
 		[JsonProperty("Count")]
 		public int Count { get; set; }
 
 		[JsonProperty("Players")]
 		public List<PlayerRankInfo> Players { get; set; }
 	}
-	
+
 	public class RewardData
 	{
 		[JsonProperty("Exp")]
 		public string Exp;
-		
+
 		[JsonProperty("Gold")]
 		public int Gold;
-		
+
 		[JsonProperty("Key")]
 		public int Key;
 
 		[JsonProperty("Blueprint")]
 		public string[] Blueprint;
 	}
-	
+
+	public class CompleteSeasonInfo
+	{
+		[JsonProperty("NewRank")]
+		[JsonConverter(typeof(ERankConverter))]
+		public ERank NewRank { get; set; }
+
+		[JsonProperty("TimeExpired")]
+		public ulong TimeExpired { get; set; }
+
+		[JsonProperty("SeasonReward")]
+		public SeasonReward SeasonReward { get; set; }
+	}
+
+	public class SeasonReward
+	{
+		[JsonProperty("Items")]
+		public List<ItemInstance> Items { get; set; }
+		
+		[JsonProperty("VirtualCurrency")]
+		public Dictionary<string, int> VirtualCurrency { get; set; }
+	}
+
 	public class ClaimRewardBundle
 	{
 		public ERank Rank;

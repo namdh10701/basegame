@@ -35,7 +35,8 @@ const ProfileField = Object.freeze({
     Rank: 'Rank',
     RankingTicketId: 'RankingTicketId',
     LimitPackages: 'LimitPackages',
-    Gachas: 'Gachas'
+    Gachas: 'Gachas',
+    CompleteSeasonInfo: 'CompleteSeasonInfo',
 });
 
 const StatisticFields = Object.freeze({
@@ -126,6 +127,7 @@ const EErrorCode = Object.freeze({
 
     // Ranking
     RankingMatchInvalid: 1010,
+    SeasonExpired: 1011,
 });
 
 const Total_Player_Per_Rank_Group = 50;
@@ -1045,46 +1047,34 @@ class GSheetFetcher {
 /// Ranking Functions
 ///
 
-handlers.ProfileRankDown = function (args, context) {
+const GetNewRank = function (userRank, rankResult) {
+    if (rankResult == 0) return userRank;
 
-    let resReadOnlyData = server.GetUserReadOnlyData({
-        PlayFabId: currentPlayerId,
-        Keys: [ProfileField.Rank]
-    });
+    switch (userRank) {
+        case ERank.Rookie:
+            return (rankResult < 0) ? ERank.Rookie : ERank.Gunner;
 
-    if (resReadOnlyData.Data.hasOwnProperty(ProfileField.Rank)) {
-        let newRank = {};
-        switch (resReadOnlyData.Data[ProfileField.Rank].Value) {
-            case ERank.Gunner:
-                newRank[ProfileField.Rank] = ERank.Rookie;
-                break;
+        case ERank.Gunner:
+            return (rankResult < 0) ? ERank.Rookie : ERank.Hunter;
 
-            case ERank.Hunter:
-                newRank[ProfileField.Rank] = ERank.Gunner;
-                break;
+        case ERank.Hunter:
+            return (rankResult < 0) ? ERank.Gunner : ERank.Captain;
 
-            case ERank.Captain:
-                newRank[ProfileField.Rank] = ERank.Hunter;
-                break;
+        case ERank.Captain:
+            return (rankResult < 0) ? ERank.Hunter : ERank.Conquer;
 
-            case ERank.Conquer:
-                newRank[ProfileField.Rank] = ERank.Captain;
-                break;
-        }
-        server.UpdateUserReadOnlyData({
-            PlayFabId: currentPlayerId, Data: newRank
-        });
+        case ERank.Conquer:
+            return (rankResult < 0) ? ERank.Captain : ERank.Conquer;
     }
+
+    return userRank;
 };
 
-handlers.EndCaptainSeason = function (args, context) {
 
-};
-
-handlers.EndConquerSeason = function (args, context) {
-
-};
-
+/**
+ * Fetch Season Information: No, Name and Time Schedule
+ * @returns {object} - Season Information
+ * */
 handlers.RequestSeasonInfo = function (args, context) {
     var response = server.GetTitleInternalData({Keys: [InternalDatabase.RankInfo]});
     if (response.Data == null || !response.Data.hasOwnProperty(InternalDatabase.RankInfo)) {
@@ -1169,7 +1159,8 @@ const GrantRankBattleReward = function (userLevel, userExp, userRank, dmg) {
 };
 
 /**
- * Create rank ticket and save it into user read only data
+ * Create a ticket id for ranking match
+ * @returns {object} - Contain ticket id for Ranking match
  * */
 handlers.CreateRankTicket = function (args, context) {
     // TODO move to config
@@ -1217,7 +1208,10 @@ handlers.CreateRankTicket = function (args, context) {
 
 
 /**
- * Create rank ticket and save it into user read only data
+ * Cloud Function: Call it when finish ranking match
+ * @param {string} args.TicketId - Ticket of match be created when start ranking match
+ * @param {number} args.Damage - Total damage deal on boss in ranking match
+ * @returns {object} - Result of ranking match
  * */
 handlers.FinishRankBattle = function (args, context) {
     let resReadOnlyData = server.GetUserReadOnlyData({
@@ -1258,82 +1252,126 @@ handlers.FinishRankBattle = function (args, context) {
     }
 };
 
+
+/**
+ * Schedule Tasks: Complete Ranking Season
+ * */
 handlers.CompleteRankingSeason = function (args, context) {
-    let titleData = server.GetTitleInternalData({Keys: [InternalDatabase.RankInfo, InternalDatabase.RankLaddersDB]});
-    
     // Check Season Ending
-    
-    // Get Player Statistic
-    let statisticId = rank + '_Rank_Score';
-    let userStatistics = server.GetPlayerStatistics({
-        PlayFabId: currentPlayerId, StatisticNames: [statisticId]
-    });
+    let titleData = server.GetTitleInternalData({Keys: [InternalDatabase.RankInfo, InternalDatabase.RankLaddersDB]});
+    let rankInfo = JSON.parse(titleData.Data[InternalDatabase.RankInfo]);
+    log.debug("playerId", currentPlayerId);
+
+    // Get UserData
     let resUserData = server.GetUserReadOnlyData({
         PlayFabId: currentPlayerId,
         Keys: [ProfileField.Rank]
     });
-
+    log.debug("Response", resUserData);
     let userRank = resUserData.Data[ProfileField.Rank].Value;
+
+    // Get Player Statistic
+    let statisticId = userRank + '_Rank_Score';
+    let userStatistics = server.GetPlayerStatistics({
+        PlayFabId: currentPlayerId, StatisticNameVersions: [{StatisticName: statisticId, Version: rankInfo.No}]
+    });
+    let statisticData = userStatistics.Statistics.find(val => val.StatisticName == statisticId);
+    if (statisticData == null) {
+        return false;
+    }
+
+    // Check Rank Up
+    let rankLaddersDB = JSON.parse(titleData.Data[InternalDatabase.RankLaddersDB]);
+    let newRank = GetRankResult(rankLaddersDB, userRank, statisticData.Value);
+
+    let readOnlyData = {};
+    readOnlyData[ProfileField.CompleteSeasonInfo] = JSON.stringify({
+        NewRank: newRank,
+        TimeExpired: GetNextDay(3),
+        SeasonReward: {}
+    });
+
+    server.UpdateUserReadOnlyData({
+        PlayFabId: currentPlayerId, Data: readOnlyData
+    });
+};
+
+const GetNextDay = function (count = 1) {
+    const secondsInADay = 86400; // 24 * 60 * 60
+    const now = Math.floor(Date.now() / 1000);
+    return now + (7 * secondsInADay);
+}
+
+const GetRankResult = function (rankLaddersDB, userRank, score) {
+    let rankLadder = rankLaddersDB.find(val => val.rank == userRank);
+    let statisticName = userRank + '_Rank_Score';
+    let rankResult = 0;
+
     switch (userRank) {
         case ERank.Rookie:
         case ERank.Gunner:
         case ERank.Hunter:
-            handlers.ProfileRankUp();
+            rankResult = (score < rankLadder.dmg_down_rank) ? -1 : (score >= rankLadder.dmg_up_rank ? 1 : 0);
             break;
-    }
-};
 
-const GetRankUpResult = function (playerId, rank) {
-    let leaderboardId = rank + '_Rank_Score';
-    let leaderboardScores = server.GetPlayerStatistics({
-        PlayFabId: playerId, StatisticNames: [leaderboardId]
-    });
+        case ERank.Captain:
+        case ERank.Conquer: {
+            let leaderboard = server.GetLeaderboardAroundUser({
+                StatisticName: statisticName, PlayFabId: currentPlayerId, MaxResultsCount: 1
+            });
+            let userRank = leaderboard.Leaderboard.find(val => val.PlayFabId == currentPlayerId);
+            if (userRank == null) return 0;
 
-    let statisticData = leaderboardScores.Statistics.find(val => val.StatisticName == leaderboardId);
-    if (statisticData == null) {
-        return {
-            Result: false,
-            Score: 0
-        };
-    }
+            let resSegment = server.GetPlayersInSegment({
+                SegmentId: rankLadder.segment_id, MaxBatchSize: 0
+            });
+            let count = resSegment.ProfilesInSegment;
 
-    switch (rank) {
-        case ERank.Rookie:
-        case ERank.Gunner:
-        case ERank.Hunter:
-            
+            let posTop = Math.floor(count * rankLadder.dmg_up_rank * 0.01);
+            let posBottom = Math.floor(count * rankLadder.dmg_down_rank * 0.01);
+
+            if (userRank.Position < posTop)
+                rankResult = 1;
+            else if (userRank.Position > posBottom)
+                rankResult = -1;
             break;
-    }
-};
-
-handlers.ProfileRankUp = function (args, context) {
-    let resReadOnlyData = server.GetUserReadOnlyData({
-        PlayFabId: currentPlayerId,
-        Keys: [ProfileField.Rank]
-    });
-
-    if (resReadOnlyData.Data.hasOwnProperty(ProfileField.Rank)) {
-        let newRank = {};
-        switch (resReadOnlyData.Data[ProfileField.Rank].Value) {
-            case ERank.Rookie:
-                newRank[ProfileField.Rank] = ERank.Gunner;
-                break;
-
-            case ERank.Gunner:
-                newRank[ProfileField.Rank] = ERank.Hunter;
-                break;
-
-            case ERank.Hunter:
-                newRank[ProfileField.Rank] = ERank.Captain;
-                break;
-
-            case ERank.Captain:
-                newRank[ProfileField.Rank] = ERank.Conquer;
-                break;
         }
-        log.debug('Response', newRank);
+    }
+
+    return GetNewRank(userRank, rankResult);
+};
+
+/**
+ * Claim Season Reward save into Player Profile
+ * @returns {object} - Season Information
+ * */
+handlers.ClaimSeasonReward = function (args, context) {
+    let resData = server.GetUserReadOnlyData({
+        PlayFabId: currentPlayerId,
+        Keys: [ProfileField.CompleteSeasonInfo]
+    });
+
+    if (resData.Data.hasOwnProperty(ProfileField.CompleteSeasonInfo)) {
+        let seasonInfo = JSON.parse(resData.Data[ProfileField.CompleteSeasonInfo].Value);
+        let currentTime = Math.floor(Date.now() / 1000);
+        if (currentTime > seasonInfo.TimeExpired) {
+            return {
+                Result: false,
+                Error: EErrorCode.SeasonExpired
+            };
+        }
+
+        let readOnlyData = {};
+        readOnlyData[ProfileField.Rank] = seasonInfo.NewRank;
         server.UpdateUserReadOnlyData({
-            PlayFabId: currentPlayerId, Data: newRank
+            PlayFabId: currentPlayerId, Data: readOnlyData
         });
+
+        return {
+            Result: true,
+            NewRank: seasonInfo.NewRank,
+            VirtualCurrency: {},
+            Items: []
+        };
     }
 };

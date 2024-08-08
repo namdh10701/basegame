@@ -24,6 +24,7 @@ namespace Online.Service
 		public string UserRankID { get; private set; }
 		public bool IsGuest { get; private set; }
 		public List<LimitPackageModel> LimitPackages { get; private set; } = new();
+		public CompleteSeasonInfo CompleteSeasonInfo { get; private set; }
 
 		#endregion
 
@@ -119,7 +120,7 @@ namespace Online.Service
 		public void SetLimitPackage(List<LimitPackageModel> limitPackages)
 		{
 			LimitPackages = limitPackages;
-		}
+		}	
 
 		public void LoadUserReadOnlyData(Dictionary<string, UserDataRecord> readOnlyData)
 		{
@@ -144,10 +145,15 @@ namespace Online.Service
 				UserRankID = rankID.Value;
 			}
 
-			if (readOnlyData.TryGetValue(C.NameConfigs.VideoAds, out var records))
+			if (readOnlyData.TryGetValue(C.NameConfigs.LimitPackages, out var records))
 			{
 				LimitPackages.Clear();
 				LimitPackages = JsonConvert.DeserializeObject<List<LimitPackageModel>>(records.Value);
+			}
+			
+			if(readOnlyData.TryGetValue(C.NameConfigs.CompleteSeasonInfo, out var completeSeasonInfo))
+			{
+				CompleteSeasonInfo = JsonConvert.DeserializeObject<CompleteSeasonInfo>(completeSeasonInfo.Value);
 			}
 		}
 

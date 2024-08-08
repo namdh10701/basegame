@@ -9,14 +9,13 @@ namespace Online
 		{
 			public const string Level = "Level";
 			public const string Exp = "Exp";
-			public const string Energy = "Energy";
 			public const string Equipment = "Equipment";
+			public const string CompleteSeasonInfo = "CompleteSeasonInfo";
+			public const string LimitPackages = "LimitPackages";
 
 			// Ranking
 			public const string Rank = "Rank";
-			public const string RankScore = "RankScore";
 			public const string CurrentRankID = "CurrentRankID";
-			public const string VideoAds = "VideoAds";
 		}
 
 		public static class RankConfigs
@@ -36,6 +35,7 @@ namespace Online
 			public const string RequestSeasonInfo = "RequestSeasonInfo";
 			public const string CreateRankTicket = "CreateRankTicket";
 			public const string FinishRankBattle = "FinishRankBattle";
+			public const string ClaimSeasonReward = "ClaimSeasonReward";
 		}
 	}
 }
