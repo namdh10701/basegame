@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using _Game.Scripts.GD.DataManager;
 using Cysharp.Threading.Tasks;
 using GoogleMobileAds.Ump.Api;
 using Newtonsoft.Json;
@@ -71,6 +72,7 @@ namespace Online
 			if (loginResponse.Result)
 			{
 				await LoadDatabase();
+				await GameData.Load();
 
 				var profileResponse = await Profile.RequestProfileAsync(loginResponse.PlayfabID);
 

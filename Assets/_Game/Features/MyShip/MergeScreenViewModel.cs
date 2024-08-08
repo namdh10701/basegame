@@ -7,10 +7,12 @@ using _Game.Scripts.GD.DataManager;
 using _Game.Scripts.SaveLoad;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using JetBrains.Annotations;
 using Online;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityWeld.Binding;
+using ZBase.UnityScreenNavigator.Core.Screens;
 namespace _Game.Features.MergeScreen
 {
     [Binding]
@@ -174,7 +176,7 @@ namespace _Game.Features.MergeScreen
             get
             {
                 if (ItemTarget == null)
-                    return Resources.Load<Sprite>($"Images/Items/item_ammo_arrow_common");
+                    return Resources.Load<Sprite>($"Images/Items/icon_plus");
                 else
                 {
                     if (ItemTarget.Type != ItemType.MISC)
@@ -493,6 +495,7 @@ namespace _Game.Features.MergeScreen
 
         private void LoadData()
         {
+            SaveSystem.LoadSave();
             InitializeInternal();
             IgnoreItems.CollectionChanged += (sender, args) =>
            {
@@ -502,6 +505,7 @@ namespace _Game.Features.MergeScreen
 
         protected void InitializeInternal()
         {
+            _dataSource.Clear();
             foreach (var item in SaveSystem.GameSave.OwnedItems)
             {
                 InventoryItem inventoryItem = null;
@@ -749,7 +753,13 @@ namespace _Game.Features.MergeScreen
                                     .SetLoops(-1, LoopType.Restart)
                                     .SetEase(Ease.Linear);
             await UniTask.Delay(2000);
+
             IsActiveSuccesFul = false;
+            _itemsSelected.Clear();
+            ItemTarget = null;
+            ItemMerge = null;
+            NumberItems = 0;
+            IsActiveItemMerge = false;
             LoadData();
 
         }
@@ -774,6 +784,17 @@ namespace _Game.Features.MergeScreen
                     ColorRarity = Color.yellow;
                     break;
             }
+        }
+
+        [Binding]
+        public async void NavBack()
+        {
+            _itemsSelected.Clear();
+            ItemTarget = null;
+            ItemMerge = null;
+            NumberItems = 0;
+            IsActiveItemMerge = false;
+            await ScreenContainer.Find(ContainerKey.Screens).PopAsync(true);
         }
     }
 }
