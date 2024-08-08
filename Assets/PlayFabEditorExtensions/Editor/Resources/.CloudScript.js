@@ -1047,30 +1047,6 @@ class GSheetFetcher {
 /// Ranking Functions
 ///
 
-const GetNewRank = function (userRank, rankResult) {
-    if (rankResult == 0) return userRank;
-
-    switch (userRank) {
-        case ERank.Rookie:
-            return (rankResult < 0) ? ERank.Rookie : ERank.Gunner;
-
-        case ERank.Gunner:
-            return (rankResult < 0) ? ERank.Rookie : ERank.Hunter;
-
-        case ERank.Hunter:
-            return (rankResult < 0) ? ERank.Gunner : ERank.Captain;
-
-        case ERank.Captain:
-            return (rankResult < 0) ? ERank.Hunter : ERank.Conquer;
-
-        case ERank.Conquer:
-            return (rankResult < 0) ? ERank.Captain : ERank.Conquer;
-    }
-
-    return userRank;
-};
-
-
 /**
  * Fetch Season Information: No, Name and Time Schedule
  * @returns {object} - Season Information
@@ -1090,73 +1066,6 @@ handlers.RequestSeasonInfo = function (args, context) {
     };
 };
 
-const GrantRankBattleReward = function (userLevel, userExp, userRank, dmg) {
-    let resTitleData = server.GetTitleInternalData({Keys: [InternalDatabase.UserLevelsDB, InternalDatabase.RankingBattleRewardDB]});
-    let rewardDB = JSON.parse(resTitleData.Data[InternalDatabase.RankingBattleRewardDB]);
-    let userLevelsDB = JSON.parse(resTitleData.Data[InternalDatabase.UserLevelsDB]);
-
-    const data = rewardDB[userRank];
-    if (!data) {
-        throw new Error('Rank not found');
-    }
-
-    let index = 0;
-
-    for (let i = 0; i < data.length; i++) {
-        index = i;
-        if (dmg < data[i].Dmg) break;
-    }
-
-    let exp = randomRange(data[index - 1].Exp, data[index].Exp);
-    let gold = randomRange(data[index - 1].Gold, data[index].Gold);
-    let blueprint = randomRange(data[index - 1].Blueprint, data[index].Blueprint);
-    let key = randomRange(data[index - 1].Key, data[index].Key);
-
-    let rewards = {
-        Data: {},
-        VirtualCurrency: {},
-        Items: []
-    };
-
-    if (gold > 0) {
-        let resGold = server.AddUserVirtualCurrency({
-            PlayFabId: currentPlayerId, VirtualCurrency: EVirtualCurrency.Gold, Amount: gold
-        });
-        rewards.VirtualCurrency[EVirtualCurrency.Gold] = resGold.Balance;
-    }
-
-    if (key > 0) {
-        let resKey = server.AddUserVirtualCurrency({
-            PlayFabId: currentPlayerId, VirtualCurrency: EVirtualCurrency.Key, Amount: key
-        });
-        rewards.VirtualCurrency[EVirtualCurrency.Key] = resKey.Balance;
-    }
-
-    if (exp > 0) {
-        rewards.Data = IncreaseExp(userLevel, userExp, exp, userLevelsDB);
-        rewards.Data[ProfileField.RankingTicketId] = "";
-        resExp = server.UpdateUserReadOnlyData({
-            PlayFabId: currentPlayerId, Data: rewards.Data
-        });
-    }
-
-    if (blueprint > 0) {
-        let blueprintIds = [];
-        for (let i = 0; i < blueprint; i++) {
-            let resBlueprint = server.EvaluateRandomResultTable({
-                TableId: "random_blueprint"
-            });
-            blueprintIds.push(resBlueprint.ResultItemId);
-        }
-
-        let resGrantItems = server.GrantItemsToUser({
-            PlayFabId: currentPlayerId, ItemIds: blueprintIds
-        });
-        rewards.Items = resGrantItems.ItemGrantResults;
-    }
-
-    return rewards;
-};
 
 /**
  * Create a ticket id for ranking match
@@ -1308,6 +1217,45 @@ handlers.CompleteRankingSeason = function (args, context) {
     });
 };
 
+/**
+ * Claim Season Reward save into Player Profile
+ * @returns {object} - Season Information
+ * */
+handlers.ClaimSeasonReward = function (args, context) {
+    let resData = server.GetUserReadOnlyData({
+        PlayFabId: currentPlayerId,
+        Keys: [ProfileField.CompleteSeasonInfo]
+    });
+
+    if (resData.Data.hasOwnProperty(ProfileField.CompleteSeasonInfo)) {
+        let seasonInfo = JSON.parse(resData.Data[ProfileField.CompleteSeasonInfo].Value);
+        let currentTime = Math.floor(Date.now() / 1000);
+        if (currentTime > seasonInfo.TimeExpired) {
+            return {
+                Result: false,
+                Error: EErrorCode.SeasonExpired
+            };
+        }
+
+        let readOnlyData = {};
+        readOnlyData[ProfileField.Rank] = seasonInfo.NewRank;
+        server.UpdateUserReadOnlyData({
+            PlayFabId: currentPlayerId, Data: readOnlyData
+        });
+
+        return {
+            Result: true,
+            NewRank: seasonInfo.NewRank,
+            VirtualCurrency: {},
+            Items: []
+        };
+    }
+};
+
+
+/**
+ * Ultility functions
+ * */
 const GetNextDay = function (count = 1) {
     const secondsInADay = 86400; // 24 * 60 * 60
     const now = Math.floor(Date.now() / 1000);
@@ -1353,37 +1301,95 @@ const GetRankResult = function (rankLaddersDB, userRank, score) {
     return GetNewRank(userRank, rankResult);
 };
 
-/**
- * Claim Season Reward save into Player Profile
- * @returns {object} - Season Information
- * */
-handlers.ClaimSeasonReward = function (args, context) {
-    let resData = server.GetUserReadOnlyData({
-        PlayFabId: currentPlayerId,
-        Keys: [ProfileField.CompleteSeasonInfo]
-    });
 
-    if (resData.Data.hasOwnProperty(ProfileField.CompleteSeasonInfo)) {
-        let seasonInfo = JSON.parse(resData.Data[ProfileField.CompleteSeasonInfo].Value);
-        let currentTime = Math.floor(Date.now() / 1000);
-        if (currentTime > seasonInfo.TimeExpired) {
-            return {
-                Result: false,
-                Error: EErrorCode.SeasonExpired
-            };
+const GrantRankBattleReward = function (userLevel, userExp, userRank, dmg) {
+    let resTitleData = server.GetTitleInternalData({Keys: [InternalDatabase.UserLevelsDB, InternalDatabase.RankingBattleRewardDB]});
+    let rewardDB = JSON.parse(resTitleData.Data[InternalDatabase.RankingBattleRewardDB]);
+    let userLevelsDB = JSON.parse(resTitleData.Data[InternalDatabase.UserLevelsDB]);
+
+    const data = rewardDB[userRank];
+    if (!data) {
+        throw new Error('Rank not found');
+    }
+
+    let index = 0;
+
+    for (let i = 0; i < data.length; i++) {
+        index = i;
+        if (dmg < data[i].Dmg) break;
+    }
+
+    let exp = randomRange(data[index - 1].Exp, data[index].Exp);
+    let gold = randomRange(data[index - 1].Gold, data[index].Gold);
+    let blueprint = randomRange(data[index - 1].Blueprint, data[index].Blueprint);
+    let key = randomRange(data[index - 1].Key, data[index].Key);
+
+    let rewards = {
+        Data: {},
+        VirtualCurrency: {},
+        Items: []
+    };
+
+    if (gold > 0) {
+        let resGold = server.AddUserVirtualCurrency({
+            PlayFabId: currentPlayerId, VirtualCurrency: EVirtualCurrency.Gold, Amount: gold
+        });
+        rewards.VirtualCurrency[EVirtualCurrency.Gold] = resGold.Balance;
+    }
+
+    if (key > 0) {
+        let resKey = server.AddUserVirtualCurrency({
+            PlayFabId: currentPlayerId, VirtualCurrency: EVirtualCurrency.Key, Amount: key
+        });
+        rewards.VirtualCurrency[EVirtualCurrency.Key] = resKey.Balance;
+    }
+
+    if (exp > 0) {
+        rewards.Data = IncreaseExp(userLevel, userExp, exp, userLevelsDB);
+        rewards.Data[ProfileField.RankingTicketId] = "";
+        resExp = server.UpdateUserReadOnlyData({
+            PlayFabId: currentPlayerId, Data: rewards.Data
+        });
+    }
+
+    if (blueprint > 0) {
+        let blueprintIds = [];
+        for (let i = 0; i < blueprint; i++) {
+            let resBlueprint = server.EvaluateRandomResultTable({
+                TableId: "random_blueprint"
+            });
+            blueprintIds.push(resBlueprint.ResultItemId);
         }
 
-        let readOnlyData = {};
-        readOnlyData[ProfileField.Rank] = seasonInfo.NewRank;
-        server.UpdateUserReadOnlyData({
-            PlayFabId: currentPlayerId, Data: readOnlyData
+        let resGrantItems = server.GrantItemsToUser({
+            PlayFabId: currentPlayerId, ItemIds: blueprintIds
         });
-
-        return {
-            Result: true,
-            NewRank: seasonInfo.NewRank,
-            VirtualCurrency: {},
-            Items: []
-        };
+        rewards.Items = resGrantItems.ItemGrantResults;
     }
+
+    return rewards;
+};
+
+
+const GetNewRank = function (userRank, rankResult) {
+    if (rankResult == 0) return userRank;
+
+    switch (userRank) {
+        case ERank.Rookie:
+            return (rankResult < 0) ? ERank.Rookie : ERank.Gunner;
+
+        case ERank.Gunner:
+            return (rankResult < 0) ? ERank.Rookie : ERank.Hunter;
+
+        case ERank.Hunter:
+            return (rankResult < 0) ? ERank.Gunner : ERank.Captain;
+
+        case ERank.Captain:
+            return (rankResult < 0) ? ERank.Hunter : ERank.Conquer;
+
+        case ERank.Conquer:
+            return (rankResult < 0) ? ERank.Captain : ERank.Conquer;
+    }
+
+    return userRank;
 };
