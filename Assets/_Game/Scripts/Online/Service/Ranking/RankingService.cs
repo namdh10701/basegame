@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
 using Online.Enum;
@@ -17,6 +18,7 @@ namespace Online.Service
 		public RankInfo RankInfo { get; private set; }
 
 		public string CurrentTicketId { get; private set; } = "";
+		public CompleteSeasonInfo CompleteSeasonInfo { get; private set; }
 
 		public async UniTask RequestUserRankAsync()
 		{
@@ -159,6 +161,28 @@ namespace Online.Service
 			//TODO: DNGUYEN - gọi api claim reward
 			// claim thành công thì trả về true
 			return true;
+		}
+		
+		public async UniTask<ClaimSeasonRewardResponse> ClaimSeasonReward()
+		{
+			var signal = new UniTaskCompletionSource<ClaimSeasonRewardResponse>();
+			PlayFabClientAPI.ExecuteCloudScript(new ()
+			{
+				FunctionName = C.CloudFunction.ClaimSeasonReward
+			}, result =>
+			{
+				LogSuccess("ClaimSeasonReward Succeed!");
+				signal.TrySetResult(JsonConvert.DeserializeObject<ClaimSeasonRewardResponse>(result.FunctionResult.ToString()));
+			}, error =>
+			{
+				LogError("ClaimSeasonReward, Error: " + error.ErrorMessage);
+				signal.TrySetResult(new ClaimSeasonRewardResponse()
+				{
+					Result = false,
+					Error = EErrorCode.PlayfabError
+				});
+			});
+			return await signal.Task;
 		}
 
 		public override void LogSuccess(string message)
