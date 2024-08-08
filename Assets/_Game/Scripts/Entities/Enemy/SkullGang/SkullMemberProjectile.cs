@@ -60,15 +60,12 @@ public class SkullMemberProjectile : MonoBehaviour
             return;
         }
         isImpacted = true;
-        body.velocity = Vector2.zero;
-        transform.parent = ship.transform.GetChild(0);
         isLaunched = false;
-        Invoke("SelfDestroy", 10);
-        ParticleSystem ps = Instantiate(particle, upper.transform.position, Quaternion.identity);
+        
+        ParticleSystem ps = Instantiate(particle, upper.transform.position, Quaternion.identity, ship.transform.GetChild(0));
         ps.gameObject.SetActive(true);
-
-
         DoDmg();
+        Destroy(gameObject);
     }
 
     void DoDmg()
@@ -78,16 +75,9 @@ public class SkullMemberProjectile : MonoBehaviour
         enemyAttackData.TargetCells = new List<Cell>() { cell };
         enemyAttackData.CenterCell = cell;
 
-        Debug.LogError(cell.ToString());
-
         dmgEffect.transform.position = cell.transform.position;
         enemyAttackData.Effects = new List<Effect> { dmgEffect };
 
         gridAttack.ProcessAttack(enemyAttackData);
-    }
-
-    void SelfDestroy()
-    {
-        Destroy(gameObject);
     }
 }
