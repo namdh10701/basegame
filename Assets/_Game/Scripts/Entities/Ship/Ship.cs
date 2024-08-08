@@ -15,12 +15,10 @@ using static UnityEngine.Rendering.DebugUI;
 
 namespace _Game.Features.Gameplay
 {
-    public class Ship : Entity, IEffectTaker, IStatsBearer, IGDConfigStatsTarget, IBuffable, IShieldable
+    public class Ship : Entity, IEffectTaker, IStatsBearer, IBuffable, IShieldable
     {
         [Header("GD Config Stats Target")]
         [SerializeField] private string id;
-        [SerializeField] private GDConfig gdConfig;
-        [SerializeField] private StatsTemplate statsTemplate;
 
         [Space]
         [Header("Ship")]
@@ -31,10 +29,6 @@ namespace _Game.Features.Gameplay
 
 
         public string Id { get => id; set => id = value; }
-
-        public GDConfig GDConfig => gdConfig;
-
-        public StatsTemplate StatsTemplate => statsTemplate;
 
         public override Stats Stats => stats;
 

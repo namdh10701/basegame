@@ -96,6 +96,9 @@ namespace _Game.Scripts.DB
             ShapeIdDic.Add(new KeyValuePair<ItemType, string>(ItemType.CANNON, "chaining"), Shape.ShapeDic[1]);
             ShapeIdDic.Add(new KeyValuePair<ItemType, string>(ItemType.CANNON, "far"), Shape.ShapeDic[3]);
 
+            ShapeIdDic.Add(new KeyValuePair<ItemType, string>(ItemType.CANNON, "velkoz"), Shape.ShapeDic[2]);
+            ShapeIdDic.Add(new KeyValuePair<ItemType, string>(ItemType.CANNON, "fork"), Shape.ShapeDic[2]);
+
             ShapeIdDic.Add(new KeyValuePair<ItemType, string>(ItemType.CREW, "captain"), Shape.ShapeDic[1]);
             ShapeIdDic.Add(new KeyValuePair<ItemType, string>(ItemType.CREW, "crew"), Shape.ShapeDic[1]);
 
@@ -352,7 +355,7 @@ namespace _Game.Scripts.DB
         public static Vector3 GetOffsetCannonWithStartCell(string cannonId, string shipId)
         {
             var opeartor = CannonOperatorDic[cannonId];
-            return CannonOffsetDic[new KeyValuePair<string, string>(opeartor, shipId)];
+            return CannonOffsetDic[new KeyValuePair<string, string>(opeartor, "0003")];
         }
 
         public static Vector3 GetOffsetBulletWithStartCell(string bulletId, string shipId)

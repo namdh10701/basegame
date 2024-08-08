@@ -22,8 +22,6 @@ namespace _Game.Scripts.Entities
     {
         [Header("GD Config Stats Target")]
         public string id;
-        public GDConfig gdConfig;
-        public StatsTemplate statsTemplate;
         public List<IGridItem> adjItems = new List<IGridItem>();
         public List<IGridItem> AdjItems { get => adjItems; set => adjItems = value; }
         [Header("Cannon")]
@@ -54,9 +52,6 @@ namespace _Game.Scripts.Entities
         public Transform Transform => transform;
         public bool IsWalkAble => false;
         public string Id { get => id; set => id = value; }
-        public GDConfig GDConfig => gdConfig;
-        public StatsTemplate StatsTemplate => statsTemplate;
-
         public override Stats Stats => _stats;
 
         public List<Node> workingSlots = new List<Node>();
