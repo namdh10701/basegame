@@ -8,8 +8,6 @@ using UnityEngine;
 using _Base.Scripts.Utils.Extensions;
 using _Game.Scripts;
 using _Game.Scripts.SaveLoad;
-using Fusion;
-using Mono.Cecil.Cil;
 using _Base.Scripts.RPGCommon.Entities;
 
 namespace _Game.Features.Gameplay
@@ -346,10 +344,12 @@ namespace _Game.Features.Gameplay
             }
             foreach (Cell cell in AllCells)
             {
+                if (cell == null) continue;
                 cell.stats.ShipStats = Ship.stats;
                 cell.WorkingSlots = new List<Scripts.PathFinding.Node>();
                 foreach (var node in NodeGraph.nodes)
                 {
+                    if (node == null) continue;
                     if (node.cell != null && node.cell == cell)
                     {
                         cell.WorkingSlots.Add(node);

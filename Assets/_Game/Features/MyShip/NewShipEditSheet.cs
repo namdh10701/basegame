@@ -655,17 +655,20 @@ namespace _Game.Features.MyShip
         {
             var currentShipIdx = SaveSystem.GameSave.OwnedShips.IndexOf(SaveSystem.GameSave.ShipSetupSaveData.CurrentShip);
             var nextShipIdx = Math.Min(SaveSystem.GameSave.OwnedShips.Count - 1, currentShipIdx + 1);
+            
+            if (currentShipIdx == nextShipIdx) return;
+            
             _shipId = SaveSystem.GameSave.OwnedShips[nextShipIdx].ItemId;
             _shipSetupProfileIndex = 0;
             OnPropertyChanged(nameof(ShipSetupProfileIndex));
             SaveSystem.GameSave.ShipSetupSaveData.CurrentProfile = (SetupProfile)_shipSetupProfileIndex;
-            SaveSystem.GameSave.ShipSetupSaveData.CurrentShip.ItemId = _shipId;
+            SaveSystem.GameSave.ShipSetupSaveData.CurrentShip = SaveSystem.GameSave.OwnedShips.Find(v => v.ItemId == _shipId);
             
             InitializeShip(_shipId);
             
             await UniTask.NextFrame();
             LoadShipSetup(ShipId, (SetupProfile)_shipSetupProfileIndex);
-
+            
             OnPropertyChanged(nameof(ShipPageInfo));
         }
 
@@ -674,11 +677,14 @@ namespace _Game.Features.MyShip
         {
             var currentShipIdx = SaveSystem.GameSave.OwnedShips.IndexOf(SaveSystem.GameSave.ShipSetupSaveData.CurrentShip);
             var nextShipIdx = Math.Max(0, currentShipIdx - 1);
+
+            if (currentShipIdx == nextShipIdx) return;
+            
             _shipId = SaveSystem.GameSave.OwnedShips[nextShipIdx].ItemId;
             _shipSetupProfileIndex = 0;
             OnPropertyChanged(nameof(ShipSetupProfileIndex));
             SaveSystem.GameSave.ShipSetupSaveData.CurrentProfile = (SetupProfile)_shipSetupProfileIndex;
-            SaveSystem.GameSave.ShipSetupSaveData.CurrentShip.ItemId = _shipId;
+            SaveSystem.GameSave.ShipSetupSaveData.CurrentShip = SaveSystem.GameSave.OwnedShips.Find(v => v.ItemId == _shipId);
             
             InitializeShip(_shipId);
             
