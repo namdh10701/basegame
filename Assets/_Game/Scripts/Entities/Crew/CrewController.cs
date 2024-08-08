@@ -171,5 +171,15 @@ namespace _Game.Features.Gameplay
                 crew.CrewAction.Activate();
             }
         }
+
+        public void Clear()
+        {
+            CrewJobData.OnActivateJobsChanged -= OnJobActivate;
+        }
+
+        public void OnRevive()
+        {
+            CrewJobData.OnActivateJobsChanged += OnJobActivate;
+        }
     }
 }

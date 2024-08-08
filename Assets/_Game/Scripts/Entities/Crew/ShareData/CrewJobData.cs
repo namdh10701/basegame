@@ -161,5 +161,21 @@ namespace _Game.Features.Gameplay
             }
             OnActivateJobsChanged?.Invoke(fixCannonJob);
         }
+
+        public void Clear()
+        {
+            GlobalEvent<Carpet, int>.Unregister("FixCarpet", ActivateFixCarpetTask);
+            GlobalEvent<Cell, int>.Unregister("FixCell", ActivateFixCellTask);
+            GlobalEvent<Ammo, int>.Unregister("FixAmmo", ActivateFixAmmoTask);
+            GlobalEvent<Cannon, int>.Unregister("FixCannon", ActivateFixCannonTask);
+        }
+
+        public void OnRevive()
+        {
+            GlobalEvent<Carpet, int>.Register("FixCarpet", ActivateFixCarpetTask);
+            GlobalEvent<Cell, int>.Register("FixCell", ActivateFixCellTask);
+            GlobalEvent<Ammo, int>.Register("FixAmmo", ActivateFixAmmoTask);
+            GlobalEvent<Cannon, int>.Register("FixCannon", ActivateFixCannonTask);
+        }
     }
 }

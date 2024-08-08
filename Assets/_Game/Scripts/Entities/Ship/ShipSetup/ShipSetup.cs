@@ -535,10 +535,21 @@ namespace _Game.Features.Gameplay
             {
                 cannon.GridItemStateManager.GridItemState = GridItemState.Broken;
             }
+            foreach (Ammo ammo in Ammos)
+            {
+                ammo.GridItemStateManager.GridItemState = GridItemState.Broken;
+            }
+            CrewController.Clear();
+            foreach (Crew crew in CrewController.crews)
+            {
+                crew.CrewAction.Pause();
+                crew.State = CrewState.Idle;
+            }
         }
 
         public void OnRevive()
         {
+            CrewController.OnRevive();
             foreach (var cell in AllCells)
             {
                 cell.stats.HealthPoint.StatValue.BaseValue = cell.stats.HealthPoint.MaxValue;
