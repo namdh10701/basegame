@@ -24,9 +24,9 @@ namespace _Game.Features.MyShip
         CONFIG_SHIP,
         CONFIG_STASH,
     }
-    
+
     [Binding]
-    public class ShipItem: SubViewModel
+    public class ShipItem : SubViewModel
     {
         private NewShipEditSheet _shipEditSheet;
 
@@ -34,7 +34,7 @@ namespace _Game.Features.MyShip
         {
             _shipEditSheet = shipEditSheet;
         }
-        
+
         #region Binding Prop: InventoryItem
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace _Game.Features.MyShip
     }
 
     [Binding]
-    public class StashItem: SubViewModel
+    public class StashItem : SubViewModel
     {
         private NewShipEditSheet _shipEditSheet;
 
@@ -91,7 +91,7 @@ namespace _Game.Features.MyShip
         {
             _shipEditSheet = shipEditSheet;
         }
-        
+
         #region Binding Prop: InventoryItem
 
         /// <summary>
@@ -137,7 +137,7 @@ namespace _Game.Features.MyShip
         {
             IOC.Resolve<InventorySheet>().RemoveIgnore(_inventoryItem);
             InventoryItem = null;
-            
+
             _shipEditSheet.SaveSetupProfile();
         }
     }
@@ -149,10 +149,10 @@ namespace _Game.Features.MyShip
         public RectTransform ShipSpawnPoint;
         public RectTransform InventorySheet;
         public ShipConfigManager ShipConfigManager;
-        
+
         // [Binding]
         // public ObservableList<ShipItem> ShipItems { get; } = new();
-        
+
         [Binding]
         public ObservableList<StashItem> StashItems { get; } = new();
 
@@ -177,7 +177,7 @@ namespace _Game.Features.MyShip
 
                 _itemPositions = value;
                 OnPropertyChanged(nameof(ItemPositions));
-                
+
                 SaveSetupProfile();
             }
         }
@@ -231,7 +231,7 @@ namespace _Game.Features.MyShip
 
                 _shipSetupProfileIndex = value;
                 OnPropertyChanged(nameof(ShipSetupProfileIndex));
-                
+
                 LoadShipSetup(ShipId, (SetupProfile)_shipSetupProfileIndex);
                 SaveSetupProfile();
             }
@@ -253,7 +253,7 @@ namespace _Game.Features.MyShip
 
             var inventorySheet = IOC.Resolve<InventorySheet>();
             inventorySheet?.ClearIgnoredItems();
-            
+
             // load data
             var shipSetupData = SaveSystem.GameSave.ShipSetupSaveData.GetShipSetup(shipId, profile);
             foreach (var (pos, itemData) in shipSetupData.StashData)
@@ -273,12 +273,12 @@ namespace _Game.Features.MyShip
                     inventoryItem.Name = rec.Name;
                     inventoryItem.Shape = rec.Shape;
                 }
-                
+
                 else if (itemData.ItemType == ItemType.CANNON)
                 {
                     var rec = GameData.CannonTable.FindById(itemData.ItemId);
                     if (rec == null) continue;
-                    
+
                     inventoryItem.Type = ItemType.CANNON;
                     inventoryItem.BackedData = rec;
                     inventoryItem.Id = rec.Id;
@@ -287,12 +287,12 @@ namespace _Game.Features.MyShip
                     inventoryItem.Name = rec.Name;
                     inventoryItem.Shape = rec.Shape;
                 }
-                
+
                 else if (itemData.ItemType == ItemType.AMMO)
                 {
                     var rec = GameData.AmmoTable.FindById(itemData.ItemId);
                     if (rec == null) continue;
-                    
+
                     inventoryItem.Type = ItemType.AMMO;
                     inventoryItem.BackedData = rec;
                     inventoryItem.Id = rec.Id;
@@ -301,11 +301,11 @@ namespace _Game.Features.MyShip
                     inventoryItem.Name = rec.Name;
                     inventoryItem.Shape = rec.Shape;
                 }
-                
+
                 StashItems[int.Parse(pos)].InventoryItem = inventoryItem;
                 inventorySheet.AddIgnore(inventoryItem);
             }
-            
+
             ItemPositions.Clear();
             foreach (var (rawPos, itemData) in shipSetupData.ShipData)
             {
@@ -317,7 +317,7 @@ namespace _Game.Features.MyShip
                 {
                     var rec = GameData.CrewTable.FindById(itemData.ItemId);
                     if (rec == null) continue;
-                    
+
                     inventoryItem.Type = ItemType.CREW;
                     inventoryItem.BackedData = rec;
                     inventoryItem.Id = rec.Id;
@@ -326,12 +326,12 @@ namespace _Game.Features.MyShip
                     inventoryItem.Name = rec.Name;
                     inventoryItem.Shape = rec.Shape;
                 }
-                
+
                 else if (itemData.ItemType == ItemType.CANNON)
                 {
                     var rec = GameData.CannonTable.FindById(itemData.ItemId);
                     if (rec == null) continue;
-                    
+
                     inventoryItem.Type = ItemType.CANNON;
                     inventoryItem.BackedData = rec;
                     inventoryItem.Id = rec.Id;
@@ -340,12 +340,12 @@ namespace _Game.Features.MyShip
                     inventoryItem.Name = rec.Name;
                     inventoryItem.Shape = rec.Shape;
                 }
-                
+
                 else if (itemData.ItemType == ItemType.AMMO)
                 {
                     var rec = GameData.AmmoTable.FindById(itemData.ItemId);
                     if (rec == null) continue;
-                    
+
                     inventoryItem.Type = ItemType.AMMO;
                     inventoryItem.BackedData = rec;
                     inventoryItem.Id = rec.Id;
@@ -354,7 +354,7 @@ namespace _Game.Features.MyShip
                     inventoryItem.Name = rec.Name;
                     inventoryItem.Shape = rec.Shape;
                 }
-                
+
                 ItemPositions[pos] = inventoryItem;
                 inventorySheet.AddIgnore(inventoryItem);
             }
@@ -362,17 +362,17 @@ namespace _Game.Features.MyShip
             GetComponentInChildren<ShipConfigManager>().ClearPlacement();
 
             HashSet<string> ignoreItemId = new();
-            Dictionary<string, Tuple<List<Vector2Int>, InventoryItem>> tmp = new(); 
+            Dictionary<string, Tuple<List<Vector2Int>, InventoryItem>> tmp = new();
             foreach (var (pos, inventoryItem) in ItemPositions)
             {
                 if (!tmp.ContainsKey(inventoryItem.Type + inventoryItem.Id))
                 {
                     tmp[inventoryItem.Type + inventoryItem.Id] = new(new List<Vector2Int>(), inventoryItem);
                 }
-                
+
                 tmp[inventoryItem.Type + inventoryItem.Id].Item1.Add(pos);
             }
-            
+
             foreach (var (itemId, slots) in tmp)
             {
                 // draw UI
@@ -387,26 +387,26 @@ namespace _Game.Features.MyShip
             var setup = SaveSystem.GameSave.ShipSetupSaveData.GetShipSetup(ShipId, ShipSetupProfile);
             SaveSystem.GameSave.ShipSetupSaveData.CurrentShip.ItemId = ShipId;
             SaveSystem.GameSave.ShipSetupSaveData.CurrentProfile = ShipSetupProfile;
-            
+
             // stash
             for (var i = 0; i < StashItems.Count; i++)
             {
                 var stash = StashItems[i];
 
-                setup.StashData[i + ""] 
+                setup.StashData[i + ""]
                     = stash.InventoryItem == null ? null : new ItemData()
                     {
                         ItemId = stash.InventoryItem.Id,
                         ItemType = stash.InventoryItem.Type,
                     };
             }
-            
+
 
             // ship
             setup.ShipData.Clear();
             foreach (var (pos, item) in ItemPositions)
             {
-                
+
                 setup.ShipData[$"{pos.x},{pos.y}"] = new ItemData()
                 {
                     ItemId = item.Id,
@@ -444,7 +444,7 @@ namespace _Game.Features.MyShip
 
         #region ViewMode
         public ViewMode _viewMode = ViewMode.CONFIG_NORMAL;
-        
+
         private void SetViewMode(ViewMode viewMode)
         {
             _viewMode = viewMode;
@@ -470,7 +470,7 @@ namespace _Game.Features.MyShip
             OnPropertyChanged(nameof(IsConfigMode));
             OnPropertyChanged(nameof(CanSwitchStashShip));
             OnPropertyChanged(nameof(ShouldShowProfile));
-            
+
             UpdateRemovable();
         }
 
@@ -510,10 +510,10 @@ namespace _Game.Features.MyShip
                 //     value, 
                 //     rect.position.z
                 // );
-                
+
                 var rect = (RectTransform)ConfigSheet.transform;
                 rect.DOAnchorPos(new Vector2(rect.anchoredPosition.x, value), 0.5f, true);
-                
+
                 OnPropertyChanged(nameof(ConfigSheet_PosY));
             }
         }
@@ -539,7 +539,7 @@ namespace _Game.Features.MyShip
                 }
 
                 _inventorySheet_PosY = value;
-                
+
                 var rect = (RectTransform)InventorySheet.transform;
                 rect.DOAnchorPos(new Vector2(rect.anchoredPosition.x, value), 0.5f, true);
                 // rect.anchoredPosition = new Vector2(
@@ -550,7 +550,7 @@ namespace _Game.Features.MyShip
                 //     value, 
                 //     rect.position.z
                 // );
-                
+
                 OnPropertyChanged(nameof(InventorySheet_PosY));
             }
         }
@@ -561,32 +561,32 @@ namespace _Game.Features.MyShip
 
         [Binding]
         public bool IsConfigMode => _viewMode != ViewMode.CONFIG_NORMAL;
-        
+
         [Binding]
         public bool ShouldShowProfile => _viewMode == ViewMode.CONFIG_NORMAL || IsViewMode;
-        
+
         [Binding]
         public bool CanSwitchStashShip => _viewMode == ViewMode.CONFIG_STASH || _viewMode == ViewMode.CONFIG_SHIP;
-        
-        
+
+
         [Binding]
         public void SetViewMode_View()
         {
             SetViewMode(ViewMode.VIEW);
         }
-        
+
         [Binding]
         public void SetViewMode_Normal()
         {
             SetViewMode(ViewMode.CONFIG_NORMAL);
         }
-        
+
         [Binding]
         public void SetViewMode_ConfigShip()
         {
             SetViewMode(ViewMode.CONFIG_SHIP);
         }
-        
+
         [Binding]
         public void SetViewMode_ConfigStash()
         {
@@ -617,7 +617,7 @@ namespace _Game.Features.MyShip
             return instance;
         }
 
-        
+
 
         public ShipSetupItem GetDragItemPrefab(InventoryItem item)
         {
@@ -631,7 +631,7 @@ namespace _Game.Features.MyShip
         {
             // await ScreenContainer.Find(ContainerKey.Screens).PopAsync(true);
         }
-        
+
         public override async UniTask Initialize(Memory<object> args)
         {
             IOC.Register(this);
@@ -644,7 +644,7 @@ namespace _Game.Features.MyShip
             _shipSetupProfileIndex = (int)SaveSystem.GameSave.ShipSetupSaveData.CurrentProfile;
             OnPropertyChanged(nameof(ShipSetupProfileIndex));
             InitializeShip(ShipId);
-            
+
             OnPropertyChanged(nameof(ShipPageInfo));
 
             SetViewMode_View();
@@ -655,20 +655,20 @@ namespace _Game.Features.MyShip
         {
             var currentShipIdx = SaveSystem.GameSave.OwnedShips.IndexOf(SaveSystem.GameSave.ShipSetupSaveData.CurrentShip);
             var nextShipIdx = Math.Min(SaveSystem.GameSave.OwnedShips.Count - 1, currentShipIdx + 1);
-            
+
             if (currentShipIdx == nextShipIdx) return;
-            
+
             _shipId = SaveSystem.GameSave.OwnedShips[nextShipIdx].ItemId;
             _shipSetupProfileIndex = 0;
             OnPropertyChanged(nameof(ShipSetupProfileIndex));
             SaveSystem.GameSave.ShipSetupSaveData.CurrentProfile = (SetupProfile)_shipSetupProfileIndex;
             SaveSystem.GameSave.ShipSetupSaveData.CurrentShip = SaveSystem.GameSave.OwnedShips.Find(v => v.ItemId == _shipId);
-            
+
             InitializeShip(_shipId);
-            
+
             await UniTask.NextFrame();
             LoadShipSetup(ShipId, (SetupProfile)_shipSetupProfileIndex);
-            
+
             OnPropertyChanged(nameof(ShipPageInfo));
         }
 
@@ -679,23 +679,24 @@ namespace _Game.Features.MyShip
             var nextShipIdx = Math.Max(0, currentShipIdx - 1);
 
             if (currentShipIdx == nextShipIdx) return;
-            
+
             _shipId = SaveSystem.GameSave.OwnedShips[nextShipIdx].ItemId;
             _shipSetupProfileIndex = 0;
             OnPropertyChanged(nameof(ShipSetupProfileIndex));
             SaveSystem.GameSave.ShipSetupSaveData.CurrentProfile = (SetupProfile)_shipSetupProfileIndex;
             SaveSystem.GameSave.ShipSetupSaveData.CurrentShip = SaveSystem.GameSave.OwnedShips.Find(v => v.ItemId == _shipId);
-            
+
             InitializeShip(_shipId);
-            
+
             await UniTask.NextFrame();
             LoadShipSetup(ShipId, (SetupProfile)_shipSetupProfileIndex);
-            
+
             OnPropertyChanged(nameof(ShipPageInfo));
         }
 
-        [Binding] public string ShipPageInfo 
-            => $"{(SaveSystem.GameSave.OwnedShips.IndexOf(SaveSystem.GameSave.ShipSetupSaveData.CurrentShip)+1).ToString().PadLeft(2, '0')}/{SaveSystem.GameSave.OwnedShips.Count.ToString().PadLeft(2, '0')}";
+        [Binding]
+        public string ShipPageInfo
+            => $"{(SaveSystem.GameSave.OwnedShips.IndexOf(SaveSystem.GameSave.ShipSetupSaveData.CurrentShip) + 1).ToString().PadLeft(2, '0')}/{SaveSystem.GameSave.OwnedShips.Count.ToString().PadLeft(2, '0')}";
 
         public override async void DidEnter(Memory<object> args)
         {
@@ -710,7 +711,7 @@ namespace _Game.Features.MyShip
         void InitializeShip(string shipID)
         {
             DestroyCurrentShip();
-            
+            Debug.LogError(shipID);
             var shipPrefabs = Resources.Load<GameObject>($"Ships/Ship_{shipID}");
             ship = Instantiate(shipPrefabs, ShipSpawnPoint);
         }
@@ -722,7 +723,7 @@ namespace _Game.Features.MyShip
                 Destroy(child.gameObject);
             }
         }
-        
+
         public class InputData<T>
         {
             public T Value { get; }
@@ -732,7 +733,7 @@ namespace _Game.Features.MyShip
                 Value = data;
             }
         }
-        
+
         public static Vector2Int FindBottomLeftPoint(List<Vector2Int> points)
         {
             if (points == null || points.Count == 0)
@@ -753,7 +754,7 @@ namespace _Game.Features.MyShip
 
             return bottomLeft;
         }
-        
+
         public static Vector2Int FindTopLeftPoint(List<Vector2Int> points)
         {
             if (points == null || points.Count == 0)
@@ -789,20 +790,20 @@ namespace _Game.Features.MyShip
         {
             StashItems[pos].InventoryItem = data;
         }
-        
+
         public void Stash_RemoveSlot(int pos, InventoryItem data)
         {
             StashItems[pos].InventoryItem = null;
         }
-        
-        
+
+
 
         public void Ship_SetSlot(Vector2Int pos, InventoryItem inventoryItem)
         {
             Debug.Log("pos: " + pos);
             var gridLayoutGroup = GetComponentInChildren<SlotGrid>().GetComponent<GridLayoutGroup>();
             var placementPane = GetComponentInChildren<PlacementPane>(false).transform;
-            
+
             foreach (var shipItem in placementPane.GetComponentsInChildren<ShipSetupItem>(false))
             {
                 if (shipItem.InventoryItem == inventoryItem)
@@ -810,31 +811,31 @@ namespace _Game.Features.MyShip
                     Destroy(shipItem.gameObject);
                 }
             }
-            
+
             // Remove backed data
             var pairs = ItemPositions.Where(v => v.Value == inventoryItem).ToList();
             for (var i = 0; i < pairs.Count; i++)
             {
                 ItemPositions.Remove(pairs[i].Key);
             }
-            
+
             var shipSetupItemPrefab = ShipSetupUtils.GetShipSetupItemPrefab(inventoryItem);
             var shipSetupItem = Instantiate(shipSetupItemPrefab, placementPane);
             shipSetupItem.Removable = true;
             shipSetupItem.InventoryItem = inventoryItem;
             shipSetupItem.Pos = pos;
-            
+
             var uiCell = GridLayoutGroupUtils.GetCellAtPosition(gridLayoutGroup, pos);
             var rect = shipSetupItem.transform as RectTransform;
             rect.anchorMin = Vector2.up;
             rect.anchorMax = Vector2.up;
             rect.pivot = Vector2.zero;
             rect.anchoredPosition = uiCell.anchoredPosition;
-            
+
             ItemPositions[pos] = inventoryItem;
-            
+
             SaveSetupProfile();
-            
+
             // hide from inventory sheet
             IOC.Resolve<InventorySheet>().AddIgnore(inventoryItem);
         }
@@ -849,14 +850,14 @@ namespace _Game.Features.MyShip
                     Destroy(shipItem.gameObject);
                 }
             }
-            
+
             // Remove backed data
             var pairs = ItemPositions.Where(v => v.Value == item).ToList();
             for (var i = 0; i < pairs.Count; i++)
             {
                 ItemPositions.Remove(pairs[i].Key);
             }
-            
+
             // back to stash
             StashItem firstEmptyStashItem = null;
             foreach (var stashItem in StashItems)
@@ -872,9 +873,9 @@ namespace _Game.Features.MyShip
             {
                 return;
             }
-            
+
             firstEmptyStashItem.InventoryItem = item;
-            
+
             SaveSetupProfile();
         }
     }

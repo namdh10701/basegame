@@ -3779,6 +3779,7 @@ GameObject:
   - component: {fileID: 7663447522862244348}
   - component: {fileID: 1268778597133987307}
   - component: {fileID: 1975878762485726247}
+  - component: {fileID: 1282137141829823916}
   m_Layer: 9
   m_Name: Ship_0003
   m_TagString: Untagged
@@ -3916,7 +3917,7 @@ MonoBehaviour:
   CrewJobData: {fileID: 5666675239926736461}
   FeverModel: {fileID: 4528603342744756878}
   HUD: {fileID: 331192666127718660}
-  reloadCannonController: {fileID: 0}
+  reloadCannonController: {fileID: 1282137141829823916}
 --- !u!114 &4341670414827705971
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4313,6 +4314,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1282137141829823916
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7198928049645065834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31c829eb71550c545a8cb3d433bf20a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ship: {fileID: 4279266761017053362}
+  outOfAmmoCannons: []
 --- !u!1 &7314040799258544284
 GameObject:
   m_ObjectHideFlags: 0
