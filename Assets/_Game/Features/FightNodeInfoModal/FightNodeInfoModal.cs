@@ -13,6 +13,7 @@ using _Game.Scripts.UI.Utils;
 using Cysharp.Threading.Tasks;
 using Map;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityWeld.Binding;
 using ZBase.UnityScreenNavigator.Core.Modals;
 using ZBase.UnityScreenNavigator.Core.Screens;
@@ -66,6 +67,11 @@ namespace _Game.Features.FightNodeInfoPopup
 
             await Nav.ShowScreenAsync<BattleLoadingScreen>(poolingPolicy: ZBase.UnityScreenNavigator.Core.PoolingPolicy.DisablePooling);
             // await UniTask.Delay(1000);
+            AsyncOperation unloadHabor = SceneManager.UnloadSceneAsync("HaborScene");
+            await unloadHabor;
+            AsyncOperation loadBattle = SceneManager.LoadSceneAsync("BattleScene", LoadSceneMode.Additive);
+            await loadBattle;
+            SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(1));
             await (screenContainer.Current.View as BattleLoadingScreen)?.StopLoopAndPlayEnd()!;
             await Nav.ShowScreenAsync<BattleScreen>(poolingPolicy: ZBase.UnityScreenNavigator.Core.PoolingPolicy.DisablePooling);
 

@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using _Base.Scripts.RPG.Stats;
 using _Base.Scripts.RPGCommon.Entities;
+using _Game.Features.Gameplay;
 using UnityEngine;
 
 namespace _Game.Scripts
@@ -31,20 +33,10 @@ namespace _Game.Scripts
 
         [field: SerializeField]
         public Stat HealthRegenerationRate { get; set; } = new(0);
-
         [field: SerializeField]
-        public Stat ZeroManaCost { get; set; } = new();
-
+        public List<RangedStat> Shields { get; set; } = new List<RangedStat>();
         [field: SerializeField]
-        public Stat Luck { get; set; } = new();
-
-        [field: SerializeField]
-        public Stat BonusAmmo { get; set; } = new();
-
-        [field: SerializeField]
-        public Stat FeverTimeProb { get; set; } = new();
-        [field: SerializeField]
-        public Stat GoldIncome { get; set; } = new();
+        public List<RangedStat> Blocks { get; set; } = new List<RangedStat>();
 
     }
 }

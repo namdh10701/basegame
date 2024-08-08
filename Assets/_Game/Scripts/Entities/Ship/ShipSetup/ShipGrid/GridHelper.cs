@@ -1,4 +1,5 @@
 using _Game.Features.Gameplay;
+using _Game.Scripts.Entities;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -493,6 +494,26 @@ namespace _Game.Features.Gameplay
             }
 
             return neighborCells;
+        }
+
+        internal static List<IGridItem> GetNeighborItems(IGridItem gridItem)
+        {
+            List<Cell> neighborCells = GridHelper.GetNeighborCells(gridItem.OccupyCells);
+            List<IGridItem> adjItems = new List<IGridItem>();
+            foreach (var neighborCell in neighborCells)
+            {
+                if (neighborCell != null)
+                {
+                    if (neighborCell.GridItem != null)
+                    {
+                        if (!adjItems.Contains(neighborCell.GridItem))
+                        {
+                            adjItems.Add(neighborCell.GridItem);
+                        }
+                    }
+                }
+            }
+            return adjItems;
         }
     }
 }

@@ -96,6 +96,23 @@ namespace _Game.Scripts.Battle
 
         }
 
+        public void Continue()
+        {
+            foreach (EnemyModel enemyModel in enemyModels)
+            {
+                if (enemyModel != null)
+                {
+                    enemyModel.Enable();
+                }
+            }
 
+            foreach (SkullGang skullGang in skullGangs)
+            {
+                if (skullGang != null)
+                {
+                    skullGang.Enable();
+                }
+            }
+        }
     }
 }

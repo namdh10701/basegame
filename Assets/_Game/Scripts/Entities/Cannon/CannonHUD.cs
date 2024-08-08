@@ -121,7 +121,7 @@ namespace _Game.Features.Gameplay
         private void HealthPoint_OnValueChanged(RangedStat obj)
         {
             float amount = obj.Value / obj.MaxValue;
-            if (amount == 1)
+            if (amount >= 1)
             {
                 HpBar.gameObject.SetActive(false);
 

@@ -30,7 +30,7 @@ namespace _Game.Features.Gameplay
         {
             instance = this;
             GlobalEvent<bool>.Register("TOGGLE_PAUSE", TogglePause);
-            Initialize();
+            //Initialize();
         }
         #endregion
 
@@ -53,7 +53,7 @@ namespace _Game.Features.Gameplay
         public abstract void HandleLoseData();
         public abstract void HandleWinData();
         public abstract void ShowWinUIAsync();
-        public abstract void ShowLoseUIAsync();
+        public abstract void ShowLoseUIAsync(int revive);
         public abstract IEnumerator LevelEntryCoroutine();
 
 
@@ -127,7 +127,7 @@ namespace _Game.Features.Gameplay
             ShowWinUIAsync();
         }
 
-        public void Lose()
+        public void Lose(int revive)
         {
             if (IsEnded)
             {
@@ -137,13 +137,13 @@ namespace _Game.Features.Gameplay
             StopGame();
             IsWin = false;
             HandleLoseData();
-            StartCoroutine(LoseCoroutine());
+            StartCoroutine(LoseCoroutine(revive));
         }
 
 
         public CameraShake cameraShake;
         public ParticleSystem explosion;
-        IEnumerator LoseCoroutine()
+        IEnumerator LoseCoroutine(int revive)
         {
             float elapsedTime = 0;
             float duration = 4;
@@ -160,9 +160,14 @@ namespace _Game.Features.Gameplay
                     cameraShake.Shake(.15f, new Vector3(.15f, .15f, .15f));
                 }
             }
-            ShowLoseUIAsync();
+            ShowLoseUIAsync(revive);
         }
 
         public abstract void PlayAgain();
+        public virtual void Revive()
+        {
+            IsEnded = false;
+            BattleInputManager.gameObject.SetActive(true);
+        }
     }
 }

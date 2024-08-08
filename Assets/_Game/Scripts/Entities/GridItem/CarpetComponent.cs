@@ -2,6 +2,7 @@ using _Base.Scripts.RPG.Effects;
 using _Base.Scripts.RPG.Stats;
 using _Game.Features.Gameplay;
 using _Game.Scripts;
+using _Game.Scripts.Entities;
 using _Game.Scripts.PathFinding;
 using System.Collections;
 using System.Collections.Generic;
@@ -33,6 +34,9 @@ public class CarpetComponent : MonoBehaviour, IStatsBearer, ICellSplitItemCompon
     public bool IsWalkAble => true;
 
     public Stat StatusResist => null;
+
+    public List<IGridItem> adjItems = new List<IGridItem>();
+    public List<IGridItem> AdjItems { get => adjItems; set => adjItems = value; }
 
     private void Awake()
     {

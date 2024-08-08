@@ -16,6 +16,7 @@ namespace _Game.Scripts.Entities
         public string GridId { get; set; }
         public List<Cell> OccupyCells { get; set; }
         public Transform Transform { get; }
+        public List<IGridItem> AdjItems { get; set; }
 
         public bool IsWalkAble { get; }
         public GridItemStateManager GridItemStateManager { get; }

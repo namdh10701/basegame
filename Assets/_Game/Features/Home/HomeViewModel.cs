@@ -108,7 +108,6 @@ namespace _Game.Features.Home
         {
             if (HomeManager.Instance != null)
             {
-                Debug.Log("RERESH 1");
                 HomeManager.Instance.Refresh();
             }
         }

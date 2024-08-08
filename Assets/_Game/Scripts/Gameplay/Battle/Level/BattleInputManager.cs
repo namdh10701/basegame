@@ -44,6 +44,7 @@ namespace _Game.Features.Gameplay
         {
             GameObject clickedObject = EventSystem.current.currentSelectedGameObject;
 
+            Debug.Log("click obj");
             if (clickedObject != null)
             {
                 if (clickedObject.TryGetComponent(out FeverOrbBtn orbBtn))
@@ -149,10 +150,13 @@ namespace _Game.Features.Gameplay
                         else
                         {
                             DeselectCannon();
-                            EntityManager.Ship.HUD.FilterCannonUsingAmmo(cannon);
-                            EntityManager.Ship.HUD.Show();
-                            selectingCannon = cannon;
-                            selectingCannon.View.Border.SetActive(true);
+                            if (cannon.FeverState == CannonFeverState.None)
+                            {
+                                EntityManager.Ship.HUD.FilterCannonUsingAmmo(cannon);
+                                EntityManager.Ship.HUD.Show();
+                                selectingCannon = cannon;
+                                selectingCannon.View.Border.SetActive(true);
+                            }
                         }
                     }
                     if (pointerDownObject.TryGetComponent(out Ammo ammo))
@@ -172,13 +176,13 @@ namespace _Game.Features.Gameplay
                         }
                     }
 
-                    if (pointerDownObject.TryGetComponent(out Carpet carpet))
+                    /*if (pointerDownObject.TryGetComponent(out Carpet carpet))
                     {
                         if (carpet.GridItemStateManager.GridItemState == GridItemState.Broken)
                         {
                             GlobalEvent<Carpet, int>.Send("FixCarpet", carpet, int.MaxValue);
                         }
-                    }
+                    }*/
                 }
             }
 

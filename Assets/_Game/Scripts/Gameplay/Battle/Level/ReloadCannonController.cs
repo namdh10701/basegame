@@ -73,13 +73,15 @@ namespace _Game.Features.Gameplay
 
         public void ReloadCannon(Ship ship, Cannon selectingCannon, Ammo ammo)
         {
+            if (ammo == null)
+                return;
             ShipStats shipStats = ship.Stats as ShipStats;
             if (shipStats.ManaPoint.Value < ammo.stats.EnergyCost.Value)
                 return;
             bool isDoubleAmmo = false;
             bool isRefundMana = false;
-            float ammoDoubledChance = shipStats.BonusAmmo.Value;
-            float refundManaCostChance = shipStats.ZeroManaCost.Value;
+            float ammoDoubledChance = ship.ShipBuffStats.BonusAmmo.Value;
+            float refundManaCostChance = ship.ShipBuffStats.ZeroManaCost.Value;
 
             isDoubleAmmo = Random.Range(0, 1f) < ammoDoubledChance;
             isRefundMana = Random.Range(0, 1f) < refundManaCostChance;
@@ -90,8 +92,10 @@ namespace _Game.Features.Gameplay
             }
             else
             {
-                shipStats.ManaPoint.StatValue.BaseValue -= ammo.stats.EnergyCost.Value;
-                GlobalEvent<int, Vector3>.Send("MANA_CONSUMED", (int)ammo.stats.EnergyCost.Value, selectingCannon.transform.position);
+
+                float manaToBeConsumed = ammo.stats.EnergyCost.Value;
+                shipStats.ManaPoint.StatValue.BaseValue -= manaToBeConsumed;
+                GlobalEvent<int, Vector3>.Send("MANA_CONSUMED", (int)manaToBeConsumed, selectingCannon.transform.position);
             }
 
             selectingCannon.Reload(ammo, isDoubleAmmo);

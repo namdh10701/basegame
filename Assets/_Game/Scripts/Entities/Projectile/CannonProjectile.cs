@@ -36,6 +36,10 @@ namespace _Game.Features.Gameplay
             var conf = GameData.AmmoTable.FindById(id);
             ConfigLoader.LoadConfig(_stats, conf);
             ApplyStats();
+            foreach (Effect effect in outGoingEffects)
+            {
+                effect.Giver = this;
+            }
         }
         public bool isFever;
 

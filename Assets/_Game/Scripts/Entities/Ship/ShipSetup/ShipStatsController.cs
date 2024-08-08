@@ -10,6 +10,8 @@ namespace _Game.Features.Gameplay
     public class ShipStatsController : MonoBehaviour
     {
         public Ship ship;
+        public ShipSetup shipSetup;
+        public ShipBuffStats shipBuffStats;
         public List<StatModifier> AllStatModifier = new List<StatModifier>();
         List<Carpet> carpets = new List<Carpet>();
         List<Crew> crews = new List<Crew>();
@@ -18,11 +20,11 @@ namespace _Game.Features.Gameplay
             if (crews.Contains(crew))
                 return;
             crews.Add(crew);
-            ship.stats.Luck.AddModifier(new StatModifier(crew.stats.Luck.Value, StatModType.Flat, crew));
-            ship.stats.FeverTimeProb.AddModifier(new StatModifier(crew.stats.FeverTimeProb.Value, StatModType.Flat, crew));
-            ship.stats.GoldIncome.AddModifier(new StatModifier(crew.stats.GoldIncome.Value, StatModType.Flat, crew));
-            ship.stats.ZeroManaCost.AddModifier(new StatModifier(crew.stats.ZeroManaCost.Value, StatModType.Flat, crew));
-            ship.stats.BonusAmmo.AddModifier(new StatModifier(crew.stats.BonusAmmo.Value, StatModType.Flat, crew));
+            shipBuffStats.Luck.AddModifier(new StatModifier(crew.stats.Luck.Value, StatModType.Flat, crew));
+            shipBuffStats.FeverTimeProb.AddModifier(new StatModifier(crew.stats.FeverTimeProb.Value, StatModType.Flat, crew));
+            shipBuffStats.GoldIncome.AddModifier(new StatModifier(crew.stats.GoldIncome.Value, StatModType.Flat, crew));
+            shipBuffStats.ZeroManaCost.AddModifier(new StatModifier(crew.stats.ZeroManaCost.Value, StatModType.Flat, crew));
+            shipBuffStats.BonusAmmo.AddModifier(new StatModifier(crew.stats.BonusAmmo.Value, StatModType.Flat, crew));
         }
 
         public void UnregisterCrew(Crew crew)
@@ -30,11 +32,11 @@ namespace _Game.Features.Gameplay
             if (!crews.Contains(crew))
                 return;
             crews.Remove(crew);
-            ship.stats.Luck.RemoveAllModifiersFromSource(crew);
-            ship.stats.FeverTimeProb.RemoveAllModifiersFromSource(crew);
-            ship.stats.GoldIncome.RemoveAllModifiersFromSource(crew);
-            ship.stats.ZeroManaCost.RemoveAllModifiersFromSource(crew);
-            ship.stats.BonusAmmo.RemoveAllModifiersFromSource(crew);
+            shipBuffStats.Luck.RemoveAllModifiersFromSource(crew);
+            shipBuffStats.FeverTimeProb.RemoveAllModifiersFromSource(crew);
+            shipBuffStats.GoldIncome.RemoveAllModifiersFromSource(crew);
+            shipBuffStats.ZeroManaCost.RemoveAllModifiersFromSource(crew);
+            shipBuffStats.BonusAmmo.RemoveAllModifiersFromSource(crew);
         }
         public void RegisterCarpet(Carpet carpet)
         {
@@ -42,22 +44,6 @@ namespace _Game.Features.Gameplay
                 return;
             carpet.OnActive += OnActiveCarpet;
             carpets.Add(carpet);
-            CarpetStats carpetStats = carpet.Stats as CarpetStats;
-            ShipStats shipStats = ship.Stats as ShipStats;
-            switch (carpet.CarpetType)
-            {
-                case CarpetType.Survival:
-                    break;
-                case CarpetType.Defense:
-                    break;
-                case CarpetType.Attack:
-                    break;
-                case CarpetType.Resource:
-                    break;
-            }
-            shipStats.Luck.AddModifier(new StatModifier(carpetStats.Luck.Value, StatModType.Flat, carpet));
-            shipStats.GoldIncome.AddModifier(new StatModifier(carpetStats.GoldEarning.Value, StatModType.Flat, carpet));
-            shipStats.HealthRegenerationRate.AddModifier(new StatModifier(carpetStats.ShipHpRegen.Value, StatModType.Flat, carpet));
         }
 
         private void OnActiveCarpet(Carpet carpet, bool isActive)
@@ -66,11 +52,11 @@ namespace _Game.Features.Gameplay
             if (isActive)
             {
                 CarpetStats carpetStats = carpet.Stats as CarpetStats;
-                shipStats.HealthRegenerationRate.AddModifier(new StatModifier(carpetStats.ShipHpRegen.Value, StatModType.Flat, carpet));
+                shipSetup.CalculateBuff(carpet);
             }
             else
             {
-                shipStats.HealthRegenerationRate.RemoveAllModifiersFromSource(carpet);
+                shipSetup.CalculateRemoveBuff(carpet);
             }
         }
 
@@ -82,10 +68,28 @@ namespace _Game.Features.Gameplay
             }
             carpet.OnActive -= OnActiveCarpet;
             carpets.Remove(carpet);
-            ShipStats shipStats = ship.Stats as ShipStats;
-            shipStats.Luck.RemoveAllModifiersFromSource(carpet);
-            shipStats.GoldIncome.RemoveAllModifiersFromSource(carpet);
-            shipStats.HealthRegenerationRate.RemoveAllModifiersFromSource(carpet);
+            CarpetStats carpetStats = carpet.Stats as CarpetStats;
+            switch (carpet.CarpetType)
+            {
+                case CarpetType.Survival:
+                    ship.stats.HealthRegenerationRate.RemoveAllModifiersFromSource(carpet);
+                    shipBuffStats.LifeSteal.RemoveAllModifiersFromSource(carpet);
+                    shipBuffStats.AmmoEnergyCostReduce.RemoveAllModifiersFromSource(carpet);
+                    shipBuffStats.CrewRepairSpeedBoost.RemoveAllModifiersFromSource(carpet);
+                    break;
+
+                case CarpetType.Defense:
+
+
+                    break;
+                case CarpetType.Attack:
+
+                    break;
+                case CarpetType.Resource:
+                    shipBuffStats.Luck.RemoveAllModifiersFromSource(carpet);
+                    shipBuffStats.GoldIncome.RemoveAllModifiersFromSource(carpet);
+                    break;
+            }
         }
     }
 }

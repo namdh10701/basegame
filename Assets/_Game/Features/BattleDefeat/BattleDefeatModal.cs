@@ -17,13 +17,35 @@ using ZBase.UnityScreenNavigator.Core.Screens;
 
 namespace _Game.Features.Ranking
 {
+
     [Binding]
-    public partial class BattleDefeatModal : AsyncModal<object, Null>
+    public partial class BattleDefeatModal : AsyncModal<object, BattleDefeatModal.Params>
     {
+        public class Params
+        {
+            public int revive;
+        }
+        bool _isRevive;
+        [Binding]
+        public bool IsRevive
+        {
+            get => _isRevive;
+            set
+            {
+                if (Equals(_isRevive, value))
+                {
+                    return;
+                }
+
+                _isRevive = value;
+                OnPropertyChanged(nameof(IsRevive));
+            }
+        }
         public WinLoseAnimation winLoseAnimation;
-        protected override async UniTask InternalInitialize(Null @null)
+        protected override async UniTask InternalInitialize(Params prm)
         {
             winLoseAnimation.SetStateIsWin(false);
+            IsRevive = (prm.revive == 1);
         }
         [Binding]
         public void BattleAgain()
@@ -52,9 +74,16 @@ namespace _Game.Features.Ranking
             await ScreenContainer.Find(ContainerKey.Screens).PushAsync(options);
         }
 
-        public static async Task Show()
+        public static async Task Show(Params prm)
         {
-            await Show<BattleDefeatModal>();
+            await Show<BattleDefeatModal>(prm, new AsyncModalOptions(closeWhenClickOnBackdrop: false));
+        }
+
+        [Binding]
+        public void Revive()
+        {
+            DoClose();
+            BattleManager.Instance.Revive();
         }
 
     }

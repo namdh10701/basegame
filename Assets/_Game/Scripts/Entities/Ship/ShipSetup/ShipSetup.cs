@@ -8,6 +8,9 @@ using UnityEngine;
 using _Base.Scripts.Utils.Extensions;
 using _Game.Scripts;
 using _Game.Scripts.SaveLoad;
+using Fusion;
+using Mono.Cecil.Cil;
+using _Base.Scripts.RPGCommon.Entities;
 
 namespace _Game.Features.Gameplay
 {
@@ -31,7 +34,7 @@ namespace _Game.Features.Gameplay
         public NodeGraph NodeGraph;
 
         public List<GameObject> spawnedItems = new List<GameObject>();
-
+        public List<IGridItem> allItems = new List<IGridItem>();
         bool initialized;
         public void Initialize()
         {
@@ -65,8 +68,24 @@ namespace _Game.Features.Gameplay
 
             GetLoadOut();
             LoadShipItems();
+            CalculateBuffs();
+            BuffEverything();
             AddStatsModifersFromItems();
+            ReloadCannons();
         }
+
+        void BuffEverything()
+        {
+            foreach (Crew crew in CrewController.crews)
+            {
+                crew.stats.RepairSpeed.AddModifier(new _Base.Scripts.RPG.Stats.StatModifier(Ship.ShipBuffStats.CrewRepairSpeedBoost.Value, _Base.Scripts.RPG.Stats.StatModType.PercentAdd, Ship));
+            }
+            foreach (Ammo ammo in Ammos)
+            {
+                ammo.stats.EnergyCost.AddModifier(new _Base.Scripts.RPG.Stats.StatModifier(-Ship.ShipBuffStats.AmmoEnergyCostReduce.Value, _Base.Scripts.RPG.Stats.StatModType.Flat, Ship));
+            }
+        }
+
         public ShipStatsController shipStatsController;
         void AddStatsModifersFromItems()
         {
@@ -80,28 +99,129 @@ namespace _Game.Features.Gameplay
             }
         }
 
+        void CalculateBuffs()
+        {
+            foreach (IGridItem gridItem in allItems)
+            {
+                if (gridItem is IBuffItem buffItem)
+                {
+                    Debug.Log("START " + buffItem);
+                    CalculateBuff(buffItem);
+                }
+
+            }
+        }
+        List<IBuffItem> shipBuff = new List<IBuffItem>();
+        public void CalculateBuff(IBuffItem buffItem)
+        {
+            Debug.Log("Calculate buff 1 " + buffItem);
+            IGridItem gridItem = buffItem as IGridItem;
+            List<IGridItem> adjItems = gridItem.AdjItems;
+            Debug.Log(adjItems.Count + " adj items count");
+            if (buffItem.IsBuffable(Ship))
+            {
+
+                if (shipBuff.Contains(buffItem))
+                {
+                    buffItem.RemoveBuff(Ship);
+                    shipBuff.Remove(buffItem);
+                }
+                if (!shipBuff.Contains(buffItem))
+                {
+                    shipBuff.Add(buffItem);
+                    buffItem.Buff(Ship);
+                }
+
+            }
+            foreach (var adjItem in adjItems)
+            {
+                if (adjItem is IBuffable buffable)
+                {
+                    if (buffItem.IsBuffable(buffable))
+                    {
+                        if (buffItem.BuffedItems.Contains(buffable))
+                        {
+                            buffItem.RemoveBuff(buffable);
+                        }
+                        buffItem.Buff(buffable);
+                        if (!buffItem.BuffedItems.Contains(buffable))
+                        {
+                            buffItem.BuffedItems.Add(buffable);
+                        }
+                        if (adjItem is IBuffItem adjacentBuffItem)
+                        {
+                            CalculateBuff(adjacentBuffItem);
+                        }
+
+                    }
+                }
+            }
+        }
+
+        public void CalculateRemoveBuff(IBuffItem buffItem)
+        {
+            IGridItem gridItem = buffItem as IGridItem;
+            List<IGridItem> adjItems = GridHelper.GetNeighborItems(gridItem);
+            foreach (var adjItem in adjItems)
+            {
+                if (adjItem is IBuffable buffable)
+                {
+                    if (buffItem.IsBuffable(buffable))
+                    {
+                        if (buffItem.BuffedItems.Contains(buffable))
+                        {
+                            buffItem.RemoveBuff(buffable);
+                            buffItem.BuffedItems.Remove(buffable);
+
+                            if (buffItem is IBuffItem removedBuffItem)
+                            {
+                                CalculateRemoveBuff(removedBuffItem);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
+
         public void Refresh()
         {
             ClearItems();
             CrewController.crews.Clear();
             GetLoadOut();
             LoadShipItems();
+            CalculateBuffs();
             foreach (Cannon cannon in Cannons)
             {
                 cannon.CannonAmmo.OutOfAmmoStateChaged?.Invoke(cannon, false);
             }
         }
-
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Backspace))
+            {
+                Refresh();
+            }
+        }
         public void ClearItems()
         {
+            foreach (IBuffItem buffItem in shipBuff)
+            {
+                buffItem.RemoveBuff(Ship);
+            }
             foreach (var item in spawnedItems)
             {
                 Destroy(item.gameObject);
             }
+
             Ammos.Clear();
             Cannons.Clear();
             Carpets.Clear();
+
+            allItems.Clear();
             spawnedItems.Clear();
+
         }
 
         void GetLoadOut()
@@ -155,8 +275,15 @@ namespace _Game.Features.Gameplay
             {
                 carpet.Initialize();
             }
+
+            foreach (var gridItem in allItems)
+            {
+                gridItem.AdjItems = GridHelper.GetNeighborItems(gridItem);
+            }
+
+
             DefineWorkLocation();
-            ReloadCannons();
+
         }
 
 
@@ -219,6 +346,7 @@ namespace _Game.Features.Gameplay
             }
             foreach (Cell cell in AllCells)
             {
+                cell.stats.ShipStats = Ship.stats;
                 cell.WorkingSlots = new List<Scripts.PathFinding.Node>();
                 foreach (var node in NodeGraph.nodes)
                 {
@@ -278,6 +406,7 @@ namespace _Game.Features.Gameplay
             spawned.transform.localPosition =
              grid.Cells[data.startY, data.startX].transform.localPosition + Database.GetOffsetCarpetWithStartCell(spawned.id, Ship.Id);
             spawnedItems.Add(spawned.gameObject);
+            allItems.Add(spawned);
         }
 
 
@@ -334,7 +463,7 @@ namespace _Game.Features.Gameplay
             spawned.transform.localPosition =
             grid.Cells[data.startY, data.startX].transform.localPosition + Database.GetOffsetCannonWithStartCell(spawned.Id, Ship.Id);
             spawnedItems.Add(spawned.gameObject);
-
+            allItems.Add(spawned);
             INodeOccupier nodeOccupier = spawned.GetComponent<INodeOccupier>();
             InitOccupyNode(gridItem, nodeOccupier);
 
@@ -354,7 +483,7 @@ namespace _Game.Features.Gameplay
             spawned.transform.localPosition =
              grid.Cells[data.startY, data.startX].transform.localPosition + Database.GetOffsetBulletWithStartCell(spawned.id, Ship.Id);
             spawnedItems.Add(spawned.gameObject);
-
+            allItems.Add(spawned);
             INodeOccupier nodeOccupier = spawned.GetComponent<INodeOccupier>();
             InitOccupyNode(gridItem, nodeOccupier);
         }
@@ -383,6 +512,8 @@ namespace _Game.Features.Gameplay
 
         }
 
+
+
         public void HideHUD()
         {
             CannonHUD[] cannonHUDs = transform.GetComponentsInChildren<CannonHUD>();
@@ -404,6 +535,25 @@ namespace _Game.Features.Gameplay
             {
                 cannon.GridItemStateManager.GridItemState = GridItemState.Broken;
             }
+        }
+
+        public void OnRevive()
+        {
+            foreach (var cell in AllCells)
+            {
+                cell.stats.HealthPoint.StatValue.BaseValue = cell.stats.HealthPoint.MaxValue;
+                cell.isBroken = false;
+                cell.OnFixed();
+            }
+            foreach (var item in allItems)
+            {
+                if (item.Stats is IAliveStats aliveStats)
+                {
+                    aliveStats.HealthPoint.StatValue.BaseValue = aliveStats.HealthPoint.MaxValue;
+                }
+                item.GridItemStateManager.GridItemState = GridItemState.Active;
+            }
+
         }
     }
 }

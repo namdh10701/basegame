@@ -53,10 +53,6 @@ namespace _Base.Scripts.RPG.Effects
                 blockChance = shipStats.BlockChance.Value;
             }
 
-
-
-
-
             blockChance -= ArmorPenetrate;
 
             blockChance = Mathf.Clamp01(blockChance);
@@ -72,13 +68,41 @@ namespace _Base.Scripts.RPG.Effects
 
             if (finalAmount > 0)
             {
+               
+
+                if (entity is IShieldable shieldable)
+                {
+                    bool isBlocked = false;
+                    foreach (RangedStat block in shieldable.Blocks)
+                    {
+                        if (block.StatValue.BaseValue > 0)
+                        {
+                            block.StatValue.BaseValue -= 1;
+                            isBlocked = true;
+                            break;
+                        }
+                    }
+                    if (isBlocked)
+                    {
+                        GlobalEvent<IEffectGiver, IEffectTaker, Vector3>.Send("DAMAGE_BLOCKED", Giver, entity, transform.position);
+                        return;
+                    }
+                    foreach (RangedStat shield in shieldable.Shields)
+                    {
+                        if (shield.StatValue.BaseValue > 0)
+                        {
+                            float shieldAbsorbed = Mathf.Min(shield.StatValue.BaseValue, finalAmount);
+                            shield.StatValue.BaseValue -= shieldAbsorbed;
+                            finalAmount -= shieldAbsorbed;
+                            if (finalAmount <= 0)
+                                break;
+                        }
+                    }
+                }
                 if (alive.HealthPoint.StatValue.BaseValue > alive.HealthPoint.MinStatValue.Value)
                 {
                     alive.HealthPoint.StatValue.BaseValue -= finalAmount;
                     GlobalEvent<float, bool, IEffectGiver, IEffectTaker, Vector3>.Send("DAMAGE_INFLICTED", finalAmount, IsCrit, Giver, entity, transform.position);
-
-                    // effect cell = effect ship
-                    // effect ship != effect cell
                 }
             }
         }

@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using _Base.Scripts.RPG.Stats;
 using _Base.Scripts.RPGCommon.Entities;
+using _Game.Features.Gameplay;
 using _Game.Scripts.GD.DataManager;
 using UnityEngine;
 
@@ -47,7 +49,15 @@ namespace _Game.Scripts
 
         public IFighterStats.AttackTypes AttackType { get; set; } = IFighterStats.AttackTypes.UNIT;
 
+        [field: SerializeField]
         public Stat InstanceKillChance { get; set; } = new();
+        [field: SerializeField]
         public Stat FeverTime { get; set; } = new();
+
+        [field: SerializeField]
+        public List<RangedStat> Shields { get; set; } = new List<RangedStat>();
+        [field: SerializeField]
+        public List<RangedStat> Blocks { get; set; } = new List<RangedStat>();
+
     }
 }

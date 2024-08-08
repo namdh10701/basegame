@@ -8,6 +8,7 @@ using _Game.Scripts.UI.Utils;
 using Cysharp.Threading.Tasks;
 using Online;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using ZBase.UnityScreenNavigator.Core;
 using ZBase.UnityScreenNavigator.Core.Windows;
 
@@ -33,7 +34,7 @@ namespace _Game.Features
 
 			Application.targetFrameRate = 120;
 			UnityScreenNavigatorSettings.Initialize();
-
+			//Debug.unityLogger.logEnabled = false;
 			if (await PlayfabManager.Instance.LoginAsync())
 			{
 				bootstrapScreen.LoadingProgress = 0.8f;
@@ -50,9 +51,11 @@ namespace _Game.Features
 
 				await Nav.PreloadScreenAsync<MainScreen>();
 
-				bootstrapScreen.LoadingProgress = 1f;
+                await SceneManager.LoadSceneAsync("HaborScene", LoadSceneMode.Additive);
+                bootstrapScreen.LoadingProgress = 1f;
+                SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(2));
 
-				await Nav.PopCurrentScreenAsync(false);
+                await Nav.PopCurrentScreenAsync(false);
 				await Nav.ShowScreenAsync<MainScreen>(false);
 				// ShowTopPage().Forget();
 			}

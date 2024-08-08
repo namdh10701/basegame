@@ -9,6 +9,7 @@ using _Game.Scripts.GD.DataManager;
 using Online.Enum;
 using Online.Model;
 using UnityEngine;
+using Spine.Unity;
 
 namespace _Game.Scripts.DB
 {
@@ -45,6 +46,28 @@ namespace _Game.Scripts.DB
             CreateShapeDic();
             CreateMonsterPowerDic();
             CreateCarpetDic();
+            CacheAllSpineData();
+        }
+        static void CacheAllSpineData()
+        {
+            string[] paths = new string[]{
+                "Spine Animations/BossAnimations/Body/BOSS_BODY_SkeletonData",
+                "Spine Animations/Enemies/Electric_Eel/Electric_Eel_SkeletonData",
+                "Spine Animations/Enemies/Miniboss/Poison_Jellyfish_SkeletonData",
+                "Spine Animations/Enemies/MiniBossSkull/SHIP/ENEMY_MINIBOSS_SKULL_SHIP_SkeletonData",
+                "Spine Animations/Enemies/octupus/octupus_SkeletonData",
+                "Spine Animations/Enemies/phun_gai/phun_gai_SkeletonData",
+                "Spine Animations/Enemies/Puffer_Fish/fish_explosion_SkeletonData",
+                "Spine Animations/Enemies/Skeleton/skull_SkeletonData",
+                "Spine Animations/Enemies/Skeleton Bomb/skull_SkeletonData",
+                "Spine Animations/fx_crack/fx_crack_SkeletonData",
+                "Spine Animations/Enemies/Crab/crab_SkeletonData"
+            };
+            foreach (string path in paths)
+            {
+                SkeletonDataAsset skeletonDataAsset = CachedResources.Load<SkeletonDataAsset>(path);
+                skeletonDataAsset.GetSkeletonData(false);
+            }
         }
         static void CreateCarpetDic()
         {

@@ -139,7 +139,7 @@ namespace _Game.Features.Gameplay
             await RankingVictoryModal.Show(p);
         }
 
-        public override async void ShowLoseUIAsync()
+        public override async void ShowLoseUIAsync(int revive)
         {
             var resp = await PlayfabManager.Instance.Ranking.FinishRankBattleAsync((int)DmgDeal);
             var rewards = new List<RankReward>();
@@ -183,7 +183,6 @@ namespace _Game.Features.Gameplay
                     Amount = 1,
                 });
             }
-            
             var p = new RankingVictoryModal.Params
             {
                 Score = (int)DmgDeal,
@@ -195,6 +194,14 @@ namespace _Game.Features.Gameplay
         public override void PlayAgain()
         {
             EntityManager.OnPlayAgain();
+        }
+
+
+        public override void Revive()
+        {
+            base.Revive();
+            EntityManager.Ship.Revive();
+            EntityManager.Continue();
         }
     }
 }

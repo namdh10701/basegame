@@ -143,14 +143,17 @@ namespace _Game.Features.Home
 
         public override async UniTask WillPushExit(Memory<object> args)
         {
-            await SceneManager.UnloadSceneAsync("HaborScene");
+            // await SceneManager.UnloadSceneAsync("HaborScene");
             await base.WillPushExit(args);
         }
         public override async UniTask WillPushEnter(Memory<object> args)
         {
             AudioManager.Instance.PlayBgmHome();
-            await SceneManager.LoadSceneAsync("HaborScene", LoadSceneMode.Additive);
-            SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(2));
+            if (!SceneManager.GetSceneByName("HaborScene").isLoaded)
+            {
+                await SceneManager.LoadSceneAsync("HaborScene", LoadSceneMode.Additive);
+                SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(2));
+            }
             await base.WillPushEnter(args);
         }
 
@@ -159,8 +162,8 @@ namespace _Game.Features.Home
         {
             AudioManager.Instance.PlayBgmHome();
             CameraController.Instance.SetSize(CameraSize.Normal);
-            await SceneManager.LoadSceneAsync("HaborScene", LoadSceneMode.Additive);
-            SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(2));
+            /*            await SceneManager.LoadSceneAsync("HaborScene", LoadSceneMode.Additive);
+                        SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(2));*/
             await UniTask.CompletedTask;
         }
 
