@@ -211,9 +211,15 @@ namespace _Game.Features.InventoryItemInfo
         {
             get
             {
-                var path = Type == null || OperationType == null || Rarity == null ? $"Images/Items/item_ammo_arrow_common" :
-                 $"Images/Items/item_{Type.ToString().ToLower()}_{OperationType.ToLower()}_{Rarity.ToString().ToLower()}";
-                return Resources.Load<Sprite>(path);
+                if (Type != ItemType.SHIP)
+                {
+                    var path = OperationType == null || Rarity == null ? $"Images/Items/item_ammo_arrow_common" :
+                     $"Images/Items/item_{Type.ToString().ToLower()}_{OperationType.ToLower()}_{Rarity.ToString().ToLower()}";
+                    return Resources.Load<Sprite>(path);
+
+                }
+                else
+                    return Resources.Load<Sprite>($"Images/Items/item_ship_{Id}");
             }
         }
         #endregion
@@ -336,7 +342,7 @@ namespace _Game.Features.InventoryItemInfo
 
         protected void LoadStarsItem()
         {
-            if (Type == ItemType.CREW || Type == ItemType.AMMO) return;
+            if (Type == ItemType.CREW || Type == ItemType.AMMO || Type == ItemType.SHIP) return;
 
             stars.Clear();
 

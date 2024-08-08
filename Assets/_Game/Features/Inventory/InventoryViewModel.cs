@@ -321,7 +321,7 @@ namespace _Game.Features.Inventory
                         InventoryViewModel = this,
                         OwnItemId = item.ItemId,
                         Name = info.Name,
-                        // Level = info.Level,
+                        Level = info.Level,
                     };
                     inventoryItem.LoadStarsItem();
                 }
