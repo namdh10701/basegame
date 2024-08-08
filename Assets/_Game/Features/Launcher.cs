@@ -26,12 +26,12 @@ namespace _Game.Features
 		protected override async void OnPostCreateContainers()
 		{
 			var bootstrapScreen = await Nav.ShowScreenAsync<BootstrapScreen>(false);
+			bootstrapScreen.LoadingProgress = 0.1f;
 
 			var isLoggedIn = await PlayfabManager.Instance.LoginAsync();
 
 			if (!isLoggedIn)
 			{
-				bootstrapScreen.LoadingProgress = 5f;
 				await AlertModal.Show("Login failed, please restart to try again!");
 				return;
 			}
@@ -44,7 +44,7 @@ namespace _Game.Features
 			Application.targetFrameRate = 120;
 			UnityScreenNavigatorSettings.Initialize();
 
-			bootstrapScreen.LoadingProgress = 0.8f;
+			bootstrapScreen.LoadingProgress = 0.5f;
 			await GameData.Load();
 
 			Database.Load();
