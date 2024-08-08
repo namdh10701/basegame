@@ -45,6 +45,7 @@ const StatisticFields = Object.freeze({
 
 const InternalDatabase = Object.freeze({
     RankInfo: 'RankInfo',
+    RankLaddersDB: 'RankLaddersDB',
     UserLevelsDB: 'UserLevelsDB',
     RankingBattleRewardDB: 'RankingBattleRewardDB',
 
@@ -186,7 +187,7 @@ handlers.RequestNewProfile = function (args, context) {
     userData[ProfileField.Rank] = ERank.Rookie;
     userData[ProfileField.LimitPackages] = "[]";
     userData[ProfileField.Gachas] = "[]";
-    
+
     server.UpdateUserReadOnlyData({
         PlayFabId: profileId, Data: userData
     });
@@ -1044,38 +1045,6 @@ class GSheetFetcher {
 /// Ranking Functions
 ///
 
-handlers.ProfileRankUp = function (args, context) {
-    let resReadOnlyData = server.GetUserReadOnlyData({
-        PlayFabId: currentPlayerId,
-        Keys: [ProfileField.Rank]
-    });
-
-    if (resReadOnlyData.Data.hasOwnProperty(ProfileField.Rank)) {
-        let newRank = {};
-        switch (resReadOnlyData.Data[ProfileField.Rank].Value) {
-            case ERank.Rookie:
-                newRank[ProfileField.Rank] = ERank.Gunner;
-                break;
-
-            case ERank.Gunner:
-                newRank[ProfileField.Rank] = ERank.Hunter;
-                break;
-
-            case ERank.Hunter:
-                newRank[ProfileField.Rank] = ERank.Captain;
-                break;
-
-            case ERank.Captain:
-                newRank[ProfileField.Rank] = ERank.Conquer;
-                break;
-        }
-        log.debug('Response', newRank);
-        server.UpdateUserReadOnlyData({
-            PlayFabId: currentPlayerId, Data: newRank
-        });
-    }
-};
-
 handlers.ProfileRankDown = function (args, context) {
 
     let resReadOnlyData = server.GetUserReadOnlyData({
@@ -1109,11 +1078,11 @@ handlers.ProfileRankDown = function (args, context) {
 };
 
 handlers.EndCaptainSeason = function (args, context) {
-    
+
 };
 
 handlers.EndConquerSeason = function (args, context) {
-    
+
 };
 
 handlers.RequestSeasonInfo = function (args, context) {
@@ -1286,5 +1255,85 @@ handlers.FinishRankBattle = function (args, context) {
         Data: matchReward.Data,
         VirtualCurrency: matchReward.VirtualCurrency,
         Items: matchReward.Items
+    }
+};
+
+handlers.CompleteRankingSeason = function (args, context) {
+    let titleData = server.GetTitleInternalData({Keys: [InternalDatabase.RankInfo, InternalDatabase.RankLaddersDB]});
+    
+    // Check Season Ending
+    
+    // Get Player Statistic
+    let statisticId = rank + '_Rank_Score';
+    let userStatistics = server.GetPlayerStatistics({
+        PlayFabId: currentPlayerId, StatisticNames: [statisticId]
+    });
+    let resUserData = server.GetUserReadOnlyData({
+        PlayFabId: currentPlayerId,
+        Keys: [ProfileField.Rank]
+    });
+
+    let userRank = resUserData.Data[ProfileField.Rank].Value;
+    switch (userRank) {
+        case ERank.Rookie:
+        case ERank.Gunner:
+        case ERank.Hunter:
+            handlers.ProfileRankUp();
+            break;
+    }
+};
+
+const GetRankUpResult = function (playerId, rank) {
+    let leaderboardId = rank + '_Rank_Score';
+    let leaderboardScores = server.GetPlayerStatistics({
+        PlayFabId: playerId, StatisticNames: [leaderboardId]
+    });
+
+    let statisticData = leaderboardScores.Statistics.find(val => val.StatisticName == leaderboardId);
+    if (statisticData == null) {
+        return {
+            Result: false,
+            Score: 0
+        };
+    }
+
+    switch (rank) {
+        case ERank.Rookie:
+        case ERank.Gunner:
+        case ERank.Hunter:
+            
+            break;
+    }
+};
+
+handlers.ProfileRankUp = function (args, context) {
+    let resReadOnlyData = server.GetUserReadOnlyData({
+        PlayFabId: currentPlayerId,
+        Keys: [ProfileField.Rank]
+    });
+
+    if (resReadOnlyData.Data.hasOwnProperty(ProfileField.Rank)) {
+        let newRank = {};
+        switch (resReadOnlyData.Data[ProfileField.Rank].Value) {
+            case ERank.Rookie:
+                newRank[ProfileField.Rank] = ERank.Gunner;
+                break;
+
+            case ERank.Gunner:
+                newRank[ProfileField.Rank] = ERank.Hunter;
+                break;
+
+            case ERank.Hunter:
+                newRank[ProfileField.Rank] = ERank.Captain;
+                break;
+
+            case ERank.Captain:
+                newRank[ProfileField.Rank] = ERank.Conquer;
+                break;
+        }
+        log.debug('Response', newRank);
+        server.UpdateUserReadOnlyData({
+            PlayFabId: currentPlayerId, Data: newRank
+        });
     }
 };
