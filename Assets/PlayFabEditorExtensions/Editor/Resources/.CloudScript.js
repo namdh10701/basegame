@@ -1214,6 +1214,18 @@ handlers.CreateRankTicket = function (args, context) {
  * @returns {object} - Result of ranking match
  * */
 handlers.FinishRankBattle = function (args, context) {
+    // Check Season Ending
+    let titleData = server.GetTitleInternalData({Keys: [InternalDatabase.RankInfo]});
+    let rankInfo = JSON.parse(titleData.Data[InternalDatabase.RankInfo]);
+
+    let currentTime = Math.floor(Date.now() / 1000);
+    if (currentTime > seasonInfo.End) {
+        return {
+            Result: false,
+            Error: EErrorCode.SeasonExpired
+        };
+    }
+    
     let resReadOnlyData = server.GetUserReadOnlyData({
         PlayFabId: currentPlayerId,
         Keys: [ProfileField.Level, ProfileField.Exp, ProfileField.Rank, ProfileField.RankingTicketId]
@@ -1235,7 +1247,7 @@ handlers.FinishRankBattle = function (args, context) {
     let userRank = resReadOnlyData.Data[ProfileField.Rank].Value;
     server.UpdatePlayerStatistics({
         PlayFabId: currentPlayerId, Statistics: [{
-            StatisticName: userRank + '_Rank_Score', Value: args.Damage
+            StatisticName: userRank + '_Rank_Score', Value: args.Damage, Version: rankInfo.No
         }]
     });
 
@@ -1260,14 +1272,12 @@ handlers.CompleteRankingSeason = function (args, context) {
     // Check Season Ending
     let titleData = server.GetTitleInternalData({Keys: [InternalDatabase.RankInfo, InternalDatabase.RankLaddersDB]});
     let rankInfo = JSON.parse(titleData.Data[InternalDatabase.RankInfo]);
-    log.debug("playerId", currentPlayerId);
 
     // Get UserData
     let resUserData = server.GetUserReadOnlyData({
         PlayFabId: currentPlayerId,
         Keys: [ProfileField.Rank]
     });
-    log.debug("Response", resUserData);
     let userRank = resUserData.Data[ProfileField.Rank].Value;
 
     // Get Player Statistic
@@ -1290,6 +1300,8 @@ handlers.CompleteRankingSeason = function (args, context) {
         TimeExpired: GetNextDay(3),
         SeasonReward: {}
     });
+    
+    // Grant Items and Virtual Currency
 
     server.UpdateUserReadOnlyData({
         PlayFabId: currentPlayerId, Data: readOnlyData
