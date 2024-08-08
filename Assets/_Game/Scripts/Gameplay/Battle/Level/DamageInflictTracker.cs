@@ -32,11 +32,16 @@ namespace _Game.Features.Gameplay
             idd.Init("Refunded", position);
         }
 
-        void OnDamageInflicted(float amount, bool isCrit, IEffectGiver effect, IEffectTaker effectTaker, Vector3 position)
+        void OnDamageInflicted(float amount, bool isCrit, IEffectGiver effectGiver, IEffectTaker effectTaker, Vector3 position)
         {
             if (effectTaker is Cell || effectTaker is Carpet || effectTaker is CarpetComponent)
             {
                 return;
+            }
+            if (effectGiver != null)
+            {
+                if (effectGiver is CannonProjectile)
+                    GlobalEvent<float>.Send("PlayerDmgInflicted", amount);
             }
             InflictedDamageDisplay idd = Instantiate(prefab, transform);
             idd.Init(amount, isCrit, position);

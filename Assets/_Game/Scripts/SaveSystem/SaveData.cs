@@ -4,12 +4,13 @@ using _Game.Features.Inventory;
 using _Game.Features.Shop;
 using _Game.Scripts.Bootstrap;
 using _Game.Scripts.InventorySystem;
+using Online;
 
 namespace _Game.Scripts.SaveLoad
 {
     public class SaveData
     {
-        // public static SaveData DefaultSave = GetDefaultSave();
+         public static SaveData DefaultSave = GetDefaultSave();
 
         public int SaveVersion;
         public int SaveId;
@@ -42,6 +43,50 @@ namespace _Game.Scripts.SaveLoad
         public static SaveData GetDefaultSave()
         {
             SaveData defaultSave = new SaveData(1);;
+            defaultSave.maxEnergy = 100;
+            defaultSave.energy = defaultSave.maxEnergy;
+
+            defaultSave.OwnedItems = new List<ItemData>()
+            {
+                new(ItemType.SHIP, Game.IDGenerator.Next(), "0001", 0, 1, GD.DataManager.Rarity.Common),
+                new(ItemType.SHIP, Game.IDGenerator.Next(), "0002", 0, 1, GD.DataManager.Rarity.Common),
+                new(ItemType.SHIP, Game.IDGenerator.Next(), "0003", 0, 1, GD.DataManager.Rarity.Common),
+                new(ItemType.CREW, Game.IDGenerator.Next(), "2011", 0, 1, GD.DataManager.Rarity.Common),
+                new(ItemType.CANNON, Game.IDGenerator.Next(), "0001", 0, 1, GD.DataManager.Rarity.Common),
+                new(ItemType.CANNON, Game.IDGenerator.Next(), "0001", 0, 2, GD.DataManager.Rarity.Common),
+                new(ItemType.CANNON, Game.IDGenerator.Next(), "0001", 0, 1, GD.DataManager.Rarity.Common),
+                new(ItemType.CANNON, Game.IDGenerator.Next(), "0002", 1, 4, GD.DataManager.Rarity.Common),
+                new(ItemType.CANNON, Game.IDGenerator.Next(), "0012", 0, 1, GD.DataManager.Rarity.Common),
+                new(ItemType.CANNON, Game.IDGenerator.Next(), "0023", 0, 1, GD.DataManager.Rarity.Common),
+                new(ItemType.CANNON, Game.IDGenerator.Next(), "0043", 0, 1, GD.DataManager.Rarity.Common),
+                new(ItemType.CANNON, Game.IDGenerator.Next(), "0061", 0, 1, GD.DataManager.Rarity.Common),
+                new(ItemType.CANNON, Game.IDGenerator.Next(), "0069", 0, 1, GD.DataManager.Rarity.Common),
+                new(ItemType.CANNON, Game.IDGenerator.Next(), "0077", 0, 1, GD.DataManager.Rarity.Common),
+                new(ItemType.CANNON, Game.IDGenerator.Next(), "0085", 0, 1, GD.DataManager.Rarity.Common),
+                new(ItemType.AMMO, Game.IDGenerator.Next(), "1001", 0, 1, GD.DataManager.Rarity.Common),
+                new(ItemType.AMMO, Game.IDGenerator.Next(), "1012", 0, 1, GD.DataManager.Rarity.Common),
+                new(ItemType.AMMO, Game.IDGenerator.Next(), "1023", 0, 1, GD.DataManager.Rarity.Common),
+                new(ItemType.AMMO, Game.IDGenerator.Next(), "1033", 0, 1, GD.DataManager.Rarity.Common),
+                new(ItemType.AMMO, Game.IDGenerator.Next(), "1043", 0, 1, GD.DataManager.Rarity.Common),
+                new(ItemType.AMMO, Game.IDGenerator.Next(), "1077", 0, 1, GD.DataManager.Rarity.Common),
+                new(ItemType.AMMO, Game.IDGenerator.Next(), "1085", 0, 1, GD.DataManager.Rarity.Common),
+                new(ItemType.SHIP, Game.IDGenerator.Next(), "0001", 0, 1, GD.DataManager.Rarity.Common),
+                new(ItemType.SHIP, Game.IDGenerator.Next(), "0002", 0, 1, GD.DataManager.Rarity.Common),
+                new(ItemType.SHIP, Game.IDGenerator.Next(), "0003", 0, 1, GD.DataManager.Rarity.Common),
+                new(ItemType.MISC, Game.IDGenerator.Next(), "res_blueprint_ship", 0, 1, GD.DataManager.Rarity.Common),
+                new(ItemType.MISC, Game.IDGenerator.Next(), "res_blueprint_ammo", 0, 1, GD.DataManager.Rarity.Common),
+                new(ItemType.MISC, Game.IDGenerator.Next(), "res_blueprint_cannon", 0, 1, GD.DataManager.Rarity.Common),
+                new(ItemType.MISC, Game.IDGenerator.Next(), "res_blueprint_cannon", 0, 1, GD.DataManager.Rarity.Common),
+                new(ItemType.MISC, Game.IDGenerator.Next(), "res_blueprint_cannon", 0, 1, GD.DataManager.Rarity.Common),
+            };
+
+            defaultSave.Talent = new TalentSaveData();
+            defaultSave.ShipSetupSaveData = new ShipSetupSaveData();
+            defaultSave.ShipSetupSaveData.CurrentShip = defaultSave.OwnedShips.First();
+            
+
+            defaultSave.Settings = new SettingSaveData();
+
             return defaultSave;
         }
 

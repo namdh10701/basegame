@@ -33,6 +33,58 @@ namespace _Game.Features.Battle
         {
             FeverView.ClearState();
         }
+
+        #region Binding Prop: Shield
+
+        /// <summary>
+        /// HP
+        /// </summary>
+        [Binding]
+        public float Shield
+        {
+            get => _shield;
+            set
+            {
+                if (Equals(_shield, value))
+                {
+                    return;
+                }
+                _shield = value;
+                OnPropertyChanged(nameof(Shield));
+                OnPropertyChanged(nameof(HPText));
+            }
+        }
+
+        private float _shield = -1;
+        private float _maxShield = -1;
+
+        #endregion
+
+        #region Binding Prop: MaxHP
+
+        /// <summary>
+        /// MaxHP
+        /// </summary>
+        [Binding]
+        public float MaxShield
+        {
+            get => _maxShield;
+            set
+            {
+                if (Equals(_maxShield, value))
+                {
+                    return;
+                }
+
+                _maxShield = value;
+                OnPropertyChanged(nameof(MaxShield));
+            }
+        }
+
+
+        #endregion
+
+
         #region Binding Prop: HP
 
         /// <summary>
@@ -136,58 +188,6 @@ namespace _Game.Features.Battle
 
         #endregion
 
-        /*        #region Binding Prop: Fever
-
-                /// <summary>
-                /// Fever
-                /// </summary>
-                [Binding]
-                public float Fever
-                {
-                    get => _fever;
-                    set
-                    {
-                        *//*                if (Equals(_fever, value))
-                                        {
-                                            return;
-                                        }*//*
-
-                        _fever = value;
-                        OnPropertyChanged(nameof(Fever));
-                        OnPropertyChanged(nameof(FeverText));
-                    }
-                }
-
-                private float _fever;
-
-                #endregion
-
-                #region Binding Prop: MaxFever
-
-                /// <summary>
-                /// MaxFever
-                /// </summary>
-                [Binding]
-                public float MaxFever
-                {
-                    get => 800;
-                    set
-                    {
-                        if (Equals(800, value))
-                        {
-                            return;
-                        }
-
-                        _maxFever = value;
-                        OnPropertyChanged(nameof(MaxFever));
-                        OnPropertyChanged(nameof(FeverText));
-                    }
-                }
-
-                private float _maxFever;
-
-                #endregion*/
-
         #region Binding Prop: IsPause
 
         /// <summary>
@@ -240,8 +240,9 @@ namespace _Game.Features.Battle
         #endregion
 
         [Binding] public string SpeedUpRateText => $"X{SpeedUpRate}";
-        [Binding] public string HPText => $"{Math.Round(HP)}/{MaxHP}";
+        [Binding] public string HPText => $"{Math.Round(HP + Shield)}/{MaxHP}";
         [Binding] public string MPText => $"{Math.Round(MP)}/{MaxMP}";
+        //[Binding] public string ShieldText => $"{Math.Round(Shield)}/{MaxShield}";
 
         [Binding]
         public async void PauseGame()
@@ -296,9 +297,21 @@ namespace _Game.Features.Battle
 
             MaxHP = shipStats.HealthPoint.Value;
             HP = shipStats.HealthPoint.Value;
+
+            Shield = ship.Shield.Value;
+            MaxShield = MaxHP;
+            ship.Shield.OnValueChanged += Shield_OnValueChanged;
             shipStats.HealthPoint.OnValueChanged += HealthPoint_OnValueChanged;
             shipStats.ManaPoint.OnValueChanged += ManaPoint_OnValueChanged;
             FeverView.Init(ship.FeverModel);
+        }
+
+        private void Shield_OnValueChanged(_Base.Scripts.RPG.Stats.RangedStat obj)
+        {
+
+            Debug.Log(Shield);
+            Shield = obj.Value;
+            //MaxShield = obj.MaxValue;
         }
 
         private void UpdateCurrentSpeed(float obj)

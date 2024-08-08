@@ -13,17 +13,19 @@ using _Game.Scripts.GD;
 using _Game.Scripts.GD.DataManager;
 using _Game.Scripts.InventorySystem;
 using _Game.Scripts.PathFinding;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 namespace _Game.Scripts.Entities
 {
-    public class Cannon : Entity, IFighter, IGridItem, IWorkLocation, INodeOccupier, IEffectTaker, IGDConfigStatsTarget, IStunable
+    public class Cannon : Entity, IFighter, IGridItem, IWorkLocation, INodeOccupier, IEffectTaker, IGDConfigStatsTarget, IStunable, IBuffable, IShieldable
     {
         [Header("GD Config Stats Target")]
         public string id;
         public GDConfig gdConfig;
         public StatsTemplate statsTemplate;
-
+        public List<IGridItem> adjItems = new List<IGridItem>();
+        public List<IGridItem> AdjItems { get => adjItems; set => adjItems = value; }
         [Header("Cannon")]
 
         [SerializeField] private GridItemStateManager gridItemStateManager;
@@ -33,8 +35,6 @@ namespace _Game.Scripts.Entities
         [SerializeField]
         private CannonStats _stats;
 
-        [SerializeField]
-        private CannonStatsTemplate _statsTemplate;
         public IFighterStats FighterStats
         {
             get => _stats;
@@ -76,13 +76,11 @@ namespace _Game.Scripts.Entities
         #region Controller
         bool isOutOfAmmo;
         bool isStuned;
-
         public void Initizalize()
         {
             var conf = GameData.CannonTable.FindById(id);
             ConfigLoader.LoadConfig(_stats, conf);
             ApplyStats();
-
             EffectHandler.EffectTaker = this;
 
 
@@ -163,7 +161,7 @@ namespace _Game.Scripts.Entities
             CannonFeverStateManager.FeverState = CannonFeverState.Fever;
             if (UsingAmmo.AmmoType == AmmoType.Standard)
             {
-                Invoke("OnFeverEffectExit", 5);
+                Invoke("OnFeverEffectExit", _stats.FeverTime.Value);
             }
         }
         public void OnFullFeverEffectEnter()
@@ -171,7 +169,7 @@ namespace _Game.Scripts.Entities
             CannonFeverStateManager.FeverState = CannonFeverState.FullFever;
             if (UsingAmmo.AmmoType == AmmoType.Standard)
             {
-                Invoke("OnFeverEffectExit", 10);
+                Invoke("OnFeverEffectExit", _stats.FeverTime.Value);
             }
         }
 
@@ -223,6 +221,8 @@ namespace _Game.Scripts.Entities
 
         public CannonFeverState FeverState => CannonFeverStateManager.FeverState;
 
+        public List<RangedStat> Shields { get => _stats.Shields; set => _stats.Shields = value; }
+        public List<RangedStat> Blocks { get => _stats.Blocks; set => _stats.Blocks = value; }
 
         public Action<bool> OnStunStatusChanged;
 

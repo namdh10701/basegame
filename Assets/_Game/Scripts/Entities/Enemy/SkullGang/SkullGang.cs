@@ -211,6 +211,11 @@ namespace _Game.Features.Gameplay
             mbtExecutor.gameObject.SetActive(false);
         }
 
+        internal void Enable()
+        {
+            mbtExecutor.gameObject.SetActive(true);
+        }
+
         public EnemyStats stats;
         public GameObject effectCollider;
         public MBTExecutor mbtExecutor;

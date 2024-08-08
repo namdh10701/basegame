@@ -16,6 +16,7 @@ using Online;
 using Online.Enum;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityWeld.Binding;
 using ZBase.UnityScreenNavigator.Core.Modals;
 using ZBase.UnityScreenNavigator.Core.Screens;
@@ -208,7 +209,7 @@ namespace _Game.Features.Ranking
             _stageId = args.ToArray().FirstOrDefault() as string;
 
             LoadData();
-            
+
             // Start timer
             InvokeRepeating(nameof(UpdateTimer), 0f, 1f);
         }
@@ -245,54 +246,61 @@ namespace _Game.Features.Ranking
         [Binding]
         public async void NavToBattle()
         {
-            var needResources = new List<OwnedConsumableResource>()
-            {
-                new()
+            /*    var needResources = new List<OwnedConsumableResource>()
                 {
-                    ItemType = ItemType.MISC,
-                    ItemId = MiscItemId.energy,
-                    TotalAmount = PlayfabManager.Instance.Energy,
-                    NeedAmount = 99,
-                },
-            };
+                    new()
+                    {
+                        ItemType = ItemType.MISC,
+                        ItemId = MiscItemId.energy,
+                        TotalAmount = PlayfabManager.Instance.Energy,
+                        NeedAmount = 99,
+                    },
+                };
 
-            if (FreeTicketCount == 0)
-            {
-                needResources.Add(new()
+                if (FreeTicketCount == 0)
                 {
-                    ItemType = ItemType.MISC,
-                    ItemId = MiscItemId.ranking_ticket,
-                    TotalAmount = PlayfabManager.Instance.Ticket,
-                    NeedAmount = 1,
-                });
-            }
-            
-            var confirmed = await RankingBattleConfirmModal.Show(new()
-            {
-                Resources = needResources
-            });
-
-            if (!confirmed)
-            {
-                return;
-            }
-
-            var resp = await PlayfabManager.Instance.Ranking.CreateRankTicketAsync();
-            if (!resp.Result)
-            {
-                if (resp.Error == EErrorCode.NotEnoughTicket)
-                {
-                    await AlertModal.Show("Not Enough Resource!");
+                    needResources.Add(new()
+                    {
+                        ItemType = ItemType.MISC,
+                        ItemId = MiscItemId.ranking_ticket,
+                        TotalAmount = PlayfabManager.Instance.Ticket,
+                        NeedAmount = 1,
+                    });
                 }
 
-                return;
-            }
+                var confirmed = await RankingBattleConfirmModal.Show(new()
+                {
+                    Resources = needResources
+                });
 
-            PlayfabManager.Instance.Inventory.LoadVirtualCurrency(resp.VirtualCurrency);
-            
+                if (!confirmed)
+                {
+                    return;
+                }
+
+                var resp = await PlayfabManager.Instance.Ranking.CreateRankTicketAsync();
+                if (!resp.Result)
+                {
+                    if (resp.Error == EErrorCode.NotEnoughTicket)
+                    {
+                        await AlertModal.Show("Not Enough Resource!");
+                    }
+
+                    return;
+                }
+
+                PlayfabManager.Instance.Inventory.LoadVirtualCurrency(resp.VirtualCurrency);
+                */
             await Nav.PopCurrentPopupAsync();
             await Nav.ShowScreenAsync<BattleLoadingScreen>(poolingPolicy: ZBase.UnityScreenNavigator.Core.PoolingPolicy.DisablePooling);
-
+            if (SceneManager.GetSceneByName("HaborScene").isLoaded)
+            {
+                AsyncOperation unloadHabor = SceneManager.UnloadSceneAsync("HaborScene");
+                await unloadHabor;
+            }
+            AsyncOperation loadBattle = SceneManager.LoadSceneAsync("RankingScene", LoadSceneMode.Additive);
+            await loadBattle;
+            SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(3));
             // reload date
             await PlayfabManager.Instance.Inventory.RequestInventoryAsync();
             // await PlayfabManager.Instance.Ranking.RequestUserRankAsync();

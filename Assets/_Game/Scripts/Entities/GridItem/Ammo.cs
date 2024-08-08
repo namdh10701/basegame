@@ -18,8 +18,10 @@ public enum AmmoType
 
 namespace _Game.Scripts.Entities
 {
-    public class Ammo : Entity, IEffectTaker, IGridItem, IWorkLocation, INodeOccupier, IGDConfigStatsTarget
+    public class Ammo : Entity, IEffectTaker, IGridItem, IWorkLocation, INodeOccupier, IGDConfigStatsTarget, IShieldable
     {
+        public List<IGridItem> adjItems = new List<IGridItem>();
+        public List<IGridItem> AdjItems { get => adjItems; set => adjItems = value; }
         private AmmoStatsConfigLoader _configLoader;
         public AmmoStatsConfigLoader ConfigLoader
         {
@@ -75,7 +77,8 @@ namespace _Game.Scripts.Entities
 
 
 
-
+        public List<RangedStat> Shields { get => stats.Shields; set => stats.Shields = value; }
+        public List<RangedStat> Blocks { get => stats.Blocks; set => stats.Blocks = value; }
         public void SetId(string id)
         {
             this.id = id;
@@ -99,7 +102,6 @@ namespace _Game.Scripts.Entities
         {
             if (stat.Value <= stat.MinValue)
             {
-                Debug.Log("CHANGED");
                 gridItemStateManager.GridItemState = GridItemState.Broken;
             }
             else

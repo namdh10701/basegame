@@ -1,4 +1,5 @@
 using _Base.Scripts.Audio;
+using _Game.Features.Gameplay;
 using Cysharp.Threading.Tasks;
 using System;
 using UnityEngine;
@@ -15,8 +16,9 @@ namespace _Game.Features.Battle
         }
         public override async UniTask WillPushEnter(Memory<object> args)
         {
-            await SceneManager.LoadSceneAsync("BattleScene", LoadSceneMode.Additive);
-            SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(1));
+            /*await SceneManager.LoadSceneAsync("BattleScene", LoadSceneMode.Additive);
+            SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(1));*/
+            BattleManager.Instance.Initialize();
             await base.WillPushEnter(args);
             
         }

@@ -1,3 +1,4 @@
+using _Game.Scripts.Utils;
 using DG.Tweening;
 using System;
 using System.Collections;
@@ -18,7 +19,7 @@ namespace _Game.Features.Gameplay
         public Action AttackEnded;
         public bool IsAttacking;
         public LaserFx laser;
-
+        public CameraShake cameraShake;
         public override void Initialize(GiantOctopus giantOctopus)
         {
             base.Initialize(giantOctopus);
@@ -71,6 +72,7 @@ namespace _Game.Features.Gameplay
                 laser.Play();
             });
             sequence.AppendInterval(.5f);
+            sequence.AppendCallback(() => cameraShake.Shake(1.5f, new Vector3(.15f, .15f, .15f)));
             sequence.Append(laserGuide.transform.DOMove(endPos, 1.5f));
             sequence.AppendInterval(.5f);
             sequence.AppendCallback(() =>

@@ -16,11 +16,12 @@ namespace _Game.Features.Gameplay
         public Stat LifeSteal = new();
         public Stat LowerAmmoMana = new();
         public Stat CrewRepairSpeedBoost = new();
+        public Stat Revive = new();
 
         //Defense
         public Stat BlockProjectile = new();
-        public Stat ShieldAdjItem = new();
-        public Stat ShieldShip = new();
+        public RangedStat ShieldAdjItem = new(100, 0, 100);
+        public RangedStat ShieldShip = new(100, 0, 100);
         public Stat BoostDmgWhileShield = new();
         public Stat Cooldown = new();
 

@@ -39,11 +39,13 @@ namespace _Game.Features.Gameplay
 
         public EffectHandler EffectHandler => effectHandler;
         public EffectHandler effectHandler;
+        Coroutine attackCoroutine;
         private void OnEnterState()
         {
             if (state == OctopusState.Stunning)
             {
                 StopAllCoroutines();
+                lowerPartController.StopAttack();
                 StartCoroutine(StunCoroutine());
 
             }
@@ -51,7 +53,10 @@ namespace _Game.Features.Gameplay
             {
                 mbtExecutor.enabled = false;
                 StopAllAttack();
-                StopAllCoroutines();
+                if (attackCoroutine != null)
+                {
+                    StopCoroutine(attackCoroutine);
+                }
                 StartCoroutine(TransformCoroutine());
                 Debug.Log("TRANSFORM");
 
@@ -59,7 +64,7 @@ namespace _Game.Features.Gameplay
             if (state == OctopusState.State2 || state == OctopusState.State1)
             {
                 mbtExecutor.enabled = true;
-                StartCoroutine(AttackCycle());
+                attackCoroutine = StartCoroutine(AttackCycle());
             }
 
             if (state == OctopusState.Dead)
@@ -70,7 +75,7 @@ namespace _Game.Features.Gameplay
                 }
                 StopAllCoroutines();
                 upperPartController.OnDead();
-                StartCoroutine(DeadCoroutine());
+                attackCoroutine = StartCoroutine(DeadCoroutine());
             }
 
             if (state == OctopusState.None)
@@ -110,14 +115,19 @@ namespace _Game.Features.Gameplay
 
         IEnumerator TransformCoroutine()
         {
+            Debug.Log("Start");
             Coroutine bodyTransform = StartCoroutine(body.TransformCoroutine());
             Coroutine upperTransform = StartCoroutine(upperPartController.TransformCoroutine());
             Coroutine lowerTransform = StartCoroutine(lowerPartController.TransformCoroutine());
             Coroutine behindTransform = StartCoroutine(behindPartController.TransformCoroutine());
 
             yield return bodyTransform;
+            Debug.Log("COMPLETE body");
             yield return upperTransform;
+            Debug.Log("COMPLETE upper");
             yield return lowerTransform;
+
+            Debug.Log("COMPLETE lower");
             yield return behindTransform;
             Mad = true;
             Debug.Log("COMPLETE TRANSFORM");

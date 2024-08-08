@@ -8,11 +8,14 @@ using _Game.Scripts.Battle;
 using _Game.Scripts.Entities;
 using _Game.Scripts.GD;
 using _Game.Scripts.GD.DataManager;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 namespace _Game.Features.Gameplay
 {
-    public class Ship : Entity, IEffectTaker, IStatsBearer, IGDConfigStatsTarget
+    public class Ship : Entity, IEffectTaker, IStatsBearer, IGDConfigStatsTarget, IBuffable, IShieldable
     {
         [Header("GD Config Stats Target")]
         [SerializeField] private string id;
@@ -22,7 +25,10 @@ namespace _Game.Features.Gameplay
         [Space]
         [Header("Ship")]
         public ShipStats stats;
+        public ShipBuffStats ShipBuffStats;
         public ShipSetup ShipSetup;
+        public RangedStat Shield = new(0, 0, float.MaxValue);
+
 
         public string Id { get => id; set => id = value; }
 
@@ -69,6 +75,9 @@ namespace _Game.Features.Gameplay
             }
         }
 
+        public List<RangedStat> Shields { get => stats.Shields; set => stats.Shields = value; }
+        public List<RangedStat> Blocks { get => stats.Blocks; set => stats.Blocks = value; }
+
         public void Initialize()
         {
             var conf = GameData.ShipTable.FindById(id);
@@ -76,6 +85,7 @@ namespace _Game.Features.Gameplay
             ApplyStats();
 
 
+            GlobalEvent<float>.Register("PlayerDmgInflicted", LifeSteal);
             GlobalEvent<EnemyStats>.Register("EnemyDied", OnEnemyDied);
             FeverModel.SetFeverPointStats(stats.Fever);
             PathfindingController.Initialize();
@@ -89,6 +99,12 @@ namespace _Game.Features.Gameplay
             HUD.Initialize(ShipSetup.Ammos);
             stats.HealthPoint.OnValueChanged += HealthPoint_OnValueChanged;
         }
+
+        private void LifeSteal(float dmgInflicted)
+        {
+            stats.HealthPoint.StatValue.BaseValue += ShipBuffStats.LifeSteal.Value * dmgInflicted;
+        }
+
         bool isDead;
         private void HealthPoint_OnValueChanged(RangedStat obj)
         {
@@ -100,7 +116,15 @@ namespace _Game.Features.Gameplay
                     ShipSetup.HideHUD();
                     reloadCannonController.enabled = false;
                     ShipSetup.DisableAllItem();
-                    BattleManager.Instance.Lose();
+                    if (ShipBuffStats.Revive.BaseValue > 0)
+                    {
+                        ShipBuffStats.Revive.BaseValue = 0;
+                        BattleManager.Instance.Lose(0);
+                    }
+                    else
+                    {
+                        BattleManager.Instance.Lose(1);
+                    }
                 }
             }
         }
@@ -127,6 +151,7 @@ namespace _Game.Features.Gameplay
 
         private void OnDestroy()
         {
+            GlobalEvent<float>.Unregister("PlayerDmgInflicted", LifeSteal);
             GlobalEvent<EnemyStats>.Unregister("EnemyDied", OnEnemyDied);
         }
 
@@ -149,8 +174,20 @@ namespace _Game.Features.Gameplay
 
         private void Update()
         {
-            RegenMP();
-            RegenHP();
+            if (!isDead)
+            {
+                float shield = 0;
+                float maxShield = 0;
+                foreach (RangedStat rangedStat in Shields)
+                {
+                    shield += rangedStat.Value;
+                    maxShield += rangedStat.MaxValue;
+                }
+                Shield.MaxStatValue.BaseValue = shield;
+                Shield.StatValue.BaseValue = maxShield;
+                RegenMP();
+                RegenHP();
+            }
         }
 
 
@@ -177,6 +214,15 @@ namespace _Game.Features.Gameplay
         public void HideHUD()
         {
             ShipSetup.HideHUD();
+        }
+
+        internal void Revive()
+        {
+            isDead = false;
+            stats.HealthPoint.StatValue.BaseValue = stats.HealthPoint.MaxValue * 100 / 10;
+            stats.ManaPoint.StatValue.BaseValue = stats.ManaPoint.MaxValue;
+            reloadCannonController.enabled = true;
+            ShipSetup.OnRevive();  
         }
     }
 }

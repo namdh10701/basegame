@@ -221,7 +221,7 @@ namespace _Base.Scripts.EventSystem
         public static void Send(string name, T arg1, U arg2, V arg3)
         {
 
-            if (string.IsNullOrEmpty(name))
+       /*     if (string.IsNullOrEmpty(name))
                 throw new ArgumentNullException(@"name");
 
             if (arg1 == null)
@@ -232,7 +232,7 @@ namespace _Base.Scripts.EventSystem
 
             if (arg3 == null)
                 throw new ArgumentNullException("arg3");
-
+*/
             List<GlobalCallback<T, U, V>> callbacks = (List<GlobalCallback<T, U, V>>)m_Callbacks[name];
             if (callbacks != null)
                 foreach (GlobalCallback<T, U, V> c in callbacks)

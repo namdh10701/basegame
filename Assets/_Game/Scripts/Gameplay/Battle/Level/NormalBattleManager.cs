@@ -19,6 +19,8 @@ namespace _Game.Features.Gameplay
             EnemyManager.Init();
             BattleInputManager.gameObject.SetActive(false);
             EntityManager.SpawnShip(SaveSystem.GameSave.ShipSetupSaveData.CurrentShip.ItemId, shipStartPos.position);
+            //EntityManager.SpawnShip("0003", shipStartPos.position);
+
             if (EnemyWaveManager.floorId == "1")
             {
                 EntityManager.Ship.stats.Fever.StatValue.BaseValue = 0;
@@ -62,9 +64,12 @@ namespace _Game.Features.Gameplay
             await ModalContainer.Find(ContainerKey.Modals).PushAsync(options);
         }
 
-        public override async void ShowLoseUIAsync()
+        public override async void ShowLoseUIAsync(int revive)
         {
-            await BattleDefeatModal.Show();
+            BattleDefeatModal.Params p = new();
+            p.revive = revive;
+            //TODO: Enable Revive Btn in modal if revive = 1
+            await BattleDefeatModal.Show(p);
         }
 
         public override void PlayAgain()
@@ -72,6 +77,14 @@ namespace _Game.Features.Gameplay
             GameObject.Destroy(EntityManager.Ship.gameObject);
             EntityManager.OnPlayAgain();
             Initialize();
+        }
+
+        public override void Revive()
+        {
+            base.Revive();
+            //EntityManager.SpawnShip(SaveSystem.GameSave.ShipSetupSaveData.CurrentShip.ItemId, shipStartPos.position);
+            EntityManager.Ship.Revive();
+            EntityManager.Continue();
         }
     }
 }

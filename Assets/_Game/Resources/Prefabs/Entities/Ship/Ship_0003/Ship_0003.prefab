@@ -1682,6 +1682,9 @@ MonoBehaviour:
     <HealthRegenerationRate>k__BackingField:
       statModifiers: []
       _baseValue: 0
+    <Shields>k__BackingField: []
+    <Blocks>k__BackingField: []
+  ShipBuffStats:
     <ZeroManaCost>k__BackingField:
       statModifiers: []
       _baseValue: 0
@@ -1697,7 +1700,26 @@ MonoBehaviour:
     <GoldIncome>k__BackingField:
       statModifiers: []
       _baseValue: 0
+    <LifeSteal>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <AmmoEnergyCostReduce>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <CrewRepairSpeedBoost>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
   ShipSetup: {fileID: 4408094167755191158}
+  Shield:
+    _value:
+      statModifiers: []
+      _baseValue: 0
+    _minValue:
+      statModifiers: []
+      _baseValue: 0
+    _maxValue:
+      statModifiers: []
+      _baseValue: 3.4028235e+38
   effectHandler: {fileID: 7857274161767291091}
   PathfindingController: {fileID: 4344616237238542478}
   EffectCollider: {fileID: 4717154638384585547}
@@ -2015,6 +2037,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ship: {fileID: 2628608560081248010}
+  shipSetup: {fileID: 4408094167755191158}
+  shipBuffStats:
+    <ZeroManaCost>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <Luck>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <BonusAmmo>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <FeverTimeProb>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <GoldIncome>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <LifeSteal>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <AmmoEnergyCostReduce>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <CrewRepairSpeedBoost>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
   AllStatModifier: []
 --- !u!114 &804944402708708308
 MonoBehaviour:

@@ -2,6 +2,7 @@ using _Base.Scripts.Audio;
 using _Game.Features.Gameplay;
 using _Game.Scripts.Gameplay;
 using Cysharp.Threading.Tasks;
+using Spine.Unity;
 using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -17,8 +18,9 @@ namespace _Game.Features.Battle
         }
         public override async UniTask WillPushEnter(Memory<object> args)
         {
-            await SceneManager.LoadSceneAsync("RankingScene", LoadSceneMode.Additive);
-            SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(3));
+            /*            await SceneManager.LoadSceneAsync("RankingScene", LoadSceneMode.Additive);
+                        SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(3));*/
+            BattleManager.Instance.Initialize();
             await base.WillPushEnter(args);
 
         }

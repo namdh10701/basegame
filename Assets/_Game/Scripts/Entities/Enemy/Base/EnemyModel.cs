@@ -311,6 +311,11 @@ namespace _Game.Features.Gameplay
         {
             mbtExecutor.gameObject.SetActive(false);
         }
+
+        public void Enable()
+        {
+            mbtExecutor.gameObject.SetActive(true);
+        }
         #endregion
     }
 }
