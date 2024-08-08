@@ -31,7 +31,7 @@ namespace _Game.Features
 
 			if (!isLoggedIn)
 			{
-				bootstrapScreen.LoadingProgress = 0f;
+				bootstrapScreen.LoadingProgress = 5f;
 				await AlertModal.Show("Login failed, please restart to try again!");
 				return;
 			}
