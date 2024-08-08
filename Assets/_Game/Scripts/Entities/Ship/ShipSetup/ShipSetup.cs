@@ -219,9 +219,11 @@ namespace _Game.Features.Gameplay
             }
             foreach (Cell cell in AllCells)
             {
+                if (cell == null) continue;
                 cell.WorkingSlots = new List<Scripts.PathFinding.Node>();
                 foreach (var node in NodeGraph.nodes)
                 {
+                    if (node == null) continue;
                     if (node.cell != null && node.cell == cell)
                     {
                         cell.WorkingSlots.Add(node);
