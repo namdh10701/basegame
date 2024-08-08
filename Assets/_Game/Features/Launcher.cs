@@ -1,5 +1,6 @@
 ﻿using _Base.Scripts.Audio;
 using _Game.Features.Bootstrap;
+using _Game.Features.Dialogs;
 using _Game.Features.Home;
 using _Game.Scripts.DB;
 using _Game.Scripts.GD.DataManager;
@@ -26,6 +27,15 @@ namespace _Game.Features
 		{
 			var bootstrapScreen = await Nav.ShowScreenAsync<BootstrapScreen>(false);
 
+			var isLoggedIn = await PlayfabManager.Instance.LoginAsync();
+
+			if (!isLoggedIn)
+			{
+				bootstrapScreen.LoadingProgress = 0f;
+				await AlertModal.Show("Login failed, please restart to try again!");
+				return;
+			}
+
 			if (!PlayerPrefs.HasKey("PlayingStage"))
 			{
 				PlayerPrefs.SetString("PlayingStage", "0001");
@@ -34,33 +44,25 @@ namespace _Game.Features
 			Application.targetFrameRate = 120;
 			UnityScreenNavigatorSettings.Initialize();
 
-			if (await PlayfabManager.Instance.LoginAsync())
-			{
-				bootstrapScreen.LoadingProgress = 0.8f;
-				await GameData.Load();
+			bootstrapScreen.LoadingProgress = 0.8f;
+			await GameData.Load();
 
-				Database.Load();
+			Database.Load();
 
-				SaveSystem.LoadSave();
+			SaveSystem.LoadSave();
 
-				AudioManager.Instance.IsBgmOn = PlayerPrefs.GetInt("Settings.MuteBGM", 0) == 0;
-				AudioManager.Instance.IsSfxOn = PlayerPrefs.GetInt("Settings.MuteSFX", 0) == 0;
+			AudioManager.Instance.IsBgmOn = PlayerPrefs.GetInt("Settings.MuteBGM", 0) == 0;
+			AudioManager.Instance.IsSfxOn = PlayerPrefs.GetInt("Settings.MuteSFX", 0) == 0;
 
-				bootstrapScreen.LoadingProgress = 0.8f;
+			bootstrapScreen.LoadingProgress = 0.8f;
 
-				await Nav.PreloadScreenAsync<MainScreen>();
+			await Nav.PreloadScreenAsync<MainScreen>();
 
-				bootstrapScreen.LoadingProgress = 1f;
+			bootstrapScreen.LoadingProgress = 1f;
 
-				await Nav.PopCurrentScreenAsync(false);
-				await Nav.ShowScreenAsync<MainScreen>(false);
-				// ShowTopPage().Forget();
-			}
-			else
-			{
-				bootstrapScreen.LoadingProgress = 1f;
-				Debug.LogError("TODO: Login Failed, show error message");
-			}
+			await Nav.PopCurrentScreenAsync(false);
+			await Nav.ShowScreenAsync<MainScreen>(false);
+			// ShowTopPage().Forget();
 		}
 
 		private void OnOnStagePassed()

@@ -11,6 +11,7 @@ namespace _Game.Features.MyShip
         {
             base.Awake();
             ItemPerPage = 8;
+            FilterItemTypeIndex = (int)ItemType.CREW;
             IOC.Register(this);
         }
     }

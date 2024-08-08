@@ -394,21 +394,68 @@ namespace _Game.Features.Inventory
                         };
                     }
                 }
-
-                // misc
-                else if (item.IsMisc())
+                
+                else if (item.ItemType == ItemType.BLUEPRINT)
                 {
+                    var itemId = $"res_blueprint_{item.ItemId}";
+                    
                     inventoryItem = new InventoryItem
                     {
                         InventoryViewModel = this,
                         Type = ItemType.MISC,
-                        Id = item.ItemId,
+                        Id = itemId,
 
                         Slot = "",
                         RarityLevel = "",
                     };
-
                 }
+                
+                else if (item.ItemType == ItemType.KEY)
+                {
+                    var itemId = $"res_vipkey";
+                    
+                    inventoryItem = new InventoryItem
+                    {
+                        InventoryViewModel = this,
+                        Type = ItemType.MISC,
+                        Id = itemId,
+
+                        Slot = "",
+                        RarityLevel = "",
+                    };
+                }
+                
+                else if (item.ItemType == ItemType.TICKET)
+                {
+                    var itemId = $"res_ranking_ticket";
+                    
+                    inventoryItem = new InventoryItem
+                    {
+                        InventoryViewModel = this,
+                        Type = ItemType.MISC,
+                        Id = itemId,
+
+                        Slot = "",
+                        RarityLevel = "",
+                    };
+                }
+
+                // // misc
+                // else if (item.IsMisc())
+                // {
+                //     var itemId = $"res_{item.ItemId}";
+                //     
+                //     inventoryItem = new InventoryItem
+                //     {
+                //         InventoryViewModel = this,
+                //         Type = ItemType.MISC,
+                //         Id = itemId,
+                //
+                //         Slot = "",
+                //         RarityLevel = "",
+                //     };
+                //
+                // }
 
                 if (inventoryItem == null) continue;
 
