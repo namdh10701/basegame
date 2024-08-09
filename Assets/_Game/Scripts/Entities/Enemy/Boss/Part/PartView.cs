@@ -19,7 +19,7 @@ namespace _Game.Features.Gameplay
         [SerializeField] protected SkeletonAnimation skeletonAnim;
         [SpineAnimation] public string entry;
         [SpineAnimation] public string idle;
-        [SpineAnimation] public string transforming;
+        public AnimationReferenceAsset transforming;
         [SpineAnimation] public string attack;
         [SpineAnimation] public string dead;
         [SpineAnimation] public string hide;
@@ -49,22 +49,11 @@ namespace _Game.Features.Gameplay
             partModel.OnBurnEnded += OnBurnEnded;
 
             partModel.OnStateEntered += OnStateEntered;
-            skeletonAnim.AnimationState.Complete += AnimationState_Completed;
+            //skeletonAnim.AnimationState.Complete += AnimationState_Completed;
             skeletonAnim.AnimationState.Event += AnimationState_Event;
 
         }
 
-        protected virtual void AnimationState_Completed(TrackEntry trackEntry)
-        {
-            if (!string.IsNullOrEmpty(transforming))
-            {
-                if (trackEntry.Animation.Name == transforming)
-                {
-                    partModel.IsMad = true;
-                    ChangeSkin();
-                }
-            }
-        }
         float lastHP;
         private void HealthPoint_OnValueChanged(_Base.Scripts.RPG.Stats.RangedStat obj)
         {
@@ -142,7 +131,7 @@ namespace _Game.Features.Gameplay
                     break;
                 case PartState.Transforming:
 
-                    if (lastState == PartState.Hidding || string.IsNullOrEmpty(transforming))
+                    if (lastState == PartState.Hidding || transforming == null)
                     {
                         ChangeSkin();
                         partModel.IsMad = true;
@@ -213,9 +202,10 @@ namespace _Game.Features.Gameplay
         }
         protected virtual IEnumerator TransformCoroutine()
         {
-            skeletonAnim.AnimationState.SetAnimation(0, transforming, false);
-            yield return new WaitForSpineAnimationComplete(skeletonAnim.AnimationState.Tracks.ToArray()[0]);
+            skeletonAnim.AnimationState.SetAnimation(0, transforming.Animation, false);
+            yield return new WaitForSeconds(transforming.Animation.Duration);
             partModel.IsMad = true;
+            ChangeSkin();
         }
         protected virtual IEnumerator EntryVisualize()
         {

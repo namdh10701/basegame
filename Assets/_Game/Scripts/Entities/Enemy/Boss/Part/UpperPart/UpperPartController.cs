@@ -76,6 +76,7 @@ public class UpperPartController : PartController
 
     public override IEnumerator TransformCoroutine()
     {
+    
         Coroutine a = StartCoroutine(left.TransformCoroutine());
         Coroutine b = StartCoroutine(right.TransformCoroutine());
         yield return a;

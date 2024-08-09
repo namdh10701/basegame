@@ -89,6 +89,10 @@ namespace _Game.Features.Gameplay
             {
                 cannon.View.cannonHUD.RegisterJob(CrewJobData);
             }
+            foreach (Ammo ammo in ShipSetup.Ammos)
+            {
+                ammo.View.ammoHUD.RegisterJob(CrewJobData);
+            }
             reloadCannonController.Init(this);
             HUD.Initialize(ShipSetup.Ammos);
             stats.HealthPoint.OnValueChanged += HealthPoint_OnValueChanged;

@@ -29,8 +29,11 @@ namespace _Game.Features.Gameplay
                 {
                     lastState = state;
                     state = value;
-                    OnStateEntered?.Invoke(state);
-                    OnEnterState();
+                    if (lastState != state)
+                    {
+                        OnStateEntered?.Invoke(state);
+                        OnEnterState();
+                    }
                 }
             }
         }
@@ -42,40 +45,52 @@ namespace _Game.Features.Gameplay
         Coroutine attackCoroutine;
         private void OnEnterState()
         {
-            if (state == OctopusState.Stunning)
+            switch (state)
             {
-                StopAllCoroutines();
-                lowerPartController.StopAttack();
-                StartCoroutine(StunCoroutine());
+                case OctopusState.Entry:
+                    break;
+                case OctopusState.Transforming:
+                    if (attackCoroutine != null)
+                    {
+                        StopCoroutine(attackCoroutine);
+                    }
+                    upperPartController.IsAttacking = false;
+                    lowerPartController.IsAttacking = false;
+                    behindPartController.IsAttacking = false;
+                    body.IsAttacking = false;
+                    StartCoroutine(TransformCoroutine());
 
-            }
-            if (state == OctopusState.Transforming)
-            {
-                mbtExecutor.enabled = false;
-                StopAllAttack();
-                if (attackCoroutine != null)
-                {
-                    StopCoroutine(attackCoroutine);
-                }
-                StartCoroutine(TransformCoroutine());
-                Debug.Log("TRANSFORM");
+                    break;
+                case OctopusState.State1:
+                case OctopusState.State2:
+                    attackCoroutine = StartCoroutine(AttackCycle());
+                    break;
+                case OctopusState.Stunning:
+                    if (attackCoroutine != null)
+                    {
+                        StopCoroutine(attackCoroutine);
+                    }
 
+                    StartCoroutine(StunCoroutine());
+                    break;
+                case OctopusState.Dead:
+                    foreach (EffectTakerCollider effectTakerCollider in effectTakerColliders)
+                    {
+                        effectTakerCollider.gameObject.SetActive(false);
+                    }
+                    break;
             }
-            if (state == OctopusState.State2 || state == OctopusState.State1)
-            {
-                mbtExecutor.enabled = true;
-                attackCoroutine = StartCoroutine(AttackCycle());
-            }
-
             if (state == OctopusState.Dead)
             {
                 foreach (EffectTakerCollider effectTakerCollider in effectTakerColliders)
                 {
                     effectTakerCollider.gameObject.SetActive(false);
                 }
-                StopAllCoroutines();
-                upperPartController.OnDead();
-                attackCoroutine = StartCoroutine(DeadCoroutine());
+                if (attackCoroutine != null)
+                {
+                    StopCoroutine(attackCoroutine);
+                }
+                StartCoroutine(DeadCoroutine());
             }
 
             if (state == OctopusState.None)
@@ -84,9 +99,11 @@ namespace _Game.Features.Gameplay
                 {
                     effectTakerCollider.gameObject.SetActive(false);
                 }
-                StopAllCoroutines();
+                if (attackCoroutine != null)
+                {
+                    StopCoroutine(attackCoroutine);
+                }
                 StopAllAttack();
-                upperPartController.OnDead();
             }
         }
 
@@ -110,7 +127,7 @@ namespace _Game.Features.Gameplay
             lowerPartController.StopAttack();
             upperPartController.StopAttack();
             spawnPartController.StopAttack();
-            body.State = PartState.Idle;
+            body.StopAttack1();
         }
 
         IEnumerator TransformCoroutine()
@@ -129,6 +146,8 @@ namespace _Game.Features.Gameplay
 
             Debug.Log("COMPLETE lower");
             yield return behindTransform;
+
+            Debug.Log("COMPLETE lower");
             Mad = true;
             Debug.Log("COMPLETE TRANSFORM");
             State = OctopusState.State2;
@@ -179,6 +198,14 @@ namespace _Game.Features.Gameplay
             {
                 State = OctopusState.Dead;
             }
+            if (obj.Value <= obj.MaxValue / 2)
+            {
+                if (!Mad)
+                {
+                    State = OctopusState.Transforming;
+                    Mad = true;
+                }
+            }
         }
 
         void OnBodyAttackEnded()
@@ -188,8 +215,6 @@ namespace _Game.Features.Gameplay
 
         IEnumerator StunCoroutine()
         {
-            mbtExecutor.enabled = false;
-            State = OctopusState.Stunning;
             yield return new WaitForSeconds(6);
             State = lastState;
 
@@ -212,25 +237,7 @@ namespace _Game.Features.Gameplay
 
         }
 
-
-        private void Awake()
-        {
-            enemyStats.HealthPoint.OnValueChanged += HealthPoint_OnValueChanged;
-        }
         bool Mad;
-        private void HealthPoint_OnValueChanged(_Base.Scripts.RPG.Stats.RangedStat obj)
-        {
-            if (obj.Value < obj.MaxValue / 2)
-            {
-                if (!Mad)
-                {
-                    State = OctopusState.Transforming;
-                    Mad = true;
-                }
-            }
-        }
-
-
 
         public void Active()
         {

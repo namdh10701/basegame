@@ -34,6 +34,7 @@ namespace _Game.Features.Gameplay
                     {
 
                     }
+                    Debug.Log("ENTER STATE "+ value + " " + name);
                     lastpartState = state;
                     state = value;
                     OnStateEntered?.Invoke(state);
@@ -112,53 +113,60 @@ namespace _Game.Features.Gameplay
             {
                 return;
             }
-            if (state == OctopusState.None)
+            switch (state)
             {
-                State = PartState.None;
+                case OctopusState.None:
+                    if (State != PartState.Hidding)
+                        State = PartState.Idle;
+                    break;
+                case OctopusState.Entry:
+                    break;
+                case OctopusState.Transforming:
+
+                    if (State != PartState.Hidding)
+                    {
+                        if (lastpartState == PartState.Entry)
+                        {
+                            Active();
+                        }
+                        Debug.Log("TRANSFORM   ! " + name);
+                        State = PartState.Transforming;
+                    }
+                    else
+                    {
+                        Debug.Log("TRANSFORM   SKIP! " + name);
+                        IsMad = true;
+                        partView.ChangeSkin();
+
+                    }
+                    break;
+                case OctopusState.State1:
+                case OctopusState.State2:
+                    break;
+                case OctopusState.Stunning:
+                    if (this.state != PartState.Hidding)
+                    {
+                        {
+                            State = PartState.Stunning;
+                        }
+                    }
+                    break;
+                case OctopusState.Dead:
+                    Deactive();
+                    if (State != PartState.Hidding)
+                    {
+                        State = PartState.Dead;
+                    }
+                    else
+                    {
+                        IsDead = true;
+                    }
+                    break;
             }
+
             if (state != OctopusState.Stunning && this.state == PartState.Stunning)
             {
                 AfterStun();
-            }
-
-            if (this.state != PartState.Hidding)
-            {
-                if (state == OctopusState.Stunning)
-                {
-                    Active();
-                    State = PartState.Stunning;
-                }
-            }
-            if (this.state == PartState.Hidding)
-            {
-                if (state == OctopusState.Transforming)
-                {
-                    IsMad = true;
-                    partView.ChangeSkin();
-                }
-            }
-            if (state == OctopusState.Transforming)
-            {
-                if (State != PartState.Hidding)
-                {
-                    State = PartState.Transforming;
-                }
-                else
-                {
-                    IsMad = true;
-                    partView.ChangeSkin();
-                }
-            }
-            if (state == OctopusState.Dead)
-            {
-                if (State != PartState.Hidding)
-                {
-                    State = PartState.Dead;
-                }
-                else
-                {
-                    IsDead = true;
-                }
             }
             lastState = state;
         }
@@ -176,17 +184,19 @@ namespace _Game.Features.Gameplay
         public virtual IEnumerator TransformCoroutine()
         {
             yield return new WaitUntil(() => IsMad);
-            if (lastState == OctopusState.Stunning)
+            if (this is BehindPartModel || this is BodyPartModel)
             {
                 State = PartState.Idle;
             }
-            else if (State != PartState.Hidding)
-                State = lastpartState;
+            else
+            {
+                if (lastpartState != PartState.Hidding)
+                    State = PartState.Hidding;
+            }
         }
         public virtual IEnumerator DeadCoroutine()
         {
             yield return new WaitUntil(() => IsDead);
-
         }
         public override void ApplyStats()
         {

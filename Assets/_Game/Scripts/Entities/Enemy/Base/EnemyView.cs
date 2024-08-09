@@ -41,7 +41,7 @@ namespace _Game.Features.Gameplay
         MaterialPropertyBlock mpb;
         [SerializeField] MeshRenderer meshRenderer;
         [SerializeField] ParticleSystem burnFx;
-        [SerializeField] ParticleSystem stunFx;
+        [SerializeField] protected ParticleSystem stunFx;
         Coroutine blinkCoroutine;
         bool isSlowing;
         bool isStunning;

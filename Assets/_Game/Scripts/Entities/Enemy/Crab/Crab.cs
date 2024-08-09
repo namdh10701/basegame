@@ -103,7 +103,12 @@ namespace _Game.Features.Gameplay
             decreaseHp.transform.position = cell.transform.position;
             enemyAttackData.Effects = new List<Effect> { decreaseHp };
             atkHandler.ProcessAttack(enemyAttackData);
+
+            ParticleSystem particle = Instantiate(onHitParticle,
+            cell.Grid.ship.ShipArea.ClosetPointTo(transform.position), Quaternion.identity);
+            particle.gameObject.SetActive(true);
         }
+        public ParticleSystem onHitParticle;
 
         public override IEnumerator AttackSequence()
         {

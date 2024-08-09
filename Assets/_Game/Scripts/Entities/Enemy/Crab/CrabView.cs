@@ -70,7 +70,7 @@ namespace _Game.Features.Gameplay
                 case CrabState.Move:
                     if (lastCrabState == CrabState.Defense)
                         return;
-                    skeletonAnim.AnimationState.AddAnimation(0, Moving, true,0);
+                    skeletonAnim.AnimationState.AddAnimation(0, Moving, true, 0);
 
                     break;
                 case CrabState.Attack:
@@ -78,11 +78,17 @@ namespace _Game.Features.Gameplay
                     skeletonAnim.AnimationState.AddAnimation(0, Idle, false, 0);
                     break;
                 case CrabState.Stun:
+                    stunFx.Play();
                     skeletonAnim.AnimationState.SetAnimation(0, StunBegin, false);
                     skeletonAnim.AnimationState.AddAnimation(0, StunLoop, true, 0);
                     break;
             }
             lastCrabState = state;
+            if (state != CrabState.Stun)
+            {
+                stunFx.Stop();
+            }
         }
     }
+
 }

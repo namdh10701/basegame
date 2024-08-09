@@ -46,7 +46,7 @@ GameObject:
   - component: {fileID: 3234669884279141626}
   - component: {fileID: 2244860144563815195}
   m_Layer: 6
-  m_Name: Left
+  m_Name: Left lower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -177,7 +177,7 @@ MonoBehaviour:
   skeletonAnim: {fileID: 2058910563751509686}
   entry: APPEAR
   idle: IDLE
-  transforming: TRANFORM
+  transforming: {fileID: 11400000, guid: e9ed359960fb1d64c821eab7e0f13148, type: 2}
   attack: 
   dead: DEAD
   hide: HIDE
@@ -626,6 +626,7 @@ GameObject:
   - component: {fileID: 465041243054200595}
   - component: {fileID: 8609434024300123379}
   - component: {fileID: 8544077950280762010}
+  - component: {fileID: 4095007938393695367}
   m_Layer: 6
   m_Name: MBT (2)
   m_TagString: Untagged
@@ -660,7 +661,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b25af8627659c6949b60949c3aa8d91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedEditorNode: {fileID: 0}
+  selectedEditorNode: {fileID: 4095007938393695367}
   repeatOnFinish: 1
   maxExecutionsPerTick: 1000
   parent: {fileID: 0}
@@ -842,6 +843,7 @@ MonoBehaviour:
   - {fileID: 6072801346805140985}
   - {fileID: 3294187866849715299}
   - {fileID: 125115656994447804}
+  - {fileID: 4095007938393695367}
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
@@ -1405,6 +1407,38 @@ MonoBehaviour:
   runtimePriority: 0
   breakpoint: 0
   random: 0
+--- !u!114 &4095007938393695367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 650414347102327071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58fe7bc6a9b18e148b82820c7c1c0a90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: Wait
+  rect:
+    serializedVersion: 2
+    x: 216
+    y: 643
+    width: 160
+    height: 45
+  parent: {fileID: 3498577865538517213}
+  children: []
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+  time:
+    useConstant: 1
+    mode: 0
+    blackboard: {fileID: 0}
+    key: 
+    constantValue: 2
+  randomDeviation: 0
+  continueOnRestart: 0
 --- !u!1 &736555725031099165
 GameObject:
   m_ObjectHideFlags: 0
@@ -1473,7 +1507,7 @@ GameObject:
   - component: {fileID: 8989356151490563604}
   - component: {fileID: 9057927371726840782}
   m_Layer: 6
-  m_Name: Left
+  m_Name: Left lower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1528,7 +1562,7 @@ MonoBehaviour:
         _baseValue: 800
     <BlockChance>k__BackingField:
       statModifiers: []
-      _baseValue: 0
+      _baseValue: 0.5
     <AttackDamage>k__BackingField:
       statModifiers: []
       _baseValue: 0
@@ -6574,7 +6608,7 @@ MonoBehaviour:
   skeletonAnim: {fileID: 2737331799375956642}
   entry: APPEAR_FIRST
   idle: IDLE
-  transforming: STUN
+  transforming: {fileID: 11400000, guid: 569e065fbb492cc44b69ef0858c85803, type: 2}
   attack: ATTACK
   dead: DEAD
   hide: TELEPORT
@@ -7110,7 +7144,7 @@ MonoBehaviour:
         _baseValue: 800
     <BlockChance>k__BackingField:
       statModifiers: []
-      _baseValue: 0
+      _baseValue: 0.5
     <AttackDamage>k__BackingField:
       statModifiers: []
       _baseValue: 100
@@ -7470,8 +7504,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2067047054634273729}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: -0.12013687, w: 0.9927574}
-  m_LocalPosition: {x: 1.2809122, y: 1.2099452, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: -0.9938841, w: 0.11042816}
+  m_LocalPosition: {x: 0.78646415, y: -2.4279118, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -7666,7 +7700,7 @@ GameObject:
   - component: {fileID: 7259195349143347622}
   - component: {fileID: 3400253517174468359}
   m_Layer: 6
-  m_Name: Right
+  m_Name: Right lower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7797,7 +7831,7 @@ MonoBehaviour:
   skeletonAnim: {fileID: 2450615022834810298}
   entry: APPEAR
   idle: IDLE
-  transforming: TRANFORM
+  transforming: {fileID: 11400000, guid: e9ed359960fb1d64c821eab7e0f13148, type: 2}
   attack: 
   dead: DEAD
   hide: HIDE
@@ -13302,16 +13336,16 @@ MonoBehaviour:
     <HealthPoint>k__BackingField:
       _value:
         statModifiers: []
-        _baseValue: 500
+        _baseValue: 36000
       _minValue:
         statModifiers: []
         _baseValue: 0
       _maxValue:
         statModifiers: []
-        _baseValue: 800
+        _baseValue: 36000
     <BlockChance>k__BackingField:
       statModifiers: []
-      _baseValue: 0
+      _baseValue: 0.5
     <AttackDamage>k__BackingField:
       statModifiers: []
       _baseValue: 0
@@ -13517,7 +13551,7 @@ MonoBehaviour:
   skeletonAnim: {fileID: 3979985292709107798}
   entry: APPEAR_FIRST
   idle: IDLE
-  transforming: STUN
+  transforming: {fileID: 11400000, guid: 569e065fbb492cc44b69ef0858c85803, type: 2}
   attack: ATTACK
   dead: DEAD
   hide: TELEPORT
@@ -14282,7 +14316,7 @@ MonoBehaviour:
   skeletonAnim: {fileID: 8579361464569133376}
   entry: APPEAR
   idle: IDLE
-  transforming: TRANSFORM
+  transforming: {fileID: 11400000, guid: 6dd7634950e824c4e9e28918f7a06842, type: 2}
   attack: 
   dead: DEAD
   hide: IDLE
@@ -15097,7 +15131,7 @@ MonoBehaviour:
   skeletonAnim: {fileID: 3744143944191080735}
   entry: 
   idle: 
-  transforming: 
+  transforming: {fileID: 0}
   attack: spawn
   dead: 
   hide: 
@@ -26009,7 +26043,7 @@ MonoBehaviour:
   skeletonAnim: {fileID: 4367511700408790190}
   entry: APPEAR
   idle: NORMAL_IDLE
-  transforming: MAD_TRANFORM
+  transforming: {fileID: 11400000, guid: 1047ce54d927101499e75e4097603435, type: 2}
   attack: 
   dead: DEAD
   hide: 
@@ -26178,8 +26212,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6602797641196618367}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0.3223484, w: 0.9466211}
-  m_LocalPosition: {x: 2.6694632, y: 0.88713974, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0.97154915, w: 0.23683824}
+  m_LocalPosition: {x: -0.61524457, y: -2.6803122, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -26269,16 +26303,16 @@ MonoBehaviour:
     <HealthPoint>k__BackingField:
       _value:
         statModifiers: []
-        _baseValue: 500
+        _baseValue: 36000
       _minValue:
         statModifiers: []
         _baseValue: 0
       _maxValue:
         statModifiers: []
-        _baseValue: 800
+        _baseValue: 36000
     <BlockChance>k__BackingField:
       statModifiers: []
-      _baseValue: 0
+      _baseValue: 0.5
     <AttackDamage>k__BackingField:
       statModifiers: []
       _baseValue: 0
@@ -26475,7 +26509,7 @@ MonoBehaviour:
   skeletonAnim: {fileID: 4346248703475249458}
   entry: 
   idle: 
-  transforming: 
+  transforming: {fileID: 0}
   attack: spawn
   dead: 
   hide: 
@@ -32010,7 +32044,7 @@ MonoBehaviour:
   skeletonAnim: {fileID: 6111880095612899435}
   entry: APPEAR
   idle: IDLE
-  transforming: TRANSFORM
+  transforming: {fileID: 11400000, guid: 6dd7634950e824c4e9e28918f7a06842, type: 2}
   attack: 
   dead: DEAD
   hide: IDLE
@@ -37427,8 +37461,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8162721230285548549}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0.32672307, w: 0.9451201}
-  m_LocalPosition: {x: 0.035724603, y: 0.74739474, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: -0.42885634, w: 0.9033727}
+  m_LocalPosition: {x: 0.40920657, y: -1.1917967, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -37800,6 +37834,7 @@ GameObject:
   - component: {fileID: 5635162699748233123}
   - component: {fileID: 37082864672660796}
   - component: {fileID: 5911050907028025768}
+  - component: {fileID: 826226606749370465}
   m_Layer: 6
   m_Name: MBT (1)
   m_TagString: Untagged
@@ -37834,7 +37869,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b25af8627659c6949b60949c3aa8d91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedEditorNode: {fileID: 0}
+  selectedEditorNode: {fileID: 826226606749370465}
   repeatOnFinish: 1
   maxExecutionsPerTick: 1000
   parent: {fileID: 0}
@@ -38017,6 +38052,7 @@ MonoBehaviour:
   - {fileID: 5955840343334765389}
   - {fileID: 135052027079689415}
   - {fileID: 2293158092564193927}
+  - {fileID: 826226606749370465}
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
@@ -38068,8 +38104,8 @@ MonoBehaviour:
   title: Set State
   rect:
     serializedVersion: 2
-    x: 122
-    y: 702
+    x: 93
+    y: 748
     width: 160
     height: 45
   parent: {fileID: 5608906690343263140}
@@ -38587,7 +38623,39 @@ MonoBehaviour:
     mode: 0
     blackboard: {fileID: 0}
     key: 
-    constantValue: 1
+    constantValue: 2
+  randomDeviation: 0
+  continueOnRestart: 0
+--- !u!114 &826226606749370465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8618570731957928514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58fe7bc6a9b18e148b82820c7c1c0a90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: Wait
+  rect:
+    serializedVersion: 2
+    x: 232
+    y: 680
+    width: 160
+    height: 45
+  parent: {fileID: 5608906690343263140}
+  children: []
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+  time:
+    useConstant: 1
+    mode: 0
+    blackboard: {fileID: 0}
+    key: 
+    constantValue: 2
   randomDeviation: 0
   continueOnRestart: 0
 --- !u!1 &8629543496610360280
@@ -38634,7 +38702,7 @@ GameObject:
   - component: {fileID: 5965893736029856406}
   - component: {fileID: 3349335378154760082}
   m_Layer: 6
-  m_Name: Right
+  m_Name: Right lower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -38689,7 +38757,7 @@ MonoBehaviour:
         _baseValue: 800
     <BlockChance>k__BackingField:
       statModifiers: []
-      _baseValue: 0
+      _baseValue: 0.5
     <AttackDamage>k__BackingField:
       statModifiers: []
       _baseValue: 0
@@ -39085,7 +39153,7 @@ MonoBehaviour:
         _baseValue: 800
     <BlockChance>k__BackingField:
       statModifiers: []
-      _baseValue: 0
+      _baseValue: 0.5
     <AttackDamage>k__BackingField:
       statModifiers: []
       _baseValue: 100

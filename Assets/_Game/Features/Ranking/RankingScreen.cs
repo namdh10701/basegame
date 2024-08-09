@@ -246,7 +246,7 @@ namespace _Game.Features.Ranking
         [Binding]
         public async void NavToBattle()
         {
-            /*    var needResources = new List<OwnedConsumableResource>()
+            var needResources = new List<OwnedConsumableResource>()
                 {
                     new()
                     {
@@ -257,44 +257,45 @@ namespace _Game.Features.Ranking
                     },
                 };
 
-                if (FreeTicketCount == 0)
+            if (FreeTicketCount == 0)
+            {
+                needResources.Add(new()
                 {
-                    needResources.Add(new()
-                    {
-                        ItemType = ItemType.MISC,
-                        ItemId = MiscItemId.ranking_ticket,
-                        TotalAmount = PlayfabManager.Instance.Ticket,
-                        NeedAmount = 1,
-                    });
-                }
-
-                var confirmed = await RankingBattleConfirmModal.Show(new()
-                {
-                    Resources = needResources
+                    ItemType = ItemType.MISC,
+                    ItemId = MiscItemId.ranking_ticket,
+                    TotalAmount = PlayfabManager.Instance.Ticket,
+                    NeedAmount = 1,
                 });
+            }
 
-                if (!confirmed)
+            var confirmed = await RankingBattleConfirmModal.Show(new()
+            {
+                Resources = needResources
+            });
+
+            if (!confirmed)
+            {
+                return;
+            }
+
+            var resp = await PlayfabManager.Instance.Ranking.CreateRankTicketAsync();
+            if (!resp.Result)
+            {
+                if (resp.Error == EErrorCode.NotEnoughTicket)
                 {
-                    return;
+                    await AlertModal.Show("Not Enough Resource!");
                 }
 
-                var resp = await PlayfabManager.Instance.Ranking.CreateRankTicketAsync();
-                if (!resp.Result)
-                {
-                    if (resp.Error == EErrorCode.NotEnoughTicket)
-                    {
-                        await AlertModal.Show("Not Enough Resource!");
-                    }
+                return;
+            }
 
-                    return;
-                }
+            PlayfabManager.Instance.Inventory.LoadVirtualCurrency(resp.VirtualCurrency);
 
-                PlayfabManager.Instance.Inventory.LoadVirtualCurrency(resp.VirtualCurrency);
-                */
             await Nav.PopCurrentPopupAsync();
             await Nav.ShowScreenAsync<BattleLoadingScreen>(poolingPolicy: ZBase.UnityScreenNavigator.Core.PoolingPolicy.DisablePooling);
             if (SceneManager.GetSceneByName("HaborScene").isLoaded)
             {
+                Debug.Log("UN LOAD HABOR");
                 AsyncOperation unloadHabor = SceneManager.UnloadSceneAsync("HaborScene");
                 await unloadHabor;
             }

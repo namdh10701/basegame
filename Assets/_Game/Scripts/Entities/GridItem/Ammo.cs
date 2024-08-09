@@ -115,6 +115,7 @@ namespace _Game.Scripts.Entities
             gridItemStateManager.GridItemState = GridItemState.Broken;
             GlobalEvent<Ammo, int>.Send("FixAmmo", this, CrewJobData.DefaultPiority[typeof(FixAmmoTask)]);
         }
+        public AmmoView View;
         public void Active()
         {
 

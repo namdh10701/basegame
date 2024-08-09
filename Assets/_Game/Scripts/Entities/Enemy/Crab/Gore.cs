@@ -24,10 +24,13 @@ namespace _Game.Features.Gameplay
         public float multiplier;
         public ObjectCollisionDetector impactCollider;
         public CameraShake cameraShake;
-
+        public ParticleSystem onHitParticle;
+        public ParticleSystem chargeFx;
         public override void OnEnter()
         {
             base.OnEnter();
+
+            chargeFx.Play();
             impactCollider.OnObjectCollisionEnter += ImpactCollider_OnObjectCollisionEnter;
             targetPos = shipReference.Value.ShipBound.ClosetPointTo(crab.Body.position);
         }
@@ -56,6 +59,7 @@ namespace _Game.Features.Gameplay
                     decreaseHp.transform.position = cell.transform.position;
                     enemyAttackData.Effects = new List<Effect> { decreaseHp };
                     crab.atkHandler.ProcessAttack(enemyAttackData);
+                    onHitParticle.Play();
                 }
             }
         }
@@ -63,6 +67,8 @@ namespace _Game.Features.Gameplay
         public override void OnExit()
         {
             base.OnExit();
+
+            chargeFx.Stop();
             isImpacted = false;
             impactCollider.OnObjectCollisionEnter -= ImpactCollider_OnObjectCollisionEnter;
             crab.CrabState = CrabState.Idle;

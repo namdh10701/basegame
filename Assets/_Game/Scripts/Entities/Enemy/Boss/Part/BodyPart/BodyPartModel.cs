@@ -25,6 +25,14 @@ namespace _Game.Features.Gameplay
             base.Initialize(giantOctopus);
             gridPicker = FindAnyObjectByType<GridPicker>();
         }
+        public override void OnEnterState()
+        {
+            base.OnEnterState();
+            if (State == PartState.Transforming)
+            {
+                StopAttack1();
+            }
+        }
         public void Attack()
         {
             State = PartState.Attacking;
@@ -82,7 +90,16 @@ namespace _Game.Features.Gameplay
             });
             sequence.AppendCallback(() => StopAttack());
         }
-
+        public void StopAttack1()
+        {
+            IsAttacking = false;
+            if (sequence != null)
+            {
+                sequence.Kill();
+                laserGuide.gameObject.SetActive(false);
+                laser.Stop();
+            }
+        }
         void StopAttack()
         {
             if (sequence != null)

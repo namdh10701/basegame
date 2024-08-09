@@ -112,6 +112,8 @@ namespace _Game.Features.Gameplay
 
         public override IEnumerator TransformCoroutine()
         {
+            if (atkCoroutine != null)
+                StopCoroutine(atkCoroutine);
             Coroutine a = StartCoroutine(lowerPartLeft.TransformCoroutine());
             Coroutine b = StartCoroutine(lowerPartRight.TransformCoroutine());
             yield return a;

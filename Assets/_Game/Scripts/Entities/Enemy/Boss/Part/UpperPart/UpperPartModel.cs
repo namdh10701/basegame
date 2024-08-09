@@ -31,7 +31,6 @@ namespace _Game.Features.Gameplay
             view = partView as UpperPartView;
             stats.HealthPoint.OnValueChanged += HealthPoint_OnValueChanged;
         }
-
         private void HealthPoint_OnValueChanged(_Base.Scripts.RPG.Stats.RangedStat stat)
         {
             if (stat.Value < stat.MaxValue / 2)
@@ -44,6 +43,12 @@ namespace _Game.Features.Gameplay
             base.OnEnterState();
             if (State == PartState.Stunning)
             {
+                Active();
+                mbt.enabled = false;
+            }
+            if (State == PartState.Transforming)
+            {
+
                 mbt.enabled = false;
             }
         }
@@ -59,6 +64,11 @@ namespace _Game.Features.Gameplay
             {
                 isAttacking = value;
                 mbt.enabled = value;
+                if (value)
+                {
+                    MonoBehaviourTree monoBehaviourTree = mbt.GetComponent<MonoBehaviourTree>();
+                    monoBehaviourTree.Restart();
+                }
                 if (!value)
                 {
                     State = PartState.Hidding;
@@ -69,7 +79,7 @@ namespace _Game.Features.Gameplay
         {
             mbt.enabled = false;
             yield return base.TransformCoroutine();
-            mbt.enabled = true;
+            mbt.enabled = isAttacking;
         }
         public override IEnumerator DeadCoroutine()
         {
