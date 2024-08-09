@@ -135,7 +135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69b63fcec66342af9cc00f0e6ea683e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Entity: {fileID: 37263412830860456}
+  Entity: {fileID: 0}
 --- !u!1 &4077323048244239376
 GameObject:
   m_ObjectHideFlags: 0
@@ -230,31 +230,32 @@ MonoBehaviour:
   CrewMovement: {fileID: 8469707050344252408}
   CrewAction: {fileID: 7314073177617055451}
   stats:
-    <HealthPoint>k__BackingField:
-      _value:
-        statModifiers: []
-        _baseValue: 500
-      _minValue:
-        statModifiers: []
-        _baseValue: 0
-      _maxValue:
-        statModifiers: []
-        _baseValue: 800
-    <BlockChance>k__BackingField:
-      statModifiers: []
-      _baseValue: 0
     <MoveSpeed>k__BackingField:
-      statModifiers: []
-      _baseValue: 0
-    <EvadeChance>k__BackingField:
       statModifiers: []
       _baseValue: 0
     <RepairSpeed>k__BackingField:
       statModifiers: []
       _baseValue: 0
+    <StatusReduce>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <ZeroManaCost>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <Luck>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <BonusAmmo>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <FeverTimeProb>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <GoldIncome>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
   EffectTakerCollider: {fileID: 8707890794918017602}
   effectHandler: {fileID: 1551171939735814577}
-  <OccupyCells>k__BackingField: []
   occupiyingNodes: []
 --- !u!50 &1466956755648038636
 Rigidbody2D:
@@ -457,11 +458,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3438373871331298250, guid: f97d416e7588d084f9cbd27877ff14c3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.27220482
+      value: 0.255192
       objectReference: {fileID: 0}
     - target: {fileID: 3438373871331298250, guid: f97d416e7588d084f9cbd27877ff14c3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.8559134
+      value: 0.8024188
       objectReference: {fileID: 0}
     - target: {fileID: 3438373871331298250, guid: f97d416e7588d084f9cbd27877ff14c3, type: 3}
       propertyPath: m_LocalRotation.w
@@ -479,13 +480,21 @@ PrefabInstance:
       propertyPath: crew
       value: 
       objectReference: {fileID: 37263412830860456}
+    - target: {fileID: 7011174348264662733, guid: f97d416e7588d084f9cbd27877ff14c3, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.482
+      objectReference: {fileID: 0}
+    - target: {fileID: 7011174348264662733, guid: f97d416e7588d084f9cbd27877ff14c3, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.517
+      objectReference: {fileID: 0}
     - target: {fileID: 7035221109257857132, guid: f97d416e7588d084f9cbd27877ff14c3, type: 3}
       propertyPath: m_SortingLayer
       value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7035221109257857132, guid: f97d416e7588d084f9cbd27877ff14c3, type: 3}
       propertyPath: m_SortingOrder
-      value: 4
+      value: 694
       objectReference: {fileID: 0}
     - target: {fileID: 7035221109257857132, guid: f97d416e7588d084f9cbd27877ff14c3, type: 3}
       propertyPath: m_SortingLayerID
@@ -497,11 +506,11 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 187a4b354b4f21a4fb19a54f45ba89b0, type: 2}
     - target: {fileID: 7519998852162096762, guid: f97d416e7588d084f9cbd27877ff14c3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.45986483
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7519998852162096762, guid: f97d416e7588d084f9cbd27877ff14c3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.95129794
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7519998852162096762, guid: f97d416e7588d084f9cbd27877ff14c3, type: 3}
       propertyPath: m_LocalRotation.w
@@ -511,7 +520,16 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0.990629
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 7632531477497785867, guid: f97d416e7588d084f9cbd27877ff14c3, type: 3}
+      propertyPath: boneName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9117146368624091135, guid: f97d416e7588d084f9cbd27877ff14c3, type: 3}
+      propertyPath: _animationName
+      value: stun
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 7632531477497785867, guid: f97d416e7588d084f9cbd27877ff14c3, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

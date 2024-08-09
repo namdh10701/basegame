@@ -56,6 +56,9 @@ namespace _Game.Scripts
         public Stat FeverTime { get; set; } = new();
 
         [field: SerializeField]
+        public Stat FullFeverTime { get; set; } = new();
+
+        [field: SerializeField]
         public List<RangedStat> Shields { get; set; } = new List<RangedStat>();
         [field: SerializeField]
         public List<RangedStat> Blocks { get; set; } = new List<RangedStat>();

@@ -164,7 +164,7 @@ namespace _Game.Scripts.Entities
             CannonFeverStateManager.FeverState = CannonFeverState.FullFever;
             if (UsingAmmo.AmmoType == AmmoType.Standard)
             {
-                Invoke("OnFeverEffectExit", _stats.FeverTime.Value);
+                Invoke("OnFeverEffectExit", _stats.FullFeverTime.Value);
             }
         }
 
