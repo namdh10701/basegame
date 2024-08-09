@@ -36,11 +36,13 @@ namespace _Game.Features.Gameplay
         }
         private void Update()
         {
-#if !UNITY_EDITOR
+/*#if !UNITY_EDITOR
             HandleTouch();
 #else
             HandleMouse();
 #endif
+*/
+            HandleTouch();
         }
         void OnCanvasPointerDown()
         {
