@@ -12,6 +12,7 @@ namespace Online
 			public const string Equipment = "Equipment";
 			public const string CompleteSeasonInfo = "CompleteSeasonInfo";
 			public const string LimitPackages = "LimitPackages";
+			public const string GachasPackages = "Gachas";
 
 			// Ranking
 			public const string Rank = "Rank";

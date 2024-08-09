@@ -219,6 +219,7 @@ namespace _Game.Features.Gameplay
             stats.ManaPoint.StatValue.BaseValue = stats.ManaPoint.MaxValue;
             reloadCannonController.enabled = true;
             ShipSetup.OnRevive();  
+            CrewJobData.OnRevive();
         }
     }
 }

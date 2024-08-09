@@ -25,6 +25,7 @@ namespace Online.Service
 		public bool IsGuest { get; private set; }
 		public List<LimitPackageModel> LimitPackages { get; private set; } = new();
 		public CompleteSeasonInfo CompleteSeasonInfo { get; private set; }
+		public List<GachaPackageModel> GachaPackages { get; private set; }
 
 		#endregion
 
@@ -149,6 +150,11 @@ namespace Online.Service
 			{
 				LimitPackages.Clear();
 				LimitPackages = JsonConvert.DeserializeObject<List<LimitPackageModel>>(records.Value);
+			}
+			
+			if (readOnlyData.TryGetValue(C.NameConfigs.GachasPackages, out var gachasPackages))
+			{
+				GachaPackages = JsonConvert.DeserializeObject<List<GachaPackageModel>>(gachasPackages.Value);
 			}
 			
 			if(readOnlyData.TryGetValue(C.NameConfigs.CompleteSeasonInfo, out var completeSeasonInfo))

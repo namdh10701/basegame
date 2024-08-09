@@ -45,6 +45,7 @@ namespace _Game.Scripts
         [field: SerializeField]
         public Stat SecondaryDamage { get; set; } = new();
 
+        [field: SerializeField]
         public Stat Angle { get; set; } = new();
 
         public IFighterStats.AttackTypes AttackType { get; set; } = IFighterStats.AttackTypes.UNIT;
@@ -53,6 +54,9 @@ namespace _Game.Scripts
         public Stat InstanceKillChance { get; set; } = new();
         [field: SerializeField]
         public Stat FeverTime { get; set; } = new();
+
+        [field: SerializeField]
+        public Stat FullFeverTime { get; set; } = new();
 
         [field: SerializeField]
         public List<RangedStat> Shields { get; set; } = new List<RangedStat>();

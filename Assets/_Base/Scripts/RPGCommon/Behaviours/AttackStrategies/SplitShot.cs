@@ -23,6 +23,7 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
             CannonStats cannonStats = Cannon.Stats as CannonStats;
             float primaryDmg = cannonStats.PrimaryDamage.Value;
             float secondaryDmg = cannonStats.SecondaryDamage.Value;
+            angle = cannonStats.Angle.Value;
             var shootDirection = CalculateShootDirection();
             var projectile = SpawnProjectile(shootDirection, shootPosition);
 
@@ -35,12 +36,12 @@ namespace _Base.Scripts.RPGCommon.Behaviours.AttackStrategies
 
         }
 
-        /*        public override void Consume(RangedStat ammo)
-                {
-                    int numOfProjectileCanProvide = (int)ammo.Value;
-                    ActualNumOfProjectile = Mathf.Min(numOfProjectileCanProvide, (int)Mathf.Max(1, 1));
-                    ammo.StatValue.BaseValue -= ActualNumOfProjectile;
-                }*/
+        public override void Consume(RangedStat ammo)
+        {
+            int numOfProjectileCanProvide = (int)ammo.Value;
+            ActualNumOfProjectile = Mathf.Min(numOfProjectileCanProvide, (int)Mathf.Max(1, 1));
+            ammo.StatValue.BaseValue -= ActualNumOfProjectile;
+        }
         public class SplitHandler : IHandler
         {
             public float angle;

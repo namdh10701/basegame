@@ -14,6 +14,7 @@ namespace Online
 		public long Exp => Profile.Exp;
 		public ERank Rank => Profile.UserRank;
 		public List<LimitPackageModel> LimitPackages => Profile.LimitPackages;
+		public List<GachaPackageModel> GachaPackages => Profile.GachaPackages;
 		
 		public void LoadProfile()
 		{

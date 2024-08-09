@@ -30,6 +30,8 @@ namespace _Game.Scripts
             stats.PrimaryDamage.BaseValue = tableRecord.PrimaryProjectDmg;
             stats.SecondaryDamage.BaseValue = tableRecord.SecondaryProjectDmg;
             stats.Angle.BaseValue = tableRecord.Angle;
+            stats.FeverTime.BaseValue = 5;
+            stats.FullFeverTime.BaseValue = 10;
         }
     }
 

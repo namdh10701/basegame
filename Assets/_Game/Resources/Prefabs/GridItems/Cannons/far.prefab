@@ -101,7 +101,6 @@ Transform:
   m_Children:
   - {fileID: 3209060436469505770}
   - {fileID: 8427063930449867751}
-  - {fileID: 6062143284387266767}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &94858937819000496
@@ -117,8 +116,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 
-  gdConfig: {fileID: 11400000, guid: 7b4127df3f04e4033a2aaca892eea7c2, type: 2}
-  statsTemplate: {fileID: 11400000, guid: 0c8271029c7ca5a4784a48e1f5956d29, type: 2}
   gridItemStateManager: {fileID: 5415957424271747431}
   gridItemView: {fileID: 7345372854387568592}
   CannonFeverStateManager: {fileID: 1354448306074618483}
@@ -173,7 +170,17 @@ MonoBehaviour:
     <SecondaryDamage>k__BackingField:
       statModifiers: []
       _baseValue: 0
-  _statsTemplate: {fileID: 11400000, guid: 0c8271029c7ca5a4784a48e1f5956d29, type: 2}
+    <Angle>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <InstanceKillChance>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <FeverTime>k__BackingField:
+      statModifiers: []
+      _baseValue: 0
+    <Shields>k__BackingField: []
+    <Blocks>k__BackingField: []
   <AttackStrategy>k__BackingField: {fileID: 4798552602386086590}
   <OccupyCells>k__BackingField: []
   effectHandler: {fileID: 2068887948354679722}
@@ -732,6 +739,7 @@ Transform:
   - {fileID: 575761695595097317}
   - {fileID: 4014578835850334057}
   - {fileID: 5237606428833196676}
+  - {fileID: 6062143284387266767}
   m_Father: {fileID: 3209060436469505770}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8382686258375318159
@@ -1072,6 +1080,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 319121703950278571}
     m_Modifications:
+    - target: {fileID: 299015748507773603, guid: 8526d30eeb5d74e4eb8d7cb93811146d, type: 3}
+      propertyPath: m_SortingLayer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 299015748507773603, guid: 8526d30eeb5d74e4eb8d7cb93811146d, type: 3}
+      propertyPath: m_SortingOrder
+      value: 6000
+      objectReference: {fileID: 0}
+    - target: {fileID: 299015748507773603, guid: 8526d30eeb5d74e4eb8d7cb93811146d, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 1466913119
+      objectReference: {fileID: 0}
     - target: {fileID: 905594759118265905, guid: 8526d30eeb5d74e4eb8d7cb93811146d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1116,6 +1136,14 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 1888196629672235720, guid: 8526d30eeb5d74e4eb8d7cb93811146d, type: 3}
+      propertyPath: meshRenderers.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1888196629672235720, guid: 8526d30eeb5d74e4eb8d7cb93811146d, type: 3}
+      propertyPath: meshRenderers.Array.data[0]
+      value: 
+      objectReference: {fileID: 2926705373995803069}
     - target: {fileID: 2873837428386250235, guid: 8526d30eeb5d74e4eb8d7cb93811146d, type: 3}
       propertyPath: m_Name
       value: Gun 3 (Far)- Spine
@@ -1166,6 +1194,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 905594759118265905, guid: 8526d30eeb5d74e4eb8d7cb93811146d, type: 3}
   m_PrefabInstance: {fileID: 3223431870573349662}
   m_PrefabAsset: {fileID: 0}
+--- !u!23 &2926705373995803069 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 299015748507773603, guid: 8526d30eeb5d74e4eb8d7cb93811146d, type: 3}
+  m_PrefabInstance: {fileID: 3223431870573349662}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &4065583088557786199 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1499756341846085449, guid: 8526d30eeb5d74e4eb8d7cb93811146d, type: 3}
@@ -1198,11 +1231,19 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 4759703321050827762}
+    m_TransformParent: {fileID: 319121703950278571}
     m_Modifications:
     - target: {fileID: 100000, guid: aa3fed151f536ee49b583c6a3ac4a2e1, type: 3}
       propertyPath: m_Name
       value: CFX2_PickupDiamond2
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: aa3fed151f536ee49b583c6a3ac4a2e1, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.3499999
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: aa3fed151f536ee49b583c6a3ac4a2e1, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.3499999
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: aa3fed151f536ee49b583c6a3ac4a2e1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1226,11 +1267,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: aa3fed151f536ee49b583c6a3ac4a2e1, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: aa3fed151f536ee49b583c6a3ac4a2e1, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: aa3fed151f536ee49b583c6a3ac4a2e1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
